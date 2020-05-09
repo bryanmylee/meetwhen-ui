@@ -7,60 +7,27 @@
   let numDays = 60;
   const dates = Array.from(Array(numDays).keys()).map((inc) => today.add(inc, 'day'));
   const times = Array.from(Array(24).keys()).map((inc) => midnight.add(inc, 'hour'));
-
-  let header;
-  let timeCol;
-  let mainArea;
-
-  let scrollTriggered = false;
-  onMount(() => {
-    header.addEventListener('scroll', () => {
-      if (scrollTriggered) {
-        scrollTriggered = false;
-        return;
-      }
-      scrollTriggered = true;
-      mainArea.scrollLeft = header.scrollLeft;
-    });
-    timeCol.addEventListener('scroll', () => {
-      if (scrollTriggered) {
-        scrollTriggered = false;
-        return;
-      }
-      scrollTriggered = true;
-      mainArea.scrollTop = timeCol.scrollTop;
-    });
-    mainArea.addEventListener('scroll', () => {
-      if (scrollTriggered) {
-        scrollTriggered = false;
-        return;
-      }
-      scrollTriggered = true;
-      header.scrollLeft = mainArea.scrollLeft;
-      timeCol.scrollTop = mainArea.scrollTop;
-    });
-  });
 </script>
 
 <div id="picker">
-  <div id="top-left">
-    Times
-  </div>
-  <div id="header-row" bind:this={header}>
+  <div id="header-row">
+    <div id="month-label">
+      May
+    </div>
     {#each dates as date}
       <div class="cell">
         {date.format('D')}
       </div>
     {/each}
   </div>
-  <div id="time-col" bind:this={timeCol}>
-    {#each times as time}
-      <div class="cell">
-        {time.format('HH:mm')}
-      </div>
-    {/each}
-  </div>
-  <div id="main-area" bind:this={mainArea}>
+  <div id="main-area">
+    <div id="time-col">
+      {#each times as time}
+        <div class="cell">
+          {time.format('HH:mm')}
+        </div>
+      {/each}
+    </div>
     {#each dates as date}
       <div class="col">
         {#each times as time}
@@ -73,71 +40,70 @@
 
 <style>
   #picker {
-    display: grid;
-    grid-template-columns: 5em auto;
-    grid-auto-rows: fit-content(500px);
-    border: 1px black solid;
+    display: flex;
+    flex-direction: column;
     width: auto;
+    max-height: 600px;
+    overflow: scroll;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
 
-  #top-left {
+  #month-label {
+    position: sticky;
+    left: 0;
+    z-index: 100;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 2em;
-    min-width: 3em;
+    width: 4em;
+    background-color: white;
   }
 
   #header-row {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: flex;
     flex-direction: row;
+    width: fit-content;
     min-height: 2em;
-    overflow-y: scroll;
-    border: 1px red solid;
-  }
-
-  #header-row::-webkit-scrollbar {
-    display: none;
+    box-sizing: border-box;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: white;
   }
 
   #header-row > .cell {
+    min-width: 4em;
     min-height: 2em;
   }
 
   #time-col {
+    position: sticky;
+    left: 0;
     display: flex;
     flex-direction: column;
-    min-width: 3em;
-    overflow-y: scroll;
-    border: 1px cyan solid;
-  }
-
-  #time-col::-webkit-scrollbar {
-    display: none;
+    width: 4em;
+    background-color: white;
   }
 
   #main-area {
     display: flex;
     flex-direction: row;
-    min-width: 4em;
-    overflow: scroll;
-    border: 1px pink solid;
-  }
-
-  #main-area::-webkit-scrollbar {
-    display: none;
-  }
-
-  .col > .cell {
-    border: 1px lightblue solid;
+    width: fit-content;
   }
 
   .cell {
+    z-index: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 4em;
     min-height: 3em;
-    border: 1px lightgrey solid;
+  }
+
+  .col {
+    min-width: 4em;
+    box-sizing: border-box;
+    border-right: 1px lightgrey solid;
   }
 </style>
