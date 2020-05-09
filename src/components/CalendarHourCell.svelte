@@ -19,7 +19,7 @@
 </script>
 
 <div
-  class="cell main-area__cell"
+  class="cell main-area__bg-cell"
   on:mousedown={handleMousedown}
   bind:this={cell}
 >

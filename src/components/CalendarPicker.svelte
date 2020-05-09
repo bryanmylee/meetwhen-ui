@@ -46,13 +46,18 @@
       {/each}
     </div>
     <div id="main-area">
-      {#each dates as date}
-        {#each hours as hour}
-          <CalendarHourCell
-            start={date.hour(hour.hour())}
-            on:mousedown={startSelection}/>
+      <div id="main-area__bg-grid">
+        {#each dates as date}
+          {#each hours as hour}
+            <CalendarHourCell
+              start={date.hour(hour.hour())}
+              on:mousedown={startSelection}/>
+          {/each}
         {/each}
-      {/each}
+      </div>
+      <div id="main-area__selection-layer">
+        <div class="selection-box"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -112,6 +117,7 @@
   #index-col {
     position: sticky;
     left: 0;
+    z-index: 90;
     display: flex;
     flex-direction: column;
     width: var(--index-col-width);
@@ -131,6 +137,10 @@
   }
 
   #main-area {
+    position: relative;
+  }
+
+  #main-area__bg-grid {
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: repeat(24, var(--row-height));
@@ -139,7 +149,7 @@
     height: fit-content;
   }
 
-  :global(.main-area__cell) {
+  :global(.main-area__bg-cell) {
     min-width: var(--col-width);
     min-height: var(--row-height);
     box-sizing: border-box;
@@ -147,10 +157,27 @@
     border-right: 1px #dddddd solid;
   }
 
+  #main-area__selection-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   :global(.cell) {
     z-index: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .selection-box {
+    grid-column: 1/2;
+    position: relative;
+    width: var(--col-width);
+    top: calc(var(--row-height) * 3);
+    height: calc(var(--row-height) * 0.5);
+    background-color: teal;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
 </style>
