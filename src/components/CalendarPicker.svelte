@@ -18,11 +18,20 @@
     end: null,
   };
 
+  let selectionBox;
   function startSelection(e) {
     const { datetime } = e.detail;
     selection.start = datetime;
     selection.curr = datetime;
-    console.log(selection);
+    // Set the position of the selection box based on the time clicked.
+    // The size of top is rowHeight * numHours from midnight.
+    const numHours = datetime.hour() + datetime.minute() / 60;
+    selectionBox.style.top = `${numHours * 3}rem`;
+    // The size of left is colWidth * numDays from today.
+    const millisecondsBetween = datetime - midnightToday;
+    const numDays = Math.floor(millisecondsBetween / 1000 / 60 / 60 / 24);
+    console.log(numDays);
+    selectionBox.style.left = `${numDays * 6}rem`;
   }
 </script>
 
@@ -56,7 +65,7 @@
         {/each}
       </div>
       <div id="main-area__selection-layer">
-        <div class="selection-box"></div>
+        <div class="selection-box" bind:this={selectionBox}></div>
       </div>
     </div>
   </div>
@@ -94,7 +103,7 @@
   #picker-header-row {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 100;
     display: flex;
     flex-direction: row;
     width: fit-content;
@@ -161,6 +170,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    pointer-events: none;
   }
 
   :global(.cell) {
@@ -174,10 +184,10 @@
     grid-column: 1/2;
     position: relative;
     width: var(--col-width);
-    top: calc(var(--row-height) * 3);
-    height: calc(var(--row-height) * 0.5);
+    height: calc(var(--row-height) * 0.25);
     background-color: teal;
     border-radius: 2px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    pointer-events: all;
   }
 </style>
