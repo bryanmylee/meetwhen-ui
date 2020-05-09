@@ -1,18 +1,35 @@
 <script>
-  import { onMount } from 'svelte';
   import dayjs from 'dayjs';
 
-  const today = dayjs();
-  const midnight = dayjs().startOf('day');
-  let numDays = 60;
-  const dates = Array.from(Array(numDays).keys()).map((inc) => today.add(inc, 'day'));
-  const times = Array.from(Array(24).keys()).map((inc) => midnight.add(inc + 1, 'hour'));
+  import CalendarHourCell from './CalendarHourCell.svelte';
+
+  const midnightToday = dayjs().startOf('day');
+  let numDaysToShow = 21;
+  // List of days
+  const dates = Array.from(Array(numDaysToShow).keys())
+      .map((inc) => midnightToday.add(inc, 'day'));
+  // List of hours
+  const hours = Array.from(Array(24).keys())
+      .map((inc) => midnightToday.add(inc, 'hour'));
+
+  const selection = {
+    start: null,
+    curr: null,
+    end: null,
+  };
+
+  function startSelection(e) {
+    const { datetime } = e.detail;
+    selection.start = datetime;
+    selection.curr = datetime;
+    console.log(selection);
+  }
 </script>
 
 <div id="picker">
   <div id="picker-header-row">
     <div id="month-label">
-      {today.format('MMM')}
+      {midnightToday.format('MMM')}
     </div>
     {#each dates as date}
       <div class="cell header-row__cell">
@@ -22,19 +39,19 @@
   </div>
   <div id="picker-body">
     <div id="index-col">
-      {#each times as time}
+      {#each hours as hour}
         <div class="cell index-col__cell">
-          {time.format('HH:mm')}
+          {hour.add(1, 'hour').format('HH:mm')}
         </div>
       {/each}
     </div>
     <div id="main-area">
       {#each dates as date}
-        <div class="col">
-          {#each times as time}
-            <div class="cell main-area__cell"></div>
-          {/each}
-        </div>
+        {#each hours as hour}
+          <CalendarHourCell
+            start={date.hour(hour.hour())}
+            on:mousedown={startSelection}/>
+        {/each}
       {/each}
     </div>
   </div>
@@ -114,28 +131,26 @@
   }
 
   #main-area {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(24, var(--row-height));
+    grid-auto-columns: var(--col-width);
     width: fit-content;
     height: fit-content;
   }
 
-  .main-area__cell {
+  :global(.main-area__cell) {
+    min-width: var(--col-width);
     min-height: var(--row-height);
     box-sizing: border-box;
     border-bottom: 1px #eeeeee solid;
+    border-right: 1px #dddddd solid;
   }
 
-  .cell {
+  :global(.cell) {
     z-index: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  .col {
-    min-width: var(--col-width);
-    box-sizing: border-box;
-    border-right: 1px #dddddd solid;
   }
 </style>

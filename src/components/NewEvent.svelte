@@ -1,7 +1,7 @@
 <script>
   import { fade } from 'svelte/transition';
 
-  import SchedulePicker from './SchedulePicker.svelte';
+  import CalendarPicker from './CalendarPicker.svelte';
 </script>
 
 <div class="new-event-container" transition:fade>
@@ -16,5 +16,5 @@
     <label>Password</label>
     <input type="password">
   </form>
-  <SchedulePicker />
+  <CalendarPicker />
 </div>
