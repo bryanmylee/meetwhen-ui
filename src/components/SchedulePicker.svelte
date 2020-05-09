@@ -1,51 +1,70 @@
 <script>
+  import { onMount } from 'svelte';
   import dayjs from 'dayjs';
 
-  let selectedDates = [
-    {
-      date: '2020-05-09',
-      intervals: [
-        { start: '08:00:00', end: '09:00:00' },
-        { start: '12:00:00', end: '14:00:00' },
-      ],
-    },
-    {
-      date: '2020-05-09',
-      intervals: [
-        { start: '08:00:00', end: '09:00:00' },
-        { start: '12:00:00', end: '14:00:00' },
-      ],
-    },
-  ];
   const today = dayjs();
   const midnight = dayjs().startOf('day');
   let numDays = 60;
-  $: dates = Array.from(Array(numDays).keys()).map((inc) => today.add(inc, 'day'));
-  $: times = Array.from(Array(24).keys()).map((inc) => midnight.add(inc, 'hour'));
+  const dates = Array.from(Array(numDays).keys()).map((inc) => today.add(inc, 'day'));
+  const times = Array.from(Array(24).keys()).map((inc) => midnight.add(inc, 'hour'));
+
+  let header;
+  let timeCol;
+  let mainArea;
+
+  let scrollTriggered = false;
+  onMount(() => {
+    header.addEventListener('scroll', () => {
+      if (scrollTriggered) {
+        scrollTriggered = false;
+        return;
+      }
+      scrollTriggered = true;
+      mainArea.scrollLeft = header.scrollLeft;
+    });
+    timeCol.addEventListener('scroll', () => {
+      if (scrollTriggered) {
+        scrollTriggered = false;
+        return;
+      }
+      scrollTriggered = true;
+      mainArea.scrollTop = timeCol.scrollTop;
+    });
+    mainArea.addEventListener('scroll', () => {
+      if (scrollTriggered) {
+        scrollTriggered = false;
+        return;
+      }
+      scrollTriggered = true;
+      header.scrollLeft = mainArea.scrollLeft;
+      timeCol.scrollTop = mainArea.scrollTop;
+    });
+  });
 </script>
 
-<div class="schedule-picker">
-  <!-- Generate a column of times -->
-  <div class="schedule__col__time">
-    <div class="schedule__header">Times</div>
-    {#each times as time}
-      <div class="schedule__time-cell">{time.format('HH:mm')}</div>
+<div id="picker">
+  <div id="top-left">
+    Times
+  </div>
+  <div id="header-row" bind:this={header}>
+    {#each dates as date}
+      <div class="cell">
+        {date.format('D')}
+      </div>
     {/each}
   </div>
-  <!-- Generate the horizontally scrollable pane on the right -->
-  <div class="schedule__scroll-horizontal">
+  <div id="time-col" bind:this={timeCol}>
+    {#each times as time}
+      <div class="cell">
+        {time.format('HH:mm')}
+      </div>
+    {/each}
+  </div>
+  <div id="main-area" bind:this={mainArea}>
     {#each dates as date}
-      <div class="schedule__col">
-        <div class="schedule__header">
-          {date.format('D')}
-        </div>
+      <div class="col">
         {#each times as time}
-          <div class="schedule__cell">
-            <div class="schedule__sub-cell" on:mousedown={() => console.log(1)}></div>
-            <div class="schedule__sub-cell" on:mousedown={() => console.log(2)}></div>
-            <div class="schedule__sub-cell" on:mousedown={() => console.log(3)}></div>
-            <div class="schedule__sub-cell" on:mousedown={() => console.log(4)}></div>
-          </div>
+          <div class="cell"></div>
         {/each}
       </div>
     {/each}
@@ -53,63 +72,72 @@
 </div>
 
 <style>
-  .schedule-picker {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: stretch;
+  #picker {
+    display: grid;
+    grid-template-columns: 5em auto;
+    grid-auto-rows: fit-content(500px);
+    border: 1px black solid;
     width: auto;
-    border: 1px red solid;
   }
 
-  .schedule__scroll-horizontal {
+  #top-left {
     display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: stretch;
-    overflow: scroll;
-    width: auto;
-    border: 1px red solid;
-  }
-
-  .schedule__col__time {
-    display: flex;
-    flex-direction: column;
-    min-width: 4rem;
-    border: 1px purple solid;
-  }
-
-  .schedule__col {
-    display: flex;
-    flex-direction: column;
-    min-width: 6rem;
-    border: 1px pink solid;
-  }
-
-  .schedule__header {
-    display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    min-height: 0.5rem;
-    border: 1px green solid;
+    min-height: 2em;
+    min-width: 3em;
   }
 
-  .schedule__cell {
-    min-height: 2rem;
+  #header-row {
+    display: flex;
+    flex-direction: row;
+    min-height: 2em;
+    overflow-y: scroll;
+    border: 1px red solid;
+  }
+
+  #header-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  #header-row > .cell {
+    min-height: 2em;
+  }
+
+  #time-col {
+    display: flex;
+    flex-direction: column;
+    min-width: 3em;
+    overflow-y: scroll;
     border: 1px cyan solid;
   }
 
-  .schedule__sub-cell {
-    min-height: 0.5rem;
+  #time-col::-webkit-scrollbar {
+    display: none;
   }
 
-  .schedule__time-cell {
+  #main-area {
     display: flex;
     flex-direction: row;
+    min-width: 4em;
+    overflow: scroll;
+    border: 1px pink solid;
+  }
+
+  #main-area::-webkit-scrollbar {
+    display: none;
+  }
+
+  .col > .cell {
+    border: 1px lightblue solid;
+  }
+
+  .cell {
+    display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 2rem;
-    border: 1px blue solid;
+    min-width: 4em;
+    min-height: 3em;
+    border: 1px lightgrey solid;
   }
 </style>
