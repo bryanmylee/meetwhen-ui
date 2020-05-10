@@ -37,7 +37,7 @@
     selections = [...selections.slice(0, length - 1), activeSelection];
   }
 
-  function stopSelection(e) {
+  function stopSelection() {
     const { length } = selections;
     if (length === 0) return;
     const activeSelection = selections[length - 1];
@@ -66,7 +66,7 @@
       {/each}
     </div>
     <div id="main-area">
-      <div id="main-area__bg-grid">
+      <div id="main-area__bg-grid" on:mouseleave={stopSelection}>
         {#each dates as date}
           {#each hours as hour}
             <CalendarGridCell
