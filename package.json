@@ -18,7 +18,6 @@
   "dependencies": {
     "dayjs": "^1.8.26",
     "dayjs-plugin-utc": "^0.1.2",
-    "sirv-cli": "^0.4.4",
-    "svelte-infinite-scroll": "^1.4.0"
+    "sirv-cli": "^0.4.4"
   }
 }

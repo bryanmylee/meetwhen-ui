@@ -5,10 +5,11 @@
   dayjs.extend(utc);
 
   import CalendarPicker from './CalendarPicker.svelte';
+  import MaterialTextInput from './MaterialTextInput.svelte';
 
-  let title = 'test';
-  let description = 'this should work...';
-  let username = 'bryan';
+  let title = 'Test Event';
+  let description = 'A quick event to test the UI';
+  let username = '';
   let password = 'bryanpassword';
   let selections = [];
 
@@ -38,14 +39,10 @@
 <div class="new-event-container" transition:fade>
   <h1>New Event</h1>
   <form>
-    <label>Title</label>
-    <input type="text" bind:value={title}>
-    <label>Description</label>
-    <input type="text" bind:value={description}>
-    <label>Username</label>
-    <input type="text" bind:value={username}>
-    <label>Password</label>
-    <input type="password" bind:value={password}>
+    <MaterialTextInput label="Title" bind:value={title}/>
+    <MaterialTextInput label="Description" bind:value={description}/>
+    <MaterialTextInput label="Username" bind:value={username}/>
+    <MaterialTextInput label="Password" isPassword bind:value={password}/>
   </form>
   <CalendarPicker bind:selections={selections}/>
   <button on:click={createNewEvent}>Create New Event</button>
