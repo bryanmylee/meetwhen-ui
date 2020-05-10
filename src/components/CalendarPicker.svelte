@@ -100,6 +100,7 @@
     width: auto;
     max-height: 600px;
     overflow: scroll;
+    scroll-behavior: smooth;
     border-radius: 2px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
