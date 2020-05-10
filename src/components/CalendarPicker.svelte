@@ -30,7 +30,6 @@
     // The size of left is colWidth * numDays from today.
     const millisecondsBetween = datetime - midnightToday;
     const numDays = Math.floor(millisecondsBetween / 1000 / 60 / 60 / 24);
-    console.log(numDays);
     selectionBox.style.left = `${numDays * 6}rem`;
   }
 </script>
