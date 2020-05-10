@@ -34,7 +34,6 @@
   }
 
   function stopSelection(e) {
-    const { datetime } = e.detail;
     const { length } = selections;
     if (length === 0) return;
     const activeSelection = selections[length - 1];
@@ -69,8 +68,8 @@
             <CalendarGridCell
               start={date.hour(hour.hour())}
               on:startSelection={startSelection}
-              on:stopSelection={stopSelection}
-              on:drag={gridDrag}/>
+              on:drag={gridDrag}
+              on:stopSelection={stopSelection}/>
           {/each}
         {/each}
       </div>

@@ -20,17 +20,11 @@
   function startSelection(e) {
     const { offsetY } = getMouseOffset(e);
     const minutes = getMinutes(offsetY);
-    dispatch('startSelection', {
-      datetime: start.add(minutes, 'minute'),
-    });
-  }
-
-  function stopSelection(e) {
-    const { offsetY } = getMouseOffset(e);
-    const minutes = getMinutes(offsetY);
-    dispatch('stopSelection', {
-      datetime: start.add(minutes, 'minute'),
-    });
+    if (e.buttons === 1) {
+      dispatch('startSelection', {
+        datetime: start.add(minutes, 'minute'),
+      });
+    }
   }
 
   function move(e) {
@@ -42,13 +36,17 @@
       });
     }
   }
+
+  function stopSelection(e) {
+    dispatch('stopSelection');
+  }
 </script>
 
 <div
   class="cell"
   on:mousedown={startSelection}
-  on:mouseup={stopSelection}
   on:mousemove={move}
+  on:mouseup={stopSelection}
   bind:this={cell}
 >
 </div>
