@@ -1,7 +1,8 @@
 <script>
   import dayjs from 'dayjs';
 
-  import CalendarHourCell from './CalendarHourCell.svelte';
+  import CalendarGridCell from './CalendarGridCell.svelte';
+  import CalendarSelection from './CalendarSelection.svelte';
 
   const midnightToday = dayjs().startOf('day');
   let numDaysToShow = 21;
@@ -18,7 +19,7 @@
     const { datetime } = e.detail;
     selections = [...selections, {
       start: datetime,
-      curr: datetime,
+      end: datetime,
       isActive: true,
     }];
   }
@@ -28,40 +29,17 @@
     const { length } = selections;
     if (length === 0) return;
     const activeSelection = selections[length - 1];
-    activeSelection.curr = datetime;
+    activeSelection.end = datetime;
     selections = [...selections.slice(0, length - 1), activeSelection];
   }
 
   function stopSelection(e) {
     const { datetime } = e.detail;
-    const activeSelection = selections[selections.length - 1];
-    activeSelection.curr = datetime;
+    const { length } = selections;
+    if (length === 0) return;
+    const activeSelection = selections[length - 1];
     activeSelection.isActive = false;
-  }
-
-  function getTop(selection) {
-    // The size of top is rowHeight * numHours from midnight.
-    const { start } = selection;
-    const numHours = start.hour() + start.minute() / 60;
-    return `${numHours * 3}rem`;
-  }
-
-  function getLeft(selection) {
-    // The size of left is colWidth * numDays from today.
-    const { start } = selection;
-    const millisecondsBetween = start - midnightToday;
-    const numDays = Math.floor(millisecondsBetween / 1000 / 60 / 60 / 24);
-    return `${numDays * 6}rem`;
-  }
-
-  function getHeight(selection) {
-    const { start, curr } = selection;
-    // Set the tail of the selection box based on the time released.
-    // The height is rowHeight * (numQuarterHours between start and end
-    // inclusive) / 4;
-    const numQuarterHours = Math.floor((curr - start) / 1000 / 60 / 15) + 1;
-    const numHoursSelected = numQuarterHours / 4;
-    return `${numQuarterHours / 4 * 3}rem`
+    selections = [...selections.slice(0, length - 1), activeSelection];
   }
 </script>
 
@@ -88,7 +66,7 @@
       <div id="main-area__bg-grid">
         {#each dates as date}
           {#each hours as hour}
-            <CalendarHourCell
+            <CalendarGridCell
               start={date.hour(hour.hour())}
               on:startSelection={startSelection}
               on:stopSelection={stopSelection}
@@ -98,10 +76,7 @@
       </div>
       <div id="main-area__selection-layer">
         {#each selections as selection}
-          <div
-            class="selection-box"
-            style="height:{getHeight(selection)}; top:{getTop(selection)}; left:{getLeft(selection)}"
-          ></div>
+          <CalendarSelection {...selection} />
         {/each}
         <!-- <div class="selection-box"></div> -->
       </div>
@@ -196,14 +171,6 @@
     height: fit-content;
   }
 
-  :global(.main-area__bg-cell) {
-    min-width: var(--col-width);
-    min-height: var(--row-height);
-    box-sizing: border-box;
-    border-bottom: 1px #eeeeee solid;
-    border-right: 1px #dddddd solid;
-  }
-
   #main-area__selection-layer {
     position: absolute;
     top: 0;
@@ -216,15 +183,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  .selection-box {
-    grid-column: 1/2;
-    position: absolute;
-    width: var(--col-width);
-    background-color: teal;
-    border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    /* pointer-events: all; */
   }
 </style>

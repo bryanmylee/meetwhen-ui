@@ -45,10 +45,20 @@
 </script>
 
 <div
-  class="cell main-area__bg-cell"
+  class="cell"
   on:mousedown={startSelection}
   on:mouseup={stopSelection}
   on:mousemove={move}
   bind:this={cell}
 >
 </div>
+
+<style>
+  div {
+    min-width: var(--col-width);
+    min-height: var(--row-height);
+    box-sizing: border-box;
+    border-bottom: 1px #eeeeee solid;
+    border-right: 1px #dddddd solid;
+  }
+</style>
