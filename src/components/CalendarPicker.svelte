@@ -12,25 +12,56 @@
   const hours = Array.from(Array(24).keys())
       .map((inc) => midnightToday.add(inc, 'hour'));
 
-  const selection = {
-    start: null,
-    curr: null,
-    end: null,
-  };
+  let selections = [];
 
-  let selectionBox;
   function startSelection(e) {
     const { datetime } = e.detail;
-    selection.start = datetime;
-    selection.curr = datetime;
-    // Set the position of the selection box based on the time clicked.
+    selections = [...selections, {
+      start: datetime,
+      curr: datetime,
+      isActive: true,
+    }];
+  }
+
+  function gridDrag(e) {
+    const { datetime } = e.detail;
+    const { length } = selections;
+    if (length === 0) return;
+    const activeSelection = selections[length - 1];
+    activeSelection.curr = datetime;
+    selections = [...selections.slice(0, length - 1), activeSelection];
+  }
+
+  function stopSelection(e) {
+    const { datetime } = e.detail;
+    const activeSelection = selections[selections.length - 1];
+    activeSelection.curr = datetime;
+    activeSelection.isActive = false;
+  }
+
+  function getTop(selection) {
     // The size of top is rowHeight * numHours from midnight.
-    const numHours = datetime.hour() + datetime.minute() / 60;
-    selectionBox.style.top = `${numHours * 3}rem`;
+    const { start } = selection;
+    const numHours = start.hour() + start.minute() / 60;
+    return `${numHours * 3}rem`;
+  }
+
+  function getLeft(selection) {
     // The size of left is colWidth * numDays from today.
-    const millisecondsBetween = datetime - midnightToday;
+    const { start } = selection;
+    const millisecondsBetween = start - midnightToday;
     const numDays = Math.floor(millisecondsBetween / 1000 / 60 / 60 / 24);
-    selectionBox.style.left = `${numDays * 6}rem`;
+    return `${numDays * 6}rem`;
+  }
+
+  function getHeight(selection) {
+    const { start, curr } = selection;
+    // Set the tail of the selection box based on the time released.
+    // The height is rowHeight * (numQuarterHours between start and end
+    // inclusive) / 4;
+    const numQuarterHours = Math.floor((curr - start) / 1000 / 60 / 15) + 1;
+    const numHoursSelected = numQuarterHours / 4;
+    return `${numQuarterHours / 4 * 3}rem`
   }
 </script>
 
@@ -59,12 +90,20 @@
           {#each hours as hour}
             <CalendarHourCell
               start={date.hour(hour.hour())}
-              on:mousedown={startSelection}/>
+              on:startSelection={startSelection}
+              on:stopSelection={stopSelection}
+              on:drag={gridDrag}/>
           {/each}
         {/each}
       </div>
       <div id="main-area__selection-layer">
-        <div class="selection-box" bind:this={selectionBox}></div>
+        {#each selections as selection}
+          <div
+            class="selection-box"
+            style="height:{getHeight(selection)}; top:{getTop(selection)}; left:{getLeft(selection)}"
+          ></div>
+        {/each}
+        <!-- <div class="selection-box"></div> -->
       </div>
     </div>
   </div>
@@ -181,12 +220,11 @@
 
   .selection-box {
     grid-column: 1/2;
-    position: relative;
+    position: absolute;
     width: var(--col-width);
-    height: calc(var(--row-height) * 0.25);
     background-color: teal;
     border-radius: 2px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    pointer-events: all;
+    /* pointer-events: all; */
   }
 </style>
