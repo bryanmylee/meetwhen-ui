@@ -42,6 +42,9 @@
     if (length === 0) return;
     const activeSelection = selections[length - 1];
     activeSelection.isActive = false;
+    if (activeSelection.end - activeSelection.start < 15) {
+      activeSelection.end = activeSelection.start.add(15, 'minute');
+    }
     selections = [...selections.slice(0, length - 1), activeSelection];
   }
 </script>
