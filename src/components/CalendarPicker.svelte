@@ -102,10 +102,11 @@
     flex-direction: column;
     width: auto;
     max-height: 600px;
+    margin-bottom: 1em;
     overflow: scroll;
     scroll-behavior: smooth;
     border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    box-shadow: var(--box-shadow);
   }
 
   #month-label {
@@ -128,7 +129,7 @@
     width: fit-content;
     min-height: var(--header-row-height);
     box-sizing: border-box;
-    border-bottom: 1px #dddddd solid;
+    border-bottom: 1px var(--line-1) solid;
     background-color: white;
   }
 
@@ -157,7 +158,7 @@
     margin-top: calc(var(--row-height) * 0.5);
     min-height: var(--row-height);
     font-size: 0.8rem;
-    color: #aaaaaa;
+    color: var(--text-3);
   }
 
   .index-col__cell ~ .index-col__cell {

@@ -26,7 +26,7 @@
     width: 100%;
     border-radius: 0;
     border: none;
-    border-bottom: 1px solid #757575;
+    border-bottom: 1px solid var(--line-1);
     padding: 10px 10px 5px 5px;
     margin-bottom: 1px;
   }
@@ -37,7 +37,7 @@
 
   label {
     font-size: 1em;
-    color: #999;
+    color: var(--text-2);
     position: absolute;
     left: 5px;
     top: 10px;
@@ -51,12 +51,11 @@
   input:valid ~ label {
     font-size: 0.8em;
     top: -0.6em;
-    color: #62B2F2;
+    color: var(--accent-1);
   }
 
   .bar {
     position: absolute;
-    left: -50%;
     display: block;
     width: 100%;
   }
@@ -67,7 +66,7 @@
     width: 0;
     height: 2px;
     bottom: 1px;
-    background-color: #62B2F2;
+    background-color: var(--accent-1);
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
