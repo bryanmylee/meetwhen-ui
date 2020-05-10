@@ -13,13 +13,15 @@
   const hours = Array.from(Array(24).keys())
       .map((inc) => midnightToday.add(inc, 'hour'));
 
-  let selections = [];
+  export let selections = [];
 
   function startSelection(e) {
     const { datetime } = e.detail;
     selections = [...selections, {
       start: datetime,
-      end: datetime,
+      // datetime represents the start of the cell.
+      // Add 15 minutes to account for the time in the last cell.
+      end: datetime.add(15, 'minute'),
       isActive: true,
     }];
   }
@@ -29,7 +31,9 @@
     const { length } = selections;
     if (length === 0) return;
     const activeSelection = selections[length - 1];
-    activeSelection.end = datetime;
+    // datetime represents the start of the cell.
+    // Add 15 minutes to account for the time in the last cell.
+    activeSelection.end = datetime.add(15, 'minute');
     selections = [...selections.slice(0, length - 1), activeSelection];
   }
 
@@ -77,7 +81,6 @@
         {#each selections as selection}
           <CalendarSelection {...selection} />
         {/each}
-        <!-- <div class="selection-box"></div> -->
       </div>
     </div>
   </div>

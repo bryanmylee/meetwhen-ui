@@ -8,11 +8,11 @@
   export let end;
   export let isActive;
 
-  const endTimestamp = tweened(+end, {
+  const endInMs = tweened(+end, {
     duration: 300,
     easing: cubicOut,
   });
-  $: $endTimestamp = +end;
+  $: $endInMs = +end;
 
   function getTop(start) {
     // The size of top is rowHeight * numHours from midnight.
@@ -23,22 +23,24 @@
   function getLeft(start) {
     // The size of left is colWidth * numDays from today.
     const millisecondsBetween = start - dayjs().startOf('day');
-    const numDays = Math.floor(millisecondsBetween / 1000 / 60 / 60 / 24);
+    const numDays
+        = Math.floor(millisecondsBetween / 86400000); // milliseconds per day
     return `${numDays * 6}rem`;
   }
 
   function getHeight(start, end) {
     // Set the tail of the selection box based on the time released.
-    // The height is rowHeight * (numQuarterHours between start and end
-    // inclusive) / 4;
-    const numQuarterHours = ((end - start) / 1000 / 60 / 15) + 1;
+    // The height is rowHeight * (numQuarterHours between start and end) / 4;
+    const numQuarterHours = (end - start) / 1000 / 60 / 15;
     return `${numQuarterHours / 4 * 3}rem`;
   }
 </script>
 
 <div
   class="{isActive ? "active" : null}"
-  style="height:{getHeight(start, $endTimestamp)}; top:{getTop(start)}; left:{getLeft(start)}"
+  style="height:{getHeight(start, $endInMs)};
+         top:{getTop(start)};
+         left:{getLeft(start)}"
 ></div>
 
 <style>
