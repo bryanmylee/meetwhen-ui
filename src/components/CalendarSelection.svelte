@@ -13,7 +13,6 @@
     easing: cubicOut,
   });
   $: $endTimestamp = +end;
-  $: console.log($endTimestamp);
 
   function getTop(start) {
     // The size of top is rowHeight * numHours from midnight.
@@ -38,18 +37,21 @@
 </script>
 
 <div
-  class="selection-box"
+  class="{isActive ? "active" : null}"
   style="height:{getHeight(start, $endTimestamp)}; top:{getTop(start)}; left:{getLeft(start)}"
 ></div>
 
 <style>
-  .selection-box {
+  div {
     grid-column: 1/2;
     position: absolute;
     width: var(--col-width);
-    background-color: teal;
     border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: #62B2F277;
     pointer-events: none;
+  }
+
+  .active {
+    background-color: #62B2F2;
   }
 </style>
