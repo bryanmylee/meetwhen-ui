@@ -38,7 +38,7 @@
   }
 </script>
 
-<div class="new-event-container" transition:fade>
+<div id="new-event-container" transition:fade>
   <form>
     <MaterialTextInput
       label="Title" bind:value={title}
@@ -53,10 +53,14 @@
 </div>
 
 <style>
-  div {
+  #new-event-container {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Allows the calendar to dynamically resize */
+  }
+
+  button {
+    min-height: 2em;
   }
 </style>

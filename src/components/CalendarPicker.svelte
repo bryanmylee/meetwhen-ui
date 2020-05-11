@@ -50,40 +50,44 @@
 </script>
 
 <div id="picker">
-  <div id="picker-header-row">
-    <div id="month-label">
-      {midnightToday.format('MMM')}
-    </div>
-    {#each dates as date}
-      <div class="cell header-row__cell">
-        {date.format('ddd D')}
+  <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
+  bug on Safari 13.1 -->
+  <div>
+    <div id="picker-header-row">
+      <div id="month-label">
+        {midnightToday.format('MMM')}
       </div>
-    {/each}
-  </div>
-  <div id="picker-body">
-    <div id="index-col">
-      {#each hours as hour}
-        <div class="cell index-col__cell">
-          {hour.add(1, 'hour').format('HH:mm')}
+      {#each dates as date}
+        <div class="cell header-row__cell">
+          {date.format('ddd D')}
         </div>
       {/each}
     </div>
-    <div id="main-area">
-      <div id="main-area__bg-grid" on:mouseleave={stopSelection}>
-        {#each dates as date}
-          {#each hours as hour}
-            <CalendarGridCell
-              start={date.hour(hour.hour())}
-              on:startSelection={startSelection}
-              on:drag={gridDrag}
-              on:stopSelection={stopSelection}/>
-          {/each}
+    <div id="picker-body">
+      <div id="index-col">
+        {#each hours as hour}
+          <div class="cell index-col__cell">
+            {hour.add(1, 'hour').format('HH:mm')}
+          </div>
         {/each}
       </div>
-      <div id="main-area__selection-layer">
-        {#each selections as selection}
-          <CalendarSelection {...selection} />
-        {/each}
+      <div id="main-area">
+        <div id="main-area__bg-grid" on:mouseleave={stopSelection}>
+          {#each dates as date}
+            {#each hours as hour}
+              <CalendarGridCell
+                start={date.hour(hour.hour())}
+                on:startSelection={startSelection}
+                on:drag={gridDrag}
+                on:stopSelection={stopSelection}/>
+            {/each}
+          {/each}
+        </div>
+        <div id="main-area__selection-layer">
+          {#each selections as selection}
+            <CalendarSelection {...selection} />
+          {/each}
+        </div>
       </div>
     </div>
   </div>
@@ -98,10 +102,7 @@
   }
 
   #picker {
-    /* display: flex;
-    flex-direction: column; */
     width: auto;
-    max-height: 600px;
     margin-bottom: 1em;
     overflow: scroll;
     scroll-behavior: smooth;
@@ -145,8 +146,6 @@
     flex-direction: row;
     width: -moz-max-content;    /* Firefox */
     width: -webkit-max-content; /* Safari/Chrome */
-    height: -moz-max-content;    /* Firefox */
-    height: -webkit-max-content; /* Safari/Chrome */
   }
 
   #index-col {
@@ -154,8 +153,6 @@
     position: sticky;
     left: 0;
     z-index: 90;
-    /* display: flex;
-    flex-direction: column; */
     min-width: var(--index-col-width);
     background-color: white;
   }
