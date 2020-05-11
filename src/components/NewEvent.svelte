@@ -5,7 +5,7 @@
   dayjs.extend(utc);
 
   import CalendarPicker from './CalendarPicker.svelte';
-  import MaterialTextInput from './MaterialTextInput.svelte';
+  import MaterialTextInput from './ui/MaterialTextInput.svelte';
 
   let title = '';
   let description = '';

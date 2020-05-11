@@ -1,14 +1,13 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
 
-  import { getMouseOffset } from '../utils/MouseEventHandler.js';
+  import { getMouseOffset } from '../../utils/MouseEventHandler.js';
 
   export let start;
   export let quarterHourThreshold = true;
 
   let cell;
-  const dispatch = createEventDispatcher();
-
   function getMinutes(offsetY) {
     const minutes = offsetY / cell.offsetHeight * 60;
     if (quarterHourThreshold) {
@@ -31,7 +30,7 @@
     const { offsetY } = getMouseOffset(e);
     const minutes = getMinutes(offsetY);
     if (e.buttons === 1) {
-      dispatch('drag', {
+      dispatch('gridDrag', {
         datetime: start.add(minutes, 'minute'),
       });
     }
