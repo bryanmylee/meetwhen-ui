@@ -8,12 +8,10 @@
   import MaterialTextInput from './MaterialTextInput.svelte';
 
   let title = '';
-  let description = 'The quick brown fox';
+  let description = '';
   let username = '';
-  let password = 'password';
+  let password = '';
   let selections = [];
-
-  $: setTimeout(() => {title = 'Hello'}, 2000);
 
   async function createNewEvent() {
     const body = ({
