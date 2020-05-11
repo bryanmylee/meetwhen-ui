@@ -41,6 +41,10 @@
     outline: none;
   }
 
+  input:required { /* Firefox */
+    box-shadow: none;
+  }
+
   label {
     font-size: 1em;
     color: var(--text-2);
