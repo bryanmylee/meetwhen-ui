@@ -2,16 +2,22 @@
   export let label = "Label";
   export let isPassword = false;
   export let value;
+  export let fontSize = '1em';
+  export let fontWeight = '400';
 </script>
 
 <div>
   {#if isPassword}
-    <input type="password" bind:value={value} required/>
+    <input type="password" bind:value={value} required
+      style="font-size:{fontSize}; font-weight:{fontWeight}"
+    />
   {:else}
-    <input type="text" bind:value={value} required/>
+    <input type="text" bind:value={value} required
+      style="font-size:{fontSize}; font-weight:{fontWeight}"
+    />
   {/if}
   <span class="bar"></span>
-  <label>{label}</label>
+  <label style="font-size:{fontSize}">{label}</label>
 </div>
 
 <style>
@@ -49,7 +55,7 @@
 
   input:focus ~ label,
   input:valid ~ label {
-    font-size: 0.8em;
+    font-size: 0.8em !important; /* To override the inline style */
     top: -0.6em;
     color: var(--accent-1);
   }

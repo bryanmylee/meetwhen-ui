@@ -7,10 +7,10 @@
   import CalendarPicker from './CalendarPicker.svelte';
   import MaterialTextInput from './MaterialTextInput.svelte';
 
-  let title = 'Test Event';
-  let description = 'A quick event to test the UI';
+  let title = '';
+  let description = '';
   let username = '';
-  let password = 'bryanpassword';
+  let password = '';
   let selections = [];
 
   async function createNewEvent() {
@@ -37,9 +37,11 @@
 </script>
 
 <div class="new-event-container" transition:fade>
-  <h1>New Event</h1>
   <form>
-    <MaterialTextInput label="Title" bind:value={title}/>
+    <MaterialTextInput
+      label="Title" bind:value={title}
+      fontSize='2rem' fontWeight='700'
+    />
     <MaterialTextInput label="Description" bind:value={description}/>
     <MaterialTextInput label="Username" bind:value={username}/>
     <MaterialTextInput label="Password" isPassword bind:value={password}/>
