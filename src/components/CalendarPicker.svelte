@@ -47,7 +47,7 @@
   }
 </script>
 
-<div id="picker">
+<div id="picker" class="card">
   <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
   bug on Safari 13.1 -->
   <div>
@@ -74,8 +74,6 @@
     margin-bottom: 1em;
     overflow: scroll;
     scroll-behavior: smooth;
-    border-radius: 2px;
-    box-shadow: var(--box-shadow);
   }
 
   :global(.cell) {

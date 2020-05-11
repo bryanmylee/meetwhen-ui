@@ -13,9 +13,13 @@
   :root {
     --text-0: #333;
     --text-1: #555;
-    --text-2: #999;
+    --text-2: #777;
     --text-3: #AAA;
-    --accent-1: #62B2F2;
+    --primary-0: #3D5A80;
+    --primary-1-0: #4E90CD;
+    --primary-1: #62B2F2;
+    --primary-1-1: #75C1F5;
+    --primary-2: #E0FBFC;
     --line-0: #888;
     --line-1: #cacaca;
     --line-2: #eee;
@@ -27,6 +31,19 @@
 		height: 100%;
     padding: 1em;
 	}
+
+  :global(.card) {
+    border-radius: 2px;
+    box-sizing: border-box;
+    box-shadow: var(--box-shadow);
+  }
+
+  @media (min-width: 900px) {
+    :global(main) {
+      max-width: 900px;
+      margin: auto;
+    }
+  }
 
 	main {
 		width: 100%;

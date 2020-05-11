@@ -23,8 +23,9 @@
 <style>
   div {
     position: relative;
-    width: 300px;
-    margin-bottom: 20px;
+    margin-top: 0.6em;
+    margin-right: 2em;
+    padding-bottom: 0.2em;
   }
 
   input {
@@ -47,7 +48,7 @@
 
   label {
     font-size: 1em;
-    color: var(--text-2);
+    color: var(--text-3);
     position: absolute;
     left: 5px;
     top: 10px;
@@ -61,7 +62,7 @@
   input:valid ~ label {
     font-size: 0.8em !important; /* To override the inline style */
     top: -0.6em;
-    color: var(--accent-1);
+    color: var(--primary-1);
   }
 
   .bar {
@@ -76,7 +77,7 @@
     width: 0;
     height: 2px;
     bottom: 1px;
-    background-color: var(--accent-1);
+    background-color: var(--primary-1);
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
