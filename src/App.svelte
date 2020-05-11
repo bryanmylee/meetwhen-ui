@@ -22,15 +22,14 @@
     --box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
 
-  main {
+  :global(body) {
+		width: 100%;
+		height: 100%;
     padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
-  }
+	}
 
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
-  }
+	main {
+		width: 100%;
+		height: 100%;
+	}
 </style>

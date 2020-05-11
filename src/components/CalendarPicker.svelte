@@ -98,8 +98,8 @@
   }
 
   #picker {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     width: auto;
     max-height: 600px;
     margin-bottom: 1em;
@@ -109,24 +109,15 @@
     box-shadow: var(--box-shadow);
   }
 
-  #month-label {
-    position: sticky;
-    left: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: var(--index-col-width);
-    background-color: white;
-  }
-
   #picker-header-row {
+    position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 99;
     display: flex;
     flex-direction: row;
-    width: fit-content;
+    width: -moz-max-content;    /* Firefox */
+    width: -webkit-max-content; /* Safari/Chrome */
     min-height: var(--header-row-height);
     box-sizing: border-box;
     border-bottom: 1px var(--line-1) solid;
@@ -134,23 +125,38 @@
   }
 
   .header-row__cell {
-    width: var(--col-width);
+    min-width: var(--col-width);
+  }
+
+  #month-label {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: var(--index-col-width);
+    background-color: white;
   }
 
   #picker-body {
     display: flex;
     flex-direction: row;
-    width: fit-content;
+    width: -moz-max-content;    /* Firefox */
+    width: -webkit-max-content; /* Safari/Chrome */
+    height: -moz-max-content;    /* Firefox */
+    height: -webkit-max-content; /* Safari/Chrome */
   }
 
   #index-col {
+    position: -webkit-sticky; /* Safari */
     position: sticky;
     left: 0;
     z-index: 90;
-    display: flex;
-    flex-direction: column;
-    width: var(--index-col-width);
-    height: fit-content;
+    /* display: flex;
+    flex-direction: column; */
+    min-width: var(--index-col-width);
     background-color: white;
   }
 
@@ -174,8 +180,6 @@
     grid-auto-flow: column;
     grid-template-rows: repeat(24, var(--row-height));
     grid-auto-columns: var(--col-width);
-    width: fit-content;
-    height: fit-content;
   }
 
   #main-area__selection-layer {
