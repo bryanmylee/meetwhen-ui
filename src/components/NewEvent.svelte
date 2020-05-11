@@ -4,6 +4,7 @@
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
 
+  import { createNewEvent } from '../api/event.js';
   import CalendarPicker from './CalendarPicker.svelte';
   import MaterialTextInput from './ui/MaterialTextInput.svelte';
 
@@ -13,26 +14,12 @@
   let password = '';
   let selections = [];
 
-  async function createNewEvent() {
-    const body = ({
-      username,
-      password,
-      title,
-      description,
-      eventIntervals: selections.map((selection) => ({
-        start: selection.start.utc().toISOString(),
-        end: selection.end.utc().toISOString(),
-      })),
-    });
-    const response = await (await fetch('https://localhost:5000/new', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })).json();
-    console.log(body);
-    console.log(response);
+  function submit() {
+    const eventIntervals = selections.map((selection) => ({
+      start: selection.start.utc().toISOString(),
+      end: selection.end.utc().toISOString(),
+    }));
+    createNewEvent(title, description, username, password, eventIntervals);
   }
 </script>
 
@@ -47,7 +34,7 @@
     <MaterialTextInput label="Password" isPassword bind:value={password}/>
   </form>
   <CalendarPicker bind:selections={selections}/>
-  <button on:click={createNewEvent}>Create New Event</button>
+  <button on:click={submit}>Create New Event</button>
 </div>
 
 <style>
