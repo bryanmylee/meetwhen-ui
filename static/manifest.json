@@ -1,0 +1,9 @@
+{
+  "background_color": "#ffffff",
+  "theme_color": "#333333",
+  "name": "LetsMeet",
+  "short_name": "LetsMeet",
+  "display": "minimal-ui",
+  "start_url": "/",
+  "icons": []
+}
