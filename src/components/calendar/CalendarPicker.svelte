@@ -1,8 +1,8 @@
 <script>
   import dayjs from 'dayjs';
 
-  import HeaderRow from './calendar/HeaderRow.svelte';
-  import Body from './calendar/Body.svelte';
+  import HeaderRow from './HeaderRow.svelte';
+  import Body from './Body.svelte';
 
   const startDate = dayjs().startOf('day');
   const numDaysToShow = 21;

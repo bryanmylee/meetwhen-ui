@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  import { getMouseOffset } from '../../utils/MouseEventHandler.js';
+  import { getMouseOffset } from '../../utils/mouseEventHandler.js';
 
   export let start;
   export let quarterHourThreshold = true;

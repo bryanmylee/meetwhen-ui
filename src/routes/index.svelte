@@ -1,8 +1,10 @@
 <script>
-  import { fly } from 'svelte/transition';
-  import NewEvent from '../components/NewEvent.svelte';
+  import { goto } from '@sapper/app';
 
-  let showNewEvent = false;
+  import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
+  import MaterialButton from '../components/ui/MaterialButton.svelte';
 </script>
 
-<NewEvent />
+<div class="page" in:fadeIn out:fadeOut>
+  <MaterialButton label="Create New Event" on:click={() => goto('/new')}/>
+</div>

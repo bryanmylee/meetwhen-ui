@@ -1,13 +1,13 @@
 <script>
-  import { fade } from 'svelte/transition';
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
 
+  import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
   import { createNewEvent } from '../api/event.js';
-  import CalendarPicker from './CalendarPicker.svelte';
-  import MaterialTextInput from './ui/MaterialTextInput.svelte';
-  import MaterialButton from './ui/MaterialButton.svelte';
+  import CalendarPicker from '../components/calendar/CalendarPicker.svelte';
+  import MaterialTextInput from '../components/ui/MaterialTextInput.svelte';
+  import MaterialButton from '../components/ui/MaterialButton.svelte';
 
   let title = '';
   let description = '';
@@ -24,7 +24,7 @@
   }
 </script>
 
-<div id="new-event" transition:fade>
+<div class="page" in:fadeIn out:fadeOut>
   <div class="card section">
     <h1>Create New Event</h1>
     <MaterialTextInput
@@ -44,9 +44,7 @@
 </div>
 
 <style>
-  #new-event {
-    width: 100%;
-    height: 100%;
+  .page {
     display: flex;
     flex-direction: column; /* Allows the calendar to dynamically resize */
   }
