@@ -2,6 +2,7 @@
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
+  import hotkeys from 'hotkeys-js';
 
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
   import { createNewEvent } from '../api/event.js';
@@ -27,17 +28,17 @@
 <div class="page" in:fadeIn out:fadeOut>
   <h1>New Event</h1>
   <div class="card section">
-    <MaterialTextInput label="Title" bind:value={title}/>
-    <MaterialTextInput label="Description" bind:value={description}/>
+    <MaterialTextInput label="Title" bind:value={title} />
+    <MaterialTextInput label="Description" bind:value={description} />
 
     <span class="tip">Sign in to edit your event when returning</span>
-    <MaterialTextInput label="Username" bind:value={username}/>
-    <MaterialTextInput label="Password" isPassword bind:value={password}/>
+    <MaterialTextInput label="Username" bind:value={username} />
+    <MaterialTextInput label="Password" isPassword bind:value={password} />
     <span class="footer">Account is unique to this event only</span>
   </div>
-  <CalendarPicker bind:selections={selections}/>
+  <CalendarPicker bind:selections={selections} />
   <div class="button">
-    <MaterialButton label="Create Event" on:click={submit}/>
+    <MaterialButton label="Create Event" on:click={submit} />
   </div>
 </div>
 
