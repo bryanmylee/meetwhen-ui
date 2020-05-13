@@ -25,11 +25,9 @@
 </script>
 
 <div class="page" in:fadeIn out:fadeOut>
+  <h1>New Event</h1>
   <div class="card section">
-    <h1>Create New Event</h1>
-    <MaterialTextInput
-      label="Title" bind:value={title}
-    />
+    <MaterialTextInput label="Title" bind:value={title}/>
     <MaterialTextInput label="Description" bind:value={description}/>
 
     <span class="tip">Sign in to edit your event when returning</span>
@@ -55,7 +53,6 @@
   }
 
   h1 {
-    padding-left: 5px;
     margin-top: 0;
   }
 
