@@ -13,12 +13,12 @@
 
   // The selections made by the user.
   export let selections = [];
-  // The active selection being made.
-  let activeSelection;
+  // The new selection being made.
+  let newSelection;
 
   function startSelection(e) {
     const { datetime } = e.detail;
-    activeSelection = ({
+    newSelection = ({
       start: datetime,
       // datetime represents the start of the cell.
       // Add 15 minutes to account for the time in the last cell.
@@ -30,25 +30,36 @@
     const { datetime } = e.detail;
     // datetime represents the start of the cell.
     // Add 15 minutes to account for the time in the last cell.
-    activeSelection = ({ ...activeSelection,
+    newSelection = ({ ...newSelection,
       end: datetime.add(15, 'minute'),
     });
   }
 
   function stopSelection() {
-    // const { length } = selections;
-    // if (length === 0) return;
-    // const activeSelection = selections[length - 1];
-    // activeSelection.isActive = false;
-    // if (activeSelection.end - activeSelection.start < 15) {
-    //   activeSelection.end = activeSelection.start.add(15, 'minute');
-    // }
-    // selections = [...selections.slice(0, length - 1), activeSelection];
-    // console.log(selections);
-    if (!activeSelection) return;
-    selections = [ ...selections,
-      activeSelection,
+    if (!newSelection) return;
+    selections = [
+      ...selections,
+      ...splitMultiDaySelection(newSelection),
     ];
+    newSelection = null;
+  }
+
+  function splitMultiDaySelection(newSelection) {
+    const { start, end } = newSelection;
+    const endOnStartDay = end
+        .date(start.date())
+        .month(start.month())
+        .year(start.year());
+    const selectionByDay = [];
+    // Determine how many days are included from start to end.
+    const numDaysSpan = Math.floor((end - start) / 86400000) + 1;
+    for (let i = 0; i < numDaysSpan; i++) {
+      selectionByDay.push({
+        start: start.add(i, 'day'),
+        end: endOnStartDay.add(i, 'day'),
+      });
+    }
+    return selectionByDay;
   }
 </script>
 
@@ -58,7 +69,7 @@
   <div>
     <HeaderRow {days} />
     <Body
-      {days} {hours} {selections} {activeSelection}
+      {days} {hours} {selections} {newSelection}
       on:startSelection={startSelection}
       on:gridDrag={gridDrag}
       on:stopSelection={stopSelection}

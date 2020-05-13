@@ -1,14 +1,18 @@
 <script>
   import Selection from './Selection.svelte';
+  import NewSelection from './NewSelection.svelte';
 
   export let selections;
-  export let activeSelection;
+  export let newSelection;
 </script>
 
 <div>
   {#each selections as selection}
     <Selection {...selection} />
   {/each}
+  {#if newSelection && newSelection.start && newSelection.end}
+    <NewSelection {...newSelection} />
+  {/if}
 </div>
 
 <style>

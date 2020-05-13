@@ -46,15 +46,10 @@
     grid-column: 1/2;
     position: absolute;
     width: var(--col-width);
-    border-radius: 2px;
+    border-radius: 5px;
     background-color: var(--primary-1);
     opacity: 0.5;
     transition: 0.2s ease opacity, 0.2s ease background-color;
     pointer-events: none;
-  }
-
-  .active {
-    background-color: var(--primary-1);
-    opacity: 1;
   }
 </style>
