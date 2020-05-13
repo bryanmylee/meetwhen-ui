@@ -1,5 +1,7 @@
 <script>
+  import { onMount } from 'svelte';
   import dayjs from 'dayjs';
+  import hotkeys from 'hotkeys-js';
 
   import { createHistory } from '../../utils/history.js';
   const history = createHistory();
@@ -9,6 +11,10 @@
   import Grid from './Grid.svelte';
   import SelectionsLayer from './SelectionsLayer.svelte';
 
+  // Expose selections to parent component.
+  export let selections;
+  $: selections = $history.current().selections;
+
   const startDate = dayjs().startOf('day');
   const numDaysToShow = 21;
   const days = Array.from(Array(numDaysToShow).keys())
@@ -16,12 +22,8 @@
   const hours = Array.from(Array(24).keys())
       .map((inc) => startDate.add(inc, 'hour'));
 
-  // Expose selections to parent component.
-  export let selections;
-  $: selections = $history.current().selections;
   // The new selection being made.
   let newSelection;
-
   function startSelection(e) {
     const { datetime } = e.detail;
     newSelection = ({
@@ -73,15 +75,17 @@
     return selectionByDay;
   }
 
-  hotkeys('ctrl+z, command+z', (e) => {
-    e.preventDefault();
-    history.undo();
-  });
+  onMount(() => {
+    hotkeys('ctrl+z, command+z', (e) => {
+      e.preventDefault();
+      history.undo();
+    });
 
-  hotkeys('shift+ctrl+z, shift+command+z', (e) => {
-    e.preventDefault();
-    history.redo();
-  });
+    hotkeys('shift+ctrl+z, shift+command+z', (e) => {
+      e.preventDefault();
+      history.redo();
+    });
+  })
 </script>
 
 <div id="picker" class="card">
