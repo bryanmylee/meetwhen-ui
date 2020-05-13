@@ -7,12 +7,13 @@
   export let days;
   export let hours;
   export let selections;
+  export let activeSelection;
 </script>
 
 <div>
   <TimeColumn />
   <Grid
-    {days} {hours} {selections}
+    {days} {hours} {selections} {activeSelection}
     on:startSelection on:gridDrag on:stopSelection
   />
 </div>

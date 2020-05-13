@@ -5,13 +5,14 @@
   export let days;
   export let hours;
   export let selections;
+  export let activeSelection;
 </script>
 
 <div>
   <BackgroundGrid {days} {hours}
     on:startSelection on:gridDrag on:stopSelection
   />
-  <GridSelectionLayer {selections} />
+  <GridSelectionLayer {selections} {activeSelection}/>
 </div>
 
 <style>

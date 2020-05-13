@@ -11,39 +11,44 @@
   const hours = Array.from(Array(24).keys())
       .map((inc) => startDate.add(inc, 'hour'));
 
+  // The selections made by the user.
   export let selections = [];
+  // The active selection being made.
+  let activeSelection;
+
   function startSelection(e) {
     const { datetime } = e.detail;
-    selections = [...selections, {
+    activeSelection = ({
       start: datetime,
       // datetime represents the start of the cell.
       // Add 15 minutes to account for the time in the last cell.
       end: datetime.add(15, 'minute'),
-      isActive: true,
-    }];
+    });
   }
 
   function gridDrag(e) {
     const { datetime } = e.detail;
-    const { length } = selections;
-    if (length === 0) return;
-    const activeSelection = selections[length - 1];
     // datetime represents the start of the cell.
     // Add 15 minutes to account for the time in the last cell.
-    activeSelection.end = datetime.add(15, 'minute');
-    selections = [...selections.slice(0, length - 1), activeSelection];
+    activeSelection = ({ ...activeSelection,
+      end: datetime.add(15, 'minute'),
+    });
   }
 
   function stopSelection() {
-    const { length } = selections;
-    if (length === 0) return;
-    const activeSelection = selections[length - 1];
-    activeSelection.isActive = false;
-    if (activeSelection.end - activeSelection.start < 15) {
-      activeSelection.end = activeSelection.start.add(15, 'minute');
-    }
-    selections = [...selections.slice(0, length - 1), activeSelection];
-    console.log(selections);
+    // const { length } = selections;
+    // if (length === 0) return;
+    // const activeSelection = selections[length - 1];
+    // activeSelection.isActive = false;
+    // if (activeSelection.end - activeSelection.start < 15) {
+    //   activeSelection.end = activeSelection.start.add(15, 'minute');
+    // }
+    // selections = [...selections.slice(0, length - 1), activeSelection];
+    // console.log(selections);
+    if (!activeSelection) return;
+    selections = [ ...selections,
+      activeSelection,
+    ];
   }
 </script>
 
@@ -53,7 +58,7 @@
   <div>
     <HeaderRow {days} />
     <Body
-      {days} {hours} {selections}
+      {days} {hours} {selections} {activeSelection}
       on:startSelection={startSelection}
       on:gridDrag={gridDrag}
       on:stopSelection={stopSelection}

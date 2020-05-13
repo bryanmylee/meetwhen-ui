@@ -1,12 +1,13 @@
 <script>
-  import GridSelection from './GridSelection.svelte';
+  import Selection from './Selection.svelte';
 
   export let selections;
+  export let activeSelection;
 </script>
 
 <div>
   {#each selections as selection}
-    <GridSelection {...selection} />
+    <Selection {...selection} />
   {/each}
 </div>
 

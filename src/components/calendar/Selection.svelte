@@ -6,7 +6,6 @@
 
   export let start;
   export let end;
-  export let isActive;
 
   const endInMs = tweened(+end, {
     duration: 300,
@@ -37,7 +36,6 @@
 </script>
 
 <div
-  class="{isActive ? "active" : null}"
   style="height:{getHeight(start, $endInMs)};
          top:{getTop(start)};
          left:{getLeft(start)}"
