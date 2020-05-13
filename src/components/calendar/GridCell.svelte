@@ -5,15 +5,13 @@
   import { getMouseOffset } from '../../utils/mouseEventHandler.js';
 
   export let start;
-  export let quarterHourThreshold = true;
+  // The number of minutes to snap the datetime reporting to.
+  export let snapTo = 15;
 
   let cell;
   function getMinutes(offsetY) {
     const minutes = offsetY / cell.offsetHeight * 60;
-    if (quarterHourThreshold) {
-      return Math.floor(minutes / 15) * 15;
-    }
-    return minutes;
+    return Math.floor(minutes / snapTo) * snapTo;
   }
 
   function startSelection(e) {
