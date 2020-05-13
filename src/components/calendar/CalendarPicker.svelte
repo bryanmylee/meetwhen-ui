@@ -2,7 +2,9 @@
   import dayjs from 'dayjs';
 
   import HeaderRow from './HeaderRow.svelte';
-  import Body from './Body.svelte';
+  import TimeColumn from './TimeColumn.svelte';
+  import Grid from './Grid.svelte';
+  import SelectionsLayer from './SelectionsLayer.svelte';
 
   const startDate = dayjs().startOf('day');
   const numDaysToShow = 21;
@@ -68,12 +70,17 @@
   bug on Safari 13.1 -->
   <div>
     <HeaderRow {days} />
-    <Body
-      {days} {hours} {selections} {newSelection}
-      on:startSelection={startSelection}
-      on:gridDrag={gridDrag}
-      on:stopSelection={stopSelection}
-    />
+    <div id="body">
+      <TimeColumn />
+      <div id="select-area">
+        <Grid {days} {hours}
+          on:startSelection={startSelection}
+          on:gridDrag={gridDrag}
+          on:stopSelection={stopSelection}
+        />
+        <SelectionsLayer {selections} {newSelection} />
+      </div>
+    </div>
   </div>
 </div>
 
@@ -90,6 +97,17 @@
     margin-bottom: 1em;
     overflow: scroll;
     scroll-behavior: smooth;
+  }
+
+  #body {
+    display: flex;
+    flex-direction: row;
+    width: -moz-max-content;    /* Firefox */
+    width: -webkit-max-content; /* Safari/Chrome */
+  }
+
+  #select-area {
+    position: relative;
   }
 
   :global(.cell) {

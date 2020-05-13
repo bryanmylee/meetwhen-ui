@@ -44,6 +44,6 @@
     background-color: var(--primary-1);
     opacity: 0.5;
     transition: 0.2s ease opacity, 0.2s ease background-color;
-    pointer-events: none;
+    pointer-events: all;
   }
 </style>

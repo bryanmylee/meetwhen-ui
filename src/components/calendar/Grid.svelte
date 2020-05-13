@@ -1,22 +1,34 @@
 <script>
-  import BackgroundGrid from './BackgroundGrid.svelte';
-  import SelectionsLayer from './SelectionsLayer.svelte';
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
+
+  import GridCell from './GridCell.svelte';
 
   export let days;
   export let hours;
-  export let selections;
-  export let newSelection;
+
+  function mouseLeave(e) {
+    if (e.buttons === 1) {
+      dispatch('stopSelection');
+    }
+  }
 </script>
 
-<div>
-  <BackgroundGrid {days} {hours}
-    on:startSelection on:gridDrag on:stopSelection
-  />
-  <SelectionsLayer {selections} {newSelection} />
+<div on:mouseleave={mouseLeave}>
+  {#each days as day}
+    {#each hours as hour}
+      <GridCell start={day.hour(hour.hour())}
+        on:startSelection on:gridDrag on:stopSelection
+      />
+    {/each}
+  {/each}
 </div>
 
 <style>
   div {
-    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(24, var(--row-height));
+    grid-auto-columns: var(--col-width);
   }
 </style>
