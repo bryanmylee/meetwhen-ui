@@ -43,8 +43,12 @@
 
 <style>
   .page {
+    /* Allows the calendar to dynamically resize */
     display: flex;
-    flex-direction: column; /* Allows the calendar to dynamically resize */
+    flex-direction: column;
+    height: 100vh;
+    padding: 1em;
+    box-sizing: border-box;
   }
 
   .section {
