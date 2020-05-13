@@ -8,8 +8,13 @@
   export let start;
   export let end;
 
+  const MS_PER_DAY = 86400000;
+  const MS_PER_HOUR = 3600000;
+  const ROW_HEIGHT_IN_REM = 3;
+  const COL_WIDTH_IN_REM = 6;
+
   // The tweened duration in one day.
-  const durationPerDayInMs = tweened(900000, { // milliseconds in 15 minutes
+  const durationPerDayInMs = tweened(MS_PER_HOUR / 4, { // default to 15 minutes
     duration: 300,
     easing: cubicOut,
   });
@@ -23,7 +28,7 @@
   $: {
     const newSelectionByDay = [];
     // Determine how many days are included from start to end.
-    const numDaysSpan = Math.floor((end - start) / 86400000) + 1;
+    const numDaysSpan = Math.floor((end - start) / MS_PER_DAY) + 1;
     for (let i = 0; i < numDaysSpan; i++) {
       newSelectionByDay.push({
         start: start.add(i, 'day'),
@@ -34,24 +39,19 @@
   }
 
   function getTop(start) {
-    // The size of top is rowHeight * numHours from midnight.
     const numHoursFromMidnight = start.hour() + start.minute() / 60;
-    return `${numHoursFromMidnight * 3}rem`;
+    return `${numHoursFromMidnight * ROW_HEIGHT_IN_REM}rem`;
   }
 
   function getLeft(start) {
-    // The size of left is colWidth * numDays from today.
     const millisecondsFromToday = start - dayjs().startOf('day');
-    const numDaysFromToday
-        = Math.floor(millisecondsFromToday / 86400000); // ms per day
-    return `${numDaysFromToday * 6}rem`;
+    const numDaysFromToday = Math.floor(millisecondsFromToday / MS_PER_DAY);
+    return `${numDaysFromToday * COL_WIDTH_IN_REM}rem`;
   }
 
-  function getHeight(durationPerDayInMs) {
-    // Set the tail of the selection box based on the time released.
-    // The height is rowHeight * (numQuarterHours between start and end) / 4;
-    const numQuarterHours = durationPerDayInMs / 900000; // 1/4 hours per ms
-    return `${numQuarterHours / 4 * 3}rem`;
+  function getHeight(durationInMs) {
+    const durationInHours = durationInMs / MS_PER_HOUR;
+    return `${durationInHours * ROW_HEIGHT_IN_REM}rem`;
   }
 </script>
 
