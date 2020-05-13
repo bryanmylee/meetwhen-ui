@@ -1,6 +1,9 @@
 <script>
   import dayjs from 'dayjs';
 
+  import { createHistory } from '../../utils/history.js';
+  const history = createHistory();
+  history.init({ selections: [] });
   import HeaderRow from './HeaderRow.svelte';
   import TimeColumn from './TimeColumn.svelte';
   import Grid from './Grid.svelte';
@@ -13,8 +16,9 @@
   const hours = Array.from(Array(24).keys())
       .map((inc) => startDate.add(inc, 'hour'));
 
-  // The selections made by the user.
-  export let selections = [];
+  // Expose selections to parent component.
+  export let selections;
+  $: selections = $history.current().selections;
   // The new selection being made.
   let newSelection;
 
@@ -39,13 +43,18 @@
 
   function stopSelection() {
     if (!newSelection || !newSelection.start || !newSelection.end) return;
-    selections = [
-      ...selections,
-      ...splitMultiDaySelection(newSelection),
-    ];
+    // Update history
+    history.push({
+      // New state of selections includes selections from the current state.
+      selections: [
+        ...$history.current().selections,
+        ...splitMultiDaySelection(newSelection),
+      ],
+    });
     newSelection = null;
   }
 
+  // Separate a multi-day selection into multiple single-day selections.
   function splitMultiDaySelection(newSelection) {
     const { start, end } = newSelection;
     const endOnStartDay = end
@@ -63,6 +72,16 @@
     }
     return selectionByDay;
   }
+
+  hotkeys('ctrl+z, command+z', (e) => {
+    e.preventDefault();
+    history.undo();
+  });
+
+  hotkeys('shift+ctrl+z, shift+command+z', (e) => {
+    e.preventDefault();
+    history.redo();
+  });
 </script>
 
 <div id="picker" class="card">
@@ -78,7 +97,9 @@
           on:gridDrag={gridDrag}
           on:stopSelection={stopSelection}
         />
-        <SelectionsLayer {selections} {newSelection} />
+        <SelectionsLayer
+          selections={$history.current().selections} {newSelection}
+        />
       </div>
     </div>
   </div>
