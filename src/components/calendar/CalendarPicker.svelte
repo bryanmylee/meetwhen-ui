@@ -36,7 +36,7 @@
   }
 
   function stopSelection() {
-    if (!newSelection) return;
+    if (!newSelection || !newSelection.start || !newSelection.end) return;
     selections = [
       ...selections,
       ...splitMultiDaySelection(newSelection),
