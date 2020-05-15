@@ -3,13 +3,14 @@
   import dayjs from 'dayjs';
   import hotkeys from 'hotkeys-js';
 
-  import { createHistory } from '../../utils/history.js';
+  import { createHistory } from '../../../utils/history.js';
   const history = createHistory();
   history.init({ selections: [] });
-  import HeaderRow from './HeaderRow.svelte';
-  import TimeColumn from './TimeColumn.svelte';
-  import Grid from './Grid.svelte';
-  import SelectionsLayer from './SelectionsLayer.svelte';
+  import CalendarDateHeader from '../CalendarDateHeader.svelte';
+  import CalendarTimeColumn from '../CalendarTimeColumn.svelte';
+  import CalendarGrid from '../CalendarGrid.svelte';
+  import NewEventCalendarSelectionLayer
+      from './NewEventCalendarSelectionLayer.svelte';
 
   // Expose selections to parent component.
   export let selections;
@@ -92,16 +93,16 @@
   <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
   bug on Safari 13.1 -->
   <div>
-    <HeaderRow {days} />
+    <CalendarDateHeader {days} />
     <div id="body">
-      <TimeColumn />
+      <CalendarTimeColumn />
       <div id="select-area">
-        <Grid {days} {hours}
+        <CalendarGrid {days} {hours}
           on:startSelection={startSelection}
           on:gridDrag={gridDrag}
           on:stopSelection={stopSelection}
         />
-        <SelectionsLayer
+        <NewEventCalendarSelectionLayer
           selections={$history.current().selections} {newSelection}
         />
       </div>

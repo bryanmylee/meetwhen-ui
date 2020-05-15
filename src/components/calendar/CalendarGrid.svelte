@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  import GridCell from './GridCell.svelte';
+  import CalendarGridCell from './CalendarGridCell.svelte';
 
   export let days;
   export let hours;
@@ -17,7 +17,7 @@
 <div on:mouseleave={mouseLeave}>
   {#each days as day}
     {#each hours as hour}
-      <GridCell start={day.hour(hour.hour())}
+      <CalendarGridCell start={day.hour(hour.hour())}
         on:startSelection on:gridDrag on:stopSelection
       />
     {/each}

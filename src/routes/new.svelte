@@ -5,9 +5,8 @@
 
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
   import { createNewEvent } from '../api/event.js';
-  import CalendarPicker from '../components/calendar/CalendarPicker.svelte';
-  import MaterialTextInput from '../components/ui/MaterialTextInput.svelte';
-  import MaterialButton from '../components/ui/MaterialButton.svelte';
+  import { NewEventCalendarPicker } from '../components/calendar';
+  import { Button, TextInput } from '../components/form';
 
   let title = '';
   let description = '';
@@ -30,17 +29,17 @@
 <div class="page" in:fadeIn out:fadeOut>
   <h1>New Event</h1>
   <div class="card section">
-    <MaterialTextInput label="Title" bind:value={title} />
-    <MaterialTextInput label="Description" bind:value={description} />
+    <TextInput label="Title" bind:value={title} />
+    <TextInput label="Description" bind:value={description} />
 
     <span class="tip">Sign in to edit your event when returning</span>
-    <MaterialTextInput label="Username" bind:value={username} />
-    <MaterialTextInput label="Password" isPassword bind:value={password} />
+    <TextInput label="Username" bind:value={username} />
+    <TextInput label="Password" isPassword bind:value={password} />
     <span class="footer">Account is unique to this event only</span>
   </div>
-  <CalendarPicker bind:selections={selections} />
+  <NewEventCalendarPicker bind:selections={selections} />
   <div class="button">
-    <MaterialButton label="Create Event" on:click={submit} />
+    <Button label="Create Event" on:click={submit} />
   </div>
 </div>
 
