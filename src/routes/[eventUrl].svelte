@@ -9,6 +9,8 @@
 </script>
 
 <script>
+  import dayjs from 'dayjs';
+
   /*
    * event: {
    *   id: number,
@@ -23,6 +25,16 @@
    * }
    */
   export let event;
+  let selections = event.eventIntervals.map((interval) => {
+    return ({
+      // Formats the ISO string to local time.
+      start: dayjs(interval.start),
+      end: dayjs(interval.end),
+    });
+  })
 </script>
 
-{JSON.stringify(event)}
+<div class="page">
+  <h1>{event.title}</h1>
+  <p>{event.description}</p>
+</div>
