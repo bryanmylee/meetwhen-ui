@@ -13,6 +13,9 @@
   let description = '';
   let username = '';
   let password = '';
+  /*
+   * selections: {start: Dayjs, end: Dayjs}[]
+   */
   let selections = [];
 
   function submit() {

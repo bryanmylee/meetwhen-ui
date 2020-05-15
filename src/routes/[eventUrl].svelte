@@ -9,6 +9,19 @@
 </script>
 
 <script>
+  /*
+   * event: {
+   *   id: number,
+   *   eventUrl: string,
+   *   title: string,
+   *   description: string,
+   *   dateCreated: string,
+   *   eventIntervals: {start: string, end: string}[],
+   *   userIntervalsByUsername: {
+   *     [username: string]: {start: string, end: string}[],
+   *   },
+   * }
+   */
   export let event;
 </script>
 
