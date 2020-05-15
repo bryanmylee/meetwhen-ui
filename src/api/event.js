@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 export async function createNewEvent(
     title, description, username, password, eventIntervals) {
   const body = ({
@@ -7,7 +9,7 @@ export async function createNewEvent(
     description,
     eventIntervals
   });
-  const response = await (await fetch('https://localhost:5000/new', {
+  const response = await (await fetch('http://localhost:5000/new', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,4 +18,14 @@ export async function createNewEvent(
   })).json();
   console.log(body);
   console.log(response);
+}
+
+export async function getEvent(eventUrl) {
+  try {
+    const response = await (await fetch(`http://localhost:5000/${eventUrl}`))
+        .json();
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
 }
