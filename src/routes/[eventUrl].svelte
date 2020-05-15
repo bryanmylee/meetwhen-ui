@@ -1,16 +1,18 @@
-<script>
-  import { getEvent } from '../api/event.js';
-  import { stores } from '@sapper/app';
-  const { page } = stores();
-  const { eventUrl } = $page.params;
-  let promise = getEvent(eventUrl);
+<script context="module">
+  console.log('loading module...');
+  export async function preload(page, session) {
+    console.log('preloading...')
+    const { eventUrl } = page.params;
+    const res = await this.fetch(`http://localhost:5000/${eventUrl}`, {
+      credentials: 'include',
+    });
+    const event = await res.json();
+    return { event };
+  }
 </script>
 
-{#await promise}
-  <p>...waiting</p>
-{:then event}
-  {JSON.stringify(event)}
-  {event}
-{:catch err}
-  {JSON.stringify(err)}
-{/await}
+<script>
+  export let event;
+</script>
+
+{JSON.stringify(event)}
