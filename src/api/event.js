@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 export async function createNewEvent(
     title, description, username, password, eventIntervals) {
   const body = ({
@@ -20,11 +18,12 @@ export async function createNewEvent(
   console.log(response);
 }
 
-export async function getEvent(eventUrl) {
+export async function getEvent(context, eventUrl) {
   try {
-    const response = await (await fetch(`http://localhost:5000/${eventUrl}`))
-        .json();
-    return response;
+    const event = await (await context.fetch(`http://localhost:5000/${eventUrl}`, {
+      credentials: 'include',
+    })).json();
+    return { event };
   } catch (err) {
     console.log(err);
   }
