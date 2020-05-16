@@ -1,6 +1,6 @@
 <script>
-  import JoinEventCalendarAvailableInterval
-      from './JoinEventCalendarAvailableInterval.svelte';
+  import JoinEventCalendarDisabledInterval
+      from './JoinEventCalendarDisabledInterval.svelte';
   
   export let eventIntervalsByDay = {};
 </script>
@@ -8,7 +8,7 @@
 <div>
   {#each Object.values(eventIntervalsByDay) as intervalsInDay, columnIndex}
     {#each intervalsInDay as interval}
-      <JoinEventCalendarAvailableInterval {...interval} {columnIndex} />
+      <JoinEventCalendarDisabledInterval {...interval} {columnIndex} />
     {/each}
   {/each}
 </div>

@@ -4,8 +4,8 @@
   import CalendarDateHeader from '../CalendarDateHeader.svelte';
   import CalendarTimeColumn from '../CalendarTimeColumn.svelte';
   import CalendarGrid from '../CalendarGrid.svelte';
-  import JoinEventCalendarAvailableIntervalLayer
-      from './JoinEventCalendarAvailableIntervalLayer.svelte';
+  import JoinEventCalendarDisabledIntervalLayer
+      from './JoinEventCalendarDisabledIntervalLayer.svelte';
 
   /*
    * eventIntervals: {start: Dayjs, end: Dayjs}[]
@@ -42,7 +42,7 @@
       <CalendarTimeColumn />
       <div id="select-area">
         <CalendarGrid days={daysToShow} {hours} />
-        <JoinEventCalendarAvailableIntervalLayer {eventIntervalsByDay} />
+        <JoinEventCalendarDisabledIntervalLayer {eventIntervalsByDay} />
         <!-- Other user selections -->
         <!-- Selection layer -->
       </div>
