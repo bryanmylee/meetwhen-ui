@@ -1,6 +1,8 @@
 <script>
-  import DefinedSelection from './NewEventCalendarDefinedSelection.svelte';
-  import NewSelection from './NewEventCalendarNewSelection.svelte';
+  import NewEventCalendarDefinedSelection
+      from './NewEventCalendarDefinedSelection.svelte';
+  import NewEventCalendarNewSelection
+      from './NewEventCalendarNewSelection.svelte';
 
   export let selections;
   export let newSelection;
@@ -8,10 +10,10 @@
 
 <div>
   {#each selections as selection}
-    <DefinedSelection {...selection} />
+    <NewEventCalendarDefinedSelection {...selection} />
   {/each}
   {#if newSelection && newSelection.start && newSelection.end}
-    <NewSelection {...newSelection} />
+    <NewEventCalendarNewSelection {...newSelection} />
   {/if}
 </div>
 
