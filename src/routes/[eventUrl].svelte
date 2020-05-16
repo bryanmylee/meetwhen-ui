@@ -1,8 +1,6 @@
 <script context="module">
   import { getEvent } from '../api/event.js';
-  console.log('loading module...');
   export async function preload(page, session) {
-    console.log('preloading...')
     const { eventUrl } = page.params;
     return getEvent(this, eventUrl);
   }
@@ -13,31 +11,27 @@
 
   import JoinEventCalendarPicker from '../components/calendar/joinEvent/JoinEventCalendarPicker.svelte';
 
-  /*
-   * event: {
-   *   id: number,
-   *   eventUrl: string,
-   *   title: string,
-   *   description: string,
-   *   dateCreated: string,
-   *   eventIntervals: {start: string, end: string}[],
-   *   userIntervalsByUsername: {
-   *     [username: string]: {start: string, end: string}[],
-   *   },
-   * }
-   */
   export let event;
-  console.log(event);
-  let intervals = event.eventIntervals.map((interval) => ({
-    start: dayjs(interval.start),
-    end: dayjs(interval.end),
-  }));
+  /*
+   * It is possible that the event intervals span multiple days due to different
+   * timezones.
+   */
+  const splitIntervals = event.eventIntervals.flatMap((interval, index) => {
+    const { start, end } = interval;
+    if (start.date() !== end.date()) {
+      return [
+        { start, end: end.startOf('day') },
+        { start: end.startOf('day'), end },
+      ];
+    }
+    return [ interval ];
+  });
 </script>
 
 <div class="page">
   <h1>{event.title}</h1>
   <p>{event.description}</p>
-  <JoinEventCalendarPicker eventIntervals={intervals}/>
+  <JoinEventCalendarPicker eventIntervals={splitIntervals} />
 </div>
 
 <style>
