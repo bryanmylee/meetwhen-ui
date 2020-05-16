@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export async function createNewEvent(
     title, description, username, password, eventIntervals) {
   const body = ({
@@ -20,9 +22,40 @@ export async function createNewEvent(
 
 export async function getEvent(context, eventUrl) {
   try {
-    const event = await (await context.fetch(`http://localhost:5000/${eventUrl}`, {
+    /*
+     * event: {
+     *   id: number,
+     *   eventUrl: string,
+     *   title: string,
+     *   description: string,
+     *   dateCreated: string,
+     *   eventIntervals: {start: string, end: string}[],
+     *   userIntervalsByUsername: {
+     *     [username: string]: {start: string, end: string}[],
+     *   },
+     * }
+     */
+    const event = await (await context
+        .fetch(`http://localhost:5000/${eventUrl}`, {
       credentials: 'include',
     })).json();
+
+    // Parse datetimes
+    event.dateCreated = dayjs(event.dateCreated);
+    event.eventIntervals = event.eventIntervals.map((interval) => ({
+      start: dayjs(interval.start),
+      end: dayjs(interval.end),
+    }));
+    event.userIntervalsByUsername = Object.fromEntries(
+        // .entries returns an array of tuples in [key, value] form.
+        Object.entries(event.userIntervalsByUsername)
+            .map(([username, intervals]) => [
+              username,
+              intervals.map((interval) => ({
+                start: dayjs(interval.start),
+                end: dayjs(interval.end),
+              }))
+            ]));
     return { event };
   } catch (err) {
     console.log(err);
