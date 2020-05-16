@@ -10,7 +10,6 @@
   const MS_PER_DAY = 86400000;
   const MS_PER_HOUR = 3600000;
   const ROW_HEIGHT_IN_REM = 3;
-  const COL_WIDTH_IN_REM = 6;
 
   function getTop(start) {
     const numHoursFromMidnight = start.hour() + start.minute() / 60;
