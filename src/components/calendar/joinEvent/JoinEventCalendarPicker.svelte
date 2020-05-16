@@ -4,13 +4,33 @@
   import CalendarDateHeader from '../CalendarDateHeader.svelte';
   import CalendarTimeColumn from '../CalendarTimeColumn.svelte';
   import CalendarGrid from '../CalendarGrid.svelte';
+  import JoinEventCalendarAvailableIntervalLayer
+      from './JoinEventCalendarAvailableIntervalLayer.svelte';
+
   /*
    * eventIntervals: {start: Dayjs, end: Dayjs}[]
    */
   export let eventIntervals = [];
   export let userIntervalsByUsername = {};
 
-  let daysToShow = eventIntervals.map((interval) => interval.start.startOf('day'));
+  let eventIntervalsByDay = {};
+  $: {
+    eventIntervalsByDay = {};
+    for (const eventInterval of eventIntervals) {
+      const { start } = eventInterval;
+      // Converted to a string
+      const key = start.startOf('day');
+      if (eventIntervalsByDay.hasOwnProperty(key)) {
+        eventIntervalsByDay[key].push(eventInterval);
+      } else {
+        eventIntervalsByDay[key] = [eventInterval];
+      }
+    }
+  }
+
+  let daysToShow;
+  $: daysToShow = Object.values(eventIntervalsByDay)
+      .map(([firstIntervalOfDay]) => firstIntervalOfDay.start.startOf('day'));
   const hours = Array.from(Array(24).keys())
       .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 </script>
@@ -22,6 +42,7 @@
       <CalendarTimeColumn />
       <div id="select-area">
         <CalendarGrid days={daysToShow} {hours} />
+        <JoinEventCalendarAvailableIntervalLayer {eventIntervalsByDay} />
         <!-- Other user selections -->
         <!-- Selection layer -->
       </div>
