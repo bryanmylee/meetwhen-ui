@@ -8,7 +8,7 @@
   export let hours = [];
 </script>
 
-<div class="no-select">
+<div class="no-highlight">
   {#if day != null}
     <div id="date-label">
       {day.format('ddd D')}

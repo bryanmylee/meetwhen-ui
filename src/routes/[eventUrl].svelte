@@ -9,12 +9,15 @@
 <script>
   import dayjs from 'dayjs';
 
+  import { createHistory } from '../utils/history.js';
+  const history = createHistory({ selections: [] });
+  import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
   import JoinEventCalendarPicker from '../components/calendar/joinEvent/JoinEventCalendarPicker.svelte';
 
   export let event;
   /*
    * It is possible that the event intervals span multiple days due to different
-   * timezones.
+   * timezones. Split those intervals across the midnight boundary.
    */
   const splitIntervals = event.eventIntervals.flatMap((interval, index) => {
     const { start, end } = interval;
@@ -31,7 +34,7 @@
 <div class="page">
   <h1>{event.title}</h1>
   <p>{event.description}</p>
-  <JoinEventCalendarPicker eventIntervals={splitIntervals} />
+  <JoinEventCalendarPicker eventIntervals={splitIntervals} {history} />
 </div>
 
 <style>
@@ -44,34 +47,7 @@
     box-sizing: border-box;
   }
 
-  .section {
-    margin: 0 0 1em;
-    padding: 0.8em;
-  }
-
   h1 {
     margin-top: 0;
-  }
-
-  span {
-    display: block;
-    padding-left: 5px;
-  }
-
-  .tip {
-    color: var(--text-1);
-    margin: 1.4em 0 1em;
-    font-weight: 700;
-  }
-
-  .footer {
-    color: var(--text-3);
-    font-size: 0.8em;
-    font-style: italic;
-  }
-
-  .button {
-    width: fit-content;
-    align-self: flex-end;
   }
 </style>

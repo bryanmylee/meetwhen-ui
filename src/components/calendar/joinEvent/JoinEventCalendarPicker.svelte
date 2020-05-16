@@ -1,18 +1,13 @@
 <script>
   import dayjs from 'dayjs';
 
-  import CalendarDateHeader from '../CalendarDateHeader.svelte';
-  import CalendarTimeColumn from '../CalendarTimeColumn.svelte';
-  import CalendarGrid from '../CalendarGrid.svelte';
-  import JoinEventCalendarDisabledIntervalLayer
-      from './JoinEventCalendarDisabledIntervalLayer.svelte';
+  import CalendarIndexColumn from '../CalendarIndexColumn.svelte';
+  import CalendarDayColumn from '../CalendarDayColumn.svelte';
+  import JoinEventCalendarUnavailableColumnOverlay
+      from './JoinEventCalendarUnavailableColumnOverlay.svelte';
 
-  /*
-   * eventIntervals: {start: Dayjs, end: Dayjs}[]
-   */
+  // Event details.
   export let eventIntervals = [];
-  export let userIntervalsByUsername = {};
-
   let eventIntervalsByDay = {};
   $: {
     eventIntervalsByDay = {};
@@ -28,7 +23,12 @@
     }
   }
 
-  let daysToShow;
+  // User selections.
+  export let history;
+  $: selections = $history.current().selections;
+
+
+  let daysToShow = [];
   $: daysToShow = Object.values(eventIntervalsByDay)
       .map(([firstIntervalOfDay]) => firstIntervalOfDay.start.startOf('day'));
   const hours = Array.from(Array(24).keys())
@@ -36,17 +36,18 @@
 </script>
 
 <div id="picker" class="card">
-  <div>
-    <CalendarDateHeader days={daysToShow} />
-    <div id="body">
-      <CalendarTimeColumn />
-      <div id="select-area">
-        <CalendarGrid days={daysToShow} {hours} />
-        <JoinEventCalendarDisabledIntervalLayer {eventIntervalsByDay} />
-        <!-- Other user selections -->
-        <!-- Selection layer -->
-      </div>
-    </div>
+  <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
+  bug on Safari 13.1 -->
+  <div id="body">
+    <CalendarIndexColumn />
+    {#each daysToShow as day}
+      <CalendarDayColumn {day} {hours}>
+        <!-- Render unavailable intervals -->
+        <JoinEventCalendarUnavailableColumnOverlay
+          eventIntervals={eventIntervalsByDay[day.startOf('day')]}
+        />
+      </CalendarDayColumn>
+    {/each}
   </div>
 </div>
 
@@ -70,10 +71,6 @@
     flex-direction: row;
     width: -moz-max-content;    /* Firefox */
     width: -webkit-max-content; /* Safari/Chrome */
-  }
-
-  #select-area {
-    position: relative;
   }
 
   :global(.cell) {
