@@ -20,6 +20,7 @@
     left: 0;
     z-index: 90;
     min-width: var(--index-col-width);
+    max-width: var(--index-col-width);
     background-color: white;
   }
 

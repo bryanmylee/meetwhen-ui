@@ -1,10 +1,16 @@
 <script>
-  export let days;
+  import dayjs from 'dayjs';
+
+  export let days = [];
+  let monthLabel;
+  $: monthLabel = days.length === 0
+      ? dayjs().format('MMM')
+      : days[0].format('MMM');
 </script>
 
 <div id="picker-header-row">
   <div id="month-label">
-    {days[0].format('MMM')}
+    {monthLabel}
   </div>
   {#each days as day}
     <div class="cell header-row__cell">

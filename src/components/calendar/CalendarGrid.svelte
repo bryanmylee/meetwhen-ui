@@ -4,8 +4,8 @@
 
   import CalendarGridCell from './CalendarGridCell.svelte';
 
-  export let days;
-  export let hours;
+  export let days = [];
+  export let hours = [];
 
   function mouseLeave(e) {
     if (e.buttons === 1) {
