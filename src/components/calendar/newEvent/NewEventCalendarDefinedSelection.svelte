@@ -17,12 +17,6 @@
     return `${numHoursFromMidnight * ROW_HEIGHT_IN_REM}rem`;
   }
 
-  function getLeft(start) {
-    const millisecondsFromToday = start - dayjs().startOf('day');
-    const numDaysFromToday = Math.floor(millisecondsFromToday / MS_PER_DAY);
-    return `${numDaysFromToday * COL_WIDTH_IN_REM}rem`;
-  }
-
   function getHeight(start, end) {
     const durationInHours = (end - start) / MS_PER_HOUR;
     return `${durationInHours * ROW_HEIGHT_IN_REM}rem`;
@@ -30,14 +24,12 @@
 </script>
 
 <div
-  style="height:{getHeight(start, end)};
-         top:{getTop(start)};
-         left:{getLeft(start)}"
+  style="top:{getTop(start)};
+         height:{getHeight(start, end)};"
 ></div>
 
 <style>
   div {
-    grid-column: 1/2;
     position: absolute;
     width: var(--col-width);
     border-radius: 5px;

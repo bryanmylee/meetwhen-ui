@@ -5,8 +5,8 @@
   import dayjs from 'dayjs';
 
   // Represents the actual start and end points of the user selection.
-  export let start;
-  export let end;
+  export let start = 0;
+  export let end = 0;
 
   const MS_PER_DAY = 86400000;
   const MS_PER_HOUR = 3600000;
@@ -14,7 +14,7 @@
   const COL_WIDTH_IN_REM = 6;
 
   // The tweened duration in one day.
-  const durationPerDayInMs = tweened(MS_PER_HOUR / 4, { // default to 15 minutes
+  const durationPerDayInMs = tweened(end - start, {
     duration: 300,
     easing: cubicOut,
   });
@@ -43,12 +43,6 @@
     return `${numHoursFromMidnight * ROW_HEIGHT_IN_REM}rem`;
   }
 
-  function getLeft(start) {
-    const millisecondsFromToday = start - dayjs().startOf('day');
-    const numDaysFromToday = Math.floor(millisecondsFromToday / MS_PER_DAY);
-    return `${numDaysFromToday * COL_WIDTH_IN_REM}rem`;
-  }
-
   function getHeight(durationInMs) {
     const durationInHours = durationInMs / MS_PER_HOUR;
     return `${durationInHours * ROW_HEIGHT_IN_REM}rem`;
@@ -56,16 +50,14 @@
 </script>
 
 {#each selectionByDay as selection}
-<div
-  style="height:{getHeight($durationPerDayInMs)};
-         top:{getTop(selection.start)};
-         left:{getLeft(selection.start)}"
-></div>
+  <div
+    style="top:{getTop(selection.start)};
+          height:{getHeight($durationPerDayInMs)};"
+  ></div>
 {/each}
 
 <style>
   div {
-    grid-column: 1/2;
     position: absolute;
     width: var(--col-width);
     border-radius: 5px;

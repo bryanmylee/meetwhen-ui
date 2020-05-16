@@ -1,26 +1,16 @@
 import { writable } from 'svelte/store';
 
 class History {
-  constructor() {
-    this.states = [];
-    this.currentIndex = -1;
-  }
-
-  init(state) {
-    if (this.currentIndex !== -1) {
-      throw new Error('History cannot be initialized more than once.');
-    }
-    this.currentIndex++;
-    this.states.push(state);
+  constructor(initialState) {
+    this.states = [ initialState ];
+    this.currentIndex = 0;
   }
 
   current() {
-    this.checkInit();
     return this.states[this.currentIndex];
   }
 
   push(state) {
-    this.checkInit();
     // Remove all redo states
     if (this.canRedo()) {
       this.states.splice(this.currentIndex + 1);
@@ -28,12 +18,6 @@ class History {
     // Add the new state
     this.currentIndex++;
     this.states.push(state);
-  }
-
-  checkInit() {
-    if (this.currentIndex === -1) {
-      throw new Error('History not yet initialised with a state.');
-    }
   }
 
   undo() {
@@ -59,15 +43,11 @@ class History {
 
 // Creates a new local history stack wherever called.
 // Useful for separating history stacks between pages.
-export function createHistory() {
-  const { subscribe, update } = writable(new History);
+export function createHistory(initialState) {
+  const { subscribe, update } = writable(new History(initialState));
 
   return {
     subscribe,
-    init: (initialState) => update((hist) => {
-      hist.init(initialState);
-      return hist;
-    }),
     push: (newState) => update((hist) => {
       hist.push({
         // Merge the previous state with any new pieces of state

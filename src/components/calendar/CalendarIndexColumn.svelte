@@ -1,11 +1,15 @@
 <script>
   import dayjs from 'dayjs';
 
+  export let startingDay = null;
   const hours = Array.from(Array(24).keys())
       .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 </script>
 
 <div id="index-col">
+  <div id="month-label">
+    {startingDay == null ? 'NIL' : startingDay.format('MMM')}
+  </div>
   {#each hours as hour}
     <div class="cell index-col__cell">
       {hour.add(1, 'hour').format('HH:mm')}
@@ -18,9 +22,21 @@
     position: -webkit-sticky; /* Safari */
     position: sticky;
     left: 0;
-    z-index: 90;
+    z-index: 100;
     min-width: var(--index-col-width);
-    max-width: var(--index-col-width);
+    background-color: white;
+  }
+
+  #month-label {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: var(--header-row-height);
+    box-sizing: border-box;
+    border-bottom: 1px var(--line-1) solid;
     background-color: white;
   }
 

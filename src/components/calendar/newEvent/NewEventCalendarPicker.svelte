@@ -3,17 +3,14 @@
   import dayjs from 'dayjs';
   import hotkeys from 'hotkeys-js';
 
-  import { createHistory } from '../../../utils/history.js';
-  const history = createHistory();
-  history.init({ selections: [] });
-  import CalendarDateHeader from '../CalendarDateHeader.svelte';
-  import CalendarTimeColumn from '../CalendarTimeColumn.svelte';
-  import CalendarGrid from '../CalendarGrid.svelte';
-  import NewEventCalendarSelectionLayer
-      from './NewEventCalendarSelectionLayer.svelte';
+  import CalendarIndexColumn from '../CalendarIndexColumn.svelte';
+  import CalendarDayColumn from '../CalendarDayColumn.svelte';
+  import NewEventCalendarDefinedSelection
+      from './NewEventCalendarDefinedSelection.svelte';
+  import NewEventCalendarNewSelection
+      from './NewEventCalendarNewSelection.svelte';
 
-  // Expose selections to parent component.
-  export let selections;
+  export let history;
   $: selections = $history.current().selections;
 
   const startDate = dayjs().startOf('day');
@@ -24,7 +21,7 @@
       .map((inc) => startDate.add(inc, 'hour'));
 
   // The new selection being made.
-  let newSelection;
+  let newSelection = null;
   function startSelection(e) {
     const { datetime } = e.detail;
     newSelection = ({
@@ -57,25 +54,31 @@
     newSelection = null;
   }
 
-  // Separate a multi-day selection into multiple single-day selections.
+  // Separate a multi-day new selection into multiple single-day selections.
   function splitMultiDaySelection(newSelection) {
+    if (newSelection == null || newSelection.start == null) return [];
     const { start, end } = newSelection;
     const endOnStartDay = end
         .date(start.date())
         .month(start.month())
         .year(start.year());
-    const selectionByDay = [];
+    const selections = [];
     // Determine how many days are included from start to end.
     const numDaysSpan = Math.floor((end - start) / 86400000) + 1;
     for (let i = 0; i < numDaysSpan; i++) {
-      selectionByDay.push({
+      selections.push({
         start: start.add(i, 'day'),
         end: endOnStartDay.add(i, 'day'),
       });
     }
-    return selectionByDay;
+    return selections;
   }
 
+  // The current selection split into different days.
+  let newSelections = [];
+  $: newSelections = splitMultiDaySelection(newSelection);
+
+  // Keyboard event listeners
   onMount(() => {
     hotkeys('ctrl+z, command+z', (e) => {
       e.preventDefault();
@@ -92,21 +95,26 @@
 <div id="picker" class="card">
   <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
   bug on Safari 13.1 -->
-  <div>
-    <CalendarDateHeader {days} />
-    <div id="body">
-      <CalendarTimeColumn />
-      <div id="select-area">
-        <CalendarGrid {days} {hours}
-          on:startSelection={startSelection}
-          on:gridDrag={gridDrag}
-          on:stopSelection={stopSelection}
-        />
-        <NewEventCalendarSelectionLayer
-          selections={$history.current().selections} {newSelection}
-        />
-      </div>
-    </div>
+  <div id="body">
+    <CalendarIndexColumn />
+    {#each days as day}
+      <CalendarDayColumn {day} {hours}
+        on:startSelection={startSelection}
+        on:gridDrag={gridDrag}
+        on:stopSelection={stopSelection}
+      >
+        <!-- Render selections -->
+        {#each selections.filter((selection) =>
+            selection.start.isSame(day, 'date')) as selection}
+          <NewEventCalendarDefinedSelection {...selection} />
+        {/each}
+        <!-- Render new selections -->
+        {#each newSelections.filter((selection) =>
+            selection.start.isSame(day, 'date')) as selection}
+          <NewEventCalendarNewSelection {...selection} />
+        {/each}
+      </CalendarDayColumn>
+    {/each}
   </div>
 </div>
 
@@ -130,10 +138,6 @@
     flex-direction: row;
     width: -moz-max-content;    /* Firefox */
     width: -webkit-max-content; /* Safari/Chrome */
-  }
-
-  #select-area {
-    position: relative;
   }
 
   :global(.cell) {

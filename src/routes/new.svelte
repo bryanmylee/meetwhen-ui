@@ -3,6 +3,8 @@
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
 
+  import { createHistory } from '../utils/history.js';
+  const history = createHistory({ selections: [] });
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
   import { createNewEvent } from '../api/event.js';
   import { NewEventCalendarPicker } from '../components/calendar';
@@ -12,13 +14,9 @@
   let description = '';
   let username = '';
   let password = '';
-  /*
-   * selections: {start: Dayjs, end: Dayjs}[]
-   */
-  let selections = [];
 
   function submit() {
-    const eventIntervals = selections.map((selection) => ({
+    const eventIntervals = $history.current().selections.map((selection) => ({
       start: selection.start.utc().toISOString(),
       end: selection.end.utc().toISOString(),
     }));
@@ -37,7 +35,7 @@
     <TextInput label="Password" isPassword bind:value={password} />
     <span class="footer">Account is unique to this event only</span>
   </div>
-  <NewEventCalendarPicker bind:selections={selections} />
+  <NewEventCalendarPicker {history} />
   <div class="button">
     <Button label="Create Event" on:click={submit} />
   </div>
