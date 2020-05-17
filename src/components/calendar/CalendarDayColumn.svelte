@@ -22,7 +22,7 @@
         />
       {/each}
       <!-- Slot for selections -->
-      <slot></slot>
+      <slot />
     </div>
   {/if}
 </div>

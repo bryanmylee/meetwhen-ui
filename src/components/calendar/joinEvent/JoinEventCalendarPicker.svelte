@@ -46,6 +46,8 @@
         <JoinEventCalendarUnavailableColumnOverlay
           eventIntervals={eventIntervalsByDay[day.startOf('day')]}
         />
+        <!-- Render other user selections -->
+        <!-- Render current user selections -->
       </CalendarDayColumn>
     {/each}
   </div>
