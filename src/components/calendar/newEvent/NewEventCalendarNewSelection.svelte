@@ -1,41 +1,13 @@
 <script>
-  import { tweened } from 'svelte/motion';
-  import { cubicOut } from 'svelte/easing';
-
   import dayjs from 'dayjs';
+
+  import { newSelectionDurationPerDayInMs } from '../../../stores.js';
 
   // Represents the actual start and end points of the user selection.
   export let start = 0;
-  export let end = 0;
 
-  const MS_PER_DAY = 86400000;
   const MS_PER_HOUR = 3600000;
   const ROW_HEIGHT_IN_REM = 3;
-
-  // The tweened duration in one day.
-  const durationPerDayInMs = tweened(end - start, {
-    duration: 300,
-    easing: cubicOut,
-  });
-  $: $durationPerDayInMs = end
-      .date(start.date())
-      .month(start.month())
-      .year(start.year()) - start;
-
-  // Split the selection across multiple days.
-  let selectionByDay = [];
-  $: {
-    const newSelectionByDay = [];
-    // Determine how many days are included from start to end.
-    const numDaysSpan = Math.floor((end - start) / MS_PER_DAY) + 1;
-    for (let i = 0; i < numDaysSpan; i++) {
-      newSelectionByDay.push({
-        start: start.add(i, 'day'),
-        end: start.add($durationPerDayInMs, 'ms'),
-      });
-    }
-    selectionByDay = newSelectionByDay;
-  }
 
   function getTop(start) {
     const numHoursFromMidnight = start.hour() + start.minute() / 60;
@@ -48,12 +20,10 @@
   }
 </script>
 
-{#each selectionByDay as selection}
-  <div
-    style="top:{getTop(selection.start)};
-          height:{getHeight($durationPerDayInMs)};"
-  ></div>
-{/each}
+<div
+  style="top:{getTop(start)};
+        height:{getHeight($newSelectionDurationPerDayInMs)};"
+></div>
 
 <style>
   div {

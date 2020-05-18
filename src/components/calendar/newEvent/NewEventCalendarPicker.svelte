@@ -3,8 +3,11 @@
   import dayjs from 'dayjs';
   import hotkeys from 'hotkeys-js';
 
+  import { newSelectionDurationPerDayInMs } from '../../../stores.js';
+  import { splitMultiDaySelection } from '../../../utils/selections.js';
   import CalendarIndexColumn from '../CalendarIndexColumn.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
+
   import NewEventCalendarDefinedSelection
       from './NewEventCalendarDefinedSelection.svelte';
   import NewEventCalendarNewSelection
@@ -20,8 +23,23 @@
   const hours = Array.from(Array(24).keys())
       .map((inc) => startDate.add(inc, 'hour'));
 
+  const MS_PER_MINUTE = 60000;
+
   // The new selection being made.
   let newSelection = null;
+  // The current selection split into different days.
+  let newSelections = [];
+  $: {
+    if (newSelection != null) {
+      newSelections = splitMultiDaySelection(newSelection);
+      $newSelectionDurationPerDayInMs
+          = newSelections[0].end - newSelections[0].start;
+    } else {
+      newSelections = [];
+      newSelectionDurationPerDayInMs.set(15 * MS_PER_MINUTE);
+    }
+  }
+
   function startSelection(e) {
     const { datetime } = e.detail;
     newSelection = ({
@@ -53,30 +71,6 @@
     });
     newSelection = null;
   }
-
-  // Separate a multi-day new selection into multiple single-day selections.
-  function splitMultiDaySelection(newSelection) {
-    if (newSelection == null || newSelection.start == null) return [];
-    const { start, end } = newSelection;
-    const endOnStartDay = end
-        .date(start.date())
-        .month(start.month())
-        .year(start.year());
-    const selections = [];
-    // Determine how many days are included from start to end.
-    const numDaysSpan = Math.floor((end - start) / 86400000) + 1;
-    for (let i = 0; i < numDaysSpan; i++) {
-      selections.push({
-        start: start.add(i, 'day'),
-        end: endOnStartDay.add(i, 'day'),
-      });
-    }
-    return selections;
-  }
-
-  // The current selection split into different days.
-  let newSelections = [];
-  $: newSelections = splitMultiDaySelection(newSelection);
 
   // Keyboard event listeners
   onMount(() => {
@@ -111,7 +105,7 @@
         <!-- Render new selections -->
         {#each newSelections.filter((selection) =>
             selection.start.isSame(day, 'date')) as selection}
-          <NewEventCalendarNewSelection {...selection} />
+          <NewEventCalendarNewSelection start={selection.start} />
         {/each}
       </CalendarDayColumn>
     {/each}
