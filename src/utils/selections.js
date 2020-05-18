@@ -1,11 +1,24 @@
-// Separate a multi-day new selection into multiple single-day selections.
-export function splitMultiDaySelection(newSelection) {
+import dayjs from 'dayjs';
+
+/**
+ * @typedef {{start: dayjs.Dayjs, end: dayjs.Dayjs}} interval
+ */
+
+/**
+ * Given a selection that spans multiple days, create an array of selections
+ * with the same start and end times, but with incrementing dates.
+ * @param {interval} newSelection The new selection made by
+ * the user.
+ * @returns {interval[]} The new selections across different days.
+ */
+export function getMultiDaySelection(newSelection) {
   if (newSelection == null || newSelection.start == null) return [];
   const { start, end } = newSelection;
   const endOnStartDay = end
       .date(start.date())
       .month(start.month())
       .year(start.year());
+
   const selections = [];
   // Determine how many days are included from start to end.
   const numDaysSpan = Math.floor((end - start) / 86400000) + 1;
@@ -29,22 +42,4 @@ export function getTop(start) {
 export function getHeight(durationInMs) {
   const durationInHours = durationInMs / MS_PER_HOUR;
   return `${durationInHours * ROW_HEIGHT_IN_REM}rem`;
-}
-
-export function getNonSelections(selections) {
-  let previousEnd = selections[0].start.startOf('day');
-  const end = previousEnd.add(1, 'day');
-  let result = [];
-  for (const selection of selections) {
-    result.push({
-      start: previousEnd,
-      end: selection.start,
-    });
-    previousEnd = selection.end;
-  }
-  result.push({
-    start: previousEnd,
-    end,
-  });
-  return result;
 }

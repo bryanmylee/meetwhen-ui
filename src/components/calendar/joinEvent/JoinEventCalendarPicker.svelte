@@ -1,45 +1,49 @@
 <script>
   import dayjs from 'dayjs';
 
-  import { getMergedIntervals } from '../../../utils/intervals.js';
+  import {
+    getMergedIntervals,
+    splitIntervalsOnMidnight,
+  } from '../../../utils/intervals.js';
 
   import CalendarIndexColumn from '../CalendarIndexColumn.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
   import JoinEventCalendarUnavailableColumnOverlay
       from './JoinEventCalendarUnavailableColumnOverlay.svelte';
+  import JoinEventCalendarOtherUsersColumnOverlay
+      from './JoinEventCalendarOtherUsersColumnOverlay.svelte';
 
   // Event details.
   export let eventIntervals = [];
-  let eventIntervalsByDay = {};
-  $: {
-    eventIntervalsByDay = {};
-    for (const eventInterval of eventIntervals) {
-      const { start } = eventInterval;
-      // Converted to a string
-      const key = start.startOf('day');
-      if (eventIntervalsByDay.hasOwnProperty(key)) {
-        eventIntervalsByDay[key].push(eventInterval);
-      } else {
-        eventIntervalsByDay[key] = [eventInterval];
-      }
-    }
-  }
+  let eventIntervalsSplitOnMidnight = [];
+  $: eventIntervalsSplitOnMidnight = splitIntervalsOnMidnight(eventIntervals);
+
   export let userIntervalsByUsername = {};
   let mergedIntervals = [];
-  $: {
-    console.log(userIntervalsByUsername);
-    mergedIntervals = getMergedIntervals(userIntervalsByUsername);
-    console.log(mergedIntervals);
-  }
+  $: mergedIntervals
+      = splitIntervalsOnMidnight(getMergedIntervals(userIntervalsByUsername));
+  // The maximum number of usernames in all intervals.
+  let maxUsernames = 0;
+  $: maxUsernames = mergedIntervals.reduce((max, interval) => {
+    const currCount = interval.usernames.length;
+    return max >= currCount ? max : currCount;
+  }, 0);
 
   // User selections.
   export let history;
+  let selections = [];
   $: selections = $history.current().selections;
 
-
   let daysToShow = [];
-  $: daysToShow = Object.values(eventIntervalsByDay)
-      .map(([firstIntervalOfDay]) => firstIntervalOfDay.start.startOf('day'));
+  $: {
+    daysToShow = [eventIntervalsSplitOnMidnight[0].start.startOf('day')];
+    for (const interval of eventIntervalsSplitOnMidnight.slice(1)) {
+      const { length } = daysToShow;
+      if (!daysToShow[length - 1].isSame(interval.start, 'day')) {
+        daysToShow.push(interval.start.startOf('day'));
+      }
+    }
+  }
   const hours = Array.from(Array(24).keys())
       .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 </script>
@@ -53,9 +57,17 @@
       <CalendarDayColumn {day} {hours}>
         <!-- Render unavailable intervals -->
         <JoinEventCalendarUnavailableColumnOverlay
-          eventIntervals={eventIntervalsByDay[day.startOf('day')]}
+          eventIntervals={eventIntervalsSplitOnMidnight.filter((interval) =>
+              interval.start.isSame(day, 'day')
+          )}
         />
         <!-- Render other user selections -->
+        <JoinEventCalendarOtherUsersColumnOverlay
+          mergedIntervals={mergedIntervals.filter((interval) =>
+              interval.start.isSame(day, 'day')
+          )}
+          {maxUsernames}
+        />
         <!-- Render current user selections -->
       </CalendarDayColumn>
     {/each}

@@ -13,31 +13,18 @@
   import { createHistory } from '../utils/history.js';
   const history = createHistory({ selections: [] });
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
+
   import { JoinEventCalendarPicker } from '../components/calendar';
 
   export let event;
 
-  /*
-   * It is possible that the event intervals span multiple days due to different
-   * timezones. Split those intervals across the midnight boundary.
-   */
-  const splitIntervals = event.eventIntervals.flatMap((interval, index) => {
-    const { start, end } = interval;
-    if (start.date() !== end.date()) {
-      return [
-        { start, end: end.startOf('day') },
-        { start: end.startOf('day'), end },
-      ];
-    }
-    return [ interval ];
-  });
 </script>
 
 <div class="page">
   <h1>{event.title}</h1>
   <p>{event.description}</p>
   <JoinEventCalendarPicker {history}
-    eventIntervals={splitIntervals} 
+    eventIntervals={event.eventIntervals} 
     userIntervalsByUsername={event.userIntervalsByUsername}
   />
 </div>

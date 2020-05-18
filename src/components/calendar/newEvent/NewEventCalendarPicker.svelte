@@ -4,7 +4,7 @@
   import hotkeys from 'hotkeys-js';
 
   import { newSelectionDurationPerDayInMs } from '../../../stores.js';
-  import { splitMultiDaySelection } from '../../../utils/selections.js';
+  import { getMultiDaySelection } from '../../../utils/selections.js';
 
   import CalendarIndexColumn from '../CalendarIndexColumn.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
@@ -31,7 +31,7 @@
   let newSelections = [];
   $: {
     if (newSelection != null) {
-      newSelections = splitMultiDaySelection(newSelection);
+      newSelections = getMultiDaySelection(newSelection);
       $newSelectionDurationPerDayInMs
           = newSelections[0].end - newSelections[0].start;
     } else {
