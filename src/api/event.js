@@ -20,21 +20,26 @@ export async function createNewEvent(
   console.log(response);
 }
 
+/**
+ * @typedef {{start: dayjs.Dayjs, end: dayjs.Dayjs}} interval
+ */
+
+/**
+ * Get the details of an event.
+ * @param {*} context The `this` context of `@sapper.preload`.
+ * @param {string} eventUrl The url identifier of the event.
+ * @returns {{
+ *   id: number,
+ *   eventUrl: string,
+ *   title: string,
+ *   description: string,
+ *   dateCreated: dayjs.Dayjs,
+ *   eventIntervals: interval[],
+ *   userIntervalsByUsername: Object.<string, interval[]>,
+ * }} The event details.
+ */
 export async function getEvent(context, eventUrl) {
   try {
-    /*
-     * event: {
-     *   id: number,
-     *   eventUrl: string,
-     *   title: string,
-     *   description: string,
-     *   dateCreated: string,
-     *   eventIntervals: {start: string, end: string}[],
-     *   userIntervalsByUsername: {
-     *     [username: string]: {start: string, end: string}[],
-     *   },
-     * }
-     */
     const event = await (await context
         .fetch(`http://localhost:5000/${eventUrl}`, {
       credentials: 'include',
