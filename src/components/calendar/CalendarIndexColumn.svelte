@@ -2,6 +2,7 @@
   import dayjs from 'dayjs';
 
   export let startingDay = null;
+
   const hours = Array.from(Array(24).keys())
       .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 </script>

@@ -1,30 +1,17 @@
 <script>
   import { tweened } from 'svelte/motion';
   import { cubicOut } from 'svelte/easing';
-
   import dayjs from 'dayjs';
+
+  import { getTop, getHeight } from '../../../utils/selections.js';
 
   export let start;
   export let end;
-
-  const MS_PER_DAY = 86400000;
-  const MS_PER_HOUR = 3600000;
-  const ROW_HEIGHT_IN_REM = 3;
-
-  function getTop(start) {
-    const numHoursFromMidnight = start.hour() + start.minute() / 60;
-    return `${numHoursFromMidnight * ROW_HEIGHT_IN_REM}rem`;
-  }
-
-  function getHeight(start, end) {
-    const durationInHours = (end - start) / MS_PER_HOUR;
-    return `${durationInHours * ROW_HEIGHT_IN_REM}rem`;
-  }
 </script>
 
 <div
   style="top:{getTop(start)};
-         height:{getHeight(start, end)};"
+         height:{getHeight(end - start)};"
 ></div>
 
 <style>

@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
  * @returns {{start: dayjs.Dayjs, end: dayjs.Dayjs, usernames: string[]}[]} An
  * array of intervals with the usernames in that interval attached.
  */
-export default function getMergedIntervals(intervalsByUsername) {
+export function getMergedIntervals(intervalsByUsername) {
   const actions = getActions(intervalsByUsername);
   // Array of { addAction, removeAction }.
   const combinedActions = getCombinedActions(actions);

@@ -1,5 +1,6 @@
 <script context="module">
   import { getEvent } from '../api/event.js';
+
   export async function preload(page, session) {
     const { eventUrl } = page.params;
     return getEvent(this, eventUrl);
@@ -15,6 +16,7 @@
   import { JoinEventCalendarPicker } from '../components/calendar';
 
   export let event;
+
   /*
    * It is possible that the event intervals span multiple days due to different
    * timezones. Split those intervals across the midnight boundary.
@@ -34,7 +36,10 @@
 <div class="page">
   <h1>{event.title}</h1>
   <p>{event.description}</p>
-  <JoinEventCalendarPicker eventIntervals={splitIntervals} {history} />
+  <JoinEventCalendarPicker {history}
+    eventIntervals={splitIntervals} 
+    userIntervalsByUsername={event.userIntervalsByUsername}
+  />
 </div>
 
 <style>

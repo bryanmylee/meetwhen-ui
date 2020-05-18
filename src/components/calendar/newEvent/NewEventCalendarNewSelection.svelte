@@ -2,22 +2,10 @@
   import dayjs from 'dayjs';
 
   import { newSelectionDurationPerDayInMs } from '../../../stores.js';
+  import { getTop, getHeight } from '../../../utils/selections.js';
 
-  // Represents the actual start and end points of the user selection.
+  // Represents the start points of the user selection in this day.
   export let start = 0;
-
-  const MS_PER_HOUR = 3600000;
-  const ROW_HEIGHT_IN_REM = 3;
-
-  function getTop(start) {
-    const numHoursFromMidnight = start.hour() + start.minute() / 60;
-    return `${numHoursFromMidnight * ROW_HEIGHT_IN_REM}rem`;
-  }
-
-  function getHeight(durationInMs) {
-    const durationInHours = durationInMs / MS_PER_HOUR;
-    return `${durationInHours * ROW_HEIGHT_IN_REM}rem`;
-  }
 </script>
 
 <div

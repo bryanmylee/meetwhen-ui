@@ -1,6 +1,8 @@
 <script>
   import dayjs from 'dayjs';
 
+  import { getMergedIntervals } from '../../../utils/intervals.js';
+
   import CalendarIndexColumn from '../CalendarIndexColumn.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
   import JoinEventCalendarUnavailableColumnOverlay
@@ -21,6 +23,13 @@
         eventIntervalsByDay[key] = [eventInterval];
       }
     }
+  }
+  export let userIntervalsByUsername = {};
+  let mergedIntervals = [];
+  $: {
+    console.log(userIntervalsByUsername);
+    mergedIntervals = getMergedIntervals(userIntervalsByUsername);
+    console.log(mergedIntervals);
   }
 
   // User selections.

@@ -5,9 +5,9 @@
 
   import { newSelectionDurationPerDayInMs } from '../../../stores.js';
   import { splitMultiDaySelection } from '../../../utils/selections.js';
+
   import CalendarIndexColumn from '../CalendarIndexColumn.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
-
   import NewEventCalendarDefinedSelection
       from './NewEventCalendarDefinedSelection.svelte';
   import NewEventCalendarNewSelection

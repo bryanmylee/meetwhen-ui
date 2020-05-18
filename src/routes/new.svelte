@@ -7,6 +7,7 @@
   const history = createHistory({ selections: [] });
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
   import { createNewEvent } from '../api/event.js';
+
   import { NewEventCalendarPicker } from '../components/calendar';
   import { Button, TextInput } from '../components/form';
 
