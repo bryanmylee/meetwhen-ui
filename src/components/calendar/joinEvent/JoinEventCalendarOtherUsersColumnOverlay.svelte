@@ -6,6 +6,8 @@
   export let mergedIntervals = [];
   export let maxUsernames = 0;
 
+  let isCollapsed = false;
+
   function getOpacity(usernames) {
     return usernames.length / maxUsernames;
   }
@@ -13,6 +15,7 @@
 
 {#each mergedIntervals as interval}
   <div
+    class={isCollapsed ? "collapsed" : ""}
     style="top:{getTop(interval.start)};
            height:{getHeight(interval.end - interval.start)};
            opacity:{getOpacity(interval.usernames)}"
@@ -25,8 +28,11 @@
     width: var(--col-width);
     border-radius: 5px;
     background-color: var(--primary-0);
-    opacity: 0.5;
-    transition: 0.2s ease opacity, 0.2s ease background-color;
+    transition: 1s cubic-bezier(0.3, 0.03, 0.1, 0.97) width;
     pointer-events: all;
+  }
+
+  .collapsed {
+    width: calc(var(--col-width) / 10);
   }
 </style>
