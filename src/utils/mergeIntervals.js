@@ -13,11 +13,14 @@ import dayjs from 'dayjs';
  * @returns {{start: dayjs.Dayjs, end: dayjs.Dayjs, usernames: string[]}[]} An
  * array of intervals with the usernames in that interval attached.
  */
-export function getMerged(intervalsByUsername) {
+export default function getMergedIntervals(intervalsByUsername) {
   const actions = getActions(intervalsByUsername);
   // Array of { addAction, removeAction }.
   const combinedActions = getCombinedActions(actions);
-  console.log(getIntervalsFromCombinedActions(combinedActions));
+  // Only return intervals which are not empty and do not start and end on the
+  // same time.
+  return getIntervalsFromCombinedActions(combinedActions).filter((interval) =>
+      interval.usernames.length !== 0 && !interval.start.isSame(interval.end));
 }
 
 /**
@@ -61,7 +64,7 @@ function getCombinedActions(actions) {
   const combinedActions = [];
   let actionBuffer = [];
   for (const action of actions) {
-    if (actionBuffer.length === 0 || actionBuffer[0].time === action.time) {
+    if (actionBuffer.length === 0 || actionBuffer[0].time.isSame(action.time)) {
       actionBuffer.push(action);
     } else {
       combinedActions.push(getCombinedActionOfTime(actionBuffer));
@@ -81,14 +84,13 @@ function getCombinedActions(actions) {
  * at a specific time.
  */
 function getCombinedActionOfTime(actionsWithSameTime) {
-  deltabyUsername = {};
+  const deltabyUsername = {};
   for (const action of actionsWithSameTime) {
-    for (const username of action.username) {
-      if (deltabyUsername.hasOwnProperty(username)) {
-        deltabyUsername[username] += action.isAdd ? 1 : -1;
-      } else {
-        deltabyUsername[username] = action.isAdd ? 1 : -1;
-      }
+    const { username } = action;
+    if (deltabyUsername.hasOwnProperty(username)) {
+      deltabyUsername[username] += action.isAdd ? 1 : -1;
+    } else {
+      deltabyUsername[username] = action.isAdd ? 1 : -1;
     }
   }
   const addAction = ({
@@ -108,6 +110,7 @@ function getCombinedActionOfTime(actionsWithSameTime) {
       removeAction.usernames.push(username);
     }
   }
+  if (addAction.usernames)
   return { addAction, removeAction };
 }
 
@@ -127,7 +130,7 @@ function getIntervalsFromCombinedActions(combinedActions) {
     usernames: [],
   });
   const result = [];
-  for ({ addAction, removeAction } of combinedActions) {
+  for (const { addAction, removeAction } of combinedActions) {
     currentInterval.end = addAction.time;
     result.push({ ...currentInterval });
     // Add and remove members from current members.
@@ -139,21 +142,4 @@ function getIntervalsFromCombinedActions(combinedActions) {
     currentInterval.usernames = [ ...currentUsernames ];
   }
   return result.slice(1);
-}
-
-const intervalsByUsername = {
-  'A': [
-    { start: 0, end: 6 },
-    { start: 8, end: 10 },
-  ],
-  'B': [
-    { start: 0, end: 1, members: ['B'] },
-    { start: 2, end: 4, members: ['B'] },
-    { start: 5, end: 8, members: ['B'] },
-    { start: 9, end: 12, members: ['B'] },
-  ],
-  'C': [
-    { start: 0, end: 1, members: ['C'] },
-    { start: 5, end: 9, members: ['C'] },
-  ],
 }
