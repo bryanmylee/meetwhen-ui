@@ -7,6 +7,7 @@
   export let maxUsernames = 0;
 
   let isCollapsed = false;
+  setInterval(() => isCollapsed = true, 4000);
 
   function getOpacity(usernames) {
     return usernames.length / maxUsernames;

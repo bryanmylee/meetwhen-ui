@@ -10,8 +10,8 @@
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
   import JoinEventCalendarUnavailableColumnOverlay
       from './JoinEventCalendarUnavailableColumnOverlay.svelte';
-  import JoinEventCalendarOtherUsersColumnOverlay
-      from './JoinEventCalendarOtherUsersColumnOverlay.svelte';
+  import JoinEventCalendarOtherUserColumnOverlay
+      from './JoinEventCalendarOtherUserColumnOverlay.svelte';
 
   // Event details.
   export let eventIntervals = [];
@@ -62,7 +62,7 @@
           )}
         />
         <!-- Render other user selections -->
-        <JoinEventCalendarOtherUsersColumnOverlay
+        <JoinEventCalendarOtherUserColumnOverlay
           mergedIntervals={mergedIntervals.filter((interval) =>
               interval.start.isSame(day, 'day')
           )}
