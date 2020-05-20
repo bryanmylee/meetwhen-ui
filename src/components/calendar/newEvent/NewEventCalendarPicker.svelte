@@ -66,7 +66,7 @@
       // New state of selections includes selections from the current state.
       selections: [
         ...$history.current().selections,
-        ...splitMultiDaySelection(newSelection),
+        ...getMultiDaySelection(newSelection),
       ],
     });
     newSelection = null;
