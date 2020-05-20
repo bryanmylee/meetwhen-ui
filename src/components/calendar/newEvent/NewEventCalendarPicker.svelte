@@ -36,7 +36,7 @@
           = newSelections[0].end - newSelections[0].start;
     } else {
       newSelections = [];
-      newSelectionDurationPerDayInMs.set(15 * MS_PER_MINUTE);
+      $newSelectionDurationPerDayInMs = 15 * MS_PER_MINUTE;
     }
   }
 
@@ -89,7 +89,7 @@
 <div id="picker" class="card">
   <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
   bug on Safari 13.1 -->
-  <div id="body">
+  <div id="body" on:mouseleave={stopSelection}>
     <CalendarIndexColumn />
     {#each days as day}
       <CalendarDayColumn {day} {hours}
