@@ -27,7 +27,7 @@
     width: var(--col-width);
     border-radius: 5px;
     background-color: var(--primary-0);
-    transition: 1s cubic-bezier(0.3, 0.03, 0.1, 0.97) width;
+    transition: var(--ease) width;
     pointer-events: all;
   }
 
