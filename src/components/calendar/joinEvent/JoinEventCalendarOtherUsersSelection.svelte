@@ -1,13 +1,18 @@
 <script>
   import { getTop, getHeight } from '../../../utils/selections.js';
+
+  import JoinEventCalendarOtherUsersPopover
+      from './JoinEventCalendarOtherUsersPopover.svelte';
   /*
-   * { start: Dayjs, end: Dayjs, usernames: string[] }[]
+   * { start: Dayjs, end: Dayjs, usernames: string[] }
    */
-  export let interval = null;
+  export let interval;
   export let maxUsernames = 0;
 
   let isCollapsed = false;
   setInterval(() => isCollapsed = true, 1000);
+
+  let isHovered = false;
 
   function getOpacity(usernames) {
     return usernames.length / maxUsernames;
@@ -15,15 +20,32 @@
 </script>
 
 <div
-  class={isCollapsed ? "collapsed" : ""}
-  style="top:{getTop(interval.start)};
-          height:{getHeight(interval.end - interval.start)};
-          opacity:{getOpacity(interval.usernames)}"
-></div>
+  id="other-user-selection-container"
+  style="top:{getTop(interval.start)};"
+>
+  <div
+    id="selection"
+    class={isCollapsed ? "collapsed" : ""}
+    style="height:{getHeight(interval.end - interval.start)};
+           opacity:{getOpacity(interval.usernames)};"
+    on:mouseleave={() => {isHovered = false}}
+    on:mouseover={() => {isHovered = true}}
+  ></div>
+  {#if isHovered}
+    <JoinEventCalendarOtherUsersPopover {interval} />
+  {/if}
+</div>
 
 <style>
-  div {
+  #other-user-selection-container {
+    display: flex;
+    flex-direction: row;
+    width: -moz-max-content;    /* Firefox */
+    width: -webkit-max-content; /* Safari/Chrome */
     position: absolute;
+  }
+
+  #selection {
     width: var(--col-width);
     border-radius: 5px;
     background-color: var(--primary-0);
@@ -31,7 +53,7 @@
     pointer-events: all;
   }
 
-  .collapsed {
-    width: calc(var(--col-width) / 10);
+  #selection.collapsed {
+    width: calc(var(--col-width) / 6);
   }
 </style>
