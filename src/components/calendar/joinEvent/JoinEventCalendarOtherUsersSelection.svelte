@@ -22,13 +22,13 @@
 <div
   id="other-user-selection-container"
   style="top:{getTop(interval.start)};"
+  on:mouseleave={() => {isHovered = false}}
 >
   <div
     id="selection"
     class={isCollapsed ? "collapsed" : ""}
     style="height:{getHeight(interval.end - interval.start)};
            opacity:{getOpacity(interval.usernames)};"
-    on:mouseleave={() => {isHovered = false}}
     on:mouseover={() => {isHovered = true}}
   ></div>
   {#if isHovered}
