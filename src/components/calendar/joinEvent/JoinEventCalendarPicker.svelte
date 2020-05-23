@@ -5,6 +5,8 @@
     getMergedIntervals,
     splitIntervalsOnMidnight,
   } from '../../../utils/intervals.js';
+  import { newSelectionDurationPerDayInMs } from '../../../stores.js';
+  import { getMultiDaySelection } from '../../../utils/selections.js';
 
   import CalendarIndexColumn from '../CalendarIndexColumn.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
@@ -12,6 +14,10 @@
       from './JoinEventCalendarUnavailableColumnOverlay.svelte';
   import JoinEventCalendarOtherUsersColumnOverlay
       from './JoinEventCalendarOtherUsersColumnOverlay.svelte';
+  import JoinEventCalendarDefinedSelection
+      from './JoinEventCalendarDefinedSelection.svelte';
+  import JoinEventCalendarNewSelection
+      from './JoinEventCalendarNewSelection.svelte';
 
   // Event details.
   export let eventIntervals = [];
@@ -46,15 +52,69 @@
   }
   const hours = Array.from(Array(24).keys())
       .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
+    
+  const MS_PER_MINUTE = 60000;
+
+  // The new selection being made.
+  let newSelection = null;
+  // The current selection split into different days.
+  let newSelections = [];
+  $: {
+    if (newSelection != null) {
+      newSelections = getMultiDaySelection(newSelection);
+      $newSelectionDurationPerDayInMs
+          = newSelections[0].end - newSelections[0].start;
+    } else {
+      newSelections = [];
+      $newSelectionDurationPerDayInMs = 15 * MS_PER_MINUTE;
+    }
+  }
+
+  function startSelection(e) {
+    const { datetime } = e.detail;
+    newSelection = ({
+      start: datetime,
+      // datetime represents the start of the cell.
+      // Add 15 minutes to account for the time in the last cell.
+      end: datetime.add(15, 'minute'),
+    });
+  }
+
+  function gridDrag(e) {
+    const { datetime } = e.detail;
+    // datetime represents the start of the cell.
+    // Add 15 minutes to account for the time in the last cell.
+    newSelection = ({ ...newSelection,
+      end: datetime.add(15, 'minute'),
+    });
+  }
+
+  function stopSelection() {
+    if (!newSelection || !newSelection.start || !newSelection.end) return;
+    // Update history
+    history.push({
+      // New state of selections includes selections from the current state.
+      selections: [
+        ...$history.current().selections,
+        ...getMultiDaySelection(newSelection),
+      ],
+    });
+    newSelection = null;
+  }
+
 </script>
 
 <div id="picker" class="card">
   <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
   bug on Safari 13.1 -->
-  <div id="body">
+  <div id="body" on:mouseleave={stopSelection}>
     <CalendarIndexColumn />
     {#each daysToShow as day}
-      <CalendarDayColumn {day} {hours}>
+      <CalendarDayColumn {day} {hours}
+        on:startSelection={startSelection}
+        on:gridDrag={gridDrag}
+        on:stopSelection={stopSelection}
+      >
         <!-- Render unavailable intervals -->
         <JoinEventCalendarUnavailableColumnOverlay
           eventIntervals={eventIntervalsSplitOnMidnight.filter((interval) =>
@@ -69,6 +129,15 @@
           {maxUsernames}
         />
         <!-- Render current user selections -->
+        {#each selections.filter((selection) =>
+            selection.start.isSame(day, 'date')) as selection}
+          <JoinEventCalendarDefinedSelection {...selection} />
+        {/each}
+        <!-- Render current user new selections -->
+        {#each newSelections.filter((selection) =>
+            selection.start.isSame(day, 'date')) as selection}
+          <JoinEventCalendarNewSelection start={selection.start} />
+        {/each}
       </CalendarDayColumn>
     {/each}
   </div>
