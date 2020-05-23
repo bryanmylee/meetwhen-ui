@@ -36,7 +36,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: var(--header-row-height);
+    /* min-height: var(--header-row-height); */
+    padding: 0.5rem;
     box-sizing: border-box;
     border-bottom: 1px var(--line-1) solid;
     background-color: white;
