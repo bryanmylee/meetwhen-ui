@@ -4,6 +4,7 @@
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
+  import hotkeys from 'hotkeys-js';
 
   import undoable from '../utils/undoable.js';
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
@@ -17,6 +18,10 @@
   let username = '';
   let password = '';
   const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
+
+  const startDate = dayjs().startOf('day');
+  const daysToShow = Array.from(Array(10).keys())
+      .map((inc) => startDate.add(inc, 'day'));
 
   function submit() {
     const eventIntervals = $selections.map((selection) => ({
@@ -51,7 +56,7 @@
     <TextInput label="Password" isPassword bind:value={password} />
     <span class="footer">Account is unique to this event only</span>
   </div>
-  <NewEventCalendarPicker bind:selections={$selections} />
+  <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
   <div class="button">
     <Button label="Create Event" on:click={submit} />
   </div>

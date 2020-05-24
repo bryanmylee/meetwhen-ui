@@ -1,7 +1,6 @@
 <svelte:options immutable={true}/>
 <script>
   import dayjs from 'dayjs';
-  import hotkeys from 'hotkeys-js';
 
   import { newSelectionDurationPerDayInMs } from '../../../stores.js';
   import { getMultiDaySelection } from '../../../utils/selections.js';
@@ -13,14 +12,11 @@
   import NewEventCalendarNewSelection
       from './NewEventCalendarNewSelection.svelte';
 
-  export let numDaysToShow = 21;
+  export let daysToShow = [];
   export let selections = [];
 
-  const startDate = dayjs().startOf('day');
-  const days = Array.from(Array(numDaysToShow).keys())
-      .map((inc) => startDate.add(inc, 'day'));
   const hours = Array.from(Array(24).keys())
-      .map((inc) => startDate.add(inc, 'hour'));
+      .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 
   // The new selection being made.
   let newSelection = null;
@@ -73,7 +69,7 @@
   bug on Safari 13.1 -->
   <div id="body" on:mouseleave={stopSelection}>
     <CalendarIndexColumn />
-    {#each days as day}
+    {#each daysToShow as day}
       <CalendarDayColumn {day} {hours}
         on:startSelection={startSelection}
         on:gridDrag={gridDrag}
