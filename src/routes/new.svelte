@@ -1,10 +1,12 @@
+<svelte:options immutable={true}/>
 <script>
+  import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
 
-  import { createHistory } from '../utils/history.js';
-  const history = createHistory({ selections: [] });
+  import undoable from '../utils/undoable.js';
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
   import { createNewEvent } from '../api/event.js';
 
@@ -15,14 +17,30 @@
   let description = '';
   let username = '';
   let password = '';
+  const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
 
   function submit() {
-    const eventIntervals = $history.current().selections.map((selection) => ({
+    const eventIntervals = $selections.map((selection) => ({
       start: selection.start.utc().toISOString(),
       end: selection.end.utc().toISOString(),
     }));
     createNewEvent(title, description, username, password, eventIntervals);
   }
+
+  // Keyboard event listeners
+  onMount(() => {
+    hotkeys('ctrl+z, command+z', (event) => {
+      event.preventDefault();
+      console.log('a');
+      undo();
+    });
+
+    hotkeys('shift+ctrl+z, shift+command+z', (event) => {
+      event.preventDefault();
+      console.log('b');
+      redo();
+    });
+  })
 </script>
 
 <div class="page" in:fadeIn out:fadeOut>
@@ -36,7 +54,7 @@
     <TextInput label="Password" isPassword bind:value={password} />
     <span class="footer">Account is unique to this event only</span>
   </div>
-  <NewEventCalendarPicker {history} />
+  <NewEventCalendarPicker bind:selections={$selections} />
   <div class="button">
     <Button label="Create Event" on:click={submit} />
   </div>

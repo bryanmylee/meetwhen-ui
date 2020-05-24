@@ -1,4 +1,3 @@
-<svelte:options immutable={true}/>
 <script>
   import dayjs from 'dayjs';
   import hotkeys from 'hotkeys-js';
@@ -8,26 +7,23 @@
 
   import CalendarIndexColumn from '../CalendarIndexColumn.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
-  import NewEventCalendarDefinedSelection
-      from './NewEventCalendarDefinedSelection.svelte';
-  import NewEventCalendarNewSelection
-      from './NewEventCalendarNewSelection.svelte';
 
-  export let numDaysToShow = 21;
-  export let selections = [];
+  export let history;
+  $: selections = $history.current().selections;
 
   const startDate = dayjs().startOf('day');
+  const numDaysToShow = 21;
   const days = Array.from(Array(numDaysToShow).keys())
       .map((inc) => startDate.add(inc, 'day'));
   const hours = Array.from(Array(24).keys())
       .map((inc) => startDate.add(inc, 'hour'));
 
+  const MS_PER_MINUTE = 60000;
+
   // The new selection being made.
   let newSelection = null;
   // The current selection split into different days.
   let newSelections = [];
-
-  const MS_PER_MINUTE = 60000;
   $: {
     if (newSelection != null) {
       newSelections = getMultiDaySelection(newSelection);
@@ -60,10 +56,14 @@
 
   function stopSelection() {
     if (!newSelection || !newSelection.start || !newSelection.end) return;
-    selections = [
-      ...selections,
-      ...newSelections,
-    ];
+    // Update history
+    history.push({
+      // New state of selections includes selections from the current state.
+      selections: [
+        ...$history.current().selections,
+        ...getMultiDaySelection(newSelection),
+      ],
+    });
     newSelection = null;
   }
 </script>
@@ -87,9 +87,7 @@
         <!-- Render new selections -->
         {#each newSelections.filter((selection) =>
             selection.start.isSame(day, 'date')) as selection}
-          <NewEventCalendarNewSelection
-            start={selection.start}
-            duration={$newSelectionDurationPerDayInMs} />
+          <NewEventCalendarNewSelection start={selection.start} />
         {/each}
       </CalendarDayColumn>
     {/each}

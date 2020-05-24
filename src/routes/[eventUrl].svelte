@@ -10,8 +10,6 @@
 <script>
   import dayjs from 'dayjs';
 
-  import { createHistory } from '../utils/history.js';
-  const history = createHistory({ selections: [] });
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
 
   import { JoinEventCalendarPicker } from '../components/calendar';
