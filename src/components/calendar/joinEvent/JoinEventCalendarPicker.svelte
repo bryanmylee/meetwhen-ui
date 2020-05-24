@@ -7,7 +7,7 @@
   import CalendarPickerBase from '../CalendarPickerBase.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
   import JoinEventUnavailableColumnOverlay from './JoinEventUnavailableColumnOverlay.svelte';
-  import JoinEventOtherUsersColumnOverlay from './JoinEventOtherUsersColumnOverlay.svelte';
+  import JoinEventOtherUsersSelection from './JoinEventOtherUsersSelection.svelte';
   import JoinEventDefinedSelection from './JoinEventDefinedSelection.svelte';
   import JoinEventNewSelection from './JoinEventNewSelection.svelte';
 
@@ -69,12 +69,10 @@
         )}
       />
       <!-- Render other user selections -->
-      <JoinEventOtherUsersColumnOverlay
-        mergedIntervals={mergedIntervals.filter((interval) =>
-            interval.start.isSame(day, 'day')
-        )}
-        {maxUsernames}
-      />
+      {#each mergedIntervals.filter((interval) =>
+          interval.start.isSame(day, 'date')) as interval}
+        <JoinEventOtherUsersSelection {interval} {maxUsernames} />
+      {/each}
       <!-- Render current user selections -->
       {#each selections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
