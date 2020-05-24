@@ -8,7 +8,7 @@
   import { newSelectionDurationPerDayInMs } from '../../../stores.js';
   import { getMultiDaySelection } from '../../../utils/selections.js';
 
-  import CalendarIndexColumn from '../CalendarIndexColumn.svelte';
+  import CalendarBase from '../CalendarBase.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
   import JoinEventCalendarUnavailableColumnOverlay
       from './JoinEventCalendarUnavailableColumnOverlay.svelte';
@@ -97,71 +97,36 @@
   }
 </script>
 
-<div id="picker" class="card">
-  <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
-  bug on Safari 13.1 -->
-  <div id="body" on:mouseleave={stopSelection}>
-    <CalendarIndexColumn />
-    {#each daysToShow as day}
-      <CalendarDayColumn {day} {hours}
-        on:startSelection={startSelection}
-        on:gridDrag={gridDrag}
-        on:stopSelection={stopSelection}
-      >
-        <!-- Render unavailable intervals -->
-        <JoinEventCalendarUnavailableColumnOverlay
-          eventIntervals={eventIntervalsSplitOnMidnight.filter((interval) =>
-              interval.start.isSame(day, 'day')
-          )}
-        />
-        <!-- Render other user selections -->
-        <JoinEventCalendarOtherUsersColumnOverlay
-          mergedIntervals={mergedIntervals.filter((interval) =>
-              interval.start.isSame(day, 'day')
-          )}
-          {maxUsernames}
-        />
-        <!-- Render current user selections -->
-        {#each selections.filter((selection) =>
-            selection.start.isSame(day, 'date')) as selection}
-          <JoinEventCalendarDefinedSelection {...selection} />
-        {/each}
-        <!-- Render current user new selections -->
-        {#each newSelections.filter((selection) =>
-            selection.start.isSame(day, 'date')) as selection}
-          <JoinEventCalendarNewSelection start={selection.start} />
-        {/each}
-      </CalendarDayColumn>
-    {/each}
-  </div>
-</div>
-
-<style>
-  :root {
-    --index-col-width: 4rem;
-    --header-row-height: 2rem;
-    --col-width: 6rem;
-    --row-height: 3rem;
-  }
-
-  #picker {
-    width: auto;
-    margin-bottom: 1em;
-    overflow: scroll;
-    scroll-behavior: smooth;
-  }
-
-  #body {
-    display: flex;
-    flex-direction: row;
-    width: -moz-max-content;    /* Firefox */
-    width: -webkit-max-content; /* Safari/Chrome */
-  }
-
-  :global(.cell) {
-    z-index: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>
+<CalendarBase>
+  {#each daysToShow as day}
+    <CalendarDayColumn {day} {hours}
+      on:startSelection={startSelection}
+      on:gridDrag={gridDrag}
+      on:stopSelection={stopSelection}
+    >
+      <!-- Render unavailable intervals -->
+      <JoinEventCalendarUnavailableColumnOverlay
+        eventIntervals={eventIntervalsSplitOnMidnight.filter((interval) =>
+            interval.start.isSame(day, 'day')
+        )}
+      />
+      <!-- Render other user selections -->
+      <JoinEventCalendarOtherUsersColumnOverlay
+        mergedIntervals={mergedIntervals.filter((interval) =>
+            interval.start.isSame(day, 'day')
+        )}
+        {maxUsernames}
+      />
+      <!-- Render current user selections -->
+      {#each selections.filter((selection) =>
+          selection.start.isSame(day, 'date')) as selection}
+        <JoinEventCalendarDefinedSelection {...selection} />
+      {/each}
+      <!-- Render current user new selections -->
+      {#each newSelections.filter((selection) =>
+          selection.start.isSame(day, 'date')) as selection}
+        <JoinEventCalendarNewSelection start={selection.start} />
+      {/each}
+    </CalendarDayColumn>
+  {/each}
+</CalendarBase>
