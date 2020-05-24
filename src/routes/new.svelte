@@ -18,7 +18,6 @@
   let username = '';
   let password = '';
   const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
-  // $: console.log($selections);
 
   function submit() {
     const eventIntervals = $selections.map((selection) => ({
