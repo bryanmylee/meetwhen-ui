@@ -38,16 +38,9 @@
 <CalendarPickerBase
   bind:selections={selections}
   bind:newSelections={newSelections}
-  bind:startSelection={startSelection}
-  bind:gridDrag={gridDrag}
-  bind:stopSelection={stopSelection}
 >
   {#each daysToShow as day}
-    <CalendarDayColumn {day} {hours}
-      on:startSelection={startSelection}
-      on:gridDrag={gridDrag}
-      on:stopSelection={stopSelection}
-    >
+    <CalendarDayColumn {day} {hours} >
       <!-- Render selections -->
       {#each selections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}

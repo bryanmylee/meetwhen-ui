@@ -1,4 +1,5 @@
 <script>
+  import { setContext } from 'svelte';
   import { getMultiDaySelection } from '../../utils/selections.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
@@ -10,7 +11,7 @@
   export let newSelections = [];
   $: newSelections = getMultiDaySelection(newSelection);
 
-  export function startSelection(event) {
+  function startSelection(event) {
     const { datetime } = event.detail;
     newSelection = ({
       start: datetime,
@@ -20,7 +21,7 @@
     });
   }
 
-  export function gridDrag(event) {
+  function gridDrag(event) {
     const { datetime } = event.detail;
     // datetime represents the start of the cell.
     // Add 15 minutes to account for the time in the last cell.
@@ -29,7 +30,7 @@
     });
   }
 
-  export function stopSelection() {
+  function stopSelection() {
     if (!newSelection || !newSelection.start || !newSelection.end) return;
     selections = [
       ...selections,
@@ -37,6 +38,12 @@
     ];
     newSelection = null;
   }
+
+  setContext('select', ({
+    startSelection,
+    gridDrag,
+    stopSelection,
+  }))
 </script>
 
 <div id="picker" class="card">

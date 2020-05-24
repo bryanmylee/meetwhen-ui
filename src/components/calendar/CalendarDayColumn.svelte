@@ -1,6 +1,7 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
+  import { getContext } from 'svelte';
+
+  const { startSelection, gridDrag, stopSelection } = getContext('select');
 
   import CalendarGridCell from './CalendarGridCell.svelte';
 
@@ -16,9 +17,9 @@
     <div id="select-area">
       {#each hours as hour}
         <CalendarGridCell start={day.hour(hour.hour())}
-          on:startSelection
-          on:gridDrag
-          on:stopSelection
+          on:startSelection={startSelection}
+          on:gridDrag={gridDrag}
+          on:stopSelection={stopSelection}
         />
       {/each}
       <!-- Slot for selections -->

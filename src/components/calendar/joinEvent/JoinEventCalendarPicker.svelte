@@ -6,9 +6,8 @@
     splitIntervalsOnMidnight,
   } from '../../../utils/intervals.js';
   import { newSelectionDurationPerDayInMs } from '../../../stores.js';
-  import { getMultiDaySelection } from '../../../utils/selections.js';
 
-  import CalendarBase from '../CalendarBase.svelte';
+  import CalendarPickerBase from '../CalendarPickerBase.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
   import JoinEventCalendarUnavailableColumnOverlay
       from './JoinEventCalendarUnavailableColumnOverlay.svelte';
@@ -19,9 +18,7 @@
   import JoinEventCalendarNewSelection
       from './JoinEventCalendarNewSelection.svelte';
 
-  // User selections.
   export let selections = [];
-  // Event details.
   export let eventIntervals = [];
   export let userIntervalsByUsername = {};
 
@@ -38,7 +35,7 @@
     const { length } = interval.usernames;
     return max >= length ? max : length;
   }, 0);
-
+  // The days containing all event intervals.
   let daysToShow = [];
   $: {
     daysToShow = eventIntervalsSplitOnMidnight.reduce((days, interval) => {
@@ -48,62 +45,30 @@
       return [ ...days, interval.start.startOf('day') ];
     }, []);
   }
+
   const hours = Array.from(Array(24).keys())
       .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 
-  // The new selection being made.
-  let newSelection = null;
   // The current selection split into different days.
   let newSelections = [];
     
   const MS_PER_MINUTE = 60000;
   $: {
-    if (newSelection != null) {
-      newSelections = getMultiDaySelection(newSelection);
+    if (newSelections.length !== 0) {
       $newSelectionDurationPerDayInMs
           = newSelections[0].end - newSelections[0].start;
     } else {
-      newSelections = [];
       $newSelectionDurationPerDayInMs = 15 * MS_PER_MINUTE;
     }
   }
-
-  function startSelection(e) {
-    const { datetime } = e.detail;
-    newSelection = ({
-      start: datetime,
-      // datetime represents the start of the cell.
-      // Add 15 minutes to account for the time in the last cell.
-      end: datetime.add(15, 'minute'),
-    });
-  }
-
-  function gridDrag(e) {
-    const { datetime } = e.detail;
-    // datetime represents the start of the cell.
-    // Add 15 minutes to account for the time in the last cell.
-    newSelection = ({ ...newSelection,
-      end: datetime.add(15, 'minute'),
-    });
-  }
-
-  function stopSelection() {
-    if (!newSelection || !newSelection.start || !newSelection.end) return;
-    selections = [
-      ...selections,
-      ...newSelections,
-    ];
-    newSelection = null;
-  }
 </script>
 
-<CalendarBase>
+<CalendarPickerBase
+  bind:selections={selections}
+  bind:newSelections={newSelections}
+>
   {#each daysToShow as day}
-    <CalendarDayColumn {day} {hours}
-      on:startSelection={startSelection}
-      on:gridDrag={gridDrag}
-      on:stopSelection={stopSelection}
-    >
+    <CalendarDayColumn {day} {hours} >
       <!-- Render unavailable intervals -->
       <JoinEventCalendarUnavailableColumnOverlay
         eventIntervals={eventIntervalsSplitOnMidnight.filter((interval) =>
@@ -129,4 +94,4 @@
       {/each}
     </CalendarDayColumn>
   {/each}
-</CalendarBase>
+</CalendarPickerBase>
