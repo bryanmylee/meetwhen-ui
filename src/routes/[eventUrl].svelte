@@ -8,20 +8,37 @@
 </script>
 
 <script>
+  import { onMount } from 'svelte';
   import dayjs from 'dayjs';
+  import hotkeys from 'hotkeys-js';
 
+  import undoable from '../utils/undoable.js';
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
 
   import { JoinEventCalendarPicker } from '../components/calendar';
 
   export let event;
+  
+  const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
 
+  // Keyboard event listeners
+  onMount(() => {
+    hotkeys('ctrl+z, command+z', (event) => {
+      event.preventDefault();
+      undo();
+    });
+
+    hotkeys('shift+ctrl+z, shift+command+z', (event) => {
+      event.preventDefault();
+      redo();
+    });
+  })
 </script>
 
 <div class="page">
   <h1>{event.title}</h1>
   <p>{event.description}</p>
-  <JoinEventCalendarPicker {history}
+  <JoinEventCalendarPicker bind:selections={$selections}
     eventIntervals={event.eventIntervals} 
     userIntervalsByUsername={event.userIntervalsByUsername}
   />
