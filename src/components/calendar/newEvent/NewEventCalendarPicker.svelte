@@ -9,15 +9,11 @@
   import NewEventDefinedSelection from './NewEventDefinedSelection.svelte';
   import NewEventNewSelection from './NewEventNewSelection.svelte';
 
-  export let daysToShow = [];
   export let selections = [];
-
-  const hours = Array.from(Array(24).keys())
-      .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
+  export let daysToShow = [];
 
   // The current selection split into different days.
   let newSelections = [];
-
   const MS_PER_MINUTE = 60000;
   $: {
     if (newSelections.length !== 0) {
@@ -27,6 +23,10 @@
       $newSelectionDurationPerDayInMs = 15 * MS_PER_MINUTE;
     }
   }
+
+  const hours = Array.from(Array(24).keys())
+      .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
+
 </script>
 
 <CalendarPickerBase

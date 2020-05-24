@@ -15,6 +15,18 @@
   export let eventIntervals = [];
   export let userIntervalsByUsername = {};
 
+  // The current selection split into different days.
+  let newSelections = [];
+  const MS_PER_MINUTE = 60000;
+  $: {
+    if (newSelections.length !== 0) {
+      $newSelectionDurationPerDayInMs
+          = newSelections[0].end - newSelections[0].start;
+    } else {
+      $newSelectionDurationPerDayInMs = 15 * MS_PER_MINUTE;
+    }
+  }
+
   let eventIntervalsSplitOnMidnight = [];
   $: eventIntervalsSplitOnMidnight = splitIntervalsOnMidnight(eventIntervals);
 
@@ -42,18 +54,6 @@
   const hours = Array.from(Array(24).keys())
       .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 
-  // The current selection split into different days.
-  let newSelections = [];
-    
-  const MS_PER_MINUTE = 60000;
-  $: {
-    if (newSelections.length !== 0) {
-      $newSelectionDurationPerDayInMs
-          = newSelections[0].end - newSelections[0].start;
-    } else {
-      $newSelectionDurationPerDayInMs = 15 * MS_PER_MINUTE;
-    }
-  }
 </script>
 
 <CalendarPickerBase
