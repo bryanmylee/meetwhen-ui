@@ -14,7 +14,7 @@
       from './NewEventCalendarNewSelection.svelte';
 
   export let history;
-  $: selections = $history.current().selections;
+  $: selections = $history.selections;
 
   const startDate = dayjs().startOf('day');
   const numDaysToShow = 21;
@@ -65,7 +65,7 @@
     history.push({
       // New state of selections includes selections from the current state.
       selections: [
-        ...$history.current().selections,
+        ...$history.selections,
         ...newSelections,
       ],
     });
