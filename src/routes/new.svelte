@@ -31,13 +31,11 @@
   onMount(() => {
     hotkeys('ctrl+z, command+z', (event) => {
       event.preventDefault();
-      console.log('a');
       undo();
     });
 
     hotkeys('shift+ctrl+z, shift+command+z', (event) => {
       event.preventDefault();
-      console.log('b');
       redo();
     });
   })
