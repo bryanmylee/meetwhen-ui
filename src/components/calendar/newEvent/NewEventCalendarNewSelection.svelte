@@ -1,16 +1,16 @@
 <script>
   import dayjs from 'dayjs';
 
-  import { newSelectionDurationPerDayInMs } from '../../../stores.js';
   import { getTop, getHeight } from '../../../utils/selections.js';
 
   // Represents the start points of the user selection in this day.
   export let start = 0;
+  export let duration = 0;
 </script>
 
 <div
   style="top:{getTop(start)};
-        height:{getHeight($newSelectionDurationPerDayInMs)};"
+        height:{getHeight(duration)};"
 ></div>
 
 <style>
