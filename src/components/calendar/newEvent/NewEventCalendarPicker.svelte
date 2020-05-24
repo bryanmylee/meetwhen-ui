@@ -62,13 +62,12 @@
   function stopSelection() {
     if (!newSelection || !newSelection.start || !newSelection.end) return;
     // Update history
-    history.push({
-      // New state of selections includes selections from the current state.
+    $history = { ...$history,
       selections: [
         ...$history.selections,
         ...newSelections,
-      ],
-    });
+      ]
+    };
     newSelection = null;
   }
 
