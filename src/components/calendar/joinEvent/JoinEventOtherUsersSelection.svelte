@@ -1,8 +1,7 @@
 <script>
   import { getTop, getHeight } from '../../../utils/selections.js';
 
-  import JoinEventCalendarOtherUsersPopover
-      from './JoinEventCalendarOtherUsersPopover.svelte';
+  import JoinEventOtherUsersPopover from './JoinEventOtherUsersPopover.svelte';
   /*
    * { start: Dayjs, end: Dayjs, usernames: string[] }
    */
@@ -32,7 +31,7 @@
     on:mouseover={() => {isHovered = true}}
   ></div>
   {#if isHovered}
-    <JoinEventCalendarOtherUsersPopover {interval} />
+    <JoinEventOtherUsersPopover {interval} />
   {/if}
 </div>
 

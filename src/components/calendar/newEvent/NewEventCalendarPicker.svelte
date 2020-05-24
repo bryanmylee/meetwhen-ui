@@ -6,10 +6,8 @@
 
   import CalendarPickerBase from '../CalendarPickerBase.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
-  import NewEventCalendarDefinedSelection
-      from './NewEventCalendarDefinedSelection.svelte';
-  import NewEventCalendarNewSelection
-      from './NewEventCalendarNewSelection.svelte';
+  import NewEventDefinedSelection from './NewEventDefinedSelection.svelte';
+  import NewEventNewSelection from './NewEventNewSelection.svelte';
 
   export let daysToShow = [];
   export let selections = [];
@@ -29,10 +27,6 @@
       $newSelectionDurationPerDayInMs = 15 * MS_PER_MINUTE;
     }
   }
-
-  let startSelection;
-  let gridDrag;
-  let stopSelection;
 </script>
 
 <CalendarPickerBase
@@ -44,12 +38,12 @@
       <!-- Render selections -->
       {#each selections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
-        <NewEventCalendarDefinedSelection {...selection} />
+        <NewEventDefinedSelection {...selection} />
       {/each}
       <!-- Render new selections -->
       {#each newSelections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
-        <NewEventCalendarNewSelection
+        <NewEventNewSelection
           start={selection.start}
           duration={$newSelectionDurationPerDayInMs} />
       {/each}

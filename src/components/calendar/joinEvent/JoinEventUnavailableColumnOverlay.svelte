@@ -1,7 +1,5 @@
 <script>
-  import {
-    getTop, getHeight,
-  } from '../../../utils/selections.js';
+  import { getTop, getHeight, } from '../../../utils/selections.js';
   import { getNonIntervals } from '../../../utils/intervals.js';
 
   export let eventIntervals;

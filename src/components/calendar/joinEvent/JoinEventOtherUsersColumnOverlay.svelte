@@ -1,6 +1,5 @@
 <script>
-  import JoinEventCalendarOtherUsersSelection
-      from './JoinEventCalendarOtherUsersSelection.svelte';
+  import JoinEventOtherUsersSelection from './JoinEventOtherUsersSelection.svelte';
   /*
    * { start: Dayjs, end: Dayjs, usernames: string[] }[]
    */
@@ -9,7 +8,7 @@
 </script>
 
 {#each mergedIntervals as interval}
-  <JoinEventCalendarOtherUsersSelection
+  <JoinEventOtherUsersSelection
     {interval}
     {maxUsernames}
   />
