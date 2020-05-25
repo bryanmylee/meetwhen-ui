@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script>
   import dayjs from 'dayjs';
 

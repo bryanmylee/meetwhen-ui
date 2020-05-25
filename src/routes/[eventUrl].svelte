@@ -1,3 +1,4 @@
+<svelte:options immutable={true}/>
 <script context="module">
   import { getEvent } from '../api/event.js';
 
