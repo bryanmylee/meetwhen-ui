@@ -7,7 +7,7 @@
 
 <div class="page" in:fadeIn out:fadeOut>
   <h1>LetsMeet</h1>
-  <Button label="Create New Event" on:click={() => goto('/new')} />
+  <Button on:click={() => goto('/new')}>Create New Event</Button>
 </div>
 
 <style>

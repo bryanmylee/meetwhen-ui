@@ -15,6 +15,7 @@
   export let selections = [];
   export let eventIntervals = [];
   export let userIntervalsByUsername = {};
+  export let isCollapsed = false;
 
   // The current selection split into different days.
   let newSelections = [];
@@ -72,7 +73,7 @@
       <!-- Render other user selections -->
       {#each mergedIntervals.filter((interval) =>
           interval.start.isSame(day, 'date')) as interval}
-        <JoinEventOtherUsersSelection {interval} {maxUsernames} />
+        <JoinEventOtherUsersSelection {interval} {maxUsernames} {isCollapsed} />
       {/each}
       <!-- Render current user selections -->
       {#each selections.filter((selection) =>

@@ -11,16 +11,37 @@
 <script>
   import { onMount } from 'svelte';
   import dayjs from 'dayjs';
+  import utc from 'dayjs/plugin/utc';
+  dayjs.extend(utc);
   import hotkeys from 'hotkeys-js';
 
   import undoable from '../utils/undoable.js';
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
 
   import { JoinEventCalendarPicker } from '../components/calendar';
+  import { Button, TextInput } from '../components/form';
 
   export let event;
-  
+
+  let isJoining = false;
+  let username = '';
+  let password = '';
   const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
+
+  function submit() {
+    const eventintervals = $selections.map((selection) => ({
+      start: selection.start.utc().toISOString(),
+      end: selection.end.utc().toISOString(),
+    }));
+  }
+
+  function handleButtonClick() {
+    if (isJoining) {
+      submit();
+    } else {
+      isJoining = true;
+    }
+  }
 
   // Keyboard event listeners
   onMount(() => {
@@ -42,7 +63,19 @@
   <JoinEventCalendarPicker bind:selections={$selections}
     eventIntervals={event.eventIntervals} 
     userIntervalsByUsername={event.userIntervalsByUsername}
+    isCollapsed={isJoining}
   />
+  {#if isJoining}
+    <div class="card section">
+      <span class="tip">Create an account</span>
+      <TextInput label="Username" bind:value={username} />
+      <TextInput label="Password" isPassword bind:value={password} />
+      <span class="footer">Account is unique to this event only</span>
+    </div>
+  {/if}
+  <div class="button">
+    <Button on:click={handleButtonClick}>Join Event</Button>
+  </div>
 </div>
 
 <style>
@@ -55,7 +88,29 @@
     box-sizing: border-box;
   }
 
+  .section {
+    margin: 0 0 1em;
+    padding: 0.8em;
+  }
+
   h1 {
     margin-top: 0;
+  }
+
+  .tip {
+    color: var(--text-1);
+    margin: 1.4em 0 1em;
+    font-weight: 700;
+  }
+
+  .footer {
+    color: var(--text-3);
+    font-size: 0.8em;
+    font-style: italic;
+  }
+
+  .button {
+    width: fit-content;
+    align-self: flex-end;
   }
 </style>

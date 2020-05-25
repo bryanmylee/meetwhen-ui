@@ -65,7 +65,6 @@
 
   #picker {
     width: auto;
-    margin-bottom: 1em;
     overflow: scroll;
     scroll-behavior: smooth;
   }

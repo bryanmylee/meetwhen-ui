@@ -1,8 +1,4 @@
-<script>
-  export let label;
-</script>
-
-<button on:click>{label}</button>
+<button on:click><slot /></button>
 
 <style>
   button {
@@ -11,6 +7,7 @@
     background-color: var(--primary-1);
     transition: 0.2s ease opacity, 0.2s ease background-color;
     padding: 1em;
+    margin: 0;
     border-radius: 5px;
   }
 

@@ -51,34 +51,57 @@
     <TextInput label="Title" bind:value={title} />
     <TextInput label="Description" bind:value={description} />
 
-    <span class="tip">Sign in to edit your event when returning</span>
+    <span class="tip">Create an account</span>
     <TextInput label="Username" bind:value={username} />
     <TextInput label="Password" isPassword bind:value={password} />
     <span class="footer">Account is unique to this event only</span>
   </div>
   <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
   <div class="button">
-    <Button label="Create Event" on:click={submit} />
+    <Button on:click={submit}>Create Event</Button>
   </div>
 </div>
 
 <style>
   .page {
     /* Allows the calendar to dynamically resize */
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    gap: 1rem;
     height: 100vh;
     padding: 1em;
     box-sizing: border-box;
   }
 
   .section {
-    margin: 0 0 1em;
     padding: 0.8em;
+    height: -moz-fit-content;
+    height: -webkit-fit-content;
   }
 
   h1 {
-    margin-top: 0;
+    margin: 0 0;
+  }
+
+  @media screen and (min-width: 50rem) {
+    .page {
+      grid-template-columns: 2fr 3fr;
+      grid-template-rows: min-content;
+    }
+
+    h1 {
+      grid-column: 1/-1;
+    }
+
+    :global(#picker) {
+      order: 2;
+      grid-row: 2/5;
+      grid-column: 2/3;
+    }
+
+    .button {
+      order: 1;
+      grid-column: 1/2;
+    }
   }
 
   span {
@@ -99,7 +122,7 @@
   }
 
   .button {
+    justify-self: end;
     width: fit-content;
-    align-self: flex-end;
   }
 </style>

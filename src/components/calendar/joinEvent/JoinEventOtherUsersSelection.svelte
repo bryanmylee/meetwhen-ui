@@ -8,8 +8,7 @@
   export let interval;
   export let maxUsernames = 0;
 
-  let isCollapsed = false;
-  setInterval(() => isCollapsed = true, 1000);
+  export let isCollapsed = false;
 
   let isHovered = false;
 
