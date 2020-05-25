@@ -93,13 +93,11 @@
     }
 
     :global(#picker) {
-      order: 2;
       grid-row: 2/5;
       grid-column: 2/3;
     }
 
     .button {
-      order: 1;
       grid-column: 1/2;
     }
   }
