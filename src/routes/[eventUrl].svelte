@@ -10,6 +10,8 @@
 
 <script>
   import { onMount } from 'svelte';
+  import { slide } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
@@ -58,15 +60,17 @@
 </script>
 
 <div class="page">
-  <h1>{event.title}</h1>
-  <p>{event.description}</p>
+  <div id="details">
+    <h1>{event.title}</h1>
+    <p>{event.description}</p>
+  </div>
   <JoinEventCalendarPicker bind:selections={$selections}
     eventIntervals={event.eventIntervals} 
     userIntervalsByUsername={event.userIntervalsByUsername}
     isCollapsed={isJoining}
   />
   {#if isJoining}
-    <div class="card section">
+    <div class="card section" in:slide={{duration: 500, easing: cubicOut}}>
       <span class="tip">Create an account</span>
       <TextInput label="Username" bind:value={username} />
       <TextInput label="Password" isPassword bind:value={password} />
@@ -81,15 +85,14 @@
 <style>
   .page {
     /* Allows the calendar to dynamically resize */
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    gap: 1rem;
     height: 100vh;
     padding: 1em;
     box-sizing: border-box;
   }
 
   .section {
-    margin: 0 0 1em;
     padding: 0.8em;
   }
 
@@ -111,6 +114,6 @@
 
   .button {
     width: fit-content;
-    align-self: flex-end;
+    justify-self: end;
   }
 </style>
