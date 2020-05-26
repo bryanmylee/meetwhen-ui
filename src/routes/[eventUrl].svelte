@@ -10,7 +10,7 @@
 
 <script>
   import { onMount } from 'svelte';
-  import { slide } from 'svelte/transition';
+  import { fade, slide } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
@@ -78,10 +78,14 @@
   </div>
   {#if isJoining}
     <div class="card section" in:slide={{duration: 500, easing: cubicOut}}>
-      <span class="tip">Create an account</span>
-      <TextInput label="Username" bind:value={username} />
-      <TextInput label="Password" isPassword bind:value={password} />
-      <span class="footer">Account is unique to this event only</span>
+      <!-- Content of div with slide transitions is not masked properly on
+      Safari. Therefore, implement a nice fade in after div is fully sized. -->
+      <div in:fade={{duration: 150, delay: 500}}>
+        <span class="tip">Create an account</span>
+        <TextInput label="Username" bind:value={username} />
+        <TextInput label="Password" isPassword bind:value={password} />
+        <span class="footer">Account is unique to this event only</span>
+      </div>
     </div>
   {/if}
   <div class="button">
