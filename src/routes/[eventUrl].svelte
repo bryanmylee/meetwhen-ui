@@ -60,14 +60,14 @@
 </script>
 
 <div class="page">
-  <div id="details">
+  <div class="details">
     <h1>{event.title}</h1>
     <p>{event.description}</p>
   </div>
   {#if isJoining}
-    <h2 in:slide={{duration: 500, easing: cubicOut}}>
+    <h3 in:slide={{duration: 500, easing: cubicOut}}>
       Indicate your availability
-    </h2>
+    </h3>
   {/if}
   <div class="picker card">
     <JoinEventCalendarPicker bind:selections={$selections}
@@ -81,10 +81,10 @@
       <!-- Content of div with slide transitions is not masked properly on
       Safari. Therefore, implement a nice fade in after div is fully sized. -->
       <div in:fade={{duration: 150, delay: 500}}>
-        <span class="tip">Create an account</span>
+        <h3>Create an account</h3>
         <TextInput label="Username" bind:value={username} />
         <TextInput label="Password" isPassword bind:value={password} />
-        <span class="footer">Account is unique to this event only</span>
+        <h5>Account is unique to this event only</h5>
       </div>
     </div>
   {/if}
@@ -98,6 +98,7 @@
     /* Allows the calendar to dynamically resize */
     display: grid;
     gap: 1rem;
+    width: 100%;
     height: 100vh;
     padding: 1em;
     box-sizing: border-box;
@@ -116,16 +117,39 @@
     scroll-behavior: smooth;
   }
 
-  .tip {
+  @media screen and (min-width: 50rem) {
+    .page {
+      grid-template-columns: 2fr 3fr;
+      grid-template-rows: min-content;
+    }
+
+    .details {
+      grid-column: 1/-1;
+    }
+
+    h2 {
+    }
+
+    .picker {
+      grid-row: 2/6;
+      grid-column: 2/3;
+    }
+  }
+
+  h3 {
     color: var(--text-1);
-    margin: 1.4em 0 1em;
+    padding: 10px 10px 5px 5px;
+    margin: 0;
     font-weight: 700;
   }
 
-  .footer {
+  h5 {
     color: var(--text-3);
+    padding-left: 5px;
+    margin: 0;
     font-size: 0.8em;
     font-style: italic;
+    font-weight: 400;
   }
 
   .button {

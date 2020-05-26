@@ -51,10 +51,10 @@
     <TextInput label="Title" bind:value={title} />
     <TextInput label="Description" bind:value={description} />
 
-    <span class="tip">Create an account</span>
+    <h3>Create an account</h3>
     <TextInput label="Username" bind:value={username} />
     <TextInput label="Password" isPassword bind:value={password} />
-    <span class="footer">Account is unique to this event only</span>
+    <h5>Account is unique to this event only</h5>
   </div>
   <div class="picker card">
     <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
@@ -109,21 +109,20 @@
     }
   }
 
-  span {
-    display: block;
-    padding-left: 5px;
-  }
-
-  .tip {
+  h3 {
     color: var(--text-1);
-    margin: 1.4em 0 1em;
+    padding: 10px 10px 5px 5px;
+    margin: 0;
     font-weight: 700;
   }
 
-  .footer {
+  h5 {
     color: var(--text-3);
+    padding-left: 5px;
+    margin: 0;
     font-size: 0.8em;
     font-style: italic;
+    font-weight: 400;
   }
 
   .button {
