@@ -7,8 +7,8 @@
       .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 </script>
 
-<div id="index-col">
-  <div id="month-label">
+<div class="index-col">
+  <div class="month-label">
     {startingDay == null ? 'NIL' : startingDay.format('MMM')}
   </div>
   {#each hours as hour}
@@ -19,7 +19,7 @@
 </div>
 
 <style>
-  #index-col {
+  .index-col {
     position: -webkit-sticky; /* Safari */
     position: sticky;
     left: 0;
@@ -28,7 +28,7 @@
     background-color: white;
   }
 
-  #month-label {
+  .month-label {
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;

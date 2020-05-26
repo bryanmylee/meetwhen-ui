@@ -56,7 +56,9 @@
     <TextInput label="Password" isPassword bind:value={password} />
     <span class="footer">Account is unique to this event only</span>
   </div>
-  <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
+  <div class="picker card">
+    <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
+  </div>
   <div class="button">
     <Button on:click={submit}>Create Event</Button>
   </div>
@@ -82,6 +84,11 @@
     margin: 0 0;
   }
 
+  .picker {
+    overflow: scroll;
+    scroll-behavior: smooth;
+  }
+
   @media screen and (min-width: 50rem) {
     .page {
       grid-template-columns: 2fr 3fr;
@@ -92,7 +99,7 @@
       grid-column: 1/-1;
     }
 
-    :global(#picker) {
+    .picker {
       grid-row: 2/5;
       grid-column: 2/3;
     }

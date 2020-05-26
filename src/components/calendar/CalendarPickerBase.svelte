@@ -46,13 +46,11 @@
   }))
 </script>
 
-<div id="picker" class="card">
-  <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
-  bug on Safari 13.1 -->
-  <div id="body">
-    <CalendarIndexColumn />
-    <slot />
-  </div>
+<!-- Wrapping the scrollable content in an extra div fixes a position:sticky
+bug on Safari 13.1 -->
+<div class="body">
+  <CalendarIndexColumn />
+  <slot />
 </div>
 
 <style>
@@ -63,23 +61,8 @@
     --row-height: 3rem;
   }
 
-  #picker {
-    width: auto;
-    overflow: scroll;
-    scroll-behavior: smooth;
-  }
-
-  #body {
+  .body {
     display: flex;
     flex-direction: row;
-    width: -moz-max-content;    /* Firefox */
-    width: -webkit-max-content; /* Safari/Chrome */
-  }
-
-  :global(.cell) {
-    z-index: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 </style>

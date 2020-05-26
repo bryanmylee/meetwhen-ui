@@ -64,11 +64,18 @@
     <h1>{event.title}</h1>
     <p>{event.description}</p>
   </div>
-  <JoinEventCalendarPicker bind:selections={$selections}
-    eventIntervals={event.eventIntervals} 
-    userIntervalsByUsername={event.userIntervalsByUsername}
-    isCollapsed={isJoining}
-  />
+  {#if isJoining}
+    <h2 in:slide={{duration: 500, easing: cubicOut}}>
+      Indicate your availability
+    </h2>
+  {/if}
+  <div class="picker card">
+    <JoinEventCalendarPicker bind:selections={$selections}
+      eventIntervals={event.eventIntervals} 
+      userIntervalsByUsername={event.userIntervalsByUsername}
+      isCollapsed={isJoining}
+    />
+  </div>
   {#if isJoining}
     <div class="card section" in:slide={{duration: 500, easing: cubicOut}}>
       <span class="tip">Create an account</span>
@@ -98,6 +105,11 @@
 
   h1 {
     margin-top: 0;
+  }
+
+  .picker {
+    overflow: scroll;
+    scroll-behavior: smooth;
   }
 
   .tip {

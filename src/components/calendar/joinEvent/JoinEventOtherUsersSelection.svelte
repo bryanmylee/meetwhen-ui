@@ -18,13 +18,12 @@
 </script>
 
 <div
-  id="other-user-selection-container"
+  class="other-user-selection-container"
   style="top:{getTop(interval.start)};"
   on:mouseleave={() => {isHovered = false}}
 >
   <div
-    id="selection"
-    class={isCollapsed ? "collapsed" : ""}
+    class={"selection " + (isCollapsed ? "collapsed" : "")}
     style="height:{getHeight(interval.end - interval.start)};
            opacity:{getOpacity(interval.usernames)};"
     on:mouseover={() => {isHovered = true}}
@@ -35,7 +34,7 @@
 </div>
 
 <style>
-  #other-user-selection-container {
+  .other-user-selection-container {
     display: flex;
     flex-direction: row;
     width: -moz-max-content;    /* Firefox */
@@ -43,7 +42,7 @@
     position: absolute;
   }
 
-  #selection {
+  .selection {
     width: var(--col-width);
     border-radius: 5px;
     background-color: var(--primary-0);
@@ -51,7 +50,7 @@
     pointer-events: all;
   }
 
-  #selection.collapsed {
+  .collapsed {
     width: calc(var(--col-width) / 6);
   }
 </style>

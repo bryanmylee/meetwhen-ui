@@ -11,10 +11,10 @@
 
 <div class="no-highlight">
   {#if day != null}
-    <div id="date-label">
+    <div class="date-label">
       {day.format('ddd D')}
     </div>
-    <div id="select-area">
+    <div class="select-area">
       {#each hours as hour}
         <CalendarGridCell start={day.hour(hour.hour())}
           on:startSelection={startSelection}
@@ -29,7 +29,7 @@
 </div>
 
 <style>
-  #date-label {
+  .date-label {
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
@@ -44,7 +44,7 @@
     background-color: white;
   }
 
-  #select-area {
+  .select-area {
     position: relative;
     user-select: none;
   }
