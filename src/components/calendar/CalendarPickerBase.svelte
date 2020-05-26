@@ -64,5 +64,7 @@ bug on Safari 13.1 -->
   .body {
     display: flex;
     flex-direction: row;
+    width: -moz-max-content;
+    width: -webkit-max-content;
   }
 </style>
