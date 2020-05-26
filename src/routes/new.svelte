@@ -48,16 +48,21 @@
 <div class="page" in:fadeIn out:fadeOut>
   <h1>New Event</h1>
   <div class="card section">
+    <h3>Describe your event</h3>
     <TextInput label="Title" bind:value={title} />
     <TextInput label="Description" bind:value={description} />
-
+  </div>
+  <div class="card section">
     <h3>Create an account</h3>
     <TextInput label="Username" bind:value={username} />
     <TextInput label="Password" isPassword bind:value={password} />
     <h5>Account is unique to this event only</h5>
   </div>
-  <div class="picker card">
-    <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
+  <div class="picker-container card">
+    <h3>Indicate event timing</h3>
+    <div class="picker">
+      <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
+    </div>
   </div>
   <div class="button">
     <Button on:click={submit}>Create Event</Button>
@@ -84,35 +89,27 @@
     margin: 0 0;
   }
 
+  .picker-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    scroll-behavior: smooth;
+  }
+
+  .picker-container > h3 {
+    padding: 0.8rem;
+    padding-left: calc(0.8rem + 5px);
+  }
+
   .picker {
     overflow: scroll;
     scroll-behavior: smooth;
   }
 
-  @media screen and (min-width: 50rem) {
-    .page {
-      grid-template-columns: 2fr 3fr;
-      grid-template-rows: min-content;
-    }
-
-    h1 {
-      grid-column: 1/-1;
-    }
-
-    .picker {
-      grid-row: 2/5;
-      grid-column: 2/3;
-    }
-
-    .button {
-      grid-column: 1/2;
-    }
-  }
-
   h3 {
     color: var(--text-1);
-    padding: 10px 10px 5px 5px;
     margin: 0;
+    padding: 0 5px 5px;
     font-weight: 700;
   }
 
@@ -128,5 +125,25 @@
   .button {
     justify-self: end;
     width: fit-content;
+  }
+
+  @media screen and (min-width: 50rem) {
+    .page {
+      grid-template-columns: 2fr 3fr;
+      grid-template-rows: min-content;
+    }
+
+    h1 {
+      grid-column: 1/-1;
+    }
+
+    .picker-container {
+      grid-row: 2/6;
+      grid-column: 2/3;
+    }
+
+    .button {
+      grid-column: 1/2;
+    }
   }
 </style>
