@@ -37,14 +37,6 @@
     }));
   }
 
-  function handleButtonClick() {
-    if (isJoining) {
-      submit();
-    } else {
-      isJoining = true;
-    }
-  }
-
   // Keyboard event listeners
   onMount(() => {
     hotkeys('ctrl+z, command+z', (event) => {
@@ -60,22 +52,8 @@
 </script>
 
 <div class="page">
-  <div class="details">
-    <h1>{event.title}</h1>
-    <p>{event.description}</p>
-  </div>
-  {#if isJoining}
-    <h3 in:slide={{duration: 500, easing: cubicOut}}>
-      Indicate your availability
-    </h3>
-  {/if}
-  <div class="picker card">
-    <JoinEventCalendarPicker bind:selections={$selections}
-      eventIntervals={event.eventIntervals} 
-      userIntervalsByUsername={event.userIntervalsByUsername}
-      isCollapsed={isJoining}
-    />
-  </div>
+  <h1>{event.title}</h1>
+  <p>{event.description}</p>
   {#if isJoining}
     <div class="card section" in:slide={{duration: 500, easing: cubicOut}}>
       <!-- Content of div with slide transitions is not masked properly on
@@ -88,9 +66,33 @@
       </div>
     </div>
   {/if}
-  <div class="button">
-    <Button on:click={handleButtonClick}>Join Event</Button>
+  <div class="picker-container card">
+    {#if isJoining}
+    <!-- Wrap the slide transition within an extra div to prevent jitter issue
+    on Chrome and Firefox -->
+      <div>
+        <h3 in:slide={{duration: 500, easing: cubicOut}}>
+          Indicate your availability
+        </h3>
+      </div>
+    {/if}
+    <div class="picker">
+      <JoinEventCalendarPicker bind:selections={$selections}
+        eventIntervals={event.eventIntervals} 
+        userIntervalsByUsername={event.userIntervalsByUsername}
+        isCollapsed={isJoining}
+      />
+    </div>
   </div>
+  {#if isJoining}
+    <div class="confirm">
+      <Button on:click={submit}>Confirm</Button>
+    </div>
+  {:else}
+    <div class="join">
+      <Button on:click={() => isJoining = true}>Join Event</Button>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -108,8 +110,20 @@
     padding: 0.8em;
   }
 
-  h1 {
-    margin-top: 0;
+  h1, p {
+    margin: 0;
+  }
+
+  .picker-container {
+    grid-column: 1/-1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .picker-container > div > h3 {
+    padding: 0.8rem;
+    padding-left: calc(0.8rem + 5px);
   }
 
   .picker {
@@ -117,29 +131,10 @@
     scroll-behavior: smooth;
   }
 
-  @media screen and (min-width: 50rem) {
-    .page {
-      grid-template-columns: 2fr 3fr;
-      grid-template-rows: min-content;
-    }
-
-    .details {
-      grid-column: 1/-1;
-    }
-
-    h2 {
-    }
-
-    .picker {
-      grid-row: 2/6;
-      grid-column: 2/3;
-    }
-  }
-
   h3 {
     color: var(--text-1);
-    padding: 10px 10px 5px 5px;
     margin: 0;
+    padding: 0 5px 5px;
     font-weight: 700;
   }
 
@@ -152,8 +147,26 @@
     font-weight: 400;
   }
 
-  .button {
+  .join {
+    min-width: -moz-max-content;
+    min-width: -webkit-max-content;
+    justify-self: end;
+  }
+
+  .confirm {
     width: fit-content;
     justify-self: end;
+  }
+
+  @media screen and (min-width: 50rem) {
+    .page {
+      grid-template-columns: 2fr 3fr;
+      grid-auto-flow: column;
+    }
+
+    .picker-container {
+      grid-row: 1/6;
+      grid-column: 2/3;
+    }
   }
 </style>
