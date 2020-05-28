@@ -40,10 +40,11 @@ export function splitIntervalsOnMidnight(intervals) {
  */
 export function getMergedIntervals(intervalsByUsername) {
     /**
-     * Given a map of usernames to their intervals, describe how usernames are added
-     * and removed from the event based on their intervals in chronological order.
-     * @param {Object.<string, interval[]>} intervalsByUsername A map of usernames to
-     * the intervals of the username.
+     * Given a map of usernames to their intervals, describe how usernames are
+     * added and removed from the event based on their intervals in
+     * chronological order.
+     * @param {Object.<string, interval[]>} intervalsByUsername A map of
+     * usernames to the intervals of the username.
      * @returns {action[]} An array of chronologically ordered actions which
      * describe the addition or removal of a username across specific times.
      */
@@ -72,9 +73,10 @@ export function getMergedIntervals(intervalsByUsername) {
      * action and a removal action.
      * @param {action[]} actions An array of chronologically ordered actions
      * which describe the addition or removal of a user at a specific time.
-     * @returns {{addAction: multiUserAction, removeAction: multiUserAction}[]} An
-     * array of chronologically ordered pairs of actions describing the combined
-     * addition and removal of multiple usernames across specific times.
+     * @returns {{addAction: multiUserAction, removeAction: multiUserAction}[]}
+     * An array of chronologically ordered pairs of actions describing the
+     * combined addition and removal of multiple usernames across specific
+     * times.
      */
     function getCombinedActions(actions) {
       const combinedActions = [];
@@ -94,10 +96,11 @@ export function getMergedIntervals(intervalsByUsername) {
     /**
      * Given actions on the same time, get the pair of actions describing the
      * addition and removal of usernames at that time.
-     * @param {action[]} actionsWithSameTime An array of actions with the same time.
-     * @returns {{addAction: multiUserAction, removeAction: multiUserAction}} A pair
-     * of actions describing the combined addition and removal of multiple usernames
-     * at a specific time.
+     * @param {action[]} actionsWithSameTime An array of actions with the same
+     * time.
+     * @returns {{addAction: multiUserAction, removeAction: multiUserAction}} A
+     * pair of actions describing the combined addition and removal of multiple
+     * usernames at a specific time.
      */
     function getCombinedActionOfTime(actionsWithSameTime) {
       const deltabyUsername = {};
@@ -131,12 +134,13 @@ export function getMergedIntervals(intervalsByUsername) {
     }
 
     /**
-     * Given a chronologically ordered list of actions describing the addition and 
-     * removal of usernames, determine the distinct intervals and usernames
+     * Given a chronologically ordered list of actions describing the addition
+     * and removal of usernames, determine the distinct intervals and usernames
      * participating in those intervals.
-     * @param {{addAction: multiUserAction, removeAction: multiUserAction}[]} combinedActions 
-     * @returns {{start: dayjs.Dayjs, end: dayjs.Dayjs, usernames: string[]}[]} An
-     * array of intervals with the usernames in that interval attached.
+     * @param {{addAction: multiUserAction, removeAction: multiUserAction}[]}
+     * combinedActions 
+     * @returns {{start: dayjs.Dayjs, end: dayjs.Dayjs, usernames: string[]}[]}
+     * An array of intervals with the usernames in that interval attached.
      */
     function getIntervalsFromCombinedActions(combinedActions) {
       let currentUsernames = [];
