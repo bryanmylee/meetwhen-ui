@@ -20,7 +20,6 @@
     width: var(--col-width);
     background-color: var(--line-2);
     opacity: 0.5;
-    transition: 0.2s ease opacity, 0.2s ease background-color;
     pointer-events: all;
   }
 </style>
