@@ -14,27 +14,27 @@
     return Math.floor(minutes / snapTo) * snapTo;
   }
 
-  function startSelection(e) {
-    const { offsetY } = getMouseOffset(e);
+  function startSelection(event) {
+    const { offsetY } = getMouseOffset(event);
     const minutes = getMinutes(offsetY);
-    if (e.buttons === 1) {
+    if (event.buttons === 1) {
       dispatch('startSelection', {
         datetime: start.add(minutes, 'minute'),
       });
     }
   }
 
-  function move(e) {
-    const { offsetY } = getMouseOffset(e);
+  function move(event) {
+    const { offsetY } = getMouseOffset(event);
     const minutes = getMinutes(offsetY);
-    if (e.buttons === 1) {
+    if (event.buttons === 1) {
       dispatch('gridDrag', {
         datetime: start.add(minutes, 'minute'),
       });
     }
   }
 
-  function stopSelection(e) {
+  function stopSelection() {
     dispatch('stopSelection');
   }
 </script>

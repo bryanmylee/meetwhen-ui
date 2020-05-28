@@ -29,23 +29,19 @@
     }
   }
 
-  let eventIntervalsSplitOnMidnight = [];
   $: eventIntervalsSplitOnMidnight = splitIntervalsOnMidnight(eventIntervals);
 
   // Intervals with combined usernames.
-  let mergedIntervals = [];
   $: mergedIntervals
       = splitIntervalsOnMidnight(getMergedIntervals(userIntervalsByUsername));
 
   // The maximum number of usernames in all intervals.
-  let maxUsernames = 0;
   $: maxUsernames = mergedIntervals.reduce((max, interval) => {
     const { length } = interval.usernames;
     return max >= length ? max : length;
   }, 0);
 
   // The days containing all event intervals.
-  let daysToShow = [];
   $: daysToShow = eventIntervalsSplitOnMidnight.reduce((days, interval) => {
     const { length } = days;
     if (length === 0) return [ interval.start.startOf('day') ];
@@ -55,7 +51,6 @@
 
   const hours = Array.from(Array(24).keys())
       .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
-
 </script>
 
 <CalendarPickerBase

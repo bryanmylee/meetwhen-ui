@@ -5,12 +5,9 @@
   const { start, end } = interval;
   const timeString = `${start.format('HH:mm')} - ${end.format('HH:mm')}`;
 
-  let countString = '';
-  $: {
-    const { length } = interval.usernames;
-    if (length === 1) countString = '1 person:';
-    else countString = `${length} people:`;
-  }
+  $: countString = interval.usernames.length === 1
+      ? '1 person:'
+      : `${interval.usernames.length} people:`;
 </script>
 
 <div

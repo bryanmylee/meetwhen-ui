@@ -10,7 +10,7 @@
 
 <div
   style="top:{getTop(start)};
-        height:{getHeight(duration)};"
+         height:{getHeight(duration)};"
 ></div>
 
 <style>

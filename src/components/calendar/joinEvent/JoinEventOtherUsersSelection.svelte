@@ -22,8 +22,8 @@
 <div
   class={"other-user-selection " + (isCollapsed ? "collapsed" : "")}
   style="top:{getTop(interval.start)};
-          height:{getHeight(interval.end - interval.start)};
-          opacity:{getOpacity(interval.usernames)};"
+         height:{getHeight(interval.end - interval.start)};
+         opacity:{getOpacity(interval.usernames)};"
   on:mouseover={() => {showPopup = true}}
   on:mouseleave={() => {showPopup = false}}
   use:popper={{ popup, placement: 'right-start' }}

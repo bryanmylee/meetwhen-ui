@@ -35,7 +35,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* min-height: var(--header-row-height); */
     font-weight: 600;
     padding: 0.5rem;
     box-sizing: border-box;

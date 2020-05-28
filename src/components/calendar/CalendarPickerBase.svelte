@@ -4,6 +4,7 @@
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
+  // The defined selections.
   export let selections = [];
   // The new selection being made.
   let newSelection = null;
@@ -43,7 +44,7 @@
     startSelection,
     gridDrag,
     stopSelection,
-  }))
+  }));
 </script>
 
 <!-- Wrapping the scrollable content in an extra div fixes a position:sticky

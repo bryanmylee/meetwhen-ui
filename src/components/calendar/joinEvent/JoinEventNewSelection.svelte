@@ -10,7 +10,7 @@
 
 <div
   style="top:{getTop(start)};
-        height:{getHeight($newSelectionDurationPerDayInMs)};"
+         height:{getHeight($newSelectionDurationPerDayInMs)};"
 ></div>
 
 <style>
