@@ -9,14 +9,13 @@
 </script>
 
 <script>
-  import { onMount } from 'svelte';
   import { fade, slide } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
-  import hotkeys from 'hotkeys-js';
 
+  import { undoRedo } from '../actions/hotkeys.js';
   import undoable from '../utils/undoable.js';
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
 
@@ -36,20 +35,9 @@
       end: selection.end.utc().toISOString(),
     }));
   }
-
-  // Keyboard event listeners
-  onMount(() => {
-    hotkeys('ctrl+z, command+z', (event) => {
-      event.preventDefault();
-      undo();
-    });
-
-    hotkeys('shift+ctrl+z, shift+command+z', (event) => {
-      event.preventDefault();
-      redo();
-    });
-  })
 </script>
+
+<svelte:window use:undoRedo={{ undo, redo }} />
 
 <div class="page">
   <h1>{event.title}</h1>

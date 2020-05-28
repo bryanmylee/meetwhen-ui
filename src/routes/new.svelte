@@ -1,11 +1,10 @@
 <svelte:options immutable={true}/>
 <script>
-  import { onMount } from 'svelte';
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
-  import hotkeys from 'hotkeys-js';
 
+  import { undoRedo } from '../actions/hotkeys.js';
   import undoable from '../utils/undoable.js';
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
   import { createNewEvent } from '../api/event.js';
@@ -30,20 +29,9 @@
     }));
     createNewEvent(title, description, username, password, eventIntervals);
   }
-
-  // Keyboard event listeners
-  onMount(() => {
-    hotkeys('ctrl+z, command+z', (event) => {
-      event.preventDefault();
-      undo();
-    });
-
-    hotkeys('shift+ctrl+z, shift+command+z', (event) => {
-      event.preventDefault();
-      redo();
-    });
-  })
 </script>
+
+<svelte:window use:undoRedo={{ undo, redo }} />
 
 <div class="page" in:fadeIn out:fadeOut>
   <h1>New Event</h1>
