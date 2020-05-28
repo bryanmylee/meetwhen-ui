@@ -43,7 +43,7 @@
     width: var(--col-width);
     border-radius: 5px;
     background-color: var(--primary-0);
-    transition: var(--ease) width;
+    transition: var(--ease-out) width;
     pointer-events: all;
   }
 
