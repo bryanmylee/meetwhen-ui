@@ -42,6 +42,59 @@ export function getMultiDaySelection(newSelection) {
   return selections;
 }
 
+/**
+ * Given an array of selections, union selections which are adjacent to or
+ * overlapping one another.
+ * @param {interval[]} selections The selections to merge.
+ * @returns {interval[]} The selections without any overlaps.
+ */
+export function getUnionOfSelections(selections) {
+  /**
+   * Given an array of selections, return an array of actions describing the
+   * starts and ends of intervals sorted by time.
+   * @param {interval[]} selections The selections to get the time of.
+   * @returns {{time: dayjs.Dayjs, isStart: boolean}[]} The actions.
+   */
+  function getActions(selections) {
+    const actions = [];
+    for (const { start, end } of selections) {
+      actions.push({
+        time: start,
+        isStart: true,
+      }, {
+        time: end,
+        isStart: false,
+      });
+    }
+    actions.sort((a, b) => a.time - b.time);
+    return actions;
+  }
+  
+  const actions = getActions(selections);
+  const unionSelections = [];
+  let currSelection = {};
+  let currLayerCount = 0;
+  let i = 0;
+  while (i < actions.length) {
+    const action = actions[i];
+    action.isStart ? currLayerCount++ : currLayerCount--;
+    // Guaranteed to be the last "end" action on a given time.
+    if (currLayerCount === 0 && !action.isStart) {
+      // Guaranteed to be a "start" action.
+      if (i + 1 < actions.length && action.time.isSame(actions[i + 1].time)) {
+        currLayerCount++;
+        i += 2;
+        continue;
+      }
+      unionSelections.push({ ...currSelection, end: action.time});
+    } else if (currLayerCount === 1 && action.isStart) {
+      currSelection = { start: action.time };
+    }
+    i++;
+  }
+  return unionSelections;
+}
+
 const MS_PER_HOUR = 3600000;
 const ROW_HEIGHT_IN_REM = 3;
 

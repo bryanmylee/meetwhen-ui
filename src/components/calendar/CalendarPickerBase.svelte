@@ -1,6 +1,6 @@
 <script>
   import { setContext } from 'svelte';
-  import { getMultiDaySelection } from '../../utils/selections.js';
+  import { getMultiDaySelection, getUnionOfSelections } from '../../utils/selections.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
@@ -33,10 +33,7 @@
 
   function stopSelection() {
     if (!newSelection || !newSelection.start || !newSelection.end) return;
-    selections = [
-      ...selections,
-      ...newSelections,
-    ];
+    selections = getUnionOfSelections([...selections, ...newSelections]);
     newSelection = null;
   }
 
