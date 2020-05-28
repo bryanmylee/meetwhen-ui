@@ -16,14 +16,23 @@ export function getMultiDaySelection(newSelection) {
   const { start, end } = newSelection;
   // Make sure to set year and month first, as some start dates are invalid on
   // the end month and year.
-  const endOnStartDay = end
+  let endOnStartDay = end
       .year(start.year())
       .month(start.month())
       .date(start.date()); 
 
+  // Account for midnight difference.
+  if (endOnStartDay.hour() === 0
+      && endOnStartDay.minute() === 0
+      && endOnStartDay.second() === 0
+      && endOnStartDay.millisecond() === 0) {
+    endOnStartDay = endOnStartDay.add(1, 'day');
+  }
+
   const selections = [];
   // Determine how many days are included from start to end.
-  const numDaysSpan = Math.floor((end - start) / 86400000) + 1;
+  const MS_PER_DAY = 86400000;
+  const numDaysSpan = Math.floor((end - start) / MS_PER_DAY) + 1;
   for (let i = 0; i < numDaysSpan; i++) {
     selections.push({
       start: start.add(i, 'day'),
