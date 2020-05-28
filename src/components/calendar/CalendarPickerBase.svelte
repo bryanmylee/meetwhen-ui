@@ -1,6 +1,10 @@
 <script>
   import { setContext } from 'svelte';
-  import { getMultiDaySelection, getUnionOfSelections } from '../../utils/selections.js';
+  import {
+    getMultiDaySelection,
+    getUnionOfSelections,
+    getIntersectionOfSelections
+  } from '../../utils/selections.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
@@ -10,7 +14,12 @@
   let newSelection = null;
   // The current selection split into different days.
   export let newSelections = [];
-  $: newSelections = getMultiDaySelection(newSelection);
+  // Any limitation on the selections possible. If null, treated as no limits.
+  export let selectionLimits = null;
+  $: newSelections = selectionLimits == null
+      ? getMultiDaySelection(newSelection)
+      : getIntersectionOfSelections(selectionLimits,
+          getMultiDaySelection(newSelection));
 
   function startSelection(event) {
     const { datetime } = event.detail;
