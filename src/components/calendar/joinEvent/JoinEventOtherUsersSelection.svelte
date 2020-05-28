@@ -1,4 +1,5 @@
 <script>
+  import popper from '../../../actions/popper.js';
   import { getTop, getHeight } from '../../../utils/selections.js';
 
   import JoinEventOtherUsersPopover from './JoinEventOtherUsersPopover.svelte';
@@ -10,7 +11,8 @@
 
   export let isCollapsed = false;
 
-  let isHovered = false;
+  let showPopup = false;
+  let popup;
 
   function getOpacity(usernames) {
     return usernames.length / maxUsernames;
@@ -18,31 +20,23 @@
 </script>
 
 <div
-  class="other-user-selection-container"
-  style="top:{getTop(interval.start)};"
-  on:mouseleave={() => {isHovered = false}}
->
-  <div
-    class={"selection " + (isCollapsed ? "collapsed" : "")}
-    style="height:{getHeight(interval.end - interval.start)};
-           opacity:{getOpacity(interval.usernames)};"
-    on:mouseover={() => {isHovered = true}}
-  ></div>
-  {#if isHovered}
+  class={"other-user-selection " + (isCollapsed ? "collapsed" : "")}
+  style="top:{getTop(interval.start)};
+          height:{getHeight(interval.end - interval.start)};
+          opacity:{getOpacity(interval.usernames)};"
+  on:mouseover={() => {showPopup = true}}
+  on:mouseleave={() => {showPopup = false}}
+  use:popper={{ popup, placement: 'right-start' }}
+></div>
+{#if showPopup}
+  <div bind:this={popup} class="popup">
     <JoinEventOtherUsersPopover {interval} />
-  {/if}
-</div>
+  </div>
+{/if}
 
 <style>
-  .other-user-selection-container {
-    display: flex;
-    flex-direction: row;
-    width: -moz-max-content;    /* Firefox */
-    width: -webkit-max-content; /* Safari/Chrome */
+  .other-user-selection {
     position: absolute;
-  }
-
-  .selection {
     width: var(--col-width);
     border-radius: 5px;
     background-color: var(--primary-0);
@@ -52,5 +46,9 @@
 
   .collapsed {
     width: calc(var(--col-width) / 6);
+  }
+
+  .popup {
+    z-index: 100;
   }
 </style>

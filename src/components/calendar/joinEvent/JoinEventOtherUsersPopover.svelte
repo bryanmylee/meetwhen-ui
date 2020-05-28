@@ -24,10 +24,11 @@
 
 <style>
   div {
+    width: -moz-max-content;
+    width: -webkit-max-content;
     height: -moz-max-content;
     height: -webkit-max-content;
     background-color: white;
-    z-index: 1000;
     padding: 0.5em;
     border-radius: 5px;
     box-shadow: var(--box-shadow);
