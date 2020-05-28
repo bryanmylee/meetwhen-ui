@@ -14,10 +14,12 @@ import dayjs from 'dayjs';
 export function getMultiDaySelection(newSelection) {
   if (newSelection == null || newSelection.start == null) return [];
   const { start, end } = newSelection;
+  // Make sure to set year and month first, as some start dates are invalid on
+  // the end month and year.
   const endOnStartDay = end
-      .date(start.date())
+      .year(start.year())
       .month(start.month())
-      .year(start.year());
+      .date(start.date()); 
 
   const selections = [];
   // Determine how many days are included from start to end.
