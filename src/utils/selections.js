@@ -66,7 +66,11 @@ export function getUnionOfSelections(selections) {
         isStart: false,
       });
     }
-    actions.sort((a, b) => a.time - b.time);
+    actions.sort((a, b) => {
+      if (!a.time.isSame(b.time)) return a.time - b.time;
+      if (a.isStart !== b.isStart) return a.isStart ? 1 : -1;
+      return 0;
+    });
     return actions;
   }
   
@@ -80,8 +84,12 @@ export function getUnionOfSelections(selections) {
     action.isStart ? currLayerCount++ : currLayerCount--;
     // Guaranteed to be the last "end" action on a given time.
     if (currLayerCount === 0 && !action.isStart) {
-      // Guaranteed to be a "start" action.
-      if (i + 1 < actions.length && action.time.isSame(actions[i + 1].time)) {
+      // The next action is guaranteed to be a "start" action. Check if the
+      // actions are adjacent, and merge if they are.
+      // If the boundary is on midnight, ignore the adjacent merge.
+      if (i + 1 < actions.length
+          && action.time.isSame(actions[i + 1].time)
+          && !action.time.isSame(action.time.startOf('day'))) {
         currLayerCount++;
         i += 2;
         continue;
