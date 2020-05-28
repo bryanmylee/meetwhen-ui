@@ -1,4 +1,5 @@
 <script>
+  import { isSelecting } from '../../../stores.js';
   import { getTop, getHeight, } from '../../../utils/selections.js';
   import { getNonIntervals } from '../../../utils/intervals.js';
 
@@ -11,6 +12,7 @@
   <div
     style="top:{getTop(interval.start)};
            height:{getHeight(interval.end - interval.start)};"
+    class:pass-through={$isSelecting}
   ></div>
 {/each}
 
@@ -21,5 +23,9 @@
     background-color: var(--line-2);
     opacity: 0.5;
     pointer-events: all;
+  }
+
+  .pass-through {
+    pointer-events: none;
   }
 </style>

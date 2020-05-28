@@ -3,6 +3,7 @@
   import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
 
+  import { isSelecting } from '../../../stores.js';
   import { getTop, getHeight } from '../../../utils/selections.js';
 
   export let start;
@@ -12,6 +13,7 @@
 <div
   style="top:{getTop(start)};
          height:{getHeight(end - start)};"
+  class:pass-through={$isSelecting}
 ></div>
 
 <style>
@@ -23,5 +25,9 @@
     opacity: 0.5;
     transition: 0.2s ease opacity, 0.2s ease background-color;
     pointer-events: all;
+  }
+
+  .pass-through {
+    pointer-events: none;
   }
 </style>

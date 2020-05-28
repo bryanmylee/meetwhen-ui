@@ -1,4 +1,5 @@
 <script>
+  import { isSelecting } from '../../../stores.js';
   import popper from '../../../actions/popper.js';
   import { getTop, getHeight } from '../../../utils/selections.js';
 
@@ -20,7 +21,9 @@
 </script>
 
 <div
-  class={"other-user-selection " + (isCollapsed ? "collapsed" : "")}
+  class={"other-user-selection"}
+  class:collapsed={isCollapsed}
+  class:pass-through={$isSelecting}
   style="top:{getTop(interval.start)};
          height:{getHeight(interval.end - interval.start)};
          opacity:{getOpacity(interval.usernames)};"
@@ -46,6 +49,10 @@
 
   .collapsed {
     width: calc(var(--col-width) / 6);
+  }
+
+  .pass-through {
+    pointer-events: none;
   }
 
   .popup {
