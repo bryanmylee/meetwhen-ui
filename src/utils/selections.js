@@ -95,6 +95,70 @@ export function getUnionOfSelections(selections) {
   return unionSelections;
 }
 
+/**
+ * Given two arrays of selections, find the intersection of both selections.
+ * @param {interval[]} selectionsA The first array of selections.
+ * @param {interval[]} selectionsB The other array of selections.
+ * @returns {interval[]} The intersection of both selections.
+ */
+export function getIntersectionOfSelections(selectionsA, selectionsB) {
+  /**
+   * Given an array of selections, return an array of actions describing the
+   * starts and ends of intervals sorted by time.
+   * @param {interval[]} selectionsA The first array of selections.
+   * @param {interval[]} selectionsB The other array of selections.
+   * @returns {{time: dayjs.Dayjs, isStart: boolean}[]} The actions.
+   */
+  function getActions(selectionsA, selectionsB) {
+    const actions = [];
+    for (const { start, end } of selectionsA) {
+      actions.push({
+        time: start,
+        isStart: true,
+        isA: true,
+      }, {
+        time: end,
+        isStart: false,
+        isA: true,
+      });
+    }
+    for (const { start, end } of selectionsB) {
+      actions.push({
+        time: start,
+        isStart: true,
+        isA: false,
+      }, {
+        time: end,
+        isStart: false,
+        isA: false,
+      });
+    }
+    actions.sort((a, b) => a.time - b.time);
+    return actions;
+  }
+
+  const actions = getActions(selectionsA, selectionsB);
+  const intersectSelections = [];
+  let currSelection = {};
+  let onA = false;
+  let onB = false;
+  for (const action of actions) {
+    if (action.isStart) {
+      action.isA ? onA = true : onB = true;
+      if (onA && onB) {
+        currSelection = { start: action.time };
+      }
+    } else {
+      action.isA ? onA = false : onB = false;
+      if (currSelection.start != null) {
+        intersectSelections.push({ ...currSelection, end: action.time });
+        currSelection = {};
+      }
+    }
+  }
+  return intersectSelections;
+}
+
 const MS_PER_HOUR = 3600000;
 const ROW_HEIGHT_IN_REM = 3;
 
