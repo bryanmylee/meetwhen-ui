@@ -11,6 +11,7 @@
   // The defined selections.
   export let selections = [];
   // The new selection being made.
+  let initialHour = null;
   let newSelection = null;
   // The current selection split into different days.
   export let newSelections = [];
@@ -23,19 +24,22 @@
 
   function startSelection(event) {
     const { day, hour } = event.detail;
+    initialHour = hour;
     newSelection = ({
       startDay: day,
       startHour: hour,
       endDay: day,
-      endHour: hour,
+      endHour: hour + 0.25,
     });
   }
 
   function gridDrag(event) {
     const { day, hour } = event.detail;
-    newSelection = ({ ...newSelection,
+    newSelection = ({
+      startDay: newSelection.startDay,
+      startHour: initialHour + (hour < initialHour ? 0.25 : 0),
       endDay: day,
-      endHour: hour,
+      endHour: hour + (hour >= initialHour ? 0.25 : 0)
     });
   }
 
