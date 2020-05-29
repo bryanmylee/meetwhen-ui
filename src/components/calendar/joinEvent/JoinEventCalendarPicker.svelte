@@ -2,7 +2,7 @@
 <script>
   import dayjs from 'dayjs';
 
-  import { getMergedIntervals, splitIntervalsOnMidnight, } from '../../../utils/intervals.js';
+  import { getMergedIntervals, splitIntervalsOnMidnight, } from '../../../utils/interval.js';
   import { isSelecting } from '../../../stores.js';
 
   import CalendarPickerBase from '../CalendarPickerBase.svelte';

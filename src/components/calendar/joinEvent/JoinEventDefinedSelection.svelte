@@ -4,7 +4,7 @@
   import dayjs from 'dayjs';
 
   import { isSelecting } from '../../../stores.js';
-  import { getTop, getHeight } from '../../../utils/selections.js';
+  import { getTop, getHeight } from '../../../utils/selection.js';
 
   export let start;
   export let end;

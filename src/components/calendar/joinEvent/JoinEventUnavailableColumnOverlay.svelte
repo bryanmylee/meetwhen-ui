@@ -1,7 +1,7 @@
 <script>
   import { isSelecting } from '../../../stores.js';
-  import { getTop, getHeight, } from '../../../utils/selections.js';
-  import { getNonIntervals } from '../../../utils/intervals.js';
+  import { getTop, getHeight, } from '../../../utils/selection.js';
+  import { getNonIntervals } from '../../../utils/interval.js';
 
   export let eventIntervals;
 

@@ -4,7 +4,7 @@
     getAreaSelection,
     getUnionOfSelections,
     getIntersectionOfSelections
-  } from '../../utils/selections.js';
+  } from '../../utils/selection.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 

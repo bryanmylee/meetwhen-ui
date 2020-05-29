@@ -1,7 +1,7 @@
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
 
-import { getTop, getHeight } from '../utils/selections.js';
+import { getTop, getHeight } from '../utils/selection.js';
 
 export function smoothSizePos(node, { start, end }) {
   const smooth = tweened({ start: +start, end: +end }, {
