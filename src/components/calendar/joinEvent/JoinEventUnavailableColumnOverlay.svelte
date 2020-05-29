@@ -1,7 +1,7 @@
 <script>
   import { isSelecting } from '../../../stores.js';
-  import { getTop, getHeight, } from '../../../utils/selection.js';
   import { getNonIntervals } from '../../../utils/interval.js';
+  import { sizePos } from '../../../actions/selection.js';
 
   export let eventIntervals;
 
@@ -10,8 +10,7 @@
 
 {#each nonEventIntervals as interval}
   <div
-    style="top:{getTop(interval.start)};
-           height:{getHeight(interval.end - interval.start)};"
+    use:sizePos={{start: interval.start, end: interval.end}}
     class:pass-through={$isSelecting}
   ></div>
 {/each}

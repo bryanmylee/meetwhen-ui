@@ -1,20 +1,21 @@
 <script>
   import { fade } from 'svelte/transition';
 
-  export let interval;
-  const { start, end } = interval;
-  const timeString = `${start.format('HH:mm')} - ${end.format('HH:mm')}`;
+  export let start;
+  export let end;
+  export let usernames
 
-  $: countString = interval.usernames.length === 1
+  const timeString = `${start.format('HH:mm')} - ${end.format('HH:mm')}`;
+  const countString = usernames.length === 1
       ? '1 person:'
-      : `${interval.usernames.length} people:`;
+      : `${usernames.length} people:`;
 </script>
 
 <div
-  transition:fade="{{ duration: 200 }}">
+  transition:fade={{ duration: 200 }}>
   <h5>{timeString}</h5>
   <h5>{countString}</h5>
-  {#each interval.usernames as username}
+  {#each usernames as username}
     <p>{username}</p>
   {/each}
 </div>

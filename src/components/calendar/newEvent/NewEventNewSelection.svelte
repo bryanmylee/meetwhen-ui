@@ -1,6 +1,4 @@
 <script>
-  import dayjs from 'dayjs';
-
   import { smoothSizePos } from '../../../actions/selection.js';
 
   // Represents the start points of the user selection in this day.

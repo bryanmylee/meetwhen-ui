@@ -1,6 +1,4 @@
 <script>
-  import dayjs from 'dayjs';
-
   import { isSelecting } from '../../../stores.js';
   import { smoothSizePos } from '../../../actions/selection.js';
 

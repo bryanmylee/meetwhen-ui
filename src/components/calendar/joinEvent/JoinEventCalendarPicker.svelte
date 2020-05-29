@@ -61,7 +61,7 @@
       <!-- Render other user selections -->
       {#each mergedIntervals.filter((interval) =>
           interval.start.isSame(day, 'date')) as interval}
-        <JoinEventOtherUsersSelection {interval} {maxUsernames} {isCollapsed} />
+        <JoinEventOtherUsersSelection {...interval} {maxUsernames} {isCollapsed} />
       {/each}
       <!-- Render current user selections -->
       {#each selections.filter((selection) =>

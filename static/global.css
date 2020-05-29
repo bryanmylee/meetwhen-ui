@@ -19,7 +19,7 @@
   --row-height: 3rem;
   --select-width: calc(var(--col-width) - 0.5em);
   --select-collapse-width: 1em;
-  --select-join-width: calc(var(--col-width) - var(--collapse-width) - 0.5em);
+  --select-join-width: calc(var(--col-width) - var(--select-collapse-width));
 }
 
 html, body {

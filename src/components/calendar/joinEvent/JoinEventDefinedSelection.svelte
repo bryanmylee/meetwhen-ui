@@ -1,18 +1,13 @@
 <script>
-  import { tweened } from 'svelte/motion';
-  import { cubicOut } from 'svelte/easing';
-  import dayjs from 'dayjs';
-
   import { isSelecting } from '../../../stores.js';
-  import { getTop, getHeight } from '../../../utils/selection.js';
+  import { smoothSizePos } from '../../../actions/selection.js';
 
   export let start;
   export let end;
 </script>
 
 <div
-  style="top:{getTop(start)};
-         height:{getHeight(end - start)};"
+  use:smoothSizePos={{start, end, duration: 0}}
   class:pass-through={$isSelecting}
 ></div>
 
