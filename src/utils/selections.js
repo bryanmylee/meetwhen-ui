@@ -172,7 +172,8 @@ export function getIntersectionOfSelections(selectionsA, selectionsB) {
 const MS_PER_HOUR = 3600000;
 const ROW_HEIGHT_IN_REM = 3;
 
-export function getTop(start) {
+export function getTop(startInMs) {
+  const start = dayjs(startInMs);
   const numHoursFromMidnight = start.hour() + start.minute() / 60;
   return `${numHoursFromMidnight * ROW_HEIGHT_IN_REM}rem`;
 }
