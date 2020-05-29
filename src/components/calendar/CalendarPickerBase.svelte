@@ -53,6 +53,7 @@
   }));
 </script>
 
+<svelte:window on:mouseup={stopSelection} />
 <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
 bug on Safari 13.1 -->
 <div class="body">
