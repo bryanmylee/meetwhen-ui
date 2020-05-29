@@ -49,8 +49,6 @@
 
   .collapsed {
     width: var(--select-collapse-width);
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
   }
 
   .pass-through {

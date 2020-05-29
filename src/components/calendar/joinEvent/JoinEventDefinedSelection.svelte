@@ -8,18 +8,28 @@
 
 <div
   use:smoothSizePos={{start, end, duration: 0}}
+  class="container"
   class:pass-through={$isSelecting}
-></div>
+>
+  <div
+    class="content"
+    class:pass-through={$isSelecting}
+  ></div>
+</div>
 
 <style>
-  div {
+  .container {
     position: absolute;
     left: var(--select-collapse-width);
     width: var(--select-join-width);
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    display: flex;
+  }
+
+  .content {
+    width: 100%;
+    margin: 0 0.2em;
+    border-radius: 5px;
     background-color: var(--primary-1);
-    opacity: 0.5;
     pointer-events: all;
   }
 

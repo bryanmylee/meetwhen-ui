@@ -6,17 +6,27 @@
   export let end;
 </script>
 
-<div use:smoothSizePos={{start, end}}></div>
+<div
+  use:smoothSizePos={{start, end}}
+  class="container"
+>
+  <div class="content"></div>
+</div>
 
 <style>
-  div {
+  .container {
     position: absolute;
     left: var(--select-collapse-width);
     width: var(--select-join-width);
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    background-color: var(--primary-1);
-    opacity: 1;
+    display: flex;
     pointer-events: none;
+  }
+
+  .content {
+    width: 100%;
+    margin: 0 0.2em;
+    border-radius: 5px;
+    background-color: var(--primary-1);
+    box-shadow: var(--shadow-med);
   }
 </style>

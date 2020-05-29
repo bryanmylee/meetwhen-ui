@@ -19,7 +19,7 @@
   div {
     position: absolute;
     width: var(--col-width);
-    background-color: var(--line-2);
+    background-color: var(--disabled-shade);
     opacity: 0.5;
     pointer-events: all;
   }

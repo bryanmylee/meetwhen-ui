@@ -11,6 +11,7 @@
   --line-0: #888;
   --line-1: #cacaca;
   --line-2: #eee;
+  --disabled-shade: #efefef;
   /* Shadows */
   --box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   --shadow-med: 0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12),0 3px 5px -1px rgba(0,0,0,0.2);
@@ -23,7 +24,7 @@
   --col-width: 6rem;
   --row-height: 5rem;
   --select-width: var(--col-width);
-  --select-collapse-width: 1em;
+  --select-collapse-width: 0.5em;
   --select-join-width: calc(var(--col-width) - var(--select-collapse-width));
 }
 
