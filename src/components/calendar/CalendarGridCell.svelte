@@ -4,32 +4,34 @@
 
   import { getMouseOffset } from '../../utils/mouseEventHandler.js';
 
-  export let start;
-  // The number of minutes to snap the datetime reporting to.
-  export let snapTo = 15;
+  export let day;
+  export let hour;
+  export let snapTo = 0.25;
 
   let cell;
-  function getMinutes(offsetY) {
-    const minutes = offsetY / cell.offsetHeight * 60;
-    return Math.floor(minutes / snapTo) * snapTo;
+  function getRatioY(offsetY) {
+    const ratioY = offsetY / cell.offsetHeight;
+    return Math.floor(ratioY / snapTo) * snapTo;
   }
 
   function startSelection(event) {
     const { offsetY } = getMouseOffset(event);
-    const minutes = getMinutes(offsetY);
+    const ratioY = getRatioY(offsetY);
     if (event.buttons === 1) {
       dispatch('startSelection', {
-        datetime: start.add(minutes, 'minute'),
+        day,
+        hour: hour + ratioY,
       });
     }
   }
 
   function move(event) {
     const { offsetY } = getMouseOffset(event);
-    const minutes = getMinutes(offsetY);
+    const ratioY = getRatioY(offsetY);
     if (event.buttons === 1) {
       dispatch('gridDrag', {
-        datetime: start.add(minutes, 'minute'),
+        day,
+        hour: hour + ratioY,
       });
     }
   }

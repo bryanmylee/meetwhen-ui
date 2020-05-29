@@ -5,27 +5,25 @@
 
   import CalendarGridCell from './CalendarGridCell.svelte';
 
-  export let day = null;
+  export let day;
   export let hours = [];
 </script>
 
 <div class="no-highlight">
-  {#if day != null}
-    <div class="date-label">
-      {day.format('ddd D')}
-    </div>
-    <div class="select-area">
-      {#each hours as hour}
-        <CalendarGridCell start={day.hour(hour.hour())}
-          on:startSelection={startSelection}
-          on:gridDrag={gridDrag}
-          on:stopSelection={stopSelection}
-        />
-      {/each}
-      <!-- Slot for selections -->
-      <slot />
-    </div>
-  {/if}
+  <div class="date-label">
+    {day.format('ddd D')}
+  </div>
+  <div class="select-area">
+    {#each hours as hour, index}
+      <CalendarGridCell {day} hour={index}
+        on:startSelection={startSelection}
+        on:gridDrag={gridDrag}
+        on:stopSelection={stopSelection}
+      />
+    {/each}
+    <!-- Slot for selections -->
+    <slot />
+  </div>
 </div>
 
 <style>

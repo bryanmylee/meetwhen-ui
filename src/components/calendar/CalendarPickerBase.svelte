@@ -22,26 +22,25 @@
           getAreaSelection(newSelection));
 
   function startSelection(event) {
-    const { datetime } = event.detail;
+    const { day, hour } = event.detail;
     newSelection = ({
-      start: datetime,
-      // datetime represents the start of the cell.
-      // Add 15 minutes to account for the time in the last cell.
-      end: datetime.add(15, 'minute'),
+      startDay: day,
+      startHour: hour,
+      endDay: day,
+      endHour: hour,
     });
   }
 
   function gridDrag(event) {
-    const { datetime } = event.detail;
-    // datetime represents the start of the cell.
-    // Add 15 minutes to account for the time in the last cell.
+    const { day, hour } = event.detail;
     newSelection = ({ ...newSelection,
-      end: datetime.add(15, 'minute'),
+      endDay: day,
+      endHour: hour,
     });
   }
 
   function stopSelection() {
-    if (!newSelection || !newSelection.start || !newSelection.end) return;
+    if (newSelections.length === 0) return;
     selections = getUnionOfSelections([...selections, ...newSelections]);
     newSelection = null;
   }

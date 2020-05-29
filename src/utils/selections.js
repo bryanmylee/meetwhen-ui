@@ -12,51 +12,36 @@ import dayjs from 'dayjs';
  * @returns {interval[]} The new selections across different days.
  */
 export function getAreaSelection(newSelection) {
-  if (newSelection == null || newSelection.start == null) return [];
-  const { start, end } = newSelection;
-  // Make sure to set year and month first, as some start dates are invalid on
-  // the end month and year.
-  let endOnStartDay = end
-      .year(start.year()).month(start.month()).date(start.date()); 
-  let startOnEndDay = start
-      .year(end.year()).month(end.month()).date(end.date());
+  if (newSelection == null
+      || newSelection.startDay == null
+      || newSelection.startHour == null ) return [];
 
-  // Account for midnight difference.
-  if (endOnStartDay.hour() === 0
-      && endOnStartDay.minute() === 0
-      && endOnStartDay.second() === 0
-      && endOnStartDay.millisecond() === 0) {
-    endOnStartDay = endOnStartDay.add(1, 'day');
-  }
+  const { startDay, startHour, endDay, endHour } = newSelection;
 
   const MS_PER_DAY = 86400000;
-  const numDaysSpan = Math.floor(Math.abs(end - start) / MS_PER_DAY) + 1;
-  if (+start < +end) {
-    if (+endOnStartDay >= +start) {
-      // Determine how many days are included from start to end.
-      return [...Array(numDaysSpan).keys()].map((inc) => ({
-        start: start.add(inc, 'day'),
-        end: endOnStartDay.add(inc, 'day'),
-      }));
-    } else {
-      return [...Array(numDaysSpan + 1).keys()].map((inc) => ({
-        start: endOnStartDay.add(inc, 'day'),
-        end: start.add(inc, 'day'),
-      }));
-    }
-  } else {
-    if (+endOnStartDay <= +start) {
-      return [...Array(numDaysSpan).keys()].map((inc) => ({
-        start: end.add(inc, 'day'),
-        end: startOnEndDay.add(inc, 'day'),
-      }));
-    } else {
-      return [...Array(numDaysSpan + 1).keys()].map((inc) => ({
-        start: startOnEndDay.add(inc, 'day'),
-        end: end.add(inc, 'day'),
-      }));
-    }
+  const numDaysSpan = Math.floor(Math.abs(endDay - startDay) / MS_PER_DAY) + 1;
+  if (+startDay <= +endDay && startHour <= endHour) {
+    return [...Array(numDaysSpan).keys()].map((inc) => ({
+      start: startDay.add(inc, 'day').add(startHour, 'hour'),
+      end: startDay.add(inc, 'day').add(endHour, 'hour'),
+    }));
   }
+  if (+startDay <= +endDay && startHour > endHour) {
+    return [...Array(numDaysSpan).keys()].map((inc) => ({
+      start: startDay.add(inc, 'day').add(endHour, 'hour'),
+      end: startDay.add(inc, 'day').add(startHour, 'hour'),
+    }));
+  }
+  if (+startDay > +endDay && startHour <= endHour) {
+    return [...Array(numDaysSpan).keys()].map((inc) => ({
+      start: endDay.add(inc, 'day').add(startHour, 'hour'),
+      end: endDay.add(inc, 'day').add(endHour, 'hour'),
+    }));
+  }
+  return [...Array(numDaysSpan).keys()].map((inc) => ({
+    start: endDay.add(inc, 'day').add(endHour, 'hour'),
+    end: endDay.add(inc, 'day').add(startHour, 'hour'),
+  }));
 }
 
 /**
