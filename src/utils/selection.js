@@ -170,7 +170,7 @@ export function getIntersectionOfSelections(selectionsA, selectionsB) {
 }
 
 const MS_PER_HOUR = 3600000;
-const ROW_HEIGHT_IN_REM = 3;
+const ROW_HEIGHT_IN_REM = 5;
 
 export function getTop(startInMs) {
   const start = dayjs(startInMs);
