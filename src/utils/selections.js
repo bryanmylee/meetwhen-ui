@@ -11,15 +11,15 @@ import dayjs from 'dayjs';
  * the user.
  * @returns {interval[]} The new selections across different days.
  */
-export function getMultiDaySelection(newSelection) {
+export function getAreaSelection(newSelection) {
   if (newSelection == null || newSelection.start == null) return [];
   const { start, end } = newSelection;
   // Make sure to set year and month first, as some start dates are invalid on
   // the end month and year.
   let endOnStartDay = end
-      .year(start.year())
-      .month(start.month())
-      .date(start.date()); 
+      .year(start.year()).month(start.month()).date(start.date()); 
+  let startOnEndDay = start
+      .year(end.year()).month(end.month()).date(end.date());
 
   // Account for midnight difference.
   if (endOnStartDay.hour() === 0
@@ -29,17 +29,34 @@ export function getMultiDaySelection(newSelection) {
     endOnStartDay = endOnStartDay.add(1, 'day');
   }
 
-  const selections = [];
-  // Determine how many days are included from start to end.
   const MS_PER_DAY = 86400000;
-  const numDaysSpan = Math.floor((end - start) / MS_PER_DAY) + 1;
-  for (let i = 0; i < numDaysSpan; i++) {
-    selections.push({
-      start: start.add(i, 'day'),
-      end: endOnStartDay.add(i, 'day'),
-    });
+  const numDaysSpan = Math.floor(Math.abs(end - start) / MS_PER_DAY) + 1;
+  if (+start < +end) {
+    if (+endOnStartDay >= +start) {
+      // Determine how many days are included from start to end.
+      return [...Array(numDaysSpan).keys()].map((inc) => ({
+        start: start.add(inc, 'day'),
+        end: endOnStartDay.add(inc, 'day'),
+      }));
+    } else {
+      return [...Array(numDaysSpan + 1).keys()].map((inc) => ({
+        start: endOnStartDay.add(inc, 'day'),
+        end: start.add(inc, 'day'),
+      }));
+    }
+  } else {
+    if (+endOnStartDay <= +start) {
+      return [...Array(numDaysSpan).keys()].map((inc) => ({
+        start: end.add(inc, 'day'),
+        end: startOnEndDay.add(inc, 'day'),
+      }));
+    } else {
+      return [...Array(numDaysSpan + 1).keys()].map((inc) => ({
+        start: startOnEndDay.add(inc, 'day'),
+        end: end.add(inc, 'day'),
+      }));
+    }
   }
-  return selections;
 }
 
 /**

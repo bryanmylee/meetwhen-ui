@@ -1,7 +1,7 @@
 <script>
   import { setContext } from 'svelte';
   import {
-    getMultiDaySelection,
+    getAreaSelection,
     getUnionOfSelections,
     getIntersectionOfSelections
   } from '../../utils/selections.js';
@@ -17,9 +17,9 @@
   // Any limitation on the selections possible. If null, treated as no limits.
   export let selectionLimits = null;
   $: newSelections = selectionLimits == null
-      ? getMultiDaySelection(newSelection)
+      ? getAreaSelection(newSelection)
       : getIntersectionOfSelections(selectionLimits,
-          getMultiDaySelection(newSelection));
+          getAreaSelection(newSelection));
 
   function startSelection(event) {
     const { datetime } = event.detail;
