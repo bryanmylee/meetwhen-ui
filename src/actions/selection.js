@@ -3,9 +3,9 @@ import { cubicOut } from 'svelte/easing';
 
 import { getTop, getHeight } from '../utils/selection.js';
 
-export function smoothSizePos(node, { start, end }) {
+export function smoothSizePos(node, { start, end, duration }) {
   const smooth = tweened({ start: +start, end: +end }, {
-    duration: 300,
+    duration: duration ?? 100,
     easing: cubicOut,
   });
   const unsub = smooth.subscribe(({ start, end }) => {
@@ -21,4 +21,16 @@ export function smoothSizePos(node, { start, end }) {
       unsub();
     }
   })
+}
+
+export function sizePos(node, { start, end }) {
+  node.style.position = 'absolute';
+  node.style.top = getTop(start);
+  node.style.height = getHeight(end - start);
+  return ({
+    update({ start, end }) {
+      node.style.top = getTop(start);
+      node.style.height = getHeight(end - start);
+    }
+  });
 }

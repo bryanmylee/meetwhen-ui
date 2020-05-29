@@ -62,6 +62,7 @@
     /* Allows the calendar to dynamically resize */
     display: grid;
     gap: 1rem;
+    width: 100%;
     height: 100vh;
     padding: 1em;
     box-sizing: border-box;

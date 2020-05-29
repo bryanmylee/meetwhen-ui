@@ -1,7 +1,4 @@
 <script>
-  import { fade } from 'svelte/transition';
-  import { tweened } from 'svelte/motion';
-  import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
 
   import { smoothSizePos } from '../../../actions/selection.js';
@@ -11,12 +8,12 @@
   export let end;
 </script>
 
-<div transition:fade use:smoothSizePos={{start, end}}></div>
+<div use:smoothSizePos={{start, end}}></div>
 
 <style>
   div {
     position: absolute;
-    width: var(--col-width);
+    width: var(--select-width);
     border-radius: 5px;
     background-color: var(--primary-1);
     opacity: 1;

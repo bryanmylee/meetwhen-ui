@@ -65,13 +65,6 @@ bug on Safari 13.1 -->
 </div>
 
 <style>
-  :root {
-    --index-col-width: 4rem;
-    --header-row-height: 2rem;
-    --col-width: 6rem;
-    --row-height: 3rem;
-  }
-
   .body {
     display: flex;
     flex-direction: row;

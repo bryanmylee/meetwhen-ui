@@ -40,15 +40,17 @@
 <style>
   .other-user-selection {
     position: absolute;
-    width: var(--col-width);
+    width: var(--select-width);
     border-radius: 5px;
     background-color: var(--primary-0);
-    transition: var(--ease-out) width;
+    transition: var(--ease-out) width, var(--ease-out) border-radius;
     pointer-events: all;
   }
 
   .collapsed {
-    width: calc(var(--col-width) / 6);
+    width: var(--select-collapse-width);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
   .pass-through {
