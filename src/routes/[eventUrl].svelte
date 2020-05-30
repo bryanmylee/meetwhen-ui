@@ -94,7 +94,7 @@
     height: 100vh;
     padding: 1em;
     box-sizing: border-box;
-    background-color: var(--background-2);
+    background-color: var(--background-1);
   }
 
   h1 {

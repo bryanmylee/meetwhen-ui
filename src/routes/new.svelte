@@ -1,5 +1,6 @@
 <svelte:options immutable={true}/>
 <script>
+  import { goto } from '@sapper/app';
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
@@ -22,12 +23,14 @@
   const daysToShow = Array.from(Array(10).keys())
       .map((inc) => startDate.add(inc, 'day'));
 
-  function submit() {
+  async function submit() {
     const eventIntervals = $selections.map((selection) => ({
       start: selection.start.utc().toISOString(),
       end: selection.end.utc().toISOString(),
     }));
-    createNewEvent(title, description, username, password, eventIntervals);
+    const { eventUrl, accessToken, accessTokenLifetime } = await createNewEvent(
+        title, description, username, password, eventIntervals);
+    goto(`/${eventUrl}`);
   }
 </script>
 

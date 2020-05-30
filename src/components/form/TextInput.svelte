@@ -4,6 +4,7 @@
   export let value;
   export let fontSize = '1em';
   export let fontWeight = '400';
+  export let error = null;
 </script>
 
 <div>

@@ -9,15 +9,13 @@ export async function createNewEvent(
     description,
     eventIntervals
   });
-  const response = await (await fetch('http://localhost:5000/new', {
+  return (await fetch('http://localhost:5000/new', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
   })).json();
-  console.log(body);
-  console.log(response);
 }
 
 /**
