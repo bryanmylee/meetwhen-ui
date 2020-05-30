@@ -35,18 +35,18 @@
 
 <div class="page" in:fadeIn out:fadeOut>
   <h1>New Event</h1>
-  <div class="card section">
+  <div class="card__outline section">
     <h3>Describe your event</h3>
     <TextInput label="Title" bind:value={title} />
     <TextInput label="Description" bind:value={description} />
   </div>
-  <div class="card section">
+  <div class="card__outline section">
     <h3>Create an account</h3>
     <TextInput label="Username" bind:value={username} />
     <TextInput label="Password" isPassword bind:value={password} />
     <h5>Account is unique to this event only</h5>
   </div>
-  <div class="picker-container card">
+  <div class="picker-container card__outline">
     <h3>Indicate event timing</h3>
     <div class="picker">
       <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />

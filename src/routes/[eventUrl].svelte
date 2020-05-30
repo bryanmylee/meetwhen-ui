@@ -43,7 +43,7 @@
   <h1>{event.title}</h1>
   <p>{event.description}</p>
   {#if isJoining}
-    <div class="card section" in:slide={{duration: 500, easing: cubicOut}}>
+    <div class="card__outline section" in:slide={{duration: 500, easing: cubicOut}}>
       <!-- Content of div with slide transitions is not masked properly on
       Safari. Therefore, implement a nice fade in after div is fully sized. -->
       <div in:fade={{duration: 150, delay: 500}}>
@@ -54,7 +54,7 @@
       </div>
     </div>
   {/if}
-  <div class="picker-container card">
+  <div class="picker-container card__outline">
     {#if isJoining}
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->

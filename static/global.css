@@ -51,6 +51,12 @@ html, body {
   box-shadow: var(--box-shadow);
 }
 
+.card__outline {
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: 1px var(--line-1) solid;
+}
+
 .cell {
   z-index: 0;
   display: flex;

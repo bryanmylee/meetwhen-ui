@@ -13,7 +13,7 @@
   </div>
   {#each hours as hour}
     <div class="cell index-col__cell">
-      {hour.add(1, 'hour').format('HH:mm')}
+      {hour.add(1, 'hour').format('ha')}
     </div>
   {/each}
 </div>
