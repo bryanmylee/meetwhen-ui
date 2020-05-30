@@ -39,9 +39,11 @@
 
 <svelte:window use:undoRedo={{ undo, redo }} />
 
-<div class="page">
-  <h1>{event.title}</h1>
-  <p>{event.description}</p>
+<div class="page" in:fadeIn out:fadeOut>
+  <div class="card__outline section">
+    <h1>{event.title}</h1>
+    <p>{event.description}</p>
+  </div>
   {#if isJoining}
     <div class="card__outline section" in:slide={{duration: 500, easing: cubicOut}}>
       <!-- Content of div with slide transitions is not masked properly on
@@ -92,13 +94,14 @@
     height: 100vh;
     padding: 1em;
     box-sizing: border-box;
+    background-color: var(--background-2);
   }
 
-  .section {
-    padding: 0.8em;
+  h1 {
+    margin: 0 0 0.5em;
   }
 
-  h1, p {
+  p {
     margin: 0;
   }
 

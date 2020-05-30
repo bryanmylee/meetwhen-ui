@@ -66,12 +66,7 @@
     height: 100vh;
     padding: 1em;
     box-sizing: border-box;
-  }
-
-  .section {
-    padding: 0.8em;
-    height: -moz-fit-content;
-    height: -webkit-fit-content;
+    background-color: var(--background-1);
   }
 
   h1 {
