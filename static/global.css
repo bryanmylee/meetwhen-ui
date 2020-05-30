@@ -8,7 +8,7 @@
   --primary-1: #62B2F2;
   --primary-1-1: #75C1F5;
   --primary-2: #E0FBFC;
-  --error-0: #E63946;
+  --error-0: #E57373;
   --line-0: #888;
   --line-1: #cacaca;
   --line-2: #eee;
@@ -61,6 +61,11 @@ html, body {
   box-sizing: border-box;
   border: 1px var(--line-1) solid;
   background-color: var(--background-0);
+  transition: border 0.2s ease;
+}
+
+.card__outline.error {
+  border: 1px var(--error-0) solid;
 }
 
 .section {

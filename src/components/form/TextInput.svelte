@@ -1,24 +1,27 @@
 <script>
+  import { fade } from 'svelte/transition';
+
+  import { inputAction, labelAction, barAction } from './TextInput.js';
+
   export let label = "Label";
   export let isPassword = false;
   export let value;
-  export let fontSize = '1em';
-  export let fontWeight = '400';
-  export let error = null;
+
+  let focused = false;
+  export let required = false;
+  export let attempted = false;
+  $: showError = required && attempted && value.length === 0;
 </script>
 
 <div>
-  {#if isPassword}
-    <input type="password" bind:value={value} required
-      style="font-size:{fontSize}; font-weight:{fontWeight}"
-    />
-  {:else}
-    <input type="text" bind:value={value} required
-      style="font-size:{fontSize}; font-weight:{fontWeight}"
-    />
-  {/if}
-  <span class="bar"></span>
-  <label style="font-size:{fontSize}">{label}</label>
+  <input use:inputAction={{isPassword}} bind:value={value}
+    on:focus={() => focused = true}
+    on:blur={() => focused = false}
+  />
+  <label use:labelAction={{focused, value, showError}}>
+    {label}
+  </label>
+  <span class="bar" use:barAction={{focused, showError}}></span>
 </div>
 
 <style>
@@ -43,48 +46,26 @@
     outline: none;
   }
 
-  input:required { /* Firefox */
-    box-shadow: none;
-  }
-
   label {
     font-size: 1em;
     color: var(--text-3);
     position: absolute;
     left: 5px;
     top: 10px;
-    transition: 0.2s ease all;
-    -moz-transition: 0.2s ease all;
-    -webkit-transition: 0.2s ease all;
+    transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -webkit-transition: all 0.2s ease;
     pointer-events: none;
-  }
-
-  input:focus ~ label,
-  input:valid ~ label {
-    font-size: 0.8em !important; /* To override the inline style */
-    top: -0.6em;
-    color: var(--primary-1);
   }
 
   .bar {
     position: absolute;
-    display: block;
-    width: 100%;
-  }
-
-  .bar:before {
-    position: absolute;
-    content: '';
     width: 0;
-    height: 2px;
-    bottom: 1px;
+    height: 1px;
+    bottom: 4px;
     background-color: var(--primary-1);
-    transition: 0.2s ease all;
-    -moz-transition: 0.2s ease all;
-    -webkit-transition: 0.2s ease all;
-  }
-
-  input:focus ~ .bar:before {
-    width: 100%;
+    transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -webkit-transition: all 0.2s ease;
   }
 </style>

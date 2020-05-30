@@ -18,12 +18,18 @@
   let username = '';
   let password = '';
   const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
+  let attempted = false;
 
   const startDate = dayjs().startOf('day');
   const daysToShow = Array.from(Array(10).keys())
       .map((inc) => startDate.add(inc, 'day'));
 
   async function submit() {
+    if (!inputsValid()) {
+      attempted = true;
+      return;
+    }
+
     const eventIntervals = $selections.map((selection) => ({
       start: selection.start.utc().toISOString(),
       end: selection.end.utc().toISOString(),
@@ -32,25 +38,43 @@
         title, description, username, password, eventIntervals);
     goto(`/${eventUrl}`);
   }
+
+  function inputsValid() {
+    return title.trim().length !== 0
+        && username.trim().length !== 0
+        && password.trim().length !== 0
+        && $selections.length !== 0;
+  }
 </script>
 
 <svelte:window use:undoRedo={{ undo, redo }} />
 
 <div class="page" in:fadeIn out:fadeOut>
   <h1>New Event</h1>
-  <div class="card__outline section">
+  <div
+    class="card__outline section"
+    class:error={attempted && title.trim().length === 0}
+  >
     <h3>Describe your event</h3>
-    <TextInput label="Title" bind:value={title} />
+    <TextInput label="Title" bind:value={title} required {attempted} />
     <TextInput label="Description" bind:value={description} />
   </div>
-  <div class="card__outline section">
+  <div
+    class="card__outline section"
+    class:error={attempted && (username.trim().length === 0 || password.trim().length === 0)}
+  >
     <h3>Create an account</h3>
-    <TextInput label="Username" bind:value={username} />
-    <TextInput label="Password" isPassword bind:value={password} />
+    <TextInput label="Username" bind:value={username} required {attempted} />
+    <TextInput label="Password" bind:value={password} isPassword required {attempted} />
     <h5>Account is unique to this event only</h5>
   </div>
-  <div class="picker-container card__outline">
-    <h3>Indicate event timing</h3>
+  <div
+    class="picker-container card__outline"
+    class:error={attempted && $selections.length === 0}
+  >
+    <h3>
+      Indicate event timing
+    </h3>
     <div class="picker">
       <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
     </div>
@@ -97,7 +121,7 @@
     color: var(--text-1);
     margin: 0;
     padding: 0 5px 5px;
-    font-weight: 700;
+    font-weight: 500;
   }
 
   h5 {
