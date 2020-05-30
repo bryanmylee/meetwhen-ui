@@ -8,9 +8,9 @@
   const nonEventIntervals = getNonIntervals(eventIntervals);
 </script>
 
-{#each nonEventIntervals as interval}
+{#each nonEventIntervals as { start, end }}
   <div
-    use:sizePos={{start: interval.start, end: interval.end}}
+    use:sizePos={{start, end}}
     class:pass-through={$isSelecting}
   ></div>
 {/each}
