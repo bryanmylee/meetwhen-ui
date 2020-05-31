@@ -23,13 +23,22 @@
   import { Button, TextInput } from '../components/form';
 
   export let event;
-
   let isJoining = false;
+
   let username = '';
   let password = '';
   const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
+  let attempted = false;
+  $: userDetailsValid = username.trim().length !== 0
+      && password.trim().length !== 0;
+  $: selectionsValid = $selections.length !== 0;
 
   function submit() {
+    if (!userDetailsValid || !selectionsValid) {
+      attempted = true;
+      return;
+    }
+
     const eventintervals = $selections.map((selection) => ({
       start: selection.start.utc().toISOString(),
       end: selection.end.utc().toISOString(),
@@ -45,18 +54,24 @@
     <p>{event.description}</p>
   </div>
   {#if isJoining}
-    <div class="card__outline section" in:slide={{duration: 500, easing: cubicOut}}>
+    <div
+      class="card__outline section"
+      class:error={attempted && !userDetailsValid}
+      in:slide={{duration: 500, easing: cubicOut}}>
       <!-- Content of div with slide transitions is not masked properly on
       Safari. Therefore, implement a nice fade in after div is fully sized. -->
       <div in:fade={{duration: 150, delay: 500}}>
         <h3>Create an account</h3>
-        <TextInput label="Username" bind:value={username} />
-        <TextInput label="Password" isPassword bind:value={password} />
+        <TextInput label="Username" bind:value={username} required {attempted} />
+        <TextInput label="Password" isPassword bind:value={password} required {attempted} />
         <h5>Account is unique to this event only</h5>
       </div>
     </div>
   {/if}
-  <div class="picker-container card__outline">
+  <div
+    class="picker-container card__outline"
+    class:error={attempted && !selectionsValid}
+  >
     {#if isJoining}
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
