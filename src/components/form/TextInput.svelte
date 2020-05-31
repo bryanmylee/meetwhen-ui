@@ -10,7 +10,7 @@
   let focused = false;
   export let required = false;
   export let attempted = false;
-  $: showError = required && attempted && value.length === 0;
+  $: showError = required && attempted && value.trim().length === 0;
 </script>
 
 <div>
