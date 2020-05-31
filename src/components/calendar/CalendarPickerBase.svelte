@@ -34,6 +34,7 @@
   }
 
   function gridDrag(event) {
+    if (initialHour == null && newSelection == null) startSelection(event);
     const { day, hour } = event.detail;
     newSelection = ({
       startDay: newSelection.startDay,
@@ -46,6 +47,7 @@
   function stopSelection() {
     if (newSelections.length === 0) return;
     selections = getUnionOfSelections([...selections, ...newSelections]);
+    initialHour = null;
     newSelection = null;
   }
 
