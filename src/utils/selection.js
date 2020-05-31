@@ -170,15 +170,14 @@ export function getIntersectionOfSelections(selectionsA, selectionsB) {
 }
 
 const MS_PER_HOUR = 3600000;
-const ROW_HEIGHT_IN_REM = 5;
 
 export function getTop(startInMs) {
   const start = dayjs(startInMs);
   const numHoursFromMidnight = start.hour() + start.minute() / 60;
-  return `${numHoursFromMidnight * ROW_HEIGHT_IN_REM}rem`;
+  return `calc(var(--row-height) * ${numHoursFromMidnight})`;
 }
 
 export function getHeight(durationInMs) {
   const durationInHours = durationInMs / MS_PER_HOUR;
-  return `${durationInHours * ROW_HEIGHT_IN_REM}rem`;
+  return `calc(var(--row-height) * ${durationInHours})`;
 }
