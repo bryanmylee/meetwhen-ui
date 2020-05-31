@@ -1,6 +1,8 @@
 <svelte:options immutable={true}/>
+
 <script>
-  import { goto } from '@sapper/app';
+  import { goto, stores } from '@sapper/app';
+  const { session } = stores();
   import dayjs from 'dayjs';
   import utc from 'dayjs/plugin/utc';
   dayjs.extend(utc);
@@ -33,13 +35,15 @@
       attempted = true;
       return;
     }
-
     const eventIntervals = $selections.map((selection) => ({
       start: selection.start.utc().toISOString(),
       end: selection.end.utc().toISOString(),
     }));
-    const { eventUrl, accessToken, accessTokenLifetime } = await createNewEvent(
-        title, description, username, password, eventIntervals);
+    const eventDetails = ({
+      title, description, username, password, eventIntervals
+    });
+    const { eventUrl, accessToken, accessTokenLifetime }
+        = await createNewEvent($session.API_URL, eventDetails);
     goto(`/${eventUrl}`);
   }
 </script>

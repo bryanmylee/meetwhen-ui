@@ -1,26 +1,29 @@
 import dayjs from 'dayjs';
 
-export async function createNewEvent(
-    title, description, username, password, eventIntervals) {
-  const body = ({
-    username,
-    password,
-    title,
-    description,
-    eventIntervals
-  });
-  return (await fetch('http://localhost:5000/new', {
+/**
+ * @typedef {{start: dayjs.Dayjs, end: dayjs.Dayjs}} interval
+ */
+
+/**
+ * 
+ * @param {string} apiUrl The URL of the API.
+ * @param {{
+ *   title: string,
+ *   description: string,
+ *   username: string,
+ *   password: string,
+ *   eventIntervals: interval[],
+ * }} eventDetails The details of the event.
+ */
+export async function createNewEvent(apiUrl, eventDetails) {
+  return await (await fetch(`${apiUrl}/new`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify(eventDetails),
   })).json();
 }
-
-/**
- * @typedef {{start: dayjs.Dayjs, end: dayjs.Dayjs}} interval
- */
 
 /**
  * Get the details of an event.
@@ -36,10 +39,10 @@ export async function createNewEvent(
  *   userIntervalsByUsername: Object.<string, interval[]>,
  * }>} The event details.
  */
-export async function getEvent(context, eventUrl) {
+export async function getEvent(context, apiUrl, eventUrl) {
   try {
     const event = await (await context
-        .fetch(`http://localhost:5000/${eventUrl}`, {
+        .fetch(`${apiUrl}/${eventUrl}`, {
       credentials: 'include',
     })).json();
 

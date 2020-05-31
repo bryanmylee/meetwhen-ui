@@ -1,11 +1,12 @@
 <svelte:options immutable={true}/>
+
 <script context="module">
   import { getEvent } from '../api/event.js';
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
     return ({
-      event: await getEvent(this, eventUrl)
+      event: await getEvent(this, session.API_URL, eventUrl),
     });
   }
 </script>
