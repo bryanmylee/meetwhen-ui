@@ -26,7 +26,7 @@ export async function createNewEvent(
  * Get the details of an event.
  * @param {*} context The `this` context of `@sapper.preload`.
  * @param {string} eventUrl The url identifier of the event.
- * @returns {{
+ * @returns {Promise<{
  *   id: number,
  *   eventUrl: string,
  *   title: string,
@@ -34,7 +34,7 @@ export async function createNewEvent(
  *   dateCreated: dayjs.Dayjs,
  *   eventIntervals: interval[],
  *   userIntervalsByUsername: Object.<string, interval[]>,
- * }} The event details.
+ * }>} The event details.
  */
 export async function getEvent(context, eventUrl) {
   try {
@@ -59,7 +59,7 @@ export async function getEvent(context, eventUrl) {
                 end: dayjs(interval.end),
               }))
             ]));
-    return { event };
+    return event;
   } catch (err) {
     console.log(err);
   }

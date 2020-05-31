@@ -4,7 +4,9 @@
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
-    return getEvent(this, eventUrl);
+    return ({
+      event: await getEvent(this, eventUrl)
+    });
   }
 </script>
 
