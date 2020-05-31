@@ -19,13 +19,17 @@
   let password = '';
   const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
   let attempted = false;
+  $: eventDetailsValid = title.trim().length !== 0; 
+  $: userDetailsValid = username.trim().length !== 0
+        && password.trim().length !== 0;
+  $: selectionsValid = $selections.length !== 0;
 
   const startDate = dayjs().startOf('day');
   const daysToShow = Array.from(Array(10).keys())
       .map((inc) => startDate.add(inc, 'day'));
 
   async function submit() {
-    if (!inputsValid()) {
+    if (!eventDetailsValid || !userDetailsValid || !selectionsValid) {
       attempted = true;
       return;
     }
@@ -38,13 +42,6 @@
         title, description, username, password, eventIntervals);
     goto(`/${eventUrl}`);
   }
-
-  function inputsValid() {
-    return title.trim().length !== 0
-        && username.trim().length !== 0
-        && password.trim().length !== 0
-        && $selections.length !== 0;
-  }
 </script>
 
 <svelte:window use:undoRedo={{ undo, redo }} />
@@ -53,7 +50,7 @@
   <h1>New Event</h1>
   <div
     class="card__outline section"
-    class:error={attempted && title.trim().length === 0}
+    class:error={attempted && !eventDetailsValid}
   >
     <h3>Describe your event</h3>
     <TextInput label="Title" bind:value={title} required {attempted} />
@@ -61,7 +58,7 @@
   </div>
   <div
     class="card__outline section"
-    class:error={attempted && (username.trim().length === 0 || password.trim().length === 0)}
+    class:error={attempted && !userDetailsValid}
   >
     <h3>Create an account</h3>
     <TextInput label="Username" bind:value={username} required {attempted} />
@@ -70,7 +67,7 @@
   </div>
   <div
     class="picker-container card__outline"
-    class:error={attempted && $selections.length === 0}
+    class:error={attempted && !selectionsValid}
   >
     <h3>
       Indicate event timing
