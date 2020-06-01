@@ -22,7 +22,7 @@
       : getIntersectionOfSelections(selectionLimits,
           getAreaSelection(newSelection));
 
-  function startSelection(event) {
+  function mouseSelectStart(event) {
     const { day, hour } = event.detail;
     initialHour = hour;
     newSelection = ({
@@ -33,7 +33,7 @@
     });
   }
 
-  function gridDrag(event) {
+  function mouseSelectMove(event) {
     if (initialHour == null && newSelection == null) startSelection(event);
     const { day, hour } = event.detail;
     newSelection = ({
@@ -44,7 +44,7 @@
     });
   }
 
-  function stopSelection() {
+  function mouseSelectStop() {
     if (newSelections.length === 0) return;
     selections = getUnionOfSelections([...selections, ...newSelections]);
     initialHour = null;
@@ -52,13 +52,13 @@
   }
 
   setContext('select', ({
-    startSelection,
-    gridDrag,
-    stopSelection,
+    mouseSelectStart,
+    mouseSelectMove,
+    mouseSelectStop,
   }));
 </script>
 
-<svelte:window on:mouseup={stopSelection} />
+<svelte:window on:mouseup={mouseSelectStop} />
 <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
 bug on Safari 13.1 -->
 <div class="body">

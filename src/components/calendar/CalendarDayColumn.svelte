@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte';
 
-  const { startSelection, gridDrag, stopSelection } = getContext('select');
+  const { mouseSelectStart, mouseSelectMove, mouseSelectStop } = getContext('select');
 
   import CalendarGridCell from './CalendarGridCell.svelte';
 
@@ -16,9 +16,9 @@
   <div class="select-area">
     {#each hours as hour, index}
       <CalendarGridCell {day} hour={index}
-        on:startSelection={startSelection}
-        on:gridDrag={gridDrag}
-        on:stopSelection={stopSelection}
+        on:mouseSelectStart={mouseSelectStart}
+        on:mouseSelectMove={mouseSelectMove}
+        on:mouseSelectStop={mouseSelectStop}
       />
     {/each}
     <!-- Slot for selections -->
