@@ -15,9 +15,6 @@
   // The current selection split into different days.
   let newSelections = [];
   $: $isSelecting = newSelections.length !== 0;
-
-  const hours = Array.from(Array(24).keys())
-      .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 </script>
 
 <CalendarPickerBase
@@ -25,7 +22,7 @@
   bind:newSelections={newSelections}
 >
   {#each daysToShow as day}
-    <CalendarDayColumn {day} {hours} >
+    <CalendarDayColumn {day} >
       <!-- Render selections -->
       {#each selections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}

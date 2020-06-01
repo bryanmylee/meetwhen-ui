@@ -12,7 +12,7 @@
     {day.format('ddd D')}
   </div>
   <div class="column">
-    <!-- Render selection div and separator lines -->
+    <!-- Render selection area div -->
     <div
       class="select-area"
       use:gridColumnMouse={{day, snapToHour}}
@@ -20,6 +20,7 @@
       on:mouseSelectMove={mouseSelectMove}
       on:mouseSelectStop={mouseSelectStop}
     ></div>
+    <!-- Render separator lines -->
     {#each Array(24) as _, inc}
       <div
         class="hour-separator"
