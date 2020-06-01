@@ -1,25 +1,30 @@
 <script>
   import { getContext } from 'svelte';
-
   const { mouseSelectStart, mouseSelectMove, mouseSelectStop } = getContext('select');
-
-  import CalendarGridCell from './CalendarGridCell.svelte';
+  import { gridColumnMouse, hourSeparator } from './CalendarDayColumn.js';
 
   export let day;
-  export let hours = [];
+  export let snapToHour = 0.25;
 </script>
 
 <div class="no-highlight">
   <div class="date-label">
     {day.format('ddd D')}
   </div>
-  <div class="select-area">
-    {#each hours as hour, index}
-      <CalendarGridCell {day} hour={index}
-        on:mouseSelectStart={mouseSelectStart}
-        on:mouseSelectMove={mouseSelectMove}
-        on:mouseSelectStop={mouseSelectStop}
-      />
+  <div class="column">
+    <!-- Render selection div and separator lines -->
+    <div
+      class="select-area"
+      use:gridColumnMouse={{day, snapToHour}}
+      on:mouseSelectStart={mouseSelectStart}
+      on:mouseSelectMove={mouseSelectMove}
+      on:mouseSelectStop={mouseSelectStop}
+    ></div>
+    {#each Array(24) as _, inc}
+      <div
+        class="hour-separator"
+        use:hourSeparator={{hour: inc + 1}}
+      ></div>
     {/each}
     <!-- Slot for selections -->
     <slot />
@@ -42,8 +47,24 @@
     background-color: white;
   }
 
-  .select-area {
+  .column {
     position: relative;
+    min-width: var(--col-width);
+    min-height: calc(var(--row-height) * 24);
+    box-sizing: border-box;
+    border-right: 1px var(--line-1) solid;
     user-select: none;
+  }
+
+  .select-area {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hour-separator {
+    width: 100%;
+    height: 1px;
+    background-color: var(--line-2);
   }
 </style>

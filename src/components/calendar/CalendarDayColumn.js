@@ -1,32 +1,25 @@
 import { getMouseOffset } from '../../utils/mouseEventHandler.js';
+import { getTop } from '../../utils/selection.js';
 
-export function gridCellMouse(node, { day, hour, snap }) {
-  let toSnap = snap;
-  function getRatioY(offsetY) {
+export function gridColumnMouse(node, { day, snapToHour = 0.25 }) {
+  let snap = snapToHour;
+  function getSnappedHour(event) {
+    const { offsetY } = getMouseOffset(event);
     const ratioY = offsetY / node.offsetHeight;
-    return Math.floor(ratioY / toSnap) * toSnap;
+    const hour = ratioY * 24;
+    return Math.floor(hour / snap) * snap;
   }
   function selectStart(event) {
-    const { offsetY } = getMouseOffset(event);
-    const ratioY = getRatioY(offsetY);
     if (event.buttons === 1) {
       node.dispatchEvent(new CustomEvent('mouseSelectStart', {
-        detail: {
-          day,
-          hour: hour + ratioY,
-        }
+        detail: { day, hour: getSnappedHour(event) }
       }));
     }
   }
   function selectMove(event) {
-    const { offsetY } = getMouseOffset(event);
-    const ratioY = getRatioY(offsetY);
     if (event.buttons === 1) {
       node.dispatchEvent(new CustomEvent('mouseSelectMove', {
-        detail: {
-          day,
-          hour: hour + ratioY,
-        }
+        detail: { day, hour: getSnappedHour(event) }
       }));
     }
   }
@@ -37,8 +30,8 @@ export function gridCellMouse(node, { day, hour, snap }) {
   node.addEventListener('mousemove', selectMove);
   node.addEventListener('mouseup', selectStop);
   return ({
-    update({ snap }) {
-      toSnap = snap;
+    update({ snapToHour }) {
+      snap = snapToHour;
     },
     destroy() {
       node.removeEventListener('mousedown', selectStart);
@@ -46,4 +39,10 @@ export function gridCellMouse(node, { day, hour, snap }) {
       node.removeEventListener('mouseup', selectStop);
     }
   });
+}
+
+const MS_PER_HOUR = 3600000;
+export function hourSeparator(node, { hour }) {
+  node.style.position = 'absolute';
+  node.style.top = getTop(hour * MS_PER_HOUR);
 }
