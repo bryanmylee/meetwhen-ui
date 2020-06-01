@@ -40,9 +40,6 @@
     if (days[length - 1].isSame(interval.start, 'day')) return days;
     return [ ...days, interval.start.startOf('day') ];
   }, []);
-
-  const hours = Array.from(Array(24).keys())
-      .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 </script>
 
 <CalendarPickerBase
@@ -51,7 +48,7 @@
   selectionLimits={eventIntervals}
 >
   {#each daysToShow as day}
-    <CalendarDayColumn {day} {hours} >
+    <CalendarDayColumn {day} >
       <!-- Render unavailable intervals -->
       <JoinEventUnavailableColumnOverlay
         eventIntervals={eventIntervalsSplitOnMidnight.filter((interval) =>

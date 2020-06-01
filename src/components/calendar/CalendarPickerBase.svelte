@@ -63,6 +63,7 @@
 bug on Safari 13.1 -->
 <div class="body">
   <CalendarIndexColumn />
+  <!-- Slot for div containing calendar day columns -->
   <slot />
 </div>
 
