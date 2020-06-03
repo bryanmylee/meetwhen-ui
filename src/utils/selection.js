@@ -1,14 +1,20 @@
 import dayjs from 'dayjs';
 
 /**
+ * @typedef {{
+ *   startDay: dayjs.Dayjs,
+ *   startHour: number,
+ *   endDay: dayjs.Dayjs,
+ *   endHour: number
+ * }} intervalSeparateDayHour
  * @typedef {{start: dayjs.Dayjs, end: dayjs.Dayjs}} interval
  */
 
 /**
  * Given a selection that spans multiple days, create an array of selections
  * with the same start and end times, but with incrementing dates.
- * @param {interval} newSelection The new selection made by
- * the user.
+ * @param {intervalSeparateDayHour} newSelection The new selection made by
+ * the user with days and hours separated.
  * @returns {interval[]} The new selections across different days.
  */
 export function getAreaSelection(newSelection) {
