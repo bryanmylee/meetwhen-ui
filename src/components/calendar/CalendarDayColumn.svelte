@@ -1,10 +1,14 @@
 <script>
   import { getContext } from 'svelte';
-  const { mouseSelectStart, mouseSelectMove, mouseSelectStop } = getContext('select');
-  import { gridColumnMouse, hourSeparator } from './CalendarDayColumn.js';
+  const {
+    mouseSelectStart,
+    mouseSelectMove,
+    mouseSelectStop,
+    tapSelect,
+  } = getContext('select');
+  import { gridColumnMouse, gridColumnTouch, hourSeparator } from './CalendarDayColumn.js';
 
   export let day;
-  export let snapToHour = 0.25;
 </script>
 
 <div class="no-highlight">
@@ -15,10 +19,12 @@
     <!-- Render selection area div -->
     <div
       class="select-area"
-      use:gridColumnMouse={{day, snapToHour}}
+      use:gridColumnMouse={{day}}
+      use:gridColumnTouch={{day}}
       on:mouseSelectStart={mouseSelectStart}
       on:mouseSelectMove={mouseSelectMove}
       on:mouseSelectStop={mouseSelectStop}
+      on:tapSelect={tapSelect}
     ></div>
     <!-- Render separator lines -->
     {#each Array(24) as _, inc}

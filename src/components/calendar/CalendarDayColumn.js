@@ -1,4 +1,5 @@
 import { getMouseOffset } from '../../utils/mouseEventHandler.js';
+import { getTouchOffset } from '../../utils/touchEventHandler.js';
 import { getTop } from '../../utils/selection.js';
 
 export function gridColumnMouse(node, { day, snapToHour = 0.25 }) {
@@ -39,6 +40,26 @@ export function gridColumnMouse(node, { day, snapToHour = 0.25 }) {
       node.removeEventListener('mouseup', selectStop);
     }
   });
+}
+
+export function gridColumnTouch(node,
+    { day, snapToHour = 1, defaultDuration = 1 }) {
+  let snap = snapToHour;
+  let duration = defaultDuration;
+  function getSnappedHour(event) {
+    const { offsetY } = getTouchOffset(event);
+    const ratioY = offsetY / node.offsetHeight;
+    const hour = ratioY * 24;
+    return Math.floor(hour / snap) * snap;
+  }
+  function touchStart(event) {
+    const startHour = getSnappedHour(event);
+    const endHour = startHour + duration;
+    node.dispatchEvent(new CustomEvent('tapSelect', {
+      detail: { day, startHour, endHour }
+    }));
+  }
+  node.addEventListener('touchstart', touchStart);
 }
 
 const MS_PER_HOUR = 3600000;

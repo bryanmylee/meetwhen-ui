@@ -40,7 +40,7 @@
       startDay: newSelection.startDay,
       startHour: initialHour + (hour < initialHour ? 0.25 : 0),
       endDay: day,
-      endHour: hour + (hour >= initialHour ? 0.25 : 0)
+      endHour: hour + (hour >= initialHour ? 0.25 : 0),
     });
   }
 
@@ -51,10 +51,20 @@
     newSelection = null;
   }
 
+  function tapSelect(event) {
+    const { day, startHour, endHour } = event.detail;
+    const tapSelection = ({
+      start: day.add(startHour, 'hour'),
+      end: day.add(endHour, 'hour'),
+    });
+    selections = getUnionOfSelections([...selections, tapSelection]);
+  }
+
   setContext('select', ({
     mouseSelectStart,
     mouseSelectMove,
     mouseSelectStop,
+    tapSelect,
   }));
 </script>
 
