@@ -2,24 +2,20 @@
 <script>
   import dayjs from 'dayjs';
 
-  import { isSelecting } from '../../../stores.js';
-
   import CalendarPickerBase from '../CalendarPickerBase.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
   import NewEventDefinedSelection from './NewEventDefinedSelection.svelte';
   import NewEventNewSelection from './NewEventNewSelection.svelte';
 
+  // The defined selections to be bound and exposed as the input data.
   export let selections = [];
-  export let daysToShow = [];
 
-  // The current selection split into different days.
-  let newSelections = [];
-  $: $isSelecting = newSelections.length !== 0;
+  export let daysToShow = [];
 </script>
 
 <CalendarPickerBase
   bind:selections={selections}
-  bind:newSelections={newSelections}
+  let:newSelections={newSelections}
 >
   {#each daysToShow as day}
     <CalendarDayColumn {day} >

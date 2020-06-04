@@ -3,7 +3,6 @@
   import dayjs from 'dayjs';
 
   import { getMergedIntervals, splitIntervalsOnMidnight, } from '../../../utils/interval.js';
-  import { isSelecting } from '../../../stores.js';
 
   import CalendarPickerBase from '../CalendarPickerBase.svelte';
   import CalendarDayColumn from '../CalendarDayColumn.svelte';
@@ -12,14 +11,12 @@
   import JoinEventDefinedSelection from './JoinEventDefinedSelection.svelte';
   import JoinEventNewSelection from './JoinEventNewSelection.svelte';
 
+  // The defined selections to be bound and exposed as the input data.
   export let selections = [];
+
   export let eventIntervals = [];
   export let userIntervalsByUsername = {};
   export let isCollapsed = false;
-
-  // The current selection split into different days.
-  let newSelections = [];
-  $: $isSelecting = newSelections.length !== 0;
 
   $: eventIntervalsSplitOnMidnight = splitIntervalsOnMidnight(eventIntervals);
 
@@ -44,7 +41,7 @@
 
 <CalendarPickerBase
   bind:selections={selections}
-  bind:newSelections={newSelections}
+  let:newSelections={newSelections}
   selectionLimits={eventIntervals}
 >
   {#each daysToShow as day}

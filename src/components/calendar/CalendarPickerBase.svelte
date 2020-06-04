@@ -1,26 +1,30 @@
 <script>
   import { setContext } from 'svelte';
+
   import {
     getAreaSelection,
     getUnionOfSelections,
     getIntersectionOfSelections
   } from '../../utils/selection.js';
+  import { isSelecting } from '../../stores.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
-  // The defined selections.
+  // The defined selections to be bound and exposed as the input data.
   export let selections = [];
+
+  // Any limitation on the selections possible. If null, treated as no limits.
+  export let selectionLimits = null;
+
   // The new selection being made.
   let initialHour = null;
   let newSelection = null;
   // The current selection split into different days.
-  export let newSelections = [];
-  // Any limitation on the selections possible. If null, treated as no limits.
-  export let selectionLimits = null;
   $: newSelections = selectionLimits == null
       ? getAreaSelection(newSelection)
       : getIntersectionOfSelections(selectionLimits,
           getAreaSelection(newSelection));
+  $: $isSelecting = newSelections.length !== 0;
 
   function mouseSelectStart(event) {
     const { day, hour } = event.detail;
@@ -74,7 +78,7 @@ bug on Safari 13.1 -->
 <div class="body">
   <CalendarIndexColumn />
   <!-- Slot for div containing calendar day columns -->
-  <slot />
+  <slot {newSelections} />
 </div>
 
 <style>
