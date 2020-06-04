@@ -16,6 +16,7 @@
 <style>
   .container {
     position: absolute;
+    z-index: 10;
     width: var(--select-width);
     display: flex;
     pointer-events: none;

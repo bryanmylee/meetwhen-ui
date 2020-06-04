@@ -23,7 +23,7 @@
     position: -webkit-sticky; /* Safari */
     position: sticky;
     left: 0;
-    z-index: 100;
+    z-index: 21;
     min-width: var(--index-col-width);
     background-color: white;
   }
@@ -32,6 +32,7 @@
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
+    z-index: 22;
     display: flex;
     justify-content: center;
     align-items: center;

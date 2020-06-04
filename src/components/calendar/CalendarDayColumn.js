@@ -1,8 +1,8 @@
-import { getMouseOffset } from '../../utils/mouseEventHandler.js';
 import {
+  getMouseOffset,
   getTouchOffset,
-  distanceBetweenOffsets
-} from '../../utils/touchEventHandler.js';
+  distanceBetweenOffsets,
+} from '../../utils/eventHandler.js';
 import { getTop } from '../../utils/selection.js';
 import { isSelecting } from "../../stores.js";
 
