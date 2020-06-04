@@ -22,6 +22,7 @@
 
 <style>
   div {
+    z-index: 30;
     width: -moz-max-content;
     width: -webkit-max-content;
     height: -moz-max-content;

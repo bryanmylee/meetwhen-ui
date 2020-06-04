@@ -40,6 +40,7 @@
 <style>
   .other-user-selection {
     position: absolute;
+    z-index: 10;
     width: var(--select-width);
     border-radius: 5px;
     background-color: var(--primary-0);

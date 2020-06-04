@@ -18,6 +18,7 @@
 <style>
   div {
     position: absolute;
+    z-index: 19;
     width: var(--col-width);
     background-color: var(--disabled-shade);
     opacity: 0.5;

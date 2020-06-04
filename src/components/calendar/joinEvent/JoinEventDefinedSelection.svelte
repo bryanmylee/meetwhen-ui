@@ -20,6 +20,7 @@
 <style>
   .container {
     position: absolute;
+    z-index: 10;
     left: var(--select-collapse-width);
     width: var(--select-join-width);
     display: flex;
