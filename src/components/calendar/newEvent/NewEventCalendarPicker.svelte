@@ -14,7 +14,7 @@
 </script>
 
 <CalendarPickerBase
-  daysToShow={daysToShow}
+  {daysToShow}
   bind:selections={selections}
   let:newSelections={newSelections}
 >

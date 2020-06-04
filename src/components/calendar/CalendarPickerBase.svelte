@@ -25,6 +25,7 @@
       : getIntersectionOfSelections(selectionLimits,
           getAreaSelection(newSelection));
   $: $isSelecting = newSelections.length !== 0;
+  $: console.log($isSelecting);
 
   function selectStart(event) {
     const { day, hour } = event.detail;
@@ -59,7 +60,10 @@
 <svelte:window on:mouseup={selectStop} />
 <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
 bug on Safari 13.1 -->
-<div class="body no-highlight">
+<div
+  class="body no-highlight"
+  class:disable-touch-scroll={$isSelecting}
+>
   <div
     class="interaction-layer"
     use:interaction={{daysToShow}}
@@ -89,5 +93,9 @@ bug on Safari 13.1 -->
     flex-direction: row;
     width: -moz-max-content;
     width: -webkit-max-content;
+  }
+
+  .disable-touch-scroll {
+    touch-action: none;
   }
 </style>
