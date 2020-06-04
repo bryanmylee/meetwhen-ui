@@ -4,9 +4,10 @@ import { cubicOut } from 'svelte/easing';
 import { getTop, getHeight } from '../utils/selection.js';
 
 export function smoothSizePos(node, { start, end, duration }) {
+  const startOfDay = start.startOf('day');
   const smooth = tweened({
-    startInMs: start - start.startOf('day'),
-    endInMs: end - end.startOf('day'),
+    startInMs: start - startOfDay,
+    endInMs: end - startOfDay,
   }, {
     duration: duration ?? 100,
     easing: cubicOut,
@@ -18,9 +19,10 @@ export function smoothSizePos(node, { start, end, duration }) {
   });
   return ({
     update({ start, end }) {
+      const startOfDay = start.startOf('day');
       smooth.set({
-        startInMs: start - start.startOf('day'),
-        endInMs: end - end.startOf('day')
+        startInMs: start - startOfDay,
+        endInMs: end - startOfDay,
       });
     },
     destroy() {
