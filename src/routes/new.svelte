@@ -70,7 +70,7 @@
     <h5>Account is unique to this event only</h5>
   </div>
   <div
-    class="picker-container card__outline"
+    class="picker-container card__outline no-highlight"
     class:error={attempted && !selectionsValid}
   >
     <h3>

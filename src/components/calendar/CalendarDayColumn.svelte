@@ -4,9 +4,10 @@
     mouseSelectStart,
     mouseSelectMove,
     mouseSelectStop,
-    tapSelect,
+    touchSelectStart,
   } = getContext('select');
   import { gridColumnMouse, gridColumnTouch, hourSeparator } from './CalendarDayColumn.js';
+  import { isSelecting } from '../../stores.js';
 
   export let day;
 </script>
@@ -19,12 +20,13 @@
     <!-- Render selection area div -->
     <div
       class="select-area"
+      class:disable-touch={$isSelecting}
       use:gridColumnMouse={{day}}
       use:gridColumnTouch={{day}}
       on:mouseSelectStart={mouseSelectStart}
       on:mouseSelectMove={mouseSelectMove}
       on:mouseSelectStop={mouseSelectStop}
-      on:tapSelect={tapSelect}
+      on:touchSelectStart={touchSelectStart}
     ></div>
     <!-- Render separator lines -->
     {#each Array(24) as _, inc}
@@ -73,5 +75,11 @@
     width: 100%;
     height: 1px;
     background-color: var(--line-2);
+    pointer-events: none;
+    touch-action: none;
+  }
+
+  .disable-touch {
+    touch-action: none;
   }
 </style>

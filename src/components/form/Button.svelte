@@ -1,4 +1,4 @@
-<button on:click><slot /></button>
+<button on:click class="no-highlight"><slot /></button>
 
 <style>
   button {

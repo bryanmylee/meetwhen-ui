@@ -9,3 +9,9 @@ export function getTouchOffset(event) {
   const offsetY = touch.clientY - rect.top;
   return { offsetX, offsetY };
 }
+
+export function distanceBetweenOffsets(offsetA, offsetB) {
+  return Math.sqrt(
+      Math.pow(offsetA.offsetX - offsetB.offsetX, 2)
+      + Math.pow(offsetA.offsetY - offsetB.offsetY, 2));
+}

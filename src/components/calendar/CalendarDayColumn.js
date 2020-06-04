@@ -1,6 +1,10 @@
 import { getMouseOffset } from '../../utils/mouseEventHandler.js';
-import { getTouchOffset } from '../../utils/touchEventHandler.js';
+import {
+  getTouchOffset,
+  distanceBetweenOffsets
+} from '../../utils/touchEventHandler.js';
 import { getTop } from '../../utils/selection.js';
+import { isSelecting } from "../../stores.js";
 
 export function gridColumnMouse(node, { day, snapToHour = 0.25 }) {
   let snap = snapToHour;
@@ -47,10 +51,25 @@ export function gridColumnMouse(node, { day, snapToHour = 0.25 }) {
   });
 }
 
+/**
+ * To trigger a touch-based selection, wait for a long-press event. 
+ * - A long-press event is defined as one where:
+ *   - A touchend event is not sent before a specified DELAY.
+ *   - The location of the touch does not move beyond a specified RADIUS.
+ * - Upon triggering the long-press event, track the location of the touch until
+ * - a touchend is sent.
+ */
 export function gridColumnTouch(node,
-    { day, snapToHour = 1, defaultDuration = 1 }) {
+    { day, snapToHour = 0.25, longPressDuration = 500 }) {
   let snap = snapToHour;
-  let duration = defaultDuration;
+  let timer = null;
+  let initialOffset = null;
+  let longPressed = false;
+  let moved = false;
+  let selecting = false;
+  const unsub = isSelecting.subscribe((isSelecting) => {
+    selecting = isSelecting;
+  });
 
   function getSnappedHour(event) {
     const { offsetY } = getTouchOffset(event);
@@ -60,14 +79,46 @@ export function gridColumnTouch(node,
   }
 
   function touchStart(event) {
-    const startHour = getSnappedHour(event);
-    const endHour = startHour + duration;
-    node.dispatchEvent(new CustomEvent('tapSelect', {
-      detail: { day, startHour, endHour }
+    initialOffset = getTouchOffset(event);
+    timer = setTimeout(() => longPressStart(event), longPressDuration);
+  }
+
+  function longPressStart(event) {
+    if (moved) return;
+
+    if (timer != null) clearTimeout(timer);
+
+    longPressed = true;
+    isSelecting.set(true);
+    node.dispatchEvent(new CustomEvent('mouseSelectStart', {
+      detail: { day, hour: getSnappedHour(event) }
     }));
   }
 
+  function touchMove(event) {
+    const offset = getTouchOffset(event);
+    if (distanceBetweenOffsets(initialOffset, offset) > 15) {
+      moved = true;
+    }
+    if (selecting) {
+      node.dispatchEvent(new CustomEvent('mouseSelectMove', {
+        detail: { day, hour: getSnappedHour(event) }
+      }));
+    }
+  }
+
+  function touchEnd() {
+    if (timer != null) clearTimeout(timer);
+    longPressed = false;
+    isSelecting.set(false);
+    moved = false;
+    node.dispatchEvent(new CustomEvent('mouseSelectStop'));
+  }
+
   node.addEventListener('touchstart', touchStart);
+  node.addEventListener('touchmove', touchMove);
+  node.addEventListener('touchend', touchEnd);
+  node.addEventListener('contextmenu', event => event.preventDefault());
 }
 
 const MS_PER_HOUR = 3600000;

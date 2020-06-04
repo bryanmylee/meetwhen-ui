@@ -55,27 +55,29 @@
     newSelection = null;
   }
 
-  function tapSelect(event) {
-    const { day, startHour, endHour } = event.detail;
-    const tapSelection = ({
-      start: day.add(startHour, 'hour'),
-      end: day.add(endHour, 'hour'),
+  function touchSelectStart(event) {
+    const { day, hour } = event.detail;
+    initialHour = hour;
+    newSelection = ({
+      startDay: day,
+      startHour: hour,
+      endDay: day,
+      endHour: hour + 0.25,
     });
-    selections = getUnionOfSelections([...selections, tapSelection]);
   }
 
   setContext('select', ({
     mouseSelectStart,
     mouseSelectMove,
     mouseSelectStop,
-    tapSelect,
+    touchSelectStart,
   }));
 </script>
 
 <svelte:window on:mouseup={mouseSelectStop} />
 <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
 bug on Safari 13.1 -->
-<div class="body">
+<div class="body no-highlight">
   <CalendarIndexColumn />
   <!-- Slot for div containing calendar day columns -->
   <slot {newSelections} />
