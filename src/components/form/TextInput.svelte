@@ -1,7 +1,7 @@
 <script>
   import { fade } from 'svelte/transition';
 
-  import { inputAction, labelAction, barAction } from './TextInput.js';
+  import { inputAction, labelAction } from './TextInput.js';
 
   export let label = "Label";
   export let isPassword = false;
@@ -14,14 +14,13 @@
 </script>
 
 <div>
-  <input use:inputAction={{isPassword}} bind:value={value}
+  <input use:inputAction={{isPassword, focused, value, showError}} bind:value={value}
     on:focus={() => focused = true}
     on:blur={() => focused = false}
   />
   <label use:labelAction={{focused, value, showError}}>
     {label}
   </label>
-  <span class="bar" use:barAction={{focused, showError}}></span>
 </div>
 
 <style>
@@ -40,10 +39,14 @@
     border-bottom: 1px solid var(--line-1);
     padding: 10px 10px 5px 5px;
     margin-bottom: 1px;
+    transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -webkit-transition: all 0.2s ease;
   }
 
   input:focus {
     outline: none;
+    border-bottom: 1px solid var(--primary-1);
   }
 
   label {
@@ -52,18 +55,7 @@
     position: absolute;
     left: 5px;
     top: 10px;
-    transition: all 0.2s ease;
-    -moz-transition: all 0.2s ease;
-    -webkit-transition: all 0.2s ease;
     pointer-events: none;
-  }
-
-  .bar {
-    position: absolute;
-    width: 0;
-    height: 1px;
-    bottom: 4px;
-    background-color: var(--primary-1);
     transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -webkit-transition: all 0.2s ease;

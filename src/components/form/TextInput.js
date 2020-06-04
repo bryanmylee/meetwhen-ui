@@ -1,7 +1,26 @@
-export function inputAction(node, options) {
-  if (options.isPassword) {
+export function inputAction(node, { isPassword }) {
+  if (isPassword) {
     node.type = 'password';
   }
+  function normal() {
+    node.style.borderBottom = '1px solid var(--line-1)';
+  }
+  function focus() {
+    node.style.borderBottom = '1px solid var(--primary-1)';
+  }
+  function error() {
+    node.style.borderBottom = '1px solid var(--error-0)';
+  }
+  return ({
+    update({ focused, value, showError }) {
+      if (focused) {
+        focus();
+      } else {
+        normal();
+      }
+      if (showError) error();
+    }
+  });
 }
 
 export function labelAction(node) {
@@ -25,27 +44,6 @@ export function labelAction(node) {
       } else {
         normal();
       }
-      if (showError) error();
-    }
-  });
-}
-
-export function barAction(node) {
-  function normal() {
-    node.style.backgroundColor = 'var(--primary-1)';
-    node.style.width = 0;
-  }
-  function focus() {
-    node.style.width = '100%';
-  }
-  function error() {
-    node.style.backgroundColor = 'var(--error-0)';
-    node.style.width = '100%';
-  }
-  return ({
-    update({ focused, showError }) {
-      normal();
-      if (focused) focus();
       if (showError) error();
     }
   });
