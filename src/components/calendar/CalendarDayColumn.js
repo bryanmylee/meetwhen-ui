@@ -4,12 +4,14 @@ import { getTop } from '../../utils/selection.js';
 
 export function gridColumnMouse(node, { day, snapToHour = 0.25 }) {
   let snap = snapToHour;
+
   function getSnappedHour(event) {
     const { offsetY } = getMouseOffset(event);
     const ratioY = offsetY / node.offsetHeight;
     const hour = ratioY * 24;
     return Math.floor(hour / snap) * snap;
   }
+
   function selectStart(event) {
     if (event.buttons === 1) {
       node.dispatchEvent(new CustomEvent('mouseSelectStart', {
@@ -17,6 +19,7 @@ export function gridColumnMouse(node, { day, snapToHour = 0.25 }) {
       }));
     }
   }
+
   function selectMove(event) {
     if (event.buttons === 1) {
       node.dispatchEvent(new CustomEvent('mouseSelectMove', {
@@ -24,9 +27,11 @@ export function gridColumnMouse(node, { day, snapToHour = 0.25 }) {
       }));
     }
   }
+
   function selectStop() {
     node.dispatchEvent(new CustomEvent('mouseSelectStop'));
   }
+
   node.addEventListener('mousedown', selectStart);
   node.addEventListener('mousemove', selectMove);
   node.addEventListener('mouseup', selectStop);
@@ -46,12 +51,14 @@ export function gridColumnTouch(node,
     { day, snapToHour = 1, defaultDuration = 1 }) {
   let snap = snapToHour;
   let duration = defaultDuration;
+
   function getSnappedHour(event) {
     const { offsetY } = getTouchOffset(event);
     const ratioY = offsetY / node.offsetHeight;
     const hour = ratioY * 24;
     return Math.floor(hour / snap) * snap;
   }
+
   function touchStart(event) {
     const startHour = getSnappedHour(event);
     const endHour = startHour + duration;
@@ -59,6 +66,7 @@ export function gridColumnTouch(node,
       detail: { day, startHour, endHour }
     }));
   }
+
   node.addEventListener('touchstart', touchStart);
 }
 
