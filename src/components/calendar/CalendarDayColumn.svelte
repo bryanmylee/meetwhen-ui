@@ -1,11 +1,5 @@
 <script>
   import { getContext } from 'svelte';
-  const {
-    mouseSelectStart,
-    mouseSelectMove,
-    mouseSelectStop,
-    touchSelectStart,
-  } = getContext('select');
   import { gridColumnMouse, gridColumnTouch, hourSeparator } from './CalendarDayColumn.js';
   import { isSelecting } from '../../stores.js';
 
@@ -17,17 +11,6 @@
     {day.format('ddd D')}
   </div>
   <div class="column">
-    <!-- Render selection area div -->
-    <div
-      class="select-area"
-      class:disable-touch={$isSelecting}
-      use:gridColumnMouse={{day}}
-      use:gridColumnTouch={{day}}
-      on:mouseSelectStart={mouseSelectStart}
-      on:mouseSelectMove={mouseSelectMove}
-      on:mouseSelectStop={mouseSelectStop}
-      on:touchSelectStart={touchSelectStart}
-    ></div>
     <!-- Render separator lines -->
     {#each Array(24) as _, inc}
       <div
@@ -45,11 +28,10 @@
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
-    z-index: 5;
+    z-index: 20;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* min-height: var(--header-row-height); */
     padding: 0.5rem;
     box-sizing: border-box;
     border-bottom: 1px var(--line-1) solid;
@@ -63,12 +45,6 @@
     box-sizing: border-box;
     border-right: 1px var(--line-1) solid;
     user-select: none;
-  }
-
-  .select-area {
-    position: absolute;
-    width: 100%;
-    height: 100%;
   }
 
   .hour-separator {

@@ -1,15 +1,15 @@
 <script>
-  import { setContext } from 'svelte';
-
   import {
     getAreaSelection,
     getUnionOfSelections,
     getIntersectionOfSelections
   } from '../../utils/selection.js';
+  import { interaction } from './CalendarPickerBase.js';
   import { isSelecting } from '../../stores.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
+  export let daysToShow = [];
   // The defined selections to be bound and exposed as the input data.
   export let selections = [];
 
@@ -26,7 +26,7 @@
           getAreaSelection(newSelection));
   $: $isSelecting = newSelections.length !== 0;
 
-  function mouseSelectStart(event) {
+  function selectStart(event) {
     const { day, hour } = event.detail;
     initialHour = hour;
     newSelection = ({
@@ -37,7 +37,7 @@
     });
   }
 
-  function mouseSelectMove(event) {
+  function selectMove(event) {
     if (initialHour == null && newSelection == null) startSelection(event);
     const { day, hour } = event.detail;
     newSelection = ({
@@ -48,43 +48,43 @@
     });
   }
 
-  function mouseSelectStop() {
+  function selectStop() {
     if (newSelections.length === 0) return;
     selections = getUnionOfSelections([...selections, ...newSelections]);
     initialHour = null;
     newSelection = null;
   }
-
-  function touchSelectStart(event) {
-    const { day, hour } = event.detail;
-    initialHour = hour;
-    newSelection = ({
-      startDay: day,
-      startHour: hour,
-      endDay: day,
-      endHour: hour + 0.25,
-    });
-  }
-
-  setContext('select', ({
-    mouseSelectStart,
-    mouseSelectMove,
-    mouseSelectStop,
-    touchSelectStart,
-  }));
 </script>
 
-<svelte:window on:mouseup={mouseSelectStop} />
+<svelte:window on:mouseup={selectStop} />
 <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
 bug on Safari 13.1 -->
 <div class="body no-highlight">
+  <div
+    class="interaction-layer"
+    use:interaction={{daysToShow}}
+    on:selectStart={selectStart}
+    on:selectMove={selectMove}
+    on:selectStop={selectStop}
+  />
   <CalendarIndexColumn />
   <!-- Slot for div containing calendar day columns -->
   <slot {newSelections} />
 </div>
 
 <style>
+  .interaction-layer {
+    position: absolute;
+    left: var(--index-col-width);
+    top: var(--header-row-height);
+    right: 0;
+    bottom: calc(var(--row-height) / 2);
+    z-index: 2;
+    pointer-events: all;
+  }
+
   .body {
+    position: relative;
     display: flex;
     flex-direction: row;
     width: -moz-max-content;
