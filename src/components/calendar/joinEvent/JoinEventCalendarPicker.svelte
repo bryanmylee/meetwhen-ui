@@ -40,6 +40,7 @@
 </script>
 
 <CalendarPickerBase
+  {daysToShow}
   bind:selections={selections}
   let:newSelections={newSelections}
   selectionLimits={eventIntervals}
