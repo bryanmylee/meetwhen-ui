@@ -1,7 +1,7 @@
 <script>
   import { isSelecting } from '../../../stores.js';
   import popper from '../../../actions/popper.js';
-  import { sizePos } from '../../../actions/selection.js';
+  import { sizePos } from '../../../actions/column.js';
   import { opacity } from '../../../actions/style.js';
 
   import JoinEventOtherUsersPopover from './JoinEventOtherUsersPopover.svelte';

@@ -1,6 +1,7 @@
 <script>
   import { getContext } from 'svelte';
-  import { gridColumnMouse, gridColumnTouch, hourSeparator } from './CalendarDayColumn.js';
+
+  import { top } from '../../actions/column.js';
   import { isSelecting } from '../../stores.js';
 
   export let day;
@@ -15,7 +16,7 @@
     {#each Array(24) as _, inc}
       <div
         class="hour-separator"
-        use:hourSeparator={{hour: inc + 1}}
+        use:top={{hour: inc + 1}}
       ></div>
     {/each}
     <!-- Slot for selections -->
@@ -52,10 +53,6 @@
     height: 1px;
     background-color: var(--line-2);
     pointer-events: none;
-    touch-action: none;
-  }
-
-  .disable-touch {
     touch-action: none;
   }
 </style>

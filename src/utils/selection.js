@@ -174,15 +174,3 @@ export function getIntersectionOfSelections(selectionsA, selectionsB) {
   }
   return intersectSelections;
 }
-
-const MS_PER_HOUR = 3600000;
-
-export function getTop(startHourInMs) {
-  const numHoursFromMidnight = startHourInMs / MS_PER_HOUR;
-  return `calc(var(--row-height) * ${numHoursFromMidnight})`;
-}
-
-export function getHeight(durationInMs) {
-  const durationInHours = durationInMs / MS_PER_HOUR;
-  return `calc(var(--row-height) * ${durationInHours})`;
-}

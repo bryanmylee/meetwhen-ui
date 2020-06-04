@@ -1,7 +1,17 @@
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
 
-import { getTop, getHeight } from '../utils/selection.js';
+const MS_PER_HOUR = 3600000;
+
+export function getTop(startHourInMs) {
+  const numHoursFromMidnight = startHourInMs / MS_PER_HOUR;
+  return `calc(var(--row-height) * ${numHoursFromMidnight})`;
+}
+
+export function getHeight(durationInMs) {
+  const durationInHours = durationInMs / MS_PER_HOUR;
+  return `calc(var(--row-height) * ${durationInHours})`;
+}
 
 export function smoothSizePos(node, { start, end, duration }) {
   const startOfDay = start.startOf('day');
@@ -41,4 +51,9 @@ export function sizePos(node, { start, end }) {
       node.style.height = getHeight(end - start);
     }
   });
+}
+
+export function top(node, { hour }) {
+  node.style.position = 'absolute';
+  node.style.top = getTop(hour * MS_PER_HOUR);
 }

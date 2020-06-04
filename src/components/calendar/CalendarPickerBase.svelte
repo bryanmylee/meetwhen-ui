@@ -25,7 +25,6 @@
       : getIntersectionOfSelections(selectionLimits,
           getAreaSelection(newSelection));
   $: $isSelecting = newSelections.length !== 0;
-  $: console.log($isSelecting);
 
   function selectStart(event) {
     const { day, hour } = event.detail;
@@ -77,16 +76,6 @@ bug on Safari 13.1 -->
 </div>
 
 <style>
-  .interaction-layer {
-    position: absolute;
-    left: var(--index-col-width);
-    top: var(--header-row-height);
-    right: 0;
-    bottom: calc(var(--row-height) / 2);
-    z-index: 2;
-    pointer-events: all;
-  }
-
   .body {
     position: relative;
     display: flex;
@@ -97,5 +86,15 @@ bug on Safari 13.1 -->
 
   .disable-touch-scroll {
     touch-action: none;
+  }
+
+  .interaction-layer {
+    position: absolute;
+    left: var(--index-col-width);
+    top: var(--header-row-height);
+    right: 0;
+    bottom: calc(var(--row-height) / 2);
+    z-index: 2;
+    pointer-events: all;
   }
 </style>
