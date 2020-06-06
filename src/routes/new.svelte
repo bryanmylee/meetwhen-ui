@@ -4,8 +4,6 @@
   import { goto, stores } from '@sapper/app';
   const { session } = stores();
   import dayjs from 'dayjs';
-  import utc from 'dayjs/plugin/utc';
-  dayjs.extend(utc);
 
   import { undoRedo } from '../actions/hotkeys.js';
   import undoable from '../utils/undoable.js';
@@ -35,12 +33,8 @@
       attempted = true;
       return;
     }
-    const eventIntervals = $selections.map((selection) => ({
-      start: selection.start.utc().toISOString(),
-      end: selection.end.utc().toISOString(),
-    }));
     const eventDetails = ({
-      title, description, username, password, eventIntervals
+      title, description, username, password, eventIntervals: $selections
     });
     const { eventUrl, accessToken, accessTokenLifetime }
         = await createNewEvent($session.API_URL, eventDetails);

@@ -1,8 +1,36 @@
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 /**
  * @typedef {{start: dayjs.Dayjs, end: dayjs.Dayjs}} interval
+ * @typedef {{start: string, end: string}} serializedInterval
  */
+
+/**
+ * Serializes an interval to be represented as a tuple of UTC ISO strings.
+ * @param {interval} interval The interval to serialize.
+ * @returns {serializedInterval} The serialized interval.
+ */
+function serializeInterval(interval) {
+  return ({
+    start: interval.start.utc().toISOString(),
+    end: interval.end.utc().toISOString(),
+  });
+}
+
+/**
+ * Deserializes an interval to be represented as a tuple of dayjs objects.
+ * @param {serializedInterval} serializedInterval The serialized interval to
+ * deserialize.
+ * @returns {interval} The deserialized interval.
+ */
+function deserializeInterval(serializedInterval) {
+  return ({
+    start: dayjs(serializedInterval.start),
+    end: dayjs(serializedInterval.end),
+  });
+}
 
 /**
  * 
@@ -16,6 +44,8 @@ import dayjs from 'dayjs';
  * }} eventDetails The details of the event.
  */
 export async function createNewEvent(apiUrl, eventDetails) {
+  const { eventIntervals } = eventDetails;
+  eventDetails.eventIntervals = eventIntervals.map(serializeInterval);
   return await (await fetch(`${apiUrl}/new`, {
     method: 'POST',
     headers: {
@@ -48,19 +78,13 @@ export async function getEvent(context, apiUrl, eventUrl) {
 
     // Parse datetimes
     event.dateCreated = dayjs(event.dateCreated);
-    event.eventIntervals = event.eventIntervals.map((interval) => ({
-      start: dayjs(interval.start),
-      end: dayjs(interval.end),
-    }));
+    event.eventIntervals = event.eventIntervals.map(deserializeInterval);
     event.userIntervalsByUsername = Object.fromEntries(
         // .entries returns an array of tuples in [key, value] form.
         Object.entries(event.userIntervalsByUsername)
             .map(([username, intervals]) => [
               username,
-              intervals.map((interval) => ({
-                start: dayjs(interval.start),
-                end: dayjs(interval.end),
-              }))
+              intervals.map(deserializeInterval),
             ]));
     return event;
   } catch (err) {
