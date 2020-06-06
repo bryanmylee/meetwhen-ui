@@ -81,7 +81,9 @@
   <!-- TITLE CARD -->
   <div class="card__outline section">
     <h1>{event.title}</h1>
-    <p>{event.description}</p>
+    {#if event.description}
+      <p>{event.description}</p>
+    {/if}
   </div>
 
   <!-- USER DETAILS FORM CARD -->
@@ -163,11 +165,11 @@
   }
 
   h1 {
-    margin: 0 0 0.5em;
+    margin: 0;
   }
 
   p {
-    margin: 0;
+    margin: 0.5em 0 0;
   }
 
   .picker-container {
