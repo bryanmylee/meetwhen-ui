@@ -18,6 +18,7 @@
   import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
 
+  import { user } from '../stores.js';
   import { undoRedo } from '../actions/hotkeys.js';
   import undoable from '../utils/undoable.js';
   import nextFrame from '../utils/nextFrame.js';
@@ -27,12 +28,19 @@
   import { JoinEventCalendarPicker } from '../components/calendar';
   import { Button, TextInput } from '../components/form';
 
+  // Event data
   export let event;
-  let isJoining = false;
 
+  // Page state
+  let isJoining = false;
+  let errorMessage = '';
+
+  // Form data
   let username = '';
   let password = '';
   const [ selections, undo, redo, canUndo, canRedo, clearStack ] = undoable([]);
+
+  // Form metadata
   let attempted = false;
   $: userDetailsValid = username.trim().length !== 0
       && password.trim().length !== 0;
@@ -44,14 +52,21 @@
       return;
     }
     const userDetails = { username, password, intervals: $selections };
-    await addUserToEvent($session.API_URL, event.eventUrl, userDetails);
-    refreshData();
+    try {
+      const { accessToken }
+          = await addUserToEvent($session.API_URL, event.eventUrl, userDetails);
+      $user.accessToken = accessToken;
+      refreshDataSuccess();
+    } catch (err) {
+      errorMessage = err.message;
+    }
   }
 
-  async function refreshData() {
+  async function refreshDataSuccess() {
     event = await getEvent(fetch, $session.API_URL, event.eventUrl);
     await nextFrame();
     isJoining = false;
+    errorMessage = '';
     username = '';
     password = '';
     $selections = [];
@@ -103,15 +118,22 @@
       />
     </div>
   </div>
-  {#if isJoining}
-    <div class="confirm">
-      <Button on:click={submit}>Confirm</Button>
-    </div>
-  {:else}
-    <div class="join">
-      <Button on:click={() => isJoining = true}>Join Event</Button>
-    </div>
-  {/if}
+  <div class="bottom-bar">
+    {#if errorMessage.length !== 0}
+      <span class="error" transition:fade={{duration: 150}}>
+        {errorMessage}
+      </span>
+    {/if}
+    {#if isJoining}
+      <div class="confirm">
+        <Button on:click={submit}>Confirm</Button>
+      </div>
+    {:else}
+      <div class="join">
+        <Button on:click={() => isJoining = true}>Join Event</Button>
+      </div>
+    {/if}
+  </div>
 </div>
 
 <style>
@@ -167,15 +189,23 @@
     font-weight: 400;
   }
 
+  .bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+  }
+
   .join {
     min-width: -moz-max-content;
     min-width: -webkit-max-content;
-    justify-self: end;
   }
 
   .confirm {
     width: fit-content;
-    justify-self: end;
+  }
+
+  span.error {
+    padding: 1em;
   }
 
   @media screen and (min-width: 50rem) {

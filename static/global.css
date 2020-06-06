@@ -121,3 +121,7 @@ input, button, select, textarea {
 input:disabled {
   color: #ccc;
 }
+
+span.error {
+  color: var(--error-0);
+}

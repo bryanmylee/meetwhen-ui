@@ -113,8 +113,11 @@ export async function addUserToEvent(apiUrl, eventUrl, userDetails) {
           },
           body: JSON.stringify(userDetails),
         })).json();
-    console.log(response);
+    if (response.error) {
+      throw new Error(response.error);
+    }
+    return response;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 }
