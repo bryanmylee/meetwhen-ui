@@ -78,15 +78,19 @@
 <svelte:window use:undoRedo={{ undo, redo }} />
 
 <div class="page" in:fadeIn out:fadeOut>
+  <!-- TITLE CARD -->
   <div class="card__outline section">
     <h1>{event.title}</h1>
     <p>{event.description}</p>
   </div>
+
+  <!-- USER DETAILS FORM CARD -->
   {#if isJoining}
     <div
       class="card__outline section"
       class:error={attempted && !userDetailsValid}
-      transition:slide={{duration: 500, easing: cubicOut}}>
+      transition:slide={{duration: 500, easing: cubicOut}}
+    >
       <!-- Content of div with slide transitions is not masked properly on
       Safari. Therefore, implement a nice fade in after div is fully sized. -->
       <div transition:fade={{duration: 150, delay: 500}}>
@@ -97,10 +101,13 @@
       </div>
     </div>
   {/if}
+
+  <!-- CALENDAR PICKER CARD -->
   <div
     class="picker-container card__outline"
     class:error={attempted && !selectionsValid}
   >
+    <!-- CALENDAR PICKER CARD TITLE HEADER -->
     {#if isJoining}
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
@@ -110,6 +117,8 @@
         </h3>
       </div>
     {/if}
+
+    <!-- CALENDAR PICKER -->
     <div class="picker">
       <JoinEventCalendarPicker bind:selections={$selections}
         eventIntervals={event.eventIntervals} 
@@ -118,12 +127,17 @@
       />
     </div>
   </div>
+
+  <!-- BOTTOM BUTTON BAR -->
   <div class="bottom-bar">
+    <!-- ERROR MESSAGE -->
     {#if errorMessage.length !== 0}
       <span class="error" transition:fade={{duration: 150}}>
         {errorMessage}
       </span>
     {/if}
+
+    <!-- BUTTONS -->
     {#if isJoining}
       <div class="confirm">
         <Button on:click={submit}>Confirm</Button>
