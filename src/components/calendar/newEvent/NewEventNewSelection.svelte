@@ -10,7 +10,7 @@
   use:smoothSizePos={{start, end}}
   class="container"
 >
-  <div class="content"></div>
+  <div class="content" />
 </div>
 
 <style>

@@ -12,7 +12,7 @@
   <div
     use:sizePos={{start, end}}
     class:pass-through={$isSelecting}
-  ></div>
+  />
 {/each}
 
 <style>

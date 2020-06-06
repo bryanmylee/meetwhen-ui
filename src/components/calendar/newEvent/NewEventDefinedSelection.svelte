@@ -14,7 +14,7 @@
   <div
     class="content"
     class:pass-through={$isSelecting}
-  ></div>
+  />
 </div>
 
 <style>

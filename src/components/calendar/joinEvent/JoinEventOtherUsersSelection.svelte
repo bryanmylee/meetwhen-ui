@@ -30,7 +30,7 @@
   use:popper={{ popup, placement: 'right' }}
   on:mouseover={() => {showPopup = true}}
   on:mouseleave={() => {showPopup = false}}
-></div>
+/>
 {#if showPopup}
   <div bind:this={popup} class="popup">
     <JoinEventOtherUsersPopover {start} {end} {usernames} />
