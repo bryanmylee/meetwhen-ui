@@ -20,6 +20,7 @@
 
   import { undoRedo } from '../actions/hotkeys.js';
   import undoable from '../utils/undoable.js';
+  import nextFrame from '../utils/nextFrame.js';
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
   import { addUserToEvent } from '../api/event.js';
 
@@ -31,7 +32,7 @@
 
   let username = '';
   let password = '';
-  const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
+  const [ selections, undo, redo, canUndo, canRedo, clearStack ] = undoable([]);
   let attempted = false;
   $: userDetailsValid = username.trim().length !== 0
       && password.trim().length !== 0;
@@ -44,15 +45,17 @@
     }
     const userDetails = { username, password, intervals: $selections };
     await addUserToEvent($session.API_URL, event.eventUrl, userDetails);
-    await updateData();
+    refreshData();
   }
 
-  async function updateData() {
+  async function refreshData() {
     event = await getEvent(fetch, $session.API_URL, event.eventUrl);
+    await nextFrame();
     isJoining = false;
     username = '';
     password = '';
     $selections = [];
+    clearStack();
     attempted = false;
   }
 </script>

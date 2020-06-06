@@ -21,6 +21,14 @@ export default function undoable(initialValue) {
       return { value, stack, index };
     });
   };
+
+  const clearStack = () => {
+    state.update(({ value, stack, index }) => {
+      stack = [ value ];
+      index = 0;
+      return { value, stack, index };
+    })
+  }
   
   const update = (fn) => {
     state.update(({ value, stack, index }) => {
@@ -43,5 +51,5 @@ export default function undoable(initialValue) {
   const canUndo = derived(state, ({ index }) => index > 0);
   const canRedo = derived(state, ({ index, stack }) => index < stack.length - 1);
   
-  return [ store, undo, redo, canUndo, canRedo ];
+  return [ store, undo, redo, canUndo, canRedo, clearStack ];
 }
