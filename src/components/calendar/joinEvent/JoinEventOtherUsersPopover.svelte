@@ -1,6 +1,4 @@
 <script>
-  import { fade } from 'svelte/transition';
-
   export let start;
   export let end;
   export let usernames
@@ -11,8 +9,7 @@
       : `${usernames.length} people:`;
 </script>
 
-<div
-  transition:fade={{ duration: 200 }}>
+<div>
   <h5>{timeString}</h5>
   <h5>{countString}</h5>
   {#each usernames as username}

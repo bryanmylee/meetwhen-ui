@@ -1,6 +1,6 @@
 <script>
   import { isSelecting } from '../../../stores.js';
-  import popper from '../../../actions/popper.js';
+  import { popperFollowMouseY } from '../../../actions/popper.js';
   import { sizePos } from '../../../actions/column.js';
   import { opacity } from '../../../actions/style.js';
 
@@ -15,9 +15,15 @@
 
   let showPopup = false;
   let popup;
+  let arrow;
 
   function getOpacity(usernames) {
     return usernames.length / maxUsernames;
+  }
+
+  let mouseY;
+  function handleMouseMove({ clientY }) {
+    mouseY = clientY;
   }
 </script>
 
@@ -27,13 +33,25 @@
   class:pass-through={$isSelecting}
   use:sizePos={{start: start, end: end}}
   use:opacity={{opacity: getOpacity(usernames)}}
-  use:popper={{popup, placement: 'right'}}
+  use:popperFollowMouseY={{
+    popup, mouseY, placement: 'right-start',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [-15, 0],
+        },
+      },
+    ],
+  }}
   on:mouseover={() => {showPopup = true}}
   on:mouseleave={() => {showPopup = false}}
+  on:mousemove={handleMouseMove}
 />
 {#if showPopup}
   <div bind:this={popup} class="popup">
     <JoinEventOtherUsersPopover {start} {end} {usernames} />
+    <div bind:this={arrow} class="popup-arrow"></div>
   </div>
 {/if}
 
@@ -57,6 +75,13 @@
   }
 
   .popup {
-    z-index: 100;
+    z-index: 90;
+  }
+
+  .popup-arrow {
+    min-width: 200;
+    min-height: 200;
+    background-color: blue;
+    z-index: 90;
   }
 </style>
