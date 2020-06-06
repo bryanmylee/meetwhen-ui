@@ -57,7 +57,7 @@ export async function createNewEvent(apiUrl, eventDetails) {
 
 /**
  * Get the details of an event.
- * @param {*} context The `this` context of `@sapper.preload`.
+ * @param {*} fetch The fetch function to use.
  * @param {string} eventUrl The url identifier of the event.
  * @returns {Promise<{
  *   id: number,
@@ -69,10 +69,9 @@ export async function createNewEvent(apiUrl, eventDetails) {
  *   userIntervalsByUsername: Object.<string, interval[]>,
  * }>} The event details.
  */
-export async function getEvent(context, apiUrl, eventUrl) {
+export async function getEvent(fetch, apiUrl, eventUrl) {
   try {
-    const event = await (await context
-        .fetch(`${apiUrl}/${eventUrl}`, {
+    const event = await (await fetch(`${apiUrl}/${eventUrl}`, {
       credentials: 'include',
     })).json();
 
@@ -87,6 +86,34 @@ export async function getEvent(context, apiUrl, eventUrl) {
               intervals.map(deserializeInterval),
             ]));
     return event;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+/**
+ * 
+ * @param {string} apiUrl The URL of the API.
+ * @param {string} eventUrl The URL of the event.
+ * @param {{
+ *   username: string,
+ *   password: string,
+ *   intervals: interval[],
+ * }} userDetails The details of the user joining the event.
+ */
+export async function addUserToEvent(apiUrl, eventUrl, userDetails) {
+  try {
+    const { intervals } = userDetails;
+    userDetails.intervals = intervals.map(serializeInterval);
+    const response = await 
+        (await fetch(`${apiUrl}/${eventUrl}/new_user`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userDetails),
+        })).json();
+    console.log(response);
   } catch (err) {
     console.log(err);
   }

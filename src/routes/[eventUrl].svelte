@@ -6,21 +6,22 @@
   export async function preload(page, session) {
     const { eventUrl } = page.params;
     return ({
-      event: await getEvent(this, session.API_URL, eventUrl),
+      event: await getEvent(this.fetch, session.API_URL, eventUrl),
     });
   }
 </script>
 
 <script>
+  import { stores } from '@sapper/app';
+  const { session } = stores();
   import { fade, slide } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
-  import utc from 'dayjs/plugin/utc';
-  dayjs.extend(utc);
 
   import { undoRedo } from '../actions/hotkeys.js';
   import undoable from '../utils/undoable.js';
   import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
+  import { addUserToEvent } from '../api/event.js';
 
   import { JoinEventCalendarPicker } from '../components/calendar';
   import { Button, TextInput } from '../components/form';
@@ -36,16 +37,23 @@
       && password.trim().length !== 0;
   $: selectionsValid = $selections.length !== 0;
 
-  function submit() {
+  async function submit() {
     if (!userDetailsValid || !selectionsValid) {
       attempted = true;
       return;
     }
+    const userDetails = { username, password, intervals: $selections };
+    await addUserToEvent($session.API_URL, event.eventUrl, userDetails);
+    await updateData();
+  }
 
-    const eventintervals = $selections.map((selection) => ({
-      start: selection.start.utc().toISOString(),
-      end: selection.end.utc().toISOString(),
-    }));
+  async function updateData() {
+    event = await getEvent(fetch, $session.API_URL, event.eventUrl);
+    isJoining = false;
+    username = '';
+    password = '';
+    $selections = [];
+    attempted = false;
   }
 </script>
 
@@ -60,10 +68,10 @@
     <div
       class="card__outline section"
       class:error={attempted && !userDetailsValid}
-      in:slide={{duration: 500, easing: cubicOut}}>
+      transition:slide={{duration: 500, easing: cubicOut}}>
       <!-- Content of div with slide transitions is not masked properly on
       Safari. Therefore, implement a nice fade in after div is fully sized. -->
-      <div in:fade={{duration: 150, delay: 500}}>
+      <div transition:fade={{duration: 150, delay: 500}}>
         <h3>Create an account</h3>
         <TextInput label="Username" bind:value={username} required {attempted} />
         <TextInput label="Password" isPassword bind:value={password} required {attempted} />
@@ -79,7 +87,7 @@
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
       <div>
-        <h3 in:slide={{duration: 500, easing: cubicOut}}>
+        <h3 transition:slide={{duration: 500, easing: cubicOut}}>
           Indicate your availability
         </h3>
       </div>
