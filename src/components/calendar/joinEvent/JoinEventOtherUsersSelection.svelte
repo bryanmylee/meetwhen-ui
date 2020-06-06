@@ -27,7 +27,7 @@
   class:pass-through={$isSelecting}
   use:sizePos={{start: start, end: end}}
   use:opacity={{opacity: getOpacity(usernames)}}
-  use:popper={{ popup, placement: 'right' }}
+  use:popper={{popup, placement: 'right'}}
   on:mouseover={() => {showPopup = true}}
   on:mouseleave={() => {showPopup = false}}
 />
