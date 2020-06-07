@@ -2,11 +2,22 @@
 
 <script context="module">
   import { getEvent } from '../api/event.js';
+  import { login, getAccessToken } from '../api/authentication.js';
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
+    // Check for refresh token by getting access token.
+    let accessToken = null;
+    try {
+      accessToken = (await getAccessToken(
+          this.fetch, session.API_URL, eventUrl)).accessToken;
+    } catch (err) {
+      // Refresh token not found.
+      console.log(err.message);
+    }
     return ({
       event: await getEvent(this.fetch, session.API_URL, eventUrl),
+      accessToken,
     });
   }
 </script>
@@ -28,12 +39,15 @@
   import { JoinEventCalendarPicker } from '../components/calendar';
   import { Button, TextInput } from '../components/form';
 
-  // Event data
+  // Preloaded data
   export let event;
+  export let accessToken;
+  $: $user.accessToken = accessToken;
 
   // Page state
   let isJoining = false;
   let errorMessage = '';
+  $: isLoggedIn = accessToken != null;
 
   // Form data
   let username = '';
@@ -46,25 +60,41 @@
       && password.trim().length !== 0;
   $: selectionsValid = $selections.length !== 0;
 
-  async function submit() {
+  // API Functions
+  async function handleNewUser() {
     if (!userDetailsValid || !selectionsValid) {
       attempted = true;
       return;
     }
     const userDetails = { username, password, intervals: $selections };
     try {
-      const { accessToken }
-          = await addUserToEvent($session.API_URL, event.eventUrl, userDetails);
-      $user.accessToken = accessToken;
-      refreshDataSuccess();
+      accessToken = (await addUserToEvent(
+          fetch, $session.API_URL, event.eventUrl, userDetails)).accessToken;
+      refreshDataOnSuccess();
     } catch (err) {
       errorMessage = err.message;
     }
   }
 
-  async function refreshDataSuccess() {
-    event = await getEvent(fetch, $session.API_URL, event.eventUrl);
+  async function handleLogin() {
+    try {
+      accessToken = (await login(fetch, $session.API_URL, event.eventUrl, {
+        username: 'testlogin',
+        password: 'testlogin',
+      })).accessToken;
+      refreshDataOnSuccess();
+    } catch (err) {
+      errorMessage = err.message;
+    }
+  }
+
+  async function refreshDataOnSuccess() {
+    event = await getEvent(fetch, $session.API_URL, event.eventUrl, fetch);
     await nextFrame();
+    resetForm();
+  }
+
+  function resetForm() {
     isJoining = false;
     errorMessage = '';
     username = '';
@@ -140,14 +170,21 @@
     {/if}
 
     <!-- BUTTONS -->
-    {#if isJoining}
-      <div class="confirm">
-        <Button on:click={submit}>Confirm</Button>
-      </div>
+    {#if isLoggedIn}
+      <Button>Edit selections</Button>
     {:else}
-      <div class="join">
-        <Button on:click={() => isJoining = true}>Join Event</Button>
-      </div>
+      {#if isJoining}
+        <div class="button__container">
+          <Button on:click={handleNewUser}>Confirm</Button>
+        </div>
+      {:else}
+        <div class="button__container">
+          <Button on:click={() => isJoining = true}>Join Event</Button>
+        </div>
+        <div class="button__container">
+          <Button on:click={handleLogin}>Login</Button>
+        </div>
+      {/if}
     {/if}
   </div>
 </div>
@@ -211,17 +248,10 @@
     justify-self: end;
   }
 
-  .join {
+  .button__container {
     min-width: -moz-max-content;
     min-width: -webkit-max-content;
-  }
-
-  .confirm {
-    width: fit-content;
-  }
-
-  span.error {
-    padding: 1em;
+    margin-left: 1rem;
   }
 
   @media screen and (min-width: 50rem) {

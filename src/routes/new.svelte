@@ -19,7 +19,7 @@
   let password = '';
   const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
   let attempted = false;
-  $: eventDetailsValid = title.trim().length !== 0; 
+  $: eventDetailsValid = title.trim().length !== 0;
   $: userDetailsValid = username.trim().length !== 0
         && password.trim().length !== 0;
   $: selectionsValid = $selections.length !== 0;
@@ -37,7 +37,7 @@
       title, description, username, password, eventIntervals: $selections
     });
     const { eventUrl, accessToken, accessTokenLifetime }
-        = await createNewEvent($session.API_URL, eventDetails);
+        = await createNewEvent(fetch, $session.API_URL, eventDetails);
     goto(`/${eventUrl}`);
   }
 </script>
