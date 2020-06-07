@@ -33,6 +33,13 @@
           padding: 12,
         },
       },
+      {
+        name: 'eventListeners',
+        options: {
+          scroll: false,
+          resize: false,
+        },
+      },
     ],
   });
 
