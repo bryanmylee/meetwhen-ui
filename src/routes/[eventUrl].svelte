@@ -60,32 +60,10 @@
       && password.trim().length !== 0;
   $: selectionsValid = $selections.length !== 0;
 
-  // API Functions
-  async function handleNewUser() {
-    if (!userDetailsValid || !selectionsValid) {
-      attempted = true;
-      return;
-    }
-    const userDetails = { username, password, intervals: $selections };
-    try {
-      accessToken = (await addUserToEvent(
-          fetch, $session.API_URL, event.eventUrl, userDetails)).accessToken;
-      refreshDataOnSuccess();
-    } catch (err) {
-      errorMessage = err.message;
-    }
-  }
-
-  async function handleLogin() {
-    try {
-      accessToken = (await login(fetch, $session.API_URL, event.eventUrl, {
-        username: 'testlogin',
-        password: 'testlogin',
-      })).accessToken;
-      refreshDataOnSuccess();
-    } catch (err) {
-      errorMessage = err.message;
-    }
+  // Page functions
+  function handleInitNewUser() {
+    isJoining = true;
+    errorMessage = '';
   }
 
   async function refreshDataOnSuccess() {
@@ -102,6 +80,34 @@
     $selections = [];
     clearStack();
     attempted = false;
+  }
+
+  // API Functions
+  async function handleSubmitNewUser() {
+    if (!userDetailsValid || !selectionsValid) {
+      attempted = true;
+      return;
+    }
+    const userDetails = { username, password, intervals: $selections };
+    try {
+      accessToken = (await addUserToEvent(
+          fetch, $session.API_URL, event.eventUrl, userDetails)).accessToken;
+      refreshDataOnSuccess();
+    } catch (err) {
+      errorMessage = err.message;
+    }
+  }
+
+  async function handleInitLogin() {
+    try {
+      accessToken = (await login(fetch, $session.API_URL, event.eventUrl, {
+        username: 'testlogin',
+        password: 'testlogin',
+      })).accessToken;
+      refreshDataOnSuccess();
+    } catch (err) {
+      errorMessage = err.message;
+    }
   }
 </script>
 
@@ -175,14 +181,14 @@
     {:else}
       {#if isJoining}
         <div class="button__container">
-          <Button on:click={handleNewUser}>Confirm</Button>
+          <Button on:click={handleSubmitNewUser}>Confirm</Button>
         </div>
       {:else}
         <div class="button__container">
-          <Button on:click={() => isJoining = true}>Join Event</Button>
+          <Button on:click={handleInitNewUser}>Join Event</Button>
         </div>
         <div class="button__container">
-          <Button on:click={handleLogin}>Login</Button>
+          <Button on:click={handleInitLogin}>Login</Button>
         </div>
       {/if}
     {/if}
