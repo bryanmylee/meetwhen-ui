@@ -1,7 +1,7 @@
 <script>
   import { isSelecting } from '../../../stores.js';
   import { sizePos } from '../../../actions/dayColumn.js';
-  import { opacity } from '../../../actions/style.js';
+  import colorGradient from '../../../actions/colorGradient.js';
 
   import JoinEventOtherUsersPopover from './JoinEventOtherUsersPopover.svelte';
 
@@ -10,14 +10,11 @@
   export let usernames;
   export let maxUsernames = 0;
   export let isCollapsed = false;
+  $: ratio = usernames.length / maxUsernames;
 
   let mouseOver = false;
   let referenceNode;
   let clientY;
-
-  function getOpacity(usernames) {
-    return usernames.length / maxUsernames;
-  }
 </script>
 
 <div
@@ -27,7 +24,7 @@
   class:pass-through={$isSelecting}
   class:highlighted={mouseOver}
   use:sizePos={{start: start, end: end}}
-  use:opacity={{opacity: getOpacity(usernames)}}
+  use:colorGradient={{ratio}}
   on:mouseover={() => {mouseOver = true}}
   on:mouseleave={() => {mouseOver = false}}
   on:mousemove={(event) => clientY = event.clientY}
@@ -45,8 +42,10 @@
     z-index: 10;
     width: var(--select-width);
     border-radius: 5px;
-    background-color: var(--primary-0);
-    transition: var(--ease-out) width, var(--ease-out) border-radius;
+    /* border-top: 1px solid;
+    border-bottom: 1px solid; */
+    box-sizing: border-box;
+    transition: var(--ease-out) width;
     pointer-events: all;
   }
 
