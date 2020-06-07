@@ -123,7 +123,7 @@
     <!-- CALENDAR PICKER -->
     <div class="picker">
       <JoinEventCalendarPicker bind:selections={$selections}
-        eventIntervals={event.eventIntervals} 
+        eventIntervals={event.eventIntervals}
         userIntervalsByUsername={event.userIntervalsByUsername}
         isCollapsed={isJoining}
       />

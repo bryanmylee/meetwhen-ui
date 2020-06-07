@@ -13,10 +13,11 @@ dayjs.extend(utc);
  * @returns {serializedInterval} The serialized interval.
  */
 function serializeInterval(interval) {
-  return ({
+  const toReturn = ({
     start: interval.start.utc().toISOString(),
     end: interval.end.utc().toISOString(),
   });
+  return toReturn;
 }
 
 /**
@@ -33,7 +34,7 @@ function deserializeInterval(serializedInterval) {
 }
 
 /**
- * 
+ * Create a new event with the given details.
  * @param {string} apiUrl The URL of the API.
  * @param {{
  *   title: string,
@@ -92,7 +93,7 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
 }
 
 /**
- * 
+ * Add a user with the given details to an event.
  * @param {string} apiUrl The URL of the API.
  * @param {string} eventUrl The URL of the event.
  * @param {{
@@ -100,12 +101,17 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
  *   password: string,
  *   intervals: interval[],
  * }} userDetails The details of the user joining the event.
+ * @returns {{
+ *   accessToken: string,
+ *   accessTokenLifetime: string,
+ * }} The access token after logging in as the registered user.
+ * @throws An error if the username is already taken.
  */
 export async function addUserToEvent(apiUrl, eventUrl, userDetails) {
   try {
     const { intervals } = userDetails;
     userDetails.intervals = intervals.map(serializeInterval);
-    const response = await 
+    const response = await
         (await fetch(`${apiUrl}/${eventUrl}/new_user`, {
           method: 'POST',
           headers: {
