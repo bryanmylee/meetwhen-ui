@@ -1,13 +1,13 @@
 <script>
   import { getContext } from 'svelte';
 
-  import { top } from '../../actions/column.js';
+  import { top } from '../../actions/dayColumn.js';
   import { isSelecting } from '../../stores.js';
 
   export let day;
 </script>
 
-<div class="no-highlight">
+<div>
   <div class="date-label">
     {day.format('ddd D')}
   </div>

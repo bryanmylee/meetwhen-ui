@@ -1,5 +1,5 @@
 <script>
-  import { smoothSizePos } from '../../../actions/column.js';
+  import { smoothSizePos } from '../../../actions/dayColumn.js';
 
   // Represents the start points of the user selection in this day.
   export let start;

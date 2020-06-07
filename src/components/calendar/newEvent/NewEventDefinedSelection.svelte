@@ -1,6 +1,6 @@
 <script>
   import { isSelecting } from '../../../stores.js';
-  import { smoothSizePos } from '../../../actions/column.js';
+  import { smoothSizePos } from '../../../actions/dayColumn.js';
 
   export let start;
   export let end;

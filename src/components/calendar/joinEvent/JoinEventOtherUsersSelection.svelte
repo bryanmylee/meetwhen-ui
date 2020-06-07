@@ -1,7 +1,7 @@
 <script>
   import { isSelecting } from '../../../stores.js';
   import { popperFollowMouseY } from '../../../actions/popper.js';
-  import { sizePos } from '../../../actions/column.js';
+  import { sizePos } from '../../../actions/dayColumn.js';
   import { opacity } from '../../../actions/style.js';
 
   import JoinEventOtherUsersPopover from './JoinEventOtherUsersPopover.svelte';
@@ -15,7 +15,6 @@
 
   let showPopup = false;
   let popup;
-  let arrow;
 
   function getOpacity(usernames) {
     return usernames.length / maxUsernames;
@@ -51,7 +50,6 @@
 {#if showPopup}
   <div bind:this={popup} class="popup">
     <JoinEventOtherUsersPopover {start} {end} {usernames} />
-    <div bind:this={arrow} class="popup-arrow"></div>
   </div>
 {/if}
 
@@ -75,13 +73,6 @@
   }
 
   .popup {
-    z-index: 90;
-  }
-
-  .popup-arrow {
-    min-width: 200;
-    min-height: 200;
-    background-color: blue;
     z-index: 90;
   }
 </style>
