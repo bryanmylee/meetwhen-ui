@@ -44,11 +44,12 @@ function deserializeInterval(serializedInterval) {
  *   eventIntervals: interval[],
  * }} eventDetails The details of the event.
  */
-export async function createNewEvent(apiUrl, eventDetails) {
+export async function createNewEvent(fetch, apiUrl, eventDetails) {
   const { eventIntervals } = eventDetails;
   eventDetails.eventIntervals = eventIntervals.map(serializeInterval);
   return await (await fetch(`${apiUrl}/new`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -107,18 +108,18 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
  * }} The access token after logging in as the registered user.
  * @throws An error if the username is already taken.
  */
-export async function addUserToEvent(apiUrl, eventUrl, userDetails) {
+export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
   try {
     const { intervals } = userDetails;
     userDetails.intervals = intervals.map(serializeInterval);
-    const response = await
-        (await fetch(`${apiUrl}/${eventUrl}/new_user`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userDetails),
-        })).json();
+    const response = await (await fetch(`${apiUrl}/${eventUrl}/new_user`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userDetails),
+    })).json();
     if (response.error) {
       throw new Error(response.error);
     }
