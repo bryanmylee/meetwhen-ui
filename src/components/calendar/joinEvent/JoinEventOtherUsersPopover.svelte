@@ -6,7 +6,7 @@
   export let end;
   export let usernames
 
-  const timeString = `${start.format('HH:mm')} - ${end.format('HH:mm')}`;
+  const timeString = `${start.format('h:mm')} - ${end.format('h:mma')}`;
   const countString = usernames.length === 1
       ? '1 person:'
       : `${usernames.length} people:`;
