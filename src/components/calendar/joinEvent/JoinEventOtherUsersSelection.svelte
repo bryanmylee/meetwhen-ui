@@ -13,10 +13,28 @@
 
   export let isCollapsed = false;
 
-  let showPopup = false;
-  let popup;
-  let arrow;
+  let showPopover = false;
+  let popoverNode;
+  let arrowNode;
   let mouseY;
+  $: popperOptions = ({
+    popoverNode, mouseY, placement: 'right-start',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: ({ placement }) => placement.endsWith('end') ? [21, 9] : [-21, 9],
+        },
+      },
+      {
+        name: 'arrow',
+        options: {
+          element: arrowNode,
+          padding: 12,
+        },
+      },
+    ],
+  });
 
   function getOpacity(usernames) {
     return usernames.length / maxUsernames;
@@ -29,33 +47,17 @@
   class:pass-through={$isSelecting}
   use:sizePos={{start: start, end: end}}
   use:opacity={{opacity: getOpacity(usernames)}}
-  use:popperFollowMouseY={{
-    popup, mouseY, placement: 'right-start',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: ({ placement }) => placement.endsWith('end') ? [21, 9] : [-21, 9],
-        },
-      },
-      {
-        name: 'arrow',
-        options: {
-          element: arrow,
-          padding: 12,
-        },
-      },
-    ],
-  }}
-  on:mouseover={() => {showPopup = true}}
-  on:mouseleave={() => {showPopup = false}}
+  use:popperFollowMouseY={popperOptions}
+  on:mouseover={() => {showPopover = true}}
+  on:mouseleave={() => {showPopover = false}}
   on:mousemove={({ clientY }) => mouseY = clientY}
 />
-{#if showPopup}
-  <div bind:this={popup} class="popup">
-    <JoinEventOtherUsersPopover {start} {end} {usernames} />
-    <div bind:this={arrow} class="popup__arrow"></div>
-  </div>
+{#if showPopover}
+  <JoinEventOtherUsersPopover
+    bind:popoverNode={popoverNode}
+    bind:arrowNode={arrowNode}
+    {start} {end} {usernames}
+  />
 {/if}
 
 <style>
@@ -75,26 +77,5 @@
 
   .pass-through {
     pointer-events: none;
-  }
-
-  .popup {
-    z-index: 90;
-  }
-
-  .popup__arrow {
-    z-index: 31;
-    left: -0.4rem;
-    width: 0.5rem;
-    height: 1rem;
-    clip-path: polygon(0 50%, 100% 0, 100% 100%);
-    background-color: white;
-    box-shadow: var(--shadow-med);
-    pointer-events: none;
-  }
-
-  :global([data-popper-placement^="left"]) .popup__arrow {
-    left: unset;
-    right: -0.4rem;
-    clip-path: polygon(0 0, 100% 50%, 0 100%);
   }
 </style>
