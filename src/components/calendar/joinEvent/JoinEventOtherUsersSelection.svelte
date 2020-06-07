@@ -1,5 +1,5 @@
 <script>
-  import { isSelecting } from '../../../stores.js';
+  import { isSelecting, colorScale } from '../../../stores.js';
   import { sizePos } from '../../../actions/dayColumn.js';
   import colorGradient from '../../../actions/colorGradient.js';
 
@@ -24,7 +24,7 @@
   class:pass-through={$isSelecting}
   class:highlighted={mouseOver}
   use:sizePos={{start: start, end: end}}
-  use:colorGradient={{ratio}}
+  use:colorGradient={{scale: $colorScale, ratio, highlighted: mouseOver}}
   on:mouseover={() => {mouseOver = true}}
   on:mouseleave={() => {mouseOver = false}}
   on:mousemove={(event) => clientY = event.clientY}
@@ -42,11 +42,13 @@
     z-index: 10;
     width: var(--select-width);
     border-radius: 5px;
-    /* border-top: 1px solid;
-    border-bottom: 1px solid; */
     box-sizing: border-box;
     transition: var(--ease-out) width;
     pointer-events: all;
+  }
+
+  .other-user-selection.highlighted {
+    border: 1px solid;
   }
 
   .collapsed {
@@ -55,9 +57,5 @@
 
   .pass-through {
     pointer-events: none;
-  }
-
-  .highlighted {
-    background-color: var(--primary-1-0);
   }
 </style>

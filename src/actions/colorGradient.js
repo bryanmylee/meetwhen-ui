@@ -1,21 +1,16 @@
-import chroma from 'chroma-js';
-const scale = chroma.scale('YlGnBu');
-// const scale = chroma.scale('RdPu');
-// const scale = chroma.scale('YlOrRd');
-
-export default function colorGradient(node, {
-  ratio,
-  bgSensitivity = 0.8,
-  borderSensitivity = 0.5
-}) {
-  node.style.backgroundColor = scale(ratio)
-      .alpha(ratio * bgSensitivity + (1 - bgSensitivity));
-  node.style.borderColor = scale(ratio)
-      .alpha(ratio * borderSensitivity + (1 - borderSensitivity)).darken();
+export default function colorGradient(node,
+    { scale, ratio, highlighted, opacitySensitivity = 0.6 }) {
+  function style(scale, ratio, highlighted) {
+    node.style.backgroundColor = scale(ratio)
+        .alpha(ratio * opacitySensitivity + (1 - opacitySensitivity))
+        .brighten(highlighted ? 0.5 : 0);
+    node.style.borderColor = scale(ratio)
+        .darken();
+  }
+  style(scale, ratio, highlighted);
   return ({
-    update({ ratio }) {
-      node.style.backgroundColor = scale(ratio).alpha(ratio * 0.8 + 0.2);
-      node.style.borderColor = scale(ratio).alpha(ratio * 0.6 + 0.4).darken();
+    update({ scale, ratio, highlighted }) {
+      style(scale, ratio, highlighted);
     }
   })
 }
