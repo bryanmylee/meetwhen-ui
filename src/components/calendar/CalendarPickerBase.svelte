@@ -39,12 +39,13 @@
 
   function selectMove(event) {
     if (initialHour == null && newSelection == null) startSelection(event);
-    const { day, hour } = event.detail;
+    let { day, hour } = event.detail;
+    hour = Math.min(hour, 23.75);
     newSelection = ({
       startDay: newSelection.startDay,
-      startHour: initialHour + (hour < initialHour ? 0.25 : 0),
+      startHour: hour < initialHour ? initialHour + 0.25 : initialHour,
       endDay: day,
-      endHour: hour + (hour >= initialHour ? 0.25 : 0),
+      endHour: hour >= initialHour ? hour + 0.25 : hour,
     });
   }
 
