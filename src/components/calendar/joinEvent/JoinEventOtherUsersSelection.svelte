@@ -15,14 +15,11 @@
 
   let showPopup = false;
   let popup;
+  let arrow;
+  let mouseY;
 
   function getOpacity(usernames) {
     return usernames.length / maxUsernames;
-  }
-
-  let mouseY;
-  function handleMouseMove({ clientY }) {
-    mouseY = clientY;
   }
 </script>
 
@@ -38,18 +35,26 @@
       {
         name: 'offset',
         options: {
-          offset: [-15, 0],
+          offset: ({ placement }) => placement.endsWith('end') ? [21, 9] : [-21, 9],
+        },
+      },
+      {
+        name: 'arrow',
+        options: {
+          element: arrow,
+          padding: 12,
         },
       },
     ],
   }}
   on:mouseover={() => {showPopup = true}}
   on:mouseleave={() => {showPopup = false}}
-  on:mousemove={handleMouseMove}
+  on:mousemove={({ clientY }) => mouseY = clientY}
 />
 {#if showPopup}
   <div bind:this={popup} class="popup">
     <JoinEventOtherUsersPopover {start} {end} {usernames} />
+    <div bind:this={arrow} class="popup__arrow"></div>
   </div>
 {/if}
 
@@ -74,5 +79,22 @@
 
   .popup {
     z-index: 90;
+  }
+
+  .popup__arrow {
+    z-index: 31;
+    left: -0.4rem;
+    width: 0.5rem;
+    height: 1rem;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+    background-color: white;
+    box-shadow: var(--shadow-med);
+    pointer-events: none;
+  }
+
+  :global([data-popper-placement^="left"]) .popup__arrow {
+    left: unset;
+    right: -0.4rem;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
   }
 </style>

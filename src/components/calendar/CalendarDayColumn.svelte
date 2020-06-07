@@ -42,6 +42,7 @@
   .column {
     position: relative;
     min-width: var(--col-width);
+    max-width: var(--col-width);
     min-height: calc(var(--row-height) * 24);
     box-sizing: border-box;
     border-right: 1px var(--line-1) solid;
