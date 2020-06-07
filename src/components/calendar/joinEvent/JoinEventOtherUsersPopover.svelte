@@ -1,6 +1,38 @@
 <script>
-  export let popoverNode = null;
-  export let arrowNode = null;
+  import { popperFollowMouseY } from '../../../actions/popper.js';
+
+  // For PopperJS
+  export let referenceNode = null;
+  export let clientY = 0;
+  let arrowNode;
+  $: popperOptions = ({
+    referenceNode,
+    clientY,
+    placement: 'right-start',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: ({ placement }) =>
+              placement.endsWith('end') ? [21, 9] : [-21, 9],
+        },
+      },
+      {
+        name: 'arrow',
+        options: {
+          element: arrowNode,
+          padding: 12,
+        },
+      },
+      {
+        name: 'eventListeners',
+        options: {
+          scroll: false,
+          resize: false,
+        },
+      },
+    ],
+  });
 
   export let start;
   export let end;
@@ -12,7 +44,7 @@
       : `${usernames.length} people:`;
 </script>
 
-<div bind:this={popoverNode} class="popover">
+<div class="popover" use:popperFollowMouseY={popperOptions}>
   <div class="popover__content">
     <h5>{timeString}</h5>
     <h5>{countString}</h5>

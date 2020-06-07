@@ -1,35 +1,31 @@
 import { createPopper } from '@popperjs/core';
 
-export function popperFollowMouseY(referenceNode,
-    { popoverNode, mouseY = 0, ...options }) {
-  function generateGetBoundingClientRect(mouseY) {
+export function popperFollowMouseY(popoverNode,
+    { referenceNode, clientY = 0, ...options }) {
+  function generateGetBoundingClientRect(clientY) {
     const rect = referenceNode.getBoundingClientRect();
     return () => ({
       width: rect.width, height: 0,
-      top: mouseY, bottom: mouseY,
+      top: clientY, bottom: clientY,
       left: rect.left, right: rect.right,
     });
   }
 
   const virtualNode = ({
-    getBoundingClientRect: generateGetBoundingClientRect(),
+    getBoundingClientRect: generateGetBoundingClientRect(clientY),
     contextElement: referenceNode,
   });
-  let instance = popoverNode == null
-      ? null : createPopper(virtualNode, popoverNode, options);
+  let instance = createPopper(virtualNode, popoverNode, options);
 
   return ({
-    update({ popoverNode, mouseY = 0, ...options }) {
-      virtualNode.getBoundingClientRect = generateGetBoundingClientRect(mouseY);
-      instance = popoverNode == null
-        ? null : createPopper(virtualNode, popoverNode, options);
-      if (instance) instance.update();
+    update({ referenceNode, clientY = 0, ...options }) {
+      virtualNode.getBoundingClientRect = generateGetBoundingClientRect(clientY);
+      instance.destroy();
+      instance = createPopper(virtualNode, popoverNode, options);
+      instance.update();
     },
     destroy() {
-      if (instance) {
-        instance.destroy();
-        instance = null;
-      }
+      instance.destroy();
     }
   })
 }

@@ -1,6 +1,5 @@
 <script>
   import { isSelecting } from '../../../stores.js';
-  import { popperFollowMouseY } from '../../../actions/popper.js';
   import { sizePos } from '../../../actions/dayColumn.js';
   import { opacity } from '../../../actions/style.js';
 
@@ -10,38 +9,11 @@
   export let end;
   export let usernames;
   export let maxUsernames = 0;
-
   export let isCollapsed = false;
 
-  let showPopover = false;
-  let popoverNode;
-  let arrowNode;
-  let mouseY;
-  $: popperOptions = ({
-    popoverNode, mouseY, placement: 'right-start',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: ({ placement }) => placement.endsWith('end') ? [21, 9] : [-21, 9],
-        },
-      },
-      {
-        name: 'arrow',
-        options: {
-          element: arrowNode,
-          padding: 12,
-        },
-      },
-      {
-        name: 'eventListeners',
-        options: {
-          scroll: false,
-          resize: false,
-        },
-      },
-    ],
-  });
+  let mouseOver = false;
+  let referenceNode;
+  let clientY;
 
   function getOpacity(usernames) {
     return usernames.length / maxUsernames;
@@ -49,20 +21,20 @@
 </script>
 
 <div
+  bind:this={referenceNode}
   class={"other-user-selection"}
   class:collapsed={isCollapsed}
   class:pass-through={$isSelecting}
+  class:highlighted={mouseOver}
   use:sizePos={{start: start, end: end}}
   use:opacity={{opacity: getOpacity(usernames)}}
-  use:popperFollowMouseY={popperOptions}
-  on:mouseover={() => {showPopover = true}}
-  on:mouseleave={() => {showPopover = false}}
-  on:mousemove={({ clientY }) => mouseY = clientY}
+  on:mouseover={() => {mouseOver = true}}
+  on:mouseleave={() => {mouseOver = false}}
+  on:mousemove={(event) => clientY = event.clientY}
 />
-{#if showPopover}
+{#if mouseOver}
   <JoinEventOtherUsersPopover
-    bind:popoverNode={popoverNode}
-    bind:arrowNode={arrowNode}
+    {referenceNode} {clientY}
     {start} {end} {usernames}
   />
 {/if}
@@ -84,5 +56,9 @@
 
   .pass-through {
     pointer-events: none;
+  }
+
+  .highlighted {
+    background-color: var(--primary-1-0);
   }
 </style>
