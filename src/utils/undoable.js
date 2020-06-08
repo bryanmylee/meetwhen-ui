@@ -7,14 +7,14 @@ export default function undoable(initialValue) {
     stack: [ initialValue ],
 		index: 0,
   });
-  
+
   const undo = () => {
     state.update(({ value, stack, index }) => {
 			if (index > 0) value = stack[--index];
       return { value, stack, index };
     });
   };
-  
+
   const redo = () => {
     state.update(({ value, stack, index }) => {
 			if (index < stack.length - 1) value = stack[++index];
@@ -29,7 +29,7 @@ export default function undoable(initialValue) {
       return { value, stack, index };
     })
   }
-  
+
   const update = (fn) => {
     state.update(({ value, stack, index }) => {
 			const newValue = fn(value);
@@ -41,15 +41,19 @@ export default function undoable(initialValue) {
 			return ({ value: newValue, stack, index });
     });
   };
-  
+
   const set = (value) => {
     update(() => value);
   };
-  
+
   const value = derived(state, ($state) => $state.value);
-  const store = { subscribe: value.subscribe, update, set };
   const canUndo = derived(state, ({ index }) => index > 0);
   const canRedo = derived(state, ({ index, stack }) => index < stack.length - 1);
-  
-  return [ store, undo, redo, canUndo, canRedo, clearStack ];
+  return ({
+    subscribe: value.subscribe,
+    update, set,
+    undo, redo,
+    canUndo, canRedo,
+    clearStack,
+  });
 }

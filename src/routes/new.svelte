@@ -19,7 +19,7 @@
   let description = '';
   let username = '';
   let password = '';
-  const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
+  const selections = undoable([]);
 
   // FORM METADATA
   // =============
@@ -50,7 +50,7 @@
   }
 </script>
 
-<svelte:window use:undoRedo={{ undo, redo }} />
+<svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
 
 <div class="page" in:fadeIn out:fadeOut>
   <h1>New Event</h1>

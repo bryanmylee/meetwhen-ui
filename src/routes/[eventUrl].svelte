@@ -55,7 +55,7 @@
   // =========
   let username = '';
   let password = '';
-  const [ selections, undo, redo, canUndo, canRedo, clearStack ] = undoable([]);
+  const selections = undoable([]);
 
   // FORM METADATA
   // =============
@@ -83,7 +83,7 @@
     username = '';
     password = '';
     $selections = [];
-    clearStack();
+    selections.clearStack();
     attempted = false;
   }
 
@@ -117,7 +117,7 @@
   }
 </script>
 
-<svelte:window use:undoRedo={{ undo, redo }} />
+<svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
 
 <div class="page" in:fadeIn out:fadeOut>
   <!-- TITLE CARD -->
