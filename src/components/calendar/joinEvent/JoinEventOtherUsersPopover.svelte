@@ -4,7 +4,6 @@
   // For PopperJS
   export let referenceNode = null;
   export let clientY = 0;
-  let arrowNode;
   $: popperOptions = ({
     referenceNode,
     clientY,
@@ -15,13 +14,6 @@
         options: {
           offset: ({ placement }) =>
               placement.endsWith('end') ? [21, 9] : [-21, 9],
-        },
-      },
-      {
-        name: 'arrow',
-        options: {
-          element: arrowNode,
-          padding: 12,
         },
       },
       {
@@ -52,7 +44,7 @@
       <p>{username}</p>
     {/each}
   </div>
-  <div bind:this={arrowNode} class="popover__arrow"></div>
+  <div data-popper-arrow class="popover__arrow"></div>
 </div>
 
 <style>
