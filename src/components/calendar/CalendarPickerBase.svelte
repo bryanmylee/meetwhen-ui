@@ -9,16 +9,24 @@
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
-  export let daysToShow = [];
-  // The defined selections to be bound and exposed as the input data.
+  // COMPONENT BINDINGS
+  // ==================
   export let selections = [];
 
+  // PROPS
+  // =====
+  export let daysToShow = [];
   // Any limitation on the selections possible. If null, treated as no limits.
   export let selectionLimits = null;
 
+  // STATE
+  // =====
   // The new selection being made.
   let initialHour = null;
   let newSelection = null;
+
+  // REACTIVE ATTRIBUTES
+  // ===================
   // The current selection split into different days.
   $: newSelections = selectionLimits == null
       ? getAreaSelection(newSelection)
@@ -26,6 +34,8 @@
           getAreaSelection(newSelection));
   $: $isSelecting = newSelections.length !== 0;
 
+  // STATE FUNCTIONS
+  // ===============
   function selectStart(event) {
     const { day, hour } = event.detail;
     initialHour = hour;
@@ -64,6 +74,7 @@ bug on Safari 13.1 -->
   class="body no-highlight"
   class:disable-touch-scroll={$isSelecting}
 >
+  <!-- MOUSE/TOUCH EVENT CAPTURE LAYER -->
   <div
     class="interaction-layer"
     use:interaction={{daysToShow}}
@@ -71,7 +82,7 @@ bug on Safari 13.1 -->
     on:selectMove={selectMove}
     on:selectStop={selectStop}
   />
-  <CalendarIndexColumn />
+  <CalendarIndexColumn startingDay={daysToShow[0]}/>
   <!-- Slot for div containing calendar day columns -->
   <slot {newSelections} />
 </div>

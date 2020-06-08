@@ -11,21 +11,26 @@
   import JoinEventDefinedSelection from './JoinEventDefinedSelection.svelte';
   import JoinEventNewSelection from './JoinEventNewSelection.svelte';
 
-  // The defined selections to be bound and exposed as the input data.
+  // COMPONENT BINDINGS
+  // ==================
   export let selections = [];
 
+  // PROPS
+  // =====
   export let eventIntervals = [];
   export let userIntervalsByUsername = {};
   export let isCollapsed = false;
 
+  // REACTIVE ATTRIBUTES
+  // ===================
   $: eventIntervalsSplitOnMidnight = splitIntervalsOnMidnight(eventIntervals);
 
-  // Intervals with combined usernames.
-  $: mergedIntervals
+  // User intervals with grouped usernames.
+  $: userIntervalsByTime
       = splitIntervalsOnMidnight(getMergedIntervals(userIntervalsByUsername));
 
-  // The maximum number of usernames in all intervals.
-  $: maxUsernames = mergedIntervals.reduce((max, interval) => {
+  // The maximum number of usernames in any given interval.
+  $: maxUsernameCount = userIntervalsByTime.reduce((max, interval) => {
     const { length } = interval.usernames;
     return max >= length ? max : length;
   }, 0);
@@ -40,30 +45,31 @@
 </script>
 
 <CalendarPickerBase
-  {daysToShow}
   bind:selections={selections}
-  let:newSelections={newSelections}
+  {daysToShow}
   selectionLimits={eventIntervals}
+  let:newSelections={newSelections}
 >
+  <!-- COLUMNS -->
   {#each daysToShow as day}
     <CalendarDayColumn {day} >
-      <!-- Render unavailable intervals -->
+      <!-- DISABLED INTERVALS -->
       <JoinEventUnavailableColumnOverlay
         eventIntervals={eventIntervalsSplitOnMidnight.filter((interval) =>
             interval.start.isSame(day, 'day')
         )}
       />
-      <!-- Render other user selections -->
-      {#each mergedIntervals.filter((interval) =>
+      <!-- OTHER USER SELECTIONS -->
+      {#each userIntervalsByTime.filter((interval) =>
           interval.start.isSame(day, 'date')) as interval}
-        <JoinEventOtherUsersSelection {...interval} {maxUsernames} {isCollapsed} />
+        <JoinEventOtherUsersSelection {...interval} {maxUsernameCount} {isCollapsed} />
       {/each}
-      <!-- Render current user selections -->
+      <!-- DEFINED SELECTIONS -->
       {#each selections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
         <JoinEventDefinedSelection {...selection} />
       {/each}
-      <!-- Render current user new selections -->
+      <!-- NEW SELECTIONS -->
       {#each newSelections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
         <JoinEventNewSelection {...selection} />

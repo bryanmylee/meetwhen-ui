@@ -39,28 +39,33 @@
   import { JoinEventCalendarPicker } from '../components/calendar';
   import { Button, TextInput } from '../components/form';
 
-  // Preloaded data
+  // PRELOADED DATA
+  // ==============
   export let event;
   export let accessToken;
   $: $user.accessToken = accessToken;
 
-  // Page state
+  // PAGE STATE
+  // ==========
   let isJoining = false;
   let errorMessage = '';
   $: isLoggedIn = accessToken != null;
 
-  // Form data
+  // FORM DATA
+  // =========
   let username = '';
   let password = '';
   const [ selections, undo, redo, canUndo, canRedo, clearStack ] = undoable([]);
 
-  // Form metadata
+  // FORM METADATA
+  // =============
   let attempted = false;
   $: userDetailsValid = username.trim().length !== 0
       && password.trim().length !== 0;
   $: selectionsValid = $selections.length !== 0;
 
-  // Page functions
+  // PAGE FUNCTIONS
+  // ==============
   function handleInitNewUser() {
     isJoining = true;
     errorMessage = '';
@@ -82,7 +87,8 @@
     attempted = false;
   }
 
-  // API Functions
+  // API FUNCTIONS
+  // =============
   async function handleSubmitNewUser() {
     if (!userDetailsValid || !selectionsValid) {
       attempted = true;
@@ -102,7 +108,7 @@
     try {
       accessToken = (await login(fetch, $session.API_URL, event.eventUrl, {
         username: 'testlogin',
-        password: 'testlogin',
+        password: 'testlogins',
       })).accessToken;
       refreshDataOnSuccess();
     } catch (err) {
@@ -134,7 +140,8 @@
       <div transition:fade={{duration: 150, delay: 500}}>
         <h3>Create an account</h3>
         <TextInput label="Username" bind:value={username} required {attempted} />
-        <TextInput label="Password" isPassword bind:value={password} required {attempted} />
+        <TextInput label="Password" bind:value={password}
+            isPassword required {attempted} />
         <h5>Account is unique to this event only</h5>
       </div>
     </div>

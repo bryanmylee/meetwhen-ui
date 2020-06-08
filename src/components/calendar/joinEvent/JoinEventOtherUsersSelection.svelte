@@ -5,16 +5,26 @@
 
   import JoinEventOtherUsersPopover from './JoinEventOtherUsersPopover.svelte';
 
+  // PROPS
+  // =====
   export let start;
   export let end;
   export let usernames;
-  export let maxUsernames = 0;
+  export let maxUsernameCount = 0;
   export let isCollapsed = false;
-  $: ratio = usernames.length / maxUsernames;
 
+  // REACTIVE ATTRIBUTES
+  // ===================
+  $: ratio = usernames.length / maxUsernameCount;
+
+  // STATE
+  // =====
   let mouseOver = false;
-  let referenceNode;
   let clientY;
+
+  // NODES
+  // =====
+  let referenceNode;
 </script>
 
 <div

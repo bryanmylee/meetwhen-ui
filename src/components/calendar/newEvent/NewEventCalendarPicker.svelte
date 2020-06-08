@@ -7,25 +7,29 @@
   import NewEventDefinedSelection from './NewEventDefinedSelection.svelte';
   import NewEventNewSelection from './NewEventNewSelection.svelte';
 
-  // The defined selections to be bound and exposed as the input data.
+  // COMPONENT BINDINGS
+  // ==================
   export let selections = [];
 
+  // PROPS
+  // =====
   export let daysToShow = [];
 </script>
 
 <CalendarPickerBase
-  {daysToShow}
   bind:selections={selections}
+  {daysToShow}
   let:newSelections={newSelections}
 >
+  <!-- COLUMNS -->
   {#each daysToShow as day}
     <CalendarDayColumn {day} >
-      <!-- Render selections -->
+      <!-- DEFINED SELECTIONS -->
       {#each selections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
         <NewEventDefinedSelection {...selection} />
       {/each}
-      <!-- Render new selections -->
+      <!-- NEW SELECTIONS -->
       {#each newSelections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
         <NewEventNewSelection {...selection} />

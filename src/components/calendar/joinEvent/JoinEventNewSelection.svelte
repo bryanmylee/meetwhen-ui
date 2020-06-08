@@ -1,7 +1,8 @@
 <script>
   import { smoothSizePos } from '../../../actions/dayColumn.js';
 
-  // Represents the start and end points of the user selection in this day.
+  // PROPS
+  // =====
   export let start;
   export let end;
 </script>

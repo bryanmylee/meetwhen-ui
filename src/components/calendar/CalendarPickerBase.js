@@ -4,6 +4,24 @@ import {
   distanceBetweenOffsets,
 } from '../../utils/eventHandler.js';
 
+/**
+ * Provides all custom events for interacting with the calendar.
+ *
+ * The node using this action will dispatch three custom events:
+ * - `selectStart` A selection was started with `{detail: { day, hour }}`.
+ * - `selectMove` A selection was moved with `{detail: { day, hour }}`.
+ * - `selectStop` A selection was stopped.
+ * @param {HTMLElement} node The calendar interaction layer node.
+ * @param {{
+ *   daysToShow: Dayjs[],
+ *   snapToHour: number,
+ *   longPressDuration: number,
+ * }} actionOptions
+ * @param actionOptions.daysToShow An array of days to show in the calendar.
+ * @param actionOptions.snapToHour The number of hours to snap selections to.
+ * @param actionOptions.longPressDuration The time to wait before triggering a
+ * long press in ms.
+ */
 export function interaction(node, {
   daysToShow,
   snapToHour = 0.25,

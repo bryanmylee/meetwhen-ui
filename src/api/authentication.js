@@ -1,3 +1,20 @@
+/**
+ * Log a user into an event.
+ * @param {Function} fetch The fetch function to use.
+ * @param {string} apiUrl The URL of the API endpoint.
+ * @param {string} eventUrl The URL identifier of the event.
+ * @param {{
+ *   username: string
+ *   password: string
+ * }} userDetails The user details.
+ * @returns {{
+ *   eventUrl: string,
+ *   accessToken: string,
+ *   accessTokenLifetime: string,
+ * }} The access token response.
+ * @throws An error if the event does not exist, user does not exist, or
+ * password is incorrect.
+ */
 export async function login(fetch, apiUrl, eventUrl, userDetails) {
   try {
     const response = await (await fetch(`${apiUrl}/${eventUrl}/login`, {
@@ -8,6 +25,7 @@ export async function login(fetch, apiUrl, eventUrl, userDetails) {
       },
       body: JSON.stringify(userDetails),
     })).json();
+
     if (response.error) {
       throw new Error(response.error);
     }
@@ -17,6 +35,18 @@ export async function login(fetch, apiUrl, eventUrl, userDetails) {
   }
 }
 
+/**
+ * Fetch an access token from the API if an HTTP-only refresh token exists.
+ * @param {Function} fetch The fetch function to use.
+ * @param {string} apiUrl The URL of the API endpoint.
+ * @param {string} eventUrl The URL identifier of the event.
+ * @returns {{
+ *   eventUrl: string,
+ *   accessToken: string,
+ *   accessTokenLifetime: string,
+ * }} The access token response.
+ * @throws An error if the refresh token does not exist.
+ */
 export async function getAccessToken(fetch, apiUrl, eventUrl) {
   try {
     const response = await (await fetch(`${apiUrl}/${eventUrl}/refresh_token`, {
@@ -26,6 +56,7 @@ export async function getAccessToken(fetch, apiUrl, eventUrl) {
         'Content-Type': 'application/json',
       },
     })).json();
+
     if (response.error) {
       throw new Error(response.error);
     }

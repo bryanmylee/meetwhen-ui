@@ -1,15 +1,23 @@
 <script>
-  import { fade } from 'svelte/transition';
-
   import { inputAction, labelAction } from './TextInput.js';
 
-  export let label = "Label";
-  export let isPassword = false;
+  // COMPONENT BINDINGS
+  // ==================
   export let value;
 
-  let focused = false;
+  // PROPS
+  // =====
+  export let label = "Label";
+  export let isPassword = false;
   export let required = false;
   export let attempted = false;
+
+  // STATE
+  // =====
+  let focused = false;
+
+  // REACTIVE ATTRIBUTES
+  // ===================
   $: showError = required && attempted && value.trim().length === 0;
 </script>
 

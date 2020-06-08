@@ -1,13 +1,18 @@
 <script>
   import dayjs from 'dayjs';
 
+  // PROPS
+  // =====
   export let startingDay = null;
 
+  // ATTRIBUTES
+  // ==========
   const hours = Array.from(Array(24).keys())
       .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
 </script>
 
 <div class="index-col">
+  <!-- MONTH LABEL -->
   <div class="month-label">
     {startingDay == null ? 'NIL' : startingDay.format('MMM')}
   </div>

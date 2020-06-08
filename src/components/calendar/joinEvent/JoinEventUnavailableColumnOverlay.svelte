@@ -3,8 +3,12 @@
   import { getNonIntervals } from '../../../utils/interval.js';
   import { sizePos } from '../../../actions/dayColumn.js';
 
+  // PROPS
+  // =====
   export let eventIntervals;
 
+  // ATTRIBUTES
+  // ==========
   const nonEventIntervals = getNonIntervals(eventIntervals);
 </script>
 

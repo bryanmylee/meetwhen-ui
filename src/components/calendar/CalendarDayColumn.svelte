@@ -4,22 +4,27 @@
   import { top } from '../../actions/dayColumn.js';
   import { isSelecting } from '../../stores.js';
 
+  // PROPS
+  // =====
   export let day;
 </script>
 
-<div>
+<div class="day-col">
+  <!-- DATE LABEL -->
   <div class="date-label">
     {day.format('ddd D')}
   </div>
   <div class="column">
-    <!-- Render separator lines -->
-    {#each Array(24) as _, inc}
-      <div
-        class="hour-separator"
-        use:top={{hour: inc + 1}}
-      ></div>
-    {/each}
-    <!-- Slot for selections -->
+    <!-- SEPARATOR LINES -->
+    <div class="hour-separators">
+      {#each Array(24) as _, inc}
+        <div
+          class="hour-separators__separator"
+          use:top={{hour: inc + 1}}
+        ></div>
+      {/each}
+    </div>
+    <!-- RENDERED INTERVALS/SELECTIONS -->
     <slot />
   </div>
 </div>
@@ -49,11 +54,14 @@
     user-select: none;
   }
 
-  .hour-separator {
+  .hour-separators {
+    pointer-events: none;
+    touch-action: none;
+  }
+
+  .hour-separators__separator {
     width: 100%;
     height: 1px;
     background-color: var(--line-2);
-    pointer-events: none;
-    touch-action: none;
   }
 </style>

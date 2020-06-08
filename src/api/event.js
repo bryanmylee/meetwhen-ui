@@ -35,6 +35,7 @@ function deserializeInterval(serializedInterval) {
 
 /**
  * Create a new event with the given details.
+ * @param {Function} fetch The fetch function to use.
  * @param {string} apiUrl The URL of the API.
  * @param {{
  *   title: string,
@@ -43,6 +44,11 @@ function deserializeInterval(serializedInterval) {
  *   password: string,
  *   eventIntervals: interval[],
  * }} eventDetails The details of the event.
+ * @returns {{
+ *   eventUrl: string,
+ *   accessToken: string,
+ *   accessTokenLifetime: string,
+ * }} The access token response.
  */
 export async function createNewEvent(fetch, apiUrl, eventDetails) {
   const { eventIntervals } = eventDetails;
@@ -59,7 +65,7 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
 
 /**
  * Get the details of an event.
- * @param {*} fetch The fetch function to use.
+ * @param {Function} fetch The fetch function to use.
  * @param {string} eventUrl The url identifier of the event.
  * @returns {Promise<{
  *   id: number,
@@ -95,6 +101,7 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
 
 /**
  * Add a user with the given details to an event.
+ * @param {Function} fetch The fetch function to use.
  * @param {string} apiUrl The URL of the API.
  * @param {string} eventUrl The URL of the event.
  * @param {{
@@ -103,6 +110,7 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
  *   intervals: interval[],
  * }} userDetails The details of the user joining the event.
  * @returns {{
+ *   eventUrl: string,
  *   accessToken: string,
  *   accessTokenLifetime: string,
  * }} The access token after logging in as the registered user.
@@ -110,8 +118,7 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
  */
 export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
   try {
-    const { intervals } = userDetails;
-    userDetails.intervals = intervals.map(serializeInterval);
+    userDetails.intervals = userDetails.intervals.map(serializeInterval);
     const response = await (await fetch(`${apiUrl}/${eventUrl}/new_user`, {
       method: 'POST',
       credentials: 'include',
@@ -120,6 +127,7 @@ export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
       },
       body: JSON.stringify(userDetails),
     })).json();
+
     if (response.error) {
       throw new Error(response.error);
     }

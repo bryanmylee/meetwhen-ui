@@ -13,22 +13,30 @@
   import { NewEventCalendarPicker } from '../components/calendar';
   import { Button, TextInput } from '../components/form';
 
+  // FORM DATA
+  // =========
   let title = '';
   let description = '';
   let username = '';
   let password = '';
   const [ selections, undo, redo, canUndo, canRedo ] = undoable([]);
+
+  // FORM METADATA
+  // =============
   let attempted = false;
   $: eventDetailsValid = title.trim().length !== 0;
   $: userDetailsValid = username.trim().length !== 0
         && password.trim().length !== 0;
   $: selectionsValid = $selections.length !== 0;
 
-  const startDate = dayjs().startOf('day');
-  const daysToShow = Array.from(Array(10).keys())
+  // PAGE STATE
+  let startDate = dayjs().startOf('day');
+  $: daysToShow = Array.from(Array(10).keys())
       .map((inc) => startDate.add(inc, 'day'));
 
-  async function submit() {
+  // API FUNCTIONS
+  // =============
+  async function handleSubmitNewEvent() {
     if (!eventDetailsValid || !userDetailsValid || !selectionsValid) {
       attempted = true;
       return;
@@ -46,6 +54,8 @@
 
 <div class="page" in:fadeIn out:fadeOut>
   <h1>New Event</h1>
+
+  <!-- EVENT DETAILS FORM CARD -->
   <div
     class="card__outline section"
     class:error={attempted && !eventDetailsValid}
@@ -54,6 +64,8 @@
     <TextInput label="Title" bind:value={title} required {attempted} />
     <TextInput label="Description" bind:value={description} />
   </div>
+
+  <!-- USER DETAILS FORM CARD -->
   <div
     class="card__outline section"
     class:error={attempted && !userDetailsValid}
@@ -63,19 +75,26 @@
     <TextInput label="Password" bind:value={password} isPassword required {attempted} />
     <h5>Account is unique to this event only</h5>
   </div>
+
+  <!-- CALENDAR PICKER CARD -->
   <div
     class="picker-container card__outline no-highlight"
     class:error={attempted && !selectionsValid}
   >
+    <!-- CALENDAR PICKER CARD TITLE HEADER -->
     <h3>
       Indicate event timing
     </h3>
+
+    <!-- CALENDAR PICKER -->
     <div class="picker">
       <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
     </div>
   </div>
+
+  <!-- BUTTONS -->
   <div class="button">
-    <Button on:click={submit}>Create Event</Button>
+    <Button on:click={handleSubmitNewEvent}>Create Event</Button>
   </div>
 </div>
 
