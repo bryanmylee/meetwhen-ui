@@ -30,6 +30,7 @@
   $: selectionsValid = $selections.length !== 0;
 
   // PAGE STATE
+  // ==========
   let startDate = dayjs().startOf('day');
   $: daysToShow = Array.from(Array(10).keys())
       .map((inc) => startDate.add(inc, 'day'));
