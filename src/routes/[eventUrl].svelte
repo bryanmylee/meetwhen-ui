@@ -43,12 +43,6 @@
   export let accessToken;
   $: $user.accessToken = accessToken;
 
-  // PAGE STATE
-  // ==========
-  let isJoining = false;
-  let errorMessage = '';
-  $: isLoggedIn = accessToken != null;
-
   // FORM DATA
   // =========
   let username = '';
@@ -62,21 +56,23 @@
       && password.trim().length !== 0;
   $: selectionsValid = $selections.length !== 0;
 
+  // PAGE STATE
+  // ==========
+  const NONE = 'NONE', LOGGING_IN = 'LOGGING_IN', JOINING = 'JOINING';
+  let pageState = NONE;
+  let errorMessage = '';
+  $: isLoggedIn = accessToken != null;
+  $: pageState, resetForm();
+
   // PAGE FUNCTIONS
   // ==============
-  function handleInitNewUser() {
-    isJoining = true;
-    errorMessage = '';
-  }
-
   async function refreshDataOnSuccess() {
     event = await getEvent(fetch, $session.API_URL, event.eventUrl, fetch);
     await nextFrame();
-    resetForm();
+    pageState = NONE;
   }
 
   function resetForm() {
-    isJoining = false;
     errorMessage = '';
     username = '';
     password = '';
@@ -102,12 +98,15 @@
     }
   }
 
-  async function handleInitLogin() {
+  async function handleSubmitLogin() {
+    if (!userDetailsValid) {
+      attempted = true;
+      return;
+    }
+    const userDetails = { username, password };
     try {
-      accessToken = (await login(fetch, $session.API_URL, event.eventUrl, {
-        username: 'testlogin',
-        password: 'testlogins',
-      })).accessToken;
+      accessToken = (await login(
+          fetch, $session.API_URL, event.eventUrl, userDetails)).accessToken;
       refreshDataOnSuccess();
     } catch (err) {
       errorMessage = err.message;
@@ -127,7 +126,22 @@
   </div>
 
   <!-- USER DETAILS FORM CARD -->
-  {#if isJoining}
+  {#if pageState === LOGGING_IN}
+    <div
+      class="card--outline section"
+      class:error={attempted && !userDetailsValid}
+      transition:slide={{duration: 500, easing: cubicOut}}
+    >
+      <!-- Content of div with slide transitions is not masked properly on
+      Safari. Therefore, implement a nice fade in after div is fully sized. -->
+      <div transition:fade={{duration: 150, delay: 500}}>
+        <h3>Log in</h3>
+        <TextInput label="Username" bind:value={username} required {attempted} />
+        <TextInput label="Password" bind:value={password}
+            isPassword required {attempted} />
+      </div>
+    </div>
+  {:else if pageState === JOINING}
     <div
       class="card--outline section"
       class:error={attempted && !userDetailsValid}
@@ -148,10 +162,10 @@
   <!-- CALENDAR PICKER CARD -->
   <div
     class="picker-container card--outline"
-    class:error={attempted && !selectionsValid}
+    class:error={pageState === JOINING && attempted && !selectionsValid}
   >
     <!-- CALENDAR PICKER CARD TITLE HEADER -->
-    {#if isJoining}
+    {#if pageState === JOINING}
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
       <div>
@@ -166,7 +180,7 @@
       <JoinEventCalendarPicker bind:selections={$selections}
         eventIntervals={event.eventIntervals}
         userIntervalsByUsername={event.userIntervalsByUsername}
-        isCollapsed={isJoining}
+        isCollapsed={pageState === JOINING}
       />
     </div>
   </div>
@@ -184,16 +198,26 @@
     {#if isLoggedIn}
       <Button>Edit selections</Button>
     {:else}
-      {#if isJoining}
+      {#if pageState === LOGGING_IN}
+        <div class="button__container">
+          <Button on:click={() => pageState = NONE}>Cancel</Button>
+        </div>
+        <div class="button__container">
+          <Button on:click={handleSubmitLogin}>Confirm</Button>
+        </div>
+      {:else if pageState === JOINING}
+        <div class="button__container">
+          <Button on:click={() => pageState = NONE}>Cancel</Button>
+        </div>
         <div class="button__container">
           <Button on:click={handleSubmitNewUser}>Confirm</Button>
         </div>
-      {:else}
+      {:else if pageState === NONE}
         <div class="button__container">
-          <Button on:click={handleInitNewUser}>Join Event</Button>
+          <Button on:click={() => pageState = LOGGING_IN}>Login</Button>
         </div>
         <div class="button__container">
-          <Button on:click={handleInitLogin}>Login</Button>
+          <Button on:click={() => pageState = JOINING}>Join Event</Button>
         </div>
       {/if}
     {/if}
