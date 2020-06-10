@@ -54,8 +54,6 @@
 <svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
 
 <div class="content" in:fadeIn out:fadeOut>
-  <h1>New Event</h1>
-
   <!-- EVENT DETAILS FORM CARD -->
   <div
     class="card__outline section"
@@ -111,10 +109,6 @@
     background-color: var(--background-1);
   }
 
-  h1 {
-    margin: 0 0;
-  }
-
   .picker-container {
     display: flex;
     flex-direction: column;
@@ -156,20 +150,12 @@
   @media screen and (min-width: 50rem) {
     .content {
       grid-template-columns: 2fr 3fr;
-      grid-template-rows: min-content;
-    }
-
-    h1 {
-      grid-column: 1/-1;
+      grid-auto-flow: column;
     }
 
     .picker-container {
-      grid-row: 2/6;
+      grid-row: 1/5;
       grid-column: 2/3;
-    }
-
-    .button {
-      grid-column: 1/2;
     }
   }
 </style>
