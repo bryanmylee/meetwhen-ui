@@ -9,13 +9,13 @@
 
 <div
   use:smoothSizePos={{start, end}}
-  class="container"
+  class="selection__container"
 >
-  <div class="content" />
+  <div class="selection__content" />
 </div>
 
 <style>
-  .container {
+  .selection__container {
     position: absolute;
     z-index: 11;
     left: var(--select-collapse-width);
@@ -24,7 +24,7 @@
     pointer-events: none;
   }
 
-  .content {
+  .selection__content {
     width: 100%;
     margin: 0 0.2em;
     border-radius: 5px;

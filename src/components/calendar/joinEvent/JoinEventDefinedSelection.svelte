@@ -10,17 +10,17 @@
 
 <div
   use:smoothSizePos={{start, end, duration: 0}}
-  class="container"
+  class="selection__container"
   class:pass-through={$isSelecting}
 >
   <div
-    class="content"
+    class="selection__content"
     class:pass-through={$isSelecting}
   />
 </div>
 
 <style>
-  .container {
+  .selection__container {
     position: absolute;
     z-index: 10;
     left: var(--select-collapse-width);
@@ -28,7 +28,7 @@
     display: flex;
   }
 
-  .content {
+  .selection__content {
     width: 100%;
     margin: 0 0.2em;
     border-radius: 5px;

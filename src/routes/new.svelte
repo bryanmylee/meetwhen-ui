@@ -53,7 +53,7 @@
 
 <svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
 
-<div class="page" in:fadeIn out:fadeOut>
+<div class="content" in:fadeIn out:fadeOut>
   <h1>New Event</h1>
 
   <!-- EVENT DETAILS FORM CARD -->
@@ -100,12 +100,12 @@
 </div>
 
 <style>
-  .page {
+  .content {
     /* Allows the calendar to dynamically resize */
     display: grid;
     gap: 1rem;
     width: 100%;
-    height: 100vh;
+    height: var(--content-height);
     padding: 1em;
     box-sizing: border-box;
     background-color: var(--background-1);
@@ -154,7 +154,7 @@
   }
 
   @media screen and (min-width: 50rem) {
-    .page {
+    .content {
       grid-template-columns: 2fr 3fr;
       grid-template-rows: min-content;
     }

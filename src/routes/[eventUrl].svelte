@@ -1,5 +1,3 @@
-<svelte:options immutable={true}/>
-
 <script context="module">
   import { getEvent } from '@/api/event.js';
   import { login, getAccessToken } from '@/api/authentication.js';
@@ -119,7 +117,7 @@
 
 <svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
 
-<div class="page" in:fadeIn out:fadeOut>
+<div class="content" in:fadeIn out:fadeOut>
   <!-- TITLE CARD -->
   <div class="card__outline section">
     <h1>{event.title}</h1>
@@ -203,12 +201,12 @@
 </div>
 
 <style>
-  .page {
+  .content {
     /* Allows the calendar to dynamically resize */
     display: grid;
     gap: 1rem;
     width: 100%;
-    height: 100vh;
+    height: var(--content-height);
     padding: 1em;
     box-sizing: border-box;
     background-color: var(--background-1);
@@ -268,7 +266,7 @@
   }
 
   @media screen and (min-width: 50rem) {
-    .page {
+    .content {
       grid-template-columns: 2fr 3fr;
       grid-auto-flow: column;
     }

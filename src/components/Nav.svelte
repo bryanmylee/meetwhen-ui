@@ -21,6 +21,7 @@
     padding: 0 1rem;
     background-color: var(--background-0);
     border-bottom: 1px solid var(--line-1);
+    box-sizing: border-box;
   }
 
   ul {
