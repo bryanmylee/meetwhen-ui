@@ -1,4 +1,4 @@
-import { writable, derived, get } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 import isEqual from 'lodash.isequal';
 
 export default function undoable(initialValue) {

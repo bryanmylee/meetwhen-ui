@@ -1,8 +1,8 @@
 <svelte:options immutable={true}/>
 
 <script context="module">
-  import { getEvent } from '../api/event.js';
-  import { login, getAccessToken } from '../api/authentication.js';
+  import { getEvent } from '@/api/event.js';
+  import { login, getAccessToken } from '@/api/authentication.js';
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
@@ -29,15 +29,15 @@
   import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
 
-  import { user } from '../stores.js';
-  import { undoRedo } from '../actions/hotkeys.js';
-  import undoable from '../utils/undoable.js';
-  import nextFrame from '../utils/nextFrame.js';
-  import { fadeIn, fadeOut } from '../utils/pageCrossfade.js';
-  import { addUserToEvent } from '../api/event.js';
+  import { user } from '@/stores.js';
+  import { undoRedo } from '@/actions/hotkeys.js';
+  import undoable from '@/utils/undoable.js';
+  import nextFrame from '@/utils/nextFrame.js';
+  import { fadeIn, fadeOut } from '@/utils/pageCrossfade.js';
+  import { addUserToEvent } from '@/api/event.js';
 
-  import { JoinEventCalendarPicker } from '../components/calendar';
-  import { Button, TextInput } from '../components/form';
+  import { JoinEventCalendarPicker } from '@/components/calendar';
+  import { Button, TextInput } from '@/components/form';
 
   // PRELOADED DATA
   // ==============

@@ -1,3 +1,5 @@
+import alias from '@rollup/plugin-alias';
+import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import commonjs from '@rollup/plugin-commonjs';
@@ -18,6 +20,12 @@ export default {
     input: config.client.input(),
     output: config.client.output(),
     plugins: [
+      alias({
+        resolve: ['.jsx', '.js', '.svelte'],
+        entries: [
+          { find: '@', replacement: path.resolve(__dirname, 'src') },
+        ]
+      }),
       replace({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode)
@@ -62,6 +70,12 @@ export default {
     input: config.server.input(),
     output: config.server.output(),
     plugins: [
+      alias({
+        resolve: ['.jsx', '.js', '.svelte'],
+        entries: [
+          { find: '@', replacement: path.resolve(__dirname, 'src') },
+        ]
+      }),
       replace({
         'process.browser': false,
         'process.env.NODE_ENV': JSON.stringify(mode)

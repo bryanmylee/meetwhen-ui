@@ -1,7 +1,7 @@
 <script>
-  import { isSelecting, colorScale } from '../../../stores.js';
-  import { sizePos } from '../../../actions/dayColumn.js';
-  import colorGradient from '../../../actions/colorGradient.js';
+  import { isSelecting, colorScale } from '@/stores.js';
+  import { sizePos } from '@/actions/dayColumn.js';
+  import colorGradient from '@/actions/colorGradient.js';
 
   import JoinEventOtherUsersPopover from './JoinEventOtherUsersPopover.svelte';
 

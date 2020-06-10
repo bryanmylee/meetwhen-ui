@@ -1,5 +1,5 @@
 <script>
-  import { popperFollowMouseY } from '../../../actions/popper.js';
+  import { popperFollowMouseY } from '@/actions/popper.js';
 
   // PROPS
   // =====

@@ -1,5 +1,5 @@
 <script>
-  import { smoothSizePos } from '../../../actions/dayColumn.js';
+  import { smoothSizePos } from '@/actions/dayColumn.js';
 
   // PROPS
   // =====

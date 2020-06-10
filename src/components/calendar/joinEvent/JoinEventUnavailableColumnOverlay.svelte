@@ -1,7 +1,7 @@
 <script>
-  import { isSelecting } from '../../../stores.js';
-  import { getNonIntervals } from '../../../utils/interval.js';
-  import { sizePos } from '../../../actions/dayColumn.js';
+  import { isSelecting } from '@/stores.js';
+  import { getNonIntervals } from '@/utils/interval.js';
+  import { sizePos } from '@/actions/dayColumn.js';
 
   // PROPS
   // =====

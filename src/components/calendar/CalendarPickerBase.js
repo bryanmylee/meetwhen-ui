@@ -2,7 +2,7 @@ import {
   getMouseOffset,
   getTouchOffset,
   distanceBetweenOffsets,
-} from '../../utils/eventHandler.js';
+} from '@/utils/eventHandler.js';
 
 /**
  * Provides all custom events for interacting with the calendar.
