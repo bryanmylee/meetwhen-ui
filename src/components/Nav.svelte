@@ -1,0 +1,43 @@
+<script>
+  import { stores } from '@sapper/app';
+  const { page, session } = stores();
+</script>
+
+<nav>
+  <ul>
+    <a href="/" class="hero">LetsMeet</a>
+  </ul>
+  <ul>
+    <a href="/new" class:active={$page.path === '/new'}>New Event</a>
+  </ul>
+</nav>
+
+<style>
+  nav {
+    height: var(--nav-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    background-color: var(--background-0);
+    border-bottom: 1px solid var(--line-1);
+  }
+
+  ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    color: var(--text-0);
+  }
+
+  .hero {
+    font-weight: 800;
+  }
+
+  .active {
+    color: var(--primary-1-0);
+  }
+</style>

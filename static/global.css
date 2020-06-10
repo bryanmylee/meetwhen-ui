@@ -3,7 +3,6 @@
   --text-1: #555;
   --text-2: #777;
   --text-3: #AAA;
-  --primary-0: #3D5A80;
   --primary-1-0: #4E90CD;
   --primary-1: #62B2F2;
   --primary-1-1: #75C1F5;
@@ -23,6 +22,7 @@
   /* Easings */
   --ease-out: 500ms cubic-bezier(0.3, 0.03, 0.1, 0.97);
   /* Dimensions */
+  --nav-height: 50px;
   --index-col-width: 4rem;
   --header-row-height: 2rem;
   --col-width: 6rem;
