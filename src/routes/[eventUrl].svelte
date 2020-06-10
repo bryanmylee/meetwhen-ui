@@ -119,7 +119,7 @@
 
 <div class="content" in:fadeIn out:fadeOut>
   <!-- TITLE CARD -->
-  <div class="card__outline section">
+  <div class="card--outline section">
     <h1>{event.title}</h1>
     {#if event.description}
       <p>{event.description}</p>
@@ -129,7 +129,7 @@
   <!-- USER DETAILS FORM CARD -->
   {#if isJoining}
     <div
-      class="card__outline section"
+      class="card--outline section"
       class:error={attempted && !userDetailsValid}
       transition:slide={{duration: 500, easing: cubicOut}}
     >
@@ -147,7 +147,7 @@
 
   <!-- CALENDAR PICKER CARD -->
   <div
-    class="picker-container card__outline"
+    class="picker-container card--outline"
     class:error={attempted && !selectionsValid}
   >
     <!-- CALENDAR PICKER CARD TITLE HEADER -->

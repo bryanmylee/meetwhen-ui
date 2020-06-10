@@ -56,7 +56,7 @@
 <div class="content" in:fadeIn out:fadeOut>
   <!-- EVENT DETAILS FORM CARD -->
   <div
-    class="card__outline section"
+    class="card--outline section"
     class:error={attempted && !eventDetailsValid}
   >
     <h3>Describe your event</h3>
@@ -66,7 +66,7 @@
 
   <!-- USER DETAILS FORM CARD -->
   <div
-    class="card__outline section"
+    class="card--outline section"
     class:error={attempted && !userDetailsValid}
   >
     <h3>Create an account</h3>
@@ -77,7 +77,7 @@
 
   <!-- CALENDAR PICKER CARD -->
   <div
-    class="picker-container card__outline no-highlight"
+    class="picker-container card--outline no-highlight"
     class:error={attempted && !selectionsValid}
   >
     <!-- CALENDAR PICKER CARD TITLE HEADER -->

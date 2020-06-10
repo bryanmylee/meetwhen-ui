@@ -57,7 +57,7 @@ html, body {
   box-shadow: var(--box-shadow);
 }
 
-.card__outline {
+.card--outline {
   border-radius: 5px;
   box-sizing: border-box;
   border: 1px var(--line-1) solid;
@@ -65,7 +65,7 @@ html, body {
   transition: border 0.2s ease;
 }
 
-.card__outline.error {
+.card--outline.error {
   border: 1px var(--error-0) solid;
 }
 
