@@ -54,6 +54,7 @@ html, body {
 
 .main-content.fixed-height {
   position: absolute;
+  margin-top: var(--nav-height);
   height: var(--content-height);
   box-sizing: border-box;
   background-color: var(--background-1);
