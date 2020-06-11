@@ -11,8 +11,8 @@
   import JoinEventDefinedSelection from './JoinEventDefinedSelection.svelte';
   import JoinEventNewSelection from './JoinEventNewSelection.svelte';
 
-  // COMPONENT BINDINGS
-  // ==================
+  // BINDINGS
+  // ========
   export let selections = [];
 
   // PROPS

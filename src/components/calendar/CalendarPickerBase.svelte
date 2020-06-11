@@ -9,8 +9,8 @@
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
-  // COMPONENT BINDINGS
-  // ==================
+  // BINDINGS
+  // ========
   export let selections = [];
 
   // PROPS

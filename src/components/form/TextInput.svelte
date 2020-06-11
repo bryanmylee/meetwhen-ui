@@ -1,8 +1,8 @@
 <script>
   import { inputAction, labelAction } from './TextInput.js';
 
-  // COMPONENT BINDINGS
-  // ==================
+  // BINDINGS
+  // ========
   export let value;
 
   // PROPS

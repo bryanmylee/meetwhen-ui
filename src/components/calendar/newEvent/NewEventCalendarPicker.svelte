@@ -7,8 +7,8 @@
   import NewEventDefinedSelection from './NewEventDefinedSelection.svelte';
   import NewEventNewSelection from './NewEventNewSelection.svelte';
 
-  // COMPONENT BINDINGS
-  // ==================
+  // BINDINGS
+  // ========
   export let selections = [];
 
   // PROPS
