@@ -29,6 +29,7 @@
 
   import { user } from '@/stores.js';
   import { undoRedo } from '@/actions/hotkeys.js';
+  import mediaQuery from '@/actions/mediaQuery.js';
   import undoable from '@/utils/undoable.js';
   import nextFrame from '@/utils/nextFrame.js';
   import { fadeIn, fadeOut } from '@/utils/pageCrossfade.js';
@@ -114,7 +115,13 @@
   }
 </script>
 
-<svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
+<svelte:window
+  use:undoRedo={{undo: selections.undo, redo: selections.redo}}
+  use:mediaQuery={{
+    query: "(min-width: 768px)",
+    callback: (matches) => console.log(matches)
+  }}
+/>
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- TITLE CARD -->
