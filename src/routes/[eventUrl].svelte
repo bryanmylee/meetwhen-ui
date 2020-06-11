@@ -116,9 +116,9 @@
 
 <svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
 
-<div class="content" in:fadeIn out:fadeOut>
+<div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- TITLE CARD -->
-  <div class="card--outline section">
+  <div class="card outline padded">
     <h1>{event.title}</h1>
     {#if event.description}
       <p>{event.description}</p>
@@ -128,7 +128,7 @@
   <!-- USER DETAILS FORM CARD -->
   {#if pageState === LOGGING_IN}
     <div
-      class="card--outline section"
+      class="card outline padded"
       class:error={attempted && !userDetailsValid}
       transition:slide={{duration: 500, easing: cubicOut}}
     >
@@ -143,7 +143,7 @@
     </div>
   {:else if pageState === JOINING}
     <div
-      class="card--outline section"
+      class="card outline padded"
       class:error={attempted && !userDetailsValid}
       transition:slide={{duration: 500, easing: cubicOut}}
     >
@@ -161,7 +161,7 @@
 
   <!-- CALENDAR PICKER CARD -->
   <div
-    class="picker-container card--outline"
+    class="picker-container card outline"
     class:error={pageState === JOINING && attempted && !selectionsValid}
   >
     <!-- CALENDAR PICKER CARD TITLE HEADER -->
@@ -176,13 +176,11 @@
     {/if}
 
     <!-- CALENDAR PICKER -->
-    <div class="picker">
-      <JoinEventCalendarPicker bind:selections={$selections}
-        eventIntervals={event.eventIntervals}
-        userIntervalsByUsername={event.userIntervalsByUsername}
-        isCollapsed={pageState === JOINING}
-      />
-    </div>
+    <JoinEventCalendarPicker bind:selections={$selections}
+      eventIntervals={event.eventIntervals}
+      userIntervalsByUsername={event.userIntervalsByUsername}
+      isCollapsed={pageState === JOINING}
+    />
   </div>
 
   <!-- BOTTOM BUTTON BAR -->
@@ -225,17 +223,6 @@
 </div>
 
 <style>
-  .content {
-    /* Allows the calendar to dynamically resize */
-    display: grid;
-    gap: 1rem;
-    width: 100%;
-    height: var(--content-height);
-    padding: 1em;
-    box-sizing: border-box;
-    background-color: var(--background-1);
-  }
-
   h1 {
     margin: 0;
   }
@@ -254,11 +241,6 @@
   .picker-container > div > h3 {
     padding: 0.8rem;
     padding-left: calc(0.8rem + 5px);
-  }
-
-  .picker {
-    overflow: scroll;
-    scroll-behavior: smooth;
   }
 
   h3 {
@@ -290,7 +272,7 @@
   }
 
   @media screen and (min-width: 50rem) {
-    .content {
+    .main-content {
       grid-template-columns: 2fr 3fr;
       grid-auto-flow: column;
     }

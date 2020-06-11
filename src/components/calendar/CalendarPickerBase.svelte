@@ -70,24 +70,31 @@
 <svelte:window on:mouseup={selectStop} />
 <!-- Wrapping the scrollable content in an extra div fixes a position:sticky
 bug on Safari 13.1 -->
-<div
-  class="body no-highlight"
-  class:disable-touch-scroll={$isSelecting}
->
-  <!-- MOUSE/TOUCH EVENT CAPTURE LAYER -->
+<div class="picker">
   <div
-    class="interaction-layer"
-    use:interaction={{daysToShow}}
-    on:selectStart={selectStart}
-    on:selectMove={selectMove}
-    on:selectStop={selectStop}
-  />
-  <CalendarIndexColumn startingDay={daysToShow[0]}/>
-  <!-- Slot for div containing calendar day columns -->
-  <slot {newSelections} />
+    class="body no-highlight"
+    class:disable-touch-scroll={$isSelecting}
+  >
+    <!-- MOUSE/TOUCH EVENT CAPTURE LAYER -->
+    <div
+      class="interaction-layer"
+      use:interaction={{daysToShow}}
+      on:selectStart={selectStart}
+      on:selectMove={selectMove}
+      on:selectStop={selectStop}
+    />
+    <CalendarIndexColumn startingDay={daysToShow[0]}/>
+    <!-- Slot for div containing calendar day columns -->
+    <slot {newSelections} />
+  </div>
 </div>
 
 <style>
+  .picker {
+    overflow: scroll;
+    scroll-behavior: smooth;
+  }
+
   .body {
     position: relative;
     display: flex;

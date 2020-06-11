@@ -53,10 +53,10 @@
 
 <svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
 
-<div class="content" in:fadeIn out:fadeOut>
+<div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- EVENT DETAILS FORM CARD -->
   <div
-    class="card--outline section"
+    class="card outline padded"
     class:error={attempted && !eventDetailsValid}
   >
     <h3>Describe your event</h3>
@@ -66,7 +66,7 @@
 
   <!-- USER DETAILS FORM CARD -->
   <div
-    class="card--outline section"
+    class="card outline padded"
     class:error={attempted && !userDetailsValid}
   >
     <h3>Create an account</h3>
@@ -77,7 +77,7 @@
 
   <!-- CALENDAR PICKER CARD -->
   <div
-    class="picker-container card--outline no-highlight"
+    class="picker-container card outline no-highlight"
     class:error={attempted && !selectionsValid}
   >
     <!-- CALENDAR PICKER CARD TITLE HEADER -->
@@ -86,9 +86,7 @@
     </h3>
 
     <!-- CALENDAR PICKER -->
-    <div class="picker">
-      <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
-    </div>
+    <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
   </div>
 
   <!-- BUTTONS -->
@@ -98,17 +96,6 @@
 </div>
 
 <style>
-  .content {
-    /* Allows the calendar to dynamically resize */
-    display: grid;
-    gap: 1rem;
-    width: 100%;
-    height: var(--content-height);
-    padding: 1em;
-    box-sizing: border-box;
-    background-color: var(--background-1);
-  }
-
   .picker-container {
     display: flex;
     flex-direction: column;
@@ -119,11 +106,6 @@
   .picker-container > h3 {
     padding: 0.8rem;
     padding-left: calc(0.8rem + 5px);
-  }
-
-  .picker {
-    overflow: scroll;
-    scroll-behavior: smooth;
   }
 
   h3 {
@@ -148,7 +130,7 @@
   }
 
   @media screen and (min-width: 50rem) {
-    .content {
+    .main-content {
       grid-template-columns: 2fr 3fr;
       grid-auto-flow: column;
     }

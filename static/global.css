@@ -1,4 +1,5 @@
 :root {
+  /* Colors */
   --text-0: #333;
   --text-1: #555;
   --text-2: #777;
@@ -46,18 +47,33 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
-.content {
-  position: absolute;
+/* Main Content */
+.main-content {
   width: 100%;
 }
 
+.main-content.fixed-height {
+  position: absolute;
+  height: var(--content-height);
+  box-sizing: border-box;
+  background-color: var(--background-1);
+}
+
+.main-content.grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1em;
+}
+
+/* Card */
 .card {
   border-radius: 5px;
   box-sizing: border-box;
   box-shadow: var(--box-shadow);
 }
 
-.card--outline {
+.card.outline {
+  box-shadow: unset;
   border-radius: 5px;
   box-sizing: border-box;
   border: 1px var(--line-1) solid;
@@ -65,16 +81,15 @@ html, body {
   transition: border 0.2s ease;
 }
 
-.card--outline.error {
+.card.outline.error {
   border: 1px var(--error-0) solid;
 }
 
-.section {
+.card.padded {
   padding: 0.8rem;
-  height: -moz-fit-content;
-  height: -webkit-fit-content;
 }
 
+/* Picker */
 .cell {
   z-index: 0;
   display: flex;
@@ -82,6 +97,12 @@ html, body {
   align-items: center;
 }
 
+/* Error Messages */
+span.error {
+  color: var(--error-0);
+}
+
+/* Utility */
 .no-highlight {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -121,8 +142,4 @@ input, button, select, textarea {
 
 input:disabled {
   color: #ccc;
-}
-
-span.error {
-  color: var(--error-0);
 }
