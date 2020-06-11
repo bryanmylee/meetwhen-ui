@@ -129,7 +129,7 @@
     width: fit-content;
   }
 
-  @media screen and (min-width: 50rem) {
+  @media screen and (min-width: 768px) {
     .main-content {
       grid-template-columns: 2fr 3fr;
       grid-auto-flow: column;
