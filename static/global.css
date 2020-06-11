@@ -40,6 +40,10 @@ html, body {
   margin: 0;
 }
 
+div, span {
+  box-sizing: border-box;
+}
+
 #sapper {
   width: 100%;
   margin: 0;
@@ -96,11 +100,6 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* Error Messages */
-span.error {
-  color: var(--error-0);
 }
 
 /* Utility */

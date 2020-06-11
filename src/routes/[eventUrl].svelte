@@ -37,6 +37,7 @@
 
   import { JoinEventCalendarPicker } from '@/components/calendar';
   import { Button, TextInput } from '@/components/form';
+  import ErrorToast from '@/components/ErrorToast.svelte';
 
   // PRELOADED DATA
   // ==============
@@ -192,13 +193,6 @@
 
   <!-- BOTTOM BUTTON BAR -->
   <div class="bottom-bar">
-    <!-- ERROR MESSAGE -->
-    {#if errorMessage.length !== 0}
-      <span class="error" transition:fade={{duration: 150}}>
-        {errorMessage}
-      </span>
-    {/if}
-
     <!-- BUTTONS -->
     {#if isLoggedIn}
       <Button>Edit selections</Button>
@@ -227,6 +221,8 @@
       {/if}
     {/if}
   </div>
+
+  <ErrorToast bind:errorMessage={errorMessage} />
 </div>
 
 <style>
