@@ -1,59 +1,68 @@
 <script>
-  import { NONE, LOGGING_IN, JOINING } from './_pageStates.js';
+  import { layoutStates, titleStates, formStates } from './_pageStates.js';
 
   import { Button } from '@/components/form';
 
   // BINDINGS
   // ========
-  export let pageState;
+  export let titleState;
+  export let formState;
 
   // PROPS
   // =====
+  export let layoutState;
   export let isLoggedIn;
   export let handleSubmitLogin;
   export let handleSubmitNewUser;
 </script>
 
 <div class="bar">
-  <!-- BUTTONS -->
-  {#if isLoggedIn}
-    <Button>Edit selections</Button>
-  {:else}
-    {#if pageState === LOGGING_IN}
-      <div class="button__container">
-        <Button on:click={() => pageState = NONE}>Cancel</Button>
-      </div>
-      <div class="button__container">
-        <Button on:click={handleSubmitLogin}>Confirm</Button>
-      </div>
-    {:else if pageState === JOINING}
-      <div class="button__container">
-        <Button on:click={() => pageState = NONE}>Cancel</Button>
-      </div>
-      <div class="button__container">
-        <Button on:click={handleSubmitNewUser}>Confirm</Button>
-      </div>
-    {:else if pageState === NONE}
-      <div class="button__container">
-        <Button on:click={() => pageState = LOGGING_IN}>Login</Button>
-      </div>
-      <div class="button__container">
-        <Button on:click={() => pageState = JOINING}>Join Event</Button>
-      </div>
-    {/if}
+  {#if layoutState === layoutStates.NARROW}
+    <div class="bar__left">
+      {#if titleState === titleStates.EVENT_DETAILS}
+        <Button on:click={() => titleState = titleStates.WHOS_ATTENDING}>Who's attending?</Button>
+      {:else if titleState === titleStates.WHOS_ATTENDING}
+        <Button on:click={() => titleState = titleStates.EVENT_DETAILS}>Event details</Button>
+      {/if}
+    </div>
   {/if}
+  <div class="bar__right">
+    {#if isLoggedIn}
+      <Button>Edit selections</Button>
+    {:else}
+      {#if formState === formStates.LOGGING_IN}
+        <Button on:click={() => formState = formStates.NONE}>Cancel</Button>
+        <Button on:click={handleSubmitLogin}>Confirm</Button>
+      {:else if formState === formStates.JOINING}
+        <Button on:click={() => formState = formStates.NONE}>Cancel</Button>
+        <Button on:click={handleSubmitNewUser}>Confirm</Button>
+      {:else if formState === formStates.NONE}
+        <Button on:click={() => formState = formStates.LOGGING_IN}>Login</Button>
+        <Button on:click={() => formState = formStates.JOINING}>Join Event</Button>
+      {/if}
+    {/if}
+  </div>
 </div>
 
 <style>
   .bar {
+    justify-self: end;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-self: end;
   }
 
-  .button__container {
-    min-width: -moz-max-content;
-    min-width: -webkit-max-content;
-    margin-left: 1rem;
+  .bar__left,
+  .bar__right {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .bar__left {
+    margin-right: auto;
+  }
+
+  .bar__right {
+    margin-left: auto;
   }
 </style>

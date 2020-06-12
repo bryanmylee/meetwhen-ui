@@ -27,7 +27,7 @@
   import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
 
-  import { NONE, LOGGING_IN, JOINING } from './_pageStates.js';
+  import { layoutStates, titleStates, formStates } from './_pageStates.js';
   import { user } from '@/stores.js';
   import { undoRedo } from '@/actions/hotkeys.js';
   import mediaQuery from '@/actions/mediaQuery.js';
@@ -36,7 +36,7 @@
   import { fadeIn, fadeOut } from '@/utils/pageCrossfade.js';
   import { addUserToEvent } from '@/api/event.js';
 
-  import TitleCard from './_TitleCard.svelte';
+  import Details from './_Details.svelte';
   import LoginForm from './_LoginForm.svelte';
   import JoinForm from './_JoinForm.svelte';
   import ActionBar from './_ActionBar.svelte';
@@ -65,17 +65,19 @@
 
   // PAGE STATE
   // ==========
-  let pageState = NONE;
+  let titleState = titleStates.EVENT_DETAILS;
+  let formState = formStates.NONE;
+  let layoutState = layoutStates.NARROW;
   let errorMessage = '';
+  $: formState, resetForm();
   $: isLoggedIn = accessToken != null;
-  $: pageState, resetForm();
 
   // PAGE FUNCTIONS
   // ==============
   async function refreshDataOnSuccess() {
     event = await getEvent(fetch, $session.API_URL, event.eventUrl, fetch);
     await nextFrame();
-    pageState = NONE;
+    formState = formStates.NONE;
   }
 
   function resetForm() {
@@ -124,22 +126,22 @@
   use:undoRedo={{undo: selections.undo, redo: selections.redo}}
   use:mediaQuery={{
     query: "(min-width: 768px)",
-    callback: (matches) => console.log(matches)
+    callback: (matches) => layoutState = matches ? layoutStates.WIDE : layoutStates.NARROW,
   }}
 />
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
-  <!-- TITLE CARD -->
-  <TitleCard {...event}/>
+  <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
+  <Details {titleState} {layoutState} {event} />
 
   <!-- USER DETAILS FORM CARD -->
-  {#if pageState === LOGGING_IN}
+  {#if formState === formStates.LOGGING_IN}
     <LoginForm
       bind:username={username}
       bind:password={password}
       {attempted}
     />
-  {:else if pageState === JOINING}
+  {:else if formState === formStates.JOINING}
     <JoinForm
       bind:username={username}
       bind:password={password}
@@ -150,28 +152,32 @@
   <!-- CALENDAR PICKER CARD -->
   <div
     class="picker-container card outline"
-    class:error={pageState === JOINING && attempted && !selectionsValid}
+    class:error={formState === formStates.JOINING && attempted && !selectionsValid}
   >
     <!-- CALENDAR PICKER CARD TITLE HEADER -->
-    {#if pageState === JOINING}
+    {#if formState === formStates.JOINING}
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
-      <div><h3 transition:slide={{duration: 500, easing: cubicOut}}>
+      <div>
+        <h3 transition:slide={{duration: 500, easing: cubicOut}}>
           Indicate your availability
-      </h3></div>
+        </h3>
+      </div>
     {/if}
 
     <!-- CALENDAR PICKER -->
     <JoinEventCalendarPicker bind:selections={$selections}
       eventIntervals={event.eventIntervals}
       userIntervalsByUsername={event.userIntervalsByUsername}
-      isCollapsed={pageState === JOINING}
+      isCollapsed={formState === formStates.JOINING}
     />
   </div>
 
   <!-- BOTTOM ACTION BAR -->
   <ActionBar
-    bind:pageState={pageState}
+    bind:titleState={titleState}
+    bind:formState={formState}
+    {layoutState}
     {isLoggedIn}
     {handleSubmitLogin}
     {handleSubmitNewUser}
@@ -188,9 +194,12 @@
     overflow: hidden;
   }
 
-  .picker-container > div > h3 {
+  .picker-container div h3 {
+    color: var(--text-1);
+    margin: 0;
     padding: 0.8rem;
     padding-left: calc(0.8rem + 5px);
+    font-weight: 700;
   }
 
   @media screen and (min-width: 768px) {

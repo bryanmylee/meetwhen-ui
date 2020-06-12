@@ -1,4 +1,6 @@
 <script>
+  // PROPS
+  // =====
   export let title;
   export let description;
 </script>
