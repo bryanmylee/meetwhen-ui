@@ -161,7 +161,7 @@
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
       <div>
-        <h3 transition:slide={{duration: 500, easing: cubicOut}}>
+        <h3 transition:slide={{duration: 300, easing: cubicOut}}>
           Indicate your availability
         </h3>
       </div>
