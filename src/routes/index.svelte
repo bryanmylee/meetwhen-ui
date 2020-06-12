@@ -5,7 +5,7 @@
   import { Button } from '@/components/form';
 </script>
 
-<div class="main-content fixed-height" in:fadeIn out:fadeOut>
+<div class="main-content" in:fadeIn out:fadeOut>
   <h1>LetsMeet</h1>
   <Button on:click={() => goto('/new')}>Create New Event</Button>
 </div>
