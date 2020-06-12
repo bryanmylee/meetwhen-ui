@@ -8,6 +8,7 @@
     transition: 0.2s ease opacity, 0.2s ease background-color;
     padding: 1em;
     border-radius: 5px;
+    white-space: nowrap;
   }
 
   button:focus, button:hover {

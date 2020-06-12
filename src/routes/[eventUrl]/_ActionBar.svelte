@@ -65,12 +65,12 @@
 
   .bar__left {
     margin-right: auto;
-    padding-right: 1rem;
+    padding-right: 0.5rem;
   }
 
   .bar__right {
     margin-left: auto;
-    padding-left: 1rem;
+    padding-left: 0.5rem;
   }
 
   .margin-left {
