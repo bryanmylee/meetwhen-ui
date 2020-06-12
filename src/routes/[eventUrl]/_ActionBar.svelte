@@ -32,13 +32,19 @@
     {:else}
       {#if formState === formStates.LOGGING_IN}
         <Button on:click={() => formState = formStates.NONE}>Cancel</Button>
-        <Button on:click={handleSubmitLogin}>Confirm</Button>
+        <div class="margin-left">
+          <Button on:click={handleSubmitLogin}>Confirm</Button>
+        </div>
       {:else if formState === formStates.JOINING}
         <Button on:click={() => formState = formStates.NONE}>Cancel</Button>
-        <Button on:click={handleSubmitNewUser}>Confirm</Button>
+        <div class="margin-left">
+          <Button on:click={handleSubmitNewUser}>Confirm</Button>
+        </div>
       {:else if formState === formStates.NONE}
         <Button on:click={() => formState = formStates.LOGGING_IN}>Login</Button>
-        <Button on:click={() => formState = formStates.JOINING}>Join Event</Button>
+        <div class="margin-left">
+          <Button on:click={() => formState = formStates.JOINING}>Join Event</Button>
+        </div>
       {/if}
     {/if}
   </div>
@@ -55,14 +61,19 @@
   .bar__left,
   .bar__right {
     display: flex;
-    gap: 1rem;
   }
 
   .bar__left {
     margin-right: auto;
+    padding-right: 1rem;
   }
 
   .bar__right {
     margin-left: auto;
+    padding-left: 1rem;
+  }
+
+  .margin-left {
+    margin-left: 1rem;
   }
 </style>
