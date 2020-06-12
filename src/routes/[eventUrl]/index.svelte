@@ -27,6 +27,7 @@
   import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
 
+  import { NONE, LOGGING_IN, JOINING } from './_pageStates.js';
   import { user } from '@/stores.js';
   import { undoRedo } from '@/actions/hotkeys.js';
   import mediaQuery from '@/actions/mediaQuery.js';
@@ -35,6 +36,10 @@
   import { fadeIn, fadeOut } from '@/utils/pageCrossfade.js';
   import { addUserToEvent } from '@/api/event.js';
 
+  import TitleCard from './_TitleCard.svelte';
+  import LoginForm from './_LoginForm.svelte';
+  import JoinForm from './_JoinForm.svelte';
+  import ActionBar from './_ActionBar.svelte';
   import { JoinEventCalendarPicker } from '@/components/calendar';
   import { Button, TextInput } from '@/components/form';
   import ErrorToast from '@/components/ErrorToast.svelte';
@@ -60,7 +65,6 @@
 
   // PAGE STATE
   // ==========
-  const NONE = 'NONE', LOGGING_IN = 'LOGGING_IN', JOINING = 'JOINING';
   let pageState = NONE;
   let errorMessage = '';
   $: isLoggedIn = accessToken != null;
@@ -126,45 +130,21 @@
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- TITLE CARD -->
-  <div class="card outline padded">
-    <h1>{event.title}</h1>
-    {#if event.description}
-      <p>{event.description}</p>
-    {/if}
-  </div>
+  <TitleCard {...event}/>
 
   <!-- USER DETAILS FORM CARD -->
   {#if pageState === LOGGING_IN}
-    <div
-      class="card outline padded"
-      class:error={attempted && !userDetailsValid}
-      transition:slide={{duration: 500, easing: cubicOut}}
-    >
-      <!-- Content of div with slide transitions is not masked properly on
-      Safari. Therefore, implement a nice fade in after div is fully sized. -->
-      <div transition:fade={{duration: 150, delay: 500}}>
-        <h3>Log in</h3>
-        <TextInput label="Username" bind:value={username} required {attempted} />
-        <TextInput label="Password" bind:value={password}
-            isPassword required {attempted} />
-      </div>
-    </div>
+    <LoginForm
+      bind:username={username}
+      bind:password={password}
+      {attempted}
+    />
   {:else if pageState === JOINING}
-    <div
-      class="card outline padded"
-      class:error={attempted && !userDetailsValid}
-      transition:slide={{duration: 500, easing: cubicOut}}
-    >
-      <!-- Content of div with slide transitions is not masked properly on
-      Safari. Therefore, implement a nice fade in after div is fully sized. -->
-      <div transition:fade={{duration: 150, delay: 500}}>
-        <h3>Create an account</h3>
-        <TextInput label="Username" bind:value={username} required {attempted} />
-        <TextInput label="Password" bind:value={password}
-            isPassword required {attempted} />
-        <h5>Account is unique to this event only</h5>
-      </div>
-    </div>
+    <JoinForm
+      bind:username={username}
+      bind:password={password}
+      {attempted}
+    />
   {/if}
 
   <!-- CALENDAR PICKER CARD -->
@@ -176,11 +156,9 @@
     {#if pageState === JOINING}
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
-      <div>
-        <h3 transition:slide={{duration: 500, easing: cubicOut}}>
+      <div><h3 transition:slide={{duration: 500, easing: cubicOut}}>
           Indicate your availability
-        </h3>
-      </div>
+      </h3></div>
     {/if}
 
     <!-- CALENDAR PICKER -->
@@ -191,49 +169,18 @@
     />
   </div>
 
-  <!-- BOTTOM BUTTON BAR -->
-  <div class="bottom-bar">
-    <!-- BUTTONS -->
-    {#if isLoggedIn}
-      <Button>Edit selections</Button>
-    {:else}
-      {#if pageState === LOGGING_IN}
-        <div class="button__container">
-          <Button on:click={() => pageState = NONE}>Cancel</Button>
-        </div>
-        <div class="button__container">
-          <Button on:click={handleSubmitLogin}>Confirm</Button>
-        </div>
-      {:else if pageState === JOINING}
-        <div class="button__container">
-          <Button on:click={() => pageState = NONE}>Cancel</Button>
-        </div>
-        <div class="button__container">
-          <Button on:click={handleSubmitNewUser}>Confirm</Button>
-        </div>
-      {:else if pageState === NONE}
-        <div class="button__container">
-          <Button on:click={() => pageState = LOGGING_IN}>Login</Button>
-        </div>
-        <div class="button__container">
-          <Button on:click={() => pageState = JOINING}>Join Event</Button>
-        </div>
-      {/if}
-    {/if}
-  </div>
+  <!-- BOTTOM ACTION BAR -->
+  <ActionBar
+    bind:pageState={pageState}
+    {isLoggedIn}
+    {handleSubmitLogin}
+    {handleSubmitNewUser}
+  />
 
   <ErrorToast bind:errorMessage={errorMessage} />
 </div>
 
 <style>
-  h1 {
-    margin: 0;
-  }
-
-  p {
-    margin: 0.5em 0 0;
-  }
-
   .picker-container {
     grid-column: 1/-1;
     display: flex;
@@ -244,34 +191,6 @@
   .picker-container > div > h3 {
     padding: 0.8rem;
     padding-left: calc(0.8rem + 5px);
-  }
-
-  h3 {
-    color: var(--text-1);
-    margin: 0;
-    padding: 0 5px 5px;
-    font-weight: 700;
-  }
-
-  h5 {
-    color: var(--text-3);
-    padding-left: 5px;
-    margin: 0;
-    font-size: 0.8em;
-    font-style: italic;
-    font-weight: 400;
-  }
-
-  .bottom-bar {
-    display: flex;
-    align-items: center;
-    justify-self: end;
-  }
-
-  .button__container {
-    min-width: -moz-max-content;
-    min-width: -webkit-max-content;
-    margin-left: 1rem;
   }
 
   @media screen and (min-width: 768px) {
