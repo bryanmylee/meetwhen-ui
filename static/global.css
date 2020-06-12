@@ -54,6 +54,7 @@ div, span {
 /* Main Content */
 .main-content {
   width: 100%;
+  overflow-x: hidden;
 }
 
 .main-content.fixed-height {
