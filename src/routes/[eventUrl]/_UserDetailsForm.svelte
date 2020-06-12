@@ -11,6 +11,8 @@
 
   // PROPS
   // =====
+  export let prompt;
+  export let tip;
   export let attempted;
 
   $: formValid = username.trim().length !== 0
@@ -24,11 +26,14 @@
 >
   <!-- Content of div with slide transitions is not masked properly on
   Safari. Therefore, implement a nice fade in after div is fully sized. -->
-  <div transition:fade={{duration: 150, delay: 500}}>
-    <h3>Log in</h3>
+  <div in:fade={{duration: 150, delay: 500}} out:fade={{duration: 150}}>
+    <h3>{prompt}</h3>
     <TextInput label="Username" bind:value={username} required {attempted} />
     <TextInput label="Password" bind:value={password}
         isPassword required {attempted} />
+    {#if tip}
+      <h5>{tip}</h5>
+    {/if}
   </div>
 </div>
 
@@ -38,5 +43,14 @@
     margin: 0;
     padding: 0 5px 5px;
     font-weight: 700;
+  }
+
+  h5 {
+    color: var(--text-3);
+    padding-left: 5px;
+    margin: 0;
+    font-size: 0.8em;
+    font-style: italic;
+    font-weight: 400;
   }
 </style>

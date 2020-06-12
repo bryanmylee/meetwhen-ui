@@ -37,8 +37,7 @@
   import { addUserToEvent } from '@/api/event.js';
 
   import Details from './_Details.svelte';
-  import LoginForm from './_LoginForm.svelte';
-  import JoinForm from './_JoinForm.svelte';
+  import UserDetailsForm from './_UserDetailsForm.svelte';
   import ActionBar from './_ActionBar.svelte';
   import { JoinEventCalendarPicker } from '@/components/calendar';
   import { Button, TextInput } from '@/components/form';
@@ -136,15 +135,18 @@
 
   <!-- USER DETAILS FORM CARD -->
   {#if formState === formStates.LOGGING_IN}
-    <LoginForm
+    <UserDetailsForm
       bind:username={username}
       bind:password={password}
+      prompt={'Log in'}
       {attempted}
     />
   {:else if formState === formStates.JOINING}
-    <JoinForm
+    <UserDetailsForm
       bind:username={username}
       bind:password={password}
+      prompt={'Create an account'}
+      tip={'Account is unique to this event only'}
       {attempted}
     />
   {/if}
