@@ -7,7 +7,7 @@
 
   import { undoRedo } from '@/actions/hotkeys.js';
   import undoable from '@/utils/undoable.js';
-  import { fadeIn, fadeOut } from '@/utils/pageCrossfade.js';
+  import { fadeIn, fadeOut } from '@/transitions/pageCrossfade.js';
   import { createNewEvent } from '@/api/event.js';
 
   import { NewEventCalendarPicker } from '@/components/calendar';

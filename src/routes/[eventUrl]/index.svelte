@@ -33,7 +33,7 @@
   import mediaQuery from '@/actions/mediaQuery.js';
   import undoable from '@/utils/undoable.js';
   import nextFrame from '@/utils/nextFrame.js';
-  import { fadeIn, fadeOut } from '@/utils/pageCrossfade.js';
+  import { fadeIn, fadeOut } from '@/transitions/pageCrossfade.js';
   import { addUserToEvent } from '@/api/event.js';
 
   import Details from './_Details.svelte';
