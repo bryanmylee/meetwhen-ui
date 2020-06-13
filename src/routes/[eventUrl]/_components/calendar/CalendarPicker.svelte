@@ -4,6 +4,7 @@
 
   import { getMergedIntervals, splitIntervalsOnMidnight, } from '@/utils/interval.js';
   import { isSelecting } from './stores.js';
+  import { selectedUsernames } from '../../stores.js';
 
   import CalendarPickerBase from '@/components/calendar/CalendarPickerBase.svelte';
   import CalendarDayColumn from '@/components/calendar/CalendarDayColumn.svelte';
@@ -26,9 +27,18 @@
   // ===================
   $: eventIntervalsSplitOnMidnight = splitIntervalsOnMidnight(eventIntervals);
 
+  // Filtered user intervals based on selected usernames.
+  $: filteredUserIntervalsByUsername = $selectedUsernames.length === 0
+      ? userIntervalsByUsername
+      : Object.keys(userIntervalsByUsername)
+          .filter(username => $selectedUsernames.includes(username))
+          .reduce((obj, username) => ({
+            ...obj,
+            [username]: userIntervalsByUsername[username],
+          }), {});
   // User intervals with grouped usernames.
   $: userIntervalsByTime
-      = splitIntervalsOnMidnight(getMergedIntervals(userIntervalsByUsername));
+      = splitIntervalsOnMidnight(getMergedIntervals(filteredUserIntervalsByUsername));
 
   // The maximum number of usernames in any given interval.
   $: maxUsernameCount = userIntervalsByTime.reduce((max, interval) => {
