@@ -28,8 +28,8 @@
 
   import { user } from '@/stores.js';
   import {
-    detailsStates, formStates, layoutStates,
-    detailsState, formState, layoutState, selectedUsernames,
+    layoutEnum, detailsEnum, formEnum,
+    layout, details, form, selectedUsernames,
   } from './stores.js';
   import { undoRedo } from '@/actions/hotkeys.js';
   import mediaQuery from '@/actions/mediaQuery.js';
@@ -67,7 +67,7 @@
   // PAGE STATE
   // ==========
   let errorMessage = '';
-  $: $formState, resetForm();
+  $: $form, resetForm();
   $: isLoggedIn = accessToken != null;
 
   // PAGE FUNCTIONS
@@ -75,7 +75,7 @@
   async function refreshDataOnSuccess() {
     event = await getEvent(fetch, $session.API_URL, event.eventUrl, fetch);
     await nextFrame();
-    $formState = formStates.NONE;
+    $form = formEnum.NONE;
   }
 
   function resetForm() {
@@ -124,7 +124,7 @@
   use:undoRedo={{undo: selections.undo, redo: selections.redo}}
   use:mediaQuery={{
     query: "(min-width: 768px)",
-    callback: (matches) => $layoutState = matches ? layoutStates.WIDE : layoutStates.NARROW,
+    callback: (matches) => $layout = matches ? layoutEnum.WIDE : layoutEnum.NARROW,
   }}
 />
 
@@ -133,14 +133,14 @@
   <Details {event} />
 
   <!-- USER DETAILS FORM CARD -->
-  {#if $formState === formStates.LOGGING_IN}
+  {#if $form === formEnum.LOGGING_IN}
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
       prompt={'Log in'}
       {attempted}
     />
-  {:else if $formState === formStates.JOINING}
+  {:else if $form === formEnum.JOINING}
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
@@ -153,10 +153,10 @@
   <!-- CALENDAR PICKER CARD -->
   <div
     class="picker-container card outline"
-    class:error={$formState === formStates.JOINING && attempted && !selectionsValid}
+    class:error={$form === formEnum.JOINING && attempted && !selectionsValid}
   >
     <!-- CALENDAR PICKER CARD TITLE HEADER -->
-    {#if $formState === formStates.JOINING}
+    {#if $form === formEnum.JOINING}
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
       <div>
@@ -170,7 +170,7 @@
     <CalendarPicker bind:selections={$selections}
       eventIntervals={event.eventIntervals}
       userIntervalsByUsername={event.userIntervalsByUsername}
-      isCollapsed={$formState === formStates.JOINING}
+      isCollapsed={$form === formEnum.JOINING}
     />
   </div>
 

@@ -3,8 +3,8 @@
 
   import { cardIn, cardOut } from '@/transitions/paginatedCard.js';
   import {
-    detailsStates, formStates, layoutStates,
-    detailsState, formState, layoutState, selectedUsernames
+    layoutEnum, detailsEnum, formEnum,
+    layout, details, form,
   } from '../stores.js';
 
   import EventDetails from './EventDetails.svelte';
@@ -15,9 +15,9 @@
   let card;
 </script>
 
-{#if $layoutState === layoutStates.NARROW}
+{#if $layout === layoutEnum.NARROW}
   <div class="paging__container">
-    {#if $detailsState === detailsStates.EVENT_DETAILS}
+    {#if $details === detailsEnum.EVENT_DETAILS}
       <div
         bind:this={card}
         in:cardIn={{x: -400, duration: 300}}
@@ -25,7 +25,7 @@
       >
         <EventDetails title={event.title} description={event.description} />
       </div>
-    {:else if $detailsState === detailsStates.ATTENDANCE}
+    {:else if $details === detailsEnum.ATTENDANCE}
       <div
         bind:this={card}
         in:cardIn={{x: 400, duration: 300}}
@@ -35,7 +35,7 @@
       </div>
     {/if}
   </div>
-{:else if $layoutState === layoutStates.WIDE}
+{:else if $layout === layoutEnum.WIDE}
   <EventDetails title={event.title} description={event.description} />
   <Attendance usernames={Object.keys(event.userIntervalsByUsername)} />
 {/if}

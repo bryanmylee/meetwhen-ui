@@ -1,7 +1,7 @@
 <script>
   import {
-    detailsStates, formStates, layoutStates,
-    detailsState, formState, layoutState,
+    layoutEnum, detailsEnum, formEnum,
+    layout, details, form,
   } from '../stores.js';
 
   import { Button } from '@/components/form';
@@ -14,12 +14,12 @@
 </script>
 
 <div class="bar">
-  {#if $layoutState === layoutStates.NARROW}
+  {#if $layout === layoutEnum.NARROW}
     <div class="bar__left">
-      {#if $detailsState === detailsStates.EVENT_DETAILS}
-        <Button on:click={() => $detailsState = detailsStates.ATTENDANCE}>Who's attending?</Button>
-      {:else if $detailsState === detailsStates.ATTENDANCE}
-        <Button on:click={() => $detailsState = detailsStates.EVENT_DETAILS}>Event details</Button>
+      {#if $details === detailsEnum.EVENT_DETAILS}
+        <Button on:click={() => $details = detailsEnum.ATTENDANCE}>Who's attending?</Button>
+      {:else if $details === detailsEnum.ATTENDANCE}
+        <Button on:click={() => $details = detailsEnum.EVENT_DETAILS}>Event details</Button>
       {/if}
     </div>
   {/if}
@@ -27,20 +27,20 @@
     {#if isLoggedIn}
       <Button>Edit selections</Button>
     {:else}
-      {#if $formState === formStates.LOGGING_IN}
-        <Button on:click={() => $formState = formStates.NONE}>Cancel</Button>
+      {#if $form === formEnum.LOGGING_IN}
+        <Button on:click={() => $form = formEnum.NONE}>Cancel</Button>
         <div class="margin-left">
           <Button on:click={handleSubmitLogin}>Confirm</Button>
         </div>
-      {:else if $formState === formStates.JOINING}
-        <Button on:click={() => $formState = formStates.NONE}>Cancel</Button>
+      {:else if $form === formEnum.JOINING}
+        <Button on:click={() => $form = formEnum.NONE}>Cancel</Button>
         <div class="margin-left">
           <Button on:click={handleSubmitNewUser}>Confirm</Button>
         </div>
-      {:else if $formState === formStates.NONE}
-        <Button on:click={() => $formState = formStates.LOGGING_IN}>Login</Button>
+      {:else if $form === formEnum.NONE}
+        <Button on:click={() => $form = formEnum.LOGGING_IN}>Login</Button>
         <div class="margin-left">
-          <Button on:click={() => $formState = formStates.JOINING}>Join Event</Button>
+          <Button on:click={() => $form = formEnum.JOINING}>Join Event</Button>
         </div>
       {/if}
     {/if}

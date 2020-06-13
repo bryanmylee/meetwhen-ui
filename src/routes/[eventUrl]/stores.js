@@ -1,22 +1,22 @@
 import { writable } from 'svelte/store';
 
-export const layoutStates = ({
+export const layoutEnum = ({
   NARROW: 'NARROW',
   WIDE: 'WIDE',
 });
 
-export const detailsStates = ({
+export const detailsEnum = ({
   EVENT_DETAILS: 'EVENT_DETAILS',
   ATTENDANCE: 'ATTENDANCE',
 });
 
-export const formStates = ({
+export const formEnum = ({
   NONE: 'NONE',
   LOGGING_IN: 'LOGGING_IN',
   JOINING: 'JOINING',
 });
 
-export const detailsState = writable(detailsStates.EVENT_DETAILS);
-export const formState = writable(formStates.NONE);
-export const layoutState = writable(layoutStates.NARROW);
+export const layout = writable(layoutEnum.NARROW);
+export const details = writable(detailsEnum.EVENT_DETAILS);
+export const form = writable(formEnum.NONE);
 export const selectedUsernames = writable([]);
