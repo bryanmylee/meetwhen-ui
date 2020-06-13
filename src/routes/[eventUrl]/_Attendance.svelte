@@ -1,4 +1,5 @@
 <script>
+  import { slide } from 'svelte/transition';
   import { flip } from 'svelte/animate';
 
   // BINDINGS
@@ -34,27 +35,32 @@
       </div>
     {/each}
   </div>
+  {#if selectedUsernames.length === 0}
+    <h5 transition:slide={{duration: 200}}>
+      Select a username to see their schedule
+    </h5>
+  {/if}
 </div>
 
 <style>
   h3 {
-    color: var(--text-1);
     margin: 0;
-    padding: 0 5px 5px;
+    color: var(--text-1);
     font-weight: 700;
   }
 
   .names__container {
+    margin-top: 0.3rem;
     display: flex;
     flex-flow: row wrap;
   }
 
   .name-pill {
     font-size: 0.8rem;
-    margin: 0.5em;
+    margin: 0.5rem 0.5rem 0 0;
     border: 1px var(--line-1) solid;
     border-radius: 500px;
-    padding: 0.8em;
+    padding: 0.5rem;
     color: var(--text-0);
     background-color: white;
     transition: all 200ms ease;
@@ -71,5 +77,13 @@
   .name-pill.selected {
     color: white;
     background-color: var(--primary-1);
+  }
+
+  h5 {
+    color: var(--text-3);
+    margin: 0.5rem 0 0;
+    font-size: 0.8rem;
+    font-style: italic;
+    font-weight: 400;
   }
 </style>
