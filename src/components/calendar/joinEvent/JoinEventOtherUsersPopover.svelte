@@ -6,7 +6,7 @@
   export let start;
   export let end;
   export let usernames;
-  export let selectedUsernames;
+  export let selectedUsernames = [];
   $: console.log(selectedUsernames)
   // For PopperJS
   export let referenceNode = null;

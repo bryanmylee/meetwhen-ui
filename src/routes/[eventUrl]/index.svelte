@@ -35,9 +35,9 @@
   import { fadeIn, fadeOut } from '@/transitions/pageCrossfade.js';
   import { addUserToEvent } from '@/api/event.js';
 
-  import Details from './_Details.svelte';
-  import UserDetailsForm from './_UserDetailsForm.svelte';
-  import ActionBar from './_ActionBar.svelte';
+  import Details from './_components/Details.svelte';
+  import UserDetailsForm from './_components/UserDetailsForm.svelte';
+  import ActionBar from './_components/ActionBar.svelte';
   import { JoinEventCalendarPicker } from '@/components/calendar';
   import { Button, TextInput } from '@/components/form';
   import ErrorToast from '@/components/ErrorToast.svelte';

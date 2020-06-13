@@ -1,5 +1,5 @@
 <script>
-  import { layoutStates, detailsStates, formStates } from './_pageStates.js';
+  import { layoutStates, detailsStates, formStates } from '../_pageStates.js';
 
   import { Button } from '@/components/form';
 

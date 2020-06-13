@@ -2,10 +2,10 @@
   import { fly } from 'svelte/transition';
 
   import { cardIn, cardOut } from '@/transitions/paginatedCard.js';
-  import { layoutStates, detailsStates } from './_pageStates.js';
+  import { layoutStates, detailsStates } from '../_pageStates.js';
 
-  import EventDetails from './_EventDetails.svelte';
-  import Attendance from './_Attendance.svelte';
+  import EventDetails from './EventDetails.svelte';
+  import Attendance from './Attendance.svelte';
 
   // BINDINGS
   // ========
