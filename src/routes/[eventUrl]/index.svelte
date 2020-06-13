@@ -24,7 +24,6 @@
   import { stores } from '@sapper/app';
   const { session } = stores();
   import { fade, slide } from 'svelte/transition';
-  import { cubicOut } from 'svelte/easing';
   import dayjs from 'dayjs';
 
   import { layoutStates, titleStates, formStates } from './_pageStates.js';
@@ -161,7 +160,7 @@
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
       <div>
-        <h3 transition:slide={{duration: 300, easing: cubicOut}}>
+        <h3 transition:slide={{duration: 300}}>
           Indicate your availability
         </h3>
       </div>

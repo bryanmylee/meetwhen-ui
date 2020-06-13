@@ -1,6 +1,5 @@
 <script>
   import { fade, slide } from 'svelte/transition';
-  import { cubicOut } from 'svelte/easing';
 
   import { TextInput } from '@/components/form';
 
@@ -22,7 +21,7 @@
 <div
   class="card outline padded"
   class:error={attempted && !formValid}
-  transition:slide={{duration: 300, easing: cubicOut}}
+  transition:slide={{duration: 300}}
 >
   <!-- Content of div with slide transitions is not masked properly on
   Safari. Therefore, implement a nice fade in after div is fully sized. -->
