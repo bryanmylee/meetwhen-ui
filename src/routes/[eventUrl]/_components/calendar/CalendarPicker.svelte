@@ -73,7 +73,8 @@
       />
       <!-- OTHER USER SELECTIONS -->
       {#each userIntervalsByTime.filter((interval) =>
-          interval.start.isSame(day, 'date')) as interval}
+          interval.start.isSame(day, 'date'))
+          as interval (`${+interval.start}-${+interval.end}`)}
         <OtherUsersSelection {...interval} {maxUsernameCount} {isCollapsed} />
       {/each}
       <!-- DEFINED SELECTIONS -->

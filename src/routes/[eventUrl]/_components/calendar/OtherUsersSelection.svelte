@@ -1,4 +1,6 @@
 <script>
+  import { fade } from 'svelte/transition';
+
   import { colorScale } from '@/stores.js';
   import { isSelecting } from './stores.js';
   import { sizePos } from '@/actions/dayColumn.js';
@@ -39,6 +41,8 @@
   on:mouseover={() => {mouseOver = true}}
   on:mouseleave={() => {mouseOver = false}}
   on:mousemove={(event) => clientY = event.clientY}
+  in:fade={{duration: 100}}
+  out:fade={{duration: 200, delay: 50}}
 />
 {#if mouseOver}
   <OtherUsersPopover
@@ -54,7 +58,7 @@
     width: var(--select-width);
     border-radius: 5px;
     box-sizing: border-box;
-    transition: var(--ease-out) width;
+    transition: var(--ease-out) width, background-color 200ms ease-out;
     pointer-events: all;
   }
 
