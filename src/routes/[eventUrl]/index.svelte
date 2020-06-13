@@ -68,7 +68,6 @@
   // ==========
   let errorMessage = '';
   $: $form, resetForm();
-  $: isLoggedIn = accessToken != null;
 
   // PAGE FUNCTIONS
   // ==============
@@ -176,7 +175,6 @@
 
   <!-- BOTTOM ACTION BAR -->
   <ActionBar
-    {isLoggedIn}
     {handleSubmitLogin}
     {handleSubmitNewUser}
   />

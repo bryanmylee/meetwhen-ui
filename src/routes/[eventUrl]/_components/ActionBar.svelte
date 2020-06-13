@@ -3,12 +3,12 @@
     layoutEnum, detailsEnum, formEnum,
     layout, details, form,
   } from '../stores.js';
+  import { isLoggedIn } from '@/stores.js';
 
   import { Button } from '@/components/form';
 
   // PROPS
   // =====
-  export let isLoggedIn;
   export let handleSubmitLogin;
   export let handleSubmitNewUser;
 </script>
@@ -24,7 +24,7 @@
     </div>
   {/if}
   <div class="bar__right">
-    {#if isLoggedIn}
+    {#if $isLoggedIn}
       <Button>Edit selections</Button>
     {:else}
       {#if $form === formEnum.LOGGING_IN}

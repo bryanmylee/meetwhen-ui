@@ -1,7 +1,8 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 import chroma from 'chroma-js';
 
 export const user = writable({});
+export const isLoggedIn = derived(user, ($user) => $user.accessToken != null);
 
 const colors = ['GnBu', 'BuGn', 'PuBuGn', 'PuRd', 'YlOrRd'];
 function getColorScale(initialColors = colors[0]) {
