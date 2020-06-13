@@ -1,4 +1,10 @@
 <script>
+  import { flip } from 'svelte/animate';
+
+  // BINDINGS
+  // ========
+  export let selectedUsernames;
+
   // PROPS
   // =====
   export let usernames;
@@ -7,8 +13,8 @@
 <div class="card outline padded">
   <h3>Who's attending?</h3>
   <div class="names__container">
-    {#each usernames as username}
-      <div class="name">
+    {#each usernames as username (username)}
+      <div animate:flip={{duration: 200}} class="name">
         {username}
       </div>
     {/each}
