@@ -26,8 +26,11 @@
   import { fade, slide } from 'svelte/transition';
   import dayjs from 'dayjs';
 
-  import { layoutStates, detailsStates, formStates } from './_pageStates.js';
   import { user } from '@/stores.js';
+  import {
+    detailsStates, formStates, layoutStates,
+    detailsState, formState, layoutState, selectedUsernames,
+  } from './stores.js';
   import { undoRedo } from '@/actions/hotkeys.js';
   import mediaQuery from '@/actions/mediaQuery.js';
   import undoable from '@/utils/undoable.js';
@@ -63,12 +66,8 @@
 
   // PAGE STATE
   // ==========
-  let detailsState = detailsStates.EVENT_DETAILS;
-  let formState = formStates.NONE;
-  let layoutState = layoutStates.NARROW;
-  let selectedUsernames = [];
   let errorMessage = '';
-  $: formState, resetForm();
+  $: $formState, resetForm();
   $: isLoggedIn = accessToken != null;
 
   // PAGE FUNCTIONS
@@ -76,7 +75,7 @@
   async function refreshDataOnSuccess() {
     event = await getEvent(fetch, $session.API_URL, event.eventUrl, fetch);
     await nextFrame();
-    formState = formStates.NONE;
+    $formState = formStates.NONE;
   }
 
   function resetForm() {
@@ -125,23 +124,23 @@
   use:undoRedo={{undo: selections.undo, redo: selections.redo}}
   use:mediaQuery={{
     query: "(min-width: 768px)",
-    callback: (matches) => layoutState = matches ? layoutStates.WIDE : layoutStates.NARROW,
+    callback: (matches) => $layoutState = matches ? layoutStates.WIDE : layoutStates.NARROW,
   }}
 />
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
-  <Details {detailsState} {layoutState} {event} />
+  <Details {event} />
 
   <!-- USER DETAILS FORM CARD -->
-  {#if formState === formStates.LOGGING_IN}
+  {#if $formState === formStates.LOGGING_IN}
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
       prompt={'Log in'}
       {attempted}
     />
-  {:else if formState === formStates.JOINING}
+  {:else if $formState === formStates.JOINING}
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
@@ -154,10 +153,10 @@
   <!-- CALENDAR PICKER CARD -->
   <div
     class="picker-container card outline"
-    class:error={formState === formStates.JOINING && attempted && !selectionsValid}
+    class:error={$formState === formStates.JOINING && attempted && !selectionsValid}
   >
     <!-- CALENDAR PICKER CARD TITLE HEADER -->
-    {#if formState === formStates.JOINING}
+    {#if $formState === formStates.JOINING}
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
       <div>
@@ -171,15 +170,12 @@
     <CalendarPicker bind:selections={$selections}
       eventIntervals={event.eventIntervals}
       userIntervalsByUsername={event.userIntervalsByUsername}
-      isCollapsed={formState === formStates.JOINING}
+      isCollapsed={$formState === formStates.JOINING}
     />
   </div>
 
   <!-- BOTTOM ACTION BAR -->
   <ActionBar
-    bind:detailsState={detailsState}
-    bind:formState={formState}
-    {layoutState}
     {isLoggedIn}
     {handleSubmitLogin}
     {handleSubmitNewUser}
