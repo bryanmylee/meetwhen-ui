@@ -3,9 +3,9 @@ export const layoutStates = ({
   WIDE: 'WIDE',
 });
 
-export const titleStates = ({
+export const detailsStates = ({
   EVENT_DETAILS: 'EVENT_DETAILS',
-  WHOS_ATTENDING: 'WHOS_ATTENDING',
+  ATTENDANCE: 'ATTENDANCE',
 });
 
 export const formStates = ({

@@ -26,7 +26,7 @@
   import { fade, slide } from 'svelte/transition';
   import dayjs from 'dayjs';
 
-  import { layoutStates, titleStates, formStates } from './_pageStates.js';
+  import { layoutStates, detailsStates, formStates } from './_pageStates.js';
   import { user } from '@/stores.js';
   import { undoRedo } from '@/actions/hotkeys.js';
   import mediaQuery from '@/actions/mediaQuery.js';
@@ -63,9 +63,10 @@
 
   // PAGE STATE
   // ==========
-  let titleState = titleStates.EVENT_DETAILS;
+  let detailsState = detailsStates.EVENT_DETAILS;
   let formState = formStates.NONE;
   let layoutState = layoutStates.NARROW;
+  let selectedUsernames = [];
   let errorMessage = '';
   $: formState, resetForm();
   $: isLoggedIn = accessToken != null;
@@ -130,7 +131,7 @@
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
-  <Details {titleState} {layoutState} {event} />
+  <Details {detailsState} {layoutState} {event} />
 
   <!-- USER DETAILS FORM CARD -->
   {#if formState === formStates.LOGGING_IN}
@@ -176,7 +177,7 @@
 
   <!-- BOTTOM ACTION BAR -->
   <ActionBar
-    bind:titleState={titleState}
+    bind:detailsState={detailsState}
     bind:formState={formState}
     {layoutState}
     {isLoggedIn}

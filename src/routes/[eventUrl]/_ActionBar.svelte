@@ -1,11 +1,11 @@
 <script>
-  import { layoutStates, titleStates, formStates } from './_pageStates.js';
+  import { layoutStates, detailsStates, formStates } from './_pageStates.js';
 
   import { Button } from '@/components/form';
 
   // BINDINGS
   // ========
-  export let titleState;
+  export let detailsState;
   export let formState;
 
   // PROPS
@@ -19,10 +19,10 @@
 <div class="bar">
   {#if layoutState === layoutStates.NARROW}
     <div class="bar__left">
-      {#if titleState === titleStates.EVENT_DETAILS}
-        <Button on:click={() => titleState = titleStates.WHOS_ATTENDING}>Who's attending?</Button>
-      {:else if titleState === titleStates.WHOS_ATTENDING}
-        <Button on:click={() => titleState = titleStates.EVENT_DETAILS}>Event details</Button>
+      {#if detailsState === detailsStates.EVENT_DETAILS}
+        <Button on:click={() => detailsState = detailsStates.ATTENDANCE}>Who's attending?</Button>
+      {:else if detailsState === detailsStates.ATTENDANCE}
+        <Button on:click={() => detailsState = detailsStates.EVENT_DETAILS}>Event details</Button>
       {/if}
     </div>
   {/if}
