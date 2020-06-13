@@ -2,10 +2,12 @@
 <script>
   import dayjs from 'dayjs';
 
-  import CalendarPickerBase from '../CalendarPickerBase.svelte';
-  import CalendarDayColumn from '../CalendarDayColumn.svelte';
-  import NewEventDefinedSelection from './NewEventDefinedSelection.svelte';
-  import NewEventNewSelection from './NewEventNewSelection.svelte';
+  import { isSelecting } from './stores.js';
+
+  import CalendarPickerBase from '@/components/calendar/CalendarPickerBase.svelte';
+  import CalendarDayColumn from '@/components/calendar/CalendarDayColumn.svelte';
+  import DefinedSelection from './DefinedSelection.svelte';
+  import NewSelection from './NewSelection.svelte';
 
   // BINDINGS
   // ========
@@ -18,6 +20,7 @@
 
 <CalendarPickerBase
   bind:selections={selections}
+  bind:isSelecting={$isSelecting}
   {daysToShow}
   let:newSelections={newSelections}
 >
@@ -27,12 +30,12 @@
       <!-- DEFINED SELECTIONS -->
       {#each selections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
-        <NewEventDefinedSelection {...selection} />
+        <DefinedSelection {...selection} />
       {/each}
       <!-- NEW SELECTIONS -->
       {#each newSelections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
-        <NewEventNewSelection {...selection} />
+        <NewSelection {...selection} />
       {/each}
     </CalendarDayColumn>
   {/each}

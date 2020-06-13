@@ -5,13 +5,13 @@
     getIntersectionOfSelections
   } from '@/utils/selection.js';
   import { interaction } from './CalendarPickerBase.js';
-  import { isSelecting } from './stores.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
   // BINDINGS
   // ========
   export let selections = [];
+  export let isSelecting;
 
   // PROPS
   // =====
@@ -32,7 +32,7 @@
       ? getAreaSelection(newSelection)
       : getIntersectionOfSelections(selectionLimits,
           getAreaSelection(newSelection));
-  $: $isSelecting = newSelections.length !== 0;
+  $: isSelecting = newSelections.length !== 0;
 
   // STATE FUNCTIONS
   // ===============
@@ -73,7 +73,7 @@ bug on Safari 13.1 -->
 <div class="picker">
   <div
     class="body no-highlight"
-    class:disable-touch-scroll={$isSelecting}
+    class:disable-touch-scroll={isSelecting}
   >
     <!-- MOUSE/TOUCH EVENT CAPTURE LAYER -->
     <div

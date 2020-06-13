@@ -3,13 +3,14 @@
   import dayjs from 'dayjs';
 
   import { getMergedIntervals, splitIntervalsOnMidnight, } from '@/utils/interval.js';
+  import { isSelecting } from './stores.js';
 
-  import CalendarPickerBase from '../CalendarPickerBase.svelte';
-  import CalendarDayColumn from '../CalendarDayColumn.svelte';
-  import JoinEventUnavailableColumnOverlay from './JoinEventUnavailableColumnOverlay.svelte';
-  import JoinEventOtherUsersSelection from './JoinEventOtherUsersSelection.svelte';
-  import JoinEventDefinedSelection from './JoinEventDefinedSelection.svelte';
-  import JoinEventNewSelection from './JoinEventNewSelection.svelte';
+  import CalendarPickerBase from '@/components/calendar/CalendarPickerBase.svelte';
+  import CalendarDayColumn from '@/components/calendar/CalendarDayColumn.svelte';
+  import UnavailableColumnOverlay from './UnavailableColumnOverlay.svelte';
+  import OtherUsersSelection from './OtherUsersSelection.svelte';
+  import DefinedSelection from './DefinedSelection.svelte';
+  import NewSelection from './NewSelection.svelte';
 
   // BINDINGS
   // ========
@@ -46,6 +47,7 @@
 
 <CalendarPickerBase
   bind:selections={selections}
+  bind:isSelecting={$isSelecting}
   {daysToShow}
   selectionLimits={eventIntervals}
   let:newSelections={newSelections}
@@ -54,7 +56,7 @@
   {#each daysToShow as day}
     <CalendarDayColumn {day} >
       <!-- DISABLED INTERVALS -->
-      <JoinEventUnavailableColumnOverlay
+      <UnavailableColumnOverlay
         eventIntervals={eventIntervalsSplitOnMidnight.filter((interval) =>
             interval.start.isSame(day, 'day')
         )}
@@ -62,17 +64,17 @@
       <!-- OTHER USER SELECTIONS -->
       {#each userIntervalsByTime.filter((interval) =>
           interval.start.isSame(day, 'date')) as interval}
-        <JoinEventOtherUsersSelection {...interval} {maxUsernameCount} {isCollapsed} />
+        <OtherUsersSelection {...interval} {maxUsernameCount} {isCollapsed} />
       {/each}
       <!-- DEFINED SELECTIONS -->
       {#each selections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
-        <JoinEventDefinedSelection {...selection} />
+        <DefinedSelection {...selection} />
       {/each}
       <!-- NEW SELECTIONS -->
       {#each newSelections.filter((selection) =>
           selection.start.isSame(day, 'date')) as selection}
-        <JoinEventNewSelection {...selection} />
+        <NewSelection {...selection} />
       {/each}
     </CalendarDayColumn>
   {/each}

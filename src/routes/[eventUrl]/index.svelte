@@ -38,7 +38,7 @@
   import Details from './_components/Details.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
   import ActionBar from './_components/ActionBar.svelte';
-  import { JoinEventCalendarPicker } from '@/components/calendar';
+  import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
   import { Button, TextInput } from '@/components/form';
   import ErrorToast from '@/components/ErrorToast.svelte';
 
@@ -168,7 +168,7 @@
     {/if}
 
     <!-- CALENDAR PICKER -->
-    <JoinEventCalendarPicker bind:selections={$selections}
+    <CalendarPicker bind:selections={$selections}
       eventIntervals={event.eventIntervals}
       userIntervalsByUsername={event.userIntervalsByUsername}
       isCollapsed={formState === formStates.JOINING}

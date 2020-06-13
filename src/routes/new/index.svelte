@@ -10,7 +10,7 @@
   import { fadeIn, fadeOut } from '@/transitions/pageCrossfade.js';
   import { createNewEvent } from '@/api/event.js';
 
-  import { NewEventCalendarPicker } from '@/components/calendar';
+  import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
   import { Button, TextInput } from '@/components/form';
 
   // FORM DATA
@@ -86,7 +86,7 @@
     </h3>
 
     <!-- CALENDAR PICKER -->
-    <NewEventCalendarPicker bind:selections={$selections} {daysToShow} />
+    <CalendarPicker bind:selections={$selections} {daysToShow} />
   </div>
 
   <!-- BUTTONS -->

@@ -1,10 +1,10 @@
 <script>
   import { colorScale } from '@/stores.js';
-  import { isSelecting } from '../stores.js';
+  import { isSelecting } from './stores.js';
   import { sizePos } from '@/actions/dayColumn.js';
   import colorGradient from '@/actions/colorGradient.js';
 
-  import JoinEventOtherUsersPopover from './JoinEventOtherUsersPopover.svelte';
+  import OtherUsersPopover from './OtherUsersPopover.svelte';
 
   // PROPS
   // =====
@@ -41,7 +41,7 @@
   on:mousemove={(event) => clientY = event.clientY}
 />
 {#if mouseOver}
-  <JoinEventOtherUsersPopover
+  <OtherUsersPopover
     {referenceNode} {clientY}
     {start} {end} {usernames}
   />
