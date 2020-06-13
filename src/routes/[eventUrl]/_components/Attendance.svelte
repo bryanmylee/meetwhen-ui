@@ -36,11 +36,7 @@
       </div>
     {/each}
   </div>
-  {#if $selectedUsernames.length === 0}
-    <h5 transition:slide={{duration: 200}}>
-      Select a username to see their schedule
-    </h5>
-  {/if}
+  <h5>Select a username to see their schedule</h5>
 </div>
 
 <style>
