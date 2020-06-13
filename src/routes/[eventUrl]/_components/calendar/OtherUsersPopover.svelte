@@ -1,13 +1,12 @@
 <script>
   import { popperFollowMouseY } from '@/actions/popper.js';
+  import { selectedUsernames } from '../../stores.js';
 
   // PROPS
   // =====
   export let start;
   export let end;
   export let usernames;
-  export let selectedUsernames = [];
-  $: console.log(selectedUsernames)
   // For PopperJS
   export let referenceNode = null;
   export let clientY = 0;
@@ -49,7 +48,7 @@
     <h5>{timeString}</h5>
     <h5>{countString}</h5>
     {#each usernames as username}
-      <p class:selected={selectedUsernames.includes(username)}>{username}</p>
+      <p class:selected={$selectedUsernames.includes(username)}>{username}</p>
     {/each}
   </div>
   <div data-popper-arrow class="popover__arrow"></div>

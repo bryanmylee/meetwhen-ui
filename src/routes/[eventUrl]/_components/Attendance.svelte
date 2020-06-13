@@ -2,9 +2,10 @@
   import { slide } from 'svelte/transition';
   import { flip } from 'svelte/animate';
 
+  import { selectedUsernames } from '../stores.js';
+
   // BINDINGS
   // ========
-  export let selectedUsernames = [];
 
   // PROPS
   // =====
@@ -13,10 +14,10 @@
   // STATE FUNCTIONS
   // ===============
   function toggleName(name) {
-    if (selectedUsernames.includes(name)) {
-      selectedUsernames = selectedUsernames.filter(n => n !== name);
+    if ($selectedUsernames.includes(name)) {
+      $selectedUsernames = $selectedUsernames.filter(n => n !== name);
     } else {
-      selectedUsernames = [ ...selectedUsernames, name ];
+      $selectedUsernames = [ ...$selectedUsernames, name ];
     }
   }
 </script>
@@ -28,14 +29,14 @@
       <div
         on:click={() => toggleName(username)}
         class="name-pill"
-        class:selected={selectedUsernames.includes(username)}
+        class:selected={$selectedUsernames.includes(username)}
         animate:flip={{duration: 200}}
       >
         {username}
       </div>
     {/each}
   </div>
-  {#if selectedUsernames.length === 0}
+  {#if $selectedUsernames.length === 0}
     <h5 transition:slide={{duration: 200}}>
       Select a username to see their schedule
     </h5>
