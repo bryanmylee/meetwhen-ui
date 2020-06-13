@@ -2,7 +2,7 @@
   import { getContext } from 'svelte';
 
   import { top } from '@/actions/dayColumn.js';
-  import { isSelecting } from '@/stores.js';
+  import { isSelecting } from './stores.js';
 
   // PROPS
   // =====

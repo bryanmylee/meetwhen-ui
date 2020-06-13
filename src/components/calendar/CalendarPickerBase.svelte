@@ -5,7 +5,7 @@
     getIntersectionOfSelections
   } from '@/utils/selection.js';
   import { interaction } from './CalendarPickerBase.js';
-  import { isSelecting } from '@/stores.js';
+  import { isSelecting } from './stores.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 

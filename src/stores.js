@@ -1,8 +1,6 @@
 import { writable } from 'svelte/store';
 import chroma from 'chroma-js';
 
-export const isSelecting = writable(false);
-
 export const user = writable({});
 
 const colors = ['GnBu', 'BuGn', 'PuBuGn', 'PuRd', 'YlOrRd'];

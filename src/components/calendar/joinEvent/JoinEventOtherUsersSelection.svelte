@@ -1,5 +1,6 @@
 <script>
-  import { isSelecting, colorScale } from '@/stores.js';
+  import { colorScale } from '@/stores.js';
+  import { isSelecting } from '../stores.js';
   import { sizePos } from '@/actions/dayColumn.js';
   import colorGradient from '@/actions/colorGradient.js';
 
