@@ -5,18 +5,20 @@
   export async function preload(page, session) {
     const { eventUrl } = page.params;
     // Check for refresh token by getting access token.
-    let accessToken = null;
     try {
-      accessToken = (await getAccessToken(
-          this.fetch, session.API_URL, eventUrl)).accessToken;
+      const { accessToken } = await getAccessToken(
+          this.fetch, session.API_URL, eventUrl);
+      return ({
+        event: await getEvent(this.fetch, session.API_URL, eventUrl),
+        accessToken,
+      });
     } catch (err) {
       // Refresh token not found.
       console.log(err.message);
+      return ({
+        event: await getEvent(this.fetch, session.API_URL, eventUrl),
+      });
     }
-    return ({
-      event: await getEvent(this.fetch, session.API_URL, eventUrl),
-      accessToken,
-    });
   }
 </script>
 
@@ -49,7 +51,7 @@
   // ==============
   export let event;
   export let accessToken;
-  $: user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
+  user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
 
   // FORM DATA
   // =========
@@ -95,8 +97,9 @@
     }
     const userDetails = { username, password, intervals: $selections };
     try {
-      accessToken = (await addUserToEvent(
-          fetch, $session.API_URL, event.eventUrl, userDetails)).accessToken;
+      const { accessToken } = await addUserToEvent(
+          fetch, $session.API_URL, event.eventUrl, userDetails);
+      user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
       refreshDataOnSuccess();
     } catch (err) {
       errorMessage = err.message;
@@ -110,8 +113,9 @@
     }
     const userDetails = { username, password };
     try {
-      accessToken = (await login(
-          fetch, $session.API_URL, event.eventUrl, userDetails)).accessToken;
+      const { accessToken } = await addUserToEvent(
+          fetch, $session.API_URL, event.eventUrl, userDetails);
+      user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
       refreshDataOnSuccess();
     } catch (err) {
       errorMessage = err.message;

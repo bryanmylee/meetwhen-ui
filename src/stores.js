@@ -8,8 +8,7 @@ function getUser() {
   });
 
   const setAccessToken = (accessToken, secret) => {
-    if (accessToken == null) throw new Error('Access token not defined');
-    if (secret == null) throw new Error('Secret not defined');
+    if (accessToken == null || secret == null) return;
     try {
       const { evt, uid, adm } = jwt.verify(accessToken, secret);
       user.set({
