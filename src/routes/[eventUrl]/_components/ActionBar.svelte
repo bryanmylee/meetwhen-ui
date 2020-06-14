@@ -10,6 +10,7 @@
   // PROPS
   // =====
   export let handleSubmitLogin;
+  export let handleLogout;
   export let handleSubmitNewUser;
 </script>
 
@@ -25,7 +26,10 @@
   {/if}
   <div class="bar__right">
     {#if $user.isLoggedIn}
-      <Button>Edit selections</Button>
+      <Button on:click={handleLogout}>Log Out</Button>
+      <div class="margin-left">
+        <Button>Edit selections</Button>
+      </div>
     {:else}
       {#if $form === formEnum.LOGGING_IN}
         <Button on:click={() => $form = formEnum.NONE}>Cancel</Button>

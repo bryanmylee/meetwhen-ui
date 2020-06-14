@@ -1,6 +1,6 @@
 <script context="module">
   import { getEvent } from 'src/api/event.js';
-  import { login, getAccessToken } from 'src/api/authentication.js';
+  import { login, logout, getAccessToken } from 'src/api/authentication.js';
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
@@ -113,10 +113,19 @@
     }
     const userDetails = { username, password };
     try {
-      const { accessToken } = await addUserToEvent(
+      const { accessToken } = await login(
           fetch, $session.API_URL, event.eventUrl, userDetails);
       user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
       refreshDataOnSuccess();
+    } catch (err) {
+      errorMessage = err.message;
+    }
+  }
+
+  async function handleLogout() {
+    try {
+      const { message } = await logout(fetch, $session.API_URL, event.eventUrl);
+      user.logout();
     } catch (err) {
       errorMessage = err.message;
     }
@@ -180,6 +189,7 @@
   <!-- BOTTOM ACTION BAR -->
   <ActionBar
     {handleSubmitLogin}
+    {handleLogout}
     {handleSubmitNewUser}
   />
 

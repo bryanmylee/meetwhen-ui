@@ -22,9 +22,16 @@ function getUser() {
     }
   }
 
+  const logout = () => {
+    user.set({
+      isLoggedIn: false,
+    });
+  }
+
   return ({
     subscribe: user.subscribe,
     setAccessToken,
+    logout,
   });
 }
 
