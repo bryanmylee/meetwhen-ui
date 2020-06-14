@@ -56,8 +56,10 @@
     font-size: 0.8rem;
     margin: 0.5rem 0.5rem 0 0;
     border: 1px var(--line-1) solid;
-    border-radius: 500px;
+    border-radius: 1.5em;
+    min-width: 3em;
     padding: 0.5rem;
+    text-align: center;
     color: var(--text-0);
     background-color: white;
     transition: all 200ms ease;
