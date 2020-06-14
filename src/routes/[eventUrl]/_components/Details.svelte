@@ -1,7 +1,7 @@
 <script>
   import { fly } from 'svelte/transition';
 
-  import { cardIn, cardOut } from '@/transitions/paginatedCard.js';
+  import { cardIn, cardOut } from 'src/transitions/paginatedCard.js';
   import {
     layoutEnum, detailsEnum, formEnum,
     layout, details, form,

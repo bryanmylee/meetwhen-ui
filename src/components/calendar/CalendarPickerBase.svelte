@@ -3,7 +3,7 @@
     getAreaSelection,
     getUnionOfSelections,
     getIntersectionOfSelections
-  } from '@/utils/selection.js';
+  } from 'src/utils/selection.js';
   import { interaction } from './CalendarPickerBase.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';

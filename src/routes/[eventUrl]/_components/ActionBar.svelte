@@ -3,9 +3,9 @@
     layoutEnum, detailsEnum, formEnum,
     layout, details, form,
   } from '../stores.js';
-  import { isLoggedIn } from '@/stores.js';
+  import { isLoggedIn } from 'src/stores.js';
 
-  import { Button } from '@/components/form';
+  import { Button } from 'src/components/form';
 
   // PROPS
   // =====

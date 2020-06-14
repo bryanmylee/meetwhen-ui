@@ -5,13 +5,13 @@
   const { session } = stores();
   import dayjs from 'dayjs';
 
-  import { undoRedo } from '@/actions/hotkeys.js';
-  import undoable from '@/utils/undoable.js';
-  import { fadeIn, fadeOut } from '@/transitions/pageCrossfade.js';
-  import { createNewEvent } from '@/api/event.js';
+  import { undoRedo } from 'src/actions/hotkeys.js';
+  import undoable from 'src/utils/undoable.js';
+  import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
+  import { createNewEvent } from 'src/api/event.js';
 
   import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
-  import { Button, TextInput } from '@/components/form';
+  import { Button, TextInput } from 'src/components/form';
 
   // FORM DATA
   // =========

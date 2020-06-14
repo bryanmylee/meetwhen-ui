@@ -1,7 +1,7 @@
 <script>
   import { fade, slide } from 'svelte/transition';
 
-  import { TextInput } from '@/components/form';
+  import { TextInput } from 'src/components/form';
 
   // BINDINGS
   // ========

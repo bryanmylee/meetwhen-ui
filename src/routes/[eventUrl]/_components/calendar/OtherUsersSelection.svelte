@@ -1,10 +1,10 @@
 <script>
   import { fade } from 'svelte/transition';
 
-  import { colorScale } from '@/stores.js';
+  import { colorScale } from 'src/stores.js';
   import { isSelecting } from './stores.js';
-  import { sizePos } from '@/actions/dayColumn.js';
-  import colorGradient from '@/actions/colorGradient.js';
+  import { sizePos } from 'src/actions/dayColumn.js';
+  import colorGradient from 'src/actions/colorGradient.js';
 
   import OtherUsersPopover from './OtherUsersPopover.svelte';
 

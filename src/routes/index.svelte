@@ -1,8 +1,8 @@
 <script>
   import { goto } from '@sapper/app';
 
-  import { fadeIn, fadeOut } from '@/transitions/pageCrossfade.js';
-  import { Button } from '@/components/form';
+  import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
+  import { Button } from 'src/components/form';
 </script>
 
 <div class="main-content" in:fadeIn out:fadeOut>

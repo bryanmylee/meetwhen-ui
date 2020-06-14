@@ -1,6 +1,6 @@
 <script context="module">
-  import { getEvent } from '@/api/event.js';
-  import { login, getAccessToken } from '@/api/authentication.js';
+  import { getEvent } from 'src/api/event.js';
+  import { login, getAccessToken } from 'src/api/authentication.js';
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
@@ -26,24 +26,24 @@
   import { fade, slide } from 'svelte/transition';
   import dayjs from 'dayjs';
 
-  import { user } from '@/stores.js';
+  import { user } from 'src/stores.js';
   import {
     layoutEnum, detailsEnum, formEnum,
     layout, details, form, selectedUsernames,
   } from './stores.js';
-  import { undoRedo } from '@/actions/hotkeys.js';
-  import mediaQuery from '@/actions/mediaQuery.js';
-  import undoable from '@/utils/undoable.js';
-  import nextFrame from '@/utils/nextFrame.js';
-  import { fadeIn, fadeOut } from '@/transitions/pageCrossfade.js';
-  import { addUserToEvent } from '@/api/event.js';
+  import { undoRedo } from 'src/actions/hotkeys.js';
+  import mediaQuery from 'src/actions/mediaQuery.js';
+  import undoable from 'src/utils/undoable.js';
+  import nextFrame from 'src/utils/nextFrame.js';
+  import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
+  import { addUserToEvent } from 'src/api/event.js';
 
   import Details from './_components/Details.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
   import ActionBar from './_components/ActionBar.svelte';
   import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
-  import { Button, TextInput } from '@/components/form';
-  import ErrorToast from '@/components/ErrorToast.svelte';
+  import { Button, TextInput } from 'src/components/form';
+  import ErrorToast from 'src/components/ErrorToast.svelte';
 
   // PRELOADED DATA
   // ==============

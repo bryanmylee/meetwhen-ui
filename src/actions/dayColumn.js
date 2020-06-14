@@ -35,13 +35,13 @@ export function getHeight(durationInMs) {
  * @param actionOptions.end The end of the interval.
  * @param actionOptions.duration The duration of the tweened value.
  */
-export function smoothSizePos(node, { start, end, duration }) {
+export function smoothSizePos(node, { start, end, duration = 100}) {
   const startOfDay = start.startOf('day');
   const smooth = tweened({
     startInMs: start - startOfDay,
     endInMs: end - startOfDay,
   }, {
-    duration: duration ?? 100,
+    duration: duration,
     easing: cubicOut,
   });
   const unsub = smooth.subscribe(({ startInMs, endInMs }) => {

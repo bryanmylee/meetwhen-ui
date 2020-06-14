@@ -4,8 +4,8 @@
 
   import { isSelecting } from './stores.js';
 
-  import CalendarPickerBase from '@/components/calendar/CalendarPickerBase.svelte';
-  import CalendarDayColumn from '@/components/calendar/CalendarDayColumn.svelte';
+  import CalendarPickerBase from 'src/components/calendar/CalendarPickerBase.svelte';
+  import CalendarDayColumn from 'src/components/calendar/CalendarDayColumn.svelte';
   import DefinedSelection from './DefinedSelection.svelte';
   import NewSelection from './NewSelection.svelte';
 

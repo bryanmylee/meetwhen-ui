@@ -2,12 +2,12 @@
 <script>
   import dayjs from 'dayjs';
 
-  import { getMergedIntervals, splitIntervalsOnMidnight, } from '@/utils/interval.js';
+  import { getMergedIntervals, splitIntervalsOnMidnight, } from 'src/utils/interval.js';
   import { isSelecting } from './stores.js';
   import { selectedUsernames } from '../../stores.js';
 
-  import CalendarPickerBase from '@/components/calendar/CalendarPickerBase.svelte';
-  import CalendarDayColumn from '@/components/calendar/CalendarDayColumn.svelte';
+  import CalendarPickerBase from 'src/components/calendar/CalendarPickerBase.svelte';
+  import CalendarDayColumn from 'src/components/calendar/CalendarDayColumn.svelte';
   import UnavailableColumnOverlay from './UnavailableColumnOverlay.svelte';
   import OtherUsersSelection from './OtherUsersSelection.svelte';
   import DefinedSelection from './DefinedSelection.svelte';
