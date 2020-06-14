@@ -40,13 +40,11 @@
   h3 {
     color: var(--text-1);
     margin: 0;
-    padding: 0 5px 5px;
     font-weight: 700;
   }
 
   h5 {
     color: var(--text-3);
-    padding-left: 5px;
     margin: 0;
     font-size: 0.8em;
     font-style: italic;

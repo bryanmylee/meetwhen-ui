@@ -103,21 +103,18 @@
     scroll-behavior: smooth;
   }
 
-  .picker-container > h3 {
+  .picker-container h3 {
     padding: 0.8rem;
-    padding-left: calc(0.8rem + 5px);
   }
 
   h3 {
     color: var(--text-1);
     margin: 0;
-    padding: 0 5px 5px;
     font-weight: 500;
   }
 
   h5 {
     color: var(--text-3);
-    padding-left: 5px;
     margin: 0;
     font-size: 0.8em;
     font-style: italic;

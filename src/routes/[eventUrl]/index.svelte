@@ -208,7 +208,6 @@
     color: var(--text-1);
     margin: 0;
     padding: 0.8rem;
-    padding-left: calc(0.8rem + 5px);
     font-weight: 700;
   }
 
