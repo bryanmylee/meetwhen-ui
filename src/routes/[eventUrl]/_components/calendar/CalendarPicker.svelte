@@ -4,7 +4,7 @@
 
   import { getMergedIntervals, splitIntervalsOnMidnight, } from 'src/utils/interval.js';
   import { isSelecting } from './stores.js';
-  import { selectedUsernames } from '../../stores.js';
+  import { formEnum, form, selectedUsernames } from '../../stores.js';
 
   import CalendarPickerBase from 'src/components/calendar/CalendarPickerBase.svelte';
   import CalendarDayColumn from 'src/components/calendar/CalendarDayColumn.svelte';
@@ -60,6 +60,7 @@
   bind:isSelecting={$isSelecting}
   {daysToShow}
   selectionLimits={eventIntervals}
+  selectionDisabled={$form !== formEnum.JOINING}
   let:newSelections={newSelections}
 >
   <!-- COLUMNS -->
