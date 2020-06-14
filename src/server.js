@@ -7,7 +7,10 @@ import * as sapper from '@sapper/server';
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
-const { API_URL } = process.env;
+const {
+  API_URL,
+  ACCESS_TOKEN_SECRET,
+} = process.env;
 
 polka() // You can also use Express
   .use(
@@ -16,6 +19,7 @@ polka() // You can also use Express
     sapper.middleware({
       session: () => ({
         API_URL,
+        ACCESS_TOKEN_SECRET
       }),
     }),
   )

@@ -49,7 +49,7 @@
   // ==============
   export let event;
   export let accessToken;
-  $: $user.accessToken = accessToken;
+  $: user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
 
   // FORM DATA
   // =========
