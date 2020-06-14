@@ -56,7 +56,6 @@
     justify-self: end;
     width: 100%;
     display: flex;
-    align-items: center;
   }
 
   .bar__left,

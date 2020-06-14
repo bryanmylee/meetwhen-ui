@@ -9,7 +9,7 @@
   class:outline={outline}
   class:alt={alt}
 >
-  <slot />
+  <slot/>
 </button>
 
 <style>
@@ -17,11 +17,9 @@
     border: 0;
     color: white;
     background-color: var(--primary-1);
-    height: 2.8em;
-    padding: 0 1em;
+    padding: 0.8em 1em;
     border-radius: 1.4em;
     box-sizing: border-box;
-    white-space: nowrap;
     transition: all 200ms ease;
   }
 
