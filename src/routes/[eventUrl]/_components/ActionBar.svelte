@@ -18,9 +18,9 @@
   {#if $layout === layoutEnum.NARROW}
     <div class="bar__left">
       {#if $details === detailsEnum.EVENT_DETAILS}
-        <Button on:click={() => $details = detailsEnum.ATTENDANCE}>Who's attending?</Button>
+        <Button alt on:click={() => $details = detailsEnum.ATTENDANCE}>Who's attending?</Button>
       {:else if $details === detailsEnum.ATTENDANCE}
-        <Button on:click={() => $details = detailsEnum.EVENT_DETAILS}>Event details</Button>
+        <Button alt on:click={() => $details = detailsEnum.EVENT_DETAILS}>Event details</Button>
       {/if}
     </div>
   {/if}
@@ -32,12 +32,12 @@
       </div>
     {:else}
       {#if $form === formEnum.LOGGING_IN}
-        <Button on:click={() => $form = formEnum.NONE}>Cancel</Button>
+        <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
         <div class="margin-left">
           <Button on:click={handleSubmitLogin}>Confirm</Button>
         </div>
       {:else if $form === formEnum.JOINING}
-        <Button on:click={() => $form = formEnum.NONE}>Cancel</Button>
+        <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
         <div class="margin-left">
           <Button on:click={handleSubmitNewUser}>Confirm</Button>
         </div>

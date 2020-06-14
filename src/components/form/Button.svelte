@@ -1,25 +1,62 @@
-<button on:click class="no-highlight"><slot /></button>
+<script>
+  export let outline = false;
+  export let alt = false;
+</script>
+
+<button
+  on:click
+  class="no-highlight"
+  class:outline={outline}
+  class:alt={alt}
+>
+  <slot />
+</button>
 
 <style>
   button {
     border: 0;
     color: white;
     background-color: var(--primary-1);
-    transition: 0.2s ease opacity, 0.2s ease background-color;
-    padding: 1em;
-    border-radius: 5px;
+    height: 2.8em;
+    padding: 0 1em;
+    border-radius: 1.4em;
+    box-sizing: border-box;
     white-space: nowrap;
+    transition: all 200ms ease;
   }
 
   button:focus, button:hover {
     background-color: var(--primary-1-1);
     outline: none;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow-small);
   }
 
   button:active {
     background-color: var(--text-3);
     transform: scale(0.98);
     transition: none;
+  }
+
+  .outline {
+    color: var(--primary-1);
+    background-color: unset;
+    border: 1px var(--primary-1) solid;
+  }
+
+  .outline:focus, .outline:hover {
+    color: var(--primary-1-1);
+    background-color: white;
+    border: 1px var(--primary-1-1) solid;
+  }
+
+  .alt {
+    color: var(--text-2);
+    background-color: unset;
+    border: 1px var(--line-1) solid;
+  }
+
+  .alt:focus, .alt:hover {
+    background-color: white;
+    border: 1px transparent solid;
   }
 </style>
