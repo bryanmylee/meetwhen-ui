@@ -61,7 +61,7 @@
   {daysToShow}
   selectionLimits={eventIntervals}
   selectionDisabled={$form !== formEnum.JOINING}
-  let:newSelections={newSelections}
+  let:newSelections
 >
   <!-- COLUMNS -->
   {#each daysToShow as day}

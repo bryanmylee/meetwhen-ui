@@ -22,7 +22,7 @@
   bind:selections={selections}
   bind:isSelecting={$isSelecting}
   {daysToShow}
-  let:newSelections={newSelections}
+  let:newSelections
 >
   <!-- COLUMNS -->
   {#each daysToShow as day}
