@@ -3,7 +3,7 @@
 
   import { colorScale } from 'src/stores.js';
   import { isSelecting } from './stores.js';
-  import { sizePos } from 'src/actions/dayColumn.js';
+  import { sizePos } from 'src/components/calendar/actions/selection.js';
   import colorGradient from 'src/actions/colorGradient.js';
 
   import OtherUsersPopover from './OtherUsersPopover.svelte';

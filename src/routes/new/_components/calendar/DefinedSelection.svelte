@@ -1,6 +1,6 @@
 <script>
   import { isSelecting } from './stores.js';
-  import { smoothSizePos } from 'src/actions/dayColumn.js';
+  import { smoothSizePos } from 'src/components/calendar/actions/selection.js';
 
   // PROPS
   // =====

@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte';
 
-  import { top } from 'src/actions/dayColumn.js';
+  import { top } from 'src/components/calendar/actions/selection.js';
 
   // PROPS
   // =====
