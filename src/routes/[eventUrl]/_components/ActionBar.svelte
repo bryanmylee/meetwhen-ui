@@ -28,7 +28,7 @@
     {#if $user.isLoggedIn}
       <Button on:click={handleLogout}>Log Out</Button>
       <div class="margin-left">
-        <Button>Edit selections</Button>
+        <Button>Edit</Button>
       </div>
     {:else}
       {#if $form === formEnum.LOGGING_IN}
