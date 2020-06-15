@@ -44,11 +44,11 @@ function deserializeInterval(serializedInterval) {
  *   password: string,
  *   eventIntervals: interval[],
  * }} eventDetails The details of the event.
- * @returns {{
+ * @returns {Promise<{
  *   eventUrl: string,
  *   accessToken: string,
  *   accessTokenLifetime: string,
- * }} The access token response.
+ * }>} The access token response.
  */
 export async function createNewEvent(fetch, apiUrl, eventDetails) {
   const { eventIntervals } = eventDetails;
@@ -109,11 +109,11 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
  *   password: string,
  *   intervals: interval[],
  * }} userDetails The details of the user joining the event.
- * @returns {{
+ * @returns {Promise<{
  *   eventUrl: string,
  *   accessToken: string,
  *   accessTokenLifetime: string,
- * }} The access token after logging in as the registered user.
+ * }>} The access token after logging in as the registered user.
  * @throws An error if the username is already taken.
  */
 export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
