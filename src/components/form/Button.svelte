@@ -14,6 +14,7 @@
 
 <style>
   button {
+    margin: 0;
     border: 0;
     color: white;
     background-color: var(--primary-1);
