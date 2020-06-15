@@ -38,7 +38,7 @@
   import undoable from 'src/utils/undoable.js';
   import nextFrame from 'src/utils/nextFrame.js';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
-  import { addUserToEvent } from 'src/api/event.js';
+  import { addUserToEvent, editUserIntervals } from 'src/api/event.js';
 
   import Details from './_components/Details.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
@@ -140,7 +140,18 @@
       attempted = true;
       return;
     }
-    console.log($selections);
+    const userDetails = ({
+      username: $user.username,
+      intervals: $selections,
+      accessToken: $user.accessToken
+    });
+    try {
+      await editUserIntervals(
+          fetch, $session.API_URL, event.eventUrl, userDetails);
+      refreshDataOnSuccess();
+    } catch (err) {
+      errorMessage = err.message;
+    }
   }
 </script>
 

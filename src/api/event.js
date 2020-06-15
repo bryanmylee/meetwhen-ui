@@ -136,3 +136,36 @@ export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
     throw err;
   }
 }
+
+/**
+ *
+ * @param {Function} fetch The fetch function to use.
+ * @param {string} apiUrl The URL of the API.
+ * @param {string} eventUrl The URL of the event.
+ * @param {{
+ *   username: string,
+ *   intervals: interval[],
+ *   accessToken: string,
+ * }} userDetails The details of the user being edited.
+ * @throws An error if the access token is not set, or is invalid.
+ */
+export async function editUserIntervals(fetch, apiUrl, eventUrl, userDetails) {
+  try {
+    const { username, accessToken } = userDetails;
+    const intervals = userDetails.intervals.map(serializeInterval);
+    const response = await (await fetch(
+        `${apiUrl}/${eventUrl}/${username}/edit`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({intervals}),
+    })).json();
+    if (response.error) {
+      throw new Error(response.error);
+    }
+  } catch (err) {
+    throw err;
+  }
+}

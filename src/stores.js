@@ -12,6 +12,7 @@ function getUser() {
     try {
       const { evt, uid, adm } = jwt.verify(accessToken, secret);
       user.set({
+        accessToken,
         eventUrl: evt,
         username: uid,
         isAdmin: adm,
