@@ -69,7 +69,7 @@
   // PAGE STATE
   // ==========
   let errorMessage = '';
-  $: $form, resetForm();
+  $: $form, setForm();
 
   // PAGE FUNCTIONS
   // ==============
@@ -79,33 +79,21 @@
     $form = formEnum.NONE;
   }
 
-  function resetForm() {
+  function setForm() {
+    if ($form === formEnum.EDITING) {
+      $selections = event.userIntervalsByUsername[$user.username];
+    } else {
+      $selections = [];
+    }
+    selections.clearStack();
     errorMessage = '';
     username = '';
     password = '';
-    $selections = [];
-    selections.clearStack();
     attempted = false;
   }
 
   // API FUNCTIONS
   // =============
-  async function handleSubmitNewUser() {
-    if (!userDetailsValid || !selectionsValid) {
-      attempted = true;
-      return;
-    }
-    const userDetails = { username, password, intervals: $selections };
-    try {
-      const { accessToken } = await addUserToEvent(
-          fetch, $session.API_URL, event.eventUrl, userDetails);
-      user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
-      refreshDataOnSuccess();
-    } catch (err) {
-      errorMessage = err.message;
-    }
-  }
-
   async function handleSubmitLogin() {
     if (!userDetailsValid) {
       attempted = true;
@@ -129,6 +117,30 @@
     } catch (err) {
       errorMessage = err.message;
     }
+  }
+
+  async function handleSubmitNewUser() {
+    if (!userDetailsValid || !selectionsValid) {
+      attempted = true;
+      return;
+    }
+    const userDetails = { username, password, intervals: $selections };
+    try {
+      const { accessToken } = await addUserToEvent(
+          fetch, $session.API_URL, event.eventUrl, userDetails);
+      user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
+      refreshDataOnSuccess();
+    } catch (err) {
+      errorMessage = err.message;
+    }
+  }
+
+  async function handleSubmitEditUser() {
+    if (!selectionsValid) {
+      attempted = true;
+      return;
+    }
+    console.log($selections);
   }
 </script>
 
@@ -173,7 +185,13 @@
     on Chrome and Firefox -->
       <div>
         <h3 transition:slide={{duration: 300}}>
-          Indicate your availability
+          Indicate your schedule
+        </h3>
+      </div>
+    {:else if $form === formEnum.EDITING}
+      <div>
+        <h3 transition:slide={{duration: 300}}>
+          Edit your schedule
         </h3>
       </div>
     {/if}
@@ -182,7 +200,6 @@
     <CalendarPicker bind:selections={$selections}
       eventIntervals={event.eventIntervals}
       userIntervalsByUsername={event.userIntervalsByUsername}
-      isCollapsed={$form === formEnum.JOINING}
     />
   </div>
 
@@ -191,6 +208,7 @@
     {handleSubmitLogin}
     {handleLogout}
     {handleSubmitNewUser}
+    {handleSubmitEditUser}
   />
 
   <ErrorToast bind:errorMessage={errorMessage} />

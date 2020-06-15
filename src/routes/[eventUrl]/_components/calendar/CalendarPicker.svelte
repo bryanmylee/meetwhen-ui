@@ -21,7 +21,6 @@
   // =====
   export let eventIntervals = [];
   export let userIntervalsByUsername = {};
-  export let isCollapsed = false;
 
   // REACTIVE ATTRIBUTES
   // ===================
@@ -53,6 +52,8 @@
     if (days[length - 1].isSame(interval.start, 'day')) return days;
     return [ ...days, interval.start.startOf('day') ];
   }, []);
+
+  $: isCollapsed = $form === formEnum.JOINING || $form === formEnum.EDITING;
 </script>
 
 <CalendarPickerBase
@@ -60,7 +61,7 @@
   bind:isSelecting={$isSelecting}
   {daysToShow}
   selectionLimits={eventIntervals}
-  selectionDisabled={$form !== formEnum.JOINING}
+  selectionEnabled={$form === formEnum.JOINING || $form === formEnum.EDITING}
   let:newSelections
 >
   <!-- COLUMNS -->

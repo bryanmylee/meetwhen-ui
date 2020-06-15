@@ -12,6 +12,7 @@
   export let handleSubmitLogin;
   export let handleLogout;
   export let handleSubmitNewUser;
+  export let handleSubmitEditUser;
 </script>
 
 <div class="bar">
@@ -24,12 +25,20 @@
       {/if}
     </div>
   {/if}
+
   <div class="bar__right">
     {#if $user.isLoggedIn}
-      <Button on:click={handleLogout}>Log Out</Button>
-      <div class="margin-left">
-        <Button>Edit</Button>
-      </div>
+      {#if $form === formEnum.EDITING}
+        <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
+        <div class="margin-left">
+          <Button on:click={handleSubmitEditUser}>Confirm</Button>
+        </div>
+      {:else}
+        <Button on:click={handleLogout}>Log Out</Button>
+        <div class="margin-left">
+          <Button on:click={() => $form = formEnum.EDITING}>Edit</Button>
+        </div>
+      {/if}
     {:else}
       {#if $form === formEnum.LOGGING_IN}
         <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>

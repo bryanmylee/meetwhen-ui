@@ -14,6 +14,7 @@ export const formEnum = ({
   NONE: 'NONE',
   LOGGING_IN: 'LOGGING_IN',
   JOINING: 'JOINING',
+  EDITING: 'EDITING',
 });
 
 export const layout = writable(layoutEnum.NARROW);

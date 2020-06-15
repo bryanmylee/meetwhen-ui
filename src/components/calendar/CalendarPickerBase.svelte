@@ -18,7 +18,7 @@
   export let daysToShow = [];
   // Any limitation on the selections possible. If null, treated as no limits.
   export let selectionLimits = null;
-  export let selectionDisabled = false;
+  export let selectionEnabled = true;
 
   // STATE
   // =====
@@ -38,7 +38,7 @@
   // STATE FUNCTIONS
   // ===============
   function selectStart(event) {
-    if (selectionDisabled) return;
+    if (!selectionEnabled) return;
     const { day, hour } = event.detail;
     initialHour = hour;
     newSelection = ({
