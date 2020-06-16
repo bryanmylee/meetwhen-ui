@@ -63,6 +63,7 @@ export function interactionLayer(node, {
       node.dispatchEvent(new CustomEvent('selectStop'));
     }
 
+    node.style.cursor = 'pointer';
     node.addEventListener('mousedown', selectStart);
     node.addEventListener('mousemove', selectMove);
     node.addEventListener('mouseup', selectStop);
@@ -177,7 +178,7 @@ export function getHeight(durationInMs) {
  * @param actionOptions.end The end of the interval.
  * @param actionOptions.duration The duration of the tweened value.
  */
-export function smoothSizePos(node, { start, end, duration = 100}) {
+export function smoothSizePos(node, { start, end, duration = 100 }) {
   const startOfDay = start.startOf('day');
   const smooth = tweened({
     startInMs: start - startOfDay,
