@@ -4,7 +4,7 @@
     getUnionOfSelections,
     getIntersectionOfSelections
   } from 'src/utils/selection.js';
-  import { interaction } from './CalendarPickerBase.js';
+  import { interactionLayer } from './actions/selection.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
@@ -80,7 +80,7 @@ bug on Safari 13.1 -->
     <!-- MOUSE/TOUCH EVENT CAPTURE LAYER -->
     <div
       class="interaction-layer"
-      use:interaction={{daysToShow}}
+      use:interactionLayer={{daysToShow}}
       on:selectStart={selectStart}
       on:selectMove={selectMove}
       on:selectStop={selectStop}
