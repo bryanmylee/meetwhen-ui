@@ -18,7 +18,9 @@ export function cardIn(node, {
     easing,
     css: (_, u) => `
       transform: ${transform} translate(${u * x}px, 0);
-      opacity: ${targetOpacity - (od * u)};`
+      opacity: ${targetOpacity - (od * u)};
+    `,
+    tick: _ => node.style.position = 'unset',
   })
 }
 
@@ -41,6 +43,7 @@ export function cardOut(node, {
     css: (_, u) => `
       transform: ${transform} translate(${u * x}px, 0);
       opacity: ${targetOpacity - (od * u)};
-      position: absolute;`
+    `,
+    tick: _ => node.style.position = 'absolute',
   })
 }

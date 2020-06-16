@@ -16,7 +16,7 @@
 </script>
 
 {#if $layout === layoutEnum.NARROW}
-  <div class="paging__container">
+  <div>
     {#if $details === detailsEnum.EVENT_DETAILS}
       <div
         bind:this={card}
@@ -39,9 +39,3 @@
   <EventDetails title={event.title} description={event.description} />
   <Attendance usernames={Object.keys(event.userIntervalsByUsername)} />
 {/if}
-
-<style>
-  .paging__container {
-    transition: height 200ms ease-out;
-  }
-</style>
