@@ -38,7 +38,6 @@
   // STATE FUNCTIONS
   // ===============
   function selectStart(event) {
-    if (!selectionEnabled) return;
     const { day, hour } = event.detail;
     initialHour = hour;
     newSelection = ({
@@ -80,7 +79,7 @@ bug on Safari 13.1 -->
     <!-- MOUSE/TOUCH EVENT CAPTURE LAYER -->
     <div
       class="interaction-layer"
-      use:interactionLayer={{daysToShow}}
+      use:interactionLayer={{daysToShow, selectionEnabled}}
       on:selectStart={selectStart}
       on:selectMove={selectMove}
       on:selectStop={selectStop}

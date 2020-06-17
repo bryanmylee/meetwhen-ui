@@ -26,6 +26,7 @@ import {
  */
 export function interactionLayer(node, {
   daysToShow,
+  selectionEnabled = true,
   snapToHour = 0.25,
   longPressDuration = 500,
 }) {
@@ -44,6 +45,7 @@ export function interactionLayer(node, {
 
   function mouseInteraction() {
     function selectStart(event) {
+      if (!selectionEnabled) return;
       if (event.buttons === 1) {
         node.dispatchEvent(new CustomEvent('selectStart', {
           detail: getDayHour(getMouseOffset(event)),
@@ -63,11 +65,14 @@ export function interactionLayer(node, {
       node.dispatchEvent(new CustomEvent('selectStop'));
     }
 
-    node.style.cursor = 'pointer';
+    node.style.cursor = selectionEnabled ? 'pointer' : 'default';
     node.addEventListener('mousedown', selectStart);
     node.addEventListener('mousemove', selectMove);
     node.addEventListener('mouseup', selectStop);
     return ({
+      update({ selectionEnabled }) {
+        node.style.cursor = selectionEnabled ? 'pointer' : 'default';
+      },
       destroy() {
         node.removeEventListener('mousedown', selectStart);
         node.removeEventListener('mousemove', selectMove);
@@ -84,6 +89,7 @@ export function interactionLayer(node, {
     let selecting = false;
 
     function touchStart(event) {
+      if (!selectionEnabled) return;
       initialOffset = getTouchOffset(event);
       timer = setTimeout(() => longPressStart(event), longPressDuration);
     }
@@ -137,6 +143,9 @@ export function interactionLayer(node, {
   const touchUpdateDestroy = touchInteraction();
 
   return ({
+    update({ selectionEnabled }) {
+      mouseUpdateDestroy.update({selectionEnabled});
+    },
     destroy() {
       mouseUpdateDestroy.destroy();
       touchUpdateDestroy.destroy();
