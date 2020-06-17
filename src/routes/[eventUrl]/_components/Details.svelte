@@ -10,8 +10,12 @@
   import EventDetails from './EventDetails.svelte';
   import Attendance from './Attendance.svelte';
 
+  // PROPS
+  // =====
   export let event;
 
+  // NODES
+  // =====
   let card;
 </script>
 
