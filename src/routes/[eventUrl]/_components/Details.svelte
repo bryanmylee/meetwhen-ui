@@ -1,10 +1,8 @@
 <script>
-  import { fly } from 'svelte/transition';
-
   import { cardIn, cardOut } from 'src/transitions/paginatedCard.js';
   import {
-    layoutEnum, detailsEnum, formEnum,
-    layout, details, form,
+    layoutEnum, detailsEnum,
+    layout, details,
   } from '../stores.js';
 
   import EventDetails from './EventDetails.svelte';
