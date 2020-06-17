@@ -11,17 +11,12 @@
   // PROPS
   // =====
   export let event;
-
-  // NODES
-  // =====
-  let card;
 </script>
 
 {#if $layout === layoutEnum.NARROW}
   <div>
     {#if $details === detailsEnum.EVENT_DETAILS}
       <div
-        bind:this={card}
         in:cardIn={{x: -400, duration: 300}}
         out:cardOut={{x: -400, duration: 300}}
       >
@@ -29,7 +24,6 @@
       </div>
     {:else if $details === detailsEnum.ATTENDANCE}
       <div
-        bind:this={card}
         in:cardIn={{x: 400, duration: 300}}
         out:cardOut={{x: 400, duration: 300}}
       >
