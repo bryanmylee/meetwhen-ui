@@ -1,6 +1,6 @@
 <script>
   import { isSelecting } from './stores.js';
-  import { smoothSizePos } from 'src/components/calendar/actions/selection.js';
+  import { smoothSizePos, dragAndResizable } from 'src/components/calendar/actions/selection.js';
 
   // PROPS
   // =====
@@ -10,6 +10,7 @@
 
 <div
   use:smoothSizePos={{start, end, duration: 0}}
+  use:dragAndResizable
   class="selection__container"
   class:pass-through={$isSelecting}
 >

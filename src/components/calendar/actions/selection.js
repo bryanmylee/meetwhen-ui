@@ -144,26 +144,39 @@ export function interactionLayer(node, {
   });
 }
 
-const MS_PER_HOUR = 3600000;
+export function dragAndResizable(node, { resizeHandleSize = 7 } = {}) {
+  function isResizingTop(offsetY) {
+    return offsetY < resizeHandleSize;
+  }
 
-/**
- * Get the top required given some starting hour.
- * @param {number} startHourInMs Starting hour in ms.
- * @returns {string} The CSS top for the element.
- */
-export function getTop(startHourInMs) {
-  const numHoursFromMidnight = startHourInMs / MS_PER_HOUR;
-  return `calc(var(--row-height) * ${numHoursFromMidnight})`;
-}
+  function isResizingBottom(offsetY, height) {
+    return height - offsetY < resizeHandleSize;
+  }
 
-/**
- * Get the height required given some duration.
- * @param {number} durationInMs Duration in ms.
- * @returns {string} The CSS height for the element.
- */
-export function getHeight(durationInMs) {
-  const durationInHours = durationInMs / MS_PER_HOUR;
-  return `calc(var(--row-height) * ${durationInHours})`;
+  function handleMouseMove(event) {
+    const { height } = node.getBoundingClientRect();
+    const { offsetY } = getMouseOffset(event);
+    if (isResizingTop(offsetY) || isResizingBottom(offsetY, height)) {
+      node.style.cursor = 'row-resize';
+    } else {
+      node.style.cursor = 'move';
+    }
+  }
+
+  function handleMouseDown(event) {
+    const { offsetY } = getMouseOffset(event);
+    const { height } = node.getBoundingClientRect();
+    if (isResizingTop(offsetY)) {
+      console.log('start resizing top');
+    } else if (isResizingBottom(offsetY, height)) {
+      console.log('start resizing bottom');
+    } else {
+      console.log('start dragging');
+    }
+  }
+
+  node.addEventListener('mousemove', handleMouseMove);
+  node.addEventListener('mousedown', handleMouseDown);
 }
 
 /**
@@ -237,4 +250,26 @@ export function sizePos(node, { start, end }) {
 export function top(node, { hour }) {
   node.style.position = 'absolute';
   node.style.top = getTop(hour * MS_PER_HOUR);
+}
+
+const MS_PER_HOUR = 3600000;
+
+/**
+ * Get the top required given some starting hour.
+ * @param {number} startHourInMs Starting hour in ms.
+ * @returns {string} The CSS top for the element.
+ */
+export function getTop(startHourInMs) {
+  const numHoursFromMidnight = startHourInMs / MS_PER_HOUR;
+  return `calc(var(--row-height) * ${numHoursFromMidnight})`;
+}
+
+/**
+ * Get the height required given some duration.
+ * @param {number} durationInMs Duration in ms.
+ * @returns {string} The CSS height for the element.
+ */
+export function getHeight(durationInMs) {
+  const durationInHours = durationInMs / MS_PER_HOUR;
+  return `calc(var(--row-height) * ${durationInHours})`;
 }

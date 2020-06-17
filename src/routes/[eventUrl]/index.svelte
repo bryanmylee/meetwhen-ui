@@ -37,6 +37,7 @@
   import mediaQuery from 'src/actions/mediaQuery.js';
   import undoable from 'src/utils/undoable.js';
   import nextFrame from 'src/utils/nextFrame.js';
+  import { splitIntervalsOnMidnight } from 'src/utils/interval.js';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
   import { addUserToEvent, editUserIntervals } from 'src/api/event.js';
 
@@ -81,7 +82,8 @@
 
   function setForm() {
     if ($form === formEnum.EDITING) {
-      $selections = event.userIntervalsByUsername[$user.username];
+      $selections = splitIntervalsOnMidnight(
+          event.userIntervalsByUsername[$user.username]);
     } else {
       $selections = [];
     }
