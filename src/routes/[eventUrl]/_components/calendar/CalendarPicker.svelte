@@ -74,19 +74,18 @@
         )}
       />
       <!-- OTHER USER SELECTIONS -->
-      {#each userIntervalsByTime.filter((interval) =>
-          interval.start.isSame(day, 'date'))
+      {#each userIntervalsByTime.filter((interval) => interval.start.isSame(day, 'date'))
           as interval (`${+interval.start}-${+interval.end}`)}
         <OtherUsersSelection {...interval} {maxUsernameCount} {isCollapsed} />
       {/each}
       <!-- DEFINED SELECTIONS -->
-      {#each selections.filter((selection) =>
-          selection.start.isSame(day, 'date')) as selection}
+      {#each selections.filter((selection) => selection.start.isSame(day, 'date'))
+          as selection (`${+selection.start}-${+selection.end}`)}
         <DefinedSelection {...selection} />
       {/each}
       <!-- NEW SELECTIONS -->
-      {#each newSelections.filter((selection) =>
-          selection.start.isSame(day, 'date')) as selection}
+      {#each newSelections.filter((selection) => selection.start.isSame(day, 'date'))
+          as selection}
         <NewSelection {...selection} />
       {/each}
     </CalendarDayColumn>

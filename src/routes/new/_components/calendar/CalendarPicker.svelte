@@ -28,13 +28,13 @@
   {#each daysToShow as day}
     <CalendarDayColumn {day} >
       <!-- DEFINED SELECTIONS -->
-      {#each selections.filter((selection) =>
-          selection.start.isSame(day, 'date')) as selection}
+      {#each selections.filter((selection) => selection.start.isSame(day, 'date'))
+          as selection (`${+selection.start}-${+selection.end}`)}
         <DefinedSelection {...selection} />
       {/each}
       <!-- NEW SELECTIONS -->
-      {#each newSelections.filter((selection) =>
-          selection.start.isSame(day, 'date')) as selection}
+      {#each newSelections.filter((selection) => selection.start.isSame(day, 'date'))
+          as selection}
         <NewSelection {...selection} />
       {/each}
     </CalendarDayColumn>
