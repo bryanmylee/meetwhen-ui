@@ -20,7 +20,7 @@ import dayjs from 'dayjs';
 export function splitIntervalsOnMidnight(intervals) {
   return intervals.flatMap((interval) => {
     const { start, end } = interval;
-    if (!start.isSame(end, 'date')) {
+    if (!start.isSame(end, 'date') && end.hour() !== 0) {
       return [
         { ...interval, start, end: end.startOf('day') },
         { ...interval, start: end.startOf('day'), end },
@@ -138,7 +138,7 @@ export function getMergedIntervals(intervalsByUsername) {
      * and removal of usernames, determine the distinct intervals and usernames
      * participating in those intervals.
      * @param {{addAction: multiUserAction, removeAction: multiUserAction}[]}
-     * combinedActions 
+     * combinedActions
      * @returns {{start: dayjs.Dayjs, end: dayjs.Dayjs, usernames: string[]}[]}
      * An array of intervals with the usernames in that interval attached.
      */
