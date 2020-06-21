@@ -1,9 +1,12 @@
 <script>
+  import { setContext } from 'svelte';
+
   import {
     getAreaSelection,
     getUnionOfSelections,
-    getIntersectionOfSelections
+    getIntersectionOfSelections,
   } from 'src/utils/selection.js';
+  import { splitIntervalsOnMidnight } from 'src/utils/interval.js';
   import { createSelection } from './actions/selection.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
@@ -66,6 +69,31 @@
     initialHour = null;
     newSelection = null;
   }
+
+  function dragSelection(event) {
+    const { originalStart, newStart, newEnd } = event.detail;
+    const draggedSelections = selections.map((selection) => {
+      if (+selection.start !== +originalStart) return selection;
+      return ({
+        start: newStart,
+        end: newEnd,
+      });
+    });
+    const processedSelections = splitIntervalsOnMidnight(getUnionOfSelections(
+        draggedSelections));
+    selections = selectionLimits == null
+        ? processedSelections
+        : getIntersectionOfSelections(processedSelections, selectionLimits);
+  }
+
+  function resizeSelection(event) {
+    console.log(event.detail);
+  }
+
+  setContext('dragresize', {
+    dragSelection,
+    resizeSelection,
+  });
 </script>
 
 <svelte:window on:mouseup={selectStop} />

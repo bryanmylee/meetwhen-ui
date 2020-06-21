@@ -1,10 +1,15 @@
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
+import dayjs from 'dayjs';
+
 import {
   getMouseOffset,
   getTouchOffset,
   distanceBetweenOffsets,
 } from 'src/utils/eventHandler.js';
+
+const MS_PER_HOUR = 3600000;
+const MS_PER_DAY = 86400000;
 
 /**
  * Provides all custom events for creating new selections with the calendar.
@@ -196,39 +201,110 @@ export function createSelection(node, {
   });
 }
 
-export function dragAndResizable(node, { resizeHandleSize = 7 } = {}) {
-  function isResizingTop(offsetY) {
-    return offsetY < resizeHandleSize;
-  }
+export function dragAndResizable(node, {
+  start,
+  end,
+  snapToHour = 0.25,
+  resizeHandleSize = 7,
+}) {
+  const pxPerDay = node.offsetWidth;
+  const pxPerHour = node.offsetHeight / ((end - start) / MS_PER_HOUR);
+  let snap = snapToHour;
 
-  function isResizingBottom(offsetY, height) {
-    return height - offsetY < resizeHandleSize;
-  }
-
-  function handleMouseMove(event) {
-    const { height } = node.getBoundingClientRect();
-    const { offsetY } = getMouseOffset(event);
-    if (isResizingTop(offsetY) || isResizingBottom(offsetY, height)) {
-      node.style.cursor = 'row-resize';
-    } else {
-      node.style.cursor = 'move';
+  function mouseInteraction() {
+    function setMouseCursor(offsetY, height) {
+      if (shouldResizeTop(offsetY) || shouldResizeBottom(offsetY, height)) {
+        node.style.cursor = 'row-resize';
+      } else {
+        node.style.cursor = 'move';
+      }
     }
-  }
 
-  function handleMouseDown(event) {
-    const { offsetY } = getMouseOffset(event);
-    const { height } = node.getBoundingClientRect();
-    if (isResizingTop(offsetY)) {
-      console.log('start resizing top');
-    } else if (isResizingBottom(offsetY, height)) {
-      console.log('start resizing bottom');
-    } else {
-      console.log('start dragging');
+    function shouldResizeTop(offsetY) {
+      return offsetY < resizeHandleSize;
     }
+
+    function shouldResizeBottom(offsetY, height) {
+      return height - offsetY < resizeHandleSize;
+    }
+
+    function handleNodeStyle(event) {
+      const { height } = node.getBoundingClientRect();
+      const { offsetY } = getMouseOffset(event);
+      setMouseCursor(offsetY, height);
+    }
+
+    function handleMouseDown(event) {
+      const { offsetY } = getMouseOffset(event);
+      const { height } = node.getBoundingClientRect();
+      if (shouldResizeTop(offsetY)) {
+        console.log('start resizing top');
+      } else if (shouldResizeBottom(offsetY, height)) {
+        console.log('start resizing bottom');
+      } else {
+        drag(event);
+      }
+    }
+
+    function drag(event) {
+      const { clientX: startClientX, clientY: startClientY} = event;
+      const { left, top } = getComputedStyle(event.target);
+      const startLeft = parseFloat(left);
+      const startTop = parseFloat(top);
+      let dx;
+      let dy;
+      window.addEventListener('mousemove', handleDragMove);
+      window.addEventListener('mouseup', handleDragUp);
+
+      function handleDragMove(event) {
+        const { clientX, clientY } = event;
+        dx = clientX - startClientX;
+        dy = clientY - startClientY;
+        node.style.left = `${startLeft + dx}px`;
+        node.style.top = `${startTop + dy}px`;
+      }
+
+      function handleDragUp() {
+        // Update calendar data by dispatching an event, which will call a
+        // context function on CalendarPickerBase.
+        node.dispatchEvent(new CustomEvent('dragSelection', {
+          detail: ({
+            originalStart: start, // used to identify which selection was dragged.
+            ...getNewStartEnd(),
+          }),
+        }));
+
+        window.removeEventListener('mousemove', handleDragMove);
+        window.removeEventListener('mouseup', handleDragUp);
+      }
+
+      function getNewStartEnd() {
+        const deltaDay = Math.floor(dx / pxPerDay + 0.5);
+        const rawDeltaHour = dy / pxPerHour;
+        const deltaHour = Math.floor(rawDeltaHour / snap + 0.5) * snap;
+        return ({
+          newStart: dayjs(start + deltaHour * MS_PER_HOUR + deltaDay * MS_PER_DAY),
+          newEnd: dayjs(end + deltaHour * MS_PER_HOUR + deltaDay * MS_PER_DAY),
+        });
+      }
+    }
+
+    node.addEventListener('mousemove', handleNodeStyle);
+    node.addEventListener('mousedown', handleMouseDown);
+    return ({
+      destroy() {
+        node.removeEventListener('mousemove', handleNodeStyle);
+        node.removeEventListener('mousedown', handleMouseDown);
+      }
+    });
   }
 
-  node.addEventListener('mousemove', handleMouseMove);
-  node.addEventListener('mousedown', handleMouseDown);
+  const mouseUpdateDestroy = mouseInteraction();
+  return ({
+    destory() {
+      mouseUpdateDestroy.destroy();
+    }
+  });
 }
 
 /**
@@ -303,8 +379,6 @@ export function top(node, { hour }) {
   node.style.position = 'absolute';
   node.style.top = getTop(hour * MS_PER_HOUR);
 }
-
-const MS_PER_HOUR = 3600000;
 
 /**
  * Get the top required given some starting hour.
