@@ -4,7 +4,7 @@
     getUnionOfSelections,
     getIntersectionOfSelections
   } from 'src/utils/selection.js';
-  import { interactionLayer } from './actions/selection.js';
+  import { createSelection } from './actions/selection.js';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
@@ -49,7 +49,7 @@
   }
 
   function selectMove(event) {
-    if (initialHour == null && newSelection == null) startSelection(event);
+    if (initialHour == null && newSelection == null) selectStart(event);
     let { day, hour } = event.detail;
     hour = Math.min(hour, 23.75);
     newSelection = ({
@@ -78,8 +78,8 @@ bug on Safari 13.1 -->
   >
     <!-- MOUSE/TOUCH EVENT CAPTURE LAYER -->
     <div
-      class="interaction-layer"
-      use:interactionLayer={{daysToShow, selectionEnabled}}
+      class="create-selection__layer"
+      use:createSelection={{daysToShow, selectionEnabled}}
       on:selectStart={selectStart}
       on:selectMove={selectMove}
       on:selectStop={selectStop}
@@ -108,7 +108,7 @@ bug on Safari 13.1 -->
     touch-action: none;
   }
 
-  .interaction-layer {
+  .create-selection__layer {
     position: absolute;
     left: var(--index-col-width);
     top: var(--header-row-height);

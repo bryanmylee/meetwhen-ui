@@ -24,59 +24,102 @@ import {
  * @param actionOptions.longPressDuration The time to wait before triggering a
  * long press in ms.
  */
-export function interactionLayer(node, {
+export function createSelection(node, {
   daysToShow,
   selectionEnabled = true,
   snapToHour = 0.25,
   longPressDuration = 500,
 }) {
   let snap = snapToHour;
+  let enabled = selectionEnabled;
 
-  function getDayHour({ offsetX, offsetY }) {
-    const ratioX = offsetX / node.offsetWidth;
-    const ratioY = offsetY / node.offsetHeight;
+  const columnWidth = node.offsetWidth / daysToShow.length;
+  const rowHeight = node.offsetHeight / 24;
+
+  let lastClientX;
+  let lastClientY;
+  let lastOffsetX;
+  let lastOffsetY;
+
+  function getDayHour(offsetX, offsetY) {
     const dayIndex = Math.min(
-        Math.floor(ratioX * daysToShow.length), daysToShow.length - 1);
+        Math.floor(offsetX / columnWidth), daysToShow.length - 1);
     const day = daysToShow[dayIndex];
-    const rawHour = ratioY * 24;
+    const rawHour = offsetY / rowHeight;
     const hour = Math.floor(rawHour / snap) * snap;
     return { day, hour };
   }
 
   function mouseInteraction() {
     function selectStart(event) {
-      if (!selectionEnabled) return;
-      if (event.buttons === 1) {
-        node.dispatchEvent(new CustomEvent('selectStart', {
-          detail: getDayHour(getMouseOffset(event)),
-        }));
-      }
+      if (!enabled) return;
+      if (event.buttons !== 1) return;
+
+      lastClientX = event.clientX;
+      lastClientY = event.clientY;
+      const { offsetX, offsetY } = getMouseOffset(event);
+      lastOffsetX = offsetX;
+      lastOffsetY = offsetY;
+
+      node.dispatchEvent(new CustomEvent('selectStart', {
+        detail: getDayHour(offsetX, offsetY),
+      }));
+
+      window.addEventListener('mousemove', selectMove);
+      window.addEventListener('mouseup', selectStop);
     }
 
     function selectMove(event) {
-      if (event.buttons === 1) {
-        node.dispatchEvent(new CustomEvent('selectMove', {
-          detail: getDayHour(getMouseOffset(event)),
-        }));
+      if (event.buttons !== 1) return;
+
+      // Use offset of the creation layer to trigger day hour calculation if
+      // mouse is over the layer. Otherwise, use client x and y.
+      if (event.target === node) {
+        selectMoveOverNode(event);
+      } else {
+        selectMoveOffNode(event);
       }
+    }
+
+    function selectMoveOverNode(event) {
+      lastClientX = event.clientX;
+      lastClientY = event.clientY;
+      const { offsetX, offsetY } = getMouseOffset(event);
+      lastOffsetX = offsetX;
+      lastOffsetY = offsetY;
+
+      node.dispatchEvent(new CustomEvent('selectMove', {
+        detail: getDayHour(offsetX, offsetY),
+      }));
+    }
+
+    function selectMoveOffNode(event) {
+      const dx = event.clientX - lastClientX;
+      const dy = event.clientY - lastClientY;
+      const offsetX = Math.min(Math.max(lastOffsetX + dx, 0), node.offsetWidth);
+      const offsetY = Math.min(Math.max(lastOffsetY + dy, 0), node.offsetHeight);
+
+      node.dispatchEvent(new CustomEvent('selectMove', {
+        detail: getDayHour(offsetX, offsetY),
+      }));
     }
 
     function selectStop() {
       node.dispatchEvent(new CustomEvent('selectStop'));
+
+      window.removeEventListener('mousemove', selectMove);
+      window.removeEventListener('mouseup', selectStop);
     }
 
-    node.style.cursor = selectionEnabled ? 'pointer' : 'default';
+    node.style.cursor = enabled ? 'pointer' : 'default';
     node.addEventListener('mousedown', selectStart);
-    node.addEventListener('mousemove', selectMove);
-    node.addEventListener('mouseup', selectStop);
     return ({
       update({ selectionEnabled }) {
-        node.style.cursor = selectionEnabled ? 'pointer' : 'default';
+        enabled = selectionEnabled;
+        node.style.cursor = enabled ? 'pointer' : 'default';
       },
       destroy() {
         node.removeEventListener('mousedown', selectStart);
-        node.removeEventListener('mousemove', selectMove);
-        node.removeEventListener('mouseup', selectStop);
       }
     });
   }
