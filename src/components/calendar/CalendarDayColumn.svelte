@@ -1,6 +1,4 @@
 <script>
-  import { getContext } from 'svelte';
-
   import { top } from 'src/components/calendar/actions/selection.js';
 
   // PROPS
@@ -8,14 +6,14 @@
   export let day;
 </script>
 
-<div class="day-col">
+<div class="col">
   <!-- DATE LABEL -->
   <div class="date-label">
     {day.format('ddd D')}
   </div>
-  <div class="column">
+  <div class="col__body">
     <!-- SEPARATOR LINES -->
-    <div class="hour-separators">
+    <div class="col__hour-separators">
       {#each Array(24) as _, inc}
         <div
           class="hour-separators__separator"
@@ -43,7 +41,7 @@
     background-color: white;
   }
 
-  .column {
+  .col__body {
     position: relative;
     min-width: var(--col-width);
     max-width: var(--col-width);
@@ -53,7 +51,7 @@
     user-select: none;
   }
 
-  .hour-separators {
+  .col__hour-separators {
     pointer-events: none;
     touch-action: none;
   }
