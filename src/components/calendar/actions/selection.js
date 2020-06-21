@@ -251,8 +251,8 @@ export function dragAndResizable(node, {
       const { left, top } = getComputedStyle(event.target);
       const startLeft = parseFloat(left);
       const startTop = parseFloat(top);
-      let dx;
-      let dy;
+      let dx = 0;
+      let dy = 0;
       window.addEventListener('mousemove', handleDragMove);
       window.addEventListener('mouseup', handleDragUp);
 
