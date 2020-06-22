@@ -185,7 +185,7 @@ export function moveAndResizable(node, {
   start,
   end,
   snapToHour = 0.25,
-  resizeHandleSize = 7,
+  resizeHandleSize = 10,
 }) {
   const columnWidth = node.offsetWidth;
   const { height } = node.getBoundingClientRect();
@@ -213,10 +213,13 @@ export function moveAndResizable(node, {
 
     if (shouldResizeTop(offsetY)) {
       state = states.RESIZING_TOP;
+      currentAction = resizeSelectionTop;
     } else if (shouldResizeBottom(offsetY)) {
       state = states.RESIZING_BOTTOM;
+      currentAction = resizeSelectionBottom;
     } else {
       state = states.MOVING;
+      currentAction = moveSelection;
     }
 
     node.dispatchEvent(new CustomEvent('updateState', {
@@ -303,6 +306,8 @@ export function moveAndResizable(node, {
     }
   });
 
+  let currentAction = moveSelection;
+
   function getDeltaRowCol() {
     const rawDeltaRow = dy / rowHeight;
     const deltaRow = Math.floor(rawDeltaRow / snap + 0.5) * snap;
@@ -330,23 +335,11 @@ export function moveAndResizable(node, {
 
     function handleMouseMove(event) {
       const { clientX, clientY } = event;
-      if (state === states.MOVING) {
-        moveSelection.move({ clientX, clientY });
-      } else if (state === states.RESIZING_TOP) {
-        resizeSelectionTop.move({ clientX, clientY });
-      } else {
-        resizeSelectionBottom.move({ clientX, clientY });
-      }
+      currentAction.move({ clientX, clientY });
     }
 
     function handleMouseUp() {
-      if (state === states.MOVING) {
-        moveSelection.end();
-      } else if (state === states.RESIZING_TOP) {
-        resizeSelectionTop.end();
-      } else {
-        resizeSelectionBottom.end();
-      }
+      currentAction.end();
       endDrag();
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
@@ -374,15 +367,11 @@ export function moveAndResizable(node, {
 
     function handleDragMove(event) {
       const { clientX, clientY } = event.targetTouches[0];
-      if (state === states.MOVING) {
-        moveSelection.move({ clientX, clientY });
-      }
+      currentAction.move({ clientX, clientY });
     }
 
     function handleDragEnd() {
-      if (state === states.MOVING) {
-        moveSelection.end();
-      }
+      currentAction.end();
       endDrag();
     }
 
