@@ -1,6 +1,5 @@
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
-import dayjs from 'dayjs';
 
 import {
   getMouseOffset,
@@ -212,14 +211,6 @@ export function dragAndResizable(node, {
   let snap = snapToHour;
 
   function mouseInteraction() {
-    function setMouseCursor(offsetY, height) {
-      if (shouldResizeTop(offsetY) || shouldResizeBottom(offsetY, height)) {
-        node.style.cursor = 'row-resize';
-      } else {
-        node.style.cursor = 'move';
-      }
-    }
-
     function shouldResizeTop(offsetY) {
       return offsetY < resizeHandleSize;
     }
@@ -228,10 +219,14 @@ export function dragAndResizable(node, {
       return height - offsetY < resizeHandleSize;
     }
 
-    function handleNodeStyle(event) {
+    function setMouseCursor(event) {
       const { height } = node.getBoundingClientRect();
       const { offsetY } = getMouseOffset(event);
-      setMouseCursor(offsetY, height);
+      if (shouldResizeTop(offsetY) || shouldResizeBottom(offsetY, height)) {
+        node.style.cursor = 'ns-resize';
+      } else {
+        node.style.cursor = 'move';
+      }
     }
 
     function handleMouseDown(event) {
@@ -288,11 +283,11 @@ export function dragAndResizable(node, {
       }
     }
 
-    node.addEventListener('mousemove', handleNodeStyle);
+    node.addEventListener('mousemove', setMouseCursor);
     node.addEventListener('mousedown', handleMouseDown);
     return ({
       destroy() {
-        node.removeEventListener('mousemove', handleNodeStyle);
+        node.removeEventListener('mousemove', setMouseCursor);
         node.removeEventListener('mousedown', handleMouseDown);
       }
     });
