@@ -45,12 +45,18 @@
     return max >= length ? max : length;
   }, 0);
 
-  // The days containing all event intervals.
-  $: daysToShow = eventIntervalsSplitOnMidnight.reduce((days, interval) => {
-    const { length } = days;
-    if (length === 0) return [ interval.start.startOf('day') ];
-    if (days[length - 1].isSame(interval.start, 'day')) return days;
-    return [ ...days, interval.start.startOf('day') ];
+  // The days containing all event intervals and whether the day sequentially
+  // follows the previous day.
+  $: daysToShowWithSkip = eventIntervalsSplitOnMidnight.reduce((daysWithSkip, interval) => {
+    const { length } = daysWithSkip;
+    const newDay = interval.start.startOf('day');
+    if (length === 0) return [{ day: newDay, skipped: false }];
+    const previousDay = daysWithSkip[length - 1].day;
+    if (previousDay.isSame(newDay, 'day')) return daysWithSkip;
+    if (previousDay.add(1, 'day').isSame(newDay, 'day')) {
+      return [ ...daysWithSkip, { day: newDay, skipped: false }];
+    }
+    return [ ...daysWithSkip, { day: newDay, skipped: true }];
   }, []);
 
   $: isCollapsed = $form === formEnum.JOINING || $form === formEnum.EDITING;
@@ -59,14 +65,14 @@
 <CalendarPickerBase
   bind:selections={selections}
   bind:isSelecting={$isSelecting}
-  {daysToShow}
+  daysToShow={daysToShowWithSkip.map((dws) => dws.day)}
   selectionLimits={eventIntervals}
   selectionEnabled={$form === formEnum.JOINING || $form === formEnum.EDITING}
   let:newSelections
 >
   <!-- COLUMNS -->
-  {#each daysToShow as day}
-    <CalendarDayColumn {day} >
+  {#each daysToShowWithSkip as { day, skipped }}
+    <CalendarDayColumn {day} {skipped} >
       <!-- DISABLED INTERVALS -->
       <UnavailableColumnOverlay
         eventIntervals={eventIntervalsSplitOnMidnight.filter((interval) =>

@@ -23,7 +23,7 @@
   div {
     position: absolute;
     z-index: 19;
-    width: var(--col-width);
+    width: 100%;
     background-color: var(--disabled-shade);
     opacity: 0.5;
     pointer-events: all;

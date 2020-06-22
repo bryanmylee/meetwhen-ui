@@ -55,7 +55,7 @@
   .other-user-selection {
     position: absolute;
     z-index: 10;
-    width: var(--select-width);
+    width: calc(100% + 1px);
     border-radius: 5px;
     box-sizing: border-box;
     transition: var(--ease-out) width, background-color 200ms ease-out;
