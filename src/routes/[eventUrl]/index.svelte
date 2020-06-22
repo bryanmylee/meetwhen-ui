@@ -249,7 +249,7 @@
     }
 
     .picker-container {
-      grid-row: 1/6;
+      grid-row: 1/10;
       grid-column: 2/3;
     }
   }

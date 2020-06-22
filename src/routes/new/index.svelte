@@ -133,7 +133,7 @@
     }
 
     .picker-container {
-      grid-row: 1/5;
+      grid-row: 1/10;
       grid-column: 2/3;
     }
   }
