@@ -81,7 +81,7 @@ export function getUnionOfSelections(selections) {
     });
     return actions;
   }
-  
+
   const actions = getActions(selections);
   const unionSelections = [];
   let currSelection = {};

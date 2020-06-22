@@ -8,7 +8,6 @@ import {
 import longTouchAndDrag from 'src/utils/longTouchAndDrag.js';
 
 const MS_PER_HOUR = 3600000;
-const MS_PER_DAY = 86400000;
 
 /**
  * Provides all custom events for creating new selections with the calendar.
@@ -190,6 +189,9 @@ export function moveAndResizable(node, {
 }) {
   const columnWidth = node.offsetWidth;
   const { height } = node.getBoundingClientRect();
+  const { left, top } = getComputedStyle(node);
+  const startLeft = parseFloat(left);
+  const startTop = parseFloat(top);
   const rowHeight = node.offsetHeight / ((end - start) / MS_PER_HOUR);
   let snap = snapToHour;
 
@@ -201,20 +203,17 @@ export function moveAndResizable(node, {
     RESIZING_BOTTOM: 'RESIZING_BOTTOM',
   });
   // Track the initial state required to calculate drag distance.
-  let startClientX, startClientY, startLeft, startTop, dx, dy;
+  let startClientX, startClientY, dx, dy;
 
-  function startDrag({ offsetY, clientX, clientY, target }) {
+  function startDrag({ offsetY, clientX, clientY }) {
     startClientX = clientX;
     startClientY = clientY;
-    const { left, top } = getComputedStyle(target);
-    startLeft = parseFloat(left);
-    startTop = parseFloat(top);
     dx = 0;
     dy = 0;
 
     if (shouldResizeTop(offsetY)) {
       state = states.RESIZING_TOP;
-    } else if (shouldResizeBottom(offsetY, height)) {
+    } else if (shouldResizeBottom(offsetY)) {
       state = states.RESIZING_BOTTOM;
     } else {
       state = states.MOVING;
@@ -236,7 +235,7 @@ export function moveAndResizable(node, {
     return offsetY < resizeHandleSize;
   }
 
-  function shouldResizeBottom(offsetY, height) {
+  function shouldResizeBottom(offsetY) {
     return height - offsetY < resizeHandleSize;
   }
 
@@ -259,7 +258,44 @@ export function moveAndResizable(node, {
         }),
       }));
     }
-  })
+  });
+
+  const resizeSelectionTop = ({
+    move({ clientX, clientY }) {
+      dx = clientX - startClientX;
+      dy = clientY - startClientY;
+      node.style.top = `${startTop + dy}px`;
+      node.style.height = `${height - dy}px`;
+    },
+    end() {
+      const { deltaRow } = getDeltaRowCol();
+      node.dispatchEvent(new CustomEvent('resizeSelectionTop', {
+        detail: ({
+          originalStart: start, // used to identify which selection was dragged.
+          originalEnd: end,
+          newStart: start.add(deltaRow, 'hour'),
+        }),
+      }));
+    }
+  });
+
+  const resizeSelectionBottom = ({
+    move({ clientX, clientY }) {
+      dx = clientX - startClientX;
+      dy = clientY - startClientY;
+      node.style.height = `${height + dy}px`;
+    },
+    end() {
+      const { deltaRow } = getDeltaRowCol();
+      node.dispatchEvent(new CustomEvent('resizeSelectionBottom', {
+        detail: ({
+          originalStart: start, // used to identify which selection was dragged.
+          originalEnd: end,
+          newEnd: end.add(deltaRow, 'hour'),
+        }),
+      }));
+    }
+  });
 
   function getDeltaRowCol() {
     const rawDeltaRow = dy / rowHeight;
@@ -270,9 +306,8 @@ export function moveAndResizable(node, {
 
   function mouseInteraction() {
     function setMouseCursor(event) {
-      const { height } = node.getBoundingClientRect();
       const { offsetY } = getMouseOffset(event);
-      if (shouldResizeTop(offsetY) || shouldResizeBottom(offsetY, height)) {
+      if (shouldResizeTop(offsetY) || shouldResizeBottom(offsetY)) {
         node.style.cursor = 'ns-resize';
       } else {
         node.style.cursor = 'move';
@@ -291,12 +326,20 @@ export function moveAndResizable(node, {
       const { clientX, clientY } = event;
       if (state === states.MOVING) {
         moveSelection.move({ clientX, clientY });
+      } else if (state === states.RESIZING_TOP) {
+        resizeSelectionTop.move({ clientX, clientY });
+      } else {
+        resizeSelectionBottom.move({ clientX, clientY });
       }
     }
 
     function handleMouseUp() {
       if (state === states.MOVING) {
         moveSelection.end();
+      } else if (state === states.RESIZING_TOP) {
+        resizeSelectionTop.end();
+      } else {
+        resizeSelectionBottom.end();
       }
       endDrag();
       window.removeEventListener('mousemove', handleMouseMove);

@@ -3,7 +3,11 @@
   import { isSelecting } from './stores.js';
   import { sizePos, moveAndResizable } from 'src/components/calendar/actions/selection.js';
 
-  const { moveSelection } = getContext('dragresize');
+  const {
+    moveSelection,
+    resizeSelectionTop,
+    resizeSelectionBottom
+  } = getContext('dragresize');
 
   // PROPS
   // =====
@@ -22,6 +26,8 @@
   use:moveAndResizable={{start, end}}
   on:updateState={({ detail }) => state = detail.state}
   on:moveSelection={moveSelection}
+  on:resizeSelectionTop={resizeSelectionTop}
+  on:resizeSelectionBottom={resizeSelectionBottom}
 >
   <div
     class="selection__content pass-through"

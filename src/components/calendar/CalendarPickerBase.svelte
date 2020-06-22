@@ -94,6 +94,34 @@
             .add(deltaRow, 'hour'),
       });
     });
+    setSelections(draggedSelections);
+  }
+
+  function resizeSelectionTop(event) {
+    const { originalStart, originalEnd, newStart } = event.detail;
+    const draggedSelections = selections.map((selection) => {
+      if (+selection.start !== +originalStart) return selection;
+      return ({
+        start: newStart,
+        end: originalEnd,
+      });
+    });
+    setSelections(draggedSelections);
+  }
+
+  function resizeSelectionBottom(event) {
+    const { originalStart, originalEnd, newEnd } = event.detail;
+    const draggedSelections = selections.map((selection) => {
+      if (+selection.start !== +originalStart) return selection;
+      return ({
+        start: originalStart,
+        end: newEnd,
+      });
+    });
+    setSelections(draggedSelections);
+  }
+
+  function setSelections(draggedSelections) {
     const processedSelections = splitIntervalsOnMidnight(getUnionOfSelections(
         draggedSelections));
     selections = selectionLimits == null
@@ -101,13 +129,10 @@
         : getIntersectionOfSelections(processedSelections, selectionLimits);
   }
 
-  function resizeSelection(event) {
-    console.log(event.detail);
-  }
-
   setContext('dragresize', {
     moveSelection,
-    resizeSelection,
+    resizeSelectionTop,
+    resizeSelectionBottom,
   });
 </script>
 
