@@ -264,6 +264,9 @@ export function moveAndResizable(node, {
     move({ clientX, clientY }) {
       dx = clientX - startClientX;
       dy = clientY - startClientY;
+      if (height - dy < rowHeight * 0.25) {
+        dy = height - rowHeight * 0.25;
+      }
       node.style.top = `${startTop + dy}px`;
       node.style.height = `${height - dy}px`;
     },
@@ -283,6 +286,9 @@ export function moveAndResizable(node, {
     move({ clientX, clientY }) {
       dx = clientX - startClientX;
       dy = clientY - startClientY;
+      if (height + dy < rowHeight * 0.25) {
+        dy = -height + rowHeight * 0.25;
+      }
       node.style.height = `${height + dy}px`;
     },
     end() {
