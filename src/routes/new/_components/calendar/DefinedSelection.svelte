@@ -9,6 +9,10 @@
   // =====
   export let start;
   export let end;
+
+  // STATE
+  // =====
+  let state = 'NONE';
 </script>
 
 <div
@@ -16,10 +20,12 @@
   class:pass-through={$isSelecting}
   use:sizePos={{start, end, duration: 0}}
   use:moveAndResizable={{start, end}}
-  on:dragSelection={dragSelection}
+  on:updateState={({ detail }) => state = detail.state}
+  on:moveSelection={dragSelection}
 >
   <div
     class="selection__content pass-through"
+    class:move-resizing={state !== 'NONE'}
   />
 </div>
 
@@ -29,6 +35,10 @@
     z-index: 10;
     width: var(--select-width);
     display: flex;
+  }
+
+  .move-resizing {
+    box-shadow: var(--shadow-med);
   }
 
   .selection__content {

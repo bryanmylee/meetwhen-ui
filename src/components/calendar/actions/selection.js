@@ -195,6 +195,7 @@ export function moveAndResizable(node, {
 
   let state = null;
   const states = ({
+    NONE: 'NONE',
     MOVING: 'MOVING',
     RESIZING_TOP: 'RESIZING_TOP',
     RESIZING_BOTTOM: 'RESIZING_BOTTOM',
@@ -218,6 +219,17 @@ export function moveAndResizable(node, {
     } else {
       state = states.MOVING;
     }
+
+    node.dispatchEvent(new CustomEvent('updateState', {
+      detail: { state },
+    }));
+  }
+
+  function endDrag() {
+    state = states.NONE;
+    node.dispatchEvent(new CustomEvent('updateState', {
+      detail: { state },
+    }));
   }
 
   function shouldResizeTop(offsetY) {
@@ -239,7 +251,7 @@ export function moveAndResizable(node, {
       // Update calendar data by dispatching an event, which will call a
       // context function on CalendarPickerBase.
       node.style.left = `${startLeft}px`;
-      node.dispatchEvent(new CustomEvent('dragSelection', {
+      node.dispatchEvent(new CustomEvent('moveSelection', {
         detail: ({
           originalStart: start, // used to identify which selection was dragged.
           originalEnd: end,
@@ -286,6 +298,7 @@ export function moveAndResizable(node, {
       if (state === states.MOVING) {
         moveSelection.end();
       }
+      endDrag();
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     }
@@ -321,6 +334,7 @@ export function moveAndResizable(node, {
       if (state === states.MOVING) {
         moveSelection.end();
       }
+      endDrag();
     }
 
     node.addEventListener('touchstart', touchStart);
