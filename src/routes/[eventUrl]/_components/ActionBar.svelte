@@ -62,8 +62,6 @@
 
 <style>
   .bar {
-    justify-self: end;
-    width: 100%;
     display: flex;
   }
 
