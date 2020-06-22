@@ -182,17 +182,43 @@ export function createSelection(node, {
   });
 }
 
-export function dragAndResizable(node, {
+export function moveAndResizable(node, {
   start,
   end,
   snapToHour = 0.25,
   resizeHandleSize = 7,
 }) {
   const columnWidth = node.offsetWidth;
+  const { height } = node.getBoundingClientRect();
   const rowHeight = node.offsetHeight / ((end - start) / MS_PER_HOUR);
   let snap = snapToHour;
+
+  let state = null;
+  const states = ({
+    MOVING: 'MOVING',
+    RESIZING_TOP: 'RESIZING_TOP',
+    RESIZING_BOTTOM: 'RESIZING_BOTTOM',
+  });
   // Track the initial state required to calculate drag distance.
   let startClientX, startClientY, startLeft, startTop, dx, dy;
+
+  function startDrag({ offsetY, clientX, clientY, target }) {
+    startClientX = clientX;
+    startClientY = clientY;
+    const { left, top } = getComputedStyle(target);
+    startLeft = parseFloat(left);
+    startTop = parseFloat(top);
+    dx = 0;
+    dy = 0;
+
+    if (shouldResizeTop(offsetY)) {
+      state = states.RESIZING_TOP;
+    } else if (shouldResizeBottom(offsetY, height)) {
+      state = states.RESIZING_BOTTOM;
+    } else {
+      state = states.MOVING;
+    }
+  }
 
   function shouldResizeTop(offsetY) {
     return offsetY < resizeHandleSize;
@@ -201,6 +227,27 @@ export function dragAndResizable(node, {
   function shouldResizeBottom(offsetY, height) {
     return height - offsetY < resizeHandleSize;
   }
+
+  const moveSelection = ({
+    move({ clientX, clientY }) {
+      dx = clientX - startClientX;
+      dy = clientY - startClientY;
+      node.style.left = `${startLeft + dx}px`;
+      node.style.top = `${startTop + dy}px`;
+    },
+    end() {
+      // Update calendar data by dispatching an event, which will call a
+      // context function on CalendarPickerBase.
+      node.style.left = `${startLeft}px`;
+      node.dispatchEvent(new CustomEvent('dragSelection', {
+        detail: ({
+          originalStart: start, // used to identify which selection was dragged.
+          originalEnd: end,
+          ...getDeltaRowCol(),
+        }),
+      }));
+    }
+  })
 
   function getDeltaRowCol() {
     const rawDeltaRow = dy / rowHeight;
@@ -222,54 +269,25 @@ export function dragAndResizable(node, {
 
     function handleMouseDown(event) {
       const { offsetY } = getMouseOffset(event);
-      const { height } = node.getBoundingClientRect();
-      if (shouldResizeTop(offsetY)) {
-        console.log('start resizing top');
-      } else if (shouldResizeBottom(offsetY, height)) {
-        console.log('start resizing bottom');
-      } else {
-        mouseDragSelection(event);
+      const { clientX, clientY, target } = event;
+      startDrag({ offsetY, clientX, clientY, target });
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+
+    function handleMouseMove(event) {
+      const { clientX, clientY } = event;
+      if (state === states.MOVING) {
+        moveSelection.move({ clientX, clientY });
       }
     }
 
-    function mouseDragSelection(event) {
-      function handleDragStart(event) {
-        startClientX = event.clientX;
-        startClientY = event.clientY;
-        const { left, top } = getComputedStyle(event.target);
-        startLeft = parseFloat(left);
-        startTop = parseFloat(top);
-        dx = 0;
-        dy = 0;
-        window.addEventListener('mousemove', handleDragMove);
-        window.addEventListener('mouseup', handleDragUp);
+    function handleMouseUp() {
+      if (state === states.MOVING) {
+        moveSelection.end();
       }
-
-      function handleDragMove(event) {
-        const { clientX, clientY } = event;
-        dx = clientX - startClientX;
-        dy = clientY - startClientY;
-        node.style.left = `${startLeft + dx}px`;
-        node.style.top = `${startTop + dy}px`;
-      }
-
-      function handleDragUp() {
-        // Update calendar data by dispatching an event, which will call a
-        // context function on CalendarPickerBase.
-        node.style.left = `${startLeft}px`;
-        node.dispatchEvent(new CustomEvent('dragSelection', {
-          detail: ({
-            originalStart: start, // used to identify which selection was dragged.
-            originalEnd: end,
-            ...getDeltaRowCol(),
-          }),
-        }));
-
-        window.removeEventListener('mousemove', handleDragMove);
-        window.removeEventListener('mouseup', handleDragUp);
-      }
-
-      handleDragStart(event);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
     }
 
     node.addEventListener('mousemove', setMouseCursor);
@@ -283,67 +301,26 @@ export function dragAndResizable(node, {
   }
 
   function touchInteraction() {
-    const states = ({
-      DRAGGING: 'DRAGGING',
-      RESIZING_TOP: 'RESIZING_TOP',
-      RESIZING_BOTTOM: 'RESIZING_BOTTOM',
-    });
-    let state = null;
-
     const touchStart = new longTouchAndDrag({ duration: 500 },
-        dragStart, dragMove, dragEnd);
+        handleDragStart, handleDragMove, handleDragEnd);
 
-    function dragStart(event) {
+    function handleDragStart(event) {
       const { offsetY } = getTouchOffset(event);
-      const { height } = node.getBoundingClientRect();
+      const { clientX, clientY, target } = event.targetTouches[0];
+      startDrag({ offsetY, clientX, clientY, target });
+    }
+
+    function handleDragMove(event) {
       const { clientX, clientY } = event.targetTouches[0];
-      startClientX = clientX;
-      startClientY = clientY;
-      const { left, top } = getComputedStyle(event.target);
-      startLeft = parseFloat(left);
-      startTop = parseFloat(top);
-      dx = 0;
-      dy = 0;
-
-      if (shouldResizeTop(offsetY)) {
-        state = states.RESIZING_TOP;
-        console.log('start resizing top');
-      } else if (shouldResizeBottom(offsetY, height)) {
-        state = states.RESIZING_BOTTOM;
-        console.log('start resizing bottom');
-      } else {
-        state = states.DRAGGING;
+      if (state === states.MOVING) {
+        moveSelection.move({ clientX, clientY });
       }
     }
 
-    function dragMove(event) {
-      if (state === states.DRAGGING) {
-        const { clientX, clientY } = event.targetTouches[0];
-        dx = clientX - startClientX;
-        dy = clientY - startClientY;
-        node.style.left = `${startLeft + dx}px`;
-        node.style.top = `${startTop + dy}px`;
+    function handleDragEnd() {
+      if (state === states.MOVING) {
+        moveSelection.end();
       }
-    }
-
-    function dragEnd() {
-      if (state === states.DRAGGING) {
-        node.style.left = `${startLeft}px`;
-        node.dispatchEvent(new CustomEvent('dragSelection', {
-          detail: ({
-            originalStart: start, // used to identify which selection was dragged.
-            originalEnd: end,
-            ...getDeltaRowCol(),
-          }),
-        }));
-      }
-    }
-
-    function getDeltaRowCol() {
-      const rawDeltaRow = dy / rowHeight;
-      const deltaRow = Math.floor(rawDeltaRow / snap + 0.5) * snap;
-      const deltaCol = Math.floor(dx / columnWidth + 0.5);
-      return { deltaRow, deltaCol };
     }
 
     node.addEventListener('touchstart', touchStart);

@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte'
   import { isSelecting } from './stores.js';
-  import { sizePos, dragAndResizable } from 'src/components/calendar/actions/selection.js';
+  import { sizePos, moveAndResizable } from 'src/components/calendar/actions/selection.js';
 
   const { dragSelection } = getContext('dragresize');
 
@@ -15,7 +15,7 @@
   class="selection__container"
   class:pass-through={$isSelecting}
   use:sizePos={{start, end, duration: 0}}
-  use:dragAndResizable={{start, end}}
+  use:moveAndResizable={{start, end}}
   on:dragSelection={dragSelection}
 >
   <div
