@@ -136,9 +136,14 @@ export function createSelection(node, {
     let selecting = false;
 
     function touchStart(event) {
-      if (!selectionEnabled) return;
+      console.log('a')
+      if (!enabled) return;
+      console.log('b')
       initialOffset = getTouchOffset(event);
       timer = setTimeout(() => longPressStart(event), longPressDuration);
+
+      window.addEventListener('touchmove', touchMove);
+      window.addEventListener('touchend', touchEnd);
     }
 
     function longPressStart(event) {
@@ -147,8 +152,14 @@ export function createSelection(node, {
 
       longPressed = true;
       selecting = true;
+      lastClientX = event.targetTouches[0].clientX;
+      lastClientY = event.targetTouches[0].clientY;
+      const { offsetX, offsetY } = getTouchOffset(event);
+      lastOffsetX = offsetX;
+      lastOffsetY = offsetY;
+
       node.dispatchEvent(new CustomEvent('selectStart', {
-        detail: getDayHour(getTouchOffset(event)),
+        detail: getDayHour(offsetX, offsetY),
       }));
     }
 
@@ -157,11 +168,27 @@ export function createSelection(node, {
       if (distanceBetweenOffsets(initialOffset, offset) > 15) {
         moved = true;
       }
-      if (selecting) {
-        node.dispatchEvent(new CustomEvent('selectMove', {
-          detail: getDayHour(getTouchOffset(event)),
-        }));
-      }
+      if (selecting) selectMove(event);
+    }
+
+    function selectMove(event) {
+      // The target of a touch event will always be the node it was triggered
+      // from. Therefore, we do not need to check for target.
+      // In addition, the calendar cannot be scrolled while selecting.
+      // Therefore, we can rely on change in touch position to calculate
+      // day and hours.
+      selectMoveOffNode(event);
+    }
+
+    function selectMoveOffNode(event) {
+      const dx = event.targetTouches[0].clientX - lastClientX;
+      const dy = event.targetTouches[0].clientY - lastClientY;
+      const offsetX = Math.min(Math.max(lastOffsetX + dx, 0), node.offsetWidth);
+      const offsetY = Math.min(Math.max(lastOffsetY + dy, 0), node.offsetHeight);
+
+      node.dispatchEvent(new CustomEvent('selectMove', {
+        detail: getDayHour(offsetX, offsetY),
+      }));
     }
 
     function touchEnd() {
@@ -170,18 +197,15 @@ export function createSelection(node, {
       selecting = false;
       moved = false;
       node.dispatchEvent(new CustomEvent('selectStop'));
+
+      window.removeEventListener('touchmove', touchMove);
+      window.removeEventListener('touchend', touchEnd);
     }
 
     node.addEventListener('touchstart', touchStart);
-    node.addEventListener('touchmove', touchMove);
-    node.addEventListener('touchend', touchEnd);
-    node.addEventListener('contextmenu', event => event.preventDefault());
     return ({
       destroy() {
         node.removeEventListener('touchstart', touchStart);
-        node.removeEventListener('touchmove', touchMove);
-        node.removeEventListener('touchend', touchEnd);
-        node.removeEventListener('touchmove', event => event.preventDefault());
       }
     });
   }

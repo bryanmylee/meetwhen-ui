@@ -37,6 +37,8 @@ html, body {
   position: relative;
   width: 100%;
   margin: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
 }
 
 div, span {
