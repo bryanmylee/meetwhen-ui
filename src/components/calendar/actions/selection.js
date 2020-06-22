@@ -369,17 +369,6 @@ export function sizePos(node, { start, end }) {
 }
 
 /**
- * Positions the top of an element given a numerical hour.
- * @param {HTMLElement} node The action node.
- * @param {{ hour: number }} actionOptions
- * @param actionOptions.hour The numerical hour to position the element with.
- */
-export function top(node, { hour }) {
-  node.style.position = 'absolute';
-  node.style.top = getTop(hour * MS_PER_HOUR);
-}
-
-/**
  * Get the top required given some starting hour.
  * @param {number} startHourInMs Starting hour in ms.
  * @returns {string} The CSS top for the element.

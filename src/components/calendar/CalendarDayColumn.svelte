@@ -1,6 +1,4 @@
 <script>
-  import { top } from 'src/components/calendar/actions/selection.js';
-
   // PROPS
   // =====
   export let day;
@@ -19,8 +17,8 @@
       {#each Array(24) as _, inc}
         <div
           class="hour-separators__separator"
-          use:top={{hour: inc + 1}}
-        ></div>
+          style={`top: calc(var(--row-height) * ${inc})`}
+        />
       {/each}
     </div>
     <!-- RENDERED INTERVALS/SELECTIONS -->
@@ -67,6 +65,7 @@
   }
 
   .hour-separators__separator {
+    position: absolute;
     width: 100%;
     height: 1px;
     background-color: var(--line-2);
