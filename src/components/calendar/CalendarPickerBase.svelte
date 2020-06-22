@@ -71,12 +71,27 @@
   }
 
   function dragSelection(event) {
-    const { originalStart, newStart, newEnd } = event.detail;
+    const { originalStart, originalEnd, deltaRow, deltaCol } = event.detail;
     const draggedSelections = selections.map((selection) => {
       if (+selection.start !== +originalStart) return selection;
+      // Given an event with non-uniform days, we need to determine the new day
+      // by its index.
+      const dayIndex
+          = daysToShow.findIndex((day) => day.isSame(originalStart, 'day'));
+      const newDayIndex
+          = Math.min(Math.max(dayIndex + deltaCol, 0), daysToShow.length - 1);
+      const newDay = daysToShow[newDayIndex];
       return ({
-        start: newStart,
-        end: newEnd,
+        start: originalStart
+            .year(newDay.year())
+            .month(newDay.month())
+            .date(newDay.date())
+            .add(deltaRow, 'hour'),
+        end: originalEnd
+            .year(newDay.year())
+            .month(newDay.month())
+            .date(newDay.date())
+            .add(deltaRow, 'hour'),
       });
     });
     const processedSelections = splitIntervalsOnMidnight(getUnionOfSelections(

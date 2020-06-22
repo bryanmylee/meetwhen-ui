@@ -207,8 +207,8 @@ export function dragAndResizable(node, {
   snapToHour = 0.25,
   resizeHandleSize = 7,
 }) {
-  const pxPerDay = node.offsetWidth;
-  const pxPerHour = node.offsetHeight / ((end - start) / MS_PER_HOUR);
+  const columnWidth = node.offsetWidth;
+  const rowHeight = node.offsetHeight / ((end - start) / MS_PER_HOUR);
   let snap = snapToHour;
 
   function mouseInteraction() {
@@ -271,7 +271,8 @@ export function dragAndResizable(node, {
         node.dispatchEvent(new CustomEvent('dragSelection', {
           detail: ({
             originalStart: start, // used to identify which selection was dragged.
-            ...getNewStartEnd(),
+            originalEnd: end,
+            ...getDeltaRowCol(),
           }),
         }));
 
@@ -279,14 +280,11 @@ export function dragAndResizable(node, {
         window.removeEventListener('mouseup', handleDragUp);
       }
 
-      function getNewStartEnd() {
-        const deltaDay = Math.floor(dx / pxPerDay + 0.5);
-        const rawDeltaHour = dy / pxPerHour;
-        const deltaHour = Math.floor(rawDeltaHour / snap + 0.5) * snap;
-        return ({
-          newStart: dayjs(start + deltaHour * MS_PER_HOUR + deltaDay * MS_PER_DAY),
-          newEnd: dayjs(end + deltaHour * MS_PER_HOUR + deltaDay * MS_PER_DAY),
-        });
+      function getDeltaRowCol() {
+        const rawDeltaRow = dy / rowHeight;
+        const deltaRow = Math.floor(rawDeltaRow / snap + 0.5) * snap;
+        const deltaCol = Math.floor(dx / columnWidth + 0.5);
+        return { deltaRow, deltaCol };
       }
     }
 
