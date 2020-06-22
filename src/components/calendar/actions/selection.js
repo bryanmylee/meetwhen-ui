@@ -32,7 +32,6 @@ export function createSelection(node, {
   daysToShow,
   selectionEnabled = true,
   snapToHour = 0.25,
-  longPressDuration = 500,
 }) {
   let snap = snapToHour;
   let enabled = selectionEnabled;
@@ -40,10 +39,7 @@ export function createSelection(node, {
   const columnWidth = node.offsetWidth / daysToShow.length;
   const rowHeight = node.offsetHeight / 24;
 
-  let lastClientX;
-  let lastClientY;
-  let lastOffsetX;
-  let lastOffsetY;
+  let lastClientX, lastClientY, lastOffsetX, lastOffsetY;
 
   function getDayHour(offsetX, offsetY) {
     const dayIndex = Math.min(
@@ -195,16 +191,25 @@ export function dragAndResizable(node, {
   const columnWidth = node.offsetWidth;
   const rowHeight = node.offsetHeight / ((end - start) / MS_PER_HOUR);
   let snap = snapToHour;
+  // Track the initial state required to calculate drag distance.
+  let startClientX, startClientY, startLeft, startTop, dx, dy;
+
+  function shouldResizeTop(offsetY) {
+    return offsetY < resizeHandleSize;
+  }
+
+  function shouldResizeBottom(offsetY, height) {
+    return height - offsetY < resizeHandleSize;
+  }
+
+  function getDeltaRowCol() {
+    const rawDeltaRow = dy / rowHeight;
+    const deltaRow = Math.floor(rawDeltaRow / snap + 0.5) * snap;
+    const deltaCol = Math.floor(dx / columnWidth + 0.5);
+    return { deltaRow, deltaCol };
+  }
 
   function mouseInteraction() {
-    function shouldResizeTop(offsetY) {
-      return offsetY < resizeHandleSize;
-    }
-
-    function shouldResizeBottom(offsetY, height) {
-      return height - offsetY < resizeHandleSize;
-    }
-
     function setMouseCursor(event) {
       const { height } = node.getBoundingClientRect();
       const { offsetY } = getMouseOffset(event);
@@ -223,19 +228,22 @@ export function dragAndResizable(node, {
       } else if (shouldResizeBottom(offsetY, height)) {
         console.log('start resizing bottom');
       } else {
-        drag(event);
+        mouseDragSelection(event);
       }
     }
 
-    function drag(event) {
-      const { clientX: startClientX, clientY: startClientY} = event;
-      const { left, top } = getComputedStyle(event.target);
-      const startLeft = parseFloat(left);
-      const startTop = parseFloat(top);
-      let dx = 0;
-      let dy = 0;
-      window.addEventListener('mousemove', handleDragMove);
-      window.addEventListener('mouseup', handleDragUp);
+    function mouseDragSelection(event) {
+      function handleDragStart(event) {
+        startClientX = event.clientX;
+        startClientY = event.clientY;
+        const { left, top } = getComputedStyle(event.target);
+        startLeft = parseFloat(left);
+        startTop = parseFloat(top);
+        dx = 0;
+        dy = 0;
+        window.addEventListener('mousemove', handleDragMove);
+        window.addEventListener('mouseup', handleDragUp);
+      }
 
       function handleDragMove(event) {
         const { clientX, clientY } = event;
@@ -261,12 +269,7 @@ export function dragAndResizable(node, {
         window.removeEventListener('mouseup', handleDragUp);
       }
 
-      function getDeltaRowCol() {
-        const rawDeltaRow = dy / rowHeight;
-        const deltaRow = Math.floor(rawDeltaRow / snap + 0.5) * snap;
-        const deltaCol = Math.floor(dx / columnWidth + 0.5);
-        return { deltaRow, deltaCol };
-      }
+      handleDragStart(event);
     }
 
     node.addEventListener('mousemove', setMouseCursor);
@@ -279,10 +282,84 @@ export function dragAndResizable(node, {
     });
   }
 
+  function touchInteraction() {
+    const states = ({
+      DRAGGING: 'DRAGGING',
+      RESIZING_TOP: 'RESIZING_TOP',
+      RESIZING_BOTTOM: 'RESIZING_BOTTOM',
+    });
+    let state = null;
+
+    const touchStart = new longTouchAndDrag({ duration: 500 },
+        dragStart, dragMove, dragEnd);
+
+    function dragStart(event) {
+      const { offsetY } = getTouchOffset(event);
+      const { height } = node.getBoundingClientRect();
+      const { clientX, clientY } = event.targetTouches[0];
+      startClientX = clientX;
+      startClientY = clientY;
+      const { left, top } = getComputedStyle(event.target);
+      startLeft = parseFloat(left);
+      startTop = parseFloat(top);
+      dx = 0;
+      dy = 0;
+
+      if (shouldResizeTop(offsetY)) {
+        state = states.RESIZING_TOP;
+        console.log('start resizing top');
+      } else if (shouldResizeBottom(offsetY, height)) {
+        state = states.RESIZING_BOTTOM;
+        console.log('start resizing bottom');
+      } else {
+        state = states.DRAGGING;
+      }
+    }
+
+    function dragMove(event) {
+      if (state === states.DRAGGING) {
+        const { clientX, clientY } = event.targetTouches[0];
+        dx = clientX - startClientX;
+        dy = clientY - startClientY;
+        node.style.left = `${startLeft + dx}px`;
+        node.style.top = `${startTop + dy}px`;
+      }
+    }
+
+    function dragEnd() {
+      if (state === states.DRAGGING) {
+        node.style.left = `${startLeft}px`;
+        node.dispatchEvent(new CustomEvent('dragSelection', {
+          detail: ({
+            originalStart: start, // used to identify which selection was dragged.
+            originalEnd: end,
+            ...getDeltaRowCol(),
+          }),
+        }));
+      }
+    }
+
+    function getDeltaRowCol() {
+      const rawDeltaRow = dy / rowHeight;
+      const deltaRow = Math.floor(rawDeltaRow / snap + 0.5) * snap;
+      const deltaCol = Math.floor(dx / columnWidth + 0.5);
+      return { deltaRow, deltaCol };
+    }
+
+    node.addEventListener('touchstart', touchStart);
+    return ({
+      destroy() {
+        node.removeEventListener('touchstart', touchStart);
+      }
+    });
+  }
+
   const mouseUpdateDestroy = mouseInteraction();
+  const touchUpdateDestroy = touchInteraction();
   return ({
-    destory() {
+    destroy() {
       mouseUpdateDestroy.destroy();
+      touchUpdateDestroy.destroy();
     }
   });
 }
