@@ -70,7 +70,7 @@
     newSelection = null;
   }
 
-  function dragSelection(event) {
+  function moveSelection(event) {
     const { originalStart, originalEnd, deltaRow, deltaCol } = event.detail;
     const draggedSelections = selections.map((selection) => {
       if (+selection.start !== +originalStart) return selection;
@@ -106,7 +106,7 @@
   }
 
   setContext('dragresize', {
-    dragSelection,
+    moveSelection,
     resizeSelection,
   });
 </script>
