@@ -4,8 +4,8 @@ import { cubicOut } from 'svelte/easing';
 import {
   getMouseOffset,
   getTouchOffset,
-  distanceBetweenOffsets,
 } from 'src/utils/eventHandler.js';
+import longTouchAndDrag from 'src/utils/longTouchAndDrag.js';
 
 const MS_PER_HOUR = 3600000;
 const MS_PER_DAY = 86400000;
@@ -129,29 +129,10 @@ export function createSelection(node, {
   }
 
   function touchInteraction() {
-    let timer = null;
-    let initialOffset = null;
-    let longPressed = false;
-    let moved = false;
-    let selecting = false;
+    const touchStart = new longTouchAndDrag({ duration: 500 },
+        selectStart, selectMove, selectEnd);
 
-    function touchStart(event) {
-      console.log('a')
-      if (!enabled) return;
-      console.log('b')
-      initialOffset = getTouchOffset(event);
-      timer = setTimeout(() => longPressStart(event), longPressDuration);
-
-      window.addEventListener('touchmove', touchMove);
-      window.addEventListener('touchend', touchEnd);
-    }
-
-    function longPressStart(event) {
-      if (timer != null) clearTimeout(timer);
-      if (moved) return;
-
-      longPressed = true;
-      selecting = true;
+    function selectStart(event) {
       lastClientX = event.targetTouches[0].clientX;
       lastClientY = event.targetTouches[0].clientY;
       const { offsetX, offsetY } = getTouchOffset(event);
@@ -163,24 +144,12 @@ export function createSelection(node, {
       }));
     }
 
-    function touchMove(event) {
-      const offset = getTouchOffset(event);
-      if (distanceBetweenOffsets(initialOffset, offset) > 15) {
-        moved = true;
-      }
-      if (selecting) selectMove(event);
-    }
-
     function selectMove(event) {
       // The target of a touch event will always be the node it was triggered
       // from. Therefore, we do not need to check for target.
       // In addition, the calendar cannot be scrolled while selecting.
       // Therefore, we can rely on change in touch position to calculate
       // day and hours.
-      selectMoveOffNode(event);
-    }
-
-    function selectMoveOffNode(event) {
       const dx = event.targetTouches[0].clientX - lastClientX;
       const dy = event.targetTouches[0].clientY - lastClientY;
       const offsetX = Math.min(Math.max(lastOffsetX + dx, 0), node.offsetWidth);
@@ -191,15 +160,8 @@ export function createSelection(node, {
       }));
     }
 
-    function touchEnd() {
-      if (timer != null) clearTimeout(timer);
-      longPressed = false;
-      selecting = false;
-      moved = false;
+    function selectEnd() {
       node.dispatchEvent(new CustomEvent('selectStop'));
-
-      window.removeEventListener('touchmove', touchMove);
-      window.removeEventListener('touchend', touchEnd);
     }
 
     node.addEventListener('touchstart', touchStart);
