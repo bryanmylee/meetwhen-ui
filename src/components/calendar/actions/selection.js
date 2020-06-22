@@ -267,6 +267,7 @@ export function dragAndResizable(node, {
       function handleDragUp() {
         // Update calendar data by dispatching an event, which will call a
         // context function on CalendarPickerBase.
+        node.style.left = `${startLeft}px`;
         node.dispatchEvent(new CustomEvent('dragSelection', {
           detail: ({
             originalStart: start, // used to identify which selection was dragged.
