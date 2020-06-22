@@ -17,15 +17,15 @@
   <div>
     {#if $details === detailsEnum.EVENT_DETAILS}
       <div
-        in:cardIn={{x: -400, duration: 300}}
-        out:cardOut={{x: -400, duration: 300}}
+        in:cardIn={{x: -500, duration: 400}}
+        out:cardOut={{x: -500, duration: 400}}
       >
         <EventDetails title={event.title} description={event.description} />
       </div>
     {:else if $details === detailsEnum.ATTENDANCE}
       <div
-        in:cardIn={{x: 400, duration: 300}}
-        out:cardOut={{x: 400, duration: 300}}
+        in:cardIn={{x: 500, duration: 400}}
+        out:cardOut={{x: 500, duration: 400}}
       >
         <Attendance usernames={Object.keys(event.userIntervalsByUsername)} />
       </div>

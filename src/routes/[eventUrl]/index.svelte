@@ -197,13 +197,13 @@
     <!-- Wrap the slide transition within an extra div to prevent jitter issue
     on Chrome and Firefox -->
       <div>
-        <h3 transition:slide={{duration: 300}}>
+        <h3 transition:slide={{duration: 400}}>
           Indicate your schedule
         </h3>
       </div>
     {:else if $form === formEnum.EDITING}
       <div>
-        <h3 transition:slide={{duration: 300}}>
+        <h3 transition:slide={{duration: 400}}>
           Edit your schedule
         </h3>
       </div>
