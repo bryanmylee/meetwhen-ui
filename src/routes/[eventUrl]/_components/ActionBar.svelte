@@ -82,5 +82,6 @@
 
   .margin-left {
     margin-left: 1rem;
+    display: flex;
   }
 </style>
