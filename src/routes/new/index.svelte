@@ -71,8 +71,8 @@
   >
     <h3>Create an account</h3>
     <TextInput label="Username" bind:value={username} required {attempted} />
-    <TextInput label="Password" bind:value={password} isPassword required {attempted} />
-    <h5>Account is unique to this event only</h5>
+    <TextInput label="Password" bind:value={password}
+      isPassword required {attempted} tip={"Account is unique to this event only"}/>
   </div>
 
   <!-- CALENDAR PICKER CARD -->

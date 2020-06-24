@@ -29,10 +29,7 @@
     <h3>{prompt}</h3>
     <TextInput label="Username" bind:value={username} required {attempted} />
     <TextInput label="Password" bind:value={password}
-        isPassword required {attempted} />
-    {#if tip}
-      <h5>{tip}</h5>
-    {/if}
+        isPassword required {attempted} {tip} />
   </div>
 </div>
 
@@ -41,13 +38,5 @@
     color: var(--text-1);
     margin: 0;
     font-weight: 700;
-  }
-
-  h5 {
-    color: var(--text-3);
-    margin: 0;
-    font-size: 0.8em;
-    font-style: italic;
-    font-weight: 400;
   }
 </style>

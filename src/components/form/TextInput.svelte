@@ -11,6 +11,7 @@
   export let isPassword = false;
   export let required = false;
   export let attempted = false;
+  export let tip = '';
 
   // STATE
   // =====
@@ -29,6 +30,9 @@
   <label use:labelAction={{focused, value, showError}}>
     {label}
   </label>
+  {#if tip && tip.trim().length !== 0}
+    <h5>{tip}</h5>
+  {/if}
 </div>
 
 <style>
@@ -65,5 +69,13 @@
     transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -webkit-transition: all 0.2s ease;
+  }
+
+  h5 {
+    color: var(--text-3);
+    margin: 0.5rem 0 0;
+    font-size: 0.8em;
+    font-style: italic;
+    font-weight: 400;
   }
 </style>
