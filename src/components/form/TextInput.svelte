@@ -35,7 +35,7 @@
   div {
     position: relative;
     margin-top: 0.6em;
-    margin-right: 2em;
+    /* margin-right: 2em; */
     padding-bottom: 0.2em;
   }
 
@@ -45,7 +45,7 @@
     border-radius: 0;
     border: none;
     border-bottom: 1px solid var(--line-1);
-    padding: 10px 10px 5px 5px;
+    padding: 10px 0 5px;
     margin-bottom: 1px;
     transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
@@ -61,7 +61,7 @@
     font-size: 1em;
     color: var(--text-3);
     position: absolute;
-    left: 5px;
+    /* left: 5px; */
     top: 10px;
     pointer-events: none;
     transition: all 0.2s ease;
