@@ -33,20 +33,18 @@
 
 <style>
   div {
+    font-size: 1em;
     position: relative;
-    margin-top: 0.6em;
-    /* margin-right: 2em; */
-    padding-bottom: 0.2em;
+    margin-top: 1rem;
   }
 
   input {
-    font-size: 1em;
+    margin: 0;
     width: 100%;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid var(--line-1);
-    padding: 10px 0 5px;
-    margin-bottom: 1px;
+    background-color: var(--background-1);
+    border-radius: 5px;
+    border: 1px solid var(--line-1);
+    padding: 1.2em 10px 0.3em;
     transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -webkit-transition: all 0.2s ease;
@@ -54,15 +52,15 @@
 
   input:focus {
     outline: none;
-    border-bottom: 1px solid var(--primary-1);
+    border: 1px solid var(--primary-1);
   }
 
   label {
     font-size: 1em;
     color: var(--text-3);
     position: absolute;
-    /* left: 5px; */
-    top: 10px;
+    left: 10px;
+    top: 0.8rem;
     pointer-events: none;
     transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;

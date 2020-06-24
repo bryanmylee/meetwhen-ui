@@ -14,13 +14,13 @@ export function inputAction(node, { isPassword }) {
     node.type = 'password';
   }
   function normal() {
-    node.style.borderBottom = '1px solid var(--line-1)';
+    node.style.border = '1px solid var(--line-1)';
   }
   function focus() {
-    node.style.borderBottom = '1px solid var(--primary-1)';
+    node.style.border = '1px solid var(--primary-1)';
   }
   function error() {
-    node.style.borderBottom = '1px solid var(--error-0)';
+    node.style.border = '1px solid var(--error-0)';
   }
   return ({
     update({ focused, showError }) {
@@ -43,12 +43,12 @@ export function inputAction(node, { isPassword }) {
 export function labelAction(node) {
   function normal() {
     node.style.fontSize = '1em';
-    node.style.top = '10px';
+    node.style.top = '0.8em';
     node.style.color = 'var(--text-3)';
   }
   function focus() {
-    node.style.fontSize = '0.8em';
-    node.style.top = '-0.6em';
+    node.style.fontSize = '0.7em';
+    node.style.top = '0.3rem';
     node.style.color = 'var(--primary-1)';
   }
   function error() {
