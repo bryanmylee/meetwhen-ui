@@ -27,11 +27,11 @@
 
   // NODES
   // =====
-  let referenceNode;
+  let targetNode;
 </script>
 
 <div
-  bind:this={referenceNode}
+  bind:this={targetNode}
   class={"other-user-selection"}
   class:collapsed={isCollapsed}
   class:pass-through={$isSelecting}
@@ -46,7 +46,7 @@
 />
 {#if mouseOver}
   <OtherUsersPopover
-    {referenceNode} {clientY}
+    {targetNode} {clientY}
     {start} {end} {usernames}
   />
 {/if}

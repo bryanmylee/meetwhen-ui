@@ -3,21 +3,21 @@ import { createPopper } from '@popperjs/core';
 /**
  * Provides dynamic positioning for a popover element which follows the mouse y
  * position.
- * @param {HTMLElement} popoverNode The element acting as the popover.
+ * @param {HTMLElement} popoverNode The node acting as the popover.
  * @param {{
- *   referenceNode: HTMLElement,
+ *   targetNode: HTMLElement,
  *   clientY: number,
- *   ...options: Options
+ *   options: Options
  * }} actionOptions
- * @param actionOptions.referenceNode The reference element of the popover.
+ * @param actionOptions.targetNode The target node of the popover.
  * mouse, and the popper options.
  * @param actionOptions.clientY The clientY of the mouse.
  * @param actionOptions.options The PopperJS options.
  */
 export function popperFollowMouseY(popoverNode,
-    { referenceNode, clientY = 0, ...options }) {
+    { targetNode, clientY = 0, popperOptions }) {
   function generateGetBoundingClientRect(clientY) {
-    const rect = referenceNode.getBoundingClientRect();
+    const rect = targetNode.getBoundingClientRect();
     return () => ({
       width: rect.width, height: 0,
       top: clientY, bottom: clientY,
@@ -27,15 +27,15 @@ export function popperFollowMouseY(popoverNode,
 
   const virtualNode = ({
     getBoundingClientRect: generateGetBoundingClientRect(clientY),
-    contextElement: referenceNode,
+    contextElement: targetNode,
   });
-  let instance = createPopper(virtualNode, popoverNode, options);
+  let instance = createPopper(virtualNode, popoverNode, popperOptions);
 
   return ({
-    update({ referenceNode, clientY = 0, ...options }) {
+    update({ targetNode, clientY = 0, popperOptions }) {
       virtualNode.getBoundingClientRect = generateGetBoundingClientRect(clientY);
       instance.destroy();
-      instance = createPopper(virtualNode, popoverNode, options);
+      instance = createPopper(virtualNode, popoverNode, popperOptions);
       instance.update();
     },
     destroy() {

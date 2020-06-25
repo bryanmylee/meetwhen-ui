@@ -7,14 +7,12 @@
   export let end;
   export let usernames;
   // For PopperJS
-  export let referenceNode = null;
+  export let targetNode = null;
   export let clientY = 0;
 
   // REACTIVE ATTRIBUTES
   // ===================
   $: popperOptions = ({
-    referenceNode,
-    clientY,
     placement: 'right-start',
     modifiers: [
       {
@@ -42,7 +40,7 @@
       : `${usernames.length} people:`;
 </script>
 
-<div class="popover" use:popperFollowMouseY={popperOptions}>
+<div class="popover" use:popperFollowMouseY={{targetNode, clientY, popperOptions}}>
   <div class="popover__content">
     <h5>{timeString}</h5>
     <h5>{countString}</h5>
