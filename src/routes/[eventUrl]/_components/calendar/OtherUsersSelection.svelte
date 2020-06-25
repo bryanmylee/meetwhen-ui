@@ -56,7 +56,6 @@
     position: absolute;
     z-index: 10;
     width: calc(100% + 1px);
-    border-radius: 5px;
     box-sizing: border-box;
     transition: width 400ms var(--ease-out-sharp), background-color 400ms var(--ease-out-sharp);
     pointer-events: all;
