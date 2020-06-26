@@ -1,6 +1,6 @@
 /**
  * Programmatically sets the background color of an element based on a color
- * scale.
+ * scale, with highlighting on mouseover.
  * @param {HTMLElement} node The action node.
  * @param {{
  *   scale: chroma.Scale,
@@ -15,18 +15,35 @@
  * ratio.
  */
 export default function colorGradient(node,
-    { scale, ratio, highlighted, opacitySensitivity = 0.6 }) {
-  function style(scale, ratio, highlighted) {
+    { scale, ratio, opacitySensitivity = 0.6 }) {
+  function applyStyle(scale, ratio, highlighted = false) {
     node.style.backgroundColor = scale(ratio)
         .alpha(ratio * opacitySensitivity + (1 - opacitySensitivity))
         .brighten(highlighted ? 0.5 : 0);
     node.style.borderColor = scale(ratio)
         .darken();
   }
-  style(scale, ratio, highlighted);
+
+  function styleWithHighlight() {
+    applyStyle(scale, ratio, true);
+  }
+
+  function styleNoHighlight() {
+    applyStyle(scale, ratio);
+  }
+
+  node.addEventListener('mouseover', styleWithHighlight);
+  node.addEventListener('mouseleave', styleNoHighlight);
+
+  applyStyle(scale, ratio);
+
   return ({
-    update({ scale, ratio, highlighted }) {
-      style(scale, ratio, highlighted);
+    update({ scale, ratio }) {
+      applyStyle(scale, ratio);
+    },
+    destroy() {
+      node.removeEventListener('mouseover', styleWithHighlight);
+      node.removeEventListener('mouseleave', styleNoHighlight);
     }
   })
 }
