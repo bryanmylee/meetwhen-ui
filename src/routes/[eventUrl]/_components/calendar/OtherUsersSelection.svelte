@@ -18,6 +18,7 @@
   export let minUsernameCount = 0;
   export let maxUsernameCount = 1;
   export let isCollapsed = false;
+  export let isSelected = false;
 
   // REACTIVE ATTRIBUTES
   // ===================
@@ -46,7 +47,8 @@
 
 <div
   bind:this={targetNode}
-  class={"other-user-selection"}
+  class="other-user-selection"
+  class:selected={isSelected}
   class:collapsed={isCollapsed}
   class:pass-through={$isSelecting}
   use:sizePos={{start: start, end: end}}
@@ -66,8 +68,8 @@
     pointer-events: all;
   }
 
-  .other-user-selection:hover {
-    border: 2px solid;
+  .other-user-selection.selected {
+    border: 1px solid;
   }
 
   .collapsed {

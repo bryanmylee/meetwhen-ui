@@ -109,6 +109,7 @@
           {minUsernameCount}
           {maxUsernameCount}
           {isCollapsed}
+          isSelected={selectedDetail && selectedDetail.start === interval.start}
         />
       {/each}
       <!-- DEFINED SELECTIONS -->
