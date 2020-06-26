@@ -1,5 +1,4 @@
-<script>import { right } from '@popperjs/core';
-
+<script>
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
   import { popper } from 'src/actions/popper.js';
@@ -73,17 +72,34 @@
 
   .popover__arrow {
     z-index: 31;
-    left: -0.4rem;
+    left: -0.45rem;
     width: 0.5rem;
     height: 1rem;
     clip-path: polygon(0 50%, 100% 0, 100% 100%);
-    background-color: white;
+    background-color: var(--line-1);
     pointer-events: none;
+  }
+
+  .popover__arrow:before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1.5px;
+    width: calc(0.5rem - 1px);
+    height: calc(1rem - 2px);
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+    background-color: white;
   }
 
   :global([data-popper-placement^="left"]) .popover__arrow {
     left: unset;
-    right: -0.4rem;
+    right: -0.44rem;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+
+  :global([data-popper-placement^="left"]) .popover__arrow:before {
+    left: unset;
+    right: 1.5px;
     clip-path: polygon(0 0, 100% 50%, 0 100%);
   }
 
