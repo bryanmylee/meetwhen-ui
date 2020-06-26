@@ -20,12 +20,9 @@ const MS_PER_HOUR = 3600000;
  * @param {{
  *   daysToShow: Dayjs[],
  *   snapToHour: number,
- *   longPressDuration: number,
  * }} actionOptions
  * @param actionOptions.daysToShow An array of days to show in the calendar.
  * @param actionOptions.snapToHour The number of hours to snap selections to.
- * @param actionOptions.longPressDuration The time to wait before triggering a
- * long press in ms.
  */
 export function createSelection(node, {
   daysToShow,
@@ -181,6 +178,24 @@ export function createSelection(node, {
   });
 }
 
+/**
+ *
+ * @param {HTMLElement} node The defined selection element node.
+ * @param {{
+ *   start: Dayjs,
+ *   end: Dayjs,
+ *   snapToHour: number,
+ *   resizeHandleSize: number
+ * }} actionOptions
+ * @param actionOptions.start The start of the selection.
+ * @param actionOptions.end The end of the selection.
+ * @param actionOptions.snapToHour The number of hours to snap move and resize
+ * to when dragging.
+ * @param actionOptions.resizeHandleSize The number of pixels from the edge of
+ * the selection element to treat as a resize handle. Clicks beginning within
+ * this boundary will be treated as resize events. Otherwise, they are treated
+ * as move events.
+ */
 export function moveAndResizable(node, {
   start,
   end,
@@ -242,6 +257,10 @@ export function moveAndResizable(node, {
     return height - offsetY < resizeHandleSize;
   }
 
+  // `moveSelection`, `resizeSelectionTop`, and `resizeSelectionBottom` objects
+  // contain handlers for moving/ending a mouse or touch drag. move/end are
+  // called whenever the `mousemove/touchmove` and `mouseup/touchend` events are
+  // dispatched.
   const moveSelection = ({
     move({ clientX, clientY }) {
       dx = clientX - startClientX;

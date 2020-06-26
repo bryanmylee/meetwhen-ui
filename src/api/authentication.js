@@ -7,11 +7,11 @@
  *   username: string
  *   password: string
  * }} userDetails The user details.
- * @returns {{
+ * @returns {Promise<{
  *   eventUrl: string,
  *   accessToken: string,
  *   accessTokenLifetime: string,
- * }} The access token response.
+ * }>} The access token response.
  * @throws An error if the event does not exist, user does not exist, or
  * password is incorrect.
  */
@@ -40,9 +40,9 @@ export async function login(fetch, apiUrl, eventUrl, userDetails) {
  * @param {Function} fetch The fetch function to use.
  * @param {string} apiUrl The URL of the API endpoint.
  * @param {string} eventUrl The URL identifier of the event.
- * @returns {{
+ * @returns {Promise<{
  *   message: string,
- * }} The logout response.
+ * }>} The logout response.
  * @throws An error if the logout fails.
  */
 export async function logout(fetch, apiUrl, eventUrl) {
@@ -69,11 +69,11 @@ export async function logout(fetch, apiUrl, eventUrl) {
  * @param {Function} fetch The fetch function to use.
  * @param {string} apiUrl The URL of the API endpoint.
  * @param {string} eventUrl The URL identifier of the event.
- * @returns {{
+ * @returns {Promise<{
  *   eventUrl: string,
  *   accessToken: string,
  *   accessTokenLifetime: string,
- * }} The access token response.
+ * }>} The access token response.
  * @throws An error if the refresh token does not exist.
  */
 export async function getAccessToken(fetch, apiUrl, eventUrl) {

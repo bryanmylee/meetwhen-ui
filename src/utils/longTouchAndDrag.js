@@ -1,5 +1,23 @@
 import { getTouchOffset, distanceBetweenOffsets } from 'src/utils/eventHandler.js';
 
+/**
+ *
+ * @param {{
+ *   duration: number,
+ *   moveSens: number,
+ * }} options
+ * @param options.duration The number of milliseconds after the touch event
+ * starts before the drag event is triggered.
+ * @param options.moveSens The number of pixels the touch event is allowed to
+ * move without cancelling the drag event. This allows the long touch drag to be
+ * used on scrollable elements, as the drag event will not be triggered if the
+ * touch moves too far, defaulting to a scroll event instead.
+ * @param {Function} onDragStart The callback for when the touch drag event
+ * starts.
+ * @param {Function} onDragMove The callback for when the touch event is moved
+ * while dragging.
+ * @param {Function} onDragEnd The callback for when the touch drag event ends.
+ */
 export default function longTouchAndDrag(
     { duration = 200, moveSens = 5 }, onDragStart, onDragMove, onDragEnd) {
   let timer = null;

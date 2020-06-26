@@ -147,6 +147,7 @@ export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
  *   intervals: interval[],
  *   accessToken: string,
  * }} userDetails The details of the user being edited.
+ * @returns {Promise<void>} Resolved when the intervals have been updated.
  * @throws An error if the access token is not set, or is invalid.
  */
 export async function editUserIntervals(fetch, apiUrl, eventUrl, userDetails) {
