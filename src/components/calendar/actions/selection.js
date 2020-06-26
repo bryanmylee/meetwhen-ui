@@ -125,6 +125,7 @@ export function createSelection(node, {
         selectStart, selectMove, selectEnd);
 
     function selectStart(event) {
+      if (!enabled) return;
       lastClientX = event.targetTouches[0].clientX;
       lastClientY = event.targetTouches[0].clientY;
       const { offsetX, offsetY } = getTouchOffset(event);
