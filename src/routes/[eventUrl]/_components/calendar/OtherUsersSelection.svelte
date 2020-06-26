@@ -15,12 +15,14 @@
   export let start;
   export let end;
   export let usernames;
-  export let maxUsernameCount = 0;
+  export let minUsernameCount = 0;
+  export let maxUsernameCount = 1;
   export let isCollapsed = false;
 
   // REACTIVE ATTRIBUTES
   // ===================
-  $: ratio = usernames.length / maxUsernameCount;
+  $: ratio = (usernames.length - minUsernameCount)
+      / Math.max(maxUsernameCount - minUsernameCount, 1);
 
   // STATE
   // =====
@@ -65,7 +67,7 @@
   }
 
   .other-user-selection:hover {
-    border: 1px solid;
+    border: 2px solid;
   }
 
   .collapsed {

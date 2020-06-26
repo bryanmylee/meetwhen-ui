@@ -6,19 +6,15 @@
  *   scale: chroma.Scale,
  *   ratio: number,
  *   highlighted: boolean,
- *   opacitySensitivity: number
  *  }} actionOptions
  * @param actionOptions.scale The ChromaJS color scale to use.
  * @param actionOptions.ratio The ratio along the scale.
  * @param actionOptions.highlighted Whether the node should be highlighted.
- * @param actionOptions.opacitySensitivity How sensitive the opacity is to
- * ratio.
  */
 export default function colorGradient(node,
-    { scale, ratio, opacitySensitivity = 0.6 }) {
+    { scale, ratio }) {
   function applyStyle(scale, ratio, highlighted = false) {
     node.style.backgroundColor = scale(ratio)
-        .alpha(ratio * opacitySensitivity + (1 - opacitySensitivity))
         .brighten(highlighted ? 0.5 : 0);
     node.style.borderColor = scale(ratio)
         .darken();

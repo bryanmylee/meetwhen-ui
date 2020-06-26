@@ -55,6 +55,11 @@
   $: userIntervalsByTime
       = splitIntervalsOnMidnight(getMergedIntervals(filteredUserIntervalsByUsername));
 
+  // The minimum number of usernames in any given interval.
+  $: minUsernameCount = userIntervalsByTime.reduce((min, interval) => {
+    const { length } = interval.usernames;
+    return min <= length ? min : length;
+  }, Object.keys(userIntervalsByUsername).length);
   // The maximum number of usernames in any given interval.
   $: maxUsernameCount = userIntervalsByTime.reduce((max, interval) => {
     const { length } = interval.usernames;
@@ -101,6 +106,7 @@
         <OtherUsersSelection
           on:selectInterval={selectInterval}
           {...interval}
+          {minUsernameCount}
           {maxUsernameCount}
           {isCollapsed}
         />

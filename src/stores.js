@@ -38,13 +38,7 @@ function getUser() {
 
 export const user = getUser();
 
-const colors = ['GnBu', 'BuGn', 'PuBuGn', 'PuRd', 'YlOrRd'];
-function getColorScale(initialColors = colors[0]) {
-  const scale = writable(chroma.scale(initialColors));
-  return ({
-    subscribe: scale.subscribe,
-    set: (colors) => scale.set(chroma.scale(colors)),
-  });
-}
+const green = chroma.scale(['A0E8AF', '1C9C83']).mode('lab');
+console.log(green(0.5).hex())
 
-export const colorScale = getColorScale();
+export const colorScale = writable(green);
