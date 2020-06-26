@@ -28,7 +28,7 @@
     width: 100%;
     margin: 0 0.2em;
     border-radius: 5px;
-    background-color: var(--primary-select);
+    background-color: var(--primary-select-2);
     box-shadow: var(--shadow-med);
   }
 </style>

@@ -75,7 +75,8 @@
 
   .name-pill.selected {
     color: white;
-    background-color: var(--primary-1);
+    background-color: var(--primary-select-1);
+    border-color: transparent;
   }
 
   h5 {
