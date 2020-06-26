@@ -24,11 +24,8 @@
       },
     ],
   });
-
-  // ATTRIBUTES
-  // ==========
-  const timeString = `${start.format('h:mm')} - ${end.format('h:mma')}`;
-  const countString = usernames.length === 1
+  $: timeString = `${start.format('h:mm')} - ${end.format('h:mma')}`;
+  $: countString = usernames.length === 1
       ? '1 person:'
       : `${usernames.length} people:`;
 
