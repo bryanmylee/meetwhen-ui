@@ -113,14 +113,6 @@
     font-weight: 500;
   }
 
-  h5 {
-    color: var(--text-3);
-    margin: 0;
-    font-size: 0.8em;
-    font-style: italic;
-    font-weight: 400;
-  }
-
   .button {
     justify-self: end;
     width: fit-content;
