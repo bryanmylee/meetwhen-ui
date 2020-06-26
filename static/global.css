@@ -100,6 +100,14 @@ div, span {
   padding: 0.8rem;
 }
 
+.tip {
+  color: var(--text-3);
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  font-style: italic;
+  font-weight: 400;
+}
+
 /* Picker */
 .cell {
   z-index: 0;

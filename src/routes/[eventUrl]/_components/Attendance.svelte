@@ -36,7 +36,7 @@
       </div>
     {/each}
   </div>
-  <h5>Select a username to see their schedule</h5>
+  <h5 class="tip">Select a username to see their schedule</h5>
 </div>
 
 <style>
@@ -77,13 +77,5 @@
     color: white;
     background-color: var(--primary-select-1);
     border-color: transparent;
-  }
-
-  h5 {
-    color: var(--text-3);
-    margin: 0.5rem 0 0;
-    font-size: 0.8rem;
-    font-style: italic;
-    font-weight: 400;
   }
 </style>
