@@ -26,8 +26,8 @@
   });
   $: timeString = `${start.format('h:mm')} - ${end.format('h:mma')}`;
   $: countString = usernames.length === 1
-      ? '1 person:'
-      : `${usernames.length} people:`;
+      ? '1 person'
+      : `${usernames.length} people`;
 
   // STATE FUNCTIONS
   // ===============
@@ -40,8 +40,8 @@
 
 <div class="popover" use:popper={{targetNode, popperOptions}}>
   <div class="popover__content">
-    <h5>{timeString}</h5>
     <h5>{countString}</h5>
+    <h5 class="tip">{timeString}</h5>
     <div class="names__container">
       {#each usernames.sort() as username}
         <p>{username}</p>
