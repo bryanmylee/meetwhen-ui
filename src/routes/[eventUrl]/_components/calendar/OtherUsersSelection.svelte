@@ -1,4 +1,6 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
   import { fade } from 'svelte/transition';
 
   import { colorScale } from 'src/stores.js';
@@ -22,12 +24,22 @@
 
   // STATE
   // =====
-  let mouseOver = false;
-  let clientY;
+  let showPopover = false;
 
   // NODES
   // =====
   let targetNode;
+
+  // STATE FUNCTIONS
+  // ===============
+  function handleClick(event) {
+    dispatch('selectInterval', {
+      start,
+      end,
+      usernames,
+      targetNode,
+    });
+  }
 </script>
 
 <div
@@ -35,21 +47,12 @@
   class={"other-user-selection"}
   class:collapsed={isCollapsed}
   class:pass-through={$isSelecting}
-  class:highlighted={mouseOver}
   use:sizePos={{start: start, end: end}}
-  use:colorGradient={{scale: $colorScale, ratio, highlighted: mouseOver}}
-  on:mouseover={() => {mouseOver = true}}
-  on:mouseleave={() => {mouseOver = false}}
-  on:mousemove={(event) => clientY = event.clientY}
+  use:colorGradient={{scale: $colorScale, ratio}}
+  on:click={handleClick}
   in:fade={{duration: 100}}
   out:fade={{duration: 200, delay: 50}}
 />
-{#if mouseOver}
-  <OtherUsersPopover
-    {targetNode} {clientY}
-    {start} {end} {usernames}
-  />
-{/if}
 
 <style>
   .other-user-selection {
@@ -61,7 +64,7 @@
     pointer-events: all;
   }
 
-  .other-user-selection.highlighted {
+  .other-user-selection:hover {
     border: 1px solid;
   }
 

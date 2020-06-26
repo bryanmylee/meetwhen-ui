@@ -1,5 +1,7 @@
 <script>
-  import { popperFollowMouseY } from 'src/actions/popper.js';
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
+  import { popper } from 'src/actions/popper.js';
 
   // PROPS
   // =====
@@ -8,25 +10,16 @@
   export let usernames;
   // For PopperJS
   export let targetNode = null;
-  export let clientY = 0;
 
   // REACTIVE ATTRIBUTES
   // ===================
   $: popperOptions = ({
-    placement: 'right-start',
+    placement: 'right',
     modifiers: [
       {
         name: 'offset',
         options: {
-          offset: ({ placement }) =>
-              placement.endsWith('end') ? [21, 9] : [-21, 9],
-        },
-      },
-      {
-        name: 'eventListeners',
-        options: {
-          scroll: false,
-          resize: false,
+          offset: [0, 9],
         },
       },
     ],
@@ -38,9 +31,17 @@
   const countString = usernames.length === 1
       ? '1 person:'
       : `${usernames.length} people:`;
+
+  // STATE FUNCTIONS
+  // ===============
+  function handleClick(event) {
+    if (event.target !== targetNode) {
+      dispatch('deselectInterval');
+    }
+  }
 </script>
 
-<div class="popover" use:popperFollowMouseY={{targetNode, clientY, popperOptions}}>
+<div class="popover" use:popper={{targetNode, popperOptions}}>
   <div class="popover__content">
     <h5>{timeString}</h5>
     <h5>{countString}</h5>
@@ -50,6 +51,8 @@
   </div>
   <div data-popper-arrow class="popover__arrow"></div>
 </div>
+
+<svelte:window on:click={handleClick}/>
 
 <style>
   .popover {

@@ -10,6 +10,7 @@
   import CalendarDayColumn from 'src/components/calendar/CalendarDayColumn.svelte';
   import UnavailableColumnOverlay from './UnavailableColumnOverlay.svelte';
   import OtherUsersSelection from './OtherUsersSelection.svelte';
+  import OtherUsersPopover from './OtherUsersPopover.svelte';
   import DefinedSelection from './DefinedSelection.svelte';
   import NewSelection from './NewSelection.svelte';
 
@@ -21,6 +22,21 @@
   // =====
   export let eventIntervals = [];
   export let userIntervalsByUsername = {};
+
+  // STATE
+  // =====
+  export let selectedDetail = null;
+
+  // EVENT HANDLERS
+  // ==============
+  function selectInterval(event) {
+    const { detail } = event;
+    if (selectedDetail && selectedDetail.start === detail.start) {
+      selectedDetail = null;
+    } else {
+      selectedDetail = event.detail;
+    }
+  }
 
   // REACTIVE ATTRIBUTES
   // ===================
@@ -82,7 +98,12 @@
       <!-- OTHER USER SELECTIONS -->
       {#each userIntervalsByTime.filter((interval) => interval.start.isSame(day, 'date'))
           as interval (`${+interval.start}-${+interval.end}`)}
-        <OtherUsersSelection {...interval} {maxUsernameCount} {isCollapsed} />
+        <OtherUsersSelection
+          on:selectInterval={selectInterval}
+          {...interval}
+          {maxUsernameCount}
+          {isCollapsed}
+        />
       {/each}
       <!-- DEFINED SELECTIONS -->
       {#each selections.filter((selection) => selection.start.isSame(day, 'date'))
@@ -96,4 +117,10 @@
       {/each}
     </CalendarDayColumn>
   {/each}
+  {#if selectedDetail}
+    <OtherUsersPopover
+      on:deselectInterval={() => selectedDetail = null}
+      {...selectedDetail}
+    />
+  {/if}
 </CalendarPickerBase>
