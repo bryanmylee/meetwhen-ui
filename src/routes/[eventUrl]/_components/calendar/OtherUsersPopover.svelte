@@ -1,4 +1,5 @@
-<script>
+<script>import { right } from '@popperjs/core';
+
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
   import { popper } from 'src/actions/popper.js';
@@ -42,9 +43,11 @@
   <div class="popover__content">
     <h5>{timeString}</h5>
     <h5>{countString}</h5>
-    {#each usernames as username}
-      <p>{username}</p>
-    {/each}
+    <div class="names__container">
+      {#each usernames.sort() as username}
+        <p>{username}</p>
+      {/each}
+    </div>
   </div>
   <div data-popper-arrow class="popover__arrow"></div>
 </div>
@@ -63,7 +66,6 @@
     height: -moz-max-content;
     height: -webkit-max-content;
     background-color: white;
-    padding: 0.5em;
     border: 1px solid var(--line-1);
     border-radius: 5px;
     /* box-shadow: var(--shadow-med); */
@@ -86,10 +88,21 @@
   }
 
   h5 {
-    margin: 0.2em 0 0.5em;
+    margin: 1em 1em;
+  }
+
+  .names__container {
+    max-height: 15rem;
+    overflow-y: auto;
+    padding: 1em;
+    border-top: 1px solid var(--line-1);
   }
 
   p {
-    margin: 0.2em 0;
+    margin: 0 0 0.5em;
+  }
+
+  p:last-child {
+    margin: 0;
   }
 </style>
