@@ -64,8 +64,9 @@
     height: -webkit-max-content;
     background-color: white;
     padding: 0.5em;
+    border: 1px solid var(--line-1);
     border-radius: 5px;
-    box-shadow: var(--shadow-med);
+    /* box-shadow: var(--shadow-med); */
   }
 
   .popover__arrow {
@@ -75,7 +76,6 @@
     height: 1rem;
     clip-path: polygon(0 50%, 100% 0, 100% 100%);
     background-color: white;
-    box-shadow: var(--shadow-med);
     pointer-events: none;
   }
 
