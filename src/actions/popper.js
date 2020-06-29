@@ -15,8 +15,16 @@ import { createPopper } from '@popperjs/core';
  * @param actionOptions.popperOptions The PopperJS options.
  */
 export function popperFollowMouseY(popoverNode,
-    { targetNode, clientY = 0, popperOptions }) {
-  function generateGetBoundingClientRect(clientY) {
+    { targetNode, popperOptions }) {
+  let clientY = 0;
+
+  function handleMouseMove(event) {
+    clientY = event.clientY;
+    virtualNode.getBoundingClientRect = generateGetBoundingClientRect();
+    instance.update();
+  }
+
+  function generateGetBoundingClientRect() {
     const rect = targetNode.getBoundingClientRect();
     return () => ({
       width: rect.width, height: 0,
@@ -26,14 +34,17 @@ export function popperFollowMouseY(popoverNode,
   }
 
   const virtualNode = ({
-    getBoundingClientRect: generateGetBoundingClientRect(clientY),
+    getBoundingClientRect: generateGetBoundingClientRect(),
     contextElement: targetNode,
   });
+
   let instance = createPopper(virtualNode, popoverNode, popperOptions);
 
+  window.addEventListener('mousemove', handleMouseMove);
+
   return ({
-    update({ targetNode, clientY = 0, popperOptions }) {
-      virtualNode.getBoundingClientRect = generateGetBoundingClientRect(clientY);
+    update({ targetNode, popperOptions }) {
+      virtualNode.getBoundingClientRect();
       virtualNode.contextElement = targetNode;
       instance.destroy();
       instance = createPopper(virtualNode, popoverNode, popperOptions);
@@ -41,6 +52,7 @@ export function popperFollowMouseY(popoverNode,
     },
     destroy() {
       instance.destroy();
+      window.removeEventListener('mousemove', handleMouseMove);
     }
   });
 }
