@@ -39,6 +39,5 @@ function getUser() {
 export const user = getUser();
 
 const green = chroma.scale(['BDEFC8', '1C9C83']).mode('lab');
-console.log(green(0.5).hex())
 
 export const colorScale = writable(green);

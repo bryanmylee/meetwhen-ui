@@ -4,9 +4,6 @@
 
   import { selectedUsernames } from '../stores.js';
 
-  // BINDINGS
-  // ========
-
   // PROPS
   // =====
   export let usernames;
@@ -66,7 +63,7 @@
   }
 
   .name-pill:hover {
-    color: var(--text-3);
+    box-shadow: var(--shadow-small);
   }
 
   .name-pill:active {
