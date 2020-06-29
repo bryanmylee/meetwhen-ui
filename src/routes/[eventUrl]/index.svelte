@@ -4,20 +4,22 @@
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
-    // Check for refresh token by getting access token.
     try {
-      const { accessToken } = await getAccessToken(
-          this.fetch, session.API_URL, eventUrl);
-      return ({
-        event: await getEvent(this.fetch, session.API_URL, eventUrl),
-        accessToken,
-      });
+      const event = await getEvent(this.fetch, session.API_URL, eventUrl);
+      let accessToken = null;
+      // Check for refresh token on browser by getting access token.
+      if (process.browser) {
+        try {
+          accessToken = (await getAccessToken(
+              this.fetch, session.API_URL, eventUrl)).accessToken;
+        } catch (err) {
+          // Refresh token not found.
+          console.log(err.message);
+        }
+      }
+      return ({ event, accessToken });
     } catch (err) {
-      // Refresh token not found.
       console.log(err.message);
-      return ({
-        event: await getEvent(this.fetch, session.API_URL, eventUrl),
-      });
     }
   }
 </script>
@@ -25,14 +27,10 @@
 <script>
   import { stores } from '@sapper/app';
   const { session } = stores();
-  import { fade, slide } from 'svelte/transition';
-  import dayjs from 'dayjs';
+  import { slide } from 'svelte/transition';
 
   import { user } from 'src/stores.js';
-  import {
-    layoutEnum, detailsEnum, formEnum,
-    layout, details, form, selectedUsernames,
-  } from './stores.js';
+  import { layoutEnum, formEnum, layout, form } from './stores.js';
   import { undoRedo } from 'src/actions/hotkeys.js';
   import mediaQuery from 'src/actions/mediaQuery.js';
   import undoable from 'src/utils/undoable.js';
