@@ -13,10 +13,10 @@
   </div>
   <div class="col__body" class:skipped-day={skipped} >
     <!-- SEPARATOR LINES -->
-    <div class="col__hour-separators">
+    <div class="col__separators">
       {#each Array(24) as _, inc}
         <div
-          class="hour-separators__separator"
+          class="separators"
           style={`top: calc(var(--row-height) * ${inc})`}
         />
       {/each}
@@ -59,12 +59,12 @@
     border-left: 1px var(--line-1) solid;
   }
 
-  .col__hour-separators {
+  .col__separators {
     pointer-events: none;
     touch-action: none;
   }
 
-  .hour-separators__separator {
+  .separators {
     position: absolute;
     width: 100%;
     height: 1px;
