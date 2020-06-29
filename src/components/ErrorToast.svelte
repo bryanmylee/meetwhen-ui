@@ -4,8 +4,9 @@
 
   // BINDINGS
   // ========
-  // Error message needs to be bound to allow the same message to trigger
-  // multiple reactive updates.
+  // The toast component needs to be able to 'reset' the value of the error
+  // message such that the same message can be used to trigger another reactive
+  // update.
   export let errorMessage = '';
   $: updateDisplayedMessages(errorMessage);
 

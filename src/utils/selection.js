@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 
+import { MS_PER_DAY } from 'src/constants.js';
+
 /**
  * @typedef {{
  *   startDay: dayjs.Dayjs,
@@ -24,7 +26,6 @@ export function getAreaSelection(newSelection) {
 
   const { startDay, startHour, endDay, endHour } = newSelection;
 
-  const MS_PER_DAY = 86400000;
   const numDaysSpan = Math.floor(Math.abs(endDay - startDay) / MS_PER_DAY) + 1;
   if (+startDay <= +endDay && startHour <= endHour) {
     return [...Array(numDaysSpan).keys()].map((inc) => ({

@@ -6,8 +6,7 @@ import {
   getTouchOffset,
 } from 'src/utils/eventHandler.js';
 import longTouchAndDrag from 'src/utils/longTouchAndDrag.js';
-
-const MS_PER_HOUR = 3600000;
+import { MS_PER_HOUR } from "src/constants.js";
 
 /**
  * Provides all custom events for creating new selections with the calendar.

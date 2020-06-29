@@ -42,7 +42,7 @@
   import Details from './_components/Details.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
   import ActionBar from './_components/ActionBar.svelte';
-  import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
+  import EventCalendarPicker from './_components/calendar/EventCalendarPicker.svelte';
   import { Button, TextInput } from 'src/components/form';
   import ErrorToast from 'src/components/ErrorToast.svelte';
 
@@ -208,7 +208,7 @@
     {/if}
 
     <!-- CALENDAR PICKER -->
-    <CalendarPicker bind:selections={$selections}
+    <EventCalendarPicker bind:selections={$selections}
       eventIntervals={event.eventIntervals}
       userIntervalsByUsername={event.userIntervalsByUsername}
     />
