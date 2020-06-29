@@ -65,7 +65,9 @@ export async function logout(fetch, apiUrl, eventUrl) {
 }
 
 /**
- * Fetch an access token from the API if an HTTP-only refresh token exists.
+ * Fetch an access token from the API if an HTTP-only refresh token exists. This
+ * can be used to check if the refresh token exists, as there is no other way
+ * for browser JS code to access HTTP-only cookies.
  * @param {Function} fetch The fetch function to use.
  * @param {string} apiUrl The URL of the API endpoint.
  * @param {string} eventUrl The URL identifier of the event.
