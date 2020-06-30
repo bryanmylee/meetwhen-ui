@@ -209,8 +209,8 @@
 
     <!-- CALENDAR PICKER -->
     <EventCalendarPicker bind:selections={$selections}
-      eventIntervals={event.eventIntervals}
-      userIntervalsByUsername={event.userIntervalsByUsername}
+      eventIntervals={event.schedule}
+      userIntervalsByUsername={event.userSchedules}
     />
   </div>
 

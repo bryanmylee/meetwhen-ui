@@ -8,7 +8,7 @@ dayjs.extend(utc);
  */
 
 /**
- * Serializes an interval to be represented as a tuple of UTC ISO strings.
+ * Serializes an interval to be represented as a tuple of Unix timestamps in ms.
  * @param {interval} interval The interval to serialize.
  * @returns {serializedInterval} The serialized interval.
  */
@@ -42,24 +42,29 @@ function deserializeInterval(serializedInterval) {
  *   description: string,
  *   username: string,
  *   password: string,
- *   eventIntervals: interval[],
+ *   schedule: interval[],
  * }} eventDetails The details of the event.
  * @returns {Promise<{
  *   eventUrl: string,
  *   accessToken: string,
- *   accessTokenLifetime: string,
  * }>} The access token response.
  */
 export async function createNewEvent(fetch, apiUrl, eventDetails) {
-  const { eventIntervals } = eventDetails;
-  eventDetails.eventIntervals = eventIntervals.map(serializeInterval);
+  const { title, description, username, password, schedule } = eventDetails;
+  const scheduleInMs = schedule.map(serializeInterval);
   return await (await fetch(`${apiUrl}/new`, {
     method: 'POST',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(eventDetails),
+    body: JSON.stringify({
+      title,
+      description,
+      username,
+      password,
+      scheduleInMs
+    }),
   })).json();
 }
 
@@ -68,36 +73,42 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
  * @param {Function} fetch The fetch function to use.
  * @param {string} eventUrl The url identifier of the event.
  * @returns {Promise<{
- *   id: number,
  *   eventUrl: string,
  *   title: string,
  *   description: string,
- *   dateCreated: dayjs.Dayjs,
- *   eventIntervals: interval[],
- *   userIntervalsByUsername: Object.<string, interval[]>,
+ *   admin: string,
+ *   schedule: interval[],
+ *   userSchedules: Object.<string, interval[]>,
  * }>} The event details.
  */
 export async function getEvent(fetch, apiUrl, eventUrl) {
   try {
-    const event = await (await fetch(`${apiUrl}/${eventUrl}`, {
+    const {
+      title, description, admin, scheduleInMs, userSchedulesInMs
+    } = await (await fetch(`${apiUrl}/${eventUrl}`, {
       credentials: 'include',
     })).json();
 
     // Parse datetimes
-    event.dateCreated = dayjs(event.dateCreated);
-    event.eventIntervals = event.eventIntervals.map(deserializeInterval);
-    if (event.userIntervalsByUsername) {
-      event.userIntervalsByUsername = Object.fromEntries(
+    const schedule = scheduleInMs.map(deserializeInterval);
+    let userSchedules = {};
+    if (userSchedulesInMs) {
+      userSchedules = Object.fromEntries(
           // .entries returns an array of tuples in [key, value] form.
-          Object.entries(event.userIntervalsByUsername)
+          Object.entries(userSchedulesInMs)
               .map(([username, intervals]) => [
                 username,
                 intervals.map(deserializeInterval),
               ]));
-    } else {
-      event.userIntervalsByUsername = {};
     }
-    return event;
+    return ({
+      eventUrl,
+      title,
+      description,
+      admin,
+      schedule,
+      userSchedules,
+    });
   } catch (err) {
     console.log(err);
   }

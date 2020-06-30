@@ -26,10 +26,10 @@
       in:cardIn={{x: 500, duration: 400}}
       out:cardOut={{x: 500, duration: 400}}
     >
-      <Attendance usernames={Object.keys(event.userIntervalsByUsername)} />
+      <Attendance usernames={Object.keys(event.userSchedules)} />
     </div>
   {/if}
 {:else if $layout === layoutEnum.WIDE}
   <EventDetails title={event.title} description={event.description} />
-  <Attendance usernames={Object.keys(event.userIntervalsByUsername)} />
+  <Attendance usernames={Object.keys(event.userSchedules)} />
 {/if}

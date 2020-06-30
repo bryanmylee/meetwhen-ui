@@ -43,7 +43,7 @@
       return;
     }
     const eventDetails = ({
-      title, description, username, password, eventIntervals: $selections
+      title, description, username, password, schedule: $selections
     });
     const { eventUrl, accessToken, accessTokenLifetime }
         = await createNewEvent(fetch, $session.API_URL, eventDetails);
