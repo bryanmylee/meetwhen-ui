@@ -122,7 +122,7 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
  * @param {{
  *   username: string,
  *   password: string,
- *   intervals: interval[],
+ *   schedule: interval[],
  * }} userDetails The details of the user joining the event.
  * @returns {Promise<{
  *   eventUrl: string,
@@ -133,14 +133,19 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
  */
 export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
   try {
-    userDetails.intervals = userDetails.intervals.map(serializeInterval);
+    const { username, password, schedule } = userDetails;
+    const scheduleInMs = schedule.map(serializeInterval);
     const response = await (await fetch(`${apiUrl}/${eventUrl}/new_user`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userDetails),
+      body: JSON.stringify({
+        username,
+        password,
+        scheduleInMs,
+      }),
     })).json();
 
     if (response.error) {

@@ -124,7 +124,7 @@
       attempted = true;
       return;
     }
-    const userDetails = { username, password, intervals: $selections };
+    const userDetails = { username, password, schedule: $selections };
     try {
       const { accessToken } = await addUserToEvent(
           fetch, $session.API_URL, event.eventUrl, userDetails);
