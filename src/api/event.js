@@ -4,7 +4,7 @@ dayjs.extend(utc);
 
 /**
  * @typedef {{start: dayjs.Dayjs, end: dayjs.Dayjs}} interval
- * @typedef {{start: string, end: string}} serializedInterval
+ * @typedef {{start: number, end: number}} serializedInterval
  */
 
 /**
@@ -14,8 +14,8 @@ dayjs.extend(utc);
  */
 function serializeInterval(interval) {
   const toReturn = ({
-    start: interval.start.utc().toISOString(),
-    end: interval.end.utc().toISOString(),
+    start: +interval.start,
+    end: +interval.end,
   });
   return toReturn;
 }
@@ -86,13 +86,17 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
     // Parse datetimes
     event.dateCreated = dayjs(event.dateCreated);
     event.eventIntervals = event.eventIntervals.map(deserializeInterval);
-    event.userIntervalsByUsername = Object.fromEntries(
-        // .entries returns an array of tuples in [key, value] form.
-        Object.entries(event.userIntervalsByUsername)
-            .map(([username, intervals]) => [
-              username,
-              intervals.map(deserializeInterval),
-            ]));
+    if (event.userIntervalsByUsername) {
+      event.userIntervalsByUsername = Object.fromEntries(
+          // .entries returns an array of tuples in [key, value] form.
+          Object.entries(event.userIntervalsByUsername)
+              .map(([username, intervals]) => [
+                username,
+                intervals.map(deserializeInterval),
+              ]));
+    } else {
+      event.userIntervalsByUsername = {};
+    }
     return event;
   } catch (err) {
     console.log(err);
