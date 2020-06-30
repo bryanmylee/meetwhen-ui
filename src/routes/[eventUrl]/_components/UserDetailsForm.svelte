@@ -11,8 +11,8 @@
   // PROPS
   // =====
   export let prompt;
-  export let tip;
   export let attempted;
+  export let tip = '';
 
   $: formValid = username.trim().length !== 0
       && password.trim().length !== 0;
