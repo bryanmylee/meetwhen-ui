@@ -2,7 +2,7 @@
   "name": "lets-meet-web",
   "version": "1.0.0",
   "scripts": {
-    "dev": "PORT=4000 sapper dev",
+    "dev": "PORT=5000 sapper dev",
     "build": "sapper build",
     "export": "sapper export",
     "start": "node __sapper__/build",
