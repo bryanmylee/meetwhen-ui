@@ -164,6 +164,8 @@ export function getMergedIntervals(intervalsByUsername) {
       return result.slice(1);
     }
 
+  if (Object.keys(intervalsByUsername).length === 0) return [];
+
   const actions = getActions(intervalsByUsername);
   // Array of { addAction, removeAction }.
   const combinedActions = getCombinedActions(actions);
