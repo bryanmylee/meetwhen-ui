@@ -17,7 +17,7 @@ export const formEnum = ({
   EDITING: 'EDITING',
 });
 
-export const layout = writable(layoutEnum.NARROW);
+export const layout = writable(layoutEnum.WIDE);
 export const details = writable(detailsEnum.EVENT_DETAILS);
 export const form = writable(formEnum.NONE);
 export const selectedUsernames = writable([]);
