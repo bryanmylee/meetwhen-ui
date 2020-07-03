@@ -164,7 +164,7 @@ export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
  * @param {string} eventUrl The URL of the event.
  * @param {{
  *   username: string,
- *   intervals: interval[],
+ *   newSchedule: interval[],
  *   accessToken: string,
  * }} userDetails The details of the user being edited.
  * @returns {Promise<void>} Resolved when the intervals have been updated.
@@ -173,7 +173,7 @@ export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
 export async function editUserIntervals(fetch, apiUrl, eventUrl, userDetails) {
   try {
     const { username, accessToken } = userDetails;
-    const intervals = userDetails.intervals.map(serializeInterval);
+    const newScheduleInMs = userDetails.newSchedule.map(serializeInterval);
     const response = await (await fetch(
         `${apiUrl}/${eventUrl}/${username}/edit`, {
       method: 'POST',
@@ -181,7 +181,7 @@ export async function editUserIntervals(fetch, apiUrl, eventUrl, userDetails) {
         'Content-Type': 'application/json',
         authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({intervals}),
+      body: JSON.stringify({ newScheduleInMs }),
     })).json();
     if (response.error) {
       throw new Error(response.error);

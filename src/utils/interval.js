@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
  * @returns {interval[]} The list of intervals separated across the midnight
  * boundary where necessary.
  */
-export function splitIntervalsOnMidnight(intervals) {
+export function splitIntervalsOnMidnight(intervals = []) {
   return intervals.flatMap((interval) => {
     const { start, end } = interval;
     if (!start.isSame(end, 'date') && end.hour() !== 0) {

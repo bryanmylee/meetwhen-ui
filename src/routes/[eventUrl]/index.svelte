@@ -81,7 +81,7 @@
   function setForm() {
     if ($form === formEnum.EDITING) {
       $selections = splitIntervalsOnMidnight(
-          event.userIntervalsByUsername[$user.username]);
+          event.userSchedules[$user.username]);
     } else {
       $selections = [];
     }
@@ -142,7 +142,7 @@
     }
     const userDetails = ({
       username: $user.username,
-      intervals: $selections,
+      newSchedule: $selections,
       accessToken: $user.accessToken
     });
     try {
