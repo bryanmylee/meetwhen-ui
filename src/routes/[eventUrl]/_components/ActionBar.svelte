@@ -3,7 +3,7 @@
   import { detailsEnum, formEnum, details, form, } from '../stores.js';
   import { user } from 'src/stores.js';
 
-  import { Button } from 'src/components/form';
+  import { AwaitButton, Button } from 'src/components/form';
 
   // PROPS
   // =====
@@ -29,10 +29,10 @@
       {#if $form === formEnum.EDITING}
         <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
         <div class="margin-left">
-          <Button on:click={handleSubmitEditUser}>Confirm</Button>
+          <AwaitButton onClick={handleSubmitEditUser}>Confirm</AwaitButton>
         </div>
       {:else}
-        <Button on:click={handleLogout}>Log Out</Button>
+        <AwaitButton onClick={handleLogout}>Log Out</AwaitButton>
         <div class="margin-left">
           <Button on:click={() => $form = formEnum.EDITING}>Edit</Button>
         </div>
@@ -41,12 +41,12 @@
       {#if $form === formEnum.LOGGING_IN}
         <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
         <div class="margin-left">
-          <Button on:click={handleSubmitLogin}>Confirm</Button>
+          <AwaitButton onClick={handleSubmitLogin}>Confirm</AwaitButton>
         </div>
       {:else if $form === formEnum.JOINING}
         <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
         <div class="margin-left">
-          <Button on:click={handleSubmitNewUser}>Confirm</Button>
+          <AwaitButton onClick={handleSubmitNewUser}>Confirm</AwaitButton>
         </div>
       {:else if $form === formEnum.NONE}
         <Button on:click={() => $form = formEnum.LOGGING_IN}>Login</Button>

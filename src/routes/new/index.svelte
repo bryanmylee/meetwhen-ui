@@ -12,7 +12,7 @@
   import { createNewEvent } from 'src/api/event.js';
 
   import NewCalendarPicker from './_components/calendar/NewCalendarPicker.svelte';
-  import { Button, TextInput } from 'src/components/form';
+  import { AwaitButton, TextInput } from 'src/components/form';
 
   // FORM DATA
   // =========
@@ -93,7 +93,7 @@
 
   <!-- BUTTONS -->
   <div class="button">
-    <Button on:click={handleSubmitNewEvent}>Create Event</Button>
+    <AwaitButton onClick={handleSubmitNewEvent}>Create Event</AwaitButton>
   </div>
 </div>
 

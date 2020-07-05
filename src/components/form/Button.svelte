@@ -1,9 +1,11 @@
 <script>
   export let outline = false;
   export let alt = false;
+  export let disabled = false;
 </script>
 
 <button
+  {disabled}
   on:click
   class="no-highlight"
   class:outline={outline}
@@ -31,9 +33,18 @@
   }
 
   button:active {
-    background-color: var(--text-3);
+    background-color: var(--line-1);
     transform: scale(0.98);
-    transition: none;
+    box-shadow: none;
+  }
+
+  button:disabled,
+  button:disabled:focus,
+  button:disabled:hover,
+  button:disabled:active {
+    background-color: var(--line-1);
+    transform: scale(0.98);
+    box-shadow: none;
   }
 
   .outline {
@@ -42,10 +53,25 @@
     border: 1px var(--primary-1) solid;
   }
 
-  .outline:focus, .outline:hover {
+  .outline:focus, .outline:hover, .outline:active {
     color: var(--primary-1-1);
     background-color: white;
     border: 1px var(--primary-1-1) solid;
+  }
+
+  button.outline:disabled,
+  button.outline:disabled:focus,
+  button.outline:disabled:hover,
+  button.outline:disabled:active,
+  button.alt:disabled,
+  button.alt:disabled:focus,
+  button.alt:disabled:hover,
+  button.alt:disabled:active {
+    color: var(--text-3);
+    background-color: unset;
+    border: 1px var(--line-1) solid;
+    transform: scale(0.98);
+    box-shadow: none;
   }
 
   .alt {
@@ -57,5 +83,9 @@
   .alt:focus, .alt:hover {
     background-color: white;
     border: 1px transparent solid;
+  }
+
+  .alt:active {
+    border: 1px var(--line-1) solid;
   }
 </style>
