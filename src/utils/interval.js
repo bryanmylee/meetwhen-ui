@@ -167,6 +167,7 @@ export function getMergedIntervals(intervalsByUsername) {
   if (Object.keys(intervalsByUsername).length === 0) return [];
 
   const actions = getActions(intervalsByUsername);
+  if (actions.length === 0) return [];
   // Array of { addAction, removeAction }.
   const combinedActions = getCombinedActions(actions);
   // Only return intervals which are not empty and do not start and end on the
