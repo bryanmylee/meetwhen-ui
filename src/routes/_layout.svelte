@@ -1,6 +1,15 @@
 <script>
   import Nav from 'src/components/Nav.svelte';
+  import mediaQuery from 'src/actions/mediaQuery.js';
+  import { layoutEnum, layout } from 'src/stores.js';
 </script>
+
+<svelte:window
+  use:mediaQuery={{
+    query: "(min-width: 768px)",
+    callback: (matches) => $layout = matches ? layoutEnum.WIDE : layoutEnum.NARROW,
+  }}
+/>
 
 <Nav />
 <main>

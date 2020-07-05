@@ -1,8 +1,6 @@
 <script>
-  import {
-    layoutEnum, detailsEnum, formEnum,
-    layout, details, form,
-  } from '../stores.js';
+  import { layoutEnum, layout } from 'src/stores.js';
+  import { detailsEnum, formEnum, details, form, } from '../stores.js';
   import { user } from 'src/stores.js';
 
   import { Button } from 'src/components/form';

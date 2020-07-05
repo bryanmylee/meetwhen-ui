@@ -1,9 +1,7 @@
 <script>
   import { cardIn, cardOut } from 'src/transitions/paginatedCard.js';
-  import {
-    layoutEnum, detailsEnum,
-    layout, details,
-  } from '../stores.js';
+  import { layoutEnum, layout } from 'src/stores.js';
+  import { detailsEnum, details } from '../stores.js';
 
   import EventDetails from './EventDetails.svelte';
   import Attendance from './Attendance.svelte';

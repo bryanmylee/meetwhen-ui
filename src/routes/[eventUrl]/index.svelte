@@ -30,9 +30,8 @@
   import { slide } from 'svelte/transition';
 
   import { user } from 'src/stores.js';
-  import { layoutEnum, formEnum, layout, form } from './stores.js';
+  import { formEnum, form } from './stores.js';
   import { undoRedo } from 'src/actions/hotkeys.js';
-  import mediaQuery from 'src/actions/mediaQuery.js';
   import undoable from 'src/utils/undoable.js';
   import nextFrame from 'src/utils/nextFrame.js';
   import { splitIntervalsOnMidnight } from 'src/utils/interval.js';
@@ -43,7 +42,6 @@
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
   import ActionBar from './_components/ActionBar.svelte';
   import EventCalendarPicker from './_components/calendar/EventCalendarPicker.svelte';
-  import { Button, TextInput } from 'src/components/form';
   import ErrorToast from 'src/components/ErrorToast.svelte';
 
   // PRELOADED DATA
@@ -155,13 +153,7 @@
   }
 </script>
 
-<svelte:window
-  use:undoRedo={{undo: selections.undo, redo: selections.redo}}
-  use:mediaQuery={{
-    query: "(min-width: 768px)",
-    callback: (matches) => $layout = matches ? layoutEnum.WIDE : layoutEnum.NARROW,
-  }}
-/>
+<svelte:window use:undoRedo={{undo: selections.undo, redo: selections.redo}} />
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
