@@ -10,7 +10,7 @@
 <div
   style={firstDayOfWeek == null ? '' : `grid-column-start: ${firstDayOfWeek + 1}`}
   on:mousedown={() => dispatch('selectStart', { date })}
-  on:mousemove={() => dispatch('selectMove', { date })}
+  on:mouseenter={() => dispatch('selectMove', { date })}
   on:mouseup={() => dispatch('selectStop', { date })}
 >
   <span

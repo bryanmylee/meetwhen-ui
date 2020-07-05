@@ -4,6 +4,10 @@
   import CalendarGrid from './CalendarGrid.svelte';
 
   let selectedMonth = dayjs();
+  let selectedDays = [];
 </script>
 
-<CalendarGrid {selectedMonth} />
+<CalendarGrid
+  bind:selectedDays={selectedDays}
+  {selectedMonth}
+/>

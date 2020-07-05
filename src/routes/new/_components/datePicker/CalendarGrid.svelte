@@ -1,9 +1,14 @@
 <script>
+  import dayjs from 'dayjs';
+
   import Date from './Date.svelte';
 
   // BINDINGS
   // ========
   export let selectedDays;
+  // Set() does not accept custom comparators. Therefore, use a primitive
+  // representation before assigning to actual binding interface.
+  let selectedDaysMs = new Set();
 
   // PROPS
   // =====
@@ -14,20 +19,48 @@
   $: numDays = selectedMonth.daysInMonth();
   $: firstDayOfWeek = selectedMonth.date(1).day();
 
+  // STATE
+  // =====
+  export let newSelection = {};
+
   // STATE FUNCTIONS
   // ===============
   function selectStart(event) {
     const { date } = event.detail;
-    console.log('start', date.date());
+    newSelection = ({
+      start: date,
+      end: date,
+    });
   }
 
   function selectMove(event) {
     const { date } = event.detail;
-    console.log(date.date());
+    newSelection = ({ ...newSelection,
+      end: date,
+    });
+    updateBinding();
   }
 
   function selectStop() {
-    console.log('stopped');
+    updateBinding();
+    newSelection = null;
+  }
+
+  function updateBinding() {
+    if (newSelection.start == null) return;
+    let { start, end } = newSelection;
+    if (start.isAfter(end, 'day')) {
+      [start, end] = [end, start];
+    }
+    let currDate = start;
+    while (currDate.isBefore(end, 'day')) {
+      selectedDaysMs.add(+currDate);
+      currDate = currDate.add(1, 'day');
+    }
+    selectedDaysMs.add(+currDate);
+    // Commit the changes.
+    selectedDays = Array.from(selectedDaysMs).map(ms => dayjs(ms));
+    selectedDaysMs.clear();
   }
 </script>
 
