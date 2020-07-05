@@ -12,6 +12,7 @@
   import { createNewEvent } from 'src/api/event.js';
 
   import NewCalendarPicker from './_components/calendar/NewCalendarPicker.svelte';
+  import DatePicker from './_components/datePicker/DatePicker.svelte';
   import { AwaitButton, TextInput } from 'src/components/form';
 
   // FORM DATA
@@ -88,7 +89,8 @@
     </h3>
 
     <!-- CALENDAR PICKER -->
-    <NewCalendarPicker bind:selections={$selections} {daysToShow} />
+    <DatePicker />
+    <!-- <NewCalendarPicker bind:selections={$selections} {daysToShow} /> -->
   </div>
 
   <!-- BUTTONS -->
@@ -98,6 +100,10 @@
 </div>
 
 <style>
+  .main-content {
+    grid-template-rows: repeat(4, min-content);
+  }
+
   .picker-container {
     display: flex;
     flex-direction: column;
