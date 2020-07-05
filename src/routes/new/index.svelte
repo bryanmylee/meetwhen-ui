@@ -8,6 +8,7 @@
   import { undoRedo } from 'src/actions/hotkeys.js';
   import undoable from 'src/utils/undoable.js';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
+  import { user } from 'src/stores.js';
   import { createNewEvent } from 'src/api/event.js';
 
   import NewCalendarPicker from './_components/calendar/NewCalendarPicker.svelte';
@@ -45,8 +46,9 @@
     const eventDetails = ({
       title, description, username, password, schedule: $selections
     });
-    const { eventUrl, accessToken, accessTokenLifetime }
+    const { eventUrl, accessToken }
         = await createNewEvent(fetch, $session.API_URL, eventDetails);
+    user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
     goto(`/${eventUrl}`);
   }
 </script>
