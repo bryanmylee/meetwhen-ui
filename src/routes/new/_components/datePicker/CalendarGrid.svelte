@@ -1,5 +1,4 @@
 <script>
-  import { createSelection } from './actions/selection.js';
   import Date from './Date.svelte';
 
   // BINDINGS
@@ -19,7 +18,7 @@
   // ===============
   function selectStart(event) {
     const { date } = event.detail;
-    console.log(date.date());
+    console.log('start', date.date());
   }
 
   function selectMove(event) {
@@ -33,19 +32,21 @@
 </script>
 
 <div class="calendar-grid">
-  <!-- MOUSE/TOUCH EVENT CAPTURE LAYER -->
-  <div
-    class="create-selection__layer"
-    use:createSelection={{selectedMonth}}
+  <!-- The first grid item can be offset -->
+  <Date
+    date={selectedMonth.date(1)} {firstDayOfWeek}
     on:selectStart={selectStart}
     on:selectMove={selectMove}
     on:selectStop={selectStop}
   />
-  <!-- The first grid item can be offset -->
-  <Date date={selectedMonth.date(1)} {firstDayOfWeek} />
   <!-- The remaining dates starting from 2 -->
   {#each Array(numDays - 1) as _, dayIndex}
-    <Date date={selectedMonth.date(dayIndex + 2)} />
+    <Date
+      date={selectedMonth.date(dayIndex + 2)}
+      on:selectStart={selectStart}
+      on:selectMove={selectMove}
+      on:selectStop={selectStop}
+    />
   {/each}
 </div>
 
@@ -57,14 +58,5 @@
     grid-auto-rows: max-content;
     gap: 0.5rem;
     padding: 0.5rem;
-  }
-
-  .create-selection__layer {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: all;
   }
 </style>
