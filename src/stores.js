@@ -35,16 +35,15 @@ function getUser() {
     logout,
   });
 }
-
 export const user = getUser();
 
-const green = chroma.scale(['BDEFC8', '1C9C83']).mode('lab');
 
+const green = chroma.scale(['BDEFC8', '1C9C83']).mode('lab');
 export const colorScale = writable(green);
+
 
 export const layoutEnum = ({
   NARROW: 'NARROW',
   WIDE: 'WIDE',
 });
-
 export const layout = writable(layoutEnum.NARROW);
