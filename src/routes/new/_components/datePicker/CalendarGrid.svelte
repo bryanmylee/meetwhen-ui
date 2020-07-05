@@ -5,7 +5,7 @@
 
   // BINDINGS
   // ========
-  export let selectedDays;
+  export let selectedDays = [];
   // Set() does not accept custom comparators. Therefore, use a primitive
   // representation before assigning to actual binding interface.
   let selectedDaysMs = new Set();
@@ -17,65 +17,58 @@
   // REACTIVE STATE
   // =====
   $: numDays = selectedMonth.daysInMonth();
-  $: firstDayOfWeek = selectedMonth.date(1).day();
+  $: days = Array.from(Array(numDays).keys())
+      .map(inc => selectedMonth.date(1).add(inc, 'day'));
 
   // STATE
   // =====
-  export let newSelection = {};
+  let currStart = null;
+  let currEnd = null;
+  $: currSelection = getCurrSelection(currStart, currEnd);
 
   // STATE FUNCTIONS
   // ===============
   function selectStart(event) {
     const { date } = event.detail;
-    newSelection = ({
-      start: date,
-      end: date,
-    });
+    currStart = date;
+    currEnd = date;
   }
 
   function selectMove(event) {
     const { date } = event.detail;
-    newSelection = ({ ...newSelection,
-      end: date,
-    });
-    updateBinding();
+    currEnd = date;
   }
 
   function selectStop() {
-    updateBinding();
-    newSelection = null;
+    for (const day of currSelection) {
+      selectedDaysMs.add(+day);
+    }
+    selectedDays = Array.from(selectedDaysMs).map(ms => dayjs(ms));
+    currStart = null;
+    currEnd = null;
   }
 
-  function updateBinding() {
-    if (newSelection.start == null) return;
-    let { start, end } = newSelection;
+  function getCurrSelection(start, end) {
+    if (start == null) return [];
     if (start.isAfter(end, 'day')) {
-      [start, end] = [end, start];
+      return getCurrSelection(end, start);
     }
-    let currDate = start;
-    while (currDate.isBefore(end, 'day')) {
-      selectedDaysMs.add(+currDate);
-      currDate = currDate.add(1, 'day');
+    const result = [];
+    while (start.isBefore(end, 'day')) {
+      result.push(start);
+      start = start.add(1, 'day');
     }
-    selectedDaysMs.add(+currDate);
-    // Commit the changes.
-    selectedDays = Array.from(selectedDaysMs).map(ms => dayjs(ms));
-    selectedDaysMs.clear();
+    result.push(start);
+    return result;
   }
 </script>
 
 <div class="calendar-grid">
-  <!-- The first grid item can be offset -->
-  <Date
-    date={selectedMonth.date(1)} {firstDayOfWeek}
-    on:selectStart={selectStart}
-    on:selectMove={selectMove}
-    on:selectStop={selectStop}
-  />
-  <!-- The remaining dates starting from 2 -->
-  {#each Array(numDays - 1) as _, dayIndex}
+  {#each days as day}
     <Date
-      date={selectedMonth.date(dayIndex + 2)}
+      date={day}
+      selected={[...currSelection, ...selectedDays]
+          .some(selectedDay => selectedDay.isSame(day, 'day'))}
       on:selectStart={selectStart}
       on:selectMove={selectMove}
       on:selectStop={selectStop}
@@ -89,7 +82,6 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-auto-rows: max-content;
-    gap: 0.5rem;
     padding: 0.5rem;
   }
 </style>

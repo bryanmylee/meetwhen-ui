@@ -3,8 +3,14 @@
   const dispatch = createEventDispatcher();
   import dayjs from 'dayjs';
 
+  // PROPS
+  // =====
   export let date;
-  export let firstDayOfWeek = null;
+  export let selected = false;
+
+  // STATE
+  // =====
+  let firstDayOfWeek = date.date() === 1 ? date.day() : null;
 </script>
 
 <div
@@ -16,6 +22,7 @@
   <span
     class:today={date.isSame(dayjs(), 'day')}
     class:before={date.isBefore(dayjs(), 'day')}
+    class:selected={selected}
   >
     {date.date()}
   </span>
@@ -27,6 +34,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    padding: 0.2rem 0;
   }
 
   span {
@@ -52,5 +60,10 @@
 
   .before {
     color: var(--text-3);
+  }
+
+  span.selected {
+    color: white;
+    background-color: var(--primary-1);
   }
 </style>

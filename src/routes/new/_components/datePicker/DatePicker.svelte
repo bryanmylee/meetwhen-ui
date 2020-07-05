@@ -3,8 +3,14 @@
 
   import CalendarGrid from './CalendarGrid.svelte';
 
-  let selectedMonth = dayjs();
-  let selectedDays = [];
+  // BINDINGS
+  // ========
+  export let selectedDays = [];
+
+  // PROPS
+  // =====
+  export let selectedMonth = dayjs();
+  $: console.log(selectedDays);
 </script>
 
 <CalendarGrid
