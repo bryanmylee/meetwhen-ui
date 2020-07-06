@@ -171,8 +171,8 @@
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
-      prompt={'Create an account'}
-      tip={'Account is unique to this event only'}
+      prompt="Create an account"
+      tip="Account is unique to this event only"
       {attempted}
     />
   {/if}
