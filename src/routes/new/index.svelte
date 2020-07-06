@@ -11,7 +11,7 @@
 
   import NewCalendarPicker from './_components/calendar/NewCalendarPicker.svelte';
   import DatePicker from './_components/datePicker/DatePicker.svelte';
-  import { AwaitButton, TextInput } from 'src/components/form';
+  import { AwaitButton, TextInput, TimeInput } from 'src/components/form';
 
   // FORM DATA
   // =========
@@ -76,7 +76,7 @@
       required {attempted}
       style="margin-top: 1rem" />
     <TextInput label="Password" bind:value={password}
-      isPassword required {attempted} tip={"Account is unique to this event only"}
+      isPassword required {attempted} tip="Account is unique to this event only"
       style="margin-top: 1rem" />
   </div>
 
@@ -92,6 +92,12 @@
 
     <!-- CALENDAR PICKER -->
     <DatePicker bind:selectedDays={selectedDays} />
+    <div class="timebar">
+      <TimeInput
+        label="From"
+        style="margin-right: 1rem" />
+      <TimeInput label="To" />
+    </div>
     <!-- <NewCalendarPicker bind:selections={$selections} {daysToShow} /> -->
   </div>
 
@@ -113,7 +119,7 @@
     scroll-behavior: smooth;
   }
 
-  .picker-container h3 {
+  .picker-container > h3 {
     padding: 0.8rem;
   }
 
@@ -121,6 +127,12 @@
     color: var(--text-1);
     margin: 0;
     font-weight: 500;
+  }
+
+  .timebar {
+    padding: 1rem;
+    display: flex;
+    flex-flow: row nowrap;
   }
 
   .button {
