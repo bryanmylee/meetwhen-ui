@@ -12,6 +12,7 @@
   export let required = false;
   export let attempted = false;
   export let tip = '';
+  export let style = '';
 
   // STATE
   // =====
@@ -22,7 +23,7 @@
   $: showError = required && attempted && value.trim().length === 0;
 </script>
 
-<div>
+<div {style}>
   <input use:inputAction={{isPassword, focused, value, showError}} bind:value={value}
     on:focus={() => focused = true}
     on:blur={() => focused = false}
@@ -39,7 +40,6 @@
   div {
     font-size: 1em;
     position: relative;
-    margin-top: 1rem;
   }
 
   input {

@@ -59,8 +59,11 @@
     class:error={attempted && !eventDetailsValid}
   >
     <h3>Describe your event</h3>
-    <TextInput label="Title" bind:value={title} required {attempted} />
-    <TextInput label="Description" bind:value={description} />
+    <TextInput label="Title" bind:value={title}
+      required {attempted}
+      style="margin-top: 1rem" />
+    <TextInput label="Description" bind:value={description}
+      style="margin-top: 1rem" />
   </div>
 
   <!-- USER DETAILS FORM CARD -->
@@ -69,9 +72,12 @@
     class:error={attempted && !userDetailsValid}
   >
     <h3>Create an account</h3>
-    <TextInput label="Username" bind:value={username} required {attempted} />
+    <TextInput label="Username" bind:value={username}
+      required {attempted}
+      style="margin-top: 1rem" />
     <TextInput label="Password" bind:value={password}
-      isPassword required {attempted} tip={"Account is unique to this event only"}/>
+      isPassword required {attempted} tip={"Account is unique to this event only"}
+      style="margin-top: 1rem" />
   </div>
 
   <!-- CALENDAR PICKER CARD -->
