@@ -27,6 +27,7 @@
     "sapper": "^0.27.0",
     "svelte": "^3.0.0",
     "svelte-loader": "^2.9.0",
+    "svelte-watch": "^1.1.0",
     "webpack": "^4.7.0"
   }
 }
