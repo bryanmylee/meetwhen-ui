@@ -11,7 +11,6 @@
   // PROPS
   // =====
   export let selectedMonth = dayjs();
-  $: console.log(selectedDays);
 </script>
 
 <CalendarHeader />
