@@ -5,8 +5,6 @@
   const { session } = stores();
   import dayjs from 'dayjs';
 
-  import { undoRedo } from 'src/actions/hotkeys.js';
-  import undoable from 'src/utils/undoable.js';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
   import { user } from 'src/stores.js';
   import { createNewEvent } from 'src/api/event.js';
@@ -21,7 +19,7 @@
   let description = '';
   let username = '';
   let password = '';
-  const selections = undoable([]);
+  let selectedDays = [];
 
   // FORM METADATA
   // =============
@@ -29,7 +27,7 @@
   $: eventDetailsValid = title.trim().length !== 0;
   $: userDetailsValid = username.trim().length !== 0
         && password.trim().length !== 0;
-  $: selectionsValid = $selections.length !== 0;
+  $: selectionsValid = selectedDays.length !== 0;
 
   // PAGE STATE
   // ==========
@@ -45,7 +43,7 @@
       return;
     }
     const eventDetails = ({
-      title, description, username, password, schedule: $selections
+      title, description, username, password, schedule: selectedDays
     });
     const { eventUrl, accessToken }
         = await createNewEvent(fetch, $session.API_URL, eventDetails);
@@ -53,8 +51,6 @@
     goto(`/${eventUrl}`);
   }
 </script>
-
-<svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- EVENT DETAILS FORM CARD -->
@@ -89,7 +85,7 @@
     </h3>
 
     <!-- CALENDAR PICKER -->
-    <DatePicker />
+    <DatePicker bind:selectedDays={selectedDays} />
     <!-- <NewCalendarPicker bind:selections={$selections} {daysToShow} /> -->
   </div>
 
