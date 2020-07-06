@@ -1,5 +1,4 @@
 <script>
-  import 'svelte-watch';
   import dayjs from 'dayjs';
 
   import Date from './Date.svelte';
@@ -79,10 +78,8 @@
 
 <style>
   .calendar-grid {
-    position: relative;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-auto-rows: max-content;
-    padding: 0.5rem;
   }
 </style>

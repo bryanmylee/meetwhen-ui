@@ -2,6 +2,7 @@
   import dayjs from 'dayjs';
 
   import CalendarGrid from './CalendarGrid.svelte';
+  import CalendarHeader from './CalendarHeader.svelte';
 
   // BINDINGS
   // ========
@@ -13,6 +14,7 @@
   $: console.log(selectedDays);
 </script>
 
+<CalendarHeader />
 <CalendarGrid
   bind:selectedDays={selectedDays}
   {selectedMonth}
