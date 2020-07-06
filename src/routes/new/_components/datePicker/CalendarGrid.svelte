@@ -1,4 +1,5 @@
 <script>
+  import 'svelte-watch';
   import dayjs from 'dayjs';
 
   import Date from './Date.svelte';

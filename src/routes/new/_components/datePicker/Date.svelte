@@ -15,9 +15,12 @@
 
 <div
   style={firstDayOfWeek == null ? '' : `grid-column-start: ${firstDayOfWeek + 1}`}
-  on:mousedown={() => dispatch('selectStart', { date })}
-  on:mouseenter={() => dispatch('selectMove', { date })}
-  on:mouseup={() => dispatch('selectStop', { date })}
+  on:mousedown={_ => dispatch('selectStart', { date })}
+  on:mouseenter={event => {
+    if (event.buttons !== 1) return;
+    dispatch('selectMove', { date });
+  }}
+  on:mouseup={_ => dispatch('selectStop', { date })}
 >
   <span
     class:today={date.isSame(dayjs(), 'day')}
