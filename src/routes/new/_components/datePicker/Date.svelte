@@ -11,16 +11,28 @@
   // STATE
   // =====
   let firstDayOfWeek = date.date() === 1 ? date.day() : null;
+
+  // STATE FUNCTIONS
+  // ===============
+  function handleDragStart() {
+    dispatch('dragStart', { date, selecting: !selected });
+  }
+
+  function handleDragEnter() {
+    if (event.buttons !== 1) return;
+    dispatch('dragMove', { date });
+  }
+
+  function handleDragStop() {
+    dispatch('dragStop');
+  }
 </script>
 
 <div
   style={firstDayOfWeek == null ? '' : `grid-column-start: ${firstDayOfWeek + 1}`}
-  on:mousedown={_ => dispatch('selectStart', { date })}
-  on:mouseenter={event => {
-    if (event.buttons !== 1) return;
-    dispatch('selectMove', { date });
-  }}
-  on:mouseup={_ => dispatch('selectStop', { date })}
+  on:mousedown={handleDragStart}
+  on:mouseenter={handleDragEnter}
+  on:mouseup={handleDragStop}
 >
   <span
     class:today={date.isSame(dayjs(), 'day')}

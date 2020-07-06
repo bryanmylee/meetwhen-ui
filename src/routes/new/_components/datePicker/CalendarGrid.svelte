@@ -22,26 +22,35 @@
 
   // STATE
   // =====
+  // Track whether the current drag action is a selection
+  let isSelecting = false;
   let currStart = null;
   let currEnd = null;
   $: currSelection = getCurrSelection(currStart, currEnd);
 
   // STATE FUNCTIONS
   // ===============
-  function selectStart(event) {
-    const { date } = event.detail;
+  function dragStart(event) {
+    const { date, selecting } = event.detail;
+    isSelecting = selecting;
     currStart = date;
     currEnd = date;
   }
 
-  function selectMove(event) {
+  function dragMove(event) {
     const { date } = event.detail;
     currEnd = date;
   }
 
-  function selectStop() {
-    for (const day of currSelection) {
-      selectedDaysMs.add(+day);
+  function dragStop() {
+    if (isSelecting) {
+      for (const day of currSelection) {
+        selectedDaysMs.add(+day);
+      }
+    } else {
+      for (const day of currSelection) {
+        selectedDaysMs.delete(+day);
+      }
     }
     selectedDays = Array.from(selectedDaysMs).map(ms => dayjs(ms));
     currStart = null;
@@ -61,17 +70,31 @@
     result.push(start);
     return result;
   }
+
+  /**
+   * Combines the selected days with the current selection being made. If
+   * selecting, merge the two selections. Otherwise, subtract the current
+   * selection from the selected days.
+   */
+  function getCombinedSelection(currSelection, selectedDays) {
+    if (isSelecting) {
+      return [...currSelection, ...selectedDays];
+    } else {
+      return selectedDays.filter(day =>
+          !currSelection.map(curr => +curr).includes(+day));
+    }
+  }
 </script>
 
 <div class="calendar-grid">
   {#each days as day}
     <Date
       date={day}
-      selected={[...currSelection, ...selectedDays]
+      selected={getCombinedSelection(currSelection, selectedDays)
           .some(selectedDay => selectedDay.isSame(day, 'day'))}
-      on:selectStart={selectStart}
-      on:selectMove={selectMove}
-      on:selectStop={selectStop}
+      on:dragStart={dragStart}
+      on:dragMove={dragMove}
+      on:dragStop={dragStop}
     />
   {/each}
 </div>
