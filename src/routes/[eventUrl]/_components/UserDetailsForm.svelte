@@ -15,8 +15,11 @@
   export let attempted;
   export let tip = '';
 
-  $: formValid = username.trim().length !== 0
-      && password.trim().length !== 0;
+  // STATE
+  // =====
+  let usernameValid;
+  let passwordValid;
+  $: formValid = usernameValid && passwordValid;
 </script>
 
 <div
@@ -28,10 +31,11 @@
   Safari. Therefore, implement a nice fade in after div is fully sized. -->
   <div in:fade={{duration: 150, delay: 400}} out:fade={{duration: 150}}>
     <h3>{prompt}</h3>
-    <TextInput label="Username" bind:value={username}
+    <TextInput label="Username" bind:value={username} bind:valid={usernameValid}
       {attempted} validationFunction={usernameValidation}
       style="margin-top: 1rem" />
-    <TextInput label="Password" bind:value={password} isPassword {tip}
+    <TextInput label="Password" bind:value={password} bind:valid={passwordValid}
+      isPassword {tip}
       {attempted} validationFunction={passwordValidation}
       style="margin-top: 1rem" />
   </div>

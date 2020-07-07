@@ -5,6 +5,17 @@
   // BINDINGS
   // ========
   export let value;
+  export let valid;
+  $: {
+    try {
+      if (validationFunction) validationFunction(value);
+      valid = true;
+      errorMessage = null;
+    } catch (err) {
+      valid = false
+      if (!valid && attempted) errorMessage = err.message;
+    }
+  }
 
   // PROPS
   // =====
@@ -20,27 +31,14 @@
   let focused = false;
   let errorMessage = null;
 
-  // REACTIVE ATTRIBUTES
-  // ===================
-  let showError;
-  $: {
-    try {
-      if (validationFunction) validationFunction(value);
-      showError = false;
-      errorMessage = null;
-    } catch (err) {
-      showError = attempted;
-      if (showError) errorMessage = err.message;
-    }
-  }
 </script>
 
 <div {style}>
-  <input use:inputAction={{isPassword, focused, value, showError}} bind:value={value}
+  <input use:inputAction={{isPassword, focused, value, showError: !valid && attempted}} bind:value={value}
     on:focus={() => focused = true}
     on:blur={() => focused = false}
   />
-  <label use:labelAction={{focused, value, showError}}>
+  <label use:labelAction={{focused, value, showError: !valid && attempted}}>
     {label}
   </label>
   {#if errorMessage}
