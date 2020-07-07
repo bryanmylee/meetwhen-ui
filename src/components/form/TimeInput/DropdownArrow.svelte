@@ -23,14 +23,6 @@
     padding-top: 4px;
   }
 
-  svg {
-    border-radius: 500px;
-  }
-
-  svg:hover {
-    background-color: var(--background-1);
-  }
-
   polyline {
     fill: none;
     stroke: var(--line-1);
