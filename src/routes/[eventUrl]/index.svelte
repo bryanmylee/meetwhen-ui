@@ -27,7 +27,6 @@
 <script>
   import { stores } from '@sapper/app';
   const { session } = stores();
-  import { slide } from 'svelte/transition';
 
   import { user } from 'src/stores.js';
   import { formEnum, form } from './stores.js';
@@ -47,6 +46,7 @@
   import Details from './_components/Details.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
   import ActionBar from './_components/ActionBar.svelte';
+  import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
   import EventCalendarPicker from './_components/calendar/EventCalendarPicker.svelte';
   import ErrorToast from 'src/components/ErrorToast.svelte';
 
@@ -65,7 +65,9 @@
   // FORM METADATA
   // =============
   let attempted = false;
-  $: selectionsValid = $selections.length !== 0;
+  $: showCalendarError = attempted
+      && ($form === formEnum.EDITING || $form === formEnum.JOINING)
+      && $selections.length === 0;
 
   // PAGE STATE
   // ==========
@@ -132,7 +134,7 @@
       attempted = true;
       return;
     }
-    if (!selectionsValid) {
+    if ($selections.length === 0) {
       errorMessage = 'Schedule cannot be empty';
       attempted = true;
       return;
@@ -149,7 +151,7 @@
   }
 
   async function handleSubmitEditUser() {
-    if (!selectionsValid) {
+    if ($selections.length === 0) {
       errorMessage = 'Schedule cannot be empty';
       attempted = true;
       return;
@@ -182,7 +184,7 @@
       bind:password={password}
       usernameValidation={validateUsername}
       passwordValidation={validatePassword}
-      prompt={'Log in'}
+      prompt="Log in"
       {attempted}
     />
   {:else if $form === formEnum.JOINING}
@@ -200,26 +202,9 @@
   <!-- CALENDAR PICKER CARD -->
   <div
     class="picker-container card outline"
-    class:error={$form === formEnum.JOINING && attempted && !selectionsValid}
+    class:error={showCalendarError}
   >
-    <!-- CALENDAR PICKER CARD TITLE HEADER -->
-    {#if $form === formEnum.JOINING}
-    <!-- Wrap the slide transition within an extra div to prevent jitter issue
-    on Chrome and Firefox -->
-      <div>
-        <h3 transition:slide={{duration: 400}}>
-          Indicate your schedule
-        </h3>
-      </div>
-    {:else if $form === formEnum.EDITING}
-      <div>
-        <h3 transition:slide={{duration: 400}}>
-          Edit your schedule
-        </h3>
-      </div>
-    {/if}
-
-    <!-- CALENDAR PICKER -->
+    <CalendarHeader showError={showCalendarError} />
     <EventCalendarPicker bind:selections={$selections}
       eventIntervals={event.schedule}
       userIntervalsByUsername={event.userSchedules}
@@ -243,14 +228,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    margin-bottom: 4rem;
-  }
-
-  .picker-container div h3 {
-    color: var(--text-1);
-    margin: 0;
-    padding: 0.8rem;
-    font-weight: 700;
+    margin-bottom: 4rem !important;
   }
 
   @media screen and (min-width: 768px) {
@@ -262,7 +240,7 @@
     .picker-container {
       grid-row: 1/10;
       grid-column: 2/3;
-      margin-bottom: unset;
+      margin-bottom: unset !important;
     }
   }
 </style>
