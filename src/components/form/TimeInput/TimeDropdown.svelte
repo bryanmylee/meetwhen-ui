@@ -1,4 +1,6 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
   import dayjs from 'dayjs';
   import { popper } from 'src/actions/popper.js';
 
@@ -14,9 +16,26 @@
   // =====
   const targetWidth = parseFloat(getComputedStyle(targetNode).width);
   const times = [...Array(25)].map((_, inc) => dayjs().hour(inc).minute(0))
+
+  // STATE FUNCTIONS
+  // ===============
+  let firstClicked = false;
+  function handleClick(event) {
+    if (firstClicked && event.target !== self) {
+      dispatch('hide');
+    }
+    firstClicked = true;
+  }
+
+  // NODES
+  // =====
+  let self;
 </script>
 
+<svelte:window on:click={handleClick}/>
+
 <div
+  bind:this={self}
   class="card"
   use:popper={{
     targetNode,

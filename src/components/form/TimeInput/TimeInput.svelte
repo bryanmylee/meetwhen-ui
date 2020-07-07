@@ -58,6 +58,7 @@
 {#if showTimes}
   <TimeDropdown
     on:select={select}
+    on:hide={_ => showTimes = false}
     {targetNode} {earliestTime} {latestTime}
   />
 {/if}
