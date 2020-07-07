@@ -1,4 +1,5 @@
 <script>
+  import { slide } from 'svelte/transition';
   import { inputAction, labelAction } from './TextInput.js';
 
   // BINDINGS
@@ -9,18 +10,29 @@
   // =====
   export let label = "Label";
   export let isPassword = false;
-  export let required = false;
   export let attempted = false;
   export let tip = '';
   export let style = '';
+  export let validationFunction;
 
   // STATE
   // =====
   let focused = false;
+  let errorMessage = null;
 
   // REACTIVE ATTRIBUTES
   // ===================
-  $: showError = required && attempted && value.trim().length === 0;
+  let showError;
+  $: {
+    try {
+      if (validationFunction) validationFunction(value);
+      showError = false;
+      errorMessage = null;
+    } catch (err) {
+      showError = attempted;
+      if (showError) errorMessage = err.message;
+    }
+  }
 </script>
 
 <div {style}>
@@ -31,6 +43,11 @@
   <label use:labelAction={{focused, value, showError}}>
     {label}
   </label>
+  {#if errorMessage}
+    <h5 class="tip error" transition:slide={{duration: 200}}>
+      {errorMessage}
+    </h5>
+  {/if}
   {#if tip && tip.trim().length !== 0}
     <h5 class="tip">{tip}</h5>
   {/if}
@@ -69,5 +86,9 @@
     transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -webkit-transition: all 0.2s ease;
+  }
+
+  .error {
+    color: var(--error-0);
   }
 </style>

@@ -37,6 +37,12 @@
   import { splitIntervalsOnMidnight } from 'src/utils/interval.js';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
   import { addUserToEvent, editUserIntervals } from 'src/api/event.js';
+  import {
+    validateNewUsername,
+    validateNewPassword,
+    validateUsername,
+    validatePassword,
+  } from 'src/utils/validation';
 
   import Details from './_components/Details.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
@@ -59,8 +65,6 @@
   // FORM METADATA
   // =============
   let attempted = false;
-  $: userDetailsValid = username.trim().length !== 0
-      && password.trim().length !== 0;
   $: selectionsValid = $selections.length !== 0;
 
   // PAGE STATE
@@ -93,7 +97,10 @@
   // API FUNCTIONS
   // =============
   async function handleSubmitLogin() {
-    if (!userDetailsValid) {
+    try {
+      validateUsername(username);
+      validatePassword(password);
+    } catch (err) {
       attempted = true;
       return;
     }
@@ -110,7 +117,7 @@
 
   async function handleLogout() {
     try {
-      const { message } = await logout(fetch, $session.API_URL, event.eventUrl);
+      await logout(fetch, $session.API_URL, event.eventUrl);
       user.logout();
     } catch (err) {
       errorMessage = err.message;
@@ -118,7 +125,15 @@
   }
 
   async function handleSubmitNewUser() {
-    if (!userDetailsValid || !selectionsValid) {
+    try {
+      validateNewUsername(username);
+      validateNewPassword(password);
+    } catch (err) {
+      attempted = true;
+      return;
+    }
+    if (!selectionsValid) {
+      errorMessage = 'Schedule cannot be empty';
       attempted = true;
       return;
     }
@@ -135,6 +150,7 @@
 
   async function handleSubmitEditUser() {
     if (!selectionsValid) {
+      errorMessage = 'Schedule cannot be empty';
       attempted = true;
       return;
     }
@@ -164,6 +180,8 @@
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
+      usernameValidation={validateUsername}
+      passwordValidation={validatePassword}
       prompt={'Log in'}
       {attempted}
     />
@@ -171,6 +189,8 @@
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
+      usernameValidation={validateNewUsername}
+      passwordValidation={validateNewPassword}
       prompt="Create an account"
       tip="Account is unique to this event only"
       {attempted}

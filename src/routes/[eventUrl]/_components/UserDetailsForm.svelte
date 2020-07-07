@@ -1,6 +1,5 @@
 <script>
   import { fade, slide } from 'svelte/transition';
-
   import { TextInput } from 'src/components/form';
 
   // BINDINGS
@@ -10,6 +9,8 @@
 
   // PROPS
   // =====
+  export let usernameValidation;
+  export let passwordValidation;
   export let prompt;
   export let attempted;
   export let tip = '';
@@ -28,10 +29,10 @@
   <div in:fade={{duration: 150, delay: 400}} out:fade={{duration: 150}}>
     <h3>{prompt}</h3>
     <TextInput label="Username" bind:value={username}
-      required {attempted}
+      {attempted} validationFunction={usernameValidation}
       style="margin-top: 1rem" />
-    <TextInput label="Password" bind:value={password}
-        isPassword required {attempted} {tip}
+    <TextInput label="Password" bind:value={password} isPassword {tip}
+      {attempted} validationFunction={passwordValidation}
       style="margin-top: 1rem" />
   </div>
 </div>
