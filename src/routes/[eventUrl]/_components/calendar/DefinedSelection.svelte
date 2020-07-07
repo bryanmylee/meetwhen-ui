@@ -52,7 +52,7 @@
     width: 100%;
     margin: 0 0.2em;
     border-radius: 5px;
-    background-color: var(--primary-select-2);
+    background-color: var(--primary-1);
     pointer-events: all;
   }
 
