@@ -12,8 +12,8 @@
   $: {
     if (earliestTime
         && (selectedTime == null
-            || !earliestTime.isBefore(selectedTime, 'hour'))) {
-      selectedTime = earliestTime.add(1, 'hour');
+            || earliestTime.isAfter(selectedTime, 'hour'))) {
+      selectedTime = earliestTime;
     }
   }
   export let label;

@@ -103,7 +103,7 @@
       <TimeInput
         bind:selectedTime={endTime}
         label="To"
-        earliestTime={startTime}
+        earliestTime={startTime && startTime.add(1, 'hour')}
       />
     </div>
     <!-- <NewCalendarPicker bind:selections={$selections} {daysToShow} /> -->

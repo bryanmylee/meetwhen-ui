@@ -9,7 +9,7 @@
 
   // REACTIVE ATTRIBUTES
   // ===================
-  $: disabled = earliestTime && !time.isAfter(earliestTime, 'hour');
+  $: disabled = earliestTime && time.isBefore(earliestTime, 'hour');
 
   // STATE FUNCTIONS
   // ===============
