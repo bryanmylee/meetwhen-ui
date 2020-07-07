@@ -9,7 +9,6 @@
   import { user } from 'src/stores.js';
   import { createNewEvent } from 'src/api/event.js';
 
-  import NewCalendarPicker from './_components/calendar/NewCalendarPicker.svelte';
   import DatePicker from './_components/datePicker/DatePicker.svelte';
   import { AwaitButton, TextInput, TimeInput } from 'src/components/form';
 
@@ -29,23 +28,22 @@
   $: eventDetailsValid = title.trim().length !== 0;
   $: userDetailsValid = username.trim().length !== 0
         && password.trim().length !== 0;
-  $: selectionsValid = selectedDays.length !== 0;
-
-  // PAGE STATE
-  // ==========
-  let startDate = dayjs().startOf('day');
-  $: daysToShow = Array.from(Array(10).keys())
-      .map((inc) => startDate.add(inc, 'day'));
+  $: timeValid = selectedDays.length !== 0
+        && startTime != null && endTime != null;
 
   // API FUNCTIONS
   // =============
   async function handleSubmitNewEvent() {
-    if (!eventDetailsValid || !userDetailsValid || !selectionsValid) {
+    if (!eventDetailsValid || !userDetailsValid || !timeValid) {
       attempted = true;
       return;
     }
+    const schedule = selectedDays.map(day => ({
+      start: day.hour(startTime.hour()).minute(0),
+      end: day.hour(endTime.hour()).minute(0),
+    }))
     const eventDetails = ({
-      title, description, username, password, schedule: selectedDays
+      title, description, username, password, schedule,
     });
     const { eventUrl, accessToken }
         = await createNewEvent(fetch, $session.API_URL, eventDetails);
@@ -92,7 +90,7 @@
       Indicate event timing
     </h3>
 
-    <!-- CALENDAR PICKER -->
+    <!-- DATE AND TIME PICKER -->
     <DatePicker bind:selectedDays={selectedDays} />
     <div class="timebar">
       <TimeInput
