@@ -14,7 +14,7 @@
   // =====
   export let selectedMonth;
 
-  // REACTIVE STATE
+  // REACTIVE ATTRIBUTES
   // =====
   $: numDays = selectedMonth.daysInMonth();
   $: days = Array.from(Array(numDays).keys())
