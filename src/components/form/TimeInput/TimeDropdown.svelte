@@ -8,6 +8,7 @@
   // =====
   export let targetNode;
   export let earliestTime;
+  export let latestTime;
 
   // STATE
   // =====
@@ -33,7 +34,9 @@
   }}
 >
   {#each times as time}
-    <Time on:select {time} {earliestTime} />
+    {#if !latestTime || !time.isAfter(latestTime, 'hour')}
+      <Time on:select {time} {earliestTime} />
+    {/if}
   {/each}
 </div>
 

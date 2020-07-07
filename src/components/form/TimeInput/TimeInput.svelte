@@ -9,6 +9,12 @@
   // PROPS
   // =====
   export let earliestTime;
+  export let latestTime;
+  export let label;
+  export let style;
+
+  // REACTIVE FUNCTIONS
+  // ==================
   $: {
     if (earliestTime
         && (selectedTime == null
@@ -16,8 +22,6 @@
       selectedTime = earliestTime;
     }
   }
-  export let label;
-  export let style;
 
   // STATE
   // =====
@@ -54,7 +58,7 @@
 {#if showTimes}
   <TimeDropdown
     on:select={select}
-    {targetNode} {earliestTime}
+    {targetNode} {earliestTime} {latestTime}
   />
 {/if}
 

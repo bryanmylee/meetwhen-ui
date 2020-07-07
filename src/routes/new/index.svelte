@@ -99,6 +99,7 @@
         bind:selectedTime={startTime}
         label="From"
         style="margin-right: 1rem"
+        latestTime={dayjs().hour(23).minute(0)}
       />
       <TimeInput
         bind:selectedTime={endTime}
