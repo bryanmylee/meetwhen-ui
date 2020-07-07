@@ -11,6 +11,7 @@
 
   import DatePicker from './_components/datePicker/DatePicker.svelte';
   import { AwaitButton, TextInput, TimeInput } from 'src/components/form';
+  import ErrorToast from 'src/components/ErrorToast.svelte';
 
   // FORM DATA
   // =========
@@ -30,6 +31,10 @@
         && password.trim().length !== 0;
   $: timeValid = selectedDays.length !== 0
         && startTime != null && endTime != null;
+
+  // PAGE STATE
+  // ==========
+  let errorMessage = '';
 
   // API FUNCTIONS
   // =============
@@ -112,6 +117,8 @@
   <div class="button">
     <AwaitButton onClick={handleSubmitNewEvent}>Create Event</AwaitButton>
   </div>
+
+  <ErrorToast bind:errorMessage={errorMessage} />
 </div>
 
 <style>

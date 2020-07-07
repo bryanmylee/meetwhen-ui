@@ -16,26 +16,31 @@
 
   // STATE
   // =====
-  // Use an array to allow one message to fade away while the next fades in.
+  // Track all unique messages with timestamp
   let displayedMessages = [];
-  let timer = null;
 
   // STATE FUNCTIONS
   // ===============
   async function updateDisplayedMessages(newMessage) {
     if (newMessage.trim().length === 0) return;
-    if (timer) clearInterval(timer);
-    displayedMessages = [ newMessage ];
-    timer = setInterval(() => {
-      displayedMessages = [];
-      errorMessage = '';
-    }, messageDuration);
+
+    const timestamp = (new Date()).getTime();
+    displayedMessages = [ ...displayedMessages, {
+      timestamp,
+      content: newMessage,
+      timer: setInterval(function() {
+        displayedMessages = displayedMessages.filter(message => {
+          return message.timestamp !== timestamp || message.content !== newMessage;
+        });
+      }, messageDuration),
+    }];
+    errorMessage = '';
   }
 </script>
 
-{#each displayedMessages as message (message)}
+{#each displayedMessages as { content, timestamp } (`${content}${timestamp}`)}
   <div in:fly={{y: 200, duration: 300, easing: cubicOut}} out:fade>
-    <span>{message}</span>
+    <span>{content}</span>
   </div>
 {/each}
 
