@@ -86,7 +86,8 @@ div, span {
 .card {
   border-radius: 5px;
   box-sizing: border-box;
-  box-shadow: var(--box-shadow);
+  background-color: var(--background-0);
+  box-shadow: var(--shadow-small);
 }
 
 .card.outline {
@@ -94,7 +95,6 @@ div, span {
   border-radius: 5px;
   box-sizing: border-box;
   border: 1px var(--line-1) solid;
-  background-color: var(--background-0);
   transition: border 0.2s ease;
 }
 
