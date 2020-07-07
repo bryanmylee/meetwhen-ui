@@ -122,12 +122,6 @@
     padding: 0.8rem;
   }
 
-  h3 {
-    color: var(--text-1);
-    margin: 0;
-    font-weight: 500;
-  }
-
   .timebar {
     padding: 1rem;
     display: flex;

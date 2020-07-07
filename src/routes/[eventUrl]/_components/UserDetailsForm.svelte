@@ -40,11 +40,3 @@
       style="margin-top: 1rem" />
   </div>
 </div>
-
-<style>
-  h3 {
-    color: var(--text-1);
-    margin: 0;
-    font-weight: 700;
-  }
-</style>

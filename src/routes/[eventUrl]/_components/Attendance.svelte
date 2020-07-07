@@ -37,12 +37,6 @@
 </div>
 
 <style>
-  h3 {
-    margin: 0;
-    color: var(--text-1);
-    font-weight: 700;
-  }
-
   .names__container {
     font-size: 0.8rem;
     margin-top: 0.3rem;

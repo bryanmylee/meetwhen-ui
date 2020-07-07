@@ -177,14 +177,13 @@
   <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
   <Details {event} />
 
-  <!-- USER DETAILS FORM CARD -->
   {#if $form === formEnum.LOGGING_IN}
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
       usernameValidation={validateUsername}
       passwordValidation={validatePassword}
-      prompt="Log in"
+      prompt="Welcome back!"
       {attempted}
     />
   {:else if $form === formEnum.JOINING}
@@ -193,7 +192,7 @@
       bind:password={password}
       usernameValidation={validateNewUsername}
       passwordValidation={validateNewPassword}
-      prompt="Create an account"
+      prompt="Who are you?"
       tip="Account is unique to this event only"
       {attempted}
     />
