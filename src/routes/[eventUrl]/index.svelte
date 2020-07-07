@@ -130,12 +130,12 @@
     try {
       validateNewUsername(username);
       validateNewPassword(password);
+      if ($selections.length === 0) throw new Error();
     } catch (err) {
       attempted = true;
       return;
     }
     if ($selections.length === 0) {
-      errorMessage = 'Schedule cannot be empty';
       attempted = true;
       return;
     }
