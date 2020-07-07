@@ -223,6 +223,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    margin-bottom: 4rem;
   }
 
   .picker-container div h3 {
@@ -241,6 +242,7 @@
     .picker-container {
       grid-row: 1/10;
       grid-column: 2/3;
+      margin-bottom: unset;
     }
   }
 </style>

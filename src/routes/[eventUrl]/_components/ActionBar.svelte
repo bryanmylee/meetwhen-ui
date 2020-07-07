@@ -60,6 +60,11 @@
 
 <style>
   .bar {
+    position: fixed;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 30;
     display: flex;
   }
 
@@ -81,5 +86,11 @@
   .margin-left {
     margin-left: 1rem;
     display: flex;
+  }
+
+  @media screen and (min-width: 768px) {
+    .bar {
+      position: unset;
+    }
   }
 </style>
