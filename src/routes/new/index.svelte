@@ -10,7 +10,9 @@
   import { createNewEvent } from 'src/api/event.js';
 
   import DatePicker from './_components/datePicker/DatePicker.svelte';
-  import { AwaitButton, TextInput, TimeInput } from 'src/components/form';
+  import EventDetailsForm from './_components/EventDetailsForm.svelte';
+  import UserDetailsForm from './_components/UserDetailsForm.svelte';
+  import { AwaitButton, TimeInput } from 'src/components/form';
   import ErrorToast from 'src/components/ErrorToast.svelte';
 
   // FORM DATA
@@ -58,32 +60,16 @@
 </script>
 
 <div class="main-content grid" in:fadeIn out:fadeOut>
-  <!-- EVENT DETAILS FORM CARD -->
-  <div
-    class="card outline padded"
-    class:error={attempted && !eventDetailsValid}
-  >
-    <h3>Describe your event</h3>
-    <TextInput label="Title" bind:value={title}
-      required {attempted}
-      style="margin-top: 1rem" />
-    <TextInput label="Description" bind:value={description}
-      style="margin-top: 1rem" />
-  </div>
-
-  <!-- USER DETAILS FORM CARD -->
-  <div
-    class="card outline padded"
-    class:error={attempted && !userDetailsValid}
-  >
-    <h3>Create an account</h3>
-    <TextInput label="Username" bind:value={username}
-      required {attempted}
-      style="margin-top: 1rem" />
-    <TextInput label="Password" bind:value={password}
-      isPassword required {attempted} tip="Account is unique to this event only"
-      style="margin-top: 1rem" />
-  </div>
+  <EventDetailsForm
+    bind:title={title}
+    bind:description={description}
+    {attempted}
+  />
+  <UserDetailsForm
+    bind:username={username}
+    bind:password={password}
+    {attempted}
+  />
 
   <!-- DATE AND TIME PICKER CARD -->
   <div
@@ -110,10 +96,8 @@
         earliestTime={startTime && startTime.add(1, 'hour')}
       />
     </div>
-    <!-- <NewCalendarPicker bind:selections={$selections} {daysToShow} /> -->
   </div>
 
-  <!-- BUTTONS -->
   <div class="button">
     <AwaitButton onClick={handleSubmitNewEvent}>Create Event</AwaitButton>
   </div>
