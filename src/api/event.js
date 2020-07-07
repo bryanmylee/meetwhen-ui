@@ -51,6 +51,7 @@ function deserializeInterval(serializedInterval) {
  */
 export async function createNewEvent(fetch, apiUrl, eventDetails) {
   const { title, description, username, password, schedule } = eventDetails;
+  schedule.sort((a, b) => a.start - b.start);
   const scheduleInMs = schedule.map(serializeInterval);
   return await (await fetch(`${apiUrl}/new`, {
     method: 'POST',
