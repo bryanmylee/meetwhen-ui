@@ -74,12 +74,16 @@
   .container {
     width: 100%;
     height: min-content;
-  }
-
-  .card {
     display: grid;
     grid-template-columns: auto 3rem;
     grid-auto-rows: min-content;
+    background-color: var(--background-1);
+    cursor: pointer;
+    transition: all 200ms ease;
+  }
+
+  .container:hover {
+    background-color: var(--background-0);
   }
 
   span {
