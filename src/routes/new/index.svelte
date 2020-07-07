@@ -52,7 +52,7 @@
   }
 </script>
 
-<div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
+<div class="main-content grid" in:fadeIn out:fadeOut>
   <!-- EVENT DETAILS FORM CARD -->
   <div
     class="card outline padded"
@@ -80,12 +80,12 @@
       style="margin-top: 1rem" />
   </div>
 
-  <!-- CALENDAR PICKER CARD -->
+  <!-- DATE AND TIME PICKER CARD -->
   <div
     class="picker-container card outline no-highlight"
-    class:error={attempted && !selectionsValid}
+    class:error={attempted && !timeValid}
   >
-    <!-- CALENDAR PICKER CARD TITLE HEADER -->
+    <!-- DATE AND TIME PICKER CARD TITLE HEADER -->
     <h3>
       Indicate event timing
     </h3>
@@ -124,6 +124,7 @@
     flex-direction: column;
     overflow: hidden;
     scroll-behavior: smooth;
+    margin-bottom: 4rem;
   }
 
   .picker-container > h3 {
@@ -143,7 +144,9 @@
   }
 
   .button {
-    justify-self: end;
+    position: fixed;
+    right: 0.5rem;
+    bottom: 0.5rem;
     width: fit-content;
   }
 
