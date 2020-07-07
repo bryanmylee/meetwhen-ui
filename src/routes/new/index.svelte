@@ -20,6 +20,8 @@
   let username = '';
   let password = '';
   let selectedDays = [];
+  let startTime = null;
+  let endTime = null;
 
   // FORM METADATA
   // =============
@@ -94,9 +96,15 @@
     <DatePicker bind:selectedDays={selectedDays} />
     <div class="timebar">
       <TimeInput
+        bind:selectedTime={startTime}
         label="From"
-        style="margin-right: 1rem" />
-      <TimeInput label="To" />
+        style="margin-right: 1rem"
+      />
+      <TimeInput
+        bind:selectedTime={endTime}
+        label="To"
+        earliestTime={startTime}
+      />
     </div>
     <!-- <NewCalendarPicker bind:selections={$selections} {daysToShow} /> -->
   </div>
