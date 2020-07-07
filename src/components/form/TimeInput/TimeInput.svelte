@@ -10,10 +10,10 @@
   // =====
   export let earliestTime;
   $: {
-    if (earliestTime) {
-      if (selectedTime == null || !earliestTime.isBefore(selectedTime, 'hour')) {
-        selectedTime = earliestTime.add(1, 'hour');
-      }
+    if (earliestTime
+        && (selectedTime == null
+            || !earliestTime.isBefore(selectedTime, 'hour'))) {
+      selectedTime = earliestTime.add(1, 'hour');
     }
   }
   export let label;
