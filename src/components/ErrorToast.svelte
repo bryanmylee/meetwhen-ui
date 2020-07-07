@@ -1,5 +1,6 @@
 <script>
   import { fade, fly } from 'svelte/transition';
+  import { flip } from 'svelte/animate';
   import { cubicOut } from 'svelte/easing';
 
   // BINDINGS
@@ -38,11 +39,17 @@
   }
 </script>
 
-{#each displayedMessages as { content, timestamp } (`${content}${timestamp}`)}
-  <div in:fly={{y: 200, duration: 300, easing: cubicOut}} out:fade>
-    <span>{content}</span>
-  </div>
-{/each}
+<div>
+  {#each displayedMessages as { content, timestamp } (`${content}${timestamp}`)}
+    <span
+      in:fly={{y: 200, duration: 300, easing: cubicOut}}
+      out:fade
+      animate:flip={{duration: 300, easing: cubicOut}}
+    >
+      {content}
+    </span>
+  {/each}
+</div>
 
 <style>
   div {
@@ -52,12 +59,15 @@
     bottom: 5rem;
     z-index: 90;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
   }
 
   span {
     font-size: 0.8rem;
-    padding: 0.8rem;
+    margin-top: 0.8em;
+    padding: 0.8em;
     color: white;
     background-color: var(--error-0);
     border-radius: 5px;
