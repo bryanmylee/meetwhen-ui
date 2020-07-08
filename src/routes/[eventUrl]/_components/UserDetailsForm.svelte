@@ -6,6 +6,7 @@
   // ========
   export let username;
   export let password;
+  export let formValid;
 
   // PROPS
   // =====

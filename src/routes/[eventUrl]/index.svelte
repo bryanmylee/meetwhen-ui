@@ -73,6 +73,8 @@
   // ==========
   let errorMessage = '';
   $: $form, setForm();
+  let userDetailsValid;
+  $: scheduleValid = $selections.length !== 0;
 
   // PAGE FUNCTIONS
   // ==============
@@ -99,10 +101,7 @@
   // API FUNCTIONS
   // =============
   async function handleSubmitLogin() {
-    try {
-      validateUsername(username);
-      validatePassword(password);
-    } catch (err) {
+    if (!userDetailsValid) {
       attempted = true;
       return;
     }
@@ -127,15 +126,7 @@
   }
 
   async function handleSubmitNewUser() {
-    try {
-      validateNewUsername(username);
-      validateNewPassword(password);
-      if ($selections.length === 0) throw new Error();
-    } catch (err) {
-      attempted = true;
-      return;
-    }
-    if ($selections.length === 0) {
+    if (!userDetailsValid || !scheduleValid) {
       attempted = true;
       return;
     }
@@ -151,8 +142,7 @@
   }
 
   async function handleSubmitEditUser() {
-    if ($selections.length === 0) {
-      errorMessage = 'Schedule cannot be empty';
+    if (!scheduleValid) {
       attempted = true;
       return;
     }
@@ -181,6 +171,7 @@
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
+      bind:formValid={userDetailsValid}
       usernameValidation={validateUsername}
       passwordValidation={validatePassword}
       prompt="Welcome back!"
@@ -190,6 +181,7 @@
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
+      bind:formValid={userDetailsValid}
       usernameValidation={validateNewUsername}
       passwordValidation={validateNewPassword}
       prompt="Who are you?"
