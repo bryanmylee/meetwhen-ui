@@ -2,14 +2,14 @@
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 </script>
 
-<div class="calendar-header">
+<div class="calendar-dates">
   {#each days as day}
     <span>{day}</span>
   {/each}
 </div>
 
 <style>
-  .calendar-header {
+  .calendar-dates {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-auto-rows: max-content;
