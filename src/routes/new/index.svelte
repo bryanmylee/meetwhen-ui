@@ -1,7 +1,6 @@
 <script>
   import { goto, stores } from '@sapper/app';
   const { session } = stores();
-  import dayjs from 'dayjs';
 
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
   import { user } from 'src/stores.js';
@@ -27,15 +26,14 @@
   // FORM METADATA
   // =============
   let attempted = false;
-  $: eventDetailsValid = title.trim().length !== 0;
-  $: userDetailsValid = username.trim().length !== 0
-        && password.trim().length !== 0;
   $: timeValid = selectedDays.length !== 0
         && startTime != null && endTime != null;
 
   // PAGE STATE
   // ==========
   let errorMessage = '';
+  let eventDetailsValid;
+  let userDetailsValid;
 
   // API FUNCTIONS
   // =============
@@ -60,13 +58,14 @@
 
 <div class="main-content grid" in:fadeIn out:fadeOut>
   <EventDetailsForm
-    bind:title={title}
+    bind:title={title} bind:formValid={eventDetailsValid}
     bind:description={description}
     {attempted}
   />
   <UserDetailsForm
     bind:username={username}
     bind:password={password}
+    bind:formValid={userDetailsValid}
     {attempted}
   />
 

@@ -6,6 +6,7 @@
   // ========
   export let title;
   export let description;
+  export let formValid;
 
   // PROPS
   // =====
@@ -14,6 +15,7 @@
   // STATE
   // =====
   let titleValid;
+  $: formValid = titleValid;
 </script>
 
 <div
