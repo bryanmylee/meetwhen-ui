@@ -122,8 +122,17 @@
     }
 
     .picker-container {
-      grid-row: 1/10;
+      grid-row: 1/3;
       grid-column: 2/3;
+      margin-bottom: 0.5rem;
+    }
+
+    .button {
+      position: unset;
+      grid-row: 4/5;
+      grid-column: 2/3;
+      display: flex;
+      justify-self: end;
     }
   }
 </style>
