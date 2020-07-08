@@ -1,5 +1,3 @@
-<svelte:options immutable={true}/>
-
 <script>
   import { goto, stores } from '@sapper/app';
   const { session } = stores();
