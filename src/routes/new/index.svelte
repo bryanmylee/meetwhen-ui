@@ -10,7 +10,8 @@
   import DatePicker from './_components/datePicker/DatePicker.svelte';
   import EventDetailsForm from './_components/EventDetailsForm.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
-  import { AwaitButton, TimeInput } from 'src/components/form';
+  import TimeInputBar from './_components/TimeInputBar.svelte';
+  import { AwaitButton } from 'src/components/form';
   import ErrorToast from 'src/components/ErrorToast.svelte';
 
   // FORM DATA
@@ -81,19 +82,7 @@
 
     <!-- DATE AND TIME PICKER -->
     <DatePicker bind:selectedDays={selectedDays} />
-    <div class="timebar">
-      <TimeInput
-        bind:selectedTime={startTime}
-        label="From"
-        style="margin-right: 1rem"
-        latestTime={dayjs().hour(23).minute(0)}
-      />
-      <TimeInput
-        bind:selectedTime={endTime}
-        label="To"
-        earliestTime={startTime && startTime.add(1, 'hour')}
-      />
-    </div>
+    <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />
   </div>
 
   <div class="button">
@@ -118,12 +107,6 @@
 
   .picker-container > h3 {
     padding: 0.8rem;
-  }
-
-  .timebar {
-    padding: 1rem;
-    display: flex;
-    flex-flow: row nowrap;
   }
 
   .button {
