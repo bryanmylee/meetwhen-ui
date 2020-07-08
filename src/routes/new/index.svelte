@@ -26,14 +26,14 @@
   // FORM METADATA
   // =============
   let attempted = false;
+  let eventDetailsValid;
+  let userDetailsValid;
   $: timeValid = selectedDays.length !== 0
         && startTime != null && endTime != null;
 
   // PAGE STATE
   // ==========
   let errorMessage = '';
-  let eventDetailsValid;
-  let userDetailsValid;
 
   // API FUNCTIONS
   // =============
@@ -76,7 +76,7 @@
   >
     <!-- DATE AND TIME PICKER CARD TITLE HEADER -->
     <h3>
-      Indicate event timing
+      When are you free?
     </h3>
 
     <!-- DATE AND TIME PICKER -->
@@ -131,7 +131,6 @@
       position: unset;
       grid-row: 4/5;
       grid-column: 2/3;
-      display: flex;
       justify-self: end;
     }
   }

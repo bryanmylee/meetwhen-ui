@@ -65,16 +65,16 @@
   // FORM METADATA
   // =============
   let attempted = false;
+  let userDetailsValid;
+  $: scheduleValid = $selections.length !== 0;
   $: showCalendarError = attempted
       && ($form === formEnum.EDITING || $form === formEnum.JOINING)
-      && $selections.length === 0;
+      && !scheduleValid;
 
   // PAGE STATE
   // ==========
   let errorMessage = '';
   $: $form, setForm();
-  let userDetailsValid;
-  $: scheduleValid = $selections.length !== 0;
 
   // PAGE FUNCTIONS
   // ==============
@@ -219,7 +219,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    margin-bottom: 4rem !important;
+    margin-bottom: 4.5rem !important;
   }
 
   @media screen and (min-width: 768px) {
