@@ -29,12 +29,6 @@ on Chrome and Firefox -->
     padding: 0.8rem;
   }
 
-  h3 {
-    color: var(--text-1);
-    margin: 0;
-    font-weight: 700;
-  }
-
   .error {
     color: var(--error-0);
   }

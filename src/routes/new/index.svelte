@@ -6,9 +6,10 @@
   import { user } from 'src/stores.js';
   import { createNewEvent } from 'src/api/event.js';
 
-  import DatePicker from './_components/datePicker/DatePicker.svelte';
   import EventDetailsForm from './_components/EventDetailsForm.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
+  import SchedulePickerHeader from './_components/datePicker/SchedulePickerHeader.svelte';
+  import DatePicker from './_components/datePicker/DatePicker.svelte';
   import TimeInputBar from './_components/TimeInputBar.svelte';
   import { AwaitButton } from 'src/components/form';
   import ErrorToast from 'src/components/ErrorToast.svelte';
@@ -29,7 +30,8 @@
   let eventDetailsValid;
   let userDetailsValid;
   $: timeValid = selectedDays.length !== 0
-        && startTime != null && endTime != null;
+      && startTime != null && endTime != null;
+  $: showScheduleError = attempted && !timeValid;
 
   // PAGE STATE
   // ==========
@@ -75,9 +77,7 @@
     class:error={attempted && !timeValid}
   >
     <!-- DATE AND TIME PICKER CARD TITLE HEADER -->
-    <h3>
-      When are you free?
-    </h3>
+    <SchedulePickerHeader showError={showScheduleError} />
 
     <!-- DATE AND TIME PICKER -->
     <DatePicker bind:selectedDays={selectedDays} />
@@ -102,10 +102,6 @@
     overflow: hidden;
     scroll-behavior: smooth;
     margin-bottom: 4rem;
-  }
-
-  .picker-container > h3 {
-    padding: 0.8rem;
   }
 
   .button {
