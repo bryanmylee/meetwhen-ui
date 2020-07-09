@@ -1,6 +1,7 @@
 <script>
-  import { slide } from 'svelte/transition';
   import { inputAction, labelAction } from './TextInput.js';
+
+  import ErrorTip from 'src/components/ErrorTip.svelte';
 
   // BINDINGS
   // ========
@@ -41,11 +42,9 @@
   <label use:labelAction={{focused, value, showError: !valid && attempted}}>
     {label}
   </label>
-  {#if errorMessage}
-    <h5 class="tip error" transition:slide={{duration: 200}}>
-      {errorMessage}
-    </h5>
-  {/if}
+  <ErrorTip show={errorMessage != null}>
+    {errorMessage}
+  </ErrorTip>
   {#if tip && tip.trim().length !== 0}
     <h5 class="tip">{tip}</h5>
   {/if}
@@ -84,9 +83,5 @@
     transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -webkit-transition: all 0.2s ease;
-  }
-
-  .error {
-    color: var(--error-0);
   }
 </style>
