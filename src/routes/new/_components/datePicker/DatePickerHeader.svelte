@@ -1,6 +1,8 @@
 <script>
   import { slide } from 'svelte/transition';
 
+  import ErrorTip from 'src/components/ErrorTip.svelte';
+
   export let showError = false;
 </script>
 
@@ -12,20 +14,12 @@ on Chrome and Firefox -->
     <h3>
       When are you free?
     </h3>
-    {#if showError}
-      <h5 class="tip error" transition:slide={{duration: 200}}>
-        Pick at least one date
-      </h5>
-    {/if}
+    <ErrorTip show={showError}>Pick at least one date</ErrorTip>
   </div>
 </div>
 
 <style>
   .container {
     padding: 0.8rem;
-  }
-
-  .error {
-    color: var(--error-0);
   }
 </style>

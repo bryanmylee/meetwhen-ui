@@ -31,7 +31,6 @@
   let userDetailsValid;
   $: datesValid = selectedDays.length !== 0
   $: timesValid = startTime != null && endTime != null;
-  $: showScheduleError = attempted && !datesValid && !timesValid;
 
   // PAGE STATE
   // ==========
@@ -74,12 +73,9 @@
   <!-- DATE AND TIME PICKER CARD -->
   <div
     class="picker-container card outline no-highlight"
-    class:error={showScheduleError}
+    class:error={attempted && !datesValid && !timesValid}
   >
-    <!-- DATE AND TIME PICKER CARD TITLE HEADER -->
     <DatePickerHeader showError={attempted && !datesValid} />
-
-    <!-- DATE AND TIME PICKER -->
     <DatePicker bind:selectedDays={selectedDays} />
     <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />
   </div>
