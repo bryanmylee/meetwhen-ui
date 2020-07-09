@@ -8,7 +8,7 @@
 
   import EventDetailsForm from './_components/EventDetailsForm.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
-  import SchedulePickerHeader from './_components/datePicker/SchedulePickerHeader.svelte';
+  import DatePickerHeader from './_components/datePicker/DatePickerHeader.svelte';
   import DatePicker from './_components/datePicker/DatePicker.svelte';
   import TimeInputBar from './_components/TimeInputBar.svelte';
   import { AwaitButton } from 'src/components/form';
@@ -29,9 +29,9 @@
   let attempted = false;
   let eventDetailsValid;
   let userDetailsValid;
-  $: timeValid = selectedDays.length !== 0
-      && startTime != null && endTime != null;
-  $: showScheduleError = attempted && !timeValid;
+  $: datesValid = selectedDays.length !== 0
+  $: timesValid = startTime != null && endTime != null;
+  $: showScheduleError = attempted && !datesValid && !timesValid;
 
   // PAGE STATE
   // ==========
@@ -74,10 +74,10 @@
   <!-- DATE AND TIME PICKER CARD -->
   <div
     class="picker-container card outline no-highlight"
-    class:error={attempted && !timeValid}
+    class:error={showScheduleError}
   >
     <!-- DATE AND TIME PICKER CARD TITLE HEADER -->
-    <SchedulePickerHeader showError={showScheduleError} />
+    <DatePickerHeader showError={attempted && !datesValid} />
 
     <!-- DATE AND TIME PICKER -->
     <DatePicker bind:selectedDays={selectedDays} />

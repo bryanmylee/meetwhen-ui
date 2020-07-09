@@ -14,7 +14,7 @@ on Chrome and Firefox -->
     </h3>
     {#if showError}
       <h5 class="tip error" transition:slide={{duration: 200}}>
-        Schedule cannot be empty
+        Pick at least one date
       </h5>
     {/if}
   </div>
