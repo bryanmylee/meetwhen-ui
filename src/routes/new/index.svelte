@@ -58,7 +58,7 @@
   }
 </script>
 
-<div class="main-content grid" in:fadeIn out:fadeOut>
+<div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <EventDetailsForm
     bind:title={title} bind:formValid={eventDetailsValid}
     bind:description={description}
