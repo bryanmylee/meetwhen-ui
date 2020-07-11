@@ -33,10 +33,10 @@
   <div in:fade={{duration: 150, delay: 400}} out:fade={{duration: 150}}>
     <h3>{prompt}</h3>
     <TextInput label="Username" bind:value={username} bind:valid={usernameValid}
-      {attempted} validationFunction={usernameValidation}
+      required {attempted} validationFunction={usernameValidation}
       style="margin-top: 1rem" />
     <TextInput label="Password" bind:value={password} bind:valid={passwordValid}
-      isPassword {tip}
+      required isPassword {tip}
       {attempted} validationFunction={passwordValidation}
       style="margin-top: 1rem" />
   </div>

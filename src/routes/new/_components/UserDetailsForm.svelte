@@ -25,10 +25,10 @@
 >
   <h3>Who are you?</h3>
   <TextInput label="Username" bind:value={username} bind:valid={usernameValid}
-    {attempted} validationFunction={validateNewUsername}
+    required {attempted} validationFunction={validateNewUsername}
     style="margin-top: 1rem" />
   <TextInput label="Password" bind:value={password} bind:valid={passwordValid}
-    {attempted} validationFunction={validateNewPassword}
+    required {attempted} validationFunction={validateNewPassword}
     isPassword tip="Account is unique to this event only"
     style="margin-top: 1rem" />
 </div>

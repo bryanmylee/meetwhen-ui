@@ -24,8 +24,8 @@
 >
   <h3>Name your event</h3>
   <TextInput label="Title" bind:value={title} bind:valid={titleValid}
-    {attempted} validationFunction={getRequired('Your event title cannot be empty')}
+    required {attempted} validationFunction={getRequired('Your event title cannot be empty')}
     style="margin-top: 1rem" />
-  <TextInput label="Description" bind:value={description} isPassword
+  <TextInput label="Description" bind:value={description}
     style="margin-top: 1rem" />
 </div>

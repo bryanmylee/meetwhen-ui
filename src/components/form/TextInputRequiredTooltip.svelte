@@ -1,0 +1,95 @@
+<script>
+  import { popper } from 'src/actions/popper.js';
+
+  // PROPS
+  // =====
+  export let tooltip = 'Required field';
+
+  // STATE
+  // =====
+  let showTooltip = false;
+
+  // NODES
+  // =====
+  let targetNode;
+</script>
+
+<span
+  bind:this={targetNode}
+  on:mouseenter={_ => showTooltip = true}
+  on:mouseleave={_ => showTooltip = false}
+/>
+{#if showTooltip}
+  <div class="popover" use:popper={{targetNode, popperOptions: { placement: 'right'}}}>
+    <div class="popover__content">
+      <h5>{tooltip}</h5>
+    </div>
+    <div data-popper-arrow class="popover__arrow"></div>
+  </div>
+{/if}
+
+<style>
+  span {
+    background-color: var(--line-1);
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 0.25em;
+    position: absolute;
+    top: 1.15em;
+    right: 1em;
+  }
+
+  .popover {
+    z-index: 90;
+  }
+
+  .popover__content {
+    z-index: 30;
+    width: -moz-max-content;
+    width: -webkit-max-content;
+    height: -moz-max-content;
+    height: -webkit-max-content;
+    background-color: white;
+    border: 1px solid var(--line-1);
+    border-radius: 5px;
+    /* box-shadow: var(--shadow-med); */
+  }
+
+  .popover__arrow {
+    z-index: 31;
+    left: -0.45rem;
+    width: 0.5rem;
+    height: 1rem;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+    background-color: var(--line-1);
+    pointer-events: none;
+  }
+
+  .popover__arrow:before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1.5px;
+    width: calc(0.5rem - 1px);
+    height: calc(1rem - 2px);
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+    background-color: white;
+  }
+
+  :global([data-popper-placement^="left"]) .popover__arrow {
+    left: unset;
+    right: -0.44rem;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+
+  :global([data-popper-placement^="left"]) .popover__arrow:before {
+    left: unset;
+    right: 1.5px;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+
+  h5 {
+    margin: 0.5em;
+    font-weight: 600;
+  }
+</style>

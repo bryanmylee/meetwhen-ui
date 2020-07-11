@@ -2,6 +2,7 @@
   import { inputAction, labelAction } from './TextInput.js';
 
   import ErrorTip from 'src/components/ErrorTip.svelte';
+  import TextInputRequiredTooltip from './TextInputRequiredTooltip.svelte';
 
   // BINDINGS
   // ========
@@ -21,6 +22,7 @@
   // PROPS
   // =====
   export let label = "Label";
+  export let required = false;
   export let isPassword = false;
   export let attempted = false;
   export let tip = '';
@@ -42,9 +44,10 @@
   <label use:labelAction={{focused, value, showError: !valid && attempted}}>
     {label}
   </label>
-  <ErrorTip show={errorMessage != null}>
-    {errorMessage}
-  </ErrorTip>
+  {#if required}
+    <TextInputRequiredTooltip />
+  {/if}
+  <ErrorTip show={errorMessage != null}>{errorMessage}</ErrorTip>
   {#if tip && tip.trim().length !== 0}
     <h5 class="tip">{tip}</h5>
   {/if}
