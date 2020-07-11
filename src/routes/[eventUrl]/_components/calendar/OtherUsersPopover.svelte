@@ -40,8 +40,8 @@
 
 <div class="popover" use:popper={{targetNode, popperOptions}}>
   <div class="popover__content">
-    <h5>{countString}</h5>
-    <h5 class="tip">{timeString}</h5>
+    <h5>{timeString}</h5>
+    <h5 class="tip">{countString}</h5>
     <div class="names__container">
       {#each usernames.sort() as username}
         <p>{username}</p>
