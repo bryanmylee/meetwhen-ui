@@ -8,8 +8,6 @@
   import { sizePos } from 'src/components/calendar/actions/selection.js';
   import colorGradient from 'src/actions/colorGradient.js';
 
-  import OtherUsersPopover from './OtherUsersPopover.svelte';
-
   // PROPS
   // =====
   export let start;
@@ -25,17 +23,13 @@
   $: ratio = (usernames.length - minUsernameCount)
       / Math.max(maxUsernameCount - minUsernameCount, 1);
 
-  // STATE
-  // =====
-  let showPopover = false;
-
   // NODES
   // =====
   let targetNode;
 
   // STATE FUNCTIONS
   // ===============
-  function handleClick(event) {
+  function handleClick() {
     dispatch('selectInterval', {
       start,
       end,
