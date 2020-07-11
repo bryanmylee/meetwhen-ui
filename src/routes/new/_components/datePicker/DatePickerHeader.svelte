@@ -1,6 +1,4 @@
 <script>
-  import { slide } from 'svelte/transition';
-
   import ErrorTip from 'src/components/ErrorTip.svelte';
 
   export let showError = false;
@@ -10,7 +8,7 @@
 <!-- Wrap the slide transition within an extra div to prevent jitter issue
 on Chrome and Firefox -->
 <div>
-  <div class="container" transition:slide={{duration: 400}}>
+  <div class="container">
     <h3>
       When are you free?
     </h3>
