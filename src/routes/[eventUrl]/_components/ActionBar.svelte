@@ -11,6 +11,8 @@
   export let handleLogout;
   export let handleSubmitNewUser;
   export let handleSubmitEditUser;
+
+  const leftMarginStyle = 'margin-left: 1rem'
 </script>
 
 <div class="bar">
@@ -28,31 +30,21 @@
     {#if $user.isLoggedIn}
       {#if $form === formEnum.EDITING}
         <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
-        <div class="margin-left">
-          <AwaitButton onClick={handleSubmitEditUser}>Confirm</AwaitButton>
-        </div>
+        <AwaitButton style={leftMarginStyle} onClick={handleSubmitEditUser}>Confirm</AwaitButton>
       {:else}
         <AwaitButton onClick={handleLogout}>Log Out</AwaitButton>
-        <div class="margin-left">
-          <Button on:click={() => $form = formEnum.EDITING}>Edit</Button>
-        </div>
+        <Button style={leftMarginStyle} on:click={() => $form = formEnum.EDITING}>Edit</Button>
       {/if}
     {:else}
       {#if $form === formEnum.LOGGING_IN}
         <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
-        <div class="margin-left">
-          <AwaitButton onClick={handleSubmitLogin}>Confirm</AwaitButton>
-        </div>
+        <AwaitButton style={leftMarginStyle} onClick={handleSubmitLogin}>Confirm</AwaitButton>
       {:else if $form === formEnum.JOINING}
         <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
-        <div class="margin-left">
-          <AwaitButton onClick={handleSubmitNewUser}>Confirm</AwaitButton>
-        </div>
+        <AwaitButton style={leftMarginStyle} onClick={handleSubmitNewUser}>Confirm</AwaitButton>
       {:else if $form === formEnum.NONE}
         <Button on:click={() => $form = formEnum.LOGGING_IN}>Login</Button>
-        <div class="margin-left">
-          <Button on:click={() => $form = formEnum.JOINING}>Join Event</Button>
-        </div>
+        <Button style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>Join Event</Button>
       {/if}
     {/if}
   </div>
@@ -81,11 +73,6 @@
   .bar__right {
     margin-left: auto;
     padding-left: 0.5rem;
-  }
-
-  .margin-left {
-    margin-left: 1rem;
-    display: flex;
   }
 
   @media screen and (min-width: 768px) {

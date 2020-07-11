@@ -6,6 +6,7 @@
   export let outline = false;
   export let alt = false;
   export let onClick;
+  export let style = '';
 
   // STATE
   // =====
@@ -18,6 +19,7 @@
 </script>
 
 <Button
+  {style}
   {outline}
   {alt}
   {disabled}

@@ -2,9 +2,11 @@
   export let outline = false;
   export let alt = false;
   export let disabled = false;
+  export let style = '';
 </script>
 
 <button
+  {style}
   {disabled}
   on:click
   class="no-highlight"
