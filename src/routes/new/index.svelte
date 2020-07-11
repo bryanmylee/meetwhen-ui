@@ -13,6 +13,7 @@
   import TimeInputBar from './_components/TimeInputBar.svelte';
   import { AwaitButton } from 'src/components/form';
   import ErrorToast from 'src/components/ErrorToast.svelte';
+  import ErrorTip from 'src/components/ErrorTip.svelte';
 
   // FORM DATA
   // =========
@@ -72,12 +73,13 @@
 
   <!-- DATE AND TIME PICKER CARD -->
   <div
-    class="picker-container card outline no-highlight"
+    class="picker-container card outline padded no-highlight"
     class:error={attempted && !datesValid && !timesValid}
   >
     <DatePickerHeader showError={attempted && !datesValid} />
     <DatePicker bind:selectedDays={selectedDays} />
     <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />
+    <ErrorTip show={attempted && !timesValid}>Your event time cannot be empty</ErrorTip>
   </div>
 
   <div class="button">

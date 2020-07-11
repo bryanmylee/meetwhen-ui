@@ -16,13 +16,13 @@ export const getRequired = (prompt) => (value) => {
 }
 
 export const validateNewUsername = (username) => {
-  if (username.trim().length === 0) throw new Error('Username cannot be empty');
-  if (!/^[a-z0-9_\-]+$/i.test(username)) throw new Error('Username must be alphanumeric');
+  if (username.trim().length === 0) throw new Error('Your username cannot be empty');
+  if (!/^[a-z0-9_\-]+$/i.test(username)) throw new Error('Your username must be alphanumeric');
 }
 
 export const validateNewPassword = (password) => {
   const { length } = password.trim();
-  if (length < 8) throw new Error('Password should have 8 characters or more');
+  if (length < 8) throw new Error('Your password should have 8 characters or more');
 }
 
 export const validateUsername = (username) => {

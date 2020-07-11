@@ -13,8 +13,16 @@
   export let selectedMonth = dayjs();
 </script>
 
-<CalendarDates />
-<CalendarGrid
-  bind:selectedDays={selectedDays}
-  {selectedMonth}
-/>
+<div>
+  <CalendarDates />
+  <CalendarGrid
+    bind:selectedDays={selectedDays}
+    {selectedMonth}
+  />
+</div>
+
+<style>
+  div {
+    margin: 0 -0.8rem;
+  }
+</style>

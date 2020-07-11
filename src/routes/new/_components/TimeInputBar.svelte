@@ -25,7 +25,7 @@
 
   <style>
     .time-bar {
-      padding: 1rem;
+      padding-top: 0.8rem;
       display: flex;
       flex-flow: row nowrap;
     }

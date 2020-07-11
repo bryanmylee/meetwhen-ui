@@ -20,6 +20,6 @@ on Chrome and Firefox -->
 
 <style>
   .container {
-    padding: 0.8rem;
+    padding-bottom: 0.8rem;
   }
 </style>
