@@ -19,9 +19,13 @@
   {#if $layout === layoutEnum.NARROW}
     <div class="bar__left">
       {#if $details === detailsEnum.EVENT_DETAILS}
-        <Button alt on:click={() => $details = detailsEnum.ATTENDANCE}>Who's attending?</Button>
-      {:else if $details === detailsEnum.ATTENDANCE}
-        <Button alt on:click={() => $details = detailsEnum.EVENT_DETAILS}>Event details</Button>
+        <Button alt on:click={_ => $details = detailsEnum.ATTENDANCE}>
+          Who's attending?
+        </Button>
+      {:else}
+        <Button alt on:click={_ => $details = detailsEnum.EVENT_DETAILS}>
+          Event details
+        </Button>
       {/if}
     </div>
   {/if}
@@ -29,22 +33,42 @@
   <div class="bar__right">
     {#if $user.isLoggedIn}
       {#if $form === formEnum.EDITING}
-        <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
-        <AwaitButton style={leftMarginStyle} onClick={handleSubmitEditUser}>Confirm</AwaitButton>
+        <Button outline on:click={_ => $form = formEnum.NONE}>
+          Cancel
+        </Button>
+        <AwaitButton style={leftMarginStyle} onClick={handleSubmitEditUser}>
+          Confirm
+        </AwaitButton>
       {:else}
-        <AwaitButton onClick={handleLogout}>Log Out</AwaitButton>
-        <Button style={leftMarginStyle} on:click={() => $form = formEnum.EDITING}>Edit</Button>
+        <AwaitButton onClick={handleLogout}>
+          Log Out
+        </AwaitButton>
+        <Button style={leftMarginStyle} on:click={_ => $form = formEnum.EDITING}>
+          Edit
+        </Button>
       {/if}
     {:else}
       {#if $form === formEnum.LOGGING_IN}
-        <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
-        <AwaitButton style={leftMarginStyle} onClick={handleSubmitLogin}>Confirm</AwaitButton>
+        <Button outline on:click={_ => $form = formEnum.NONE}>
+          Cancel
+        </Button>
+        <AwaitButton style={leftMarginStyle} onClick={handleSubmitLogin}>
+          Confirm
+        </AwaitButton>
       {:else if $form === formEnum.JOINING}
-        <Button outline on:click={() => $form = formEnum.NONE}>Cancel</Button>
-        <AwaitButton style={leftMarginStyle} onClick={handleSubmitNewUser}>Confirm</AwaitButton>
-      {:else if $form === formEnum.NONE}
-        <Button on:click={() => $form = formEnum.LOGGING_IN}>Login</Button>
-        <Button style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>Join Event</Button>
+        <Button outline on:click={_ => $form = formEnum.NONE}>
+          Cancel
+        </Button>
+        <AwaitButton style={leftMarginStyle} onClick={handleSubmitNewUser}>
+          Confirm
+        </AwaitButton>
+      {:else}
+        <Button on:click={_ => $form = formEnum.LOGGING_IN}>
+          Login
+        </Button>
+        <Button style={leftMarginStyle} on:click={_ => $form = formEnum.JOINING}>
+          Join Event
+        </Button>
       {/if}
     {/if}
   </div>
