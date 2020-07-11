@@ -40,7 +40,7 @@
   // API FUNCTIONS
   // =============
   async function handleSubmitNewEvent() {
-    if (!eventDetailsValid || !userDetailsValid || !timeValid) {
+    if (!eventDetailsValid || !userDetailsValid || !datesValid || !timesValid) {
       attempted = true;
       return;
     }
