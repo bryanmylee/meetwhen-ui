@@ -1,9 +1,8 @@
 <svelte:options immutable={true}/>
 <script>
-  import dayjs from 'dayjs';
-
   import { getMergedIntervals, splitIntervalsOnMidnight, } from 'src/utils/interval.js';
   import { isSelecting } from './stores.js';
+  import { getFilteredUserIntervalsByUsername, getMinMaxUsernames, getDaysToShowWithSkip } from './EventCalendarPicker.js';
   import { formEnum, form, selectedUsernames } from '../../stores.js';
 
   import CalendarPickerBase from 'src/components/calendar/CalendarPickerBase.svelte';
@@ -41,45 +40,15 @@
   // REACTIVE ATTRIBUTES
   // ===================
   $: eventIntervalsSplitOnMidnight = splitIntervalsOnMidnight(eventIntervals);
-
   // Filtered user intervals based on selected usernames.
-  $: filteredUserIntervalsByUsername = $selectedUsernames.length === 0
-      ? userIntervalsByUsername
-      : Object.keys(userIntervalsByUsername)
-          .filter(username => $selectedUsernames.includes(username))
-          .reduce((obj, username) => ({
-            ...obj,
-            [username]: userIntervalsByUsername[username],
-          }), {});
+  $: filteredUserIntervalsByUsername = getFilteredUserIntervalsByUsername($selectedUsernames, userIntervalsByUsername);
   // User intervals with grouped usernames.
-  $: userIntervalsByTime
-      = splitIntervalsOnMidnight(getMergedIntervals(filteredUserIntervalsByUsername));
-
-  // The minimum number of usernames in any given interval.
-  $: minUsernameCount = userIntervalsByTime.reduce((min, interval) => {
-    const { length } = interval.usernames;
-    return min <= length ? min : length;
-  }, Object.keys(userIntervalsByUsername).length);
-  // The maximum number of usernames in any given interval.
-  $: maxUsernameCount = userIntervalsByTime.reduce((max, interval) => {
-    const { length } = interval.usernames;
-    return max >= length ? max : length;
-  }, 0);
-
+  $: userIntervalsByTime = splitIntervalsOnMidnight(getMergedIntervals(filteredUserIntervalsByUsername));
+  // The minimum and maximum number of usernames in any given interval.
+  $: [ minUsernameCount, maxUsernameCount ] = getMinMaxUsernames(userIntervalsByTime);
   // The days containing all event intervals and whether the day sequentially
   // follows the previous day.
-  $: daysToShowWithSkip = eventIntervalsSplitOnMidnight.reduce((daysWithSkip, interval) => {
-    const { length } = daysWithSkip;
-    const newDay = interval.start.startOf('day');
-    if (length === 0) return [{ day: newDay, skipped: false }];
-    const previousDay = daysWithSkip[length - 1].day;
-    if (previousDay.isSame(newDay, 'day')) return daysWithSkip;
-    if (previousDay.add(1, 'day').isSame(newDay, 'day')) {
-      return [ ...daysWithSkip, { day: newDay, skipped: false }];
-    }
-    return [ ...daysWithSkip, { day: newDay, skipped: true }];
-  }, []);
-
+  $: daysToShowWithSkip = getDaysToShowWithSkip(eventIntervalsSplitOnMidnight);
   $: isCollapsed = $form === formEnum.JOINING || $form === formEnum.EDITING;
 </script>
 
