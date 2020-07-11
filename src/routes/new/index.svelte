@@ -74,7 +74,7 @@
   <!-- DATE AND TIME PICKER CARD -->
   <div
     class="picker-container card outline padded no-highlight"
-    class:error={attempted && !datesValid && !timesValid}
+    class:error={attempted && !(datesValid && timesValid)}
   >
     <DatePickerHeader showError={attempted && !datesValid} />
     <DatePicker bind:selectedDays={selectedDays} />
