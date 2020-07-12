@@ -58,7 +58,7 @@
   }
 </script>
 
-<div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
+<div class="main-content grid" in:fadeIn out:fadeOut>
   <EventDetailsForm
     bind:title={title} bind:formValid={eventDetailsValid}
     bind:description={description}
@@ -94,7 +94,7 @@
     grid-template-rows: repeat(4, min-content);
   }
 
-  .picker-container {
+  div.picker-container {
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -115,7 +115,7 @@
       grid-auto-flow: column;
     }
 
-    .picker-container {
+    div.picker-container {
       grid-row: 1/3;
       grid-column: 2/3;
       margin-bottom: 0.5rem;

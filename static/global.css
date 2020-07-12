@@ -67,9 +67,7 @@ div, span {
 }
 
 .main-content.fixed-height {
-  position: absolute;
   height: var(--content-height);
-  box-sizing: border-box;
   background-color: var(--background-1);
 }
 
@@ -85,7 +83,6 @@ div, span {
 /* Card */
 .card {
   border-radius: 5px;
-  box-sizing: border-box;
   background-color: var(--background-0);
   box-shadow: var(--shadow-small);
 }
@@ -93,7 +90,6 @@ div, span {
 .card.outline {
   box-shadow: unset;
   border-radius: 5px;
-  box-sizing: border-box;
   border: 1px var(--line-1) solid;
   transition: border 0.2s ease;
 }
