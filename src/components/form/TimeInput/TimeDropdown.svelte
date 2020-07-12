@@ -40,7 +40,7 @@
   use:popper={{
     targetNode,
     popperOptions: {
-      placement: 'left',
+      placement: 'left-start',
       modifiers: [
         {
           name: 'offset',
