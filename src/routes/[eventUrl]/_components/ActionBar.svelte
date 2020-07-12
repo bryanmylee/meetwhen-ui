@@ -20,11 +20,11 @@
     <div class="bar__left">
       {#if $details === detailsEnum.EVENT_DETAILS}
         <Button alt on:click={_ => $details = detailsEnum.ATTENDANCE}>
-          Who's attending?
+          Filter Users
         </Button>
       {:else}
         <Button alt on:click={_ => $details = detailsEnum.EVENT_DETAILS}>
-          Event details
+          Event Details
         </Button>
       {/if}
     </div>
