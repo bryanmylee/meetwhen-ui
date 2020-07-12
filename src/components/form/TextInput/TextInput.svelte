@@ -2,7 +2,7 @@
   import { inputAction, labelAction } from './TextInput.js';
 
   import ErrorTip from 'src/components/ErrorTip.svelte';
-  import TextInputRequiredTooltip from './TextInputRequiredTooltip.svelte';
+  import TextInputRequiredTooltip from './RequiredTooltip.svelte';
 
   // BINDINGS
   // ========
