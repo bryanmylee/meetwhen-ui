@@ -76,18 +76,18 @@
     width: 100%;
     height: min-content;
     display: grid;
-    grid-template-columns: auto 3rem;
-    grid-auto-rows: min-content;
-    background-color: var(--background-1);
+    grid-template-columns: auto 2.5rem;
+    align-items: center;
+    background-color: var(--background-0);
     cursor: pointer;
     transition: all 200ms ease;
   }
 
   .container:hover {
-    background-color: var(--background-0);
+    background-color: var(--background-1);
   }
 
   span {
-    margin: 1rem;
+    margin-left: 0.8rem;
   }
 </style>
