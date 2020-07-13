@@ -9,7 +9,6 @@
   import CalendarDayColumn from 'src/components/calendar/CalendarDayColumn.svelte';
   import UnavailableColumnOverlay from './UnavailableColumnOverlay.svelte';
   import OtherUsersSelection from './OtherUsersSelection.svelte';
-  import OtherUsersPopover from './OtherUsersPopover.svelte';
   import DefinedSelection from './DefinedSelection.svelte';
   import NewSelection from './NewSelection.svelte';
 
@@ -24,16 +23,16 @@
 
   // STATE
   // =====
-  export let selectedDetail = null;
+  export let selectedInterval = null;
 
-  // EVENT HANDLERS
-  // ==============
+  // EVENT LISTENERS
+  // ===============
   function selectInterval(event) {
-    const { detail } = event;
-    if (selectedDetail && selectedDetail.start === detail.start) {
-      selectedDetail = null;
+    const interval = event.detail;
+    if (selectedInterval && selectedInterval.start === interval.start) {
+      selectedInterval = null;
     } else {
-      selectedDetail = event.detail;
+      selectedInterval = interval;
     }
   }
 
@@ -55,7 +54,7 @@
 <CalendarPickerBase
   bind:selections={selections}
   bind:isSelecting={$isSelecting}
-  daysToShow={daysToShowWithSkip.map((dws) => dws.day)}
+  daysToShow={daysToShowWithSkip.map(dws => dws.day)}
   selectionLimits={eventIntervals}
   selectionEnabled={$form === formEnum.JOINING || $form === formEnum.EDITING}
   let:newSelections
@@ -65,12 +64,12 @@
     <CalendarDayColumn {day} {skipped} >
       <!-- DISABLED INTERVALS -->
       <UnavailableColumnOverlay
-        eventIntervals={eventIntervalsSplitOnMidnight.filter((interval) =>
+        eventIntervals={eventIntervalsSplitOnMidnight.filter(interval =>
             interval.start.isSame(day, 'day')
         )}
       />
       <!-- OTHER USER SELECTIONS -->
-      {#each userIntervalsByTime.filter((interval) => interval.start.isSame(day, 'date'))
+      {#each userIntervalsByTime.filter(interval => interval.start.isSame(day, 'date'))
           as interval (`${+interval.start}-${+interval.end}`)}
         <OtherUsersSelection
           on:selectInterval={selectInterval}
@@ -78,25 +77,19 @@
           {minUsernameCount}
           {maxUsernameCount}
           {isCollapsed}
-          isSelected={selectedDetail && selectedDetail.start === interval.start}
+          isSelected={selectedInterval && selectedInterval.start === interval.start}
         />
       {/each}
       <!-- DEFINED SELECTIONS -->
-      {#each selections.filter((selection) => selection.start.isSame(day, 'date'))
+      {#each selections.filter(selection => selection.start.isSame(day, 'date'))
           as selection (`${+selection.start}-${+selection.end}`)}
         <DefinedSelection {...selection} />
       {/each}
       <!-- NEW SELECTIONS -->
-      {#each newSelections.filter((selection) => selection.start.isSame(day, 'date'))
+      {#each newSelections.filter(selection => selection.start.isSame(day, 'date'))
           as selection}
         <NewSelection {...selection} />
       {/each}
     </CalendarDayColumn>
   {/each}
-  {#if selectedDetail}
-    <OtherUsersPopover
-      on:deselectInterval={() => selectedDetail = null}
-      {...selectedDetail}
-    />
-  {/if}
 </CalendarPickerBase>

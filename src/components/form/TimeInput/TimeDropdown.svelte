@@ -2,20 +2,33 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
   import dayjs from 'dayjs';
-  import { popper } from 'src/actions/popper.js';
 
   import Time from './Time.svelte';
 
   // PROPS
   // =====
-  export let targetNode;
   export let earliestTime;
   export let latestTime;
+  export let popperAction;
 
   // STATE
   // =====
-  const targetWidth = parseFloat(getComputedStyle(targetNode).width);
   const times = [...Array(25)].map((_, inc) => dayjs().hour(inc).minute(0))
+
+  // REACTIVE ATTRIBUTES
+  // ===================
+  $: selfWidth = self ? parseFloat(getComputedStyle(self).width) : 0;
+  $: popperOptions = {
+    placement: 'right-start',
+    modifiers: [
+      {
+        name: 'offset',
+        options: {
+          offset: [0, -selfWidth]
+        }
+      }
+    ]
+  };
 
   // STATE FUNCTIONS
   // ===============
@@ -37,20 +50,7 @@
 <div
   bind:this={self}
   class="card"
-  use:popper={{
-    targetNode,
-    popperOptions: {
-      placement: 'left-start',
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [0, -targetWidth]
-          }
-        }
-      ]
-    }
-  }}
+  use:popperAction={popperOptions}
 >
   {#each times as time}
     {#if !latestTime || !time.isAfter(latestTime, 'hour')}

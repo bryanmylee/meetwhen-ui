@@ -1,19 +1,17 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
-  import { popper } from 'src/actions/popper.js';
 
   // PROPS
   // =====
   export let start;
   export let end;
   export let usernames;
-  // For PopperJS
-  export let targetNode = null;
+  export let popperAction;
 
-  // REACTIVE ATTRIBUTES
-  // ===================
-  $: popperOptions = ({
+  // CONSTANTS
+  // =========
+  const popperOptions = {
     placement: 'right',
     modifiers: [
       {
@@ -23,22 +21,17 @@
         },
       },
     ],
-  });
+  };
+
+  // REACTIVE ATTRIBUTES
+  // ===================
   $: timeString = `${start.format('h:mm')} - ${end.format('h:mma')}`;
   $: countString = usernames.length === 1
       ? '1 person'
       : `${usernames.length} people`;
-
-  // STATE FUNCTIONS
-  // ===============
-  function handleClick(event) {
-    if (event.target !== targetNode) {
-      dispatch('deselectInterval');
-    }
-  }
 </script>
 
-<div class="popover" use:popper={{targetNode, popperOptions}}>
+<div class="popover" use:popperAction={popperOptions}>
   <div class="popover__content">
     <h5>{timeString}</h5>
     <h5 class="tip">{countString}</h5>
@@ -50,8 +43,6 @@
   </div>
   <div data-popper-arrow class="popover__arrow"></div>
 </div>
-
-<svelte:window on:click={handleClick}/>
 
 <style>
   .popover {

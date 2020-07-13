@@ -1,4 +1,7 @@
 <script>
+  import { createPopperActions } from 'svelte-popperjs';
+  const [ popperRef, popperContent ] = createPopperActions();
+
   import DropdownArrow from './DropdownArrow.svelte';
   import TimeDropdown from './TimeDropdown.svelte';
 
@@ -38,17 +41,13 @@
     selectedTime = time;
     showTimes = false;
   }
-
-  // NODES
-  // =====
-  let targetNode;
 </script>
 
 <div class="label">
   {label}
 </div>
 <div
-  bind:this={targetNode}
+  use:popperRef
   class="container card outline" {style}
   on:click={handleClick}
 >
@@ -59,7 +58,8 @@
   <TimeDropdown
     on:select={select}
     on:hide={_ => showTimes = false}
-    {targetNode} {earliestTime} {latestTime}
+    {earliestTime} {latestTime}
+    popperAction={popperContent}
   />
 {/if}
 

@@ -1,12 +1,16 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
+  import { createPopperActions } from 'svelte-popperjs';
+  const [ popperRef, popperContent ] = createPopperActions();
   import { fade } from 'svelte/transition';
 
   import { colorScale } from 'src/stores.js';
   import { isSelecting } from './stores.js';
   import { sizePos } from 'src/components/calendar/actions/selection.js';
   import colorGradient from 'src/actions/colorGradient.js';
+
+  import OtherUsersPopover from './OtherUsersPopover.svelte';
 
   // PROPS
   // =====
@@ -23,34 +27,31 @@
   $: ratio = (usernames.length - minUsernameCount)
       / Math.max(maxUsernameCount - minUsernameCount, 1);
 
-  // NODES
-  // =====
-  let targetNode;
-
   // STATE FUNCTIONS
   // ===============
   function handleClick() {
     dispatch('selectInterval', {
       start,
       end,
-      usernames,
-      targetNode,
     });
   }
 </script>
 
 <div
-  bind:this={targetNode}
   class="other-user-selection"
   class:selected={isSelected}
   class:collapsed={isCollapsed}
   class:pass-through={$isSelecting}
-  use:sizePos={{start: start, end: end}}
+  use:sizePos={{start, end}}
   use:colorGradient={{scale: $colorScale, ratio}}
+  use:popperRef
   on:click={handleClick}
   in:fade={{duration: 100}}
   out:fade={{duration: 200, delay: 50}}
 />
+{#if isSelected}
+  <OtherUsersPopover {start} {end} {usernames} popperAction={popperContent} />
+{/if}
 
 <style>
   .other-user-selection {

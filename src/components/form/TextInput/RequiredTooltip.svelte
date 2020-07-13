@@ -1,5 +1,6 @@
 <script>
-  import { popper } from 'src/actions/popper.js';
+  import { createPopperActions } from 'svelte-popperjs';
+  const [ popperRef, popperContent ] = createPopperActions();
 
   // PROPS
   // =====
@@ -8,19 +9,15 @@
   // STATE
   // =====
   let showTooltip = false;
-
-  // NODES
-  // =====
-  let targetNode;
 </script>
 
 <span
-  bind:this={targetNode}
+  use:popperRef
   on:mouseenter={_ => showTooltip = true}
   on:mouseleave={_ => showTooltip = false}
 />
 {#if showTooltip}
-  <div class="popover" use:popper={{targetNode, popperOptions: { placement: 'right'}}}>
+  <div class="popover" use:popperContent={{placement: 'right'}}>
     <div class="popover__content">
       <h5>{tooltip}</h5>
     </div>

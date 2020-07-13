@@ -16,7 +16,6 @@
     "sirv": "^0.4.0"
   },
   "devDependencies": {
-    "@popperjs/core": "^2.4.0",
     "chroma-js": "^2.1.0",
     "dayjs": "^1.8.27",
     "dayjs-plugin-utc": "^0.1.2",
@@ -27,6 +26,7 @@
     "sapper": "^0.27.0",
     "svelte": "^3.0.0",
     "svelte-loader": "^2.9.0",
+    "svelte-popperjs": "^1.0.2",
     "svelte-watch": "^1.1.0",
     "webpack": "^4.7.0"
   }
