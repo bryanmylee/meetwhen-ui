@@ -2,7 +2,7 @@
   import { inputAction, labelAction } from './TextInput.js';
 
   import ErrorTip from 'src/components/ErrorTip.svelte';
-  import TextInputRequiredTooltip from './RequiredTooltip.svelte';
+  import RequiredTooltip from './RequiredTooltip.svelte';
 
   // BINDINGS
   // ========
@@ -45,7 +45,7 @@
     {label}
   </label>
   {#if required}
-    <TextInputRequiredTooltip />
+    <RequiredTooltip />
   {/if}
   <ErrorTip show={errorMessage != null}>{errorMessage}</ErrorTip>
   {#if tip && tip.trim().length !== 0}
