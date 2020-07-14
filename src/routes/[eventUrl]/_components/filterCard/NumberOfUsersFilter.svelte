@@ -1,8 +1,6 @@
 <script>
   import { selectedUsernames } from '../../stores.js';
 
-  import DoubleSlider from 'src/components/form/DoubleSlider.svelte';
-
   // PROPS
   // =====
   export let usernames;
@@ -17,7 +15,6 @@
 
 <div>
   <label class="min">{min}</label>
-  <DoubleSlider bind:min={min} bind:max={max} range=100 />
   <label class="max">{max}</label>
 </div>
 
