@@ -1,6 +1,7 @@
 <script>
   import { selectedUsernames } from '../../stores.js';
-  import doubleSlider from 'src/actions/doubleSlider.js';
+
+  import DoubleSlider from 'src/components/form/DoubleSlider.svelte';
 
   // PROPS
   // =====
@@ -10,14 +11,32 @@
   // ===================
   // $: min = 0;
   // $: max = $selectedUsernames.length !== 0 ? $selectedUsernames.length : usernames.length;
-  const min = 0;
-  const max = 15;
+  let min = 0;
+  let max = 15;
 </script>
 
-<div use:doubleSlider={{min: 25, max: 75, range: 100}} />
+<div>
+  <label class="min">{min}</label>
+  <DoubleSlider bind:min={min} bind:max={max} range=100 />
+  <label class="max">{max}</label>
+</div>
 
 <style>
   div {
-    color: var(--primary-1);
+    display: flex;
+    align-items: center;
+  }
+
+  label {
+    width: 2em;
+    text-align: center;
+  }
+
+  label.min {
+    margin-right: 0.8em;
+  }
+
+  label.max {
+    margin-left: 0.8em;
   }
 </style>

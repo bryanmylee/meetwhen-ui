@@ -11,8 +11,31 @@ export default function doubleSlider(node, { min, max, range }) {
 
   const slider = new DoubleSlider(node);
 
-  slider.addEventListener('slider:change', _ => {
+  slider.addEventListener('slider:input', dispatchInput);
+  slider.addEventListener('slider:change', dispatchChange);
+  slider.layout();
+
+  function dispatchInput() {
     const { min, max } = slider.value;
-    console.log({ min, max });
+    node.dispatchEvent(new CustomEvent('sliderInput', {
+      detail: { min, max },
+    }));
+  }
+
+  function dispatchChange() {
+    const { min, max } = slider.value;
+    node.dispatchEvent(new CustomEvent('sliderChange', {
+      detail: { min, max },
+    }));
+  }
+
+  return ({
+    update({ min, max, range }) {
+      setValues(min, max, range);
+    },
+    destroy() {
+      slider.removeEventListener('slider:change', dispatchChange)
+      slider.removeEventListener('slider:input', dispatchInput)
+    }
   })
 }
