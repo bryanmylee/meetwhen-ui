@@ -36,14 +36,10 @@
   import { splitIntervalsOnMidnight } from 'src/utils/interval.js';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
   import { addUserToEvent, editUserIntervals } from 'src/api/event.js';
-  import {
-    validateNewUsername,
-    validateNewPassword,
-    validateUsername,
-    validatePassword,
-  } from 'src/utils/validation';
+  import { validateNewUsername, validateNewPassword,
+      validateUsername, validatePassword } from 'src/utils/validation';
 
-  import Details from './_components/Details.svelte';
+  import CompositeDetails from './_components/CompositeDetails.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
   import ActionBar from './_components/ActionBar.svelte';
   import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
@@ -165,7 +161,7 @@
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
-  <Details {event} />
+  <CompositeDetails {event} />
 
   {#if $form === formEnum.LOGGING_IN}
     <UserDetailsForm
