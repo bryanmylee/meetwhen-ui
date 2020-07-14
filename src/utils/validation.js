@@ -21,8 +21,7 @@ export const validateNewUsername = (username) => {
 }
 
 export const validateNewPassword = (password) => {
-  const { length } = password.trim();
-  if (length < 8) throw new Error('Your password should have 8 characters or more');
+  if (password.trim().length === 0) throw new Error('Your password cannot be empty');
 }
 
 export const validateUsername = (username) => {
