@@ -9,6 +9,15 @@
   // STATE
   // =====
   let showTooltip = false;
+
+  // CONSTANTS
+  // =========
+  const popperOptions = {
+    placement: 'right',
+    modifiers: [
+      { name: 'offset', options: { offset: [0, 8] } },
+    ],
+  };
 </script>
 
 <span
@@ -17,7 +26,7 @@
   on:mouseleave={_ => showTooltip = false}
 />
 {#if showTooltip}
-  <div class="popover" use:popperContent={{placement: 'right'}}>
+  <div class="popover" use:popperContent={popperOptions}>
     <div class="popover__content">
       <h5>{tooltip}</h5>
     </div>
@@ -49,7 +58,6 @@
     background-color: white;
     border: 1px solid var(--line-1);
     border-radius: 5px;
-    /* box-shadow: var(--shadow-med); */
   }
 
   .popover__arrow {

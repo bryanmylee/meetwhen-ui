@@ -1,7 +1,4 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
-
   // PROPS
   // =====
   export let start;
@@ -14,12 +11,7 @@
   const popperOptions = {
     placement: 'right',
     modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 9],
-        },
-      },
+      { name: 'offset', options: { offset: [0, 9] } },
     ],
   };
 
