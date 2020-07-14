@@ -1,8 +1,6 @@
 <script>
-  import { slide } from 'svelte/transition';
-  import { flip } from 'svelte/animate';
-
   import { selectedUsernames } from '../stores.js';
+  import { flip } from 'svelte/animate';
 
   // PROPS
   // =====
@@ -19,27 +17,23 @@
   }
 </script>
 
-<div class="card outline padded">
-  <h3>Who's attending?</h3>
-  <div class="names__container">
-    {#each usernames as username (username)}
-      <div
-        on:click={() => toggleName(username)}
-        class="name-pill"
-        class:selected={$selectedUsernames.includes(username)}
-        animate:flip={{duration: 200}}
-      >
-        {username}
-      </div>
-    {/each}
-  </div>
-  <h5 class="tip">Select a username to see their schedule</h5>
+<div class="container">
+  {#each usernames as username (username)}
+    <div
+      on:click={() => toggleName(username)}
+      class="name-pill"
+      class:selected={$selectedUsernames.includes(username)}
+      animate:flip={{duration: 200}}
+    >
+      {username}
+    </div>
+  {/each}
 </div>
 
 <style>
-  .names__container {
+  .container {
     font-size: 0.8rem;
-    margin-top: 0.3rem;
+    margin: 0 0 0.8rem;
     display: flex;
     flex-flow: row wrap;
   }
