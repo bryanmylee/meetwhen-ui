@@ -33,13 +33,13 @@
 <style>
   .container {
     font-size: 0.8rem;
-    margin: 0 0 0.8rem;
+    margin-bottom: 0.8rem;
     display: flex;
     flex-flow: row wrap;
   }
 
   .name-pill {
-    margin: 0.5em 0.5em 0 0;
+    margin: 0.6em 0.5em 0 0;
     border: 1px var(--line-1) solid;
     border-radius: 1.5em;
     min-width: 3em;
@@ -48,6 +48,7 @@
     color: var(--text-0);
     background-color: white;
     transition: all 200ms ease;
+    cursor: pointer;
   }
 
   .name-pill:hover {
