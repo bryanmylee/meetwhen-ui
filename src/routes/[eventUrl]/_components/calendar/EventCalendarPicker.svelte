@@ -3,7 +3,7 @@
   import { getMergedIntervals, splitIntervalsOnMidnight, } from 'src/utils/interval.js';
   import { isSelecting } from './stores.js';
   import { getFilteredUserIntervalsByUsername, getMinMaxUsernames, getDaysToShowWithSkip } from './EventCalendarPicker.js';
-  import { formEnum, form, selectedUsernames } from '../../stores.js';
+  import { formEnum, form, selectedUsernames, minUserCountFilter } from '../../stores.js';
 
   import CalendarPickerBase from 'src/components/calendar/CalendarPickerBase.svelte';
   import CalendarDayColumn from 'src/components/calendar/CalendarDayColumn.svelte';
@@ -43,8 +43,10 @@
   $: filteredUserIntervalsByUsername = getFilteredUserIntervalsByUsername($selectedUsernames, userIntervalsByUsername);
   // User intervals with grouped usernames.
   $: userIntervalsByTime = splitIntervalsOnMidnight(getMergedIntervals(filteredUserIntervalsByUsername));
+  // User intervals with minimum number of users.
+  $: intervalsWithMinUser = userIntervalsByTime.filter(interval => interval.usernames.length >= $minUserCountFilter);
   // The minimum and maximum number of usernames in any given interval.
-  $: [ minUsernameCount, maxUsernameCount ] = getMinMaxUsernames(userIntervalsByTime);
+  $: [ minUsernameCount, maxUsernameCount ] = getMinMaxUsernames(intervalsWithMinUser);
   // The days containing all event intervals and whether the day sequentially
   // follows the previous day.
   $: daysToShowWithSkip = getDaysToShowWithSkip(eventIntervalsSplitOnMidnight);
@@ -69,7 +71,7 @@
         )}
       />
       <!-- OTHER USER SELECTIONS -->
-      {#each userIntervalsByTime.filter(interval => interval.start.isSame(day, 'date'))
+      {#each intervalsWithMinUser.filter(interval => interval.start.isSame(day, 'date'))
           as interval (`${+interval.start}-${+interval.end}`)}
         <OtherUsersSelection
           on:selectInterval={selectInterval}

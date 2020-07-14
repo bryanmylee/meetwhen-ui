@@ -1,5 +1,5 @@
 <script>
-  import { selectedUsernames } from '../../stores.js';
+  import { selectedUsernames, minUserCountFilter } from '../../stores.js';
 
   import { RangeSlider } from 'src/components/form';
 
@@ -9,19 +9,13 @@
 
   // REACTIVE ATTRIBUTES
   // ===================
-  const min = 1;
+  const min = 0;
   $: max = $selectedUsernames.length !== 0 ? $selectedUsernames.length : usernames.length;
-
-  // STATE
-  // =====
-  let value;
-  $: console.log(value);
 </script>
 
 <div>
-  <label class="min">{min}</label>
-  <RangeSlider bind:value={value} {min} {max} />
-  <label class="max">{max}</label>
+  <RangeSlider bind:value={$minUserCountFilter} {min} {max} />
+  <label>{$minUserCountFilter}/{max}</label>
 </div>
 
 <style>
@@ -32,15 +26,8 @@
   }
 
   label {
-    width: 2em;
+    width: 4em;
     text-align: center;
-  }
-
-  label.min {
-    margin-right: 0.8em;
-  }
-
-  label.max {
     margin-left: 0.8em;
   }
 </style>
