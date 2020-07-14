@@ -1,5 +1,5 @@
 <script>
-  import { selectedUsernames } from '../stores.js';
+  import { selectedUsernames } from '../../stores.js';
   import doubleSlider from 'src/actions/doubleSlider.js';
 
   // PROPS

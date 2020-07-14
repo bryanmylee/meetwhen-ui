@@ -4,7 +4,7 @@
   import { detailsEnum, details } from '../stores.js';
 
   import EventDetails from './EventDetails.svelte';
-  import FilterCard from './FilterCard.svelte';
+  import FilterCard from './filterCard/FilterCard.svelte';
 
   // PROPS
   // =====
