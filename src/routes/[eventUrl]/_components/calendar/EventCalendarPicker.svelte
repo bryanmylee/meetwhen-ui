@@ -46,7 +46,7 @@
   // User intervals with minimum number of users.
   $: intervalsWithMinUser = userIntervalsByTime.filter(interval => interval.usernames.length >= $minUserCountFilter);
   // The minimum and maximum number of usernames in any given interval.
-  $: [ minUsernameCount, maxUsernameCount ] = getMinMaxUsernames(intervalsWithMinUser);
+  $: [ minUsernameCount, maxUsernameCount ] = getMinMaxUsernames(userIntervalsByTime);
   // The days containing all event intervals and whether the day sequentially
   // follows the previous day.
   $: daysToShowWithSkip = getDaysToShowWithSkip(eventIntervalsSplitOnMidnight);

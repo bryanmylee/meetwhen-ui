@@ -11,6 +11,11 @@
   // ===================
   const min = 0;
   $: max = $selectedUsernames.length !== 0 ? $selectedUsernames.length : usernames.length;
+  $: {
+    if (max < $minUserCountFilter) {
+      $minUserCountFilter = max;
+    }
+  }
 </script>
 
 <div>
