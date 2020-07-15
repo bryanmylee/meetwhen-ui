@@ -12,7 +12,7 @@ const {
   ACCESS_TOKEN_SECRET,
 } = process.env;
 
-polka() // You can also use Express
+export default polka() // You can also use Express
   .use(
     compression({ threshold: 0 }),
     sirv('static', { dev }),
