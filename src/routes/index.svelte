@@ -7,7 +7,7 @@
 
 <div class="main-content fixed-height" in:fadeIn out:fadeOut>
   <h1>LetsMeet</h1>
-  <Button on:click={() => goto('/new')}>Create New Event</Button>
+  <Button on:click={() => goto('/new')}>New Event</Button>
 </div>
 
 <style>

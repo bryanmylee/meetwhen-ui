@@ -44,7 +44,7 @@
           Log Out
         </AwaitButton>
         <Button style={leftMarginStyle} on:click={_ => $form = formEnum.EDITING}>
-          Edit
+          Edit Schedule
         </Button>
       {/if}
     {:else}
