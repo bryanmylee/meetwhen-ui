@@ -78,6 +78,7 @@
   >
     <DatePickerHeader showError={attempted && !datesValid} />
     <DatePicker bind:selectedDays={selectedDays} />
+    <ErrorTip show={attempted && !datesValid}>Pick at least one date</ErrorTip>
     <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />
     <ErrorTip show={attempted && !timesValid}>Your event time cannot be empty</ErrorTip>
   </div>
