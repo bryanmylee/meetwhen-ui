@@ -1,10 +1,9 @@
 <script>
   import { goto, stores } from '@sapper/app';
-  const { session } = stores();
 
-  import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
-  import { user } from 'src/stores.js';
-  import { createNewEvent } from 'src/api/event.js';
+  import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
+  import { user } from 'src/stores';
+  import { createNewEvent } from 'src/api/event';
 
   import EventDetailsForm from './_components/EventDetailsForm.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
@@ -14,6 +13,8 @@
   import { AwaitButton } from 'src/components/form';
   import ErrorToast from 'src/components/ErrorToast.svelte';
   import ErrorTip from 'src/components/ErrorTip.svelte';
+
+  const { session } = stores();
 
   // FORM DATA
   // =========
@@ -30,7 +31,7 @@
   let attempted = false;
   let eventDetailsValid;
   let userDetailsValid;
-  $: datesValid = selectedDays.length !== 0
+  $: datesValid = selectedDays.length !== 0;
   $: timesValid = startTime != null && endTime != null;
 
   // PAGE STATE
@@ -44,15 +45,14 @@
       attempted = true;
       return;
     }
-    const schedule = selectedDays.map(day => ({
+    const schedule = selectedDays.map((day) => ({
       start: day.hour(startTime.hour()).minute(0),
       end: day.hour(endTime.hour()).minute(0),
-    }))
-    const eventDetails = ({
+    }));
+    const eventDetails = {
       title, description, username, password, schedule,
-    });
-    const { eventUrl, accessToken }
-        = await createNewEvent(fetch, $session.API_URL, eventDetails);
+    };
+    const { eventUrl, accessToken } = await createNewEvent(fetch, $session.API_URL, eventDetails);
     user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
     goto(`/${eventUrl}`);
   }
@@ -60,7 +60,8 @@
 
 <div class="main-content grid" in:fadeIn out:fadeOut>
   <EventDetailsForm
-    bind:title={title} bind:formValid={eventDetailsValid}
+    bind:title={title}
+    bind:formValid={eventDetailsValid}
     bind:description={description}
     {attempted}
   />
