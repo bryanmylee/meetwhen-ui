@@ -45,14 +45,19 @@
       return;
     }
     isLoading = true;
-    const schedule = selectedDays.map((day) => ({
-      start: day.hour(startTime.hour()).minute(0),
-      end: day.hour(endTime.hour()).minute(0),
-    }));
-    const eventDetails = { title, description, schedule };
-    const { eventUrl } = await createNewEvent(fetch, $session.API_URL, eventDetails);
-    goto(`/${eventUrl}`);
-    isLoading = false;
+    try {
+      const schedule = selectedDays.map((day) => ({
+        start: day.hour(startTime.hour()).minute(0),
+        end: day.hour(endTime.hour()).minute(0),
+      }));
+      const eventDetails = { title, description, schedule };
+      const { eventUrl } = await createNewEvent(fetch, $session.API_URL, eventDetails);
+      goto(`/${eventUrl}`);
+    } catch (err) {
+      errorMessage = err.message;
+    } finally {
+      isLoading = false;
+    }
   }
 </script>
 
