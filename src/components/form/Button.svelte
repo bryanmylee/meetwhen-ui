@@ -12,6 +12,7 @@
   class="no-highlight"
   class:outline={outline}
   class:alt={alt}
+  {...$$props}
 >
   <slot/>
 </button>

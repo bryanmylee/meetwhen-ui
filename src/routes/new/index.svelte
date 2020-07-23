@@ -8,7 +8,7 @@
   import DatePickerHeader from './_components/datePicker/DatePickerHeader.svelte';
   import DatePicker from './_components/datePicker/DatePicker.svelte';
   import TimeInputBar from './_components/TimeInputBar.svelte';
-  import { AwaitButton } from 'src/components/form';
+  import { Button } from 'src/components/form';
   import ErrorToast from 'src/components/ErrorToast.svelte';
   import ErrorTip from 'src/components/ErrorTip.svelte';
 
@@ -32,6 +32,7 @@
   // PAGE STATE
   // ==========
   let errorMessage = '';
+  let isLoading = false;
 
   // API FUNCTIONS
   // =============
@@ -40,6 +41,10 @@
       attempted = true;
       return;
     }
+    if (isLoading) {
+      return;
+    }
+    isLoading = true;
     const schedule = selectedDays.map((day) => ({
       start: day.hour(startTime.hour()).minute(0),
       end: day.hour(endTime.hour()).minute(0),
@@ -47,35 +52,40 @@
     const eventDetails = { title, description, schedule };
     const { eventUrl } = await createNewEvent(fetch, $session.API_URL, eventDetails);
     goto(`/${eventUrl}`);
+    isLoading = false;
   }
 </script>
 
-<div class="main-content grid" in:fadeIn out:fadeOut>
-  <EventDetailsForm
-    bind:title={title}
-    bind:formValid={eventDetailsValid}
-    bind:description={description}
-    {attempted}
-  />
+<form on:submit|preventDefault={handleSubmitNewEvent}>
+  <div class="main-content grid" in:fadeIn out:fadeOut>
+    <EventDetailsForm
+      bind:title={title}
+      bind:formValid={eventDetailsValid}
+      bind:description={description}
+      {attempted}
+    />
 
-  <!-- DATE AND TIME PICKER CARD -->
-  <div
-    class="picker-container card outline padded no-highlight"
-    class:error={attempted && !(datesValid && timesValid)}
-  >
-    <DatePickerHeader showError={attempted && !datesValid} />
-    <DatePicker bind:selectedDays={selectedDays} />
-    <ErrorTip show={attempted && !datesValid}>Pick at least one date</ErrorTip>
-    <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />
-    <ErrorTip show={attempted && !timesValid}>Your event time cannot be empty</ErrorTip>
+    <!-- DATE AND TIME PICKER CARD -->
+    <div
+      class="picker-container card outline padded no-highlight"
+      class:error={attempted && !(datesValid && timesValid)}
+    >
+      <DatePickerHeader showError={attempted && !datesValid} />
+      <DatePicker bind:selectedDays={selectedDays} />
+      <ErrorTip show={attempted && !datesValid}>Pick at least one date</ErrorTip>
+      <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />
+      <ErrorTip show={attempted && !timesValid}>Your event time cannot be empty</ErrorTip>
+    </div>
+
+    <div class="button">
+      <!-- <AwaitButton onClick={handleSubmitNewEvent} type="submit">Create Event</AwaitButton> -->
+      <Button type="submit" disabled={isLoading}>Create Event</Button>
+    </div>
+
+    <ErrorToast bind:errorMessage={errorMessage} />
   </div>
+</form>
 
-  <div class="button">
-    <AwaitButton onClick={handleSubmitNewEvent}>Create Event</AwaitButton>
-  </div>
-
-  <ErrorToast bind:errorMessage={errorMessage} />
-</div>
 
 <style>
   .main-content {
