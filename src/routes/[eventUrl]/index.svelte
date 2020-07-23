@@ -1,43 +1,37 @@
 <script context="module">
-  import { getEvent } from 'src/api/event.js';
-  import { login, logout, getAccessToken } from 'src/api/authentication.js';
+  import { getEvent } from 'src/api/event';
+  import { login, logout, getAccessToken } from 'src/api/authentication';
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
-    try {
-      const event = await getEvent(this.fetch, session.API_URL, eventUrl);
-      let accessToken = null;
-      // Check for refresh token on browser by getting access token.
-      if (process.browser) {
-        try {
-          accessToken = (await getAccessToken(
-              this.fetch, session.API_URL, eventUrl)).accessToken;
-        } catch (err) {
-          // Refresh token not found.
-          console.log(err.message);
-        }
+    const event = await getEvent(this.fetch, session.API_URL, eventUrl);
+    let accessToken = null;
+    // Check for refresh token on browser by getting access token.
+    if (process.browser) {
+      try {
+        accessToken = (await getAccessToken(this.fetch, session.API_URL, eventUrl)).accessToken;
+      } catch (err) {
+        // Refresh token not found.
+        // eslint-disable-next-line no-console
+        console.log(err.message);
       }
-      return ({ event, accessToken });
-    } catch (err) {
-      console.log(err.message);
     }
+    return { event, accessToken };
   }
 </script>
 
 <script>
   import { stores } from '@sapper/app';
-  const { session } = stores();
 
-  import { user } from 'src/stores.js';
-  import { formEnum, form } from './stores.js';
-  import { undoRedo } from 'src/actions/hotkeys.js';
-  import undoable from 'src/utils/undoable.js';
-  import nextFrame from 'src/utils/nextFrame.js';
-  import { splitIntervalsOnMidnight } from 'src/utils/interval.js';
-  import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade.js';
-  import { addUserToEvent, editUserIntervals } from 'src/api/event.js';
-  import { validateNewUsername, validateNewPassword,
-      validateUsername, validatePassword } from 'src/utils/validation';
+  import { user } from 'src/stores';
+  import { formEnum, form } from './stores';
+  import { undoRedo } from 'src/actions/hotkeys';
+  import undoable from 'src/utils/undoable';
+  import nextFrame from 'src/utils/nextFrame';
+  import { splitIntervalsOnMidnight } from 'src/utils/interval';
+  import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
+  import { addUserToEvent, editUserIntervals } from 'src/api/event';
+  import { validateNewUsername, validateNewPassword, validateUsername, validatePassword } from 'src/utils/validation';
 
   import CompositeDetails from './_components/CompositeDetails.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
@@ -45,6 +39,8 @@
   import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
   import EventCalendarPicker from './_components/calendar/EventCalendarPicker.svelte';
   import ErrorToast from 'src/components/ErrorToast.svelte';
+
+  const { session } = stores();
 
   // PRELOADED DATA
   // ==============
@@ -82,8 +78,7 @@
 
   function setForm() {
     if ($form === formEnum.EDITING) {
-      $selections = splitIntervalsOnMidnight(
-          event.userSchedules[$user.username]);
+      $selections = splitIntervalsOnMidnight(event.userSchedules[$user.username]);
     } else {
       $selections = [];
     }
@@ -103,8 +98,7 @@
     }
     const userDetails = { username, password };
     try {
-      const { accessToken } = await login(
-          fetch, $session.API_URL, event.eventUrl, userDetails);
+      accessToken = (await login(fetch, $session.API_URL, event.eventUrl, userDetails)).accessToken;
       user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
       refreshDataOnSuccess();
     } catch (err) {
@@ -128,8 +122,9 @@
     }
     const userDetails = { username, password, schedule: $selections };
     try {
-      const { accessToken } = await addUserToEvent(
-          fetch, $session.API_URL, event.eventUrl, userDetails);
+      accessToken = (await addUserToEvent(
+        fetch, $session.API_URL, event.eventUrl, userDetails,
+      )).accessToken;
       user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
       refreshDataOnSuccess();
     } catch (err) {
@@ -142,14 +137,13 @@
       attempted = true;
       return;
     }
-    const userDetails = ({
+    const userDetails = {
       username: $user.username,
       newSchedule: $selections,
-      accessToken: $user.accessToken
-    });
+      accessToken: $user.accessToken,
+    };
     try {
-      await editUserIntervals(
-          fetch, $session.API_URL, event.eventUrl, userDetails);
+      await editUserIntervals(fetch, $session.API_URL, event.eventUrl, userDetails);
       refreshDataOnSuccess();
     } catch (err) {
       errorMessage = err.message;
@@ -157,7 +151,7 @@
   }
 </script>
 
-<svelte:window use:undoRedo={{undo: selections.undo, redo: selections.redo}} />
+<svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
