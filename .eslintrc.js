@@ -11,6 +11,16 @@ module.exports = {
     {
       files: ['*.svelte'],
       processor: 'svelte3/svelte3',
+      rules: {
+        // Issues with svelte3 and import plugin
+        'import/first': ['off'],
+        'import/order': ['off'],
+        'import/no-mutable-exports': ['off'],
+        'import/no-duplicates': ['off'],
+        'no-unused-vars': ['warn'],
+        'no-unused-expressions': ['warn'],
+        'no-sequences': ['warn'],
+      },
     },
   ],
   extends: 'airbnb-base',
