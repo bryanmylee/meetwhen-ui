@@ -22,7 +22,6 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-svelte3": "^2.7.3",
     "jsonwebtoken": "^8.5.1",
