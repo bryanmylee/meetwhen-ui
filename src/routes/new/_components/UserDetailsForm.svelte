@@ -1,6 +1,6 @@
 <script>
   import { TextInput } from 'src/components/form';
-  import { validateNewUsername, validateNewPassword } from 'src/utils/validation.js';
+  import { validateNewUsername, validateNewPassword } from 'src/utils/validation';
 
   // BINDINGS
   // ========

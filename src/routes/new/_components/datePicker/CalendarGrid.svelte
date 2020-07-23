@@ -8,7 +8,7 @@
   export let selectedDays = [];
   // Set() does not accept custom comparators. Therefore, use a primitive
   // representation before assigning to actual binding interface.
-  let selectedDaysMs = new Set();
+  const selectedDaysMs = new Set();
 
   // PROPS
   // =====
@@ -18,7 +18,7 @@
   // =====
   $: numDays = selectedMonth.daysInMonth();
   $: days = Array.from(Array(numDays).keys())
-      .map(inc => selectedMonth.date(1).add(inc, 'day'));
+    .map((inc) => selectedMonth.date(1).add(inc, 'day'));
 
   // STATE
   // =====
@@ -27,6 +27,7 @@
   let currStart = null;
   let currEnd = null;
   $: currSelection = getCurrSelection(currStart, currEnd);
+  $: combinedSelection = getCombinedSelection(currSelection, selectedDays);
 
   // STATE FUNCTIONS
   // ===============
@@ -52,7 +53,7 @@
         selectedDaysMs.delete(+day);
       }
     }
-    selectedDays = Array.from(selectedDaysMs).map(ms => dayjs(ms));
+    selectedDays = Array.from(selectedDaysMs).map((ms) => dayjs(ms));
     currStart = null;
     currEnd = null;
   }
@@ -76,13 +77,12 @@
    * selecting, merge the two selections. Otherwise, subtract the current
    * selection from the selected days.
    */
-  function getCombinedSelection(currSelection, selectedDays) {
+  function getCombinedSelection(current, selected) {
     if (isSelecting) {
-      return [...currSelection, ...selectedDays];
-    } else {
-      return selectedDays.filter(day =>
-          !currSelection.map(curr => +curr).includes(+day));
+      return [...current, ...selected];
     }
+    return selectedDays
+      .filter((day) => !currSelection.map((curr) => +curr).includes(+day));
   }
 </script>
 
@@ -90,8 +90,7 @@
   {#each days as day}
     <Date
       date={day}
-      selected={getCombinedSelection(currSelection, selectedDays)
-          .some(selectedDay => selectedDay.isSame(day, 'day'))}
+      selected={combinedSelection.some((sel) => sel.isSame(day, 'day'))}
       on:dragStart={dragStart}
       on:dragMove={dragMove}
       on:dragStop={dragStop}
