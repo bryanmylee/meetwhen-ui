@@ -5,7 +5,7 @@
 </script>
 
 {#if show}
-  <h5 class="tip" transition:slide={{duration: 200}}>
+  <h5 class="tip" transition:slide={{ duration: 200 }}>
     <slot />
   </h5>
 {/if}

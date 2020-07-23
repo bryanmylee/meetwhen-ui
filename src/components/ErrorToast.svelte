@@ -25,14 +25,13 @@
   async function updateDisplayedMessages(newMessage) {
     if (newMessage.trim().length === 0) return;
 
-    const timestamp = (new Date()).getTime();
-    displayedMessages = [ ...displayedMessages, {
+    const timestamp = new Date().getTime();
+    displayedMessages = [...displayedMessages, {
       timestamp,
       content: newMessage,
-      timer: setInterval(function() {
-        displayedMessages = displayedMessages.filter(message => {
-          return message.timestamp !== timestamp || message.content !== newMessage;
-        });
+      timer: setInterval(() => {
+        displayedMessages = displayedMessages
+          .filter((message) => message.timestamp !== timestamp || message.content !== newMessage);
       }, messageDuration),
     }];
     errorMessage = '';
@@ -42,9 +41,9 @@
 <div>
   {#each displayedMessages as { content, timestamp } (`${content}${timestamp}`)}
     <span
-      in:fly={{y: 200, duration: 300, easing: cubicOut}}
+      in:fly={{ y: 200, duration: 300, easing: cubicOut }}
       out:fade
-      animate:flip={{duration: 300, easing: cubicOut}}
+      animate:flip={{ duration: 300, easing: cubicOut }}
     >
       {content}
     </span>
