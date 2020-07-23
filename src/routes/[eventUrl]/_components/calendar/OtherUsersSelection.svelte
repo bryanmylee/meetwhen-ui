@@ -1,16 +1,17 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
   import { createPopperActions } from 'svelte-popperjs';
-  const [ popperRef, popperContent ] = createPopperActions();
   import { fade } from 'svelte/transition';
 
-  import { colorScale } from 'src/stores.js';
-  import { isSelecting } from './stores.js';
-  import { sizePos } from 'src/components/calendar/actions/selection.js';
-  import colorGradient from 'src/actions/colorGradient.js';
+  import { colorScale } from 'src/stores';
+  import { isSelecting } from './stores';
+  import { sizePos } from 'src/components/calendar/actions/selection';
+  import colorGradient from 'src/actions/colorGradient';
 
   import OtherUsersPopover from './OtherUsersPopover.svelte';
+
+  const dispatch = createEventDispatcher();
+  const [popperRef, popperContent] = createPopperActions();
 
   // PROPS
   // =====
@@ -24,8 +25,7 @@
 
   // REACTIVE ATTRIBUTES
   // ===================
-  $: ratio = (usernames.length - minUsernameCount)
-      / Math.max(maxUsernameCount - minUsernameCount, 1);
+  $: ratio = (usernames.length - minUsernameCount) / Math.max(maxUsernameCount - minUsernameCount, 1);
 
   // STATE FUNCTIONS
   // ===============
@@ -42,12 +42,12 @@
   class:selected={isSelected}
   class:collapsed={isCollapsed}
   class:pass-through={$isSelecting}
-  use:sizePos={{start, end}}
-  use:colorGradient={{scale: $colorScale, ratio}}
+  use:sizePos={{ start, end }}
+  use:colorGradient={{ scale: $colorScale, ratio }}
   use:popperRef
   on:click={handleClick}
-  in:fade={{duration: 100}}
-  out:fade={{duration: 200, delay: 50}}
+  in:fade={{ duration: 100 }}
+  out:fade={{ duration: 200, delay: 50 }}
 />
 {#if isSelected}
   <OtherUsersPopover {start} {end} {usernames} popperAction={popperContent} />

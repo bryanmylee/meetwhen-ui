@@ -1,5 +1,5 @@
 <script>
-  import { smoothSizePos } from 'src/components/calendar/actions/selection.js';
+  import { smoothSizePos } from 'src/components/calendar/actions/selection';
 
   // PROPS
   // =====
@@ -8,7 +8,7 @@
 </script>
 
 <div
-  use:smoothSizePos={{start, end}}
+  use:smoothSizePos={{ start, end }}
   class="selection__container"
 >
   <div class="selection__content" />

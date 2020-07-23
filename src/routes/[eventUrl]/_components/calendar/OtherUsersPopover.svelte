@@ -19,8 +19,8 @@
   // ===================
   $: timeString = `${start.format('h:mm')} - ${end.format('h:mma')}`;
   $: countString = usernames.length === 1
-      ? '1 person'
-      : `${usernames.length} people`;
+    ? '1 person'
+    : `${usernames.length} people`;
 </script>
 
 <div class="popover" use:popperAction={popperOptions}>

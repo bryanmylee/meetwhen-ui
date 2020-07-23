@@ -1,7 +1,7 @@
 <script>
-  import { isSelecting } from './stores.js';
-  import { getNonIntervals } from 'src/utils/interval.js';
-  import { sizePos } from 'src/components/calendar/actions/selection.js';
+  import { isSelecting } from './stores';
+  import { getNonIntervals } from 'src/utils/interval';
+  import { sizePos } from 'src/components/calendar/actions/selection';
 
   // PROPS
   // =====
@@ -14,7 +14,7 @@
 
 {#each nonEventIntervals as { start, end }}
   <div
-    use:sizePos={{start, end}}
+    use:sizePos={{ start, end }}
     class:pass-through={$isSelecting}
   />
 {/each}
