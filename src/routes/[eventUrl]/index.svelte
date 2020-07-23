@@ -66,7 +66,7 @@
   // PAGE STATE
   // ==========
   let errorMessage = '';
-  $: $form, setForm();
+  $: if ($form) setForm();
 
   // PAGE FUNCTIONS
   // ==============
