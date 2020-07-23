@@ -1,5 +1,5 @@
 <script>
-  import { selectedUsernames, minUserCountFilter } from '../../stores.js';
+  import { selectedUsernames, minUserCountFilter } from '../../stores';
 
   import { RangeSlider } from 'src/components/form';
 

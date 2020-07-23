@@ -1,5 +1,5 @@
 <script>
-  import { selectedUsernames } from '../../stores.js';
+  import { selectedUsernames } from '../../stores';
   import { flip } from 'svelte/animate';
 
   // PROPS
@@ -10,9 +10,9 @@
   // ===============
   function toggleName(name) {
     if ($selectedUsernames.includes(name)) {
-      $selectedUsernames = $selectedUsernames.filter(n => n !== name);
+      $selectedUsernames = $selectedUsernames.filter((n) => n !== name);
     } else {
-      $selectedUsernames = [ ...$selectedUsernames, name ];
+      $selectedUsernames = [...$selectedUsernames, name];
     }
   }
 </script>
@@ -23,7 +23,7 @@
       on:click={() => toggleName(username)}
       class="name-pill"
       class:selected={$selectedUsernames.includes(username)}
-      animate:flip={{duration: 200}}
+      animate:flip={{ duration: 200 }}
     >
       {username}
     </div>

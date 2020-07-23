@@ -5,7 +5,6 @@
   // PROPS
   // =====
   export let usernames;
-
 </script>
 
 <div class="card outline padded">
