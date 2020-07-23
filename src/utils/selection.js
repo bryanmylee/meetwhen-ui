@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { MS_PER_DAY } from 'src/constants.js';
+import { MS_PER_DAY } from 'src/utils/constants.js';
 
 /**
  * @typedef {{
