@@ -1,7 +1,7 @@
 <script>
-  import { cardIn, cardOut } from 'src/transitions/paginatedCard.js';
-  import { layoutEnum, layout } from 'src/stores.js';
-  import { detailsEnum, details } from '../stores.js';
+  import { cardIn, cardOut } from 'src/transitions/paginatedCard';
+  import { layoutEnum, layout } from 'src/stores';
+  import { detailsEnum, details } from '../stores';
 
   import EventDetails from './EventDetails.svelte';
   import FilterCard from './filterCard/FilterCard.svelte';
@@ -14,15 +14,15 @@
 {#if $layout === layoutEnum.NARROW}
   {#if $details === detailsEnum.EVENT_DETAILS}
     <div
-      in:cardIn={{x: -500, duration: 400}}
-      out:cardOut={{x: -500, duration: 400}}
+      in:cardIn={{ x: -500, duration: 400 }}
+      out:cardOut={{ x: -500, duration: 400 }}
     >
       <EventDetails title={event.title} description={event.description} />
     </div>
   {:else if $details === detailsEnum.ATTENDANCE}
     <div
-      in:cardIn={{x: 500, duration: 400}}
-      out:cardOut={{x: 500, duration: 400}}
+      in:cardIn={{ x: 500, duration: 400 }}
+      out:cardOut={{ x: 500, duration: 400 }}
     >
       <FilterCard usernames={Object.keys(event.userSchedules)} />
     </div>

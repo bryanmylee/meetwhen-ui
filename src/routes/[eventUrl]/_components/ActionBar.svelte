@@ -1,7 +1,7 @@
 <script>
-  import { layoutEnum, layout } from 'src/stores.js';
-  import { detailsEnum, formEnum, details, form, } from '../stores.js';
-  import { user } from 'src/stores.js';
+  import { layoutEnum, layout } from 'src/stores';
+  import { detailsEnum, formEnum, details, form } from '../stores';
+  import { user } from 'src/stores';
 
   import { AwaitButton, Button } from 'src/components/form';
 
@@ -12,18 +12,18 @@
   export let handleSubmitNewUser;
   export let handleSubmitEditUser;
 
-  const leftMarginStyle = 'margin-left: 1rem'
+  const leftMarginStyle = 'margin-left: 1rem';
 </script>
 
 <div class="bar">
   {#if $layout === layoutEnum.NARROW}
     <div class="bar__left">
       {#if $details === detailsEnum.EVENT_DETAILS}
-        <Button alt on:click={_ => $details = detailsEnum.ATTENDANCE}>
+        <Button alt on:click={() => $details = detailsEnum.ATTENDANCE}>
           Filter Users
         </Button>
       {:else}
-        <Button alt on:click={_ => $details = detailsEnum.EVENT_DETAILS}>
+        <Button alt on:click={() => $details = detailsEnum.EVENT_DETAILS}>
           Event Details
         </Button>
       {/if}
@@ -33,7 +33,7 @@
   <div class="bar__right">
     {#if $user.isLoggedIn}
       {#if $form === formEnum.EDITING}
-        <Button outline on:click={_ => $form = formEnum.NONE}>
+        <Button outline on:click={() => $form = formEnum.NONE}>
           Cancel
         </Button>
         <AwaitButton style={leftMarginStyle} onClick={handleSubmitEditUser}>
@@ -43,30 +43,30 @@
         <AwaitButton onClick={handleLogout}>
           Log Out
         </AwaitButton>
-        <Button style={leftMarginStyle} on:click={_ => $form = formEnum.EDITING}>
+        <Button style={leftMarginStyle} on:click={() => $form = formEnum.EDITING}>
           Edit Schedule
         </Button>
       {/if}
     {:else}
       {#if $form === formEnum.LOGGING_IN}
-        <Button outline on:click={_ => $form = formEnum.NONE}>
+        <Button outline on:click={() => $form = formEnum.NONE}>
           Cancel
         </Button>
         <AwaitButton style={leftMarginStyle} onClick={handleSubmitLogin}>
           Confirm
         </AwaitButton>
       {:else if $form === formEnum.JOINING}
-        <Button outline on:click={_ => $form = formEnum.NONE}>
+        <Button outline on:click={() => $form = formEnum.NONE}>
           Cancel
         </Button>
         <AwaitButton style={leftMarginStyle} onClick={handleSubmitNewUser}>
           Confirm
         </AwaitButton>
       {:else}
-        <Button on:click={_ => $form = formEnum.LOGGING_IN}>
+        <Button on:click={() => $form = formEnum.LOGGING_IN}>
           Login
         </Button>
-        <Button style={leftMarginStyle} on:click={_ => $form = formEnum.JOINING}>
+        <Button style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>
           Join Event
         </Button>
       {/if}

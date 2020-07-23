@@ -1,7 +1,7 @@
 <script>
   import { slide } from 'svelte/transition';
 
-  import { user } from 'src/stores.js';
+  import { user } from 'src/stores';
 
   // PROPS
   // =====
@@ -15,7 +15,7 @@
     <p>{description}</p>
   {/if}
   {#if $user.isLoggedIn}
-    <h5 transition:slide={{duration: 200}}>
+    <h5 transition:slide={{ duration: 200 }}>
       Logged in as <strong>{$user.username}</strong>
     </h5>
   {/if}
