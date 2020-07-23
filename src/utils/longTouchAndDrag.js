@@ -1,4 +1,4 @@
-import { getTouchOffset, distanceBetweenOffsets } from 'src/utils/eventHandler.js';
+import { getTouchOffset, distanceBetweenOffsets } from 'src/utils/eventHandler';
 
 /**
  *
@@ -18,14 +18,15 @@ import { getTouchOffset, distanceBetweenOffsets } from 'src/utils/eventHandler.j
  * while dragging.
  * @param {Function} onDragEnd The callback for when the touch drag event ends.
  */
-export default function longTouchAndDrag(
-    { duration = 200, moveSens = 5 }, onDragStart, onDragMove, onDragEnd) {
+export default function LongTouchAndDrag(
+  { duration = 200, moveSens = 5 }, onDragStart, onDragMove, onDragEnd,
+) {
   let timer = null;
   let initialOffset = null;
   let moved = false;
   let selecting = false;
 
-  const touchStart = (event) => {
+  function touchStart(event) {
     initialOffset = getTouchOffset(event);
     timer = setTimeout(() => checkLongPress(event), duration);
 
@@ -33,14 +34,14 @@ export default function longTouchAndDrag(
     window.addEventListener('touchend', touchEnd);
   }
 
-  const checkLongPress = (event) => {
+  function checkLongPress(event) {
     if (moved) return;
 
     selecting = true;
     onDragStart(event);
   }
 
-  const touchMove = (event) => {
+  function touchMove(event) {
     const offset = getTouchOffset(event);
     if (distanceBetweenOffsets(initialOffset, offset) > moveSens) {
       moved = true;
@@ -48,7 +49,7 @@ export default function longTouchAndDrag(
     if (selecting) onDragMove(event);
   }
 
-  const touchEnd = (event) => {
+  function touchEnd(event) {
     if (timer != null) clearTimeout(timer);
     selecting = false;
     moved = false;

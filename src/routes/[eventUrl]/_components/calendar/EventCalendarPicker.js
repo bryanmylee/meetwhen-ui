@@ -1,11 +1,11 @@
 export function getFilteredUserIntervalsByUsername(selectedUsernames, userIntervalsByUsername) {
   if (selectedUsernames.length === 0) return userIntervalsByUsername;
   return Object.keys(userIntervalsByUsername)
-      .filter(username => selectedUsernames.includes(username))
-      .reduce((acc, username) => ({
-        ...acc,
-        [username]: userIntervalsByUsername[username],
-      }), {});
+    .filter((username) => selectedUsernames.includes(username))
+    .reduce((acc, username) => ({
+      ...acc,
+      [username]: userIntervalsByUsername[username],
+    }), {});
 }
 
 export function getMinMaxUsernames(userIntervalsByTime) {
@@ -17,7 +17,7 @@ export function getMinMaxUsernames(userIntervalsByTime) {
     const { length } = interval.usernames;
     return min <= length ? min : length;
   }, maxUsernames);
-  return [ minUsernames, maxUsernames ];
+  return [minUsernames, maxUsernames];
 }
 
 export function getDaysToShowWithSkip(eventIntervalsSplitOnMidnight) {

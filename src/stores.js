@@ -21,13 +21,13 @@ function getUser() {
     } catch (err) {
       throw new Error('Access token invalid');
     }
-  }
+  };
 
   const logout = () => {
     user.set({
       isLoggedIn: false,
     });
-  }
+  };
 
   return ({
     subscribe: user.subscribe,

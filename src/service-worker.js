@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { timestamp, files, shell, routes } from '@sapper/service-worker';
 
 const ASSETS = `cache${timestamp}`;

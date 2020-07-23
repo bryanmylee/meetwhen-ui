@@ -1,6 +1,4 @@
-import dayjs from 'dayjs';
-
-import { MS_PER_DAY } from 'src/utils/constants.js';
+import { MS_PER_DAY } from 'src/utils/constants';
 
 /**
  * @typedef {{
@@ -22,7 +20,7 @@ import { MS_PER_DAY } from 'src/utils/constants.js';
 export function getAreaSelection(newSelection) {
   if (newSelection == null
       || newSelection.startDay == null
-      || newSelection.startHour == null ) return [];
+      || newSelection.startHour == null) return [];
 
   const { startDay, startHour, endDay, endHour } = newSelection;
 
@@ -64,7 +62,7 @@ export function getUnionOfSelections(selections) {
    * @param {interval[]} selections The selections to get the time of.
    * @returns {{time: dayjs.Dayjs, isStart: boolean}[]} The actions.
    */
-  function getActions(selections) {
+  function getActions() {
     const actions = [];
     for (const { start, end } of selections) {
       actions.push({
@@ -83,14 +81,18 @@ export function getUnionOfSelections(selections) {
     return actions;
   }
 
-  const actions = getActions(selections);
+  const actions = getActions();
   const unionSelections = [];
   let currSelection = {};
   let currLayerCount = 0;
   let i = 0;
   while (i < actions.length) {
     const action = actions[i];
-    action.isStart ? currLayerCount++ : currLayerCount--;
+    if (action.isStart) {
+      currLayerCount++;
+    } else {
+      currLayerCount--;
+    }
     // Guaranteed to be the last "end" action on a given time.
     if (currLayerCount === 0 && !action.isStart) {
       // The next action is guaranteed to be a "start" action. Check if the
@@ -119,6 +121,35 @@ export function getUnionOfSelections(selections) {
  * @returns {interval[]} The intersection of both selections.
  */
 export function getIntersectionOfSelections(selectionsA, selectionsB) {
+  const actions = getActions();
+  const intersectSelections = [];
+  let currSelection = {};
+  let onA = false;
+  let onB = false;
+  for (const action of actions) {
+    if (action.isStart) {
+      if (action.isA) {
+        onA = true;
+      } else {
+        onB = true;
+      }
+      if (onA && onB) {
+        currSelection = { start: action.time };
+      }
+    } else {
+      if (action.isA) {
+        onA = false;
+      } else {
+        onB = false;
+      }
+      if (currSelection.start != null) {
+        intersectSelections.push({ ...currSelection, end: action.time });
+        currSelection = {};
+      }
+    }
+  }
+  return intersectSelections;
+
   /**
    * Given an array of selections, return an array of actions describing the
    * starts and ends of intervals sorted by time.
@@ -126,10 +157,10 @@ export function getIntersectionOfSelections(selectionsA, selectionsB) {
    * @param {interval[]} selectionsB The other array of selections.
    * @returns {{time: dayjs.Dayjs, isStart: boolean}[]} The actions.
    */
-  function getActions(selectionsA, selectionsB) {
-    const actions = [];
+  function getActions() {
+    const actionsBuffer = [];
     for (const { start, end } of selectionsA) {
-      actions.push({
+      actionsBuffer.push({
         time: start,
         isStart: true,
         isA: true,
@@ -140,7 +171,7 @@ export function getIntersectionOfSelections(selectionsA, selectionsB) {
       });
     }
     for (const { start, end } of selectionsB) {
-      actions.push({
+      actionsBuffer.push({
         time: start,
         isStart: true,
         isA: false,
@@ -150,28 +181,7 @@ export function getIntersectionOfSelections(selectionsA, selectionsB) {
         isA: false,
       });
     }
-    actions.sort((a, b) => a.time - b.time);
-    return actions;
+    actionsBuffer.sort((a, b) => a.time - b.time);
+    return actionsBuffer;
   }
-
-  const actions = getActions(selectionsA, selectionsB);
-  const intersectSelections = [];
-  let currSelection = {};
-  let onA = false;
-  let onB = false;
-  for (const action of actions) {
-    if (action.isStart) {
-      action.isA ? onA = true : onB = true;
-      if (onA && onB) {
-        currSelection = { start: action.time };
-      }
-    } else {
-      action.isA ? onA = false : onB = false;
-      if (currSelection.start != null) {
-        intersectSelections.push({ ...currSelection, end: action.time });
-        currSelection = {};
-      }
-    }
-  }
-  return intersectSelections;
 }

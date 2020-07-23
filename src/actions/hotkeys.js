@@ -12,13 +12,17 @@ export function undoRedo(node, { undo, redo }) {
   function handleKeydown(event) {
     if ((event.metaKey || event.ctrlKey) && (event.key === 'z' || event.key === 'Z')) {
       event.preventDefault();
-      event.shiftKey ? redo() : undo();
+      if (event.shiftKey) {
+        redo();
+      } else {
+        undo();
+      }
     }
   }
   node.addEventListener('keydown', handleKeydown);
-  return ({
+  return {
     destroy() {
       node.removeEventListener('keydown', handleKeydown);
-    }
-  })
+    },
+  };
 }

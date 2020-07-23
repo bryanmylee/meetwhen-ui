@@ -13,21 +13,21 @@
  */
 export const getRequired = (prompt) => (value) => {
   if (value.trim().length === 0) throw new Error(prompt);
-}
+};
 
 export const validateNewUsername = (username) => {
   if (username.trim().length === 0) throw new Error('Your username cannot be empty');
-  if (!/^[a-z0-9_\-]+$/i.test(username)) throw new Error('Your username must be alphanumeric');
-}
+  if (!/^[a-z0-9_-]+$/i.test(username)) throw new Error('Your username must be alphanumeric');
+};
 
 export const validateNewPassword = (password) => {
   if (password.trim().length === 0) throw new Error('Your password cannot be empty');
-}
+};
 
 export const validateUsername = (username) => {
-  if (username.trim().length === 0) throw new Error("What's your username?");
-}
+  if (username.trim().length === 0) throw new Error('What\'s your username?');
+};
 
 export const validatePassword = (password) => {
   if (password.trim().length === 0) throw new Error('Forgot your password?');
-}
+};

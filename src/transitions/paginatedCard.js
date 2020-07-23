@@ -12,16 +12,16 @@ export function cardIn(node, {
   const transform = style.transform === 'none' ? '' : style.transform;
   const od = targetOpacity * (1 - opacity);
 
-  return ({
+  return {
     delay,
     duration,
     easing,
     css: (_, u) => `
       transform: ${transform} translate(${u * x}px, 0);
-      opacity: ${targetOpacity - (od * u)};
+      opacity: ${targetOpacity - od * u};
     `,
-    tick: _ => node.style.position = 'unset',
-  })
+    tick: () => node.style.position = 'unset',
+  };
 }
 
 export function cardOut(node, {
@@ -37,15 +37,15 @@ export function cardOut(node, {
   const transform = style.transform === 'none' ? '' : style.transform;
   const od = targetOpacity * (1 - opacity);
 
-  return ({
+  return {
     delay,
     duration,
     easing,
     css: (_, u) => `
       transform: ${transform} translate(${u * x}px, 0);
-      opacity: ${targetOpacity - (od * u)};
+      opacity: ${targetOpacity - od * u};
       width: ${targetWidth};
     `,
-    tick: _ => node.style.position = 'absolute',
-  })
+    tick: () => node.style.position = 'absolute',
+  };
 }

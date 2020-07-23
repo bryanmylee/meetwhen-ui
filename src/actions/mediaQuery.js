@@ -11,12 +11,12 @@
  * media query matches.
  */
 export default function mediaQuery(node, { query, callback }) {
-  const mediaQuery = node.matchMedia(query);
-  callback(mediaQuery.matches);
-  mediaQuery.addListener((event) => callback(event.matches));
-  return ({
+  const media = node.matchMedia(query);
+  callback(media.matches);
+  media.addListener((event) => callback(event.matches));
+  return {
     destroy() {
-      mediaQuery.removeListener((event) => callback(event.matches));
-    }
-  })
+      media.removeListener((event) => callback(event.matches));
+    },
+  };
 }

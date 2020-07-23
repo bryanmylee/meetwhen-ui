@@ -16,23 +16,19 @@
  * password is incorrect.
  */
 export async function login(fetch, apiUrl, eventUrl, userDetails) {
-  try {
-    const response = await (await fetch(`${apiUrl}/${eventUrl}/login`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userDetails),
-    })).json();
+  const response = await (await fetch(`${apiUrl}/${eventUrl}/login`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userDetails),
+  })).json();
 
-    if (response.error) {
-      throw new Error(response.error);
-    }
-    return response;
-  } catch (err) {
-    throw err;
+  if (response.error) {
+    throw new Error(response.error);
   }
+  return response;
 }
 
 /**
@@ -46,22 +42,18 @@ export async function login(fetch, apiUrl, eventUrl, userDetails) {
  * @throws An error if the logout fails.
  */
 export async function logout(fetch, apiUrl, eventUrl) {
-  try {
-    const response = await (await fetch(`${apiUrl}/${eventUrl}/logout`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })).json();
+  const response = await (await fetch(`${apiUrl}/${eventUrl}/logout`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })).json();
 
-    if (response.error) {
-      throw new Error(response.error);
-    }
-    return response;
-  } catch (err) {
-    throw err;
+  if (response.error) {
+    throw new Error(response.error);
   }
+  return response;
 }
 
 /**
@@ -79,20 +71,16 @@ export async function logout(fetch, apiUrl, eventUrl) {
  * @throws An error if the refresh token does not exist.
  */
 export async function getAccessToken(fetch, apiUrl, eventUrl) {
-  try {
-    const response = await (await fetch(`${apiUrl}/${eventUrl}/refresh_token`, {
-      method: 'POST',
-      credentials: 'include', // Include the protected cookie
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })).json();
+  const response = await (await fetch(`${apiUrl}/${eventUrl}/refresh_token`, {
+    method: 'POST',
+    credentials: 'include', // Include the protected cookie
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })).json();
 
-    if (response.error) {
-      throw new Error(response.error);
-    }
-    return response;
-  } catch (err) {
-    throw err;
+  if (response.error) {
+    throw new Error(response.error);
   }
+  return response;
 }

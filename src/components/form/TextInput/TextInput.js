@@ -22,7 +22,7 @@ export function inputAction(node, { isPassword }) {
   function error() {
     node.style.border = '1px solid var(--error-0)';
   }
-  return ({
+  return {
     update({ focused, showError }) {
       if (focused) {
         focus();
@@ -30,8 +30,8 @@ export function inputAction(node, { isPassword }) {
         normal();
       }
       if (showError) error();
-    }
-  });
+    },
+  };
 }
 
 /**
@@ -54,14 +54,15 @@ export function labelAction(node) {
   function error() {
     node.style.color = 'var(--error-0)';
   }
-  return ({
+  return {
     update({ focused, value, showError }) {
-      if (focused || (value && value.length !== 0)) {
+      const nonEmpty = value && value.length !== 0;
+      if (focused || nonEmpty) {
         focus();
       } else {
         normal();
       }
       if (showError) error();
-    }
-  });
+    },
+  };
 }

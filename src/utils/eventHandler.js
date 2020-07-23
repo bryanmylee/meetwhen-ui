@@ -18,8 +18,6 @@ export function getTouchOffset(event) {
   return { offsetX, offsetY };
 }
 
-export function distanceBetweenOffsets(offsetA, offsetB) {
-  return Math.sqrt(
-      Math.pow(offsetA.offsetX - offsetB.offsetX, 2)
-      + Math.pow(offsetA.offsetY - offsetB.offsetY, 2));
+export function distanceBetweenOffsets(A, B) {
+  return Math.sqrt((A.offsetX - B.offsetX) ** 2 + (A.offsetY - B.offsetY) ** 2);
 }

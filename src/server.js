@@ -1,9 +1,10 @@
 import { config } from 'dotenv';
-config();
 import sirv from 'sirv';
 import polka from 'polka';
 import compression from 'compression';
 import * as sapper from '@sapper/server';
+
+config();
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
@@ -19,10 +20,11 @@ export default polka() // You can also use Express
     sapper.middleware({
       session: () => ({
         API_URL,
-        ACCESS_TOKEN_SECRET
+        ACCESS_TOKEN_SECRET,
       }),
     }),
   )
-  .listen(PORT, err => {
-    if (err) console.log('error', err);
+  .listen(PORT, (err) => {
+    // eslint-disable-next-line no-console
+    if (err) console.error('Failed to initialize server:', err);
   });

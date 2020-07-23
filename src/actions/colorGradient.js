@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /**
  * Programmatically sets the background color of an element based on a color
  * scale, with highlighting on mouseover.
@@ -12,12 +13,12 @@
  * @param actionOptions.highlighted Whether the node should be highlighted.
  */
 export default function colorGradient(node,
-    { scale, ratio }) {
+  { scale, ratio }) {
   function applyStyle(scale, ratio, highlighted = false) {
     node.style.backgroundColor = scale(ratio)
-        .brighten(highlighted ? 0.5 : 0);
+      .brighten(highlighted ? 0.5 : 0);
     node.style.borderColor = scale(ratio)
-        .darken();
+      .darken();
   }
 
   function styleWithHighlight() {
@@ -33,13 +34,13 @@ export default function colorGradient(node,
 
   applyStyle(scale, ratio);
 
-  return ({
+  return {
     update({ scale, ratio }) {
       applyStyle(scale, ratio);
     },
     destroy() {
       node.removeEventListener('mouseover', styleWithHighlight);
       node.removeEventListener('mouseleave', styleNoHighlight);
-    }
-  })
+    },
+  };
 }

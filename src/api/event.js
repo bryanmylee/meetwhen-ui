@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+
 dayjs.extend(utc);
 
 /**
@@ -13,10 +14,10 @@ dayjs.extend(utc);
  * @returns {serializedInterval} The serialized interval.
  */
 function serializeInterval(interval) {
-  const toReturn = ({
+  const toReturn = {
     start: +interval.start,
     end: +interval.end,
-  });
+  };
   return toReturn;
 }
 
@@ -27,10 +28,10 @@ function serializeInterval(interval) {
  * @returns {interval} The deserialized interval.
  */
 function deserializeInterval(serializedInterval) {
-  return ({
+  return {
     start: dayjs(serializedInterval.start),
     end: dayjs(serializedInterval.end),
-  });
+  };
 }
 
 /**
@@ -53,7 +54,7 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
   const { title, description, username, password, schedule } = eventDetails;
   schedule.sort((a, b) => a.start - b.start);
   const scheduleInMs = schedule.map(serializeInterval);
-  return await (await fetch(`${apiUrl}/new`, {
+  return (await fetch(`${apiUrl}/new`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -64,7 +65,7 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
       description,
       username,
       password,
-      scheduleInMs
+      scheduleInMs,
     }),
   })).json();
 }
@@ -83,36 +84,29 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
  * }>} The event details.
  */
 export async function getEvent(fetch, apiUrl, eventUrl) {
-  try {
-    const {
-      title, description, admin, scheduleInMs, userSchedulesInMs
-    } = await (await fetch(`${apiUrl}/${eventUrl}`, {
-      credentials: 'include',
-    })).json();
+  const {
+    title, description, admin, scheduleInMs, userSchedulesInMs,
+  } = await (await fetch(`${apiUrl}/${eventUrl}`, {
+    credentials: 'include',
+  })).json();
 
-    // Parse datetimes
-    const schedule = scheduleInMs.map(deserializeInterval);
-    let userSchedules = {};
-    if (userSchedulesInMs) {
-      userSchedules = Object.fromEntries(
-          // .entries returns an array of tuples in [key, value] form.
-          Object.entries(userSchedulesInMs)
-              .map(([username, intervals]) => [
-                username,
-                intervals.map(deserializeInterval),
-              ]));
-    }
-    return ({
-      eventUrl,
-      title,
-      description,
-      admin,
-      schedule,
-      userSchedules,
-    });
-  } catch (err) {
-    console.log(err);
+  // Parse datetimes
+  const schedule = scheduleInMs.map(deserializeInterval);
+  let userSchedules = {};
+  if (userSchedulesInMs) {
+    userSchedules = Object.fromEntries(Object.entries(userSchedulesInMs)
+      .map(([username, intervals]) => [
+        username, intervals.map(deserializeInterval),
+      ]));
   }
+  return {
+    eventUrl,
+    title,
+    description,
+    admin,
+    schedule,
+    userSchedules,
+  };
 }
 
 /**
@@ -133,29 +127,25 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
  * @throws An error if the username is already taken.
  */
 export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
-  try {
-    const { username, password, schedule } = userDetails;
-    const scheduleInMs = schedule.map(serializeInterval);
-    const response = await (await fetch(`${apiUrl}/${eventUrl}/new_user`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        password,
-        scheduleInMs,
-      }),
-    })).json();
+  const { username, password, schedule } = userDetails;
+  const scheduleInMs = schedule.map(serializeInterval);
+  const response = await (await fetch(`${apiUrl}/${eventUrl}/new_user`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username,
+      password,
+      scheduleInMs,
+    }),
+  })).json();
 
-    if (response.error) {
-      throw new Error(response.error);
-    }
-    return response;
-  } catch (err) {
-    throw err;
+  if (response.error) {
+    throw new Error(response.error);
   }
+  return response;
 }
 
 /**
@@ -172,22 +162,19 @@ export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
  * @throws An error if the access token is not set, or is invalid.
  */
 export async function editUserIntervals(fetch, apiUrl, eventUrl, userDetails) {
-  try {
-    const { username, accessToken } = userDetails;
-    const newScheduleInMs = userDetails.newSchedule.map(serializeInterval);
-    const response = await (await fetch(
-        `${apiUrl}/${eventUrl}/${username}/edit`, {
+  const { username, accessToken } = userDetails;
+  const newScheduleInMs = userDetails.newSchedule.map(serializeInterval);
+  const response = await (await fetch(
+    `${apiUrl}/${eventUrl}/${username}/edit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({ newScheduleInMs }),
-    })).json();
-    if (response.error) {
-      throw new Error(response.error);
-    }
-  } catch (err) {
-    throw err;
+    },
+  )).json();
+  if (response.error) {
+    throw new Error(response.error);
   }
 }

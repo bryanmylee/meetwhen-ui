@@ -1,12 +1,13 @@
+/* eslint-disable no-shadow */
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
 
 import {
   getMouseOffset,
   getTouchOffset,
-} from 'src/utils/eventHandler.js';
-import longTouchAndDrag from 'src/utils/longTouchAndDrag.js';
-import { MS_PER_HOUR } from "src/utils/constants.js";
+} from 'src/utils/eventHandler';
+import LongTouchAndDrag from 'src/utils/LongTouchAndDrag';
+import { MS_PER_HOUR } from 'src/utils/constants';
 
 /**
  * Provides all custom events for creating new selections with the calendar.
@@ -34,11 +35,16 @@ export function createSelection(node, {
   const columnWidth = node.offsetWidth / daysToShow.length;
   const rowHeight = node.offsetHeight / 24;
 
-  let lastClientX, lastClientY, lastOffsetX, lastOffsetY;
+  let lastClientX;
+  let lastClientY;
+  let lastOffsetX;
+  let lastOffsetY;
 
   function getDayHour(offsetX, offsetY) {
     const dayIndex = Math.min(
-        Math.floor(offsetX / columnWidth), daysToShow.length - 1);
+      Math.floor(offsetX / columnWidth),
+      daysToShow.length - 1,
+    );
     const day = daysToShow[dayIndex];
     const rawHour = offsetY / rowHeight;
     const hour = Math.floor(rawHour / snap) * snap;
@@ -108,20 +114,19 @@ export function createSelection(node, {
 
     node.style.cursor = enabled ? 'pointer' : 'default';
     node.addEventListener('mousedown', selectStart);
-    return ({
+    return {
       update({ selectionEnabled }) {
-        enabled = selectionEnabled;
-        node.style.cursor = enabled ? 'pointer' : 'default';
+        node.style.cursor = selectionEnabled ? 'pointer' : 'default';
       },
       destroy() {
         node.removeEventListener('mousedown', selectStart);
-      }
-    });
+      },
+    };
   }
 
   function touchInteraction() {
-    const touchStart = new longTouchAndDrag({ duration: 500 },
-        selectStart, selectMove, selectEnd);
+    const touchStart = new LongTouchAndDrag({ duration: 500 },
+      selectStart, selectMove, selectEnd);
 
     function selectStart(event) {
       if (!enabled) return;
@@ -157,25 +162,27 @@ export function createSelection(node, {
     }
 
     node.addEventListener('touchstart', touchStart);
-    return ({
+    return {
       destroy() {
         node.removeEventListener('touchstart', touchStart);
-      }
-    });
+      },
+    };
   }
 
   const mouseUpdateDestroy = mouseInteraction();
   const touchUpdateDestroy = touchInteraction();
 
-  return ({
-    update({ selectionEnabled }) {
-      mouseUpdateDestroy.update({selectionEnabled});
+  return {
+    update({ snapToHour = 0.25, selectionEnabled = true }) {
+      snap = snapToHour;
+      enabled = selectionEnabled;
+      mouseUpdateDestroy.update({ selectionEnabled });
     },
     destroy() {
       mouseUpdateDestroy.destroy();
       touchUpdateDestroy.destroy();
-    }
-  });
+    },
+  };
 }
 
 /**
@@ -211,14 +218,17 @@ export function moveAndResizable(node, {
   let snap = snapToHour;
 
   let state = null;
-  const states = ({
+  const states = {
     NONE: 'NONE',
     MOVING: 'MOVING',
     RESIZING_TOP: 'RESIZING_TOP',
     RESIZING_BOTTOM: 'RESIZING_BOTTOM',
-  });
+  };
   // Track the initial state required to calculate drag distance.
-  let startClientX, startClientY, dx, dy;
+  let startClientX;
+  let startClientY;
+  let dx;
+  let dy;
 
   function startDrag({ offsetY, clientX, clientY }) {
     startClientX = clientX;
@@ -261,7 +271,7 @@ export function moveAndResizable(node, {
   // contain handlers for moving/ending a mouse or touch drag. move/end are
   // called whenever the `mousemove/touchmove` and `mouseup/touchend` events are
   // dispatched.
-  const moveSelection = ({
+  const moveSelection = {
     move({ clientX, clientY }) {
       dx = clientX - startClientX;
       dy = clientY - startClientY;
@@ -273,16 +283,16 @@ export function moveAndResizable(node, {
       // context function on CalendarPickerBase.
       node.style.left = `${startLeft}px`;
       node.dispatchEvent(new CustomEvent('moveSelection', {
-        detail: ({
+        detail: {
           originalStart: start, // used to identify which selection was dragged.
           originalEnd: end,
           ...getDeltaRowCol(),
-        }),
+        },
       }));
-    }
-  });
+    },
+  };
 
-  const resizeSelectionTop = ({
+  const resizeSelectionTop = {
     move({ clientX, clientY }) {
       dx = clientX - startClientX;
       dy = clientY - startClientY;
@@ -295,16 +305,16 @@ export function moveAndResizable(node, {
     end() {
       const { deltaRow } = getDeltaRowCol();
       node.dispatchEvent(new CustomEvent('resizeSelectionTop', {
-        detail: ({
+        detail: {
           originalStart: start, // used to identify which selection was dragged.
           originalEnd: end,
           newStart: start.add(deltaRow, 'hour'),
-        }),
+        },
       }));
-    }
-  });
+    },
+  };
 
-  const resizeSelectionBottom = ({
+  const resizeSelectionBottom = {
     move({ clientX, clientY }) {
       dx = clientX - startClientX;
       dy = clientY - startClientY;
@@ -316,14 +326,14 @@ export function moveAndResizable(node, {
     end() {
       const { deltaRow } = getDeltaRowCol();
       node.dispatchEvent(new CustomEvent('resizeSelectionBottom', {
-        detail: ({
+        detail: {
           originalStart: start, // used to identify which selection was dragged.
           originalEnd: end,
           newEnd: end.add(deltaRow, 'hour'),
-        }),
+        },
       }));
-    }
-  });
+    },
+  };
 
   let currentAction = moveSelection;
 
@@ -366,17 +376,17 @@ export function moveAndResizable(node, {
 
     node.addEventListener('mousemove', setMouseCursor);
     node.addEventListener('mousedown', handleMouseDown);
-    return ({
+    return {
       destroy() {
         node.removeEventListener('mousemove', setMouseCursor);
         node.removeEventListener('mousedown', handleMouseDown);
-      }
-    });
+      },
+    };
   }
 
   function touchInteraction() {
-    const touchStart = new longTouchAndDrag({ duration: 500 },
-        handleDragStart, handleDragMove, handleDragEnd);
+    const touchStart = new LongTouchAndDrag({ duration: 500 },
+      handleDragStart, handleDragMove, handleDragEnd);
 
     function handleDragStart(event) {
       const { offsetY } = getTouchOffset(event);
@@ -395,21 +405,24 @@ export function moveAndResizable(node, {
     }
 
     node.addEventListener('touchstart', touchStart);
-    return ({
+    return {
       destroy() {
         node.removeEventListener('touchstart', touchStart);
-      }
-    });
+      },
+    };
   }
 
   const mouseUpdateDestroy = mouseInteraction();
   const touchUpdateDestroy = touchInteraction();
-  return ({
+  return {
+    update({ snapToHour = 0.25 }) {
+      snap = snapToHour;
+    },
     destroy() {
       mouseUpdateDestroy.destroy();
       touchUpdateDestroy.destroy();
-    }
-  });
+    },
+  };
 }
 
 /**
@@ -430,7 +443,7 @@ export function smoothSizePos(node, { start, end, duration = 100 }) {
     startInMs: start - startOfDay,
     endInMs: end - startOfDay,
   }, {
-    duration: duration,
+    duration,
     easing: cubicOut,
   });
   const unsub = smooth.subscribe(({ startInMs, endInMs }) => {
@@ -438,7 +451,7 @@ export function smoothSizePos(node, { start, end, duration = 100 }) {
     node.style.top = getTop(startInMs);
     node.style.height = getHeight(endInMs - startInMs);
   });
-  return ({
+  return {
     update({ start, end }) {
       const startOfDay = start.startOf('day');
       smooth.set({
@@ -448,8 +461,8 @@ export function smoothSizePos(node, { start, end, duration = 100 }) {
     },
     destroy() {
       unsub();
-    }
-  })
+    },
+  };
 }
 
 /**
@@ -466,12 +479,12 @@ export function sizePos(node, { start, end }) {
   node.style.position = 'absolute';
   node.style.top = getTop(start - start.startOf('day'));
   node.style.height = getHeight(end - start);
-  return ({
+  return {
     update({ start, end }) {
       node.style.top = getTop(start - start.startOf('day'));
       node.style.height = getHeight(end - start);
-    }
-  });
+    },
+  };
 }
 
 /**
