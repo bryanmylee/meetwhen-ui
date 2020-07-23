@@ -2,11 +2,9 @@
   import { goto, stores } from '@sapper/app';
 
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
-  import { user } from 'src/stores';
   import { createNewEvent } from 'src/api/event';
 
   import EventDetailsForm from './_components/EventDetailsForm.svelte';
-  import UserDetailsForm from './_components/UserDetailsForm.svelte';
   import DatePickerHeader from './_components/datePicker/DatePickerHeader.svelte';
   import DatePicker from './_components/datePicker/DatePicker.svelte';
   import TimeInputBar from './_components/TimeInputBar.svelte';
@@ -20,8 +18,6 @@
   // =========
   let title = '';
   let description = '';
-  let username = '';
-  let password = '';
   let selectedDays = [];
   let startTime = null;
   let endTime = null;
@@ -30,7 +26,6 @@
   // =============
   let attempted = false;
   let eventDetailsValid;
-  let userDetailsValid;
   $: datesValid = selectedDays.length !== 0;
   $: timesValid = startTime != null && endTime != null;
 
@@ -41,7 +36,7 @@
   // API FUNCTIONS
   // =============
   async function handleSubmitNewEvent() {
-    if (!eventDetailsValid || !userDetailsValid || !datesValid || !timesValid) {
+    if (!eventDetailsValid || !datesValid || !timesValid) {
       attempted = true;
       return;
     }
@@ -49,11 +44,8 @@
       start: day.hour(startTime.hour()).minute(0),
       end: day.hour(endTime.hour()).minute(0),
     }));
-    const eventDetails = {
-      title, description, username, password, schedule,
-    };
-    const { eventUrl, accessToken } = await createNewEvent(fetch, $session.API_URL, eventDetails);
-    user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
+    const eventDetails = { title, description, schedule };
+    const { eventUrl } = await createNewEvent(fetch, $session.API_URL, eventDetails);
     goto(`/${eventUrl}`);
   }
 </script>
@@ -63,12 +55,6 @@
     bind:title={title}
     bind:formValid={eventDetailsValid}
     bind:description={description}
-    {attempted}
-  />
-  <UserDetailsForm
-    bind:username={username}
-    bind:password={password}
-    bind:formValid={userDetailsValid}
     {attempted}
   />
 

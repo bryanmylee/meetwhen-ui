@@ -47,11 +47,10 @@ function deserializeInterval(serializedInterval) {
  * }} eventDetails The details of the event.
  * @returns {Promise<{
  *   eventUrl: string,
- *   accessToken: string,
- * }>} The access token response.
+ * }>} The event url response.
  */
 export async function createNewEvent(fetch, apiUrl, eventDetails) {
-  const { title, description, username, password, schedule } = eventDetails;
+  const { title, description, schedule } = eventDetails;
   schedule.sort((a, b) => a.start - b.start);
   const scheduleInMs = schedule.map(serializeInterval);
   return (await fetch(`${apiUrl}/new`, {
@@ -63,8 +62,6 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
     body: JSON.stringify({
       title,
       description,
-      username,
-      password,
       scheduleInMs,
     }),
   })).json();
