@@ -1,7 +1,8 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
   import dayjs from 'dayjs';
+
+  const dispatch = createEventDispatcher();
 
   // PROPS
   // =====
@@ -20,7 +21,7 @@
     dispatch('dragStart', { date, selecting: !selected });
   }
 
-  function handleDragEnter() {
+  function handleDragEnter(event) {
     if (event.buttons !== 1 || isPast) return;
     dispatch('dragMove', { date });
   }

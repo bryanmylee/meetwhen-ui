@@ -12,7 +12,7 @@
 
 <input
   type="range"
-  on:input={event => value = event.target.value}
+  on:input={(event) => value = event.target.value}
   {min}
   {max}
   {step}

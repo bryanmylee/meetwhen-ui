@@ -1,9 +1,10 @@
 <script>
   import { createPopperActions } from 'svelte-popperjs';
-  const [ popperRef, popperContent ] = createPopperActions();
 
   import DropdownArrow from './DropdownArrow.svelte';
   import TimeDropdown from './TimeDropdown.svelte';
+
+  const [popperRef, popperContent] = createPopperActions();
 
   // BINDINGS
   // ========
@@ -57,7 +58,7 @@
 {#if showTimes}
   <TimeDropdown
     on:select={select}
-    on:hide={_ => showTimes = false}
+    on:hide={() => showTimes = false}
     {earliestTime} {latestTime}
     popperAction={popperContent}
   />

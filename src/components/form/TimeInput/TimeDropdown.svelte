@@ -1,9 +1,10 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
   import dayjs from 'dayjs';
 
   import Time from './Time.svelte';
+
+  const dispatch = createEventDispatcher();
 
   // PROPS
   // =====
@@ -13,7 +14,7 @@
 
   // STATE
   // =====
-  const times = [...Array(25)].map((_, inc) => dayjs().hour(inc).minute(0))
+  const times = [...Array(25)].map((_, inc) => dayjs().hour(inc).minute(0));
 
   // REACTIVE ATTRIBUTES
   // ===================
@@ -24,10 +25,10 @@
       {
         name: 'offset',
         options: {
-          offset: [0, -selfWidth]
-        }
-      }
-    ]
+          offset: [0, -selfWidth],
+        },
+      },
+    ],
   };
 
   // STATE FUNCTIONS

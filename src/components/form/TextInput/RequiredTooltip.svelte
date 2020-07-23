@@ -1,6 +1,7 @@
 <script>
   import { createPopperActions } from 'svelte-popperjs';
-  const [ popperRef, popperContent ] = createPopperActions();
+
+  const [popperRef, popperContent] = createPopperActions();
 
   // PROPS
   // =====
@@ -22,8 +23,8 @@
 
 <span
   use:popperRef
-  on:mouseenter={_ => showTooltip = true}
-  on:mouseleave={_ => showTooltip = false}
+  on:mouseenter={() => showTooltip = true}
+  on:mouseleave={() => showTooltip = false}
 />
 {#if showTooltip}
   <div class="popover" use:popperContent={popperOptions}>

@@ -1,5 +1,5 @@
 <script>
-  import { inputAction, labelAction } from './TextInput.js';
+  import { inputAction, labelAction } from './TextInput';
 
   import ErrorTip from 'src/components/ErrorTip.svelte';
   import RequiredTooltip from './RequiredTooltip.svelte';
@@ -14,14 +14,14 @@
       valid = true;
       errorMessage = null;
     } catch (err) {
-      valid = false
+      valid = false;
       if (!valid && attempted) errorMessage = err.message;
     }
   }
 
   // PROPS
   // =====
-  export let label = "Label";
+  export let label = 'Label';
   export let required = false;
   export let isPassword = false;
   export let attempted = false;
@@ -33,15 +33,14 @@
   // =====
   let focused = false;
   let errorMessage = null;
-
 </script>
 
 <div {style}>
-  <input use:inputAction={{isPassword, focused, value, showError: !valid && attempted}} bind:value={value}
+  <input use:inputAction={{ isPassword, focused, value, showError: !valid && attempted }} bind:value={value}
     on:focus={() => focused = true}
     on:blur={() => focused = false}
   />
-  <label use:labelAction={{focused, value, showError: !valid && attempted}}>
+  <label use:labelAction={{ focused, value, showError: !valid && attempted }}>
     {label}
   </label>
   {#if required}
