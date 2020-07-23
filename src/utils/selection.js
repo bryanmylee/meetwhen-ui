@@ -105,7 +105,7 @@ export function getUnionOfSelections(selections) {
         i += 2;
         continue;
       }
-      unionSelections.push({ ...currSelection, end: action.time});
+      unionSelections.push({ ...currSelection, end: action.time });
     } else if (currLayerCount === 1 && action.isStart) {
       currSelection = { start: action.time };
     }

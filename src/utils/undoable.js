@@ -42,7 +42,7 @@ export default function undoable(initialValue) {
     state.update(({ value, stack, index }) => {
       const newValue = fn(value);
       if (isEqual(newValue, value)) {
-        return ({ value, stack, index });
+        return { value, stack, index };
       }
       return {
         value: newValue,
@@ -59,7 +59,7 @@ export default function undoable(initialValue) {
   const value = derived(state, ($state) => $state.value);
   const canUndo = derived(state, ({ index }) => index > 0);
   const canRedo = derived(state, ({ index, stack }) => index < stack.length - 1);
-  return ({
+  return {
     subscribe: value.subscribe,
     update,
     set,
@@ -68,5 +68,5 @@ export default function undoable(initialValue) {
     canUndo,
     canRedo,
     clearStack,
-  });
+  };
 }

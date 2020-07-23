@@ -110,16 +110,16 @@ export function getMergedIntervals(intervalsByUsername) {
         deltabyUsername[username] = action.isAdd ? 1 : -1;
       }
     }
-    const addAction = ({
+    const addAction = {
       time: actionsWithSameTime[0].time,
       isAdd: true,
       usernames: [],
-    });
-    const removeAction = ({
+    };
+    const removeAction = {
       time: actionsWithSameTime[0].time,
       isAdd: false,
       usernames: [],
-    });
+    };
     for (const [username, delta] of Object.entries(deltabyUsername)) {
       if (delta > 0) {
         addAction.usernames.push(username);
@@ -141,11 +141,11 @@ export function getMergedIntervals(intervalsByUsername) {
    */
   function getIntervalsFromCombinedActions(combinedActions) {
     let currentUsernames = [];
-    const currentInterval = ({
+    const currentInterval = {
       start: null,
       end: null,
       usernames: [],
-    });
+    };
     const result = [];
     for (const { addAction, removeAction } of combinedActions) {
       currentInterval.end = addAction.time;
