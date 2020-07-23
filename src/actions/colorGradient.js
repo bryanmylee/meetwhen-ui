@@ -7,7 +7,7 @@
  *   scale: chroma.Scale,
  *   ratio: number,
  *   highlighted: boolean,
- *  }} actionOptions
+ * }} actionOptions
  * @param actionOptions.scale The ChromaJS color scale to use.
  * @param actionOptions.ratio The ratio along the scale.
  * @param actionOptions.highlighted Whether the node should be highlighted.

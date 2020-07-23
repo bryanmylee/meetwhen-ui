@@ -2,9 +2,16 @@ import { writable } from 'svelte/store';
 import chroma from 'chroma-js';
 import jwt from 'jsonwebtoken';
 
+/**
+ * Create a user store which can only be updated by setting an access token.
+ */
 function getUser() {
   const user = writable({
     isLoggedIn: false,
+    accessToken: null,
+    eventUrl: null,
+    username: null,
+    isAdmin: false,
   });
 
   const setAccessToken = (accessToken, secret) => {

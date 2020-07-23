@@ -41,8 +41,6 @@ export function getMergedIntervals(intervalsByUsername) {
    * Given a map of usernames to their intervals, describe how usernames are
    * added and removed from the event based on their intervals in
    * chronological order.
-   * @param {Object.<string, interval[]>} intervalsByUsername A map of
-   * usernames to the intervals of the username.
    * @returns {action[]} An array of chronologically ordered actions which
    * describe the addition or removal of a username across specific times.
    */

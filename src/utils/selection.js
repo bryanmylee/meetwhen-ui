@@ -59,7 +59,6 @@ export function getUnionOfSelections(selections) {
   /**
    * Given an array of selections, return an array of actions describing the
    * starts and ends of intervals sorted by time.
-   * @param {interval[]} selections The selections to get the time of.
    * @returns {{time: dayjs.Dayjs, isStart: boolean}[]} The actions.
    */
   function getActions() {
@@ -153,8 +152,6 @@ export function getIntersectionOfSelections(selectionsA, selectionsB) {
   /**
    * Given an array of selections, return an array of actions describing the
    * starts and ends of intervals sorted by time.
-   * @param {interval[]} selectionsA The first array of selections.
-   * @param {interval[]} selectionsB The other array of selections.
    * @returns {{time: dayjs.Dayjs, isStart: boolean}[]} The actions.
    */
   function getActions() {

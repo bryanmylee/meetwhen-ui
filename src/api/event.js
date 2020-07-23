@@ -73,6 +73,7 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
 /**
  * Get the details of an event.
  * @param {Function} fetch The fetch function to use.
+ * @param {string} apiUrl The URL of the API.
  * @param {string} eventUrl The url identifier of the event.
  * @returns {Promise<{
  *   eventUrl: string,
@@ -80,7 +81,7 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
  *   description: string,
  *   admin: string,
  *   schedule: interval[],
- *   userSchedules: Object.<string, interval[]>,
+ *   userSchedules: object.<string, interval[]>,
  * }>} The event details.
  */
 export async function getEvent(fetch, apiUrl, eventUrl) {

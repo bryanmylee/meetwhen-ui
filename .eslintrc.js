@@ -8,7 +8,7 @@ module.exports = {
     'svelte3',
     'jsdoc',
   ],
-  extends: ['airbnb-base', 'plugin:jsdoc/recommended'],
+  extends: ['airbnb-base'],
   parserOptions: {
     ecmaVersion: 11,
     sourceType: 'module',
@@ -43,6 +43,10 @@ module.exports = {
       'error',
       'all',
     ],
+    'jsdoc/check-alignment': 'warn',
+    'jsdoc/check-param-names': 'warn',
+    'jsdoc/check-syntax': 'warn',
+    'jsdoc/check-types': 'warn',
   },
   settings: {
     'import/resolver': {
