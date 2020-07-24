@@ -1,8 +1,8 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { layoutEnum, layout } from 'src/stores';
+
+  import { layoutEnum, layout, user } from 'src/stores';
   import { detailsEnum, formEnum, details, form } from '../stores';
-  import { user } from 'src/stores';
 
   import { Button } from 'src/components/form';
 

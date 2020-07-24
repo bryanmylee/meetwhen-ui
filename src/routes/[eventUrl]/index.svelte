@@ -174,6 +174,7 @@
 
   {#if $form === formEnum.LOGGING_IN || $form === formEnum.JOINING}
     <UserDetailsForm
+      on:submit={handleSubmit}
       bind:username={username}
       bind:password={password}
       bind:formValid={userDetailsValid}

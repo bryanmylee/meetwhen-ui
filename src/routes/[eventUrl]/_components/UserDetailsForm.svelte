@@ -1,9 +1,13 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import { fade, slide } from 'svelte/transition';
-  import { TextInput } from 'src/components/form';
 
   import { formEnum, form } from '../stores';
   import { validateNewPassword, validateNewUsername, validatePassword, validateUsername } from 'src/utils/validation';
+
+  import { TextInput } from 'src/components/form';
+
+  const dispatch = createEventDispatcher();
 
   // BINDINGS
   // ========
@@ -37,6 +41,13 @@
       tip = 'Account is unique to this event only';
     }
   }
+
+  function handleKeydown(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      dispatch('submit');
+    }
+  }
 </script>
 
 <div
@@ -48,10 +59,14 @@
   Safari. Therefore, implement a nice fade in after div is fully sized. -->
   <div in:fade={{ duration: 150, delay: 400 }} out:fade={{ duration: 150 }}>
     <h3>{prompt}</h3>
-    <TextInput label="Username" bind:value={username} bind:valid={usernameValid}
+    <TextInput label="Username"
+      bind:value={username} bind:valid={usernameValid}
+      on:keydown={handleKeydown}
       required {attempted} validationFunction={usernameValidation}
       style="margin-top: 1rem" />
-    <TextInput label="Password" bind:value={password} bind:valid={passwordValid}
+    <TextInput label="Password"
+      bind:value={password} bind:valid={passwordValid}
+      on:keydown={handleKeydown}
       required isPassword {tip}
       {attempted} validationFunction={passwordValidation}
       style="margin-top: 1rem" />

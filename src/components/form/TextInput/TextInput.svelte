@@ -39,6 +39,8 @@
   <input use:inputAction={{ isPassword, focused, value, showError: !valid && attempted }} bind:value={value}
     on:focus={() => focused = true}
     on:blur={() => focused = false}
+    on:keydown
+    on:keyup
   />
   <label use:labelAction={{ focused, value, showError: !valid && attempted }}>
     {label}
