@@ -61,35 +61,36 @@
   }
 </script>
 
-<form on:submit|preventDefault={handleSubmitNewEvent}>
-  <div class="main-content grid" in:fadeIn out:fadeOut>
-    <EventDetailsForm
-      bind:title={title}
-      bind:formValid={eventDetailsValid}
-      bind:description={description}
-      {attempted}
-    />
+<div class="main-content grid" in:fadeIn out:fadeOut>
+  <EventDetailsForm
+    on:submit={handleSubmitNewEvent}
+    bind:title={title}
+    bind:formValid={eventDetailsValid}
+    bind:description={description}
+    {attempted}
+  />
 
-    <!-- DATE AND TIME PICKER CARD -->
-    <div
-      class="picker-container card outline padded no-highlight"
-      class:error={attempted && !(datesValid && timesValid)}
-    >
-      <DatePickerHeader showError={attempted && !datesValid} />
-      <DatePicker bind:selectedDays={selectedDays} />
-      <ErrorTip show={attempted && !datesValid}>Pick at least one date</ErrorTip>
-      <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />
-      <ErrorTip show={attempted && !timesValid}>Your event time cannot be empty</ErrorTip>
-    </div>
-
-    <div class="button">
-      <!-- <AwaitButton onClick={handleSubmitNewEvent} type="submit">Create Event</AwaitButton> -->
-      <Button type="submit" disabled={isLoading}>Create Event</Button>
-    </div>
-
-    <ErrorToast bind:errorMessage={errorMessage} />
+  <!-- DATE AND TIME PICKER CARD -->
+  <div
+    class="picker-container card outline padded no-highlight"
+    class:error={attempted && !(datesValid && timesValid)}
+  >
+    <DatePickerHeader showError={attempted && !datesValid} />
+    <DatePicker bind:selectedDays={selectedDays} />
+    <ErrorTip show={attempted && !datesValid}>Pick at least one date</ErrorTip>
+    <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />
+    <ErrorTip show={attempted && !timesValid}>Your event time cannot be empty</ErrorTip>
   </div>
-</form>
+
+  <div class="button">
+    <!-- <AwaitButton onClick={handleSubmitNewEvent} type="submit">Create Event</AwaitButton> -->
+    <Button on:click={handleSubmitNewEvent} disabled={isLoading}>
+      Create Event
+    </Button>
+  </div>
+
+  <ErrorToast bind:errorMessage={errorMessage} />
+</div>
 
 
 <style>

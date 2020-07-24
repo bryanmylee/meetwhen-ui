@@ -4,6 +4,7 @@
 
   import { formEnum, form } from '../stores';
   import { validateNewPassword, validateNewUsername, validatePassword, validateUsername } from 'src/utils/validation';
+  import { KEY_RETURN } from 'src/utils/constants';
 
   import { TextInput } from 'src/components/form';
 
@@ -43,7 +44,7 @@
   }
 
   function handleKeydown(event) {
-    if (event.keyCode === 13) {
+    if (event.keyCode === KEY_RETURN) {
       event.preventDefault();
       dispatch('submit');
     }
