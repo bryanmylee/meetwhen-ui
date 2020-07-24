@@ -6,7 +6,7 @@
 </script>
 
 <div class="main-content fixed-height" in:fadeIn out:fadeOut>
-  <h1>LetsMeet</h1>
+  <h1>meetwhen</h1>
   <Button on:click={() => goto('/new')}>New Event</Button>
 </div>
 

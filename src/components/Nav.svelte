@@ -6,7 +6,7 @@
 
 <nav>
   <ul>
-    <a href="/" class="hero">LetsMeet</a>
+    <a href="/" class="hero">meetwhen</a>
   </ul>
   <ul>
     <a rel=prefetch href="/new" class:active={$page.path === '/new'}>New Event</a>
