@@ -2,6 +2,9 @@
   import { fade, slide } from 'svelte/transition';
   import { TextInput } from 'src/components/form';
 
+  import { formEnum, form } from '../stores';
+  import { validateNewPassword, validateNewUsername, validatePassword, validateUsername } from 'src/utils/validation';
+
   // BINDINGS
   // ========
   export let username;
@@ -10,17 +13,30 @@
 
   // PROPS
   // =====
-  export let usernameValidation;
-  export let passwordValidation;
-  export let prompt;
   export let attempted;
-  export let tip = '';
 
   // STATE
   // =====
+  let usernameValidation;
+  let passwordValidation;
+  let prompt = '';
+  let tip = '';
   let usernameValid;
   let passwordValid;
   $: formValid = usernameValid && passwordValid;
+  $: {
+    if ($form === formEnum.LOGGING_IN) {
+      usernameValidation = validateUsername;
+      passwordValidation = validatePassword;
+      prompt = 'Welcome back!';
+      tip = '';
+    } else if ($form === formEnum.JOINING) {
+      usernameValidation = validateNewUsername;
+      passwordValidation = validateNewPassword;
+      prompt = 'Who are you?';
+      tip = 'Account is unique to this event only';
+    }
+  }
 </script>
 
 <div

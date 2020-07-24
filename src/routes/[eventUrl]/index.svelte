@@ -31,7 +31,6 @@
   import { splitIntervalsOnMidnight } from 'src/utils/interval';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
   import { addUserToEvent, editUserIntervals } from 'src/api/event';
-  import { validateNewUsername, validateNewPassword, validateUsername, validatePassword } from 'src/utils/validation';
 
   import CompositeDetails from './_components/CompositeDetails.svelte';
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
@@ -67,6 +66,7 @@
   // ==========
   let errorMessage = '';
   $: if ($form) setForm();
+  let isLoading = false;
 
   // PAGE FUNCTIONS
   // ==============
@@ -91,6 +91,30 @@
 
   // API FUNCTIONS
   // =============
+  async function handleSubmit() {
+    if (isLoading) {
+      return;
+    }
+    isLoading = true;
+    if ($form === formEnum.EDITING) {
+      await handleSubmitEditUser();
+    } else if ($form === formEnum.JOINING) {
+      await handleSubmitNewUser();
+    } else if ($form === formEnum.LOGGING_IN) {
+      await handleSubmitLogin();
+    }
+    isLoading = false;
+  }
+
+  async function handleLogout() {
+    try {
+      await logout(fetch, $session.API_URL, event.eventUrl);
+      user.logout();
+    } catch (err) {
+      errorMessage = err.message;
+    }
+  }
+
   async function handleSubmitLogin() {
     if (!userDetailsValid) {
       attempted = true;
@@ -101,15 +125,6 @@
       accessToken = (await login(fetch, $session.API_URL, event.eventUrl, userDetails)).accessToken;
       user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
       refreshDataOnSuccess();
-    } catch (err) {
-      errorMessage = err.message;
-    }
-  }
-
-  async function handleLogout() {
-    try {
-      await logout(fetch, $session.API_URL, event.eventUrl);
-      user.logout();
     } catch (err) {
       errorMessage = err.message;
     }
@@ -157,25 +172,11 @@
   <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
   <CompositeDetails {event} />
 
-  {#if $form === formEnum.LOGGING_IN}
+  {#if $form === formEnum.LOGGING_IN || $form === formEnum.JOINING}
     <UserDetailsForm
       bind:username={username}
       bind:password={password}
       bind:formValid={userDetailsValid}
-      usernameValidation={validateUsername}
-      passwordValidation={validatePassword}
-      prompt="Welcome back!"
-      {attempted}
-    />
-  {:else if $form === formEnum.JOINING}
-    <UserDetailsForm
-      bind:username={username}
-      bind:password={password}
-      bind:formValid={userDetailsValid}
-      usernameValidation={validateNewUsername}
-      passwordValidation={validateNewPassword}
-      prompt="Who are you?"
-      tip="Account is unique to this event only"
       {attempted}
     />
   {/if}
@@ -194,10 +195,8 @@
 
   <!-- BOTTOM ACTION BAR -->
   <ActionBar
-    {handleSubmitLogin}
-    {handleLogout}
-    {handleSubmitNewUser}
-    {handleSubmitEditUser}
+    on:submit={handleSubmit}
+    on:logout={handleLogout}
   />
 
   <ErrorToast bind:errorMessage={errorMessage} />

@@ -1,18 +1,28 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import { layoutEnum, layout } from 'src/stores';
   import { detailsEnum, formEnum, details, form } from '../stores';
   import { user } from 'src/stores';
 
   import { Button } from 'src/components/form';
 
+  const dispatch = createEventDispatcher();
+
   // PROPS
   // =====
-  export let handleSubmitLogin;
-  export let handleLogout;
-  export let handleSubmitNewUser;
-  export let handleSubmitEditUser;
-
   const leftMarginStyle = 'margin-left: 1rem';
+
+  function resetForm() {
+    $form = formEnum.NONE;
+  }
+
+  function submit() {
+    dispatch('submit');
+  }
+
+  function logout() {
+    dispatch('logout');
+  }
 </script>
 
 <div class="bar">
@@ -33,14 +43,14 @@
   <div class="bar__right">
     {#if $user.isLoggedIn}
       {#if $form === formEnum.EDITING}
-        <Button outline on:click={() => $form = formEnum.NONE}>
+        <Button outline on:click={resetForm}>
           Cancel
         </Button>
-        <Button style={leftMarginStyle} on:click={handleSubmitEditUser}>
+        <Button style={leftMarginStyle} on:click={submit}>
           Confirm
         </Button>
       {:else}
-        <Button on:click={handleLogout}>
+        <Button on:click={logout}>
           Log Out
         </Button>
         <Button style={leftMarginStyle} on:click={() => $form = formEnum.EDITING}>
@@ -49,17 +59,17 @@
       {/if}
     {:else}
       {#if $form === formEnum.LOGGING_IN}
-        <Button outline on:click={() => $form = formEnum.NONE}>
+        <Button outline on:click={resetForm}>
           Cancel
         </Button>
-        <Button style={leftMarginStyle} on:click={handleSubmitLogin}>
+        <Button style={leftMarginStyle} on:click={submit}>
           Confirm
         </Button>
       {:else if $form === formEnum.JOINING}
-        <Button outline on:click={() => $form = formEnum.NONE}>
+        <Button outline on:click={resetForm}>
           Cancel
         </Button>
-        <Button style={leftMarginStyle} on:click={handleSubmitNewUser}>
+        <Button style={leftMarginStyle} on:click={submit}>
           Confirm
         </Button>
       {:else}
