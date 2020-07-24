@@ -1,6 +1,5 @@
 <script>
   export let outline = false;
-  export let alt = false;
   export let disabled = false;
   export let style = '';
 </script>
@@ -11,7 +10,6 @@
   on:click
   class="no-highlight"
   class:outline={outline}
-  class:alt={alt}
   {...$$props}
 >
   <slot/>
@@ -75,20 +73,5 @@
     border: 1px var(--line-1) solid;
     transform: scale(0.98);
     box-shadow: none;
-  }
-
-  .alt {
-    color: var(--text-2);
-    background-color: unset;
-    border: 1px var(--line-1) solid;
-  }
-
-  .alt:focus, .alt:hover {
-    background-color: white;
-    border: 1px transparent solid;
-  }
-
-  .alt:active {
-    border: 1px var(--line-1) solid;
   }
 </style>

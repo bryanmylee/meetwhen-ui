@@ -46,10 +46,18 @@
     }
     isLoading = true;
     try {
-      const schedule = selectedDays.map((day) => ({
-        start: day.hour(startTime.hour()).minute(0),
-        end: day.hour(endTime.hour()).minute(0),
-      }));
+      let schedule;
+      if (startTime.hour() === 0 && startTime.hour() === endTime.hour()) {
+        schedule = selectedDays.map((day) => ({
+          start: day.hour(startTime.hour()).minute(0),
+          end: day.hour(endTime.hour()).minute(0).add(1, 'day'),
+        }));
+      } else {
+        schedule = selectedDays.map((day) => ({
+          start: day.hour(startTime.hour()).minute(0),
+          end: day.hour(endTime.hour()).minute(0),
+        }));
+      }
       const eventDetails = { title, description, schedule };
       const { eventUrl } = await createNewEvent(fetch, $session.API_URL, eventDetails);
       goto(`/${eventUrl}`);
