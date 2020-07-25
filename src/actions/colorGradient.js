@@ -12,9 +12,11 @@
  * @param actionOptions.ratio The ratio along the scale.
  * @param actionOptions.highlighted Whether the node should be highlighted.
  */
-export default function colorGradient(node,
-  { scale, ratio }) {
-  function applyStyle(scale, ratio, highlighted = false) {
+export default function colorGradient(node, { scale: initScale, ratio: initRatio }) {
+  let scale = initScale;
+  let ratio = initRatio;
+
+  function applyStyle(highlighted = false) {
     node.style.backgroundColor = scale(ratio)
       .brighten(highlighted ? 0.5 : 0);
     node.style.borderColor = scale(ratio)
@@ -22,21 +24,23 @@ export default function colorGradient(node,
   }
 
   function styleWithHighlight() {
-    applyStyle(scale, ratio, true);
+    applyStyle(true);
   }
 
   function styleNoHighlight() {
-    applyStyle(scale, ratio);
+    applyStyle();
   }
 
   node.addEventListener('mouseover', styleWithHighlight);
   node.addEventListener('mouseleave', styleNoHighlight);
 
-  applyStyle(scale, ratio);
+  applyStyle();
 
   return {
-    update({ scale, ratio }) {
-      applyStyle(scale, ratio);
+    update({ scale: newScale, ratio: newRatio }) {
+      scale = newScale;
+      ratio = newRatio;
+      applyStyle();
     },
     destroy() {
       node.removeEventListener('mouseover', styleWithHighlight);
