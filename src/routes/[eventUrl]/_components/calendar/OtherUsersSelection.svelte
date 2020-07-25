@@ -3,7 +3,7 @@
   import { createPopperActions } from 'svelte-popperjs';
   import { fade } from 'svelte/transition';
 
-  import { colorScale } from 'src/stores';
+  import { currentColor } from 'src/stores';
   import { isSelecting } from './stores';
   import { sizePos } from 'src/components/calendar/actions/selection';
   import colorGradient from 'src/actions/colorGradient';
@@ -34,6 +34,7 @@
       start,
       end,
     });
+    currentColor.nextColor();
   }
 </script>
 
@@ -43,7 +44,7 @@
   class:collapsed={isCollapsed}
   class:pass-through={$isSelecting}
   use:sizePos={{ start, end }}
-  use:colorGradient={{ scale: $colorScale, ratio }}
+  use:colorGradient={{ scale: $currentColor.scale, ratio }}
   use:popperRef
   on:click={handleClick}
   in:fade={{ duration: 100 }}
