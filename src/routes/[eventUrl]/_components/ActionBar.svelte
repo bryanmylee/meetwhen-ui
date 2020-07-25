@@ -43,7 +43,7 @@
   <div class="bar__right">
     {#if $user.isLoggedIn}
       {#if $form === formEnum.EDITING}
-        <Button outline on:click={resetForm}>
+        <Button alt on:click={resetForm}>
           Cancel
         </Button>
         <Button style={leftMarginStyle} on:click={submit}>
@@ -59,14 +59,14 @@
       {/if}
     {:else}
       {#if $form === formEnum.LOGGING_IN}
-        <Button outline on:click={resetForm}>
+        <Button alt on:click={resetForm}>
           Cancel
         </Button>
         <Button style={leftMarginStyle} on:click={submit}>
           Confirm
         </Button>
       {:else if $form === formEnum.JOINING}
-        <Button outline on:click={resetForm}>
+        <Button alt on:click={resetForm}>
           Cancel
         </Button>
         <Button style={leftMarginStyle} on:click={submit}>

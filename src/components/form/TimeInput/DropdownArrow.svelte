@@ -16,7 +16,7 @@
 
   polyline {
     fill: none;
-    stroke: var(--line-1);
+    stroke: var(--grey-400);
     stroke-width: 4px;
     stroke-linejoin: round;
     stroke-linecap: round;

@@ -12,6 +12,6 @@
 
 <style>
   h5 {
-    color: var(--error-0);
+    color: var(--error-500);
   }
 </style>

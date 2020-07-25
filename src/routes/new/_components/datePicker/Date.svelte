@@ -61,16 +61,16 @@
     min-width: 2.5rem;
     max-height: 2.5rem;
     max-width: 2.5rem;
-    color: var(--text-0);
+    color: var(--text-800);
   }
 
   span:hover {
-    background-color: var(--background-1);
+    background-color: var(--grey-200);
   }
 
   div.today > span {
-    color: var(--primary-1);
-    border: 1px var(--primary-1) solid;
+    color: var(--primary-500);
+    border: 1px var(--primary-500) solid;
   }
 
   div.past {
@@ -78,7 +78,7 @@
   }
 
   div.past > span {
-    color: var(--text-3);
+    color: var(--text-400);
   }
 
   div.past > span:hover {
@@ -88,6 +88,6 @@
 
   div.selected > span {
     color: white;
-    background-color: var(--primary-1);
+    background-color: var(--primary-500);
   }
 </style>

@@ -37,8 +37,8 @@
     align-items: center;
     padding: 0.5rem;
     box-sizing: border-box;
-    border-bottom: 1px var(--line-1) solid;
-    background-color: white;
+    border-bottom: 1px var(--grey-400) solid;
+    background-color: var(--bg);
   }
 
   .col__body {
@@ -47,7 +47,7 @@
     max-width: var(--col-width);
     min-height: calc(var(--row-height) * 24);
     box-sizing: border-box;
-    border-right: 1px var(--line-1) solid;
+    border-right: 1px var(--grey-300) solid;
     user-select: none;
   }
 
@@ -56,7 +56,7 @@
   }
 
   .col__body.skipped-day {
-    border-left: 1px var(--line-1) solid;
+    border-left: 1px var(--grey-300) solid;
   }
 
   .col__separators {
@@ -68,6 +68,6 @@
     position: absolute;
     width: 100%;
     height: 1px;
-    background-color: var(--line-2);
+    background-color: var(--grey-200);
   }
 </style>

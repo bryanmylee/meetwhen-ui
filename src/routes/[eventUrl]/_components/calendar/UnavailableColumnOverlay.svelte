@@ -24,7 +24,7 @@
     position: absolute;
     z-index: 19;
     width: 100%;
-    background-color: var(--disabled-shade);
+    background-color: var(--grey-200);
     opacity: 0.5;
     pointer-events: all;
   }

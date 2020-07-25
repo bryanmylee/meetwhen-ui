@@ -19,7 +19,7 @@
   span {
     display: flex;
     justify-content: center;
-    color: var(--text-1);
+    color: var(--text-800);
     font-weight: 600;
   }
 </style>

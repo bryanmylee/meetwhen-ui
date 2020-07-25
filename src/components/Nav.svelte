@@ -25,8 +25,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 1rem;
-    background-color: var(--background-0);
-    border-bottom: 1px solid var(--line-1);
+    background-color: var(--bg);
+    border-bottom: 1px solid var(--grey-400);
     box-sizing: border-box;
   }
 
@@ -37,7 +37,7 @@
   }
 
   a {
-    color: var(--text-0);
+    color: var(--text-800);
   }
 
   .hero {
@@ -45,6 +45,6 @@
   }
 
   .active {
-    color: var(--primary-1-0);
+    color: var(--primary-500);
   }
 </style>

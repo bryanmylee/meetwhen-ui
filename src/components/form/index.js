@@ -1,5 +1,5 @@
 import Button from './Button.svelte';
-import RangeSlider from './RangeSlider.svelte';
+import RangeSlider from './RangeSlider/RangeSlider.svelte';
 import TextInput from './TextInput/TextInput.svelte';
 import TimeInput from './TimeInput/TimeInput.svelte';
 

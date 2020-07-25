@@ -30,7 +30,7 @@
     left: 0;
     z-index: 21;
     min-width: var(--index-col-width);
-    background-color: white;
+    background-color: var(--bg);
   }
 
   .month-label {
@@ -44,15 +44,15 @@
     font-weight: 600;
     padding: 0.5rem;
     box-sizing: border-box;
-    border-bottom: 1px var(--line-1) solid;
-    background-color: white;
+    border-bottom: 1px var(--grey-400) solid;
+    background-color: var(--bg);
   }
 
   .index-col__cell {
     margin-top: calc(var(--row-height) * 0.5);
     min-height: var(--row-height);
     font-size: 0.8rem;
-    color: var(--text-3);
+    color: var(--grey-400);
   }
 
   .index-col__cell ~ .index-col__cell {

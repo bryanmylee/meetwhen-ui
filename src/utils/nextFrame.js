@@ -1,4 +1,4 @@
-const FRAME_DURATION = 16.7;
+export const FRAME_DURATION = 16.7;
 
 export default async function nextFrame() {
   return new Promise((res) => {

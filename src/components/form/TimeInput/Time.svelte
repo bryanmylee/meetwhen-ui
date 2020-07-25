@@ -30,12 +30,13 @@
 <style>
   div {
     padding: 1rem;
-    border-bottom: 1px var(--line-1) solid;
+    background-color: var(--bg);
+    border-bottom: 1px var(--grey-200) solid;
     cursor: pointer;
   }
 
   div:hover {
-    background-color: var(--background-1);
+    background-color: var(--grey-50);
   }
 
   div.disabled {

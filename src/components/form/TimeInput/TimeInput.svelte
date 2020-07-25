@@ -79,13 +79,13 @@
     display: grid;
     grid-template-columns: auto 2.5rem;
     align-items: center;
-    background-color: var(--background-0);
+    background-color: var(--grey-100);
     cursor: pointer;
     transition: all 200ms ease;
   }
 
   .container:hover {
-    background-color: var(--background-1);
+    background-color: var(--grey-50);
   }
 
   span {

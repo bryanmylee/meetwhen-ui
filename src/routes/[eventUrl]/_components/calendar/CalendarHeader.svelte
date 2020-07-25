@@ -3,6 +3,8 @@
 
   import { formEnum, form } from '../../stores';
 
+  import ErrorTip from 'src/components/ErrorTip.svelte';
+
   export let showError = false;
 </script>
 
@@ -16,9 +18,9 @@ on Chrome and Firefox -->
         When are you free?
       </h3>
       {#if showError}
-        <h5 class="tip error" transition:slide={{ duration: 200 }}>
+        <ErrorTip>
           Schedule cannot be empty
-        </h5>
+        </ErrorTip>
       {/if}
     </div>
   </div>
@@ -27,9 +29,5 @@ on Chrome and Firefox -->
 <style>
   .container {
     padding: 0.8rem;
-  }
-
-  .error {
-    color: var(--error-0);
   }
 </style>

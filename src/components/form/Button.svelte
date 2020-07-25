@@ -1,5 +1,6 @@
 <script>
   export let outline = false;
+  export let alt = false;
   export let disabled = false;
   export let style = '';
 </script>
@@ -10,6 +11,7 @@
   on:click
   class="no-highlight"
   class:outline={outline}
+  class:alt={alt}
   {...$$props}
 >
   <slot/>
@@ -19,59 +21,71 @@
   button {
     margin: 0;
     border: 0;
-    color: white;
-    background-color: var(--primary-1);
+    color: var(--primary-text);
+    background-color: var(--primary-500);
     padding: 0.8em 1em;
     border-radius: 1.4em;
     box-sizing: border-box;
     transition: all 200ms ease;
+    cursor: pointer;
   }
 
   button:focus, button:hover {
-    background-color: var(--primary-1-1);
+    background-color: var(--primary-400);
     outline: none;
     box-shadow: var(--shadow-small);
   }
 
   button:active {
-    background-color: var(--line-1);
+    background-color: var(--primary-600);
     transform: scale(0.98);
     box-shadow: none;
   }
 
-  button:disabled,
-  button:disabled:focus,
-  button:disabled:hover,
-  button:disabled:active {
-    background-color: var(--line-1);
-    transform: scale(0.98);
+  button:disabled {
+    cursor: unset;
     box-shadow: none;
+    background-color: var(--grey-400);
+    transform: none;
   }
 
-  .outline {
-    color: var(--primary-1);
+  button.outline {
+    color: var(--primary-500);
     background-color: unset;
-    border: 1px var(--primary-1) solid;
+    border: 1px var(--primary-500) solid;
   }
 
-  .outline:focus, .outline:hover, .outline:active {
-    color: var(--primary-1-1);
-    background-color: white;
-    border: 1px var(--primary-1-1) solid;
+  button.outline:focus, button.outline:hover {
+    color: var(--primary-400);
+    border: 1px var(--primary-400) solid;
   }
 
-  button.outline:disabled,
-  button.outline:disabled:focus,
-  button.outline:disabled:hover,
-  button.outline:disabled:active,
-  button.alt:disabled,
-  button.alt:disabled:focus,
-  button.alt:disabled:hover,
-  button.alt:disabled:active {
-    color: var(--text-3);
-    background-color: unset;
-    border: 1px var(--line-1) solid;
-    transform: scale(0.98);
+  button.outline:active {
+    color: var(--primary-600);
+    border: 1px var(--primary-600) solid;
+  }
+
+  button.outline:disabled {
+    color: var(--grey-500);
+    border: 1px var(--grey-500) solid;
     box-shadow: none;
+  }
+
+  button.alt {
+    color: var(--text-800);
+    background-color: var(--grey-100);
+  }
+
+  button.alt:focus, button.alt:hover {
+    background-color: var(--grey-50);
+  }
+
+  button.alt:active {
+    background-color: var(--grey-200);
+  }
+
+  button.alt:disabled {
+    color: var(--text-500);
+    background-color: var(--grey-100);
   }
 </style>

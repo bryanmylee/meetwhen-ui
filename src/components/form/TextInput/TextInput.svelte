@@ -63,9 +63,9 @@
   input {
     margin: 0;
     width: 100%;
-    background-color: var(--background-1);
+    background-color: var(--grey-100);
     border-radius: 5px;
-    border: 1px solid var(--line-1);
+    border: 1px solid transparent;
     padding: 1.2em 10px 0.3em;
     transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
@@ -74,12 +74,12 @@
 
   input:focus {
     outline: none;
-    border: 1px solid var(--primary-1);
+    border: 1px solid var(--primary-500);
   }
 
   label {
     font-size: 1em;
-    color: var(--text-3);
+    color: var(--text-400);
     position: absolute;
     left: 10px;
     top: 0.8rem;

@@ -40,13 +40,13 @@
 
   .name-pill {
     margin: 0.6em 0.5em 0 0;
-    border: 1px var(--line-1) solid;
+    border: 1px solid transparent;
     border-radius: 1.5em;
     min-width: 3em;
     padding: 0.5em;
     text-align: center;
-    color: var(--text-0);
-    background-color: white;
+    color: var(--text-800);
+    background-color: var(--grey-100);
     transition: all 200ms ease;
     cursor: pointer;
   }
@@ -57,11 +57,12 @@
 
   .name-pill:active {
     transform: scale(0.98);
+    box-shadow: none;
   }
 
   .name-pill.selected {
-    color: white;
-    background-color: var(--primary-select-1);
+    color: var(--primary-text);
+    background-color: var(--primary-500);
     border-color: transparent;
   }
 </style>

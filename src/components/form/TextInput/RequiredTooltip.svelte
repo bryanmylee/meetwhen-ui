@@ -37,7 +37,7 @@
 
 <style>
   span {
-    background-color: var(--line-1);
+    background-color: var(--grey-400);
     width: 0.5em;
     height: 0.5em;
     border-radius: 0.25em;
@@ -56,8 +56,8 @@
     width: -webkit-max-content;
     height: -moz-max-content;
     height: -webkit-max-content;
-    background-color: white;
-    border: 1px solid var(--line-1);
+    background-color: var(--bg);
+    border: 1px solid var(--grey-300);
     border-radius: 5px;
   }
 
@@ -67,7 +67,7 @@
     width: 0.5rem;
     height: 1rem;
     clip-path: polygon(0 50%, 100% 0, 100% 100%);
-    background-color: var(--line-1);
+    background-color: var(--grey-300);
     pointer-events: none;
   }
 
@@ -79,7 +79,7 @@
     width: calc(0.5rem - 1px);
     height: calc(1rem - 2px);
     clip-path: polygon(0 50%, 100% 0, 100% 100%);
-    background-color: white;
+    background-color: var(--bg);
   }
 
   :global([data-popper-placement^="left"]) .popover__arrow {

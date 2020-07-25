@@ -15,7 +15,7 @@
     <p>{description}</p>
   {/if}
   {#if $user.isLoggedIn}
-    <h5 transition:slide={{ duration: 200 }}>
+    <h5 class="tip" transition:slide={{ duration: 200 }}>
       Logged in as <strong>{$user.username}</strong>
     </h5>
   {/if}
@@ -28,13 +28,5 @@
 
   p {
     margin: 0.5em 0 0;
-  }
-
-  h5 {
-    color: var(--text-3);
-    margin: 0.5rem 0 0;
-    font-size: 0.8rem;
-    font-style: italic;
-    font-weight: 400;
   }
 </style>

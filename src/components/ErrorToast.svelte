@@ -67,8 +67,8 @@
     font-size: 0.8rem;
     margin-top: 0.8em;
     padding: 0.8em;
-    color: white;
-    background-color: var(--error-0);
+    color: var(--error-text);
+    background-color: var(--error-500);
     border-radius: 5px;
     box-shadow: var(--shadow-med);
   }
