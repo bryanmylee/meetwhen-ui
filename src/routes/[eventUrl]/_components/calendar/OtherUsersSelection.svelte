@@ -59,7 +59,7 @@
     z-index: 10;
     width: calc(100% + 1px);
     box-sizing: border-box;
-    transition: width 400ms var(--ease-out-sharp), background-color 400ms var(--ease-out-sharp);
+    transition: width 200ms ease-out, background-color 200ms ease-out;
     pointer-events: all;
   }
 
