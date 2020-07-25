@@ -45,41 +45,53 @@ function getUser() {
 export const user = getUser();
 
 export const colors = {
-  blue500: { tint: 500, hex: '2196F3', name: 'Blue' },
-  cyan500: { tint: 500, hex: '00BCD4', name: 'Cyan' },
-  teal500: { tint: 500, hex: '009688', name: 'Teal' },
-  green500: { tint: 500, hex: '4CAF50', name: 'Green' },
-  lightGreen500: { tint: 500, hex: '8BC34A', name: 'Light Green' },
-  lime500: { tint: 500, hex: 'CDDC39', name: 'Lime' },
-  amber500: { tint: 500, hex: 'FFC107', name: 'Amber' },
-  orange700: { tint: 700, hex: 'F57C00', name: 'Orange' },
-  deepOrange500: { tint: 500, hex: 'FF5722', name: 'Deep Orange' },
-  grey500: { tint: 500, hex: '9E9E9E', name: 'Grey' },
-  blueGrey500: { tint: 500, hex: '607D8B', name: 'Blue Grey' },
-  red600: { tint: 600, hex: 'E53935', name: 'Red' },
-  pink400: { tint: 400, hex: 'EC407A', name: 'Pink' },
-  purple500: { tint: 500, hex: '9C27B0', name: 'Purple' },
-  deepPurple500: { tint: 500, hex: '673AB7', name: 'Deep Purple' },
-  indigo500: { tint: 500, hex: '3F51B5', name: 'Indigo' },
+  blue500: { tint: 500, hex: '#2196F3', name: 'Blue' },
+  cyan500: { tint: 500, hex: '#00BCD4', name: 'Cyan' },
+  teal500: { tint: 500, hex: '#009688', name: 'Teal' },
+  green500: { tint: 500, hex: '#4CAF50', name: 'Green' },
+  lightGreen500: { tint: 500, hex: '#8BC34A', name: 'Light Green' },
+  amber500: { tint: 500, hex: '#FFC107', name: 'Amber' },
+  orange500: { tint: 500, hex: '#FF9800', name: 'Orange' },
+  deepOrange500: { tint: 500, hex: '#FF5722', name: 'Deep Orange' },
+  // grey500: { tint: 500, hex: '#9E9E9E', name: 'Grey' },
+  blueGrey500: { tint: 500, hex: '#607D8B', name: 'Blue Grey' },
+  red500: { tint: 500, hex: '#F44336', name: 'Red' },
+  pink500: { tint: 500, hex: '#E91E63', name: 'Pink' },
+  purple500: { tint: 500, hex: '#9C27B0', name: 'Purple' },
+  deepPurple500: { tint: 500, hex: '#673AB7', name: 'Deep Purple' },
+  indigo500: { tint: 500, hex: '#3F51B5', name: 'Indigo' },
 };
 
 function hexToScale(baseHex) {
   const base = chroma(baseHex);
-  const light = base.brighten(1.5).desaturate();
-  const dark = base.darken(1);
+  const light = base.brighten(1.8).desaturate();
+  const dark = base.darken(1.8);
   return chroma.scale([light, base, dark]).mode('lrgb');
 }
 
 const currentBaseColor = writable(colors.blue500);
-const colorScale = derived(currentBaseColor, ($current) => ({
-  ...$current,
-  scale: hexToScale($current.hex),
-}));
+
+const colorScale = derived(currentBaseColor, ({ hex }) => hexToScale(hex));
+
+const getTint = derived(currentBaseColor, ({ hex }) => {
+  const tintScale = chroma.scale(['#FFF', hex, '#000'])
+    .domain([0, 1000])
+    .mode('lab');
+  return (tint) => tintScale(tint);
+});
+const color = derived(
+  [currentBaseColor, colorScale, getTint],
+  ([$currentBaseColor, $colorScale, $getTint]) => ({
+    ...$currentBaseColor,
+    scale: $colorScale,
+    getTint: $getTint,
+  }),
+);
 
 let colorIndex = 0;
 export const currentColor = {
-  subscribe: colorScale.subscribe,
-  setBaseColor: (color) => currentBaseColor.set(color),
+  subscribe: color.subscribe,
+  setBaseColor: (newColor) => currentBaseColor.set(newColor),
   nextColor: () => {
     currentBaseColor.set(
       Object.values(colors)[++colorIndex % Object.keys(colors).length],
