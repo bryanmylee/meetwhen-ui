@@ -1,3 +1,5 @@
+import { FRAME_DURATION } from 'src/utils/nextFrame';
+
 export function createLinkedWidthActions() {
   let referenceNode;
   let targetNode;
@@ -14,9 +16,10 @@ export function createLinkedWidthActions() {
     targetNode.style.width = newProgressWidth;
   }
 
-  function listenWidth(node) {
+  function listenWidthAction(node) {
     referenceNode = node;
     window.addEventListener('resize', updateWidth);
+    setTimeout(updateWidth, FRAME_DURATION);
     updateWidth();
     return {
       destroy() {
@@ -26,7 +29,7 @@ export function createLinkedWidthActions() {
     };
   }
 
-  function setWidth(node, {
+  function setWidthAction(node, {
     thumbRadius: initRadius, value: initValue, min: initMin, max: initMax,
   }) {
     targetNode = node;
@@ -51,5 +54,5 @@ export function createLinkedWidthActions() {
     };
   }
 
-  return [listenWidth, setWidth];
+  return [listenWidthAction, setWidthAction];
 }
