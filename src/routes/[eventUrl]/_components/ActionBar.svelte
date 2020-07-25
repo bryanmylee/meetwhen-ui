@@ -30,7 +30,7 @@
     <div class="bar__left">
       {#if $details === detailsEnum.EVENT_DETAILS}
         <Button alt on:click={() => $details = detailsEnum.ATTENDANCE}>
-          Filter Users
+          Filter
         </Button>
       {:else}
         <Button alt on:click={() => $details = detailsEnum.EVENT_DETAILS}>
