@@ -8,6 +8,7 @@
   } from 'src/utils/selection';
   import { splitIntervalsOnMidnight } from 'src/utils/interval';
   import { createSelection } from './actions/selection';
+  import { autoScrollSelf } from './actions/autoScroll';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
 
@@ -37,6 +38,9 @@
     : getIntersectionOfSelections(selectionLimits,
       getAreaSelection(newSelection));
   $: isSelecting = newSelections.length !== 0;
+  $: earliestHour = selectionLimits && selectionLimits.length !== 0
+    ? selectionLimits[0].start.hour()
+    : 0;
 
   // STATE FUNCTIONS
   // ===============
@@ -140,6 +144,7 @@ bug on Safari 13.1 -->
   <div
     class="body no-highlight"
     class:disable-touch-scroll={isSelecting}
+    use:autoScrollSelf={{ hour: earliestHour }}
   >
     <!-- MOUSE/TOUCH EVENT CAPTURE LAYER -->
     <div
