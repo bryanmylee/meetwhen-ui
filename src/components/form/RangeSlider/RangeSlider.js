@@ -12,7 +12,7 @@ export function createLinkedWidthActions() {
     if (referenceNode == null || targetNode == null) return;
     const percentage = value / Math.max(max - min, 1);
     const barWidth = parseFloat(getComputedStyle(referenceNode).width) - thumbRadius * 2;
-    const newProgressWidth = `${barWidth * percentage}px`;
+    const newProgressWidth = `${barWidth * percentage + thumbRadius}px`;
     targetNode.style.width = newProgressWidth;
   }
 

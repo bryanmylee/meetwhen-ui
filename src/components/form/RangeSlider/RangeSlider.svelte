@@ -45,23 +45,25 @@
   /* For the thumb */
   input::-webkit-slider-thumb {
     -webkit-appearance: none;
-    margin-top: -9px; /* For Chrome/Safari */
-    border: 1px solid var(--grey-400);
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
-    background: var(--bg);
+    margin-top: -13px; /* For Chrome/Safari */
+    border: 9px solid transparent;
+    width: 32px;
+    height: 32px;
+    border-radius: 32px;
+    background: var(--primary-500);
+    background-clip: padding-box;
     cursor: pointer;
   }
 
   input::-moz-range-thumb {
-    z-index: 2;
-    border: 1px solid var(--grey-400);
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
-    background: var(--bg);
+    border: 9px solid transparent;
+    width: 32px;
+    height: 32px;
+    border-radius: 32px;
+    background: var(--primary-500);
+    background-clip: padding-box;
     cursor: pointer;
+    box-sizing: border-box;
   }
 
   /* For the track */
