@@ -22,6 +22,16 @@
 </div>
 
 <style>
+  div {
+    background-color: var(--primary-500);
+    color: var(--primary-text);
+    transition: background-color 200ms ease-out;
+  }
+
+  h1, p, h5 {
+    color: var(--primary-text);
+  }
+
   h1 {
     margin: 0;
   }
