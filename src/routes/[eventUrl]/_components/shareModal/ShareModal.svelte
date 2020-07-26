@@ -78,8 +78,8 @@
   }
 
   button {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     margin-left: 0.5em;
     padding: 0.5em;
     border-radius: 1.5em;

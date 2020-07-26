@@ -14,8 +14,8 @@
 
 <style>
   button {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     padding: 0.5em;
     border-radius: 1.5em;
     background-color: transparent;
