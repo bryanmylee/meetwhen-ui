@@ -5,6 +5,9 @@
   import CopyIcon from './CopyIcon.svelte';
 
   const dispatch = createEventDispatcher();
+
+  const hostname = 'meetwhen.io';
+  $: url = `${hostname}${window.location.pathname}`;
 </script>
 
 <div
@@ -19,7 +22,7 @@
 >
   <h3>Share this event!</h3>
   <div class="link-container">
-    <span>meetwhen.io/FarOffNoisyCurlew</span>
+    <span>{url}</span>
     <button on:click={() => alert('copied to clipboard!')}>
       <CopyIcon />
     </button>
