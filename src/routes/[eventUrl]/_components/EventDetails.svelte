@@ -24,7 +24,7 @@
 <style>
   div {
     background: var(--primary-700);
-    background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-600) 100%);
+    background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-gradient-dark) 100%);
     border: none;
     color: var(--primary-text);
     transition: background-color 200ms ease-out;

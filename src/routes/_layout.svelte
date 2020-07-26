@@ -11,6 +11,7 @@
     [50, 100, 200, 300, 400, 500, 600, 700, 800, 900].forEach((tint) => {
       document.documentElement.style.setProperty(`--primary-${tint}`, $currentColor.getTint(tint));
     });
+    document.documentElement.style.setProperty('--primary-gradient-dark', $currentColor.gradientDark);
   }
 </script>
 

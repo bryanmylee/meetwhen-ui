@@ -49,11 +49,9 @@ export const colors = {
   cyan500: { tint: 500, hex: '#00BCD4', name: 'Cyan' },
   teal500: { tint: 500, hex: '#009688', name: 'Teal' },
   green500: { tint: 500, hex: '#4CAF50', name: 'Green' },
-  lightGreen500: { tint: 500, hex: '#8BC34A', name: 'Light Green' },
   amber500: { tint: 500, hex: '#FFC107', name: 'Amber' },
   orange500: { tint: 500, hex: '#FF9800', name: 'Orange' },
   deepOrange500: { tint: 500, hex: '#FF5722', name: 'Deep Orange' },
-  // grey500: { tint: 500, hex: '#9E9E9E', name: 'Grey' },
   blueGrey500: { tint: 500, hex: '#607D8B', name: 'Blue Grey' },
   red500: { tint: 500, hex: '#F44336', name: 'Red' },
   pink500: { tint: 500, hex: '#E91E63', name: 'Pink' },
@@ -73,16 +71,23 @@ const currentBaseColor = writable(colors.blue500);
 
 const colorScale = derived(currentBaseColor, ({ hex }) => hexToScale(hex));
 
+const gradientDark = derived(currentBaseColor, ({ hex }) => {
+  const base = chroma(hex);
+  return base.darken(0.8).saturate().hex();
+});
+
 const getTint = derived(currentBaseColor, ({ hex }) => {
   const tintScale = chroma.scale(['#FFF', hex, '#000'])
     .domain([0, 1000])
     .mode('lab');
   return (tint) => tintScale(tint);
 });
+
 const color = derived(
-  [currentBaseColor, colorScale, getTint],
-  ([$currentBaseColor, $colorScale, $getTint]) => ({
+  [currentBaseColor, colorScale, gradientDark, getTint],
+  ([$currentBaseColor, $colorScale, $gradientDark, $getTint]) => ({
     ...$currentBaseColor,
+    gradientDark: $gradientDark,
     scale: $colorScale,
     getTint: $getTint,
   }),
