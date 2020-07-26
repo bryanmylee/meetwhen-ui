@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { fade } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
 
   import ScreenDim from 'src/components/ScreenDim.svelte';
   import CopyIcon from './CopyIcon.svelte';
@@ -27,7 +28,7 @@
 <ScreenDim on:click={() => dispatch('dismiss')} />
 <div
   class="card outline padded"
-  transition:fade={{ duration: 200 }}
+  transition:fly={{ y: 300, duration: 400, easing: cubicOut }}
 >
   <h3>Share this event!</h3>
   <div class="link-container">
