@@ -30,7 +30,6 @@
       start,
       end,
     });
-    currentColor.nextColor();
   }
 </script>
 
