@@ -8,6 +8,11 @@
 
   const hostname = 'meetwhen.io';
   $: url = `${hostname}${window.location.pathname}`;
+
+  async function copyToClipboard() {
+    await navigator.clipboard.writeText(url);
+    dispatch('copy', { url });
+  }
 </script>
 
 <div
@@ -23,7 +28,7 @@
   <h3>Share this event!</h3>
   <div class="link-container">
     <span>{url}</span>
-    <button on:click={() => alert('copied to clipboard!')}>
+    <button on:click={copyToClipboard}>
       <CopyIcon />
     </button>
   </div>
