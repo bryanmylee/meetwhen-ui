@@ -24,6 +24,7 @@
 </script>
 
 <button
+  class:selected={color.hex === $currentColor.hex}
   on:mouseenter={() => showName = true}
   on:mouseleave={() => showName = false}
   on:focus={() => showName = true}
@@ -50,8 +51,18 @@
     border: none;
   }
 
-  button:hover {
+  button:hover, button:focus {
     box-shadow: var(--shadow-small);
+  }
+
+  button:active {
+    box-shadow: none;
+  }
+
+  button.selected {
+    /* background-color: var(--primary-300) !important; */
+    /* border: 1px solid var(--grey-900); */
+    box-shadow: var(--shadow-med);
   }
 
   .popover {

@@ -47,14 +47,14 @@
 <div class="label">
   {label}
 </div>
-<div
+<button
   use:popperRef
   class="container card outline" {style}
   on:click={handleClick}
 >
   <span>{selectedTime ? selectedTime.format('ha') : ''}</span>
   <DropdownArrow/>
-</div>
+</button>
 {#if showTimes}
   <TimeDropdown
     on:select={select}
@@ -73,7 +73,7 @@
     font-weight: 600;
   }
 
-  .container {
+  button {
     width: 100%;
     height: min-content;
     display: grid;
@@ -82,6 +82,10 @@
     background-color: var(--grey-100);
     cursor: pointer;
     transition: all 200ms ease;
+  }
+
+  button:focus {
+    border: 1px solid var(--primary-500);
   }
 
   .container:hover {

@@ -175,3 +175,7 @@ input, button, select, textarea {
 input:disabled {
   color: #ccc;
 }
+
+button:focus {
+  outline: none;
+}
