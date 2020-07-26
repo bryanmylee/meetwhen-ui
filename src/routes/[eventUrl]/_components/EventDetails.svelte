@@ -3,6 +3,8 @@
 
   import { user } from 'src/stores';
 
+  import ShareButton from './shareModal/ShareButton.svelte';
+
   // PROPS
   // =====
   export let title;
@@ -10,7 +12,10 @@
 </script>
 
 <div class="card outline padded">
-  <h1>{title}</h1>
+  <div class="header">
+    <h1>{title}</h1>
+    <ShareButton />
+  </div>
   {#if description}
     <p>{description}</p>
   {/if}
@@ -22,12 +27,18 @@
 </div>
 
 <style>
-  div {
+  .card {
     background: var(--primary-700);
     background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-gradient-dark) 100%);
     border: none;
     color: var(--primary-text);
     transition: background-color 200ms ease-out;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   h1, p, h5 {
