@@ -2,52 +2,44 @@
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
 
+  import ScreenDim from 'src/components/ScreenDim.svelte';
   import CopyIcon from './CopyIcon.svelte';
+  import Toast from 'src/components/Toast.svelte';
 
   const dispatch = createEventDispatcher();
 
   const hostname = 'meetwhen.io';
   $: url = `${hostname}${window.location.pathname}`;
 
+  // STATE
+  // =====
+  let message = '';
+
+  // FUNCTIONS
+  // =========
   async function copyToClipboard() {
     await navigator.clipboard.writeText(url);
+    message = 'Copied to clipboard!';
     dispatch('copy', { url });
   }
 </script>
 
-<div
-  on:click={() => dispatch('dismiss')}
-  class="shade"
-  transition:fade={{ duration: 200 }}
-/>
-
+<ScreenDim on:click={() => dispatch('dismiss')} />
 <div
   class="card outline padded"
   transition:fade={{ duration: 200 }}
 >
   <h3>Share this event!</h3>
   <div class="link-container">
-    <span>{url}</span>
+    <span on:click={copyToClipboard}>{url}</span>
     <button on:click={copyToClipboard}>
       <CopyIcon />
     </button>
   </div>
 </div>
+<Toast bind:message={message} />
 
 <style>
-  .shade {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 90;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .card {
     position: fixed;
     top: 50%;
