@@ -1,10 +1,12 @@
 <script>
   import { goto, stores } from '@sapper/app';
 
+  import { currentColor } from 'src/stores';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
   import { createNewEvent } from 'src/api/event';
 
   import EventDetailsForm from './_components/EventDetailsForm.svelte';
+  import ColorPicker from './_components/colorPicker/ColorPicker.svelte';
   import DatePickerHeader from './_components/datePicker/DatePickerHeader.svelte';
   import DatePicker from './_components/datePicker/DatePicker.svelte';
   import TimeInputBar from './_components/TimeInputBar.svelte';
@@ -50,7 +52,7 @@
         start: day.hour(startTime.hour()).minute(0),
         end: day.hour(endTime.hour()).minute(0).add(endTime.hour() === 0 ? 1 : 0, 'day'),
       }));
-      const eventDetails = { title, description, schedule };
+      const eventDetails = { title, description, color: $currentColor.hex, schedule };
       const { eventUrl } = await createNewEvent(fetch, $session.API_URL, eventDetails);
       goto(`/${eventUrl}`);
     } catch (err) {
@@ -69,6 +71,7 @@
     bind:description={description}
     {attempted}
   />
+  <ColorPicker />
 
   <!-- DATE AND TIME PICKER CARD -->
   <div

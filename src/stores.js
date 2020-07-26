@@ -51,7 +51,6 @@ export const colors = {
   green500: { tint: 500, hex: '#4CAF50', name: 'Green' },
   amber500: { tint: 500, hex: '#FFC107', name: 'Amber' },
   orange500: { tint: 500, hex: '#FF9800', name: 'Orange' },
-  deepOrange500: { tint: 500, hex: '#FF5722', name: 'Deep Orange' },
   blueGrey500: { tint: 500, hex: '#607D8B', name: 'Blue Grey' },
   red500: { tint: 500, hex: '#F44336', name: 'Red' },
   pink500: { tint: 500, hex: '#E91E63', name: 'Pink' },
