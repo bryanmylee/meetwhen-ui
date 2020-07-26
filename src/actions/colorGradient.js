@@ -5,21 +5,34 @@
  * @param {HTMLElement} node The action node.
  * @param {{
  *   scale: chroma.Scale,
- *   ratio: number,
+ *   index: number,
+ *   total: number,
  *   highlighted: boolean,
  * }} actionOptions
  * @param actionOptions.scale The ChromaJS color scale to use.
  * @param actionOptions.ratio The ratio along the scale.
  * @param actionOptions.highlighted Whether the node should be highlighted.
  */
-export default function colorGradient(node, { scale: initScale, ratio: initRatio }) {
+export default function colorGradient(node, {
+  scale: initScale, index: initIndex, total: initTotal,
+}) {
+  const halfScale = 0.5;
+  const maxDarknessTotal = 10;
   let scale = initScale;
-  let ratio = initRatio;
+  let index = initIndex;
+  let total = initTotal !== 0 ? initTotal : 0;
+
+  function getColor() {
+    const darknessRatio = total / maxDarknessTotal;
+    const darkest = Math.min(halfScale + darknessRatio * halfScale, 1);
+    const ratio = index * darkest / total;
+    return scale(ratio);
+  }
 
   function applyStyle(highlighted = false) {
-    node.style.backgroundColor = scale(ratio)
+    node.style.backgroundColor = getColor()
       .brighten(highlighted ? 0.5 : 0);
-    node.style.borderColor = scale(ratio)
+    node.style.borderColor = getColor()
       .darken();
   }
 
@@ -37,9 +50,10 @@ export default function colorGradient(node, { scale: initScale, ratio: initRatio
   applyStyle();
 
   return {
-    update({ scale: newScale, ratio: newRatio }) {
+    update({ scale: newScale, index: newIndex, total: newTotal }) {
       scale = newScale;
-      ratio = newRatio;
+      index = newIndex;
+      total = newTotal !== 0 ? newTotal : 0;
       applyStyle();
     },
     destroy() {

@@ -23,10 +23,6 @@
   export let isCollapsed = false;
   export let isSelected = false;
 
-  // REACTIVE ATTRIBUTES
-  // ===================
-  $: ratio = (usernames.length - minUsernameCount) / Math.max(maxUsernameCount - minUsernameCount, 1);
-
   // STATE FUNCTIONS
   // ===============
   function handleClick() {
@@ -44,7 +40,11 @@
   class:collapsed={isCollapsed}
   class:pass-through={$isSelecting}
   use:sizePos={{ start, end }}
-  use:colorGradient={{ scale: $currentColor.scale, ratio }}
+  use:colorGradient={{
+    scale: $currentColor.scale,
+    index: usernames.length - minUsernameCount + 1,
+    total: maxUsernameCount - minUsernameCount + 1,
+  }}
   use:popperRef
   on:click={handleClick}
   in:fade={{ duration: 100 }}
