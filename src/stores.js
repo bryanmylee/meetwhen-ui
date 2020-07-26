@@ -53,7 +53,7 @@ export const colors = {
   orange500: { tint: 500, hex: '#FF9800', name: 'Orange' },
   blueGrey500: { tint: 500, hex: '#607D8B', name: 'Blue Grey' },
   red500: { tint: 500, hex: '#F44336', name: 'Red' },
-  pink500: { tint: 500, hex: '#E91E63', name: 'Pink' },
+  pink300: { tint: 300, hex: '#F06292', name: 'Pink' },
   purple500: { tint: 500, hex: '#9C27B0', name: 'Purple' },
   deepPurple500: { tint: 500, hex: '#673AB7', name: 'Deep Purple' },
   indigo500: { tint: 500, hex: '#3F51B5', name: 'Indigo' },
@@ -96,6 +96,7 @@ let colorIndex = 0;
 export const currentColor = {
   subscribe: color.subscribe,
   setBaseColor: (newColor) => currentBaseColor.set(newColor),
+  setBaseColorHex: (newHex) => currentBaseColor.set({ tint: 500, hex: newHex, name: '' }),
   nextColor: () => {
     currentBaseColor.set(
       Object.values(colors)[++colorIndex % Object.keys(colors).length],

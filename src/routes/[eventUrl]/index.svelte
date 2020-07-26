@@ -1,10 +1,14 @@
 <script context="module">
+  import { currentColor } from 'src/stores';
   import { getEvent } from 'src/api/event';
   import { login, logout, getAccessToken } from 'src/api/authentication';
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
     const event = await getEvent(this.fetch, session.API_URL, eventUrl);
+    if (event.color) {
+      currentColor.setBaseColorHex(event.color);
+    }
     let accessToken = null;
     // Check for refresh token on browser by getting access token.
     if (process.browser) {

@@ -76,14 +76,14 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
  *   eventUrl: string,
  *   title: string,
  *   description: string,
- *   admin: string,
+ *   color: string,
  *   schedule: interval[],
  *   userSchedules: object.<string, interval[]>,
  * }>} The event details.
  */
 export async function getEvent(fetch, apiUrl, eventUrl) {
   const {
-    title, description, admin, scheduleInMs, userSchedulesInMs,
+    title, description, color, scheduleInMs, userSchedulesInMs,
   } = await (await fetch(`${apiUrl}/${eventUrl}`, {
     credentials: 'include',
   })).json();
@@ -101,7 +101,7 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
     eventUrl,
     title,
     description,
-    admin,
+    color,
     schedule,
     userSchedules,
   };
