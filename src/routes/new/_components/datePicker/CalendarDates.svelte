@@ -4,7 +4,7 @@
 
 <div class="calendar-dates">
   {#each days as day}
-    <span>{day}</span>
+    <h4>{day}</h4>
   {/each}
 </div>
 
@@ -16,10 +16,9 @@
     padding: 0.5rem 0;
   }
 
-  span {
+  h4 {
     display: flex;
     justify-content: center;
     color: var(--text-800);
-    font-weight: 600;
   }
 </style>
