@@ -201,6 +201,7 @@
   <ActionBar
     on:submit={handleSubmit}
     on:logout={handleLogout}
+    disabled={isLoading}
   />
 
   <ErrorToast bind:errorMessage={errorMessage} />
