@@ -2,7 +2,7 @@
 <script>
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
   import { isSelecting } from './stores';
-  import { getFilteredUserIntervalsByUsername, getMinMaxUsernames, getDaysToShowWithSkip } from './EventCalendarPicker';
+  import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './EventCalendarPicker';
   import { formEnum, form, selectedUsernames, minUserCountFilter } from '../../stores';
 
   import CalendarPickerBase from 'src/components/calendar/CalendarPickerBase.svelte';
@@ -43,15 +43,17 @@
   $: filteredUserIntervalsByUsername = getFilteredUserIntervalsByUsername(
     $selectedUsernames, userIntervalsByUsername,
   );
-  // User intervals with grouped usernames.
-  $: userIntervalsByTime = splitIntervalsOnMidnight(
+  // Time intervals with grouped usernames.
+  $: timeIntervalsWithUsers = splitIntervalsOnMidnight(
     getMergedIntervals(filteredUserIntervalsByUsername),
   );
-  // User intervals with minimum number of users.
-  $: intervalsWithMinUser = userIntervalsByTime
+  // Time intervals with minimum number of users.
+  $: timeIntervalsWithMinUsers = timeIntervalsWithUsers
     .filter((interval) => interval.usernames.length >= $minUserCountFilter);
+  // Time intervals with data on previous and next interval.
+  $: timeIntervalsWithMinUsersWithSkip = getTimeIntervalsWithSkip(timeIntervalsWithMinUsers);
   // The minimum and maximum number of usernames in any given interval.
-  $: [minUsernameCount, maxUsernameCount] = getMinMaxUsernames(userIntervalsByTime);
+  $: [minUsernameCount, maxUsernameCount] = getMinMaxUsernames(timeIntervalsWithUsers);
   // The days containing all event intervals and whether the day sequentially
   // follows the previous day.
   $: daysToShowWithSkip = getDaysToShowWithSkip(eventIntervalsSplitOnMidnight);
@@ -76,7 +78,7 @@
         }
       />
       <!-- OTHER USER SELECTIONS -->
-      {#each intervalsWithMinUser
+      {#each timeIntervalsWithMinUsersWithSkip
         .filter((inv) => inv.start.isSame(day, 'date'))
         as interval (`${+interval.start}-${+interval.end}`)}
         <OtherUsersSelection

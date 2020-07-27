@@ -8,6 +8,21 @@ export function getFilteredUserIntervalsByUsername(selectedUsernames, userInterv
     }), {});
 }
 
+export function getTimeIntervalsWithSkip(intervals) {
+  const results = [];
+  let skipped = true;
+  let skipping = false;
+  for (let i = 0; i < intervals.length - 1; i++) {
+    const curr = intervals[i];
+    const next = intervals[i + 1];
+    skipping = +curr.end !== +next.start;
+    results.push({ ...curr, skipped, skipping });
+    skipped = skipping;
+  }
+  results.push({ ...intervals[intervals.length - 1], skipped, skipping: true });
+  return results;
+}
+
 export function getMinMaxUsernames(userIntervalsByTime) {
   const maxUsernames = userIntervalsByTime.reduce((max, interval) => {
     const { length } = interval.usernames;

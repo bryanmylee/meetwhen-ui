@@ -18,6 +18,8 @@
   export let start;
   export let end;
   export let usernames;
+  export let skipped;
+  export let skipping;
   export let minUsernameCount = 0;
   export let maxUsernameCount = 1;
   export let isCollapsed = false;
@@ -38,6 +40,8 @@
   class:selected={isSelected}
   class:collapsed={isCollapsed}
   class:pass-through={$isSelecting}
+  class:cap-top={skipped}
+  class:cap-bottom={skipping}
   use:sizePos={{ start, end }}
   use:colorGradient={{
     scale: $currentColor.scale,
@@ -65,6 +69,16 @@
 
   .other-user-selection.selected {
     border: 1px solid;
+  }
+
+  .other-user-selection.cap-top {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .other-user-selection.cap-bottom {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
 
   .collapsed {
