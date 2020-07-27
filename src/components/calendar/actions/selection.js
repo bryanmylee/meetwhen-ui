@@ -300,18 +300,30 @@ export function moveAndResizable(node, {
       dy = clientY - startClientY;
       node.style.left = `${startLeft + dx}px`;
       node.style.top = `${startTop + dy}px`;
+      // Allow pointer events to pass through to trigger trashing the selection.
+      node.style.pointerEvents = 'none';
     },
-    end() {
-      // Update calendar data by dispatching an event, which will call a
-      // context function on CalendarPickerBase.
+    end(event) {
       node.style.left = `${startLeft}px`;
-      node.dispatchEvent(new CustomEvent('moveSelection', {
-        detail: {
-          originalStart: start, // used to identify which selection was dragged.
-          originalEnd: end,
-          ...getDeltaRowCol(),
-        },
-      }));
+      node.style.pointerEvents = 'unset';
+      const droppedOnTrash = [...event.target.classList].includes('calendar--trash-target');
+      if (droppedOnTrash) {
+        node.dispatchEvent(new CustomEvent('deleteSelection', {
+          detail: {
+            originalStart: start, // used to identify which selected was deleted.
+          },
+        }));
+      } else {
+        // Update calendar data by dispatching an event, which will call a
+        // context function on CalendarPickerBase.
+        node.dispatchEvent(new CustomEvent('moveSelection', {
+          detail: {
+            originalStart: start, // used to identify which selection was dragged.
+            originalEnd: end,
+            ...getDeltaRowCol(),
+          },
+        }));
+      }
     },
   };
 
@@ -390,8 +402,8 @@ export function moveAndResizable(node, {
       currentAction.move({ clientX, clientY });
     }
 
-    function handleMouseUp() {
-      currentAction.end();
+    function handleMouseUp(event) {
+      currentAction.end(event);
       endDrag();
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);

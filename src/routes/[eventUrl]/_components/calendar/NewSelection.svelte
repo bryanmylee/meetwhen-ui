@@ -17,7 +17,7 @@
 <style>
   .selection__container {
     position: absolute;
-    z-index: 11;
+    z-index: 15;
     left: var(--select-collapse-width);
     width: calc(100% - var(--select-collapse-width));
     display: flex;

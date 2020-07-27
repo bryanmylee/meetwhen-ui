@@ -22,7 +22,7 @@
 <style>
   div {
     position: absolute;
-    z-index: 19;
+    z-index: 10;
     width: 100%;
     background-color: var(--grey-200);
     opacity: 0.5;

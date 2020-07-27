@@ -11,6 +11,7 @@
   import { autoScrollSelf } from './actions/autoScroll';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
+  import CalendarTrashTarget from './CalendarTrashTarget.svelte';
 
   // BINDINGS
   // ========
@@ -74,6 +75,12 @@
     newSelection = null;
   }
 
+  function deleteSelection(event) {
+    const { originalStart } = event.detail;
+    const filteredSelections = selections.filter((selection) => !selection.start.isSame(originalStart, 'minute'));
+    setSelections(filteredSelections);
+  }
+
   function moveSelection(event) {
     const { originalStart, originalEnd, deltaRow, deltaCol } = event.detail;
     const draggedSelections = selections.map((selection) => {
@@ -131,6 +138,7 @@
   }
 
   setContext('dragresize', {
+    deleteSelection,
     moveSelection,
     resizeSelectionTop,
     resizeSelectionBottom,
@@ -158,12 +166,14 @@ bug on Safari 13.1 -->
     <!-- Slot for div containing calendar day columns -->
     <slot {newSelections} />
   </div>
+  <CalendarTrashTarget />
 </div>
 
 <style>
   .picker {
     overflow: scroll;
     scroll-behavior: smooth;
+    position: relative;
   }
 
   .body {

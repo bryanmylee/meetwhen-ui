@@ -4,6 +4,7 @@
   import { sizePos, moveAndResizable } from 'src/components/calendar/actions/selection';
 
   const {
+    deleteSelection,
     moveSelection,
     resizeSelectionTop,
     resizeSelectionBottom,
@@ -25,6 +26,7 @@
   use:sizePos={{ start, end, duration: 0 }}
   use:moveAndResizable={{ start, end }}
   on:updateState={({ detail }) => state = detail.state}
+  on:deleteSelection={deleteSelection}
   on:moveSelection={moveSelection}
   on:resizeSelectionTop={resizeSelectionTop}
   on:resizeSelectionBottom={resizeSelectionBottom}
@@ -38,7 +40,7 @@
 <style>
   .selection__container {
     position: absolute;
-    z-index: 10;
+    z-index: 14;
     left: var(--select-collapse-width);
     width: calc(100% - var(--select-collapse-width));
     display: flex;
