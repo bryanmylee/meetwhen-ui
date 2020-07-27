@@ -56,7 +56,7 @@
   --col-width: 6rem;
   --row-height: 5rem;
   --select-width: var(--col-width);
-  --select-collapse-width: 0.5em;
+  --select-collapse-width: 1rem;
 }
 
 * {
