@@ -76,8 +76,8 @@
   button {
     width: 100%;
     height: min-content;
-    display: grid;
-    grid-template-columns: auto 2.5rem;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     background-color: var(--grey-100);
     cursor: pointer;
