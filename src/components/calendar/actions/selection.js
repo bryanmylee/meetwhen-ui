@@ -32,8 +32,15 @@ export function createSelection(node, {
   let snap = snapToHour;
   let enabled = selectionEnabled;
 
-  const columnWidth = node.offsetWidth / daysToShow.length;
-  const rowHeight = node.offsetHeight / 24;
+  let columnWidth;
+  let rowHeight;
+
+  initMeasurements();
+
+  function initMeasurements() {
+    columnWidth = node.offsetWidth / daysToShow.length;
+    rowHeight = node.offsetHeight / 24;
+  }
 
   let lastClientX;
   let lastClientY;
@@ -55,6 +62,8 @@ export function createSelection(node, {
     function selectStart(event) {
       if (!enabled) return;
       if (event.buttons !== 1) return;
+
+      initMeasurements();
 
       lastClientX = event.clientX;
       lastClientY = event.clientY;
@@ -130,6 +139,9 @@ export function createSelection(node, {
 
     function selectStart(event) {
       if (!enabled) return;
+
+      initMeasurements();
+
       lastClientX = event.targetTouches[0].clientX;
       lastClientY = event.targetTouches[0].clientY;
       const { offsetX, offsetY } = getTouchOffset(event);
@@ -209,13 +221,23 @@ export function moveAndResizable(node, {
   snapToHour = 0.25,
   resizeHandleSize = 10,
 }) {
-  const columnWidth = node.offsetWidth;
-  const { height } = node.getBoundingClientRect();
-  const { left, top } = getComputedStyle(node);
-  const startLeft = parseFloat(left);
-  const startTop = parseFloat(top);
-  const rowHeight = node.offsetHeight / ((end - start) / MS_PER_HOUR);
   let snap = snapToHour;
+
+  let columnWidth;
+  let rowHeight;
+  let height;
+  let startLeft;
+  let startTop;
+
+  initMeasurements();
+
+  function initMeasurements() {
+    columnWidth = node.offsetWidth;
+    rowHeight = node.offsetHeight / ((end - start) / MS_PER_HOUR);
+    height = node.getBoundingClientRect().height;
+    startLeft = parseFloat(getComputedStyle(node).left);
+    startTop = parseFloat(getComputedStyle(node).top);
+  }
 
   let state = null;
   const states = {
@@ -231,6 +253,7 @@ export function moveAndResizable(node, {
   let dy;
 
   function startDrag({ offsetY, clientX, clientY }) {
+    initMeasurements();
     startClientX = clientX;
     startClientY = clientY;
     dx = 0;
