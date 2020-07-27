@@ -6,9 +6,9 @@
   export let skipped = false;
 </script>
 
-<div class="col">
+<div class="col" class:skipped-day={skipped}>
   <!-- DATE LABEL -->
-  <div class="date-label" class:skipped-day={skipped} >
+  <div class="date-label">
     {day.format('ddd D')}
   </div>
   <div class="col__body" class:skipped-day={skipped} >
@@ -27,6 +27,12 @@
 </div>
 
 <style>
+  .col {
+    width: 100%;
+    max-width: 50%;
+    min-width: var(--col-width);
+  }
+
   .date-label {
     position: -webkit-sticky; /* Safari */
     position: sticky;
@@ -43,15 +49,15 @@
 
   .col__body {
     position: relative;
-    min-width: var(--col-width);
-    max-width: var(--col-width);
+    /* min-width: var(--col-width); */
+    width: 100%;
     min-height: calc(var(--row-height) * 24);
     box-sizing: border-box;
     border-right: 1px var(--grey-300) solid;
     user-select: none;
   }
 
-  .skipped-day {
+  .col.skipped-day {
     margin-left: 1rem;
   }
 

@@ -19,7 +19,7 @@
     position: absolute;
     z-index: 11;
     left: var(--select-collapse-width);
-    width: var(--select-join-width);
+    width: calc(100% - var(--select-collapse-width));
     display: flex;
     pointer-events: none;
   }

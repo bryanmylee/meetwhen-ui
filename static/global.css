@@ -57,7 +57,6 @@
   --row-height: 5rem;
   --select-width: var(--col-width);
   --select-collapse-width: 0.5em;
-  --select-join-width: calc(var(--col-width) - var(--select-collapse-width));
 }
 
 * {

@@ -169,9 +169,10 @@ bug on Safari 13.1 -->
   .body {
     position: relative;
     display: flex;
-    flex-direction: row;
-    width: -moz-max-content;
-    width: -webkit-max-content;
+    justify-content: stretch;
+    /* width: -moz-max-content;
+    width: -webkit-max-content; */
+    width: 100%;
   }
 
   .disable-touch-scroll {

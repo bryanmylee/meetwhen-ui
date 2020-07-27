@@ -40,7 +40,7 @@
     position: absolute;
     z-index: 10;
     left: var(--select-collapse-width);
-    width: var(--select-join-width);
+    width: calc(100% - var(--select-collapse-width));
     display: flex;
   }
 
