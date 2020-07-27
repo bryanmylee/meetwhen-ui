@@ -8,6 +8,7 @@ import {
 } from 'src/utils/eventHandler';
 import LongTouchAndDrag from 'src/utils/LongTouchAndDrag';
 import { MS_PER_HOUR } from 'src/utils/constants';
+import { dragDropStates } from '../stores';
 
 /**
  * Provides all custom events for creating new selections with the calendar.
@@ -240,12 +241,6 @@ export function moveAndResizable(node, {
   }
 
   let state = null;
-  const states = {
-    NONE: 'NONE',
-    MOVING: 'MOVING',
-    RESIZING_TOP: 'RESIZING_TOP',
-    RESIZING_BOTTOM: 'RESIZING_BOTTOM',
-  };
   // Track the initial state required to calculate drag distance.
   let startClientX;
   let startClientY;
@@ -260,13 +255,13 @@ export function moveAndResizable(node, {
     dy = 0;
 
     if (shouldResizeTop(offsetY)) {
-      state = states.RESIZING_TOP;
+      state = dragDropStates.RESIZING_TOP;
       currentAction = resizeSelectionTop;
     } else if (shouldResizeBottom(offsetY)) {
-      state = states.RESIZING_BOTTOM;
+      state = dragDropStates.RESIZING_BOTTOM;
       currentAction = resizeSelectionBottom;
     } else {
-      state = states.MOVING;
+      state = dragDropStates.MOVING;
       currentAction = moveSelection;
     }
 
@@ -276,7 +271,7 @@ export function moveAndResizable(node, {
   }
 
   function endDrag() {
-    state = states.NONE;
+    state = dragDropStates.NONE;
     node.dispatchEvent(new CustomEvent('updateState', {
       detail: { state },
     }));
