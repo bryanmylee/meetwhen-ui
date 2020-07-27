@@ -5,7 +5,7 @@
 
   import { currentColor } from 'src/stores';
   import { isSelecting } from './stores';
-  import { sizePos } from 'src/components/calendar/actions/selection';
+  import { sizePos } from './actions/selection';
   import colorGradient from 'src/actions/colorGradient';
 
   import OtherUsersPopover from './OtherUsersPopover.svelte';

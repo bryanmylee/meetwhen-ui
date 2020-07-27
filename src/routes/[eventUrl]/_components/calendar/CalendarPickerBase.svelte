@@ -9,6 +9,7 @@
   import { splitIntervalsOnMidnight } from 'src/utils/interval';
   import { createSelection } from './actions/selection';
   import { autoScrollSelf } from './actions/autoScroll';
+  import { dragDropState } from './stores';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
   import CalendarTrashTarget from './CalendarTrashTarget.svelte';
@@ -166,7 +167,7 @@ bug on Safari 13.1 -->
     <!-- Slot for div containing calendar day columns -->
     <slot {newSelections} />
   </div>
-  <CalendarTrashTarget />
+  <CalendarTrashTarget show={$dragDropState !== 'NONE'} />
 </div>
 
 <style>

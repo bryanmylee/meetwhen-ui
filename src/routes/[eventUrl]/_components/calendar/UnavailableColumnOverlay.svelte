@@ -1,7 +1,7 @@
 <script>
   import { isSelecting } from './stores';
   import { getNonIntervals } from 'src/utils/interval';
-  import { sizePos } from 'src/components/calendar/actions/selection';
+  import { sizePos } from './actions/selection';
 
   // PROPS
   // =====

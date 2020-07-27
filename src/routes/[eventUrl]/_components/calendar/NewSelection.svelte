@@ -1,5 +1,5 @@
 <script>
-  import { smoothSizePos } from 'src/components/calendar/actions/selection';
+  import { smoothSizePos } from './actions/selection';
 
   // PROPS
   // =====

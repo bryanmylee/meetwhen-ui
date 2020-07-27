@@ -1,10 +1,16 @@
 <script>
+  import { fade } from 'svelte/transition';
+
   import TrashIcon from './TrashIcon.svelte';
+
+  export let show = false;
 </script>
 
-<div class="calendar--trash-target">
-  <TrashIcon />
-</div>
+{#if show}
+  <div class="calendar--trash-target" transition:fade={{ duration: 200 }}>
+    <TrashIcon />
+  </div>
+{/if}
 
 <style>
   div {
@@ -18,6 +24,7 @@
     padding: 0.8em;
     background-color: var(--error-50);
     box-shadow: var(--shadow-med);
+    transition: all 200ms ease-in;
   }
 
   div:hover {

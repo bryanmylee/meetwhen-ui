@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte';
-  import { isSelecting } from './stores';
-  import { sizePos, moveAndResizable } from 'src/components/calendar/actions/selection';
+  import { isSelecting, dragDropState } from './stores';
+  import { sizePos, moveAndResizable } from './actions/selection';
 
   const {
     deleteSelection,
@@ -25,7 +25,10 @@
   class:pass-through={$isSelecting}
   use:sizePos={{ start, end, duration: 0 }}
   use:moveAndResizable={{ start, end }}
-  on:updateState={({ detail }) => state = detail.state}
+  on:updateState={({ detail }) => {
+    state = detail.state;
+    $dragDropState = detail.state;
+  }}
   on:deleteSelection={deleteSelection}
   on:moveSelection={moveSelection}
   on:resizeSelectionTop={resizeSelectionTop}

@@ -2,11 +2,11 @@
 <script>
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
   import { isSelecting } from './stores';
-  import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './EventCalendarPicker';
   import { formEnum, form, selectedUsernames, minUserCountFilter } from '../../stores';
+  import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './EventCalendarPicker';
 
-  import CalendarPickerBase from 'src/components/calendar/CalendarPickerBase.svelte';
-  import CalendarDayColumn from 'src/components/calendar/CalendarDayColumn.svelte';
+  import CalendarPickerBase from './CalendarPickerBase.svelte';
+  import CalendarDayColumn from './CalendarDayColumn.svelte';
   import UnavailableColumnOverlay from './UnavailableColumnOverlay.svelte';
   import OtherUsersSelection from './OtherUsersSelection.svelte';
   import DefinedSelection from './DefinedSelection.svelte';
