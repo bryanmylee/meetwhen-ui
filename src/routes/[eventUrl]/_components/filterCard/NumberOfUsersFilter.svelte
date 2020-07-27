@@ -20,7 +20,7 @@
 
 <div>
   <RangeSlider bind:value={$minUserCountFilter} {min} {max} />
-  <label>{$minUserCountFilter}/{max}</label>
+  <label>{$minUserCountFilter} / {max}</label>
 </div>
 
 <style>
