@@ -1,6 +1,7 @@
 import { writable, derived } from 'svelte/store';
-import chroma from 'chroma-js';
 import jwt from 'jsonwebtoken';
+
+import { colors, hexToScale, hexToGradientDark } from 'src/utils/colors';
 
 /**
  * Create a user store which can only be updated by setting an access token.
@@ -44,51 +45,18 @@ function getUser() {
 }
 export const user = getUser();
 
-export const colors = {
-  blue500: { tint: 500, hex: '#2196F3', name: 'Blue' },
-  cyan500: { tint: 500, hex: '#00BCD4', name: 'Cyan' },
-  teal500: { tint: 500, hex: '#009688', name: 'Teal' },
-  green500: { tint: 500, hex: '#4CAF50', name: 'Green' },
-  amber500: { tint: 500, hex: '#FFC107', name: 'Amber' },
-  orange500: { tint: 500, hex: '#FF9800', name: 'Orange' },
-  red500: { tint: 500, hex: '#F44336', name: 'Red' },
-  pink300: { tint: 300, hex: '#F06292', name: 'Pink' },
-  purple500: { tint: 500, hex: '#9C27B0', name: 'Purple' },
-  deepPurple500: { tint: 500, hex: '#673AB7', name: 'Deep Purple' },
-  indigo500: { tint: 500, hex: '#3F51B5', name: 'Indigo' },
-  blueGrey500: { tint: 500, hex: '#607D8B', name: 'Blue Grey' },
-};
-
-function hexToScale(baseHex) {
-  const base = chroma(baseHex);
-  const light = base.brighten(1.8).desaturate();
-  const dark = base.darken(1.8);
-  return chroma.scale([light, base, dark]).mode('lrgb');
-}
-
 const currentBaseColor = writable(colors.blue500);
 
 const colorScale = derived(currentBaseColor, ({ hex }) => hexToScale(hex));
 
-const gradientDark = derived(currentBaseColor, ({ hex }) => {
-  const base = chroma(hex);
-  return base.darken(0.8).saturate().hex();
-});
-
-const getTint = derived(currentBaseColor, ({ hex }) => {
-  const tintScale = chroma.scale(['#FFF', hex, '#000'])
-    .domain([0, 1000])
-    .mode('lab');
-  return (tint) => tintScale(tint);
-});
+const gradientDark = derived(currentBaseColor, ({ hex }) => hexToGradientDark(hex));
 
 const color = derived(
-  [currentBaseColor, colorScale, gradientDark, getTint],
-  ([$currentBaseColor, $colorScale, $gradientDark, $getTint]) => ({
+  [currentBaseColor, colorScale, gradientDark],
+  ([$currentBaseColor, $colorScale, $gradientDark]) => ({
     ...$currentBaseColor,
     gradientDark: $gradientDark,
     scale: $colorScale,
-    getTint: $getTint,
   }),
 );
 

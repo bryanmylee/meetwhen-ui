@@ -1,5 +1,5 @@
 <script>
-  import { colors } from 'src/stores';
+  import { colors } from 'src/utils/colors';
 
   import Color from './Color.svelte';
 </script>
