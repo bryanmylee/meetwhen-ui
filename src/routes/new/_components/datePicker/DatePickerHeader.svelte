@@ -6,7 +6,7 @@
 
 <div>
   <h3>
-    When are you free?
+    Set a time
   </h3>
   <MonthPicker bind:month/>
 </div>
