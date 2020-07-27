@@ -40,7 +40,7 @@
   import ActionBar from './_components/ActionBar.svelte';
   import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
   import EventCalendarPicker from './_components/calendar/EventCalendarPicker.svelte';
-  import ErrorToast from 'src/components/ErrorToast.svelte';
+  import Toast from 'src/components/Toast.svelte';
 
   const { session } = stores();
 
@@ -204,7 +204,7 @@
     disabled={isLoading}
   />
 
-  <ErrorToast bind:errorMessage={errorMessage} />
+  <Toast error bind:message={errorMessage} />
 </div>
 
 <style>

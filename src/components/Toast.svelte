@@ -13,6 +13,7 @@
 
   // PROPS
   // =====
+  export let error = false;
   export let messageDuration = 3000;
 
   // STATE
@@ -41,6 +42,7 @@
 <div>
   {#each displayedMessages as { content, timestamp } (`${content}${timestamp}`)}
     <span
+      class:error={error}
       in:fly={{ y: 200, duration: 300, easing: cubicOut }}
       out:fade
       animate:flip={{ duration: 300, easing: cubicOut }}
@@ -71,6 +73,11 @@
     background-color: var(--primary-500);
     border-radius: 5px;
     box-shadow: var(--shadow-med);
+  }
+
+  span.error {
+    color: var(--error-text);
+    background-color: var(--error-500);
   }
 
   @media screen and (min-width: 768px) {

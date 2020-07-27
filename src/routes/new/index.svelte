@@ -7,11 +7,10 @@
 
   import EventDetailsForm from './_components/EventDetailsForm.svelte';
   import ColorPicker from './_components/colorPicker/ColorPicker.svelte';
-  import DatePickerHeader from './_components/datePicker/DatePickerHeader.svelte';
   import DatePicker from './_components/datePicker/DatePicker.svelte';
   import TimeInputBar from './_components/TimeInputBar.svelte';
   import { Button } from 'src/components/form';
-  import ErrorToast from 'src/components/ErrorToast.svelte';
+  import Toast from 'src/components/Toast.svelte';
   import ErrorTip from 'src/components/ErrorTip.svelte';
 
   const { session } = stores();
@@ -91,7 +90,7 @@
     </Button>
   </div>
 
-  <ErrorToast bind:errorMessage={errorMessage} />
+  <Toast error bind:message={errorMessage} />
 </div>
 
 
