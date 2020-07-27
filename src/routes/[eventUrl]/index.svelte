@@ -16,8 +16,7 @@
         accessToken = (await getAccessToken(this.fetch, session.API_URL, eventUrl)).accessToken;
       } catch (err) {
         // Refresh token not found.
-        // eslint-disable-next-line no-console
-        console.log(err.message);
+        // console.log(err.message);
       }
     }
     return { event, accessToken };
