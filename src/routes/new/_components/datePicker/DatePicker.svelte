@@ -1,6 +1,7 @@
 <script>
   import dayjs from 'dayjs';
 
+  import MonthPicker from './MonthPicker.svelte';
   import CalendarGrid from './CalendarGrid.svelte';
   import CalendarDates from './CalendarDates.svelte';
 
@@ -8,13 +9,14 @@
   // ========
   export let selectedDays = [];
 
-  // PROPS
+  // STATE
   // =====
-  export let selectedMonth = dayjs();
+  let selectedMonth = dayjs();
 </script>
 
 <div>
-  <CalendarDates />
+  <MonthPicker bind:month={selectedMonth} />
+  <CalendarDates/>
   <CalendarGrid
     bind:selectedDays={selectedDays}
     {selectedMonth}

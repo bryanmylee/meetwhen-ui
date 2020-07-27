@@ -9,10 +9,10 @@
   export let date;
   export let selected = false;
 
-  // STATE
+  // REACTIVE ATTRIBUTES
   // =====
-  const firstDayOfWeek = date.date() === 1 ? date.day() : null;
-  const isPast = date.isBefore(dayjs(), 'day');
+  $: firstDayOfWeek = date.date() === 1 ? date.day() : null;
+  $: isPast = date.isBefore(dayjs(), 'day');
 
   // STATE FUNCTIONS
   // ===============

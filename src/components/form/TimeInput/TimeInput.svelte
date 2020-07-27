@@ -1,7 +1,7 @@
 <script>
   import { createPopperActions } from 'svelte-popperjs';
 
-  import DropdownArrow from './DropdownArrow.svelte';
+  import CaretDown from 'src/components/icons/CaretDown.svelte';
   import TimeDropdown from './TimeDropdown.svelte';
 
   const [popperRef, popperContent] = createPopperActions();
@@ -53,7 +53,7 @@
   on:click={handleClick}
 >
   <span>{selectedTime ? selectedTime.format('ha') : ''}</span>
-  <DropdownArrow/>
+  <CaretDown/>
 </button>
 {#if showTimes}
   <TimeDropdown

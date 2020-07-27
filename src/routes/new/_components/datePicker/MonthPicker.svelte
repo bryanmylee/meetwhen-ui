@@ -1,0 +1,46 @@
+<script>
+  import dayjs from 'dayjs';
+
+  import CaretLeft from 'src/components/icons/CaretLeft.svelte';
+  import CaretRight from 'src/components/icons/CaretRight.svelte';
+
+  export let month = dayjs();
+</script>
+
+<div>
+  <h3>
+    {month.format('MMM')}
+  </h3>
+  <button on:click={() => month = month.subtract(1, 'month')}>
+    <CaretLeft/>
+  </button>
+  <button on:click={() => month = month.add(1, 'month')}>
+    <CaretRight/>
+  </button>
+</div>
+
+<style>
+  div {
+    margin: -2.8rem 0.8rem 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  button {
+    margin-left: 0.8em;
+    outline: none;
+    border: none;
+    border-radius: 500px;
+    background-color: transparent;
+    transition: all 200ms ease;
+  }
+
+  button:hover, button:focus {
+    background-color: var(--grey-100);
+  }
+
+  button:active {
+    background-color: var(--grey-300);
+  }
+</style>
