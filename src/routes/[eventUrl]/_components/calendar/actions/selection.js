@@ -299,9 +299,16 @@ export function moveAndResizable(node, {
       node.style.pointerEvents = 'none';
     },
     end(event) {
+      let droppedOnTrash = false;
+      if (event instanceof MouseEvent) {
+        droppedOnTrash = [...event.target.classList].includes('calendar--trash-target');
+      } else {
+        const { clientX, clientY } = event.changedTouches[0];
+        const targetElements = document.elementsFromPoint(clientX, clientY);
+        droppedOnTrash = targetElements.some((element) => [...element.classList].includes('calendar--trash-target'));
+      }
       node.style.left = `${startLeft}px`;
       node.style.pointerEvents = 'unset';
-      const droppedOnTrash = [...event.target.classList].includes('calendar--trash-target');
       if (droppedOnTrash) {
         node.dispatchEvent(new CustomEvent('deleteSelection', {
           detail: {
@@ -429,8 +436,8 @@ export function moveAndResizable(node, {
       currentAction.move({ clientX, clientY });
     }
 
-    function handleDragEnd() {
-      currentAction.end();
+    function handleDragEnd(event) {
+      currentAction.end(event);
       endDrag();
     }
 
