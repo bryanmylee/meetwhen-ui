@@ -10,6 +10,9 @@ export function getFilteredUserIntervalsByUsername(selectedUsernames, userInterv
 
 export function getTimeIntervalsWithSkip(intervals) {
   const results = [];
+  if (intervals.length === 0) {
+    return results;
+  }
   let skipped = true;
   let skipping = false;
   for (let i = 0; i < intervals.length - 1; i++) {
