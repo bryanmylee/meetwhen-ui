@@ -78,7 +78,6 @@
     class="picker-container card outline padded no-highlight"
     class:error={attempted && !(datesValid && timesValid)}
   >
-    <DatePickerHeader showError={attempted && !datesValid} />
     <DatePicker bind:selectedDays={selectedDays} />
     <ErrorTip show={attempted && !datesValid}>Pick at least one date</ErrorTip>
     <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />

@@ -1,7 +1,7 @@
 <script>
   import dayjs from 'dayjs';
 
-  import MonthPicker from './MonthPicker.svelte';
+  import DatePickerHeader from './DatePickerHeader.svelte';
   import CalendarGrid from './CalendarGrid.svelte';
   import CalendarDates from './CalendarDates.svelte';
 
@@ -15,7 +15,7 @@
 </script>
 
 <div>
-  <MonthPicker bind:month={selectedMonth} />
+  <DatePickerHeader bind:month={selectedMonth} />
   <CalendarDates/>
   <CalendarGrid
     bind:selectedDays={selectedDays}

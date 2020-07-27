@@ -28,7 +28,6 @@
   }
 
   button {
-    margin-left: 0.8em;
     outline: none;
     border: none;
     border-radius: 500px;
@@ -42,5 +41,9 @@
 
   button:active {
     background-color: var(--grey-300);
+  }
+
+  button:first-of-type {
+    margin-left: 0.8em;
   }
 </style>
