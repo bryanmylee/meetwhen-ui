@@ -1,6 +1,9 @@
 <script>
+  import dayjs from 'dayjs';
+
   import { isCreatingNewSelection } from './stores';
   import { getAreaSelection, getUnionOfSelections, getIntersectionOfSelections } from 'src/utils/selection';
+  import { splitIntervalsOnMidnight } from 'src/utils/interval';
 
   // BINDINGS
   // ========
@@ -17,7 +20,9 @@
   let initialHour = null;
   let newSelection = null;
   let selectAttempts = 0;
-  $: $isCreatingNewSelection = newSelection !== null;
+  $: {
+    $isCreatingNewSelection = newSelection !== null;
+  }
 
   // REACTIVE ATTRIBUTES
   // ===================
@@ -57,6 +62,28 @@
     selections = getUnionOfSelections([...selections, ...newSelections]);
     initialHour = null;
     newSelection = null;
+  }
+
+  function moveSelection(event) {
+    const { originalStart, newStart } = event.detail;
+    const draggedSelections = selections.map((selection) => {
+      if (!selection.start.isSame(originalStart, 'minute')) return selection;
+      const deltaMs = newStart - originalStart;
+      return {
+        start: newStart,
+        end: dayjs(selection.end + deltaMs),
+      };
+    });
+    setSelections(draggedSelections);
+  }
+
+  function setSelections(draggedSelections) {
+    const processedSelections = splitIntervalsOnMidnight(getUnionOfSelections(draggedSelections));
+    if (selectionLimits == null) {
+      selections = processedSelections;
+    } else {
+      selections = getIntersectionOfSelections(processedSelections, selectionLimits);
+    }
   }
 </script>
 
