@@ -1,30 +1,29 @@
 <script>
+  import createNewSelection from './actions/createNewSelection';
+
+  import SeparatorLines from './SeparatorLines.svelte';
+
   // PROPS
   // =====
   export let day;
   // If this day does not sequentially follow the previous day in the calendar.
   export let skipped = false;
-
-  export let action;
 </script>
 
-<div class="col" class:skipped-day={skipped}>
-  <!-- DATE LABEL -->
+<div class="col" class:skipped>
   <div class="date-label">
     {day.format('ddd D')}
   </div>
-  <div class="col__body" class:skipped-day={skipped} use:action={{ day }}>
-    <!-- SEPARATOR LINES -->
-    <div class="col__separators">
-      {#each Array(24) as _, inc}
-        <div
-          class="separators"
-          style={`top: calc(var(--row-height) * ${inc})`}
-        />
-      {/each}
-    </div>
-    <!-- RENDERED INTERVALS/SELECTIONS -->
-    <slot />
+  <div
+    class="col__body"
+    class:skipped
+    use:createNewSelection={{ day }}
+    on:newSelectStart
+    on:newSelectMove
+    on:newSelectEnd
+  >
+    <SeparatorLines />
+    <slot/>
   </div>
 </div>
 
@@ -59,23 +58,11 @@
     user-select: none;
   }
 
-  .col.skipped-day {
+  .col.skipped {
     margin-left: 1rem;
   }
 
-  .col__body.skipped-day {
+  .col__body.skipped {
     border-left: 1px var(--grey-300) solid;
-  }
-
-  .col__separators {
-    pointer-events: none;
-    touch-action: none;
-  }
-
-  .separators {
-    position: absolute;
-    width: 100%;
-    height: 1px;
-    background-color: var(--grey-200);
   }
 </style>

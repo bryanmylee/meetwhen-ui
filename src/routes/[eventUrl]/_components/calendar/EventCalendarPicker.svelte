@@ -38,6 +38,7 @@
 
   // REACTIVE ATTRIBUTES
   // ===================
+  $: selectionEnabled = $form === formEnum.JOINING || $form === formEnum.EDITING;
   $: eventIntervalsSplitOnMidnight = splitIntervalsOnMidnight(eventIntervals);
   // Filtered user intervals based on selected usernames.
   $: filteredUserIntervalsByUsername = getFilteredUserIntervalsByUsername(
@@ -66,12 +67,12 @@
   on:showLongTouchHint
   daysToShow={daysToShowWithSkip.map((dws) => dws.day)}
   selectionLimits={eventIntervals}
-  selectionEnabled={$form === formEnum.JOINING || $form === formEnum.EDITING}
+  {selectionEnabled}
   let:newSelections
 >
   <!-- COLUMNS -->
   {#each daysToShowWithSkip as { day, skipped }}
-    <CalendarDayColumn {day} {skipped} >
+    <CalendarDayColumn {day} {skipped} action={createSelection} >
       <!-- DISABLED INTERVALS -->
       <UnavailableColumnOverlay
         eventIntervals={eventIntervalsSplitOnMidnight

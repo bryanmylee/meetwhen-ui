@@ -20,8 +20,8 @@
   export let usernames;
   export let skipped;
   export let skipping;
-  export let minUsernameCount = 0;
-  export let maxUsernameCount = 1;
+  export let minUsers = 0;
+  export let maxUsers = 1;
   export let isCollapsed = false;
   export let isSelected = false;
 
@@ -45,8 +45,8 @@
   use:sizePos={{ start, end }}
   use:colorGradient={{
     scale: $currentColor.scale,
-    index: usernames.length - minUsernameCount + 1,
-    total: maxUsernameCount - minUsernameCount + 1,
+    index: usernames.length - minUsers + 1,
+    total: maxUsers - minUsers + 1,
   }}
   use:popperRef
   on:click={handleClick}

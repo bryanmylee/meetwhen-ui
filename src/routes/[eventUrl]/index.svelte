@@ -39,7 +39,8 @@
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
   import ActionBar from './_components/ActionBar.svelte';
   import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
-  import EventCalendarPicker from './_components/calendar/EventCalendarPicker.svelte';
+  // import EventCalendarPicker from './_components/calendar/EventCalendarPicker.svelte';
+  import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
   import Toast from 'src/components/Toast.svelte';
 
   const { session } = stores();
@@ -196,10 +197,15 @@
     class:error={showCalendarError}
   >
     <CalendarHeader showError={showCalendarError} />
-    <EventCalendarPicker bind:selections={$selections}
+    <!-- <EventCalendarPicker bind:selections={$selections}
       on:showLongTouchHint={showLongTouchHint}
       eventIntervals={event.schedule}
       userIntervalsByUsername={event.userSchedules}
+    /> -->
+    <CalendarPicker
+      bind:selections={$selections}
+      schedule={event.schedule}
+      userSchedules={event.userSchedules}
     />
   </div>
 

@@ -1,9 +1,10 @@
 <script>
+  // Provide all logic for creating, updating, and deleting selections.
   import { setContext, createEventDispatcher } from 'svelte';
+  import createSelectionActions from './actions/createSelection';
 
   import { getAreaSelection, getUnionOfSelections, getIntersectionOfSelections } from 'src/utils/selection';
   import { splitIntervalsOnMidnight } from 'src/utils/interval';
-  import createSelection from './actions/createSelection';
   import { autoScrollSelf } from './actions/autoScroll';
   import { dragDropState, dragDropStates } from './stores';
 
@@ -11,6 +12,7 @@
   import CalendarTrashTarget from './CalendarTrashTarget/CalendarTrashTarget.svelte';
 
   const dispatch = createEventDispatcher();
+  const createSelectionAction = createSelectionActions();
 
   // BINDINGS
   // ========
@@ -148,6 +150,13 @@
       : getIntersectionOfSelections(processedSelections, selectionLimits);
   }
 
+  setContext('create', {
+    selectStart,
+    selectMove,
+    selectStop,
+    createSelectionAction,
+  });
+
   setContext('dragresize', {
     deleteSelection,
     moveSelection,
@@ -166,14 +175,14 @@ bug on Safari 13.1 -->
     use:autoScrollSelf={{ hour: earliestHour }}
   >
     <!-- MOUSE/TOUCH EVENT CAPTURE LAYER -->
-    <div
+    <!-- <div
       class="create-selection__layer"
       use:createSelection={{ daysToShow, selectionEnabled }}
       on:selectStart={selectStart}
       on:selectMove={selectMove}
       on:selectStop={selectStop}
       on:touchstart={touchStart}
-    />
+    /> -->
     <CalendarIndexColumn startingDay={daysToShow[0]}/>
     <!-- Slot for div containing calendar day columns -->
     <slot {newSelections} />

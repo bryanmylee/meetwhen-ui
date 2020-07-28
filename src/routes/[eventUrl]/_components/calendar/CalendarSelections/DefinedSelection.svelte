@@ -4,13 +4,6 @@
   import { sizePos } from '../actions/selection';
   import moveAndResizable from '../actions/moveAndResizable';
 
-  const {
-    deleteSelection,
-    moveSelection,
-    resizeSelectionTop,
-    resizeSelectionBottom,
-  } = getContext('dragresize');
-
   // PROPS
   // =====
   export let start;
@@ -30,10 +23,10 @@
     state = detail.state;
     $dragDropState = detail.state;
   }}
-  on:deleteSelection={deleteSelection}
-  on:moveSelection={moveSelection}
-  on:resizeSelectionTop={resizeSelectionTop}
-  on:resizeSelectionBottom={resizeSelectionBottom}
+  on:deleteSelection={() => {}}
+  on:moveSelection={() => {}}
+  on:resizeSelectionTop={() => {}}
+  on:resizeSelectionBottom={() => {}}
 >
   <div
     class="selection__content pass-through"
