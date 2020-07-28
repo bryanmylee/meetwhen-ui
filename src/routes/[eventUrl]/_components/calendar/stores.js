@@ -1,4 +1,11 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
+
+import { form, formEnum } from '../../stores';
+
+export const calendarSelectionEnabled = derived(
+  form,
+  ($form) => $form === formEnum.JOINING || $form === formEnum.EDITING,
+);
 
 export const isCreatingNewSelection = writable(false);
 

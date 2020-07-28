@@ -1,5 +1,5 @@
 <script>
-  import { calendarSelectionEnabled } from '../../stores';
+  import { calendarSelectionEnabled } from './stores';
   import createNewSelection from './actions/createNewSelection';
 
   import SeparatorLines from './SeparatorLines.svelte';

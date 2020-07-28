@@ -4,8 +4,7 @@
   import { fade } from 'svelte/transition';
 
   import { currentColor } from 'src/stores';
-  import { isCreatingNewSelection } from '../stores';
-  import { calendarSelectionEnabled } from '../../../stores';
+  import { calendarSelectionEnabled, isCreatingNewSelection } from '../stores';
   import colorGradient from 'src/actions/colorGradient';
   import { sizePos } from '../actions/selection';
 

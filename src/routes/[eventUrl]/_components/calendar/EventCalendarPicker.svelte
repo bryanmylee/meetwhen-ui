@@ -1,7 +1,7 @@
 <svelte:options immutable={true}/>
 <script>
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
-  import { isSelecting } from './stores';
+  import { isCreatingNewSelection } from './stores';
   import { formEnum, form, selectedUsernames, minUserCountFilter } from '../../stores';
   import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './EventCalendarPicker';
 

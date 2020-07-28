@@ -7,7 +7,6 @@
   import DefinedSelection from './CalendarSelections/DefinedSelection.svelte';
   import NewSelection from './CalendarSelections/NewSelection.svelte';
 
-  import { dragDropState, dragDropStates } from './stores';
   import { selectedUsernames, minUserCountFilter } from '../../stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
   import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './EventCalendarPicker';
