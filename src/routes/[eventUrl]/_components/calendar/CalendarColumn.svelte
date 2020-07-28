@@ -1,4 +1,5 @@
 <script>
+  import { calendarSelectionEnabled } from '../../stores';
   import createNewSelection from './actions/createNewSelection';
 
   import SeparatorLines from './SeparatorLines.svelte';
@@ -17,7 +18,7 @@
   <div
     class="col__body"
     class:skipped
-    use:createNewSelection={{ day }}
+    use:createNewSelection={{ day, enabled: $calendarSelectionEnabled }}
     on:newSelectStart
     on:newSelectMove
     on:newSelectEnd

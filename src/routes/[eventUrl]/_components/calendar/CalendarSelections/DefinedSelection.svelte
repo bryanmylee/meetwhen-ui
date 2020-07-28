@@ -1,5 +1,4 @@
 <script>
-  import { getContext } from 'svelte';
   import { isCreatingNewSelection, dragDropState } from '../stores';
   import { sizePos } from '../actions/selection';
   import moveAndResizable from '../actions/moveAndResizable';
