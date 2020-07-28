@@ -1,11 +1,11 @@
 <script>
   import CalendarSelectionProvider from './CalendarSelectionProvider.svelte';
-  import IndexColumn from './IndexColumn.svelte';
-  import Column from './Column.svelte';
+  import IndexColumn from './columns/IndexColumn.svelte';
+  import Column from './columns/Column.svelte';
   import UnavailableColumnOverlay from './UnavailableColumnOverlay.svelte';
-  import OtherUsersInterval from './CalendarSelections/OtherUsersInterval.svelte';
-  import DefinedSelection from './CalendarSelections/DefinedSelection.svelte';
-  import NewSelection from './CalendarSelections/NewSelection.svelte';
+  import OtherUsersInterval from './selections/OtherUsersInterval.svelte';
+  import DefinedSelection from './selections/DefinedSelection.svelte';
+  import NewSelection from './selections/NewSelection.svelte';
 
   import { selectedUsernames, minUserCountFilter } from '../../stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';

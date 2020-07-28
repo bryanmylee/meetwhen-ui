@@ -1,8 +1,5 @@
 <script>
-  import { calendarSelectionEnabled } from './stores';
-  import createNewSelection from './actions/createNewSelection';
-
-  import SeparatorLines from './SeparatorLines.svelte';
+  import ColumnTargets from './ColumnTargets.svelte';
 
   // PROPS
   // =====
@@ -18,12 +15,9 @@
   <div
     class="col__body"
     class:skipped
-    use:createNewSelection={{ day, enabled: $calendarSelectionEnabled }}
-    on:newSelectStart
-    on:newSelectMove
-    on:newSelectEnd
   >
-    <SeparatorLines />
+    <!-- <SeparatorLines /> -->
+    <ColumnTargets {day} />
     <slot/>
   </div>
 </div>
