@@ -65,8 +65,8 @@
   let:newSelectMove
   let:newSelectEnd
 >
-  <div class="picker">
-    <div class="body no-highlight">
+  <div class="calendar__picker">
+    <div class="calendar__body no-highlight">
       <IndexColumn startingDay={daysToShow[0].day}/>
       {#each daysToShow as { day, skipped }}
         <Column
@@ -112,15 +112,15 @@
 </CalendarSelectionProvider>
 
 <style>
-  .picker {
+  .calendar__picker {
     overflow: scroll;
     scroll-behavior: smooth;
     position: relative;
   }
 
-  .body {
+  .calendar__body {
     position: relative;
     display: flex;
-    width: 100%;
+    width: max-content;
   }
 </style>
