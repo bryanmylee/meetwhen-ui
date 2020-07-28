@@ -63,6 +63,7 @@
 <CalendarPickerBase
   bind:selections={selections}
   bind:isSelecting={$isSelecting}
+  on:showLongTouchHint
   daysToShow={daysToShowWithSkip.map((dws) => dws.day)}
   selectionLimits={eventIntervals}
   selectionEnabled={$form === formEnum.JOINING || $form === formEnum.EDITING}

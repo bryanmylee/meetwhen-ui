@@ -1,5 +1,5 @@
 <script>
-  import { setContext } from 'svelte';
+  import { setContext, createEventDispatcher } from 'svelte';
 
   import { getAreaSelection, getUnionOfSelections, getIntersectionOfSelections } from 'src/utils/selection';
   import { splitIntervalsOnMidnight } from 'src/utils/interval';
@@ -9,6 +9,8 @@
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
   import CalendarTrashTarget from './CalendarTrashTarget/CalendarTrashTarget.svelte';
+
+  const dispatch = createEventDispatcher();
 
   // BINDINGS
   // ========
@@ -27,6 +29,7 @@
   // The new selection being made.
   let initialHour = null;
   let newSelection = null;
+  let selectAttempts = 0;
 
   // REACTIVE ATTRIBUTES
   // ===================
@@ -43,6 +46,7 @@
   // STATE FUNCTIONS
   // ===============
   function selectStart(event) {
+    selectAttempts = 0;
     const { day, hour } = event.detail;
     initialHour = hour;
     newSelection = {
@@ -70,6 +74,16 @@
     selections = getUnionOfSelections([...selections, ...newSelections]);
     initialHour = null;
     newSelection = null;
+  }
+
+  function touchStart() {
+    if (selectionEnabled) {
+      selectAttempts++;
+    }
+    if (selectAttempts > 5) {
+      dispatch('showLongTouchHint');
+      selectAttempts = 0;
+    }
   }
 
   function deleteSelection(event) {
@@ -158,6 +172,7 @@ bug on Safari 13.1 -->
       on:selectStart={selectStart}
       on:selectMove={selectMove}
       on:selectStop={selectStop}
+      on:touchstart={touchStart}
     />
     <CalendarIndexColumn startingDay={daysToShow[0]}/>
     <!-- Slot for div containing calendar day columns -->

@@ -67,6 +67,7 @@
 
   // PAGE STATE
   // ==========
+  let message = '';
   let errorMessage = '';
   $: if ($form) setForm();
   let isLoading = false;
@@ -90,6 +91,10 @@
     username = '';
     password = '';
     attempted = false;
+  }
+
+  function showLongTouchHint() {
+    message = 'Long touch and drag to make a selection!';
   }
 
   // API FUNCTIONS
@@ -192,6 +197,7 @@
   >
     <CalendarHeader showError={showCalendarError} />
     <EventCalendarPicker bind:selections={$selections}
+      on:showLongTouchHint={showLongTouchHint}
       eventIntervals={event.schedule}
       userIntervalsByUsername={event.userSchedules}
     />
@@ -204,6 +210,7 @@
     disabled={isLoading}
   />
 
+  <Toast bind:message={message} />
   <Toast error bind:message={errorMessage} />
 </div>
 
