@@ -1,7 +1,7 @@
 <script>
   import CalendarSelectionProvider from './CalendarSelectionProvider.svelte';
-  import CalendarIndexColumn from './CalendarIndexColumn.svelte';
-  import CalendarColumn from './CalendarColumn.svelte';
+  import IndexColumn from './IndexColumn.svelte';
+  import Column from './Column.svelte';
   import UnavailableColumnOverlay from './UnavailableColumnOverlay.svelte';
   import OtherUsersInterval from './CalendarSelections/OtherUsersInterval.svelte';
   import DefinedSelection from './CalendarSelections/DefinedSelection.svelte';
@@ -67,9 +67,9 @@
 >
   <div class="picker">
     <div class="body no-highlight">
-      <CalendarIndexColumn startingDay={daysToShow[0].day}/>
+      <IndexColumn startingDay={daysToShow[0].day}/>
       {#each daysToShow as { day, skipped }}
-        <CalendarColumn
+        <Column
           {day} {skipped}
           on:newSelectStart={newSelectStart}
           on:newSelectMove={newSelectMove}
@@ -105,7 +105,7 @@
             <NewSelection {...selection} />
           {/each}
 
-        </CalendarColumn>
+        </Column>
       {/each}
     </div>
   </div>
