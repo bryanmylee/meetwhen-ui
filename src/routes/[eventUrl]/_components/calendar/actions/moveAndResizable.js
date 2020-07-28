@@ -2,6 +2,7 @@ import { MS_PER_HOUR } from 'src/utils/constants';
 import { getMouseOffset, getTouchOffset } from 'src/utils/eventHandler';
 import LongTouchAndDrag from 'src/utils/LongTouchAndDrag';
 import { dragDropStates } from '../stores';
+import { get_current_component } from 'svelte/internal';
 
 /**
  *
@@ -103,17 +104,9 @@ export default function moveAndResizable(node, {
       // Allow pointer events to pass through to trigger trashing the selection.
       node.style.pointerEvents = 'none';
     },
-    end(event) {
-      let droppedOnTrash = false;
-      if (event instanceof MouseEvent) {
-        droppedOnTrash = [...event.target.classList].includes('calendar--trash-target');
-      } else {
-        const { clientX, clientY } = event.changedTouches[0];
-        const targetElements = document.elementsFromPoint(clientX, clientY);
-        droppedOnTrash = targetElements.some((element) => [...element.classList].includes('calendar--trash-target'));
-      }
-      node.style.left = `${startLeft}px`;
-      node.style.pointerEvents = 'unset';
+    end({ clientX, clientY }) {
+      const targetElements = document.elementsFromPoint(clientX, clientY);
+      const droppedOnTrash = targetElements.some((element) => [...element.classList].includes('calendar--trash-target'));
       if (droppedOnTrash) {
         node.dispatchEvent(new CustomEvent('deleteSelection', {
           detail: {
@@ -131,6 +124,8 @@ export default function moveAndResizable(node, {
           },
         }));
       }
+      node.style.left = `${startLeft}px`;
+      node.style.pointerEvents = 'unset';
     },
   };
 
@@ -210,7 +205,8 @@ export default function moveAndResizable(node, {
     }
 
     function handleMouseUp(event) {
-      currentAction.end(event);
+      const { clientX, clientY } = event;
+      currentAction.end({ clientX, clientY });
       endDrag();
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
@@ -242,7 +238,8 @@ export default function moveAndResizable(node, {
     }
 
     function handleDragEnd(event) {
-      currentAction.end(event);
+      const { clientX, clientY } = event.changedTouches[0];
+      currentAction.end({ clientX, clientY });
       endDrag();
     }
 
