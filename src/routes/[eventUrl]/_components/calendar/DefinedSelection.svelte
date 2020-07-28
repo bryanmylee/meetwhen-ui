@@ -1,7 +1,8 @@
 <script>
   import { getContext } from 'svelte';
   import { isSelecting, dragDropState } from './stores';
-  import { sizePos, moveAndResizable } from './actions/selection';
+  import { sizePos } from './actions/selection';
+  import moveAndResizable from './actions/moveAndResizable';
 
   const {
     deleteSelection,

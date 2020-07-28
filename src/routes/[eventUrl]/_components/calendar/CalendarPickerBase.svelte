@@ -1,13 +1,9 @@
 <script>
   import { setContext } from 'svelte';
 
-  import {
-    getAreaSelection,
-    getUnionOfSelections,
-    getIntersectionOfSelections,
-  } from 'src/utils/selection';
+  import { getAreaSelection, getUnionOfSelections, getIntersectionOfSelections } from 'src/utils/selection';
   import { splitIntervalsOnMidnight } from 'src/utils/interval';
-  import { createSelection } from './actions/selection';
+  import createSelection from './actions/createSelection';
   import { autoScrollSelf } from './actions/autoScroll';
   import { dragDropState, dragDropStates } from './stores';
 
