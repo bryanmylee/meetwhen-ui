@@ -200,6 +200,7 @@ bug on Safari 13.1 -->
   }
 
   .create-selection__layer {
+    width: 100%;
     position: absolute;
     left: var(--index-col-width);
     top: var(--header-row-height);
