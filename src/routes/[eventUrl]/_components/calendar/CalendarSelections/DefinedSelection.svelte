@@ -1,6 +1,6 @@
 <script>
   import { getContext } from 'svelte';
-  import { isSelecting, dragDropState } from '../stores';
+  import { isCreatingNewSelection, dragDropState } from '../stores';
   import { sizePos } from '../actions/selection';
   import moveAndResizable from '../actions/moveAndResizable';
 
@@ -16,7 +16,7 @@
 
 <div
   class="selection__container"
-  class:pass-through={$isSelecting}
+  class:pass-through={$isCreatingNewSelection}
   use:sizePos={{ start, end, duration: 0 }}
   use:moveAndResizable={{ start, end }}
   on:updateState={({ detail }) => {

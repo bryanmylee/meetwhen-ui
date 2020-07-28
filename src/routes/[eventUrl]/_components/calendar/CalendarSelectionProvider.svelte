@@ -1,4 +1,5 @@
 <script>
+  import { isCreatingNewSelection } from './stores';
   import { getAreaSelection, getUnionOfSelections, getIntersectionOfSelections } from 'src/utils/selection';
 
   // BINDINGS
@@ -16,6 +17,7 @@
   let initialHour = null;
   let newSelection = null;
   let selectAttempts = 0;
+  $: $isCreatingNewSelection = newSelection !== null;
 
   // REACTIVE ATTRIBUTES
   // ===================

@@ -8,7 +8,7 @@
   import CalendarPickerBase from './CalendarPickerBase.svelte';
   import CalendarDayColumn from './CalendarDayColumn.svelte';
   import UnavailableColumnOverlay from './UnavailableColumnOverlay.svelte';
-  import OtherUsersSelection from './CalendarSelections/OtherUsersSelection.svelte';
+  import OtherUsersSelection from './CalendarSelections/OtherUsersInterval.svelte';
   import DefinedSelection from './CalendarSelections/DefinedSelection.svelte';
   import NewSelection from './CalendarSelections/NewSelection.svelte';
 

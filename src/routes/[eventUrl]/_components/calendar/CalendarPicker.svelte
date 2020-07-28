@@ -3,12 +3,13 @@
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
   import CalendarColumn from './CalendarColumn.svelte';
   import UnavailableColumnOverlay from './UnavailableColumnOverlay.svelte';
-  import OtherUsersSelection from './CalendarSelections/OtherUsersSelection.svelte';
+  import OtherUsersInterval from './CalendarSelections/OtherUsersInterval.svelte';
   import DefinedSelection from './CalendarSelections/DefinedSelection.svelte';
   import NewSelection from './CalendarSelections/NewSelection.svelte';
 
+  import { dragDropState, dragDropStates } from './stores';
+  import { selectedUsernames, minUserCountFilter } from '../../stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
-  import { formEnum, form, selectedUsernames, minUserCountFilter } from '../../stores';
   import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './EventCalendarPicker';
 
   // BINDINGS
@@ -20,9 +21,22 @@
   export let schedule = [];
   export let userSchedules = {};
 
+  // STATE
+  // =====
+  let selectedOthers = null;
+  // STATE FUNCTIONS
+  // ===============
+  function selectOtherUsersInterval(event) {
+    const interval = event.detail;
+    if (selectedOthers && selectedOthers.start === interval.start) {
+      selectedOthers = null;
+    } else {
+      selectedOthers = interval;
+    }
+  }
+
   // REACTIVE ATTRIBUTES
   // ===================
-  $: selectionEnabled = $form === formEnum.JOINING || $form === formEnum.EDITING;
   $: intervalsSplitOnMidnight = splitIntervalsOnMidnight(schedule);
   // Filtered user intervals based on selected usernames.
   $: filteredUserSchedules = getFilteredUserIntervalsByUsername(
@@ -71,10 +85,12 @@
           {#each timeIntervalsWithMinUsersWithSkip
             .filter((i) => i.start.isSame(day, 'date'))
           as interval (`${+interval.start}-${+interval.end}`)}
-            <OtherUsersSelection
+            <OtherUsersInterval
               {...interval}
               {minUsers}
               {maxUsers}
+              on:select={selectOtherUsersInterval}
+              isSelected={selectedOthers && selectedOthers.start === interval.start}
             />
           {/each}
 

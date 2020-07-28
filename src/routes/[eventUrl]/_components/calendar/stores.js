@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export const isSelecting = writable(false);
+export const isCreatingNewSelection = writable(false);
 
 export const dragDropStates = {
   NONE: 'NONE',

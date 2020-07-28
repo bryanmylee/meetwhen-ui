@@ -4,7 +4,8 @@
   import { fade } from 'svelte/transition';
 
   import { currentColor } from 'src/stores';
-  import { isSelecting } from '../stores';
+  import { isCreatingNewSelection } from '../stores';
+  import { calendarSelectionEnabled } from '../../../stores';
   import colorGradient from 'src/actions/colorGradient';
   import { sizePos } from '../actions/selection';
 
@@ -22,24 +23,20 @@
   export let skipping;
   export let minUsers = 0;
   export let maxUsers = 1;
-  export let isCollapsed = false;
   export let isSelected = false;
 
   // STATE FUNCTIONS
   // ===============
   function handleClick() {
-    dispatch('selectInterval', {
-      start,
-      end,
-    });
+    dispatch('select', { start, end });
   }
 </script>
 
 <div
   class="other-user-selection"
   class:selected={isSelected}
-  class:collapsed={isCollapsed}
-  class:pass-through={$isSelecting}
+  class:collapsed={$calendarSelectionEnabled}
+  class:pass-through={$isCreatingNewSelection}
   class:cap-top={skipped}
   class:cap-bottom={skipping}
   use:sizePos={{ start, end }}

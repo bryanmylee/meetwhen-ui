@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 
 export const detailsEnum = {
   EVENT_DETAILS: 'EVENT_DETAILS',
@@ -14,5 +14,9 @@ export const formEnum = {
 
 export const details = writable(detailsEnum.EVENT_DETAILS);
 export const form = writable(formEnum.NONE);
+export const calendarSelectionEnabled = derived(
+  form,
+  ($form) => $form === formEnum.JOINING || $form === formEnum.EDITING,
+);
 export const selectedUsernames = writable([]);
 export const minUserCountFilter = writable(0);
