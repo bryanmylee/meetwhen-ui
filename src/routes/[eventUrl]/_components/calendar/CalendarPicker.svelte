@@ -121,6 +121,7 @@
   .calendar__body {
     position: relative;
     display: flex;
-    width: max-content;
+    width: fit-content;
+    min-width: 100%;
   }
 </style>
