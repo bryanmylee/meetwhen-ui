@@ -1,5 +1,5 @@
 <script>
-  import QuarterHourCell from './QuarterHourCell.svelte';
+  import QuarterHourCell from './QuarterHourTarget.svelte';
 
   // PROPS
   // =====

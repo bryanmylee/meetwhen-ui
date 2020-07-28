@@ -3,7 +3,7 @@
   export let hour;
 </script>
 
-<div data-day={+day} data-hour={hour} />
+<div data-quarter-hour-target data-day={+day} data-hour={hour} />
 
 <style>
   div {
