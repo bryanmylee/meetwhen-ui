@@ -2,7 +2,6 @@ import { MS_PER_HOUR } from 'src/utils/constants';
 import { getMouseOffset, getTouchOffset } from 'src/utils/eventHandler';
 import LongTouchAndDrag from 'src/utils/LongTouchAndDrag';
 import { dragDropStates } from '../stores';
-import { get_current_component } from 'svelte/internal';
 
 /**
  *
