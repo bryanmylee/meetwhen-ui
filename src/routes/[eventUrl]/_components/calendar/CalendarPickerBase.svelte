@@ -8,7 +8,7 @@
   import { dragDropState, dragDropStates } from './stores';
 
   import CalendarIndexColumn from './CalendarIndexColumn.svelte';
-  import CalendarTrashTarget from './trashTarget/CalendarTrashTarget.svelte';
+  import CalendarTrashTarget from './CalendarTrashTarget/CalendarTrashTarget.svelte';
 
   // BINDINGS
   // ========

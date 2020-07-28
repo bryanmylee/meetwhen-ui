@@ -4,9 +4,9 @@
   import { fade } from 'svelte/transition';
 
   import { currentColor } from 'src/stores';
-  import { isSelecting } from './stores';
-  import { sizePos } from './actions/selection';
+  import { isSelecting } from '../stores';
   import colorGradient from 'src/actions/colorGradient';
+  import { sizePos } from '../actions/selection';
 
   import OtherUsersPopover from './OtherUsersPopover.svelte';
 

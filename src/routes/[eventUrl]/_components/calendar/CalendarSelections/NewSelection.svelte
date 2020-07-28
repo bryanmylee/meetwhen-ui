@@ -1,5 +1,5 @@
 <script>
-  import { smoothSizePos } from './actions/selection';
+  import { smoothSizePos } from '../actions/selection';
 
   // PROPS
   // =====
