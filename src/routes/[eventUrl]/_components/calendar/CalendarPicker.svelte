@@ -7,6 +7,7 @@
   import DefinedSelection from './selections/DefinedSelection.svelte';
   import NewSelection from './selections/NewSelection.svelte';
 
+  import calendarInteraction from './actions/calendarInteraction';
   import { selectedUsernames, minUserCountFilter } from '../../stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
   import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './utils';
@@ -66,7 +67,10 @@
   let:newSelectEnd
 >
   <div class="calendar__picker">
-    <div class="calendar__body no-highlight">
+    <div
+      class="calendar__body no-highlight"
+      use:calendarInteraction
+    >
       <IndexColumn startingDay={daysToShow[0].day}/>
       {#each daysToShow as { day, skipped }}
         <Column
