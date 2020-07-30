@@ -35,7 +35,8 @@
   // ===============
   function newSelectStart(event) {
     selectAttempts = 0;
-    const { day, hour } = event.detail;
+    const { dayMs, hour } = event.detail;
+    const day = dayjs(dayMs);
     initialHour = hour;
     newSelection = {
       startDay: day,
@@ -47,7 +48,8 @@
 
   function newSelectMove(event) {
     if (initialHour == null && newSelection == null) newSelectStart(event);
-    const { day, hour } = event.detail;
+    const { dayMs, hour } = event.detail;
+    const day = dayjs(dayMs);
     const clippedHour = Math.min(hour, 23.75);
     newSelection = {
       startDay: newSelection.startDay,
@@ -57,7 +59,7 @@
     };
   }
 
-  function newSelectEnd() {
+  function newSelectStop() {
     if (newSelections.length === 0) return;
     selections = getUnionOfSelections([...selections, ...newSelections]);
     initialHour = null;
@@ -91,5 +93,5 @@
   {newSelections}
   {newSelectStart}
   {newSelectMove}
-  {newSelectEnd}
+  {newSelectStop}
 />

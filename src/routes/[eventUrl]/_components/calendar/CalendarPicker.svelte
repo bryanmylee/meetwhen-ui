@@ -64,20 +64,20 @@
   let:newSelections
   let:newSelectStart
   let:newSelectMove
-  let:newSelectEnd
+  let:newSelectStop
 >
   <div class="calendar__picker">
     <div
       class="calendar__body no-highlight"
       use:calendarInteraction
+      on:newSelectStart={newSelectStart}
+      on:newSelectMove={newSelectMove}
+      on:newSelectStop={newSelectStop}
     >
       <IndexColumn startingDay={daysToShow[0].day}/>
       {#each daysToShow as { day, skipped }}
         <Column
           {day} {skipped}
-          on:newSelectStart={newSelectStart}
-          on:newSelectMove={newSelectMove}
-          on:newSelectEnd={newSelectEnd}
         >
           <UnavailableColumnOverlay
             eventIntervals={intervalsSplitOnMidnight
