@@ -18,6 +18,19 @@ export function getTouchOffset(event) {
   return { offsetX, offsetY };
 }
 
+export function getClient(event) {
+  if (event instanceof TouchEvent) {
+    return {
+      clientX: event.changedTouches[0].clientX,
+      clientY: event.changedTouches[0].clientY,
+    };
+  }
+  return {
+    clientX: event.clientX,
+    clientY: event.clientY,
+  };
+}
+
 /**
  * Get the target of the event, regardless of whether it was a mouse or touch
  * event.
@@ -25,15 +38,13 @@ export function getTouchOffset(event) {
  * @returns {Element} The target of the event.
  */
 export function getTarget(event) {
-  if (event instanceof TouchEvent) {
-    return getTouchTarget(event);
-  }
-  return event.target;
+  const { clientX, clientY } = getClient(event);
+  return document.elementFromPoint(clientX, clientY);
 }
 
-function getTouchTarget(event) {
-  const { clientX, clientY } = event.changedTouches[0];
-  return document.elementFromPoint(clientX, clientY);
+export function getTargets(event) {
+  const { clientX, clientY } = getClient(event);
+  return document.elementsFromPoint(clientX, clientY);
 }
 
 export function distanceBetweenOffsets(A, B) {
