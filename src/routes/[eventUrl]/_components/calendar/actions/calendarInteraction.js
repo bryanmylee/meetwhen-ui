@@ -57,6 +57,9 @@ function newSelectAction(node) {
     },
     move(event) {
       const target = getTarget(event);
+      if (!isQuarterHourTarget(target)) {
+        return;
+      }
       node.dispatchEvent(new CustomEvent('newSelectMove', {
         detail: {
           dayMs: parseInt(target.dataset.dayMs, 10),

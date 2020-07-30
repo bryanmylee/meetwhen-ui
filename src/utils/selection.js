@@ -18,34 +18,36 @@ import { MS_PER_DAY } from 'src/utils/constants';
  * @returns {interval[]} The new selections across different days.
  */
 export function getAreaSelection(newSelection) {
-  if (newSelection == null
-      || newSelection.startDay == null
-      || newSelection.startHour == null) return [];
-
+  if (newSelection == null) {
+    return [];
+  }
   const { startDay, startHour, endDay, endHour } = newSelection;
+  if (startDay == null || startHour == null || endDay == null || endHour == null) {
+    return [];
+  }
 
   const numDaysSpan = Math.floor(Math.abs(endDay - startDay) / MS_PER_DAY) + 1;
   if (+startDay <= +endDay && startHour <= endHour) {
-    return [...Array(numDaysSpan).keys()].map((inc) => ({
-      start: startDay.add(inc, 'day').add(startHour, 'hour'),
-      end: startDay.add(inc, 'day').add(endHour, 'hour'),
+    return [...Array(numDaysSpan)].map((_, i) => ({
+      start: startDay.add(i, 'day').add(startHour, 'hour'),
+      end: startDay.add(i, 'day').add(endHour, 'hour'),
     }));
   }
   if (+startDay <= +endDay && startHour > endHour) {
-    return [...Array(numDaysSpan).keys()].map((inc) => ({
-      start: startDay.add(inc, 'day').add(endHour, 'hour'),
-      end: startDay.add(inc, 'day').add(startHour, 'hour'),
+    return [...Array(numDaysSpan)].map((_, i) => ({
+      start: startDay.add(i, 'day').add(endHour, 'hour'),
+      end: startDay.add(i, 'day').add(startHour, 'hour'),
     }));
   }
   if (+startDay > +endDay && startHour <= endHour) {
-    return [...Array(numDaysSpan).keys()].map((inc) => ({
-      start: endDay.add(inc, 'day').add(startHour, 'hour'),
-      end: endDay.add(inc, 'day').add(endHour, 'hour'),
+    return [...Array(numDaysSpan)].map((_, i) => ({
+      start: endDay.add(i, 'day').add(startHour, 'hour'),
+      end: endDay.add(i, 'day').add(endHour, 'hour'),
     }));
   }
-  return [...Array(numDaysSpan).keys()].map((inc) => ({
-    start: endDay.add(inc, 'day').add(endHour, 'hour'),
-    end: endDay.add(inc, 'day').add(startHour, 'hour'),
+  return [...Array(numDaysSpan)].map((_, i) => ({
+    start: endDay.add(i, 'day').add(endHour, 'hour'),
+    end: endDay.add(i, 'day').add(startHour, 'hour'),
   }));
 }
 
