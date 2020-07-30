@@ -8,6 +8,7 @@
   import NewSelection from './selections/NewSelection.svelte';
 
   import calendarInteraction from './actions/calendarInteraction';
+  import { calendarSelectionEnabled } from './stores';
   import { selectedUsernames, minUserCountFilter } from '../../stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
   import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './utils';
@@ -24,6 +25,7 @@
   // STATE
   // =====
   let selectedOthers = null;
+
   // STATE FUNCTIONS
   // ===============
   function selectOtherUsersInterval(event) {
@@ -70,7 +72,7 @@
   <div class="calendar__picker">
     <div
       class="calendar__body no-highlight"
-      use:calendarInteraction
+      use:calendarInteraction={{ enabled: $calendarSelectionEnabled }}
       on:newSelectStart={newSelectStart}
       on:newSelectMove={newSelectMove}
       on:newSelectStop={newSelectStop}

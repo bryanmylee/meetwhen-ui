@@ -11,10 +11,15 @@ function isDefinedSelection(target) {
   return target.dataset.definedSelection != null;
 }
 
-export default function calendarInteraction(node) {
+export default function calendarInteraction(node, { enabled: initEnabled = false } = {}) {
+  let enabled = initEnabled;
+  console.log(enabled);
   let currentAction = null;
 
   function handleDown(event) {
+    if (!enabled) {
+      return;
+    }
     const target = getTarget(event);
     if (isQuarterHourTarget(target)) {
       currentAction = newSelectAction(node);
@@ -25,6 +30,9 @@ export default function calendarInteraction(node) {
   }
 
   function handleMove(event) {
+    if (!enabled) {
+      return;
+    }
     if (currentAction != null) {
       currentAction.move(event);
     }
@@ -42,6 +50,19 @@ export default function calendarInteraction(node) {
   node.addEventListener('mouseup', handleUp);
   const touchStart = LongTouchAndDrag({}, handleDown, handleMove, handleUp);
   node.addEventListener('touchstart', touchStart);
+
+  return {
+    update(newProps) {
+      console.log(newProps);
+      enabled = newProps.enabled;
+    },
+    destroy() {
+      node.removeEventListener('mousedown', handleDown);
+      node.removeEventListener('mousemove', handleMove);
+      node.removeEventListener('mouseup', handleUp);
+      node.removeEventListener('touchstart', touchStart);
+    },
+  };
 }
 
 function newSelectAction(node) {
