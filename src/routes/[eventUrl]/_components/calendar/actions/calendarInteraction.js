@@ -13,7 +13,6 @@ function isDefinedSelection(target) {
 
 export default function calendarInteraction(node, { enabled: initEnabled = false } = {}) {
   let enabled = initEnabled;
-  console.log(enabled);
   let currentAction = null;
 
   function handleDown(event) {
@@ -52,9 +51,8 @@ export default function calendarInteraction(node, { enabled: initEnabled = false
   node.addEventListener('touchstart', touchStart);
 
   return {
-    update(newProps) {
-      console.log(newProps);
-      enabled = newProps.enabled;
+    update({ enabled: newEnabled }) {
+      enabled = newEnabled;
     },
     destroy() {
       node.removeEventListener('mousedown', handleDown);
