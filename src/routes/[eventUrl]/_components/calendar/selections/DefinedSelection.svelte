@@ -9,6 +9,7 @@
 </script>
 
 <div
+  data-defined-selection data-start-ms={+start} data-end-ms={+end}
   class="selection__container"
   class:pass-through={$isCreatingNewSelection}
   use:sizePos={{ start, end, duration: 0 }}
@@ -37,7 +38,6 @@
     margin: 0 0.2em;
     border-radius: 5px;
     background-color: var(--primary-400);
-    pointer-events: all;
   }
 
   .pass-through {

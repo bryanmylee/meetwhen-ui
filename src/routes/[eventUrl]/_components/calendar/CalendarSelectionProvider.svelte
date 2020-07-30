@@ -66,14 +66,15 @@
     newSelection = null;
   }
 
-  function moveSelection(event) {
-    const { originalStart, newStart } = event.detail;
+  function moveDefinedStop(event) {
+    const { initStart, newStart, newEnd } = event.detail;
     const draggedSelections = selections.map((selection) => {
-      if (!selection.start.isSame(originalStart, 'minute')) return selection;
-      const deltaMs = newStart - originalStart;
+      if (!selection.start.isSame(initStart, 'minute')) {
+        return selection;
+      }
       return {
         start: newStart,
-        end: dayjs(selection.end + deltaMs),
+        end: newEnd,
       };
     });
     setSelections(draggedSelections);
@@ -94,4 +95,5 @@
   {newSelectStart}
   {newSelectMove}
   {newSelectStop}
+  {moveDefinedStop}
 />
