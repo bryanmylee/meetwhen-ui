@@ -82,7 +82,7 @@ function moveDefinedAction(node) {
   let initStart;
   let initEnd;
 
-  let rowHeight;
+  let initTargetHour;
 
   return {
     start(event) {
@@ -95,10 +95,11 @@ function moveDefinedAction(node) {
       initStart = dayjs(parseInt(selectionTarget.dataset.startMs, 10));
       initEnd = dayjs(parseInt(selectionTarget.dataset.endMs, 10));
 
-      // Determine the height of each row, representing one hour.
-      rowHeight = node.offsetHeight / 24;
-
       selectionTarget.style.pointerEvents = 'none';
+
+      // Get the underlying calendar targets.
+      const quarterTarget = document.elementFromPoint(initClientX, initClientY);
+      initTargetHour = parseFloat(quarterTarget.dataset.hour);
     },
     move(event) {
       node.dispatchEvent(new CustomEvent('moveDefinedMove'));
@@ -108,16 +109,17 @@ function moveDefinedAction(node) {
       selectionTarget.style.transform = `translate(${dx}px, ${dy}px)`;
     },
     end(event) {
-      const target = getTarget(event);
-      if (!isQuarterHourTarget(target)) {
+      const quarterTarget = getTarget(event);
+      if (!isQuarterHourTarget(quarterTarget)) {
         selectionTarget.style.pointerEvents = 'unset';
         selectionTarget.style.transform = 'translate(0, 0)';
         return;
       }
 
-      const quarterTargetDay = dayjs(parseInt(target.dataset.dayMs, 10));
-      const deltaRow = dy / rowHeight;
-      const deltaHour = Math.floor(deltaRow / 0.25 + 0.5) * 0.25;
+      const targetDay = dayjs(parseInt(quarterTarget.dataset.dayMs, 10));
+      const targetHour = parseFloat(quarterTarget.dataset.hour);
+      const deltaHour = targetHour - initTargetHour;
+      console.log({ targetHour, initTargetHour });
       const initStartHour = initStart.hour() + initStart.minute() / 60;
       let initEndHour = initEnd.hour() + initEnd.minute() / 60;
       if (initEndHour === 0) {
@@ -127,8 +129,8 @@ function moveDefinedAction(node) {
       node.dispatchEvent(new CustomEvent('moveDefinedStop', {
         detail: {
           initStart,
-          newStart: quarterTargetDay.add(initStartHour + deltaHour, 'hour'),
-          newEnd: quarterTargetDay.add(initEndHour + deltaHour, 'hour'),
+          newStart: targetDay.add(initStartHour + deltaHour, 'hour'),
+          newEnd: targetDay.add(initEndHour + deltaHour, 'hour'),
         },
       }));
       selectionTarget.style.pointerEvents = 'unset';
