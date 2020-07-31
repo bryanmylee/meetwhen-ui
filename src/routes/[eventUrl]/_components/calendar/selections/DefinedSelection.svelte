@@ -1,5 +1,5 @@
 <script>
-  import { isCreatingNewSelection, dragDropState, dragDropStates } from '../stores';
+  import { isCreatingNewSelection } from '../stores';
   import { sizePos } from '../actions/selection';
 
   // PROPS
@@ -14,10 +14,7 @@
   class:pass-through={$isCreatingNewSelection}
   use:sizePos={{ start, end, duration: 0 }}
 >
-  <div
-    class="selection__content pass-through"
-    class:move-resizing={$dragDropState !== dragDropStates.NONE}
-  />
+  <div class="selection__content pass-through"/>
 </div>
 
 <style>
@@ -27,10 +24,6 @@
     left: var(--select-collapse-width);
     width: calc(100% - var(--select-collapse-width));
     display: flex;
-  }
-
-  .move-resizing {
-    box-shadow: var(--shadow-med);
   }
 
   .selection__content {

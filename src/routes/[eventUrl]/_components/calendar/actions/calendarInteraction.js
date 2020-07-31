@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 
-import { getClient, getTarget, getTargets } from 'src/utils/eventHandler';
+import { getOffset, getClient, getTarget, getTargets } from 'src/utils/eventHandler';
 import LongTouchAndDrag from 'src/utils/LongTouchAndDrag';
+import { MS_PER_HOUR } from 'src/utils/constants';
 
 function isQuarterHourTarget(target) {
   return target.dataset.quarterHourTarget != null;
@@ -23,7 +24,7 @@ export default function calendarInteraction(node, { enabled: initEnabled = false
     if (isQuarterHourTarget(target)) {
       currentAction = newSelectAction(node);
     } else if (isDefinedSelection(target)) {
-      currentAction = moveDefinedAction(node);
+      currentAction = onDefinedAction(node);
     } else {
       return;
     }
@@ -94,22 +95,20 @@ function newSelectAction(node) {
 }
 
 // Provide the new start and end ms.
-function moveDefinedAction(node) {
-  let selectionTarget;
+function onDefinedAction(node) {
+  let currentAction;
 
   let initClientX;
   let initClientY;
-  let dx;
-  let dy;
 
+  let selectionTarget;
   let initStart;
   let initEnd;
 
-  let initTargetHour;
+  let rowHeight;
 
   return {
     start(event) {
-      node.dispatchEvent(new CustomEvent('moveDefinedStart'));
       const { clientX, clientY } = getClient(event);
       initClientX = clientX;
       initClientY = clientY;
@@ -119,16 +118,53 @@ function moveDefinedAction(node) {
       initStart = dayjs(parseInt(selectionTarget.dataset.startMs, 10));
       initEnd = dayjs(parseInt(selectionTarget.dataset.endMs, 10));
 
-      selectionTarget.style.pointerEvents = 'none';
+      const durationInHours = (initEnd - initStart) / MS_PER_HOUR;
+      const { height } = selectionTarget.getBoundingClientRect();
+      rowHeight = Math.round(height / durationInHours);
 
-      // Get the underlying calendar targets.
-      // Check all layers for underlying caledar targets.
-      const targets = getTargets(event);
-      const quarterTarget = targets.find(isQuarterHourTarget);
-      if (quarterTarget == null) {
-        return;
+      const { offsetY } = getOffset(event, selectionTarget);
+      if (offsetY < 20) {
+        currentAction = moveDefinedAction(node, {
+          selectionTarget, initClientX, initClientY, initStart, initEnd, rowHeight,
+        });
+      } else if (height - offsetY < 20) {
+        currentAction = moveDefinedAction(node, {
+          selectionTarget, initClientX, initClientY, initStart, initEnd, rowHeight,
+        });
+      } else {
+        currentAction = moveDefinedAction(node, {
+          selectionTarget, initClientX, initClientY, initStart, initEnd, rowHeight,
+        });
       }
-      initTargetHour = parseFloat(quarterTarget.dataset.hour);
+      if (currentAction != null) {
+        currentAction.start(event);
+      }
+    },
+    move(event) {
+      if (currentAction != null) {
+        currentAction.move(event);
+      }
+    },
+    end(event) {
+      if (currentAction != null) {
+        currentAction.end(event);
+      }
+    },
+  };
+}
+
+function moveDefinedAction(node, {
+  selectionTarget, initClientX, initClientY, initStart, initEnd, rowHeight,
+}) {
+  let dx;
+  let dy;
+
+  return {
+    start() {
+      node.dispatchEvent(new CustomEvent('moveDefinedStart'));
+      dx = 0;
+      dy = 0;
+      selectionTarget.style.pointerEvents = 'none';
     },
     move(event) {
       node.dispatchEvent(new CustomEvent('moveDefinedMove'));
@@ -148,8 +184,7 @@ function moveDefinedAction(node) {
       }
 
       const targetDay = dayjs(parseInt(quarterTarget.dataset.dayMs, 10));
-      const targetHour = parseFloat(quarterTarget.dataset.hour);
-      const deltaHour = targetHour - initTargetHour;
+      const deltaHour = Math.round(dy / rowHeight * 4) / 4;
       // .hour() only returns whole hours, and we need to account for fractions.
       const initStartHour = initStart.hour() + initStart.minute() / 60;
       let initEndHour = initEnd.hour() + initEnd.minute() / 60;

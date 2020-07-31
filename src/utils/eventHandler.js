@@ -1,16 +1,21 @@
-export function getMouseOffset(event) {
+export function getOffset(event, target) {
+  if (event instanceof TouchEvent) {
+    return getTouchOffset(event, target);
+  }
+  return getMouseOffset(event, target);
+}
+
+export function getMouseOffset(event, target = event.target) {
   // Cross-browser calculation of offsetY by Jack Moore, 2012.
   // https://www.jacklmoore.com/notes/mouse-position/
   // event.offsetX and event.offsetY breaks on Safari when zooming the canvas in.
-  const { target } = event;
   const rect = target.getBoundingClientRect();
   const offsetX = event.clientX - rect.left;
   const offsetY = event.clientY - rect.top;
   return { offsetX, offsetY };
 }
 
-export function getTouchOffset(event) {
-  const { target } = event;
+export function getTouchOffset(event, target = event.target) {
   const rect = target.getBoundingClientRect();
   const touch = event.targetTouches[0];
   const offsetX = touch.clientX - rect.left;
