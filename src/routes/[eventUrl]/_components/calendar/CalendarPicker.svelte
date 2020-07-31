@@ -11,6 +11,7 @@
   import { calendarSelectionEnabled } from './stores';
   import { selectedUsernames, minUserCountFilter } from '../../stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
+  import { FRAME_DURATION } from 'src/utils/nextFrame';
   import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './utils';
 
   // BINDINGS
@@ -58,6 +59,11 @@
   // The days containing all event intervals and whether the day sequentially
   // follows the previous day.
   $: daysToShow = getDaysToShowWithSkip(intervalsSplitOnMidnight);
+  let enabled;
+  $: {
+    // Workaround for bug where store update does not trigger action update.
+    setTimeout(() => enabled = $calendarSelectionEnabled, FRAME_DURATION);
+  }
 </script>
 
 <CalendarSelectionProvider
@@ -72,7 +78,7 @@
   <div class="calendar__picker">
     <div
       class="calendar__body no-highlight"
-      use:calendarInteraction={{ enabled: $calendarSelectionEnabled }}
+      use:calendarInteraction={{ enabled }}
       on:newSelectStart={newSelectStart}
       on:newSelectMove={newSelectMove}
       on:newSelectStop={newSelectStop}
@@ -80,9 +86,7 @@
     >
       <IndexColumn startingDay={daysToShow[0].day}/>
       {#each daysToShow as { day, skipped }}
-        <Column
-          {day} {skipped}
-        >
+        <Column {day} {skipped}>
           <UnavailableColumnOverlay
             eventIntervals={intervalsSplitOnMidnight
               .filter((interval) => interval.start.isSame(day, 'day'))
