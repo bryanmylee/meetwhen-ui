@@ -24,6 +24,8 @@ export default function calendarInteraction(node, { enabled: initEnabled = false
       currentAction = newSelectAction(node);
     } else if (isDefinedSelection(target)) {
       currentAction = moveDefinedAction(node);
+    } else {
+      return;
     }
     currentAction.start(event);
   }
