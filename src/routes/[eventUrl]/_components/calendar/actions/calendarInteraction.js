@@ -27,28 +27,29 @@ export default function calendarInteraction(node, { enabled: initEnabled = false
     } else {
       return;
     }
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleUp);
     currentAction.start(event);
   }
 
   function handleMove(event) {
-    if (!enabled) {
+    if (!enabled || currentAction == null) {
       return;
     }
-    if (currentAction != null) {
-      currentAction.move(event);
-    }
+    currentAction.move(event);
   }
 
   function handleUp(event) {
-    if (currentAction != null) {
-      currentAction.end(event);
-      currentAction = null;
+    if (currentAction == null) {
+      return;
     }
+    currentAction.end(event);
+    currentAction = null;
+    window.removeEventListener('mousemove', handleMove);
+    window.removeEventListener('mouseup', handleUp);
   }
 
   node.addEventListener('mousedown', handleDown);
-  node.addEventListener('mousemove', handleMove);
-  node.addEventListener('mouseup', handleUp);
   const touchStart = LongTouchAndDrag({}, handleDown, handleMove, handleUp);
   node.addEventListener('touchstart', touchStart);
 
@@ -58,8 +59,6 @@ export default function calendarInteraction(node, { enabled: initEnabled = false
     },
     destroy() {
       node.removeEventListener('mousedown', handleDown);
-      node.removeEventListener('mousemove', handleMove);
-      node.removeEventListener('mouseup', handleUp);
       node.removeEventListener('touchstart', touchStart);
     },
   };
