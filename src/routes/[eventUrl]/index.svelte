@@ -26,7 +26,7 @@
 <script>
   import { stores } from '@sapper/app';
 
-  import { layoutEnum, layout, user } from 'src/stores';
+  import { user } from 'src/stores';
   import { formEnum, form } from './stores';
   import { undoRedo } from 'src/actions/hotkeys';
   import undoable from 'src/utils/undoable';
@@ -178,10 +178,7 @@
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
-  {#if $layout === layoutEnum.WIDE
-    || $form !== formEnum.LOGGING_IN && $form !== formEnum.JOINING}
-    <CompositeDetails {event} />
-  {/if}
+  <CompositeDetails {event} />
 
   {#if $form === formEnum.LOGGING_IN || $form === formEnum.JOINING}
     <UserDetailsForm
@@ -199,6 +196,11 @@
     class:error={showCalendarError}
   >
     <CalendarHeader showError={showCalendarError} />
+    <!-- <EventCalendarPicker bind:selections={$selections}
+      on:showLongTouchHint={showLongTouchHint}
+      eventIntervals={event.schedule}
+      userIntervalsByUsername={event.userSchedules}
+    /> -->
     <CalendarPicker
       bind:selections={$selections}
       schedule={event.schedule}
