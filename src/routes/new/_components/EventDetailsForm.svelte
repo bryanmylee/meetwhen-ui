@@ -41,9 +41,9 @@
     on:keydown={handleKeydown}
     required {attempted}
     validationFunction={getRequired('Your event title cannot be empty')}
-    style="margin-top: 1em" />
+    style="margin-top: 0.8em" />
   <TextInput label="Description"
     bind:value={description}
     on:keydown={handleKeydown}
-    style="margin-top: 1em" />
+    style="margin-top: 0.8em" />
 </div>

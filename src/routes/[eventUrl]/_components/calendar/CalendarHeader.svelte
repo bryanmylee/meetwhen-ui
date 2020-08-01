@@ -29,5 +29,6 @@ on Chrome and Firefox -->
 <style>
   .container {
     padding: 0.8em;
+    padding-bottom: 0;
   }
 </style>

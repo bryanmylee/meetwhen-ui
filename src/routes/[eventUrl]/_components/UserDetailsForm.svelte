@@ -71,20 +71,18 @@
       <div
         in:slide={{ duration: firstTransition ? 0 : 400 }}
         out:slide={{ duration: 400 }}
-        style="margin-top: 1em"
+        style="margin-top: 0.8em"
       >
-
-      <TextInput label="Username"
-        bind:value={username} bind:valid={usernameValid}
-        on:keydown={handleKeydown}
-        required {attempted} validationFunction={usernameValidation} />
-      <TextInput label="Password"
-        bind:value={password} bind:valid={passwordValid}
-        on:keydown={handleKeydown}
-        required isPassword {tip}
-        {attempted} validationFunction={passwordValidation}
-        style="margin-top: 1em" />
-
+        <TextInput label="Username"
+          bind:value={username} bind:valid={usernameValid}
+          on:keydown={handleKeydown}
+          required {attempted} validationFunction={usernameValidation} />
+        <TextInput label="Password"
+          bind:value={password} bind:valid={passwordValid}
+          on:keydown={handleKeydown}
+          required isPassword {tip}
+          {attempted} validationFunction={passwordValidation}
+          style="margin-top: 0.8em" />
       </div>
     {/if}
   </div>

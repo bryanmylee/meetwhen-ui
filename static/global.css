@@ -86,8 +86,13 @@ div, span {
   font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
+/* Heading */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
+}
+
+h1 {
+  font-size: 1.5em;
 }
 
 /* Main Content */
@@ -102,11 +107,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .main-content.grid {
   display: grid;
-  padding: 0.5em;
+  padding: 0.4em;
 }
 
 .main-content.grid > div {
-  margin: 0.5em;
+  margin: 0.4em;
 }
 
 /* Card */
