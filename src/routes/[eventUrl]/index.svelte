@@ -198,6 +198,7 @@
     class="picker-container card outline"
     class:error={showCalendarError}
     on:click={() => calendarCollapsed = true}
+    on:touchstart={() => calendarCollapsed = true}
   >
     <CalendarHeader showError={showCalendarError} />
     <!-- <EventCalendarPicker bind:selections={$selections}
