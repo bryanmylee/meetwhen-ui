@@ -1,5 +1,5 @@
 export function getOffset(event, target) {
-  if (event instanceof TouchEvent) {
+  if (event.touches) {
     return getTouchOffset(event, target);
   }
   return getMouseOffset(event, target);
@@ -24,7 +24,7 @@ export function getTouchOffset(event, target = event.target) {
 }
 
 export function getClient(event) {
-  if (event instanceof TouchEvent) {
+  if (event.touches) {
     return {
       clientX: event.changedTouches[0].clientX,
       clientY: event.changedTouches[0].clientY,
