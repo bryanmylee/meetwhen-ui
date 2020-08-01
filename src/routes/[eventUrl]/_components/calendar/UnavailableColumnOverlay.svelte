@@ -1,5 +1,5 @@
 <script>
-  import { isSelecting } from './stores';
+  import { isCreatingNewSelection } from './stores';
   import { getNonIntervals } from 'src/utils/interval';
   import { sizePos } from './actions/selection';
 
@@ -15,7 +15,7 @@
 {#each nonEventIntervals as { start, end }}
   <div
     use:sizePos={{ start, end }}
-    class:pass-through={$isSelecting}
+    class:pass-through={$isCreatingNewSelection}
   />
 {/each}
 

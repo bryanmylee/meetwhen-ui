@@ -4,7 +4,7 @@
   import { fade } from 'svelte/transition';
 
   import { currentColor } from 'src/stores';
-  import { isSelecting } from '../stores';
+  import { calendarSelectionEnabled, isCreatingNewSelection } from '../stores';
   import colorGradient from 'src/actions/colorGradient';
   import { sizePos } from '../actions/selection';
 
@@ -20,33 +20,29 @@
   export let usernames;
   export let skipped;
   export let skipping;
-  export let minUsernameCount = 0;
-  export let maxUsernameCount = 1;
-  export let isCollapsed = false;
+  export let minUsers = 0;
+  export let maxUsers = 1;
   export let isSelected = false;
 
   // STATE FUNCTIONS
   // ===============
   function handleClick() {
-    dispatch('selectInterval', {
-      start,
-      end,
-    });
+    dispatch('select', { start, end });
   }
 </script>
 
 <div
   class="other-user-selection"
   class:selected={isSelected}
-  class:collapsed={isCollapsed}
-  class:pass-through={$isSelecting}
+  class:collapsed={$calendarSelectionEnabled}
+  class:pass-through={$isCreatingNewSelection}
   class:cap-top={skipped}
   class:cap-bottom={skipping}
   use:sizePos={{ start, end }}
   use:colorGradient={{
     scale: $currentColor.scale,
-    index: usernames.length - minUsernameCount + 1,
-    total: maxUsernameCount - minUsernameCount + 1,
+    index: usernames.length - minUsers + 1,
+    total: maxUsers - minUsers + 1,
   }}
   use:popperRef
   on:click={handleClick}
