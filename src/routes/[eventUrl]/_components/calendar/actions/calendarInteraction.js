@@ -160,7 +160,8 @@ function moveDefinedAction(node, {
       node.dispatchEvent(new CustomEvent('moveDefinedStart'));
       dx = 0;
       dy = 0;
-      selectionTarget.style.pointerEvents = 'none';
+      selectionTarget.classList.add('moving');
+      // selectionTarget.style.pointerEvents = 'none';
     },
     move(event) {
       node.dispatchEvent(new CustomEvent('moveDefinedMove'));
@@ -174,7 +175,7 @@ function moveDefinedAction(node, {
       const targets = getTargets(event);
       const quarterTarget = targets.find(isQuarterHourTarget);
       if (quarterTarget == null) {
-        selectionTarget.style.pointerEvents = 'unset';
+        selectionTarget.classList.remove('moving');
         selectionTarget.style.transform = 'translate(0, 0)';
         return;
       }
@@ -196,7 +197,7 @@ function moveDefinedAction(node, {
           newEnd: targetDay.add(initEndHour + deltaHour, 'hour'),
         },
       }));
-      selectionTarget.style.pointerEvents = 'unset';
+      selectionTarget.classList.remove('moving');
       selectionTarget.style.transform = 'translate(0, 0)';
     },
   };
