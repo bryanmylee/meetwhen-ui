@@ -41,6 +41,7 @@
   import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
   import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
   import Toast from 'src/components/ui/Toast.svelte';
+import { stop_propagation } from 'svelte/internal';
 
   const { session } = stores();
 
@@ -71,7 +72,7 @@
   let errorMessage = '';
   $: if ($form) setForm();
   let isLoading = false;
-  let calendarCollapsed = false;
+  let userFormCollapsed = false;
 
   // PAGE FUNCTIONS
   // ==============
@@ -92,7 +93,7 @@
     username = '';
     password = '';
     attempted = false;
-    calendarCollapsed = false;
+    userFormCollapsed = false;
   }
 
   function showLongTouchHint() {
@@ -188,7 +189,7 @@
       bind:username
       bind:password
       bind:formValid={userDetailsValid}
-      bind:collapsed={calendarCollapsed}
+      bind:collapsed={userFormCollapsed}
       {attempted}
     />
   {/if}
@@ -197,8 +198,14 @@
   <div
     class="picker-container card outline"
     class:error={showCalendarError}
-    on:click={() => calendarCollapsed = true}
-    on:touchstart={() => calendarCollapsed = true}
+    on:click={() => userFormCollapsed = true}
+    on:touchstart={(e) => {
+      if (!userFormCollapsed) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      userFormCollapsed = true;
+    }}
   >
     <CalendarHeader showError={showCalendarError} />
     <CalendarPicker
