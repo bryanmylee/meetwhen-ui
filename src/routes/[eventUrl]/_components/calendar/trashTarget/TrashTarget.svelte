@@ -7,7 +7,7 @@
 </script>
 
 {#if show}
-  <div class="calendar--trash-target" transition:fade={{ duration: 200 }}>
+  <div data-trash-target transition:fade={{ duration: 200 }}>
     <TrashIcon />
   </div>
 {/if}

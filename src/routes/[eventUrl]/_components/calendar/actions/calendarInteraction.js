@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { getClient, getTarget, getTargets } from 'src/utils/eventHandler';
 import LongTouchAndDrag from 'src/utils/LongTouchAndDrag';
 import { MS_PER_HOUR } from 'src/utils/constants';
+import { dragDropState, dragDropEnum } from '../stores';
 
 function isQuarterHourTarget(target) {
   return target.dataset.quarterHourTarget != null;
@@ -120,6 +121,7 @@ function moveDefinedAction(node) {
 
   return {
     start(event) {
+      dragDropState.set(dragDropEnum.MOVING);
       const { clientX, clientY } = getClient(event);
       initClientX = clientX;
       initClientY = clientY;
@@ -145,6 +147,7 @@ function moveDefinedAction(node) {
       selectionTarget.style.transform = `translate(${dx}px, ${dy}px)`;
     },
     end(event) {
+      dragDropState.set(dragDropEnum.NONE);
       // Check all layers for underlying caledar targets.
       const targets = getTargets(event);
       const quarterTarget = targets.find(isQuarterHourTarget);
@@ -188,6 +191,7 @@ function resizeDefinedAction(node, { resizeTop }) {
 
   return {
     start(event) {
+      dragDropState.set(resizeTop ? dragDropEnum.RESIZING_TOP : dragDropEnum.RESIZING_BOTTOM);
       const selectionTarget = getTarget(event);
 
       initStart = dayjs(parseInt(selectionTarget.dataset.startMs, 10));
@@ -236,6 +240,7 @@ function resizeDefinedAction(node, { resizeTop }) {
       }));
     },
     end() {
+      dragDropState.set(dragDropEnum.NONE);
       node.dispatchEvent(new CustomEvent('newSelectStop'));
     },
   };

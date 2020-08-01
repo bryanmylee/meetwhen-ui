@@ -6,10 +6,11 @@
   import OtherUsersInterval from './selections/OtherUsersInterval.svelte';
   import DefinedSelection from './selections/DefinedSelection.svelte';
   import NewSelection from './selections/NewSelection.svelte';
+  import TrashTarget from './trashTarget/TrashTarget.svelte';
 
   import calendarInteraction from './actions/calendarInteraction';
   import { autoScrollSelf } from './actions/autoScroll';
-  import { calendarSelectionEnabled } from './stores';
+  import { calendarSelectionEnabled, dragDropState, dragDropEnum } from './stores';
   import { selectedUsernames, minUserCountFilter } from '../../stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
   import { FRAME_DURATION } from 'src/utils/nextFrame';
@@ -126,6 +127,8 @@
         </Column>
       {/each}
     </div>
+
+    <TrashTarget show={$dragDropState === dragDropEnum.MOVING} />
   </div>
 </CalendarSelectionProvider>
 
