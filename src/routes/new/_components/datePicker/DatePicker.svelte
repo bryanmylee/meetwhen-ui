@@ -25,6 +25,6 @@
 
 <style>
   div {
-    margin: 0 -0.8rem;
+    margin: 0 -0.8em;
   }
 </style>

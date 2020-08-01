@@ -40,7 +40,7 @@ export function inputAction(node, { isPassword }) {
  * will be highlighted an error color.
  * @param {HTMLElement} node The input label element.
  */
-export function labelAction(node) {
+export function labelAction(node, { focused, value, showError }) {
   function normal() {
     node.style.fontSize = '1em';
     node.style.top = '0.8em';
@@ -48,21 +48,30 @@ export function labelAction(node) {
   }
   function focus() {
     node.style.fontSize = '0.7em';
-    node.style.top = '0.3rem';
+    node.style.top = '0.3em';
     node.style.color = 'var(--primary-500)';
   }
   function error() {
     node.style.color = 'var(--error-500)';
   }
+
+  const nonEmpty = value && value.length !== 0;
+  if (focused || nonEmpty) {
+    focus();
+  } else {
+    normal();
+  }
+  if (showError) error();
+
   return {
-    update({ focused, value, showError }) {
-      const nonEmpty = value && value.length !== 0;
-      if (focused || nonEmpty) {
+    update({ focused: newFocused, value: newValue, showError: newShowError }) {
+      const newNonEmpty = newValue && newValue.length !== 0;
+      if (newFocused || newNonEmpty) {
         focus();
       } else {
         normal();
       }
-      if (showError) error();
+      if (newShowError) error();
     },
   };
 }

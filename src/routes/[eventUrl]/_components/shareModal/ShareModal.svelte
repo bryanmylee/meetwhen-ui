@@ -2,9 +2,9 @@
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
 
-  import ScreenDim from 'src/components/ScreenDim.svelte';
+  import ScreenDim from 'src/components/ui/ScreenDim.svelte';
   import CopyIcon from './CopyIcon.svelte';
-  import Toast from 'src/components/Toast.svelte';
+  import Toast from 'src/components/ui/Toast.svelte';
 
   const dispatch = createEventDispatcher();
 

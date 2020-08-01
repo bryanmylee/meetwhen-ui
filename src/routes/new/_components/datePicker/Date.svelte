@@ -49,7 +49,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    padding: 0.2rem 0;
+    padding: 0.2em 0;
   }
 
   span {
@@ -57,10 +57,10 @@
     justify-content: center;
     align-items: center;
     border-radius: 500px;
-    min-height: 2.5rem;
-    min-width: 2.5rem;
-    max-height: 2.5rem;
-    max-width: 2.5rem;
+    min-height: 2.5em;
+    min-width: 2.5em;
+    max-height: 2.5em;
+    max-width: 2.5em;
     color: var(--text-800);
   }
 

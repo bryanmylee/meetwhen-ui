@@ -17,10 +17,10 @@
     position: sticky;
     left: 50%;
     transform: translate(-50%, 0);
-    bottom: 1rem;
+    bottom: 1em;
     z-index: 15;
-    width: 3rem;
-    height: 3rem;
+    width: 3em;
+    height: 3em;
     border-radius: 500px;
     padding: 0.8em;
     background-color: var(--bg);

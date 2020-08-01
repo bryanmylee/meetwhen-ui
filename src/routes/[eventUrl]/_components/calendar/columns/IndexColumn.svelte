@@ -42,7 +42,7 @@
     justify-content: center;
     align-items: center;
     font-weight: 800;
-    padding: 0.5rem;
+    padding: 0.5em;
     box-sizing: border-box;
     border-bottom: 1px var(--grey-400) solid;
     background-color: var(--bg);
@@ -51,7 +51,7 @@
   .index-col__cell {
     margin-top: calc(var(--row-height) * 0.5);
     min-height: var(--row-height);
-    font-size: 0.8rem;
+    font-size: 0.8em;
     color: var(--grey-400);
   }
 

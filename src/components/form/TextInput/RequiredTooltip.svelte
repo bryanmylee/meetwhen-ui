@@ -63,9 +63,9 @@
 
   .popover__arrow {
     z-index: 31;
-    left: -0.45rem;
-    width: 0.5rem;
-    height: 1rem;
+    left: -0.45em;
+    width: 0.5em;
+    height: 1em;
     clip-path: polygon(0 50%, 100% 0, 100% 100%);
     background-color: var(--grey-300);
     pointer-events: none;
@@ -76,15 +76,15 @@
     position: absolute;
     top: 1px;
     left: 1.5px;
-    width: calc(0.5rem - 1px);
-    height: calc(1rem - 2px);
+    width: calc(0.5em - 1px);
+    height: calc(1em - 2px);
     clip-path: polygon(0 50%, 100% 0, 100% 100%);
     background-color: var(--bg);
   }
 
   :global([data-popper-placement^="left"]) .popover__arrow {
     left: unset;
-    right: -0.44rem;
+    right: -0.44em;
     clip-path: polygon(0 0, 100% 50%, 0 100%);
   }
 

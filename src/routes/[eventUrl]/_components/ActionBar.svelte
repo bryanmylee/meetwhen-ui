@@ -12,7 +12,7 @@
   // =====
   export let disabled;
 
-  const leftMarginStyle = 'margin-left: 1rem';
+  const leftMarginStyle = 'margin-left: 1em';
 
   function resetForm() {
     $form = formEnum.NONE;
@@ -36,7 +36,7 @@
         </Button>
       {:else}
         <Button alt {disabled} on:click={() => $details = detailsEnum.EVENT_DETAILS}>
-          Event Details
+          Details
         </Button>
       {/if}
     </div>
@@ -89,9 +89,9 @@
 <style>
   .bar {
     position: fixed;
-    left: 0.5rem;
-    right: 0.5rem;
-    bottom: 0.5rem;
+    left: 0.5em;
+    right: 0.5em;
+    bottom: 0.5em;
     z-index: 30;
     display: flex;
   }
@@ -103,12 +103,12 @@
 
   .bar__left {
     margin-right: auto;
-    padding-right: 0.5rem;
+    padding-right: 0.5em;
   }
 
   .bar__right {
     margin-left: auto;
-    padding-left: 0.5rem;
+    padding-left: 0.5em;
   }
 
   @media screen and (min-width: 768px) {

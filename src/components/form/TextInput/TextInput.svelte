@@ -1,7 +1,7 @@
 <script>
   import { inputAction, labelAction } from './TextInput';
 
-  import ErrorTip from 'src/components/ErrorTip.svelte';
+  import ErrorTip from 'src/components/ui/ErrorTip.svelte';
   import RequiredTooltip from './RequiredTooltip.svelte';
 
   // BINDINGS
@@ -82,7 +82,7 @@
     color: var(--text-400);
     position: absolute;
     left: 10px;
-    top: 0.8rem;
+    top: 0.8em;
     pointer-events: none;
     transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;

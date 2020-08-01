@@ -66,7 +66,7 @@
 
 <style>
   .label {
-    padding-right: 1rem;
+    padding-right: 1em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -93,6 +93,6 @@
   }
 
   span {
-    margin-left: 0.8rem;
+    margin-left: 0.8em;
   }
 </style>

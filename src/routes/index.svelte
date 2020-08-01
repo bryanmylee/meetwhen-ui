@@ -19,6 +19,6 @@
   }
 
   h1 {
-    margin: 1rem;
+    margin: 1em;
   }
 </style>

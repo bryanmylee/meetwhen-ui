@@ -12,8 +12,10 @@
 </div>
 
 <style>
-  h3 {
-    margin-left: 0.8rem;
-    padding-bottom: 0.8rem;
+  div {
+    margin: -0.4em 0.8em 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 </style>

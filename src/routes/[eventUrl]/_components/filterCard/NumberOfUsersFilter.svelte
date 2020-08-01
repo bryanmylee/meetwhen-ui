@@ -25,7 +25,7 @@
 
 <style>
   div {
-    margin-top: 0.8rem;
+    margin-top: 0.8em;
     display: flex;
     align-items: center;
   }

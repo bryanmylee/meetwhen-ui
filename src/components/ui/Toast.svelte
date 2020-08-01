@@ -57,7 +57,7 @@
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 5rem;
+    bottom: 5em;
     z-index: 90;
     display: flex;
     flex-direction: column;
@@ -66,7 +66,7 @@
   }
 
   span {
-    font-size: 0.8rem;
+    font-size: 0.8em;
     margin-top: 0.8em;
     padding: 0.8em;
     color: var(--primary-text);
@@ -82,7 +82,7 @@
 
   @media screen and (min-width: 768px) {
     div {
-      bottom: 2rem;
+      bottom: 2em;
     }
   }
 </style>

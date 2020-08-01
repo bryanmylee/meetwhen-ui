@@ -39,9 +39,9 @@
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
   import ActionBar from './_components/ActionBar.svelte';
   import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
-  // import EventCalendarPicker from './_components/calendar/EventCalendarPicker.svelte';
   import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
-  import Toast from 'src/components/Toast.svelte';
+  import Toast from 'src/components/ui/Toast.svelte';
+import { stop_propagation } from 'svelte/internal';
 
   const { session } = stores();
 
@@ -72,6 +72,7 @@
   let errorMessage = '';
   $: if ($form) setForm();
   let isLoading = false;
+  let userFormCollapsed = false;
 
   // PAGE FUNCTIONS
   // ==============
@@ -92,6 +93,7 @@
     username = '';
     password = '';
     attempted = false;
+    userFormCollapsed = false;
   }
 
   function showLongTouchHint() {
@@ -184,9 +186,10 @@
   {#if $form === formEnum.LOGGING_IN || $form === formEnum.JOINING}
     <UserDetailsForm
       on:submit={handleSubmit}
-      bind:username={username}
-      bind:password={password}
+      bind:username
+      bind:password
       bind:formValid={userDetailsValid}
+      bind:collapsed={userFormCollapsed}
       {attempted}
     />
   {/if}
@@ -195,13 +198,16 @@
   <div
     class="picker-container card outline"
     class:error={showCalendarError}
+    on:click={() => userFormCollapsed = true}
+    on:touchstart={(e) => {
+      if (!userFormCollapsed) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      userFormCollapsed = true;
+    }}
   >
     <CalendarHeader showError={showCalendarError} />
-    <!-- <EventCalendarPicker bind:selections={$selections}
-      on:showLongTouchHint={showLongTouchHint}
-      eventIntervals={event.schedule}
-      userIntervalsByUsername={event.userSchedules}
-    /> -->
     <CalendarPicker
       bind:selections={$selections}
       schedule={event.schedule}
@@ -226,7 +232,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    margin-bottom: 4.5rem !important;
+    margin-bottom: 4.5em !important;
   }
 
   @media screen and (min-width: 768px) {

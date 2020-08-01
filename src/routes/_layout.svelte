@@ -3,7 +3,7 @@
 </svelte:head>
 
 <script>
-  import Nav from 'src/components/Nav.svelte';
+  import Nav from 'src/components/ui/Nav.svelte';
   import mediaQuery from 'src/actions/mediaQuery';
   import { layoutEnum, layout, currentColor } from 'src/stores';
   import { getTint } from 'src/utils/colors';
@@ -14,6 +14,11 @@
     });
     document.documentElement.style.setProperty('--primary-gradient-dark', $currentColor.gradientDark);
   }
+
+  let innerHeight;
+  $: if (typeof document !== 'undefined') {
+    document.documentElement.style.setProperty('--vh', `${innerHeight / 100}px`);
+  }
 </script>
 
 <svelte:window
@@ -21,6 +26,7 @@
     query: '(min-width: 768px)',
     callback: (matches) => $layout = matches ? layoutEnum.WIDE : layoutEnum.NARROW,
   }}
+  bind:innerHeight
 />
 
 <Nav />

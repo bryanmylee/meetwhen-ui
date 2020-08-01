@@ -3,7 +3,7 @@
 
   import { calendarSelectionEnabled } from './stores';
 
-  import ErrorTip from 'src/components/ErrorTip.svelte';
+  import ErrorTip from 'src/components/ui/ErrorTip.svelte';
 
   export let showError = false;
 </script>
@@ -28,6 +28,7 @@ on Chrome and Firefox -->
 
 <style>
   .container {
-    padding: 0.8rem;
+    padding: 0.8em;
+    padding-bottom: 0;
   }
 </style>

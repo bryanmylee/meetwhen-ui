@@ -2,7 +2,8 @@
   import { createEventDispatcher } from 'svelte';
   import { fade, slide } from 'svelte/transition';
 
-  import { formEnum, form } from '../stores';
+  import { layout, layoutEnum } from 'src/stores';
+  import { form, formEnum } from '../stores';
   import { validateNewPassword, validateNewUsername, validatePassword, validateUsername } from 'src/utils/validation';
   import { KEY_RETURN } from 'src/utils/constants';
 
@@ -19,6 +20,12 @@
   // PROPS
   // =====
   export let attempted;
+  export let collapsed = false;
+
+  let firstTransition = true;
+  $: if (collapsed) {
+    firstTransition = false;
+  }
 
   // STATE
   // =====
@@ -59,17 +66,24 @@
   <!-- Content of div with slide transitions is not masked properly on
   Safari. Therefore, implement a nice fade in after div is fully sized. -->
   <div in:fade={{ duration: 150, delay: 400 }} out:fade={{ duration: 150 }}>
-    <h3>{prompt}</h3>
-    <TextInput label="Username"
-      bind:value={username} bind:valid={usernameValid}
-      on:keydown={handleKeydown}
-      required {attempted} validationFunction={usernameValidation}
-      style="margin-top: 1rem" />
-    <TextInput label="Password"
-      bind:value={password} bind:valid={passwordValid}
-      on:keydown={handleKeydown}
-      required isPassword {tip}
-      {attempted} validationFunction={passwordValidation}
-      style="margin-top: 1rem" />
+    <h3 on:click={() => collapsed = !collapsed} >{prompt}</h3>
+    {#if !collapsed || $layout === layoutEnum.WIDE}
+      <div
+        in:slide={{ duration: firstTransition ? 0 : 400 }}
+        out:slide={{ duration: 400 }}
+        style="margin-top: 0.8em"
+      >
+        <TextInput label="Username"
+          bind:value={username} bind:valid={usernameValid}
+          on:keydown={handleKeydown}
+          required {attempted} validationFunction={usernameValidation} />
+        <TextInput label="Password"
+          bind:value={password} bind:valid={passwordValid}
+          on:keydown={handleKeydown}
+          required isPassword {tip}
+          {attempted} validationFunction={passwordValidation}
+          style="margin-top: 0.8em" />
+      </div>
+    {/if}
   </div>
 </div>

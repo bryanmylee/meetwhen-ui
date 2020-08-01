@@ -15,7 +15,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 1em;
     background-color: var(--bg);
     border-bottom: 1px solid var(--grey-400);
     box-sizing: border-box;
