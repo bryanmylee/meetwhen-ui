@@ -8,9 +8,7 @@
 </script>
 
 <div>
-  <h3>
-    {month.format('MMM')}
-  </h3>
+  <span> {month.format('MMM')} </span>
   <button on:click={() => month = month.subtract(1, 'month')}>
     <CaretLeft/>
   </button>
@@ -20,6 +18,10 @@
 </div>
 
 <style>
+  span {
+    font-weight: 800;
+  }
+
   div {
     margin: -2.8rem 0.8rem 0;
     display: flex;
