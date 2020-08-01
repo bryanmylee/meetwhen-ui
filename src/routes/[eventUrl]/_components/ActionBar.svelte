@@ -36,7 +36,7 @@
         </Button>
       {:else}
         <Button alt {disabled} on:click={() => $details = detailsEnum.EVENT_DETAILS}>
-          Event Details
+          Details
         </Button>
       {/if}
     </div>
