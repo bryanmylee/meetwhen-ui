@@ -33,12 +33,6 @@
     z-index: 15;
   }
 
-  :global(.moving) .selection__content {
-    z-index: 15;
-    background-color: var(--primary-300);
-    box-shadow: var(--shadow-med);
-  }
-
   [data-resize-defined-selection] {
     margin: 0 0.2em;
     position: absolute;
@@ -66,7 +60,20 @@
     margin: 0 0.2em;
     border-radius: 5px;
     background-color: var(--primary-400);
+    transition: background-color 200ms ease;
   }
+
+  :global(.moving) .selection__content {
+    z-index: 15;
+    background-color: var(--primary-300);
+    box-shadow: var(--shadow-med);
+  }
+
+  :global(.deleting) .selection__content {
+    z-index: 15;
+    background-color: var(--error-100);
+  }
+
 
   .pass-through {
     pointer-events: none;

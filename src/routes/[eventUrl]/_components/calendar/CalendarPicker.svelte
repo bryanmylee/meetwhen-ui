@@ -79,6 +79,7 @@
   let:newSelectStop
   let:moveDefinedStop
   let:resizeDefinedStart
+  let:deleteDefined
 >
   <div class="calendar__picker">
     <div
@@ -90,6 +91,7 @@
       on:newSelectStop={newSelectStop}
       on:moveDefinedStop={moveDefinedStop}
       on:resizeDefinedStart={resizeDefinedStart}
+      on:deleteDefined={deleteDefined}
     >
       <IndexColumn startingDay={daysToShow[0].day}/>
       {#each daysToShow as { day, skipped }}

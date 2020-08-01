@@ -21,6 +21,10 @@ function isBottomResizeHandler(target) {
   return target.dataset.resizeDefinedSelection != null && target.dataset.bottom != null;
 }
 
+function isTrashTarget(target) {
+  return target.dataset.trashTarget != null;
+}
+
 export default function calendarInteraction(node, { enabled: initEnabled = false } = {}) {
   let enabled = initEnabled;
   let currentAction = null;
@@ -144,13 +148,31 @@ function moveDefinedAction(node) {
       dx = clientX - initClientX;
       dy = clientY - initClientY;
 
+      const targets = getTargets(event);
+      const trashTarget = targets.find(isTrashTarget);
+      if (trashTarget != null) {
+        selectionTarget.classList.add('deleting');
+      } else {
+        selectionTarget.classList.remove('deleting');
+      }
+
       selectionTarget.style.transform = `translate(${dx}px, ${dy}px)`;
     },
     end(event) {
       dragDropState.set(dragDropEnum.NONE);
-      // Check all layers for underlying caledar targets.
+      // Check all layers for underlying calendar targets.
       const targets = getTargets(event);
+      const trashTarget = targets.find(isTrashTarget);
       const quarterTarget = targets.find(isQuarterHourTarget);
+      if (trashTarget != null) {
+        node.dispatchEvent(new CustomEvent('deleteDefined', {
+          detail: {
+            initStart,
+          },
+        }));
+        return;
+      }
+
       if (quarterTarget == null) {
         selectionTarget.classList.remove('moving');
         selectionTarget.style.transform = 'translate(0, 0)';

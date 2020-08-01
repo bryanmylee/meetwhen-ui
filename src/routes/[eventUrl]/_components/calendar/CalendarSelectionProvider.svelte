@@ -98,6 +98,11 @@
     };
   }
 
+  function deleteDefined(event) {
+    const { initStart } = event.detail;
+    selections = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
+  }
+
   function setSelections(draggedSelections) {
     const processedSelections = splitIntervalsOnMidnight(getUnionOfSelections(draggedSelections));
     if (selectionLimits == null) {
@@ -115,4 +120,5 @@
   {newSelectStop}
   {moveDefinedStop}
   {resizeDefinedStart}
+  {deleteDefined}
 />
