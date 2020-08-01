@@ -29,7 +29,7 @@
 
 <style>
   div {
-    padding: 1rem;
+    padding: 1em;
     background-color: var(--bg);
     border-bottom: 1px var(--grey-200) solid;
     cursor: pointer;

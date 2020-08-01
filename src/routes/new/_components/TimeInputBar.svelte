@@ -13,7 +13,7 @@
   <TimeInput
     bind:selectedTime={startTime}
     label="From"
-    style="margin-right: 1rem"
+    style="margin-right: 1em"
     latestTime={dayjs().hour(23).minute(0)}
   />
   <TimeInput
@@ -25,7 +25,7 @@
 
   <style>
     .time-bar {
-      padding-top: 0.8rem;
+      padding-top: 0.8em;
       display: flex;
       flex-flow: row nowrap;
     }

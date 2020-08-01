@@ -11,7 +11,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.2rem;
+    padding: 0.2em;
     transform: rotate(90deg);
   }
 

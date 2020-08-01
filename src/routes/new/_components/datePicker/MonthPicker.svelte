@@ -23,7 +23,7 @@
   }
 
   div {
-    margin: -2.8rem 0.8rem 0;
+    margin: -2.8em 0.8em 0;
     display: flex;
     justify-content: flex-end;
     align-items: center;

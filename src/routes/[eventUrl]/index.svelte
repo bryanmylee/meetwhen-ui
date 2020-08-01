@@ -225,7 +225,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    margin-bottom: 4.5rem !important;
+    margin-bottom: 4.5em !important;
   }
 
   @media screen and (min-width: 768px) {

@@ -13,7 +13,7 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-auto-rows: max-content;
-    padding: 0.5rem 0;
+    padding: 0.5em 0;
   }
 
   h4 {

@@ -48,7 +48,7 @@ export function labelAction(node) {
   }
   function focus() {
     node.style.fontSize = '0.7em';
-    node.style.top = '0.3rem';
+    node.style.top = '0.3em';
     node.style.color = 'var(--primary-500)';
   }
   function error() {

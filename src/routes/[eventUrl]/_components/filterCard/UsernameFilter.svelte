@@ -32,8 +32,8 @@
 
 <style>
   .container {
-    font-size: 0.8rem;
-    margin-bottom: 0.8rem;
+    font-size: 0.8em;
+    margin-bottom: 0.8em;
     display: flex;
     flex-flow: row wrap;
   }

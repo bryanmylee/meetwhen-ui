@@ -52,7 +52,7 @@
   --shadow-large: 0 24px 38px 3px rgba(0,0,0,0.14),0 9px 46px 8px rgba(0,0,0,0.12),0 11px 15px -7px rgba(0,0,0,0.2);
   /* Dimensions */
   --nav-height: 50px;
-  --index-col-width: 4rem;
+  --index-col-width: 4em;
   --header-row-height: 2rem;
   --col-width: 6rem;
   --row-height: 5rem;
@@ -102,11 +102,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .main-content.grid {
   display: grid;
-  padding: 0.5rem;
+  padding: 0.5em;
 }
 
 .main-content.grid > div {
-  margin: 0.5rem;
+  margin: 0.5em;
 }
 
 /* Card */
@@ -126,13 +126,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card.padded {
-  padding: 0.8rem;
+  padding: 0.8em;
 }
 
 .tip {
   color: var(--text-500);
-  margin: 0.5rem 0 0;
-  font-size: 0.8rem;
+  margin: 0.5em 0 0;
+  font-size: 0.8em;
   font-style: italic;
   font-weight: 400;
 }

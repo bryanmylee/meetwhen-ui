@@ -104,13 +104,13 @@
     flex-direction: column;
     overflow: hidden;
     scroll-behavior: smooth;
-    margin-bottom: 4rem;
+    margin-bottom: 4em;
   }
 
   .button {
     position: fixed;
-    right: 0.5rem;
-    bottom: 0.5rem;
+    right: 0.5em;
+    bottom: 0.5em;
     width: fit-content;
   }
 
@@ -123,7 +123,7 @@
     div.picker-container {
       grid-row: 1/3;
       grid-column: 2/3;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.5em;
     }
 
     .button {

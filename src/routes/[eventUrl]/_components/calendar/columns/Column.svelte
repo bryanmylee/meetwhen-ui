@@ -37,7 +37,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.5rem;
+    padding: 0.5em;
     box-sizing: border-box;
     border-bottom: 1px var(--grey-400) solid;
     background-color: var(--bg);
@@ -54,7 +54,7 @@
   }
 
   .col.skipped {
-    margin-left: 1rem;
+    margin-left: 1em;
   }
 
   .col__body.skipped {

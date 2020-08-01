@@ -64,12 +64,12 @@
       bind:value={username} bind:valid={usernameValid}
       on:keydown={handleKeydown}
       required {attempted} validationFunction={usernameValidation}
-      style="margin-top: 1rem" />
+      style="margin-top: 1em" />
     <TextInput label="Password"
       bind:value={password} bind:valid={passwordValid}
       on:keydown={handleKeydown}
       required isPassword {tip}
       {attempted} validationFunction={passwordValidation}
-      style="margin-top: 1rem" />
+      style="margin-top: 1em" />
   </div>
 </div>
