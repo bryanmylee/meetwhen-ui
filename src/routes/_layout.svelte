@@ -3,7 +3,7 @@
 </svelte:head>
 
 <script>
-  import Nav from 'src/components/Nav.svelte';
+  import Nav from 'src/components/ui/Nav.svelte';
   import mediaQuery from 'src/actions/mediaQuery';
   import { layoutEnum, layout, currentColor } from 'src/stores';
   import { getTint } from 'src/utils/colors';

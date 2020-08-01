@@ -40,7 +40,7 @@
   import ActionBar from './_components/ActionBar.svelte';
   import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
   import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
-  import Toast from 'src/components/Toast.svelte';
+  import Toast from 'src/components/ui/Toast.svelte';
 
   const { session } = stores();
 

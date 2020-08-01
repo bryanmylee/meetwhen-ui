@@ -3,7 +3,7 @@
 
   import { calendarSelectionEnabled } from './stores';
 
-  import ErrorTip from 'src/components/ErrorTip.svelte';
+  import ErrorTip from 'src/components/ui/ErrorTip.svelte';
 
   export let showError = false;
 </script>

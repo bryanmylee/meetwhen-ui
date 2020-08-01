@@ -1,7 +1,7 @@
 <script>
   import { inputAction, labelAction } from './TextInput';
 
-  import ErrorTip from 'src/components/ErrorTip.svelte';
+  import ErrorTip from 'src/components/ui/ErrorTip.svelte';
   import RequiredTooltip from './RequiredTooltip.svelte';
 
   // BINDINGS

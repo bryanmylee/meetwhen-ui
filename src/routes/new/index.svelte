@@ -10,8 +10,8 @@
   import DatePicker from './_components/datePicker/DatePicker.svelte';
   import TimeInputBar from './_components/TimeInputBar.svelte';
   import { Button } from 'src/components/form';
-  import Toast from 'src/components/Toast.svelte';
-  import ErrorTip from 'src/components/ErrorTip.svelte';
+  import Toast from 'src/components/ui/Toast.svelte';
+  import ErrorTip from 'src/components/ui/ErrorTip.svelte';
 
   const { session } = stores();
 
