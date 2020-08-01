@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { getClient, getTarget, getTargets } from 'src/utils/eventHandler';
-import LongTouchAndDrag from 'src/utils/LongTouchAndDrag';
+import longTouchDrag from 'src/utils/longTouchDrag';
 import { MS_PER_HOUR } from 'src/utils/constants';
 import { dragDropState, dragDropEnum } from '../stores';
 
@@ -68,8 +68,11 @@ export default function calendarInteraction(node, { enabled: initEnabled = false
   }
 
   node.addEventListener('mousedown', handleDown);
-  const touchStart = LongTouchAndDrag({}, handleDown, handleMove, handleUp);
-  node.addEventListener('touchstart', touchStart);
+  const longTouch = longTouchDrag(node, {
+    onDragStart: handleDown,
+    onDragMove: handleMove,
+    onDragEnd: handleUp,
+  });
 
   return {
     update({ enabled: newEnabled }) {
@@ -77,7 +80,7 @@ export default function calendarInteraction(node, { enabled: initEnabled = false
     },
     destroy() {
       node.removeEventListener('mousedown', handleDown);
-      node.removeEventListener('touchstart', touchStart);
+      longTouch.destroy();
     },
   };
 }
