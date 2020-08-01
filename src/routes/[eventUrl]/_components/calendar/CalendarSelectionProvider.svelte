@@ -17,7 +17,6 @@
   // STATE
   // =====
   // The new selection being made.
-  let initialHour = null;
   let newSelection = null;
   let selectAttempts = 0;
   $: {
@@ -37,7 +36,6 @@
     selectAttempts = 0;
     const { dayMs, hour } = event.detail;
     const day = dayjs(dayMs);
-    initialHour = hour;
     newSelection = {
       downDay: day,
       downHour: hour,
@@ -47,7 +45,7 @@
   }
 
   function newSelectMove(event) {
-    if (initialHour == null && newSelection == null) newSelectStart(event);
+    if (newSelection == null) newSelectStart(event);
     const { dayMs, hour } = event.detail;
     const day = dayjs(dayMs);
     newSelection = {
@@ -60,7 +58,6 @@
   function newSelectStop() {
     if (newSelections.length === 0) return;
     selections = getUnionOfSelections([...selections, ...newSelections]);
-    initialHour = null;
     newSelection = null;
   }
 
@@ -89,7 +86,6 @@
 
     selections = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
 
-    initialHour = newSelectionStartHour;
     newSelection = {
       downDay: newSelectionStartDay,
       downHour: newSelectionStartHour,
