@@ -1,9 +1,15 @@
 <script>
+  import { calendarSelectionEnabled } from '../stores';
+
   export let day;
   export let hour;
 </script>
 
-<div data-quarter-hour-target data-day-ms={+day} data-hour={hour} />
+<div
+  class:enabled={$calendarSelectionEnabled}
+  data-quarter-hour-target data-day-ms={+day}
+  data-hour={hour}
+/>
 
 <style>
   div {
@@ -16,7 +22,11 @@
     border-bottom: 1px solid var(--grey-200);
   }
 
-  div:hover {
+  div.enabled {
+    cursor: pointer;
+  }
+
+  div.enabled:hover {
     background-color: var(--primary-50);
     border-radius: 5px;
   }

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { getOffset, getClient, getTarget, getTargets } from 'src/utils/eventHandler';
+import { getClient, getTarget, getTargets } from 'src/utils/eventHandler';
 import LongTouchAndDrag from 'src/utils/LongTouchAndDrag';
 import { MS_PER_HOUR } from 'src/utils/constants';
 
@@ -10,6 +10,14 @@ function isQuarterHourTarget(target) {
 
 function isDefinedSelection(target) {
   return target.dataset.definedSelection != null;
+}
+
+function isTopResizeHandler(target) {
+  return target.dataset.resizeDefinedSelection != null && target.dataset.top != null;
+}
+
+function isBottomResizeHandler(target) {
+  return target.dataset.resizeDefinedSelection != null && target.dataset.bottom != null;
 }
 
 export default function calendarInteraction(node, { enabled: initEnabled = false } = {}) {
@@ -24,7 +32,11 @@ export default function calendarInteraction(node, { enabled: initEnabled = false
     if (isQuarterHourTarget(target)) {
       currentAction = newSelectAction(node);
     } else if (isDefinedSelection(target)) {
-      currentAction = onDefinedAction(node);
+      currentAction = moveDefinedAction(node);
+    } else if (isTopResizeHandler(target)) {
+      currentAction = resizeDefinedAction(node, { resizeTop: true });
+    } else if (isBottomResizeHandler(target)) {
+      currentAction = resizeDefinedAction(node, { resizeTop: false });
     } else {
       return;
     }
@@ -94,12 +106,11 @@ function newSelectAction(node) {
   };
 }
 
-// Provide the new start and end ms.
-function onDefinedAction(node) {
-  let currentAction;
-
+function moveDefinedAction(node) {
   let initClientX;
   let initClientY;
+  let dx;
+  let dy;
 
   let selectionTarget;
   let initStart;
@@ -112,6 +123,8 @@ function onDefinedAction(node) {
       const { clientX, clientY } = getClient(event);
       initClientX = clientX;
       initClientY = clientY;
+      dx = 0;
+      dy = 0;
 
       // Get the defined selection and its details.
       selectionTarget = getTarget(event);
@@ -122,52 +135,13 @@ function onDefinedAction(node) {
       const { height } = selectionTarget.getBoundingClientRect();
       rowHeight = Math.round(height / durationInHours);
 
-      const { offsetY } = getOffset(event, selectionTarget);
-      if (offsetY < 20) {
-        currentAction = resizeDefinedAction(node, { initStart, initEnd, resizeTop: true });
-      } else if (height - offsetY < 20) {
-        currentAction = resizeDefinedAction(node, { initStart, initEnd, resizeTop: false });
-      } else {
-        currentAction = moveDefinedAction(node, {
-          selectionTarget, initClientX, initClientY, initStart, initEnd, rowHeight,
-        });
-      }
-      if (currentAction != null) {
-        currentAction.start(event);
-      }
-    },
-    move(event) {
-      if (currentAction != null) {
-        currentAction.move(event);
-      }
-    },
-    end(event) {
-      if (currentAction != null) {
-        currentAction.end(event);
-      }
-    },
-  };
-}
-
-function moveDefinedAction(node, {
-  selectionTarget, initClientX, initClientY, initStart, initEnd, rowHeight,
-}) {
-  let dx;
-  let dy;
-
-  return {
-    start() {
-      node.dispatchEvent(new CustomEvent('moveDefinedStart'));
-      dx = 0;
-      dy = 0;
       selectionTarget.classList.add('moving');
-      // selectionTarget.style.pointerEvents = 'none';
     },
     move(event) {
-      node.dispatchEvent(new CustomEvent('moveDefinedMove'));
       const { clientX, clientY } = getClient(event);
       dx = clientX - initClientX;
       dy = clientY - initClientY;
+
       selectionTarget.style.transform = `translate(${dx}px, ${dy}px)`;
     },
     end(event) {
@@ -204,17 +178,29 @@ function moveDefinedAction(node, {
 }
 
 // Resize events by deleting the defined selection, and creating a new selection in its place.
-function resizeDefinedAction(node, { initStart, initEnd, resizeTop }) {
-  const startHour = initStart.hour() + Math.round(initStart.minute() / 15) / 4;
-  const startDay = initStart.startOf('day');
-  let endHour = initEnd.hour() + Math.round(initEnd.minute() / 15) / 4;
-  let endDay = initEnd.startOf('day');
-  if (endHour === 0) {
-    endHour = 24;
-    endDay = endDay.subtract(1, 'day');
-  }
+function resizeDefinedAction(node, { resizeTop }) {
+  let initStart;
+  let initEnd;
+  let startHour;
+  let startDay;
+  let endHour;
+  let endDay;
+
   return {
-    start() {
+    start(event) {
+      const selectionTarget = getTarget(event);
+
+      initStart = dayjs(parseInt(selectionTarget.dataset.startMs, 10));
+      initEnd = dayjs(parseInt(selectionTarget.dataset.endMs, 10));
+      startHour = initStart.hour() + Math.round(initStart.minute() / 15) / 4;
+      startDay = initStart.startOf('day');
+      endHour = initEnd.hour() + Math.round(initEnd.minute() / 15) / 4;
+      endDay = initEnd.startOf('day');
+      if (endHour === 0) {
+        endHour = 24;
+        endDay = endDay.subtract(1, 'day');
+      }
+
       if (resizeTop) {
         node.dispatchEvent(new CustomEvent('resizeDefinedStart', {
           detail: {
