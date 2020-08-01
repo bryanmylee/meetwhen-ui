@@ -13,6 +13,11 @@ import { MS_PER_DAY } from 'src/utils/constants';
 /**
  * Given a selection that spans multiple days, create an array of selections
  * with the same start and end times, but with incrementing dates.
+ *
+ * New selections are made with start and end hours being the start of the 15 minute interval.
+ *
+ * Each quadrant must be handled differently.
+ *
  * @param {intervalSeparateDayHour} newSelection The new selection made by
  * the user with days and hours separated.
  * @returns {interval[]} The new selections across different days.
@@ -21,33 +26,33 @@ export function getAreaSelection(newSelection) {
   if (newSelection == null) {
     return [];
   }
-  const { startDay, startHour, endDay, endHour } = newSelection;
-  if (startDay == null || startHour == null || endDay == null || endHour == null) {
+  const { downDay, downHour, upDay, upHour } = newSelection;
+  if (downDay == null || downHour == null || upDay == null || upHour == null) {
     return [];
   }
 
-  const numDaysSpan = Math.floor(Math.abs(endDay - startDay) / MS_PER_DAY) + 1;
-  if (+startDay <= +endDay && startHour <= endHour) {
+  const numDaysSpan = Math.floor(Math.abs(upDay - downDay) / MS_PER_DAY) + 1;
+  if (+downDay <= +upDay && downHour <= upHour) {
     return [...Array(numDaysSpan)].map((_, i) => ({
-      start: startDay.add(i, 'day').add(startHour, 'hour'),
-      end: startDay.add(i, 'day').add(endHour, 'hour'),
+      start: downDay.add(i, 'day').add(downHour, 'hour'),
+      end: downDay.add(i, 'day').add(upHour + 0.25, 'hour'),
     }));
   }
-  if (+startDay <= +endDay && startHour > endHour) {
+  if (+downDay <= +upDay && downHour > upHour) {
     return [...Array(numDaysSpan)].map((_, i) => ({
-      start: startDay.add(i, 'day').add(endHour, 'hour'),
-      end: startDay.add(i, 'day').add(startHour, 'hour'),
+      start: downDay.add(i, 'day').add(upHour, 'hour'),
+      end: downDay.add(i, 'day').add(downHour + 0.25, 'hour'),
     }));
   }
-  if (+startDay > +endDay && startHour <= endHour) {
+  if (+downDay > +upDay && downHour <= upHour) {
     return [...Array(numDaysSpan)].map((_, i) => ({
-      start: endDay.add(i, 'day').add(startHour, 'hour'),
-      end: endDay.add(i, 'day').add(endHour, 'hour'),
+      start: upDay.add(i, 'day').add(downHour, 'hour'),
+      end: upDay.add(i, 'day').add(upHour + 0.25, 'hour'),
     }));
   }
   return [...Array(numDaysSpan)].map((_, i) => ({
-    start: endDay.add(i, 'day').add(endHour, 'hour'),
-    end: endDay.add(i, 'day').add(startHour, 'hour'),
+    start: upDay.add(i, 'day').add(upHour, 'hour'),
+    end: upDay.add(i, 'day').add(downHour + 0.25, 'hour'),
   }));
 }
 

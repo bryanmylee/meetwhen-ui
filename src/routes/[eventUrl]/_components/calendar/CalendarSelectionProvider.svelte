@@ -39,10 +39,10 @@
     const day = dayjs(dayMs);
     initialHour = hour;
     newSelection = {
-      startDay: day,
-      startHour: hour,
-      endDay: day,
-      endHour: hour + 0.25,
+      downDay: day,
+      downHour: hour,
+      upDay: day,
+      upHour: hour,
     };
   }
 
@@ -50,12 +50,10 @@
     if (initialHour == null && newSelection == null) newSelectStart(event);
     const { dayMs, hour } = event.detail;
     const day = dayjs(dayMs);
-    const clippedHour = Math.min(hour, 23.75);
     newSelection = {
-      startDay: newSelection.startDay,
-      startHour: clippedHour < initialHour ? initialHour + 0.25 : initialHour,
-      endDay: day,
-      endHour: clippedHour >= initialHour ? clippedHour + 0.25 : clippedHour,
+      ...newSelection,
+      upDay: day,
+      upHour: hour,
     };
   }
 
@@ -80,6 +78,26 @@
     setSelections(draggedSelections);
   }
 
+  function resizeDefinedStart(event) {
+    const {
+      initStart,
+      newSelectionStartDay,
+      newSelectionStartHour,
+      newSelectionEndDay,
+      newSelectionEndHour,
+    } = event.detail;
+
+    selections = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
+
+    initialHour = newSelectionStartHour;
+    newSelection = {
+      downDay: newSelectionStartDay,
+      downHour: newSelectionStartHour,
+      upDay: newSelectionEndDay,
+      upHour: newSelectionEndHour,
+    };
+  }
+
   function setSelections(draggedSelections) {
     const processedSelections = splitIntervalsOnMidnight(getUnionOfSelections(draggedSelections));
     if (selectionLimits == null) {
@@ -96,4 +114,5 @@
   {newSelectMove}
   {newSelectStop}
   {moveDefinedStop}
+  {resizeDefinedStart}
 />

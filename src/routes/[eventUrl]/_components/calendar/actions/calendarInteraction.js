@@ -124,13 +124,9 @@ function onDefinedAction(node) {
 
       const { offsetY } = getOffset(event, selectionTarget);
       if (offsetY < 20) {
-        currentAction = moveDefinedAction(node, {
-          selectionTarget, initClientX, initClientY, initStart, initEnd, rowHeight,
-        });
+        currentAction = resizeDefinedAction(node, { initStart, initEnd, resizeTop: true });
       } else if (height - offsetY < 20) {
-        currentAction = moveDefinedAction(node, {
-          selectionTarget, initClientX, initClientY, initStart, initEnd, rowHeight,
-        });
+        currentAction = resizeDefinedAction(node, { initStart, initEnd, resizeTop: false });
       } else {
         currentAction = moveDefinedAction(node, {
           selectionTarget, initClientX, initClientY, initStart, initEnd, rowHeight,
@@ -186,8 +182,8 @@ function moveDefinedAction(node, {
       const targetDay = dayjs(parseInt(quarterTarget.dataset.dayMs, 10));
       const deltaHour = Math.round(dy / rowHeight * 4) / 4;
       // .hour() only returns whole hours, and we need to account for fractions.
-      const initStartHour = initStart.hour() + initStart.minute() / 60;
-      let initEndHour = initEnd.hour() + initEnd.minute() / 60;
+      const initStartHour = initStart.hour() + Math.round(initStart.minute() / 15) / 4;
+      let initEndHour = initEnd.hour() + Math.round(initEnd.minute() / 15) / 4;
       // If the end is on a midnight, it must be on the midnight of the following day.
       if (initEndHour === 0) {
         initEndHour = 24;
@@ -202,6 +198,58 @@ function moveDefinedAction(node, {
       }));
       selectionTarget.style.pointerEvents = 'unset';
       selectionTarget.style.transform = 'translate(0, 0)';
+    },
+  };
+}
+
+// Resize events by deleting the defined selection, and creating a new selection in its place.
+function resizeDefinedAction(node, { initStart, initEnd, resizeTop }) {
+  const startHour = initStart.hour() + Math.round(initStart.minute() / 15) / 4;
+  const startDay = initStart.startOf('day');
+  let endHour = initEnd.hour() + Math.round(initEnd.minute() / 15) / 4;
+  let endDay = initEnd.startOf('day');
+  if (endHour === 0) {
+    endHour = 24;
+    endDay = endDay.subtract(1, 'day');
+  }
+  return {
+    start() {
+      if (resizeTop) {
+        node.dispatchEvent(new CustomEvent('resizeDefinedStart', {
+          detail: {
+            initStart,
+            newSelectionStartDay: endDay,
+            newSelectionStartHour: endHour - 0.25,
+            newSelectionEndDay: startDay,
+            newSelectionEndHour: startHour,
+          },
+        }));
+      } else {
+        node.dispatchEvent(new CustomEvent('resizeDefinedStart', {
+          detail: {
+            initStart,
+            newSelectionStartDay: startDay,
+            newSelectionStartHour: startHour,
+            newSelectionEndDay: endDay,
+            newSelectionEndHour: endHour - 0.25,
+          },
+        }));
+      }
+    },
+    move(event) {
+      const target = getTarget(event);
+      if (!isQuarterHourTarget(target)) {
+        return;
+      }
+      node.dispatchEvent(new CustomEvent('newSelectMove', {
+        detail: {
+          dayMs: parseInt(target.dataset.dayMs, 10),
+          hour: parseFloat(target.dataset.hour),
+        },
+      }));
+    },
+    end() {
+      node.dispatchEvent(new CustomEvent('newSelectStop'));
     },
   };
 }
