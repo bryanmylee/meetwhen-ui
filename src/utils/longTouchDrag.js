@@ -28,18 +28,20 @@ export default function longTouchDrag(node, {
   onDragStart, onDragMove, onDragEnd, onTouchEnd = null,
   duration = 200, moveSens = 5,
 }) {
+  let touchStartEvent;
   let timer = null;
   let initialOffset = null;
   let moved = false;
   let selecting = false;
 
   node.addEventListener('touchstart', touchStart);
+  node.addEventListener('touchmove', touchMove, { passive: false });
+  node.addEventListener('touchforcechange', touchMove, { passive: false });
 
   function touchStart(event) {
+    touchStartEvent = event;
     initialOffset = getTouchOffset(event);
     timer = setTimeout(() => checkLongPress(event), duration);
-
-    node.addEventListener('touchmove', touchMove);
     node.addEventListener('touchend', touchEnd);
   }
 
@@ -51,6 +53,10 @@ export default function longTouchDrag(node, {
   }
 
   function touchMove(event) {
+    if (selecting) {
+      touchStartEvent.preventDefault();
+      event.preventDefault();
+    }
     const offset = getTouchOffset(event);
     if (distanceBetweenOffsets(initialOffset, offset) > moveSens) {
       moved = true;
@@ -67,13 +73,14 @@ export default function longTouchDrag(node, {
     }
     selecting = false;
     moved = false;
-    node.removeEventListener('touchmove', touchMove);
-    node.removeEventListener('touchend', touchEnd);
   }
 
   return {
     destroy() {
       node.removeEventListener('touchstart', touchStart);
+      node.removeEventListener('touchmove', touchMove);
+      node.removeEventListener('touchforcechange', touchMove);
+      node.removeEventListener('touchend', touchEnd);
     },
   };
 }
