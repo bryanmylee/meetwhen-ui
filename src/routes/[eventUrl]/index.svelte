@@ -201,11 +201,6 @@
     on:touchstart={() => calendarCollapsed = true}
   >
     <CalendarHeader showError={showCalendarError} />
-    <!-- <EventCalendarPicker bind:selections={$selections}
-      on:showLongTouchHint={showLongTouchHint}
-      eventIntervals={event.schedule}
-      userIntervalsByUsername={event.userSchedules}
-    /> -->
     <CalendarPicker
       bind:selections={$selections}
       schedule={event.schedule}
