@@ -71,6 +71,7 @@
   let errorMessage = '';
   $: if ($form) setForm();
   let isLoading = false;
+  let calendarCollapsed = false;
 
   // PAGE FUNCTIONS
   // ==============
@@ -91,6 +92,7 @@
     username = '';
     password = '';
     attempted = false;
+    calendarCollapsed = false;
   }
 
   function showLongTouchHint() {
@@ -183,9 +185,10 @@
   {#if $form === formEnum.LOGGING_IN || $form === formEnum.JOINING}
     <UserDetailsForm
       on:submit={handleSubmit}
-      bind:username={username}
-      bind:password={password}
+      bind:username
+      bind:password
       bind:formValid={userDetailsValid}
+      bind:collapsed={calendarCollapsed}
       {attempted}
     />
   {/if}
@@ -194,6 +197,7 @@
   <div
     class="picker-container card outline"
     class:error={showCalendarError}
+    on:click={() => calendarCollapsed = true}
   >
     <CalendarHeader showError={showCalendarError} />
     <!-- <EventCalendarPicker bind:selections={$selections}
