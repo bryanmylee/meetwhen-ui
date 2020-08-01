@@ -7,7 +7,7 @@ import { getTouchOffset, distanceBetweenOffsets } from 'src/utils/eventHandler';
  *   onDragStart: Function,
  *   onDragMove: Function,
  *   onDragEnd: Function,
- *   onNoDragEnd?: Function,
+ *   onTouchEnd?: Function,
  *   duration?: number,
  *   moveSens?: number,
  * }} options
@@ -16,6 +16,7 @@ import { getTouchOffset, distanceBetweenOffsets } from 'src/utils/eventHandler';
  * @param options.onDragMove The callback for when the touch event is moved
  * while dragging.
  * @param options.onDragEnd The callback for when the touch drag event ends.
+ * @param options.onTouchEnd The callback for when the touch ends without triggering a drag.
  * @param options.duration The number of milliseconds after the touch event
  * starts before the drag event is triggered.
  * @param options.moveSens The number of pixels the touch event is allowed to
@@ -24,7 +25,7 @@ import { getTouchOffset, distanceBetweenOffsets } from 'src/utils/eventHandler';
  * touch moves too far, defaulting to a scroll event instead.
  */
 export default function longTouchDrag(node, {
-  onDragStart, onDragMove, onDragEnd, onNoDragEnd = null,
+  onDragStart, onDragMove, onDragEnd, onTouchEnd = null,
   duration = 200, moveSens = 5,
 }) {
   let timer = null;
@@ -61,8 +62,8 @@ export default function longTouchDrag(node, {
     if (timer != null) clearTimeout(timer);
     if (selecting) {
       onDragEnd(event);
-    } else if (onNoDragEnd != null) {
-      onNoDragEnd(event);
+    } else if (onTouchEnd != null) {
+      onTouchEnd(event);
     }
     selecting = false;
     moved = false;
