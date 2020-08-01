@@ -178,7 +178,9 @@
 
 <div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
   <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
-  <CompositeDetails {event} />
+  {#if $form !== formEnum.LOGGING_IN && $form !== formEnum.JOINING}
+    <CompositeDetails {event} />
+  {/if}
 
   {#if $form === formEnum.LOGGING_IN || $form === formEnum.JOINING}
     <UserDetailsForm
