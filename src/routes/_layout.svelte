@@ -14,6 +14,11 @@
     });
     document.documentElement.style.setProperty('--primary-gradient-dark', $currentColor.gradientDark);
   }
+
+  let innerHeight;
+  $: if (typeof document !== 'undefined') {
+    document.documentElement.style.setProperty('--vh', `${innerHeight / 100}px`);
+  }
 </script>
 
 <svelte:window
@@ -21,6 +26,7 @@
     query: '(min-width: 768px)',
     callback: (matches) => $layout = matches ? layoutEnum.WIDE : layoutEnum.NARROW,
   }}
+  bind:innerHeight
 />
 
 <Nav />

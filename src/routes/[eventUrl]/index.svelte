@@ -39,7 +39,6 @@
   import UserDetailsForm from './_components/UserDetailsForm.svelte';
   import ActionBar from './_components/ActionBar.svelte';
   import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
-  // import EventCalendarPicker from './_components/calendar/EventCalendarPicker.svelte';
   import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
   import Toast from 'src/components/Toast.svelte';
 
