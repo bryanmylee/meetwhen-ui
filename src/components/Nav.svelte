@@ -1,15 +1,6 @@
-<script>
-  import { stores } from '@sapper/app';
-
-  const { page } = stores();
-</script>
-
 <nav>
   <ul>
     <a href="/" class="hero">meetwhen</a>
-  </ul>
-  <ul>
-    <a rel=prefetch href="/new" class:active={$page.path === '/new'}>New Event</a>
   </ul>
 </nav>
 
@@ -42,9 +33,5 @@
 
   .hero {
     font-weight: 800;
-  }
-
-  .active {
-    color: var(--primary-500);
   }
 </style>
