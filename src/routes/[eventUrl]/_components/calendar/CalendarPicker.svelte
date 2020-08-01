@@ -8,6 +8,7 @@
   import NewSelection from './selections/NewSelection.svelte';
 
   import calendarInteraction from './actions/calendarInteraction';
+  import { autoScrollSelf } from './actions/autoScroll';
   import { calendarSelectionEnabled } from './stores';
   import { selectedUsernames, minUserCountFilter } from '../../stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
@@ -40,6 +41,7 @@
 
   // REACTIVE ATTRIBUTES
   // ===================
+  $: earliestHour = schedule && schedule.length !== 0 ? schedule[0].start.hour() : 0;
   $: intervalsSplitOnMidnight = splitIntervalsOnMidnight(schedule);
   // Filtered user intervals based on selected usernames.
   $: filteredUserSchedules = getFilteredUserIntervalsByUsername(
@@ -59,9 +61,10 @@
   // The days containing all event intervals and whether the day sequentially
   // follows the previous day.
   $: daysToShow = getDaysToShowWithSkip(intervalsSplitOnMidnight);
+
+  // Workaround for bug where store update does not trigger action update.
   let enabled;
   $: {
-    // Workaround for bug where store update does not trigger action update.
     setTimeout(() => enabled = $calendarSelectionEnabled, FRAME_DURATION);
   }
 </script>
@@ -80,6 +83,7 @@
     <div
       class="calendar__body no-highlight"
       use:calendarInteraction={{ enabled }}
+      use:autoScrollSelf={{ hour: earliestHour }}
       on:newSelectStart={newSelectStart}
       on:newSelectMove={newSelectMove}
       on:newSelectStop={newSelectStop}
