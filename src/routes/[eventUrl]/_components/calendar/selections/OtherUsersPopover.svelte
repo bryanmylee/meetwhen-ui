@@ -48,16 +48,16 @@
     height: -moz-max-content;
     height: -webkit-max-content;
     background-color: white;
-    border: 1px solid var(--grey-300);
     border-radius: 5px;
-    /* box-shadow: var(--shadow-med); */
+    border: 1px solid var(--grey-300);
+    box-shadow: var(--shadow-med);
   }
 
   .popover__arrow {
     z-index: 31;
-    left: -0.45em;
-    width: 0.5em;
-    height: 1em;
+    left: -7px;
+    width: 8px;
+    height: 16px;
     clip-path: polygon(0 50%, 100% 0, 100% 100%);
     background-color: var(--grey-300);
     pointer-events: none;
@@ -68,15 +68,15 @@
     position: absolute;
     top: 1px;
     left: 1.5px;
-    width: calc(0.5em - 1px);
-    height: calc(1em - 2px);
+    width: 7px;
+    height: 14px;
     clip-path: polygon(0 50%, 100% 0, 100% 100%);
     background-color: var(--bg);
   }
 
   :global([data-popper-placement^="left"]) .popover__arrow {
     left: unset;
-    right: -0.44em;
+    right: -7px;
     clip-path: polygon(0 0, 100% 50%, 0 100%);
   }
 

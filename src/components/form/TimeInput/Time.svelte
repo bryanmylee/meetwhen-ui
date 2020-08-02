@@ -40,7 +40,7 @@
   }
 
   div.disabled {
-    color: var(--text-3);
+    color: var(--text-300);
     cursor: unset;
   }
 </style>

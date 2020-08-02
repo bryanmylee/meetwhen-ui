@@ -65,5 +65,7 @@
     max-height: 500px;
     overflow-y: scroll;
     z-index: 40;
+    border: 1px solid var(--grey-300);
+    box-shadow: var(--shadow-small);
   }
 </style>

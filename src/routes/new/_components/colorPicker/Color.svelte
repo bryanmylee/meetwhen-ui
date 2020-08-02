@@ -47,7 +47,7 @@
     margin-top: 0.5em;
     width: 2em;
     height: 2em;
-    border-radius: 1em;
+    border-radius: 2em;
     border: none;
   }
 
@@ -60,9 +60,8 @@
   }
 
   button.selected {
-    /* background-color: var(--primary-300) !important; */
-    /* border: 1px solid var(--grey-900); */
-    box-shadow: var(--shadow-med);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--primary-500);
   }
 
   .popover {
