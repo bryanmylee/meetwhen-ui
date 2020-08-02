@@ -231,7 +231,6 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    margin-bottom: 4.5em !important;
   }
 
   @media screen and (min-width: 768px) {
@@ -243,7 +242,6 @@
     .picker-container {
       grid-row: 1/10;
       grid-column: 2/3;
-      margin-bottom: unset !important;
     }
   }
 </style>
