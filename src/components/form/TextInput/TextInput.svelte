@@ -70,6 +70,7 @@
     transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -webkit-transition: all 0.2s ease;
+    -webkit-appearance: none;
   }
 
   input:focus {
