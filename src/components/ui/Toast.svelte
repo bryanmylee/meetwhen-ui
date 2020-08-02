@@ -69,15 +69,14 @@
     font-size: 0.8em;
     margin-top: 0.8em;
     padding: 0.8em;
-    color: var(--primary-text);
-    background-color: var(--primary-500);
+    color: var(--primary-500);
+    background-color: var(--bg);
     border-radius: 5px;
-    box-shadow: var(--shadow-med);
+    box-shadow: var(--shadow-small);
   }
 
   span.error {
-    color: var(--error-text);
-    background-color: var(--error-500);
+    color: var(--error-500);
   }
 
   @media screen and (min-width: 768px) {
