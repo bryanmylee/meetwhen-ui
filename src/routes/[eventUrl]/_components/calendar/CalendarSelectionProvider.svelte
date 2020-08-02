@@ -77,14 +77,12 @@
 
   function resizeDefinedStart(event) {
     const {
-      initStart,
+      // To set the new selection to a predefined size.
       newSelectionStartDay,
       newSelectionStartHour,
       newSelectionEndDay,
       newSelectionEndHour,
     } = event.detail;
-
-    selections = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
 
     newSelection = {
       downDay: newSelectionStartDay,
@@ -92,6 +90,21 @@
       upDay: newSelectionEndDay,
       upHour: newSelectionEndHour,
     };
+  }
+
+  function resizeDefinedMove(event) {
+    newSelectMove(event);
+  }
+
+  function resizeDefinedStop(event) {
+    const { initStart } = event.detail;
+    if (newSelections.length === 0) return;
+    const selectionsWithoutResized = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
+    selections = getUnionOfSelections([
+      ...selectionsWithoutResized,
+      ...newSelections,
+    ]);
+    newSelection = null;
   }
 
   function deleteDefined(event) {
@@ -116,5 +129,7 @@
   {newSelectStop}
   {moveDefinedStop}
   {resizeDefinedStart}
+  {resizeDefinedMove}
+  {resizeDefinedStop}
   {deleteDefined}
 />

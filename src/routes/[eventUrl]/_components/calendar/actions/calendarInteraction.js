@@ -214,10 +214,14 @@ function resizeDefinedAction(node, { resizeTop }) {
   let endHour;
   let endDay;
 
+  let selectionTarget;
+
   return {
     start(event) {
       dragDropState.set(resizeTop ? dragDropEnum.RESIZING_TOP : dragDropEnum.RESIZING_BOTTOM);
-      const selectionTarget = getTarget(event);
+      const targets = getTargets(event);
+      selectionTarget = targets.find(isDefinedSelection);
+      selectionTarget.style.opacity = 0;
 
       initStart = dayjs(parseInt(selectionTarget.dataset.startMs, 10));
       initEnd = dayjs(parseInt(selectionTarget.dataset.endMs, 10));
@@ -253,20 +257,25 @@ function resizeDefinedAction(node, { resizeTop }) {
       }
     },
     move(event) {
-      const target = getTarget(event);
-      if (!isQuarterHourTarget(target)) {
+      const quarterTarget = getTargets(event).find(isQuarterHourTarget);
+      if (quarterTarget == null) {
         return;
       }
-      node.dispatchEvent(new CustomEvent('newSelectMove', {
+      node.dispatchEvent(new CustomEvent('resizeDefinedMove', {
         detail: {
-          dayMs: parseInt(target.dataset.dayMs, 10),
-          hour: parseFloat(target.dataset.hour),
+          dayMs: parseInt(quarterTarget.dataset.dayMs, 10),
+          hour: parseFloat(quarterTarget.dataset.hour),
         },
       }));
     },
     end() {
       dragDropState.set(dragDropEnum.NONE);
-      node.dispatchEvent(new CustomEvent('newSelectStop'));
+      if (selectionTarget != null) {
+        selectionTarget.style.opacity = 1;
+      }
+      node.dispatchEvent(new CustomEvent('resizeDefinedStop', {
+        detail: { initStart },
+      }));
     },
   };
 }
