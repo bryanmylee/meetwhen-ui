@@ -58,35 +58,38 @@
   }
 </script>
 
+<!-- Use double transition to hide overflowing content on slide transition with Safari -->
+<!-- Setting overflow: hidden causes CSS grid layout to break on Firefox -->
 <div
   class="card outline padded"
   class:error={attempted && !formValid}
   transition:slide={{ duration: 400 }}
 >
-  <h3 on:click={() => collapsed = !collapsed} >{prompt}</h3>
-  {#if !collapsed || $layout === layoutEnum.WIDE}
-    <div
-      in:slide={{ duration: firstTransition ? 0 : 400 }}
-      out:slide={{ duration: 400, delay: 150 }}
-      style="margin-top: 0.8em"
-    >
-      <TextInput label="Username"
-        bind:value={username} bind:valid={usernameValid}
-        on:keydown={handleKeydown}
-        required {attempted} validationFunction={usernameValidation} />
-      <TextInput label="Password"
-        bind:value={password} bind:valid={passwordValid}
-        on:keydown={handleKeydown}
-        required isPassword {tip}
-        {attempted} validationFunction={passwordValidation}
-        style="margin-top: 0.8em" />
-    </div>
-  {/if}
+  <div in:fade={{ duration: 150, delay: 400 }} out:fade={{ duration: 150 }}>
+    <h3 on:click={() => collapsed = !collapsed} >{prompt}</h3>
+    {#if !collapsed || $layout === layoutEnum.WIDE}
+      <div
+        in:slide={{ duration: firstTransition ? 0 : 400 }}
+        out:slide={{ duration: 400, delay: 150 }}
+        style="margin-top: 0.8em; overflow: hidden"
+      >
+        <TextInput label="Username"
+          bind:value={username} bind:valid={usernameValid}
+          on:keydown={handleKeydown}
+          required {attempted} validationFunction={usernameValidation} />
+        <TextInput label="Password"
+          bind:value={password} bind:valid={passwordValid}
+          on:keydown={handleKeydown}
+          required isPassword {tip}
+          {attempted} validationFunction={passwordValidation}
+          style="margin-top: 0.8em" />
+      </div>
+    {/if}
+  </div>
 </div>
 
 <style>
   div {
-    overflow: hidden;
     height: min-content;
   }
 </style>
