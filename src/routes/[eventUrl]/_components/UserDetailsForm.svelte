@@ -87,5 +87,6 @@
 <style>
   div {
     overflow: hidden;
+    height: min-content;
   }
 </style>
