@@ -41,7 +41,6 @@
   import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
   import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
   import Toast from 'src/components/ui/Toast.svelte';
-import { stop_propagation } from 'svelte/internal';
 
   const { session } = stores();
 
