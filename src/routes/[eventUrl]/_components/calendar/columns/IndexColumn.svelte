@@ -27,7 +27,7 @@
   }
 
   .index-col__cell {
-    margin-top: calc(var(--row-height) * 0.5);
+    margin-top: var(--row-height);
     min-height: var(--row-height);
   }
 
