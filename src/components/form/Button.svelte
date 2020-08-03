@@ -30,6 +30,7 @@
     box-sizing: border-box;
     transition: all 200ms ease;
     cursor: pointer;
+    height: min-content;
   }
 
   button:focus, button:hover {
