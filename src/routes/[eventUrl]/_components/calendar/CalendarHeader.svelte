@@ -13,7 +13,7 @@
 on Chrome and Firefox -->
 {#if $calendarSelectionEnabled}
   <div>
-    <div class="container" transition:slide={{ duration: 400 }}>
+    <div class="container" transition:slide={{ duration: 300 }}>
       <h3>
         Pick a time
       </h3>

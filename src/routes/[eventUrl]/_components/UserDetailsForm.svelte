@@ -63,14 +63,14 @@
 <div
   class="card outline padded"
   class:error={attempted && !formValid}
-  transition:slide={{ duration: 400 }}
+  transition:slide={{ duration: 300 }}
 >
-  <div in:fade={{ duration: 150, delay: 400 }} out:fade={{ duration: 150 }}>
+  <div in:fade={{ duration: 150, delay: 300 }} out:fade={{ duration: 150 }}>
     <h3 on:click={() => collapsed = !collapsed} >{prompt}</h3>
     {#if !collapsed || $layout === layoutEnum.WIDE}
       <div
-        in:slide={{ duration: firstTransition ? 0 : 400 }}
-        out:slide={{ duration: 400, delay: 150 }}
+        in:slide={{ duration: firstTransition ? 0 : 300 }}
+        out:slide={{ duration: 300 }}
         style="margin-top: 0.8em; overflow: hidden"
       >
         <TextInput label="Username"
