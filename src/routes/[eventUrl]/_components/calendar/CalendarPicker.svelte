@@ -7,6 +7,7 @@
   import DefinedSelection from './selections/DefinedSelection.svelte';
   import NewSelection from './selections/NewSelection.svelte';
   import TrashTarget from './trashTarget/TrashTarget.svelte';
+  import ZoomButtons from './zoomButtons/ZoomButtons.svelte';
 
   import calendarInteraction from './actions/calendarInteraction';
   import { autoScrollSelf } from './actions/autoScroll';
@@ -28,6 +29,7 @@
   // STATE
   // =====
   let selectedOthers = null;
+  let size = 16;
 
   // STATE FUNCTIONS
   // ===============
@@ -96,6 +98,7 @@
       on:resizeDefinedMove={resizeDefinedMove}
       on:resizeDefinedStop={resizeDefinedStop}
       on:deleteDefined={deleteDefined}
+      style="font-size: {size}px"
     >
       <IndexColumn startingDay={daysToShow[0].day}/>
       {#each daysToShow as { day, skipped }}
@@ -135,6 +138,7 @@
     </div>
 
     <TrashTarget show={$dragDropState === dragDropEnum.MOVING} />
+    <ZoomButtons bind:size />
   </div>
 </CalendarSelectionProvider>
 
@@ -150,5 +154,6 @@
     display: flex;
     width: fit-content;
     min-width: 100%;
+    transition: font-size 100ms ease-out;
   }
 </style>
