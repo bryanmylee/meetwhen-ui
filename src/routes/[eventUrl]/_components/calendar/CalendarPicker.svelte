@@ -64,6 +64,7 @@
   // The days containing all event intervals and whether the day sequentially
   // follows the previous day.
   $: daysToShow = getDaysToShowWithSkip(intervalsSplitOnMidnight);
+  $: startingDay = daysToShow.length !== 0 ? daysToShow[0].day : null;
 
   // Workaround for bug where store update does not trigger action update.
   let enabled;
@@ -101,9 +102,11 @@
         on:deleteDefined={deleteDefined}
         style="font-size: {size}px"
       >
-        <IndexColumn startingDay={daysToShow[0].day}/>
+        <IndexColumn />
+
         {#each daysToShow as { day, skipped }}
           <Column {day} {skipped}>
+
             <UnavailableColumnOverlay
               eventIntervals={intervalsSplitOnMidnight
                 .filter((interval) => interval.start.isSame(day, 'day'))
@@ -138,6 +141,12 @@
         {/each}
       </div>
     </div>
+
+    <!-- MONTH LABEL -->
+    <div class="month-label">
+      {startingDay == null ? 'NIL' : startingDay.format('MMM')}
+    </div>
+
     <TrashTarget show={$dragDropState === dragDropEnum.MOVING} />
     <ZoomButtons bind:size />
   </div>
@@ -165,5 +174,20 @@
     width: fit-content;
     min-width: 100%;
     transition: font-size 100ms ease-out;
+  }
+
+  .month-label {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    min-width: var(--index-col-width);
+    z-index: 22;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    padding: 0.5em;
+    border-bottom: 1px var(--grey-400) solid;
+    background-color: var(--bg);
   }
 </style>

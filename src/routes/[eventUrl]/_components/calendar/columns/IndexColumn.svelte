@@ -1,10 +1,6 @@
 <script>
   import dayjs from 'dayjs';
 
-  // PROPS
-  // =====
-  export let startingDay = null;
-
   // ATTRIBUTES
   // ==========
   const hours = Array.from(Array(24).keys())
@@ -12,10 +8,6 @@
 </script>
 
 <div class="index-col">
-  <!-- MONTH LABEL -->
-  <div class="month-label">
-    {startingDay == null ? 'NIL' : startingDay.format('MMM')}
-  </div>
   {#each hours as hour}
     <div class="cell index-col__cell">
       <span>
@@ -27,26 +19,10 @@
 
 <style>
   .index-col {
-    position: -webkit-sticky; /* Safari */
     position: sticky;
     left: -1px;
     z-index: 21;
     min-width: var(--index-col-width);
-    background-color: var(--bg);
-  }
-
-  .month-label {
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: -1px;
-    z-index: 22;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 800;
-    padding: 0.5em;
-    box-sizing: border-box;
-    border-bottom: 1px var(--grey-400) solid;
     background-color: var(--bg);
   }
 

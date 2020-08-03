@@ -30,7 +30,6 @@
   }
 
   .date-label {
-    position: -webkit-sticky; /* Safari */
     position: sticky;
     top: -1px;
     z-index: 20;
