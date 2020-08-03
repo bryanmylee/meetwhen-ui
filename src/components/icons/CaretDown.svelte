@@ -9,7 +9,7 @@
   class:flipped
 >
   <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <polyline points="32,42 50,60 68,42" style="stroke: {color}"/>
+    <polyline points="32,42 50,60 68,42" stroke={color}/>
   </svg>
 </div>
 

@@ -5,11 +5,11 @@
 <svg id="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect
     x="9" y="13" width="10" height="2"
-    style="fill: {color}"
+    fill={color}
   />
   <path
     d="M22.45,21A10.87,10.87,0,0,0,25,14,11,11,0,1,0,14,25a10.87,10.87,0,0,0,7-2.55L28.59,30,30,28.59ZM14,23a9,9,0,1,1,9-9A9,9,0,0,1,14,23Z" transform="translate(0)"
-    style="fill: {color}"
+    fill={color}
   />
 </svg>
 

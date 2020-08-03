@@ -14,14 +14,12 @@ on Chrome and Firefox -->
 {#if $calendarSelectionEnabled}
   <div>
     <div class="container" transition:slide={{ duration: 300 }}>
-      <h3>
-        Pick a time
-      </h3>
-      {#if showError}
-        <ErrorTip>
-          Schedule cannot be empty
-        </ErrorTip>
-      {/if}
+      <div class="header">
+        <h3>Pick a time</h3>
+      </div>
+      <ErrorTip show={showError}>
+        Schedule cannot be empty
+      </ErrorTip>
     </div>
   </div>
 {/if}
@@ -30,5 +28,10 @@ on Chrome and Firefox -->
   .container {
     padding: 0.8em;
     padding-bottom: 0;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
   }
 </style>
