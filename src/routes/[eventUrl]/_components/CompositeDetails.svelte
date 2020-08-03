@@ -14,15 +14,15 @@
 {#if $layout === layoutEnum.NARROW}
   {#if $details === detailsEnum.EVENT_DETAILS}
     <div
-      in:cardIn={{ x: -500, duration: 300 }}
-      out:cardOut={{ x: -500, duration: 300 }}
+      in:cardIn={{ duration: 300, left: true }}
+      out:cardOut={{ duration: 300, left: true }}
     >
       <EventDetails title={event.title} description={event.description} />
     </div>
   {:else if $details === detailsEnum.ATTENDANCE}
     <div
-      in:cardIn={{ x: 500, duration: 300 }}
-      out:cardOut={{ x: 500, duration: 300 }}
+      in:cardIn={{ duration: 300, left: false }}
+      out:cardOut={{ duration: 300, left: false }}
     >
       <FilterCard usernames={Object.keys(event.userSchedules)} />
     </div>

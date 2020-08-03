@@ -4,10 +4,11 @@ export function cardIn(node, {
   delay = 0,
   duration = 200,
   easing = cubicOut,
-  x = 1000,
   opacity = 0,
+  left = false,
 }) {
   const style = getComputedStyle(node);
+  const targetWidth = parseFloat(style.width);
   const targetOpacity = +style.opacity;
   const transform = style.transform === 'none' ? '' : style.transform;
   const od = targetOpacity * (1 - opacity);
@@ -17,7 +18,7 @@ export function cardIn(node, {
     duration,
     easing,
     css: (_, u) => `
-      transform: ${transform} translate(${u * x}px, 0);
+      transform: ${transform} translate(${u * targetWidth * (left ? -1 : 1)}px, 0);
       opacity: ${targetOpacity - od * u};
     `,
     tick: () => node.style.position = 'unset',
@@ -28,12 +29,12 @@ export function cardOut(node, {
   delay = 0,
   duration = 200,
   easing = cubicOut,
-  x = 400,
   opacity = 0,
+  left = false,
 }) {
   const style = getComputedStyle(node);
   const targetOpacity = +style.opacity;
-  const targetWidth = style.width;
+  const targetWidth = parseFloat(style.width);
   const transform = style.transform === 'none' ? '' : style.transform;
   const od = targetOpacity * (1 - opacity);
 
@@ -42,9 +43,9 @@ export function cardOut(node, {
     duration,
     easing,
     css: (_, u) => `
-      transform: ${transform} translate(${u * x}px, 0);
+      transform: ${transform} translate(${u * targetWidth * (left ? -1 : 1)}px, 0);
       opacity: ${targetOpacity - od * u};
-      width: ${targetWidth};
+      width: ${targetWidth}px;
     `,
     tick: () => node.style.position = 'absolute',
   };
