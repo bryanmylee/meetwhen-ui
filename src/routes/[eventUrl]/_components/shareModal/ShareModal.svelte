@@ -65,6 +65,7 @@
     border-radius: 5px;
     padding: 0.5em;
     background-color: var(--primary-400);
+    cursor: pointer;
     -webkit-touch-callout: all;
     -webkit-user-select: all;
   }
@@ -80,6 +81,7 @@
     outline: none;
     opacity: 80%;
     transition: all 200ms ease;
+    cursor: pointer;
   }
 
   button:hover, button:focus {

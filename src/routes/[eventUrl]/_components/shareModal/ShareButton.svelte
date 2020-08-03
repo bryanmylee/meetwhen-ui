@@ -23,6 +23,7 @@
     outline: none;
     opacity: 80%;
     transition: all 200ms ease;
+    cursor: pointer;
   }
 
   button:hover, button:focus {
