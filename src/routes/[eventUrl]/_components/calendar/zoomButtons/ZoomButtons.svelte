@@ -24,8 +24,8 @@
 <style>
   div {
     position: absolute;
-    right: 1em;
-    bottom: 1em;
+    right: 0.5em;
+    bottom: 0.5em;
     display: flex;
     justify-content: flex-end;
     z-index: 20;

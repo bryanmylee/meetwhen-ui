@@ -8,7 +8,7 @@
 
 {#if show}
   <div data-trash-target transition:fade={{ duration: 200 }}>
-    <Trash color="var(--error-300)" />
+    <Trash/>
   </div>
 {/if}
 
@@ -17,18 +17,31 @@
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
-    bottom: 2em;
+    bottom: 1.5em;
     z-index: 15;
     width: 3em;
     height: 3em;
-    border-radius: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0.8em;
+    border-radius: 500px;
     background-color: var(--bg);
     transition: all 200ms ease-in;
     box-shadow: var(--shadow-small);
+    cursor: pointer;
   }
 
   div:hover {
-    box-shadow: var(--shadow-med);
+    box-shadow: var(--shadow-large);
+    background-color: var(--error-300);
+  }
+
+  :global([data-trash-target] svg path) {
+    fill: var(--error-300);
+  }
+
+  :global([data-trash-target]:hover svg path) {
+    fill: var(--bg);
   }
 </style>
