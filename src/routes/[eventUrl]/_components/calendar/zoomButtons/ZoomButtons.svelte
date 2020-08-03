@@ -1,6 +1,6 @@
 <script>
-  import ZoomIn from 'src/components/icons/ZoomIn.svelte';
-  import ZoomOut from 'src/components/icons/ZoomOut.svelte';
+  import Add from 'src/components/icons/Add.svelte';
+  import Remove from 'src/components/icons/Remove.svelte';
 
   // BINDINGS
   // ========
@@ -11,13 +11,13 @@
   <button
     on:click={() => size = Math.min(32, size + 4)}
   >
-    <ZoomIn color="var(--text-800)" />
+    <Add color="var(--text-800)" />
   </button>
   <button alt iconOnly
     on:click={() => size = Math.max(4, size - 4)}
     style="margin-left: 1em;"
   >
-    <ZoomOut color="var(--text-800)" />
+    <Remove color="var(--text-800)" />
   </button>
 </div>
 
