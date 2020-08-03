@@ -69,10 +69,10 @@
   --nav-height: 50px;
   --index-col-width: 4em;
   --header-row-height: 2rem;
-  --col-width: 6rem;
-  --row-height: 5rem;
+  --col-width: 6em;
+  --row-height: 5em;
   --select-width: var(--col-width);
-  --select-collapse-width: 1rem;
+  --select-collapse-width: 1em;
 }
 
 * {

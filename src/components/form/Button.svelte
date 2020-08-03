@@ -2,6 +2,7 @@
   export let outline = false;
   export let alt = false;
   export let disabled = false;
+  export let iconOnly = false;
   export let style = '';
 </script>
 
@@ -12,6 +13,7 @@
   class="no-highlight"
   class:outline={outline}
   class:alt={alt}
+  class:icon-only={iconOnly}
   {...$$props}
 >
   <slot/>
@@ -47,6 +49,12 @@
     box-shadow: none;
     background-color: var(--grey-400);
     transform: none;
+  }
+
+  button.icon-only {
+    width: 2.8em;
+    height: 2.8em;
+    padding: 0.7em;
   }
 
   button.outline {

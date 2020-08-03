@@ -38,6 +38,7 @@
 
 <style>
   .popover {
+    font-size: 1rem;
     z-index: 90;
   }
 

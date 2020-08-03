@@ -18,7 +18,9 @@
   </div>
   {#each hours as hour}
     <div class="cell index-col__cell">
-      {hour.add(1, 'hour').format('ha')}
+      <span>
+        {hour.add(1, 'hour').format('ha')}
+      </span>
     </div>
   {/each}
 </div>
@@ -51,6 +53,9 @@
   .index-col__cell {
     margin-top: calc(var(--row-height) * 0.5);
     min-height: var(--row-height);
+  }
+
+  .index-col__cell span {
     font-size: 0.8em;
     color: var(--grey-400);
   }
