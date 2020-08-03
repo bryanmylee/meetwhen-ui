@@ -9,10 +9,10 @@
 </script>
 
 <div>
-  <Button alt iconOnly on:click={() => size = Math.min(32, size + 1)}>
+  <Button alt iconOnly on:click={() => size = Math.min(32, size + 4)}>
     <ZoomIn color="var(--text-700)" />
   </Button>
-  <Button alt iconOnly on:click={() => size = Math.max(8, size - 1)} style="margin-left: 1em;">
+  <Button alt iconOnly on:click={() => size = Math.max(8, size - 4)} style="margin-left: 1em;">
     <ZoomOut color="var(--text-700)" />
   </Button>
 </div>

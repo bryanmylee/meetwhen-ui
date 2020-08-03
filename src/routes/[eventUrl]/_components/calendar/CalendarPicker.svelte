@@ -145,10 +145,12 @@
 
 <style>
   .calendar__picker {
+    flex: 1;
     /* For absolutely positioned elements */
     position: relative;
     /* To set the height of the scroll container */
     height: 100%;
+    min-height: 0;
   }
 
   .calendar__scroll-container {
