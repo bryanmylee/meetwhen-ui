@@ -12,7 +12,7 @@
   <Button alt iconOnly on:click={() => size = Math.min(32, size + 4)}>
     <ZoomIn color="var(--text-700)" />
   </Button>
-  <Button alt iconOnly on:click={() => size = Math.max(8, size - 4)} style="margin-left: 1em;">
+  <Button alt iconOnly on:click={() => size = Math.max(4, size - 4)} style="margin-left: 1em;">
     <ZoomOut color="var(--text-700)" />
   </Button>
 </div>
@@ -20,11 +20,12 @@
 <style>
   div {
     position: absolute;
-    right: 2em;
-    bottom: 2em;
+    right: 1em;
+    bottom: 1em;
     display: flex;
     justify-content: flex-end;
     z-index: 20;
+    padding: 1em;
     pointer-events: none;
   }
 
