@@ -14,10 +14,10 @@
 
 <style>
   div {
-    position: sticky;
+    position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
-    bottom: 1em;
+    bottom: 2em;
     z-index: 15;
     width: 3em;
     height: 3em;

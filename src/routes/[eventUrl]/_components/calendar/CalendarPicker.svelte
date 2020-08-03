@@ -86,57 +86,58 @@
   let:deleteDefined
 >
   <div class="calendar__picker">
-    <div
-      class="calendar__body no-highlight"
-      use:calendarInteraction={{ enabled }}
-      use:autoScrollSelf={{ hour: earliestHour }}
-      on:newSelectStart={newSelectStart}
-      on:newSelectMove={newSelectMove}
-      on:newSelectStop={newSelectStop}
-      on:moveDefinedStop={moveDefinedStop}
-      on:resizeDefinedStart={resizeDefinedStart}
-      on:resizeDefinedMove={resizeDefinedMove}
-      on:resizeDefinedStop={resizeDefinedStop}
-      on:deleteDefined={deleteDefined}
-      style="font-size: {size}px"
-    >
-      <IndexColumn startingDay={daysToShow[0].day}/>
-      {#each daysToShow as { day, skipped }}
-        <Column {day} {skipped}>
-          <UnavailableColumnOverlay
-            eventIntervals={intervalsSplitOnMidnight
-              .filter((interval) => interval.start.isSame(day, 'day'))
-            }
-          />
-
-          {#each timeIntervalsWithMinUsersWithSkip
-            .filter((i) => i.start.isSame(day, 'date'))
-          as interval (`${+interval.start}-${+interval.end}`)}
-            <OtherUsersInterval
-              {...interval}
-              {minUsers}
-              {maxUsers}
-              on:select={selectOtherUsersInterval}
-              isSelected={selectedOthers && selectedOthers.start === interval.start}
+    <div class="calendar__scroll-container">
+      <div
+        class="calendar__body no-highlight"
+        use:calendarInteraction={{ enabled }}
+        use:autoScrollSelf={{ hour: earliestHour }}
+        on:newSelectStart={newSelectStart}
+        on:newSelectMove={newSelectMove}
+        on:newSelectStop={newSelectStop}
+        on:moveDefinedStop={moveDefinedStop}
+        on:resizeDefinedStart={resizeDefinedStart}
+        on:resizeDefinedMove={resizeDefinedMove}
+        on:resizeDefinedStop={resizeDefinedStop}
+        on:deleteDefined={deleteDefined}
+        style="font-size: {size}px"
+      >
+        <IndexColumn startingDay={daysToShow[0].day}/>
+        {#each daysToShow as { day, skipped }}
+          <Column {day} {skipped}>
+            <UnavailableColumnOverlay
+              eventIntervals={intervalsSplitOnMidnight
+                .filter((interval) => interval.start.isSame(day, 'day'))
+              }
             />
-          {/each}
 
-          {#each selections
-            .filter((s) => s.start.isSame(day, 'date'))
-          as selection (`${+selection.start}-${+selection.end}`)}
-            <DefinedSelection {...selection} />
-          {/each}
+            {#each timeIntervalsWithMinUsersWithSkip
+              .filter((i) => i.start.isSame(day, 'date'))
+            as interval (`${+interval.start}-${+interval.end}`)}
+              <OtherUsersInterval
+                {...interval}
+                {minUsers}
+                {maxUsers}
+                on:select={selectOtherUsersInterval}
+                isSelected={selectedOthers && selectedOthers.start === interval.start}
+              />
+            {/each}
 
-          {#each newSelections
-            .filter((s) => s.start.isSame(day, 'date'))
-          as selection}
-            <NewSelection {...selection} />
-          {/each}
+            {#each selections
+              .filter((s) => s.start.isSame(day, 'date'))
+            as selection (`${+selection.start}-${+selection.end}`)}
+              <DefinedSelection {...selection} />
+            {/each}
 
-        </Column>
-      {/each}
+            {#each newSelections
+              .filter((s) => s.start.isSame(day, 'date'))
+            as selection}
+              <NewSelection {...selection} />
+            {/each}
+
+          </Column>
+        {/each}
+      </div>
     </div>
-
     <TrashTarget show={$dragDropState === dragDropEnum.MOVING} />
     <ZoomButtons bind:size />
   </div>
@@ -144,9 +145,16 @@
 
 <style>
   .calendar__picker {
+    /* For absolutely positioned elements */
+    position: relative;
+    /* To set the height of the scroll container */
+    height: 100%;
+  }
+
+  .calendar__scroll-container {
+    height: 100%;
     overflow: scroll;
     scroll-behavior: smooth;
-    position: relative;
   }
 
   .calendar__body {

@@ -19,13 +19,11 @@
 
 <style>
   div {
-    position: sticky;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: absolute;
+    right: 2em;
+    bottom: 2em;
     display: flex;
     justify-content: flex-end;
-    padding: 1em;
     z-index: 20;
     pointer-events: none;
   }
