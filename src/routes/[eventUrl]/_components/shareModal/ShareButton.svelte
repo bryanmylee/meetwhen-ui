@@ -16,7 +16,7 @@
   button {
     width: 40px;
     height: 40px;
-    padding: 0.5em;
+    padding: 8px;
     border-radius: 1.5em;
     background-color: transparent;
     border: none;

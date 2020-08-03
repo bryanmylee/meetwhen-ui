@@ -1,11 +1,27 @@
 <script>
   import { slide } from 'svelte/transition';
+  import { createPopperActions } from 'svelte-popperjs';
 
   import { calendarSelectionEnabled } from './stores';
 
+  import Info from 'src/components/icons/Info.svelte';
   import ErrorTip from 'src/components/ui/ErrorTip.svelte';
+  import Tooltip from 'src/components/ui/Tooltip.svelte';
+
+  const [popperRef, popperContent] = createPopperActions();
 
   export let showError = false;
+
+  // STATE
+  // =====
+  let showTooltip = false;
+
+  const popperOptions = {
+    placement: 'left',
+    modifiers: [
+      { name: 'offset', options: { offset: [0, 8] } },
+    ],
+  };
 </script>
 
 <!-- CALENDAR PICKER CARD TITLE HEADER -->
@@ -16,12 +32,27 @@ on Chrome and Firefox -->
     <div class="container" transition:slide={{ duration: 300 }}>
       <div class="header">
         <h3>Pick a time</h3>
+        <span
+          use:popperRef
+          on:click={() => showTooltip = !showTooltip}
+        >
+          <Info color="var(--grey-800)" />
+        </span>
       </div>
       <ErrorTip show={showError}>
         Schedule cannot be empty
       </ErrorTip>
     </div>
   </div>
+{/if}
+{#if showTooltip}
+  <Tooltip use={popperContent} {popperOptions}>
+    <div class="tooltip-content">
+      <h5>
+        Long touch and drag to make a selection
+      </h5>
+    </div>
+  </Tooltip>
 {/if}
 
 <style>
@@ -33,5 +64,26 @@ on Chrome and Firefox -->
   .header {
     display: flex;
     justify-content: space-between;
+  }
+
+  span {
+    margin: -4px;
+    width: 32px;
+    height: 32px;
+    padding: 6px;
+    border-radius: 500px;
+    cursor: pointer;
+  }
+
+  span:hover, span:focus {
+    background-color: var(--grey-200);
+  }
+
+  .tooltip-content {
+    padding: 0.5em;
+  }
+
+  h5 {
+    font-weight: 600;
   }
 </style>
