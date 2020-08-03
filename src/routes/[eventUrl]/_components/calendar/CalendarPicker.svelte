@@ -176,6 +176,7 @@
     display: flex;
     width: fit-content;
     min-width: 100%;
+    margin-bottom: 3rem;
     transition: font-size 200ms ease-out;
   }
 
