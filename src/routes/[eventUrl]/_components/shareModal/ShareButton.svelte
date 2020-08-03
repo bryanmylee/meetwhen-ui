@@ -1,12 +1,12 @@
 <script>
-  import ShareIcon from './ShareIcon.svelte';
+  import Share from 'src/components/icons/Share.svelte';
   import ShareModal from './ShareModal.svelte';
 
   let showModal;
 </script>
 
 <button on:click={() => showModal = true}>
-  <ShareIcon />
+  <Share color="var(--primary-text)" />
 </button>
 {#if showModal}
   <ShareModal on:dismiss={() => showModal = false}/>

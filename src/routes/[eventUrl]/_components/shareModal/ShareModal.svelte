@@ -33,7 +33,7 @@
   <div class="link-container">
     <span on:click={copyToClipboard}>{url}</span>
     <button on:click={copyToClipboard}>
-      <Copy />
+      <Copy color="var(--primary-text)" />
     </button>
   </div>
 </div>

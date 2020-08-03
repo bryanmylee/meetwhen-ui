@@ -8,7 +8,7 @@
 
 {#if show}
   <div data-trash-target transition:fade={{ duration: 200 }}>
-    <Trash />
+    <Trash color="var(--error-300)" />
   </div>
 {/if}
 

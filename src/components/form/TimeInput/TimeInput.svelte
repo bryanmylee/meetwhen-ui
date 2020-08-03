@@ -53,7 +53,7 @@
   on:click={handleClick}
 >
   <span>{selectedTime ? selectedTime.format('ha') : ''}</span>
-  <CaretDown/>
+  <CaretDown color="var(--grey-400)"/>
 </button>
 {#if showTimes}
   <TimeDropdown
