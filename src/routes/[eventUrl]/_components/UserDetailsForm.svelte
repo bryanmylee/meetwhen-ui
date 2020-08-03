@@ -78,7 +78,7 @@
       <div
         in:slide={{ duration: firstTransition ? 0 : 300 }}
         out:slide={{ duration: 300 }}
-        style="margin-top: 0.8em; overflow: hidden; padding-bottom: 1px;"
+        style="margin-top: 0.8em; overflow: hidden; padding-bottom: 2px;"
       >
         <TextInput label="Username"
           bind:value={username} bind:valid={usernameValid}
