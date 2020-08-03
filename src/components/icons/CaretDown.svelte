@@ -33,7 +33,7 @@
 
   polyline {
     fill: none;
-    stroke-width: 4px;
+    stroke-width: 6px;
     stroke-linejoin: round;
     stroke-linecap: round;
   }
