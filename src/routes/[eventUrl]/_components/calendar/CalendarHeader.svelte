@@ -59,6 +59,8 @@ on Chrome and Firefox -->
   .container {
     padding: 0.8em;
     padding-bottom: 0;
+    background-color: var(--bg);
+    margin-bottom: -2px;
   }
 
   .header {
@@ -71,6 +73,7 @@ on Chrome and Firefox -->
     width: 32px;
     height: 32px;
     padding: 6px;
+    z-index: 30;
     border-radius: 500px;
     cursor: pointer;
   }
