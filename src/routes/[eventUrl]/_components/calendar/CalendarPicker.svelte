@@ -176,7 +176,7 @@
     display: flex;
     width: fit-content;
     min-width: 100%;
-    transition: font-size 100ms ease-out;
+    transition: font-size 200ms ease-out;
   }
 
   .month-label {
@@ -192,6 +192,6 @@
     padding: 0.5em;
     border-bottom: 1px var(--grey-400) solid;
     background-color: var(--bg);
-    transition: font-size 200ms ease;
+    transition: all 200ms ease-out;
   }
 </style>
