@@ -30,7 +30,7 @@
     displayedMessages = [...displayedMessages, {
       timestamp,
       content: newMessage,
-      timer: setInterval(() => {
+      timer: setTimeout(() => {
         displayedMessages = displayedMessages
           .filter((msg) => msg.timestamp !== timestamp || msg.content !== newMessage);
       }, messageDuration),
