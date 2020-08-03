@@ -15,6 +15,8 @@
   // STATE
   // =====
   let showTooltip = false;
+  // Set showTooltip to false whenever calendarSelecitonEnabled is toggled.
+  $: showTooltip = $calendarSelectionEnabled && false;
 
   const popperOptions = {
     placement: 'left',
@@ -44,15 +46,15 @@ on Chrome and Firefox -->
       </ErrorTip>
     </div>
   </div>
-{/if}
-{#if showTooltip}
-  <Tooltip use={popperContent} {popperOptions}>
-    <div class="tooltip-content">
-      <h5>
-        Long touch and drag to make a selection
-      </h5>
-    </div>
-  </Tooltip>
+  {#if showTooltip}
+    <Tooltip use={popperContent} {popperOptions}>
+      <div class="tooltip-content">
+        <h5>
+          Long touch and drag to make a selection
+        </h5>
+      </div>
+    </Tooltip>
+  {/if}
 {/if}
 
 <style>
