@@ -143,7 +143,10 @@
     </div>
 
     <!-- MONTH LABEL -->
-    <div class="month-label">
+    <div
+      class="month-label"
+      style="font-size: {size}px"
+    >
       {startingDay == null ? 'NIL' : startingDay.format('MMM')}
     </div>
 
@@ -189,5 +192,6 @@
     padding: 0.5em;
     border-bottom: 1px var(--grey-400) solid;
     background-color: var(--bg);
+    transition: font-size 200ms ease;
   }
 </style>
