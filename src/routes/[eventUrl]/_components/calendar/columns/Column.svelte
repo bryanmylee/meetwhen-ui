@@ -32,13 +32,12 @@
   .date-label {
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 0;
+    top: -1px;
     z-index: 20;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0.5em;
-    box-sizing: border-box;
     border-bottom: 1px var(--grey-400) solid;
     background-color: var(--bg);
   }
@@ -48,7 +47,6 @@
     /* min-width: var(--col-width); */
     width: 100%;
     min-height: calc(var(--row-height) * 24);
-    box-sizing: border-box;
     border-right: 1px var(--grey-300) solid;
     user-select: none;
   }

@@ -29,7 +29,7 @@
   .index-col {
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    left: 0;
+    left: -1px;
     z-index: 21;
     min-width: var(--index-col-width);
     background-color: var(--bg);
@@ -38,7 +38,7 @@
   .month-label {
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 0;
+    top: -1px;
     z-index: 22;
     display: flex;
     justify-content: center;
