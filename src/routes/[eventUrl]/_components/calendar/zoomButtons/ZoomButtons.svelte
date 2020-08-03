@@ -1,7 +1,7 @@
 <script>
   import { Button } from 'src/components/form';
-  import ZoomInIcon from './ZoomInIcon.svelte';
-  import ZoomOutIcon from './ZoomOutIcon.svelte';
+  import ZoomIn from 'src/components/icons/ZoomIn.svelte';
+  import ZoomOut from 'src/components/icons/ZoomOut.svelte';
 
   // BINDINGS
   // ========
@@ -10,10 +10,10 @@
 
 <div>
   <Button alt iconOnly on:click={() => size = Math.min(32, size + 1)}>
-    <ZoomInIcon/>
+    <ZoomIn/>
   </Button>
   <Button alt iconOnly on:click={() => size = Math.max(8, size - 1)} style="margin-left: 1em;">
-    <ZoomOutIcon/>
+    <ZoomOut/>
   </Button>
 </div>
 

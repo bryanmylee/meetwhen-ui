@@ -3,7 +3,7 @@
   import { fade } from 'svelte/transition';
 
   import ScreenDim from 'src/components/ui/ScreenDim.svelte';
-  import CopyIcon from './CopyIcon.svelte';
+  import Copy from 'src/components/icons/Copy.svelte';
   import Toast from 'src/components/ui/Toast.svelte';
 
   const dispatch = createEventDispatcher();
@@ -33,7 +33,7 @@
   <div class="link-container">
     <span on:click={copyToClipboard}>{url}</span>
     <button on:click={copyToClipboard}>
-      <CopyIcon />
+      <Copy />
     </button>
   </div>
 </div>

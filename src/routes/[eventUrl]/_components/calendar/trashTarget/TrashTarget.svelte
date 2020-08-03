@@ -1,14 +1,14 @@
 <script>
   import { fade } from 'svelte/transition';
 
-  import TrashIcon from './TrashIcon.svelte';
+  import Trash from 'src/components/icons/Trash.svelte';
 
   export let show = false;
 </script>
 
 {#if show}
   <div data-trash-target transition:fade={{ duration: 200 }}>
-    <TrashIcon />
+    <Trash />
   </div>
 {/if}
 
