@@ -82,12 +82,15 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
  * }>} The event details.
  */
 export async function getEvent(fetch, apiUrl, eventUrl) {
-  const {
-    title, description, color, scheduleInMs, userSchedulesInMs, accessToken,
-  } = await (await fetch(`${apiUrl}/${eventUrl}`, {
+  const response = await (await fetch(`${apiUrl}/${eventUrl}`, {
     credentials: 'include',
   })).json();
 
+  if (response.error) {
+    throw new Error(response.error);
+  }
+
+  const { scheduleInMs, userSchedulesInMs, ...event } = response;
   // Parse datetimes
   const schedule = scheduleInMs.map(deserializeInterval);
   let userSchedules = {};
@@ -98,13 +101,9 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
       ]));
   }
   return {
-    eventUrl,
-    title,
-    description,
-    color,
+    ...event,
     schedule,
     userSchedules,
-    accessToken,
   };
 }
 

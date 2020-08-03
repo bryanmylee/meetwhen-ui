@@ -5,7 +5,14 @@
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
-    const event = await getEvent(this.fetch, session.API_URL, eventUrl);
+    let event;
+
+    try {
+      event = await getEvent(this.fetch, session.API_URL, eventUrl);
+    } catch (err) {
+      this.redirect(302, `${eventUrl}/404`);
+    }
+
     if (event.color) {
       currentColor.setBaseColorHex(event.color);
     }
@@ -210,10 +217,9 @@
     on:logout={handleLogout}
     disabled={isLoading}
   />
-
+</div>
   <Toast bind:message={message} />
   <Toast error bind:message={errorMessage} />
-</div>
 
 <style>
   .picker-container {
