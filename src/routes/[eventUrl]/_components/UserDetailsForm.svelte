@@ -7,6 +7,7 @@
   import { validateNewPassword, validateNewUsername, validatePassword, validateUsername } from 'src/utils/validation';
   import { KEY_RETURN } from 'src/utils/constants';
 
+  import CaretDown from 'src/components/icons/CaretDown.svelte';
   import { TextInput } from 'src/components/form';
 
   const dispatch = createEventDispatcher();
@@ -68,6 +69,10 @@
   <div in:fade={{ duration: 150, delay: 300 }} out:fade={{ duration: 150 }}>
     <div class="form-header" on:click={() => collapsed = !collapsed} >
       <h3>{prompt}</h3>
+      <CaretDown
+        flipped={!collapsed || $layout === layoutEnum.WIDE}
+        style="margin: -0.4em;"
+      />
     </div>
     {#if !collapsed || $layout === layoutEnum.WIDE}
       <div
@@ -100,5 +105,7 @@
     margin: -0.8em;
     padding: 0.8em;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
   }
 </style>

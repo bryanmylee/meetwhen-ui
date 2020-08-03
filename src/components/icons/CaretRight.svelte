@@ -10,13 +10,16 @@
 
 <style>
   div {
-    width: 40px;
-    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.2em;
+    padding: 2px;
     transform: rotate(-90deg);
+  }
+
+  svg {
+    width: 32px;
+    height: 32px;
   }
 
   polyline {
