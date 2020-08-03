@@ -1,7 +1,7 @@
 <script context="module">
-  import { currentColor } from 'src/stores';
+  import { currentColor, user } from 'src/stores';
   import { getEvent } from 'src/api/event';
-  import { login, logout, getAccessToken } from 'src/api/authentication';
+  import { login, logout } from 'src/api/authentication';
 
   export async function preload(page, session) {
     const { eventUrl } = page.params;
@@ -9,24 +9,16 @@
     if (event.color) {
       currentColor.setBaseColorHex(event.color);
     }
-    let accessToken = null;
-    // Check for refresh token on browser by getting access token.
-    if (process.browser) {
-      try {
-        accessToken = (await getAccessToken(this.fetch, session.API_URL, eventUrl)).accessToken;
-      } catch (err) {
-        // Refresh token not found.
-        // console.log(err.message);
-      }
+    if (event.accessToken) {
+      user.setAccessToken(event.accessToken, session.ACCESS_TOKEN_SECRET);
     }
-    return { event, accessToken };
+    return { event };
   }
 </script>
 
 <script>
   import { stores } from '@sapper/app';
 
-  import { user } from 'src/stores';
   import { formEnum, form } from './stores';
   import { undoRedo } from 'src/actions/hotkeys';
   import undoable from 'src/utils/undoable';
@@ -47,8 +39,6 @@
   // PRELOADED DATA
   // ==============
   export let event;
-  export let accessToken;
-  user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
 
   // FORM DATA
   // =========
@@ -132,7 +122,7 @@
     }
     const userDetails = { username, password };
     try {
-      accessToken = (await login(fetch, $session.API_URL, event.eventUrl, userDetails)).accessToken;
+      const { accessToken } = await login(fetch, $session.API_URL, event.eventUrl, userDetails);
       user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
       refreshDataOnSuccess();
     } catch (err) {

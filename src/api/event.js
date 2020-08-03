@@ -83,7 +83,7 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
  */
 export async function getEvent(fetch, apiUrl, eventUrl) {
   const {
-    title, description, color, scheduleInMs, userSchedulesInMs,
+    title, description, color, scheduleInMs, userSchedulesInMs, accessToken,
   } = await (await fetch(`${apiUrl}/${eventUrl}`, {
     credentials: 'include',
   })).json();
@@ -104,6 +104,7 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
     color,
     schedule,
     userSchedules,
+    accessToken,
   };
 }
 
