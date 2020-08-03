@@ -30,7 +30,7 @@
 <!-- Wrap the slide transition within an extra div to prevent jitter issue
 on Chrome and Firefox -->
 {#if $calendarSelectionEnabled}
-  <div>
+  <div class="transition-container">
     <div class="container" transition:slide={{ duration: 300 }}>
       <div class="header">
         <h3>Pick a time</h3>
@@ -58,11 +58,14 @@ on Chrome and Firefox -->
 {/if}
 
 <style>
+  .transition-container {
+    background-color: var(--bg);
+    z-index: 1;
+  }
+
   .container {
     padding: 0.8em;
     padding-bottom: 0;
-    background-color: var(--bg);
-    margin-bottom: -2px;
   }
 
   .header {
