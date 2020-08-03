@@ -1,10 +1,12 @@
 <script>
-  import { cardIn, cardOut } from 'src/transitions/paginatedCard';
+  import { getCardInOut } from 'src/transitions/paginatedCard';
   import { layoutEnum, layout } from 'src/stores';
   import { detailsEnum, details } from '../stores';
 
   import EventDetails from './EventDetails.svelte';
   import FilterCard from './filterCard/FilterCard.svelte';
+
+  const { leftCardIn, leftCardOut, rightCardIn, rightCardOut } = getCardInOut({ duration: 400 });
 
   // PROPS
   // =====
@@ -13,16 +15,16 @@
 
 {#if $layout === layoutEnum.NARROW}
   {#if $details === detailsEnum.EVENT_DETAILS}
-    <div
-      in:cardIn={{ duration: 300, left: true }}
-      out:cardOut={{ duration: 300, left: true }}
+    <div id="left"
+      in:leftCardIn
+      out:leftCardOut
     >
       <EventDetails title={event.title} description={event.description} />
     </div>
   {:else if $details === detailsEnum.ATTENDANCE}
-    <div
-      in:cardIn={{ duration: 300, left: false }}
-      out:cardOut={{ duration: 300, left: false }}
+    <div id="right"
+      in:rightCardIn
+      out:rightCardOut
     >
       <FilterCard usernames={Object.keys(event.userSchedules)} />
     </div>
