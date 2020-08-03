@@ -4,14 +4,25 @@
  * When focused, the bottom border will be highlighted a primary color. If there
  * is an error condition, the bottom border will be highlighted an error color.
  * @param {HTMLElement} node The input element.
- * @param {{ isPassword: boolean }} actionOptions
+ * @param {{
+ *   isPassword: boolean,
+ *   focused: boolean,
+ * }} actionOptions
  * @param actionOptions.isPassword Whether the input is a password type. This
  * allows binding value while allowing input type to be dynamic between text and
  * password.
+ * @param actionOptions.focused Whether the input element is focused.
  */
-export function inputAction(node, { isPassword }) {
+export function inputAction(node, { isPassword, focused, showError }) {
   if (isPassword) {
     node.type = 'password';
+  }
+  if (focused) {
+    node.focus();
+    focus();
+  }
+  if (showError) {
+    error();
   }
   function normal() {
     node.style.border = '1px solid transparent';
@@ -23,13 +34,13 @@ export function inputAction(node, { isPassword }) {
     node.style.border = '1px solid var(--error-500)';
   }
   return {
-    update({ focused, showError }) {
-      if (focused) {
+    update({ focused: newFocused, showError: newShowError }) {
+      if (newFocused) {
         focus();
       } else {
         normal();
       }
-      if (showError) error();
+      if (newShowError) error();
     },
   };
 }
@@ -40,7 +51,7 @@ export function inputAction(node, { isPassword }) {
  * will be highlighted an error color.
  * @param {HTMLElement} node The input label element.
  */
-export function labelAction(node, { focused, value, showError }) {
+export function labelAction(node, { focused, value, showError, focusOnMount }) {
   function normal() {
     node.style.fontSize = '1em';
     node.style.top = '0.8em';
@@ -56,7 +67,7 @@ export function labelAction(node, { focused, value, showError }) {
   }
 
   const nonEmpty = value && value.length !== 0;
-  if (focused || nonEmpty) {
+  if (focused || nonEmpty || focusOnMount) {
     focus();
   } else {
     normal();

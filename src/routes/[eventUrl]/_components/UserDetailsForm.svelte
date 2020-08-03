@@ -66,17 +66,19 @@
   transition:slide={{ duration: 300 }}
 >
   <div in:fade={{ duration: 150, delay: 300 }} out:fade={{ duration: 150 }}>
-    <h3 on:click={() => collapsed = !collapsed} >{prompt}</h3>
+    <div class="form-header" on:click={() => collapsed = !collapsed} >
+      <h3>{prompt}</h3>
+    </div>
     {#if !collapsed || $layout === layoutEnum.WIDE}
       <div
         in:slide={{ duration: firstTransition ? 0 : 300 }}
         out:slide={{ duration: 300 }}
-        style="margin-top: 0.8em; overflow: hidden"
+        style="margin-top: 0.8em; overflow: hidden; padding-bottom: 1px;"
       >
         <TextInput label="Username"
           bind:value={username} bind:valid={usernameValid}
           on:keydown={handleKeydown}
-          required {attempted} validationFunction={usernameValidation} />
+          focusOnMount required {attempted} validationFunction={usernameValidation} />
         <TextInput label="Password"
           bind:value={password} bind:valid={passwordValid}
           on:keydown={handleKeydown}
@@ -91,5 +93,12 @@
 <style>
   div {
     height: min-content;
+  }
+
+  .form-header {
+    /* Extend the form header to the edges of the card to allow a larger selection target */
+    margin: -0.8em;
+    padding: 0.8em;
+    cursor: pointer;
   }
 </style>

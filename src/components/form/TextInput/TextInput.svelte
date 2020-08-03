@@ -28,10 +28,11 @@
   export let tip = '';
   export let style = '';
   export let validationFunction;
+  export let focusOnMount = false;
 
   // STATE
   // =====
-  let focused = false;
+  let focused = focusOnMount;
   let errorMessage = null;
 </script>
 
@@ -42,7 +43,7 @@
     on:keydown
     on:keyup
   />
-  <label use:labelAction={{ focused, value, showError: !valid && attempted }}>
+  <label use:labelAction={{ focused, value, showError: !valid && attempted, focusOnMount }}>
     {label}
   </label>
   {#if required}
