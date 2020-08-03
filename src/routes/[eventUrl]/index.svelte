@@ -144,9 +144,9 @@
     }
     const userDetails = { username, password, schedule: $selections };
     try {
-      accessToken = (await addUserToEvent(
+      const { accessToken } = await addUserToEvent(
         fetch, $session.API_URL, event.eventUrl, userDetails,
-      )).accessToken;
+      );
       user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
       refreshDataOnSuccess();
     } catch (err) {
