@@ -27,6 +27,11 @@
     justify-content: flex-end;
     padding: 1em;
     z-index: 20;
+    pointer-events: none;
+  }
+
+  div :global(button) {
+    pointer-events: all;
   }
 </style>
 
