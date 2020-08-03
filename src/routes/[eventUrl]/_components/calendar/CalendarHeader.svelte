@@ -60,7 +60,8 @@ on Chrome and Firefox -->
 <style>
   .transition-container {
     background-color: var(--bg);
-    z-index: 1;
+    z-index: 21;
+    margin-bottom: -1px;
   }
 
   .container {
