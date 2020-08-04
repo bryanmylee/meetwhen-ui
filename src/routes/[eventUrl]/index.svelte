@@ -61,6 +61,16 @@
   $: showCalendarError = attempted
       && ($form === formEnum.EDITING || $form === formEnum.JOINING)
       && !scheduleValid;
+  let disableConfirm = false;
+  $: {
+    if ($form === formEnum.EDITING) {
+      disableConfirm = !scheduleValid;
+    } else if ($form === formEnum.JOINING) {
+      disableConfirm = !userDetailsValid || !scheduleValid;
+    } else if ($form === formEnum.LOGGING_IN) {
+      disableConfirm = !userDetailsValid;
+    }
+  }
 
   // PAGE STATE
   // ==========
@@ -216,6 +226,7 @@
     on:submit={handleSubmit}
     on:logout={handleLogout}
     disabled={isLoading}
+    fakeDisabled={disableConfirm}
   />
 </div>
   <Toast bind:message={message} />

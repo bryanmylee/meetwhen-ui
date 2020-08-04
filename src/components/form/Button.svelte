@@ -2,6 +2,7 @@
   export let outline = false;
   export let alt = false;
   export let disabled = false;
+  export let fakeDisabled = false;
   export let iconOnly = false;
   export let style = '';
 </script>
@@ -13,6 +14,7 @@
   class="no-highlight"
   class:outline={outline}
   class:alt={alt}
+  class:fake-disabled={fakeDisabled}
   class:icon-only={iconOnly}
   {...$$props}
 >
@@ -45,7 +47,7 @@
     box-shadow: none;
   }
 
-  button:disabled {
+  button:disabled, button.fake-disabled {
     cursor: unset;
     box-shadow: none;
     background-color: var(--grey-400);
@@ -74,7 +76,7 @@
     border: 1px var(--primary-600) solid;
   }
 
-  button.outline:disabled {
+  button.outline:disabled, button.outline.fake-disabled {
     color: var(--grey-500);
     border: 1px var(--grey-500) solid;
     box-shadow: none;
@@ -93,7 +95,7 @@
     background-color: var(--grey-200);
   }
 
-  button.alt:disabled {
+  button.alt:disabled, button.outline.fake-disabled {
     color: var(--text-500);
     background-color: var(--grey-100);
   }

@@ -11,6 +11,7 @@
   // PROPS
   // =====
   export let disabled;
+  export let fakeDisabled;
 
   const leftMarginStyle = 'margin-left: 1em';
 
@@ -31,11 +32,11 @@
   {#if $layout === layoutEnum.NARROW}
     <div class="bar__left">
       {#if $details === detailsEnum.EVENT_DETAILS}
-        <Button alt {disabled} on:click={() => $details = detailsEnum.ATTENDANCE}>
+        <Button alt on:click={() => $details = detailsEnum.ATTENDANCE}>
           Filter
         </Button>
       {:else}
-        <Button alt {disabled} on:click={() => $details = detailsEnum.EVENT_DETAILS}>
+        <Button alt on:click={() => $details = detailsEnum.EVENT_DETAILS}>
           Details
         </Button>
       {/if}
@@ -45,41 +46,41 @@
   <div class="bar__right">
     {#if $user.isLoggedIn}
       {#if $form === formEnum.EDITING}
-        <Button alt {disabled} on:click={resetForm}>
+        <Button alt on:click={resetForm}>
           Cancel
         </Button>
-        <Button {disabled} style={leftMarginStyle} on:click={submit}>
+        <Button {disabled} {fakeDisabled} style={leftMarginStyle} on:click={submit}>
           Confirm
         </Button>
       {:else}
-        <Button {disabled} on:click={logout}>
+        <Button on:click={logout}>
           Log Out
         </Button>
-        <Button {disabled} style={leftMarginStyle} on:click={() => $form = formEnum.EDITING}>
+        <Button style={leftMarginStyle} on:click={() => $form = formEnum.EDITING}>
           Edit Schedule
         </Button>
       {/if}
     {:else}
       {#if $form === formEnum.LOGGING_IN}
-        <Button alt {disabled} on:click={resetForm}>
+        <Button alt on:click={resetForm}>
           Cancel
         </Button>
-        <Button {disabled} style={leftMarginStyle} on:click={submit}>
+        <Button {disabled} {fakeDisabled} style={leftMarginStyle} on:click={submit}>
           Confirm
         </Button>
       {:else if $form === formEnum.JOINING}
-        <Button alt {disabled} on:click={resetForm}>
+        <Button alt on:click={resetForm}>
           Cancel
         </Button>
-        <Button {disabled} style={leftMarginStyle} on:click={submit}>
+        <Button {disabled} {fakeDisabled} style={leftMarginStyle} on:click={submit}>
           Confirm
         </Button>
       {:else}
-        <Button {disabled} on:click={() => $form = formEnum.LOGGING_IN}>
-          Login
+        <Button on:click={() => $form = formEnum.LOGGING_IN}>
+          Log In
         </Button>
-        <Button {disabled} style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>
-          Join Event
+        <Button style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>
+          Sign Up
         </Button>
       {/if}
     {/if}
