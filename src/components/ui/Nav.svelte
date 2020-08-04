@@ -1,10 +1,16 @@
 <script>
+  import AppIcon from 'src/components/AppIcon.svelte';
   import DarkModeToggle from './DarkModeToggle.svelte';
 </script>
 
 <nav>
   <ul>
-    <a href="/" class="hero">meetwhen</a>
+    <a href="/" class="hero">
+      <div>
+        <AppIcon color="var(--primary-500)" borderColor="transparent"/>
+      </div>
+      meetwhen
+    </a>
   </ul>
 
   <ul>
@@ -42,6 +48,14 @@
   }
 
   .hero {
+    display: flex;
+    align-items: center;
     font-weight: 800;
+  }
+
+  .hero > div {
+    width: 32px;
+    height: 32px;
+    margin-right: 0.5em;
   }
 </style>
