@@ -37,6 +37,7 @@
     padding: 4px;
     border-radius: 500px;
     transition: background-color 200ms ease;
+    cursor: pointer;
   }
 
   .button:hover, .button:focus {

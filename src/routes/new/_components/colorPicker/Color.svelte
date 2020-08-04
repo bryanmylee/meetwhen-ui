@@ -49,6 +49,7 @@
     height: 2em;
     border-radius: 2em;
     border: none;
+    cursor: pointer;
   }
 
   button:hover, button:focus {
