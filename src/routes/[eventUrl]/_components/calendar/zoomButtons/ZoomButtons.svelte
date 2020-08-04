@@ -48,6 +48,7 @@
     box-shadow: var(--shadow-small);
     cursor: pointer;
     transition: background-color 200ms ease;
+    touch-action: manipulation;
   }
 
   button:focus, button:hover {
