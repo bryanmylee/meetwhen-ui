@@ -24,7 +24,7 @@
   }
 </script>
 
-<ScreenDim on:click={() => dispatch('dismiss')} />
+<ScreenDim blur on:click={() => dispatch('dismiss')} />
 <div
   class="card outline padded"
   transition:fade={{ duration: 200 }}
@@ -52,6 +52,10 @@
     background: var(--primary-700);
     background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-gradient-dark) 100%);
     border: none;
+  }
+
+  h3, span {
+    color: var(--primary-text);
   }
 
   .link-container {

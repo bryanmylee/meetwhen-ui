@@ -39,7 +39,7 @@
 <style>
   .popover {
     font-size: 1rem;
-    z-index: 90;
+    z-index: 80;
   }
 
   .popover__content {

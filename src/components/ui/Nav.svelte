@@ -1,7 +1,5 @@
 <script>
   import DarkModeToggle from './DarkModeToggle.svelte';
-
-  export let segment;
 </script>
 
 <nav>
