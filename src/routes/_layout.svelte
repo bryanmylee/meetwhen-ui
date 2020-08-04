@@ -4,8 +4,8 @@
 
 <script>
   import Nav from 'src/components/ui/Nav.svelte';
-  import mediaQuery from 'src/actions/mediaQuery';
-  import { layoutEnum, layout, currentColor } from 'src/stores';
+  import { mediaQueries } from 'src/actions/mediaQuery';
+  import { layoutEnum, layout, currentColor, isDarkMode } from 'src/stores';
   import { getTint } from 'src/utils/colors';
 
   $: if (typeof document !== 'undefined') {
@@ -22,9 +22,15 @@
 </script>
 
 <svelte:window
-  use:mediaQuery={{
-    query: '(min-width: 768px)',
-    callback: (matches) => $layout = matches ? layoutEnum.WIDE : layoutEnum.NARROW,
+  use:mediaQueries={{
+    queries: [
+      '(min-width: 768px)',
+      '(prefers-color-scheme: dark)',
+    ],
+    callbacks: [
+      (matches) => $layout = matches ? layoutEnum.WIDE : layoutEnum.NARROW,
+      (matches) => $isDarkMode = matches,
+    ],
   }}
   bind:innerHeight
 />

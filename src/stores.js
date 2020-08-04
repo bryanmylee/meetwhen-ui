@@ -77,3 +77,5 @@ export const layoutEnum = {
   WIDE: 'WIDE',
 };
 export const layout = writable(layoutEnum.NARROW);
+
+export const isDarkMode = writable(false);
