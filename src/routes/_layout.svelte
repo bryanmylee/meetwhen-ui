@@ -8,6 +8,8 @@
   import { layoutEnum, layout, currentColor, isDarkMode } from 'src/stores';
   import { getTint } from 'src/utils/colors';
 
+  export let segment;
+
   // Setting primary colors and all tints, as well as dark mode colors.
   $: if (typeof document !== 'undefined') {
     [50, 100, 200, 300, 400, 500, 600, 700, 800, 900].forEach((tint) => {
@@ -43,7 +45,7 @@
   bind:innerHeight
 />
 
-<Nav />
+<Nav {segment} />
 <main>
   <slot />
 </main>

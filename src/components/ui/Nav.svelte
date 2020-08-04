@@ -1,6 +1,16 @@
+<script>
+  import DarkModeToggle from './DarkModeToggle.svelte';
+
+  export let segment;
+</script>
+
 <nav>
   <ul>
     <a href="/" class="hero">meetwhen</a>
+  </ul>
+
+  <ul>
+    <DarkModeToggle/>
   </ul>
 </nav>
 
@@ -22,9 +32,11 @@
   }
 
   ul {
-    display: flex;
     margin: 0;
     padding: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 
   a {
