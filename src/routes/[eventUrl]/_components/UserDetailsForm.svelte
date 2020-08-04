@@ -71,6 +71,7 @@
       <h3>{prompt}</h3>
       <CaretDown
         flipped={!collapsed || $layout === layoutEnum.WIDE}
+        color="var(--text-900)"
         style="margin: -0.4em;"
       />
     </div>

@@ -75,6 +75,32 @@
   --select-collapse-width: 1em;
 }
 
+:root.dark {
+  --grey-900: #FAFAFA;
+  --grey-800: #F5F5F5;
+  --grey-700: #EEEEEE;
+  --grey-600: #E0E0E0;
+  --grey-500: #BDBDBD;
+  --grey-400: #9E9E9E;
+  --grey-300: #757575;
+  --grey-200: #616161;
+  --grey-100: #424242;
+  --grey-50: #212121;
+  --bg: #303030;
+  --bg-50: #202020;
+  --text-900: #FAFAFA;
+  --text-800: #F5F5F5;
+  --text-700: #EEEEEE;
+  --text-600: #E0E0E0;
+  --text-500: #BDBDBD;
+  --text-400: #9E9E9E;
+  --text-300: #757575;
+  --text-200: #616161;
+  --text-100: #424242;
+  --text-50: #212121;
+}
+
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -92,6 +118,7 @@ html, body {
 
 div, span {
   box-sizing: border-box;
+  color: var(--text-900);
 }
 
 #sapper {
@@ -103,6 +130,7 @@ div, span {
 
 /* Heading */
 h1, h2, h3, h4, h5, h6 {
+  color: var(--text-800);
   font-weight: 600;
 }
 

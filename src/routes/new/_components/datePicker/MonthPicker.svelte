@@ -10,10 +10,10 @@
 <div>
   <span> {month.format('MMM')} </span>
   <button on:click={() => month = month.subtract(1, 'month')}>
-    <CaretLeft/>
+    <CaretLeft color="var(--text-900)"/>
   </button>
   <button on:click={() => month = month.add(1, 'month')}>
-    <CaretRight/>
+    <CaretRight color="var(--text-900)"/>
   </button>
 </div>
 

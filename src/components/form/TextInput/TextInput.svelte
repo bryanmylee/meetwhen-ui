@@ -62,6 +62,7 @@
   }
 
   input {
+    color: var(--text-900);
     margin: 0;
     width: 100%;
     background-color: var(--grey-100);

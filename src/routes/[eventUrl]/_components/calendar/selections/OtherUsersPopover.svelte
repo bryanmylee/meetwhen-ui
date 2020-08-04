@@ -48,7 +48,7 @@
     width: -webkit-max-content;
     height: -moz-max-content;
     height: -webkit-max-content;
-    background-color: white;
+    background-color: var(--bg);
     border-radius: 5px;
     border: 1px solid var(--grey-300);
     box-shadow: var(--shadow-med);

@@ -193,6 +193,9 @@
     padding: 0.5em;
     border-bottom: 1px var(--grey-400) solid;
     background-color: var(--bg);
-    transition: all 200ms ease-out;
+    transition:
+      font-size 200ms ease-out,
+      padding 200ms ease-out,
+      min-width 200ms ease-out;
   }
 </style>
