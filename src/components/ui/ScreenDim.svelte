@@ -1,17 +1,14 @@
 <script>
   import { fade } from 'svelte/transition';
 
-  export let opacity = 0.8;
+  export let opacity = 0.7;
 </script>
 
 <div
   on:click
   class="shade"
   transition:fade={{ duration: 200 }}
-  style="
-    background-color: var(--grey-50);
-    opacity: {opacity};
-  "
+  style="background-color: rgba(0,0,0,{opacity})"
 />
 
 <style>
