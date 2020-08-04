@@ -3,22 +3,13 @@
 
   import { isDarkMode } from 'src/stores';
 
-  import Sun from 'src/components/icons/Sun.svelte';
-  import Moon from 'src/components/icons/Moon.svelte';
-
-  $: icon = $isDarkMode ? Moon : Sun;
+  import SunMoon from 'src/components/icons/SunMoon.svelte';
 </script>
 
 <div class="container" on:click={() => $isDarkMode = !$isDarkMode}>
-  {#if $isDarkMode}
-    <div class="button" transition:fade={{ duration: 200 }}>
-      <Moon color="var(--text-700)" />
-    </div>
-  {:else}
-    <div class="button" transition:fade={{ duration: 200 }}>
-      <Sun color="var(--text-700)" />
-    </div>
-  {/if}
+  <div class="button" transition:fade={{ duration: 200 }}>
+    <SunMoon color="var(--text-900)" />
+  </div>
 </div>
 
 <style>

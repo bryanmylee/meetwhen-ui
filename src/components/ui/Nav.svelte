@@ -40,7 +40,7 @@
   }
 
   a {
-    color: var(--text-800);
+    color: var(--text-900);
   }
 
   .hero {
