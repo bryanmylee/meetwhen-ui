@@ -69,9 +69,7 @@
     border-radius: 5px;
     border: 1px solid transparent;
     padding: 1.2em 10px 0.3em;
-    transition: all 0.2s ease;
-    -moz-transition: all 0.2s ease;
-    -webkit-transition: all 0.2s ease;
+    transition: border 200ms ease;
     -webkit-appearance: none;
   }
 
@@ -87,8 +85,6 @@
     left: 10px;
     top: 0.8em;
     pointer-events: none;
-    transition: all 0.2s ease;
-    -moz-transition: all 0.2s ease;
-    -webkit-transition: all 0.2s ease;
+    transition: all 200ms ease;
   }
 </style>
