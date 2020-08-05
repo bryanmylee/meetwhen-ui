@@ -1,3 +1,5 @@
+import { FRAME_DURATION } from 'src/utils/nextFrame';
+
 /**
  * Provide dynamic input type of text/password.
  *
@@ -18,8 +20,10 @@ export function inputAction(node, { isPassword, focused, showError }) {
     node.type = 'password';
   }
   if (focused) {
-    node.focus();
-    focus();
+    setTimeout(() => {
+      node.focus();
+      focus();
+    }, FRAME_DURATION);
   }
   if (showError) {
     error();
