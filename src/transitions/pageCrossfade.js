@@ -8,7 +8,7 @@ export function fadeIn(node) {
     delay: duration,
     easing: sineOut,
     css: (t) => `opacity: ${t}`,
-    tick: () => node.style.position = 'initial',
+    tick: (t) => node.style.position = t === 1 ? 'initial' : 'fixed',
   };
 }
 
