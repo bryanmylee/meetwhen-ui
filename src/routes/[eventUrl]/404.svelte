@@ -15,9 +15,7 @@
 
 <div class="main-content fixed-height">
   <h1><strong>{eventUrl}</strong> does not exist</h1>
-
-  <h2>Create a new event instead?</h2>
-
+  <p>Create a new event instead?</p>
   <Button on:click={() => goto('/new')}>New Event</Button>
 </div>
 
@@ -29,12 +27,12 @@
     align-items: center;
   }
 
-  h1, h2 {
+  h1 {
     font-weight: 400;
     text-align: center;
   }
 
-  h2 {
+  p {
     margin-bottom: 1em;
   }
 </style>
