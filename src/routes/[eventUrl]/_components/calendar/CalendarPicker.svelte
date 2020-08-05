@@ -10,7 +10,7 @@
   import ZoomButtons from './zoomButtons/ZoomButtons.svelte';
 
   import calendarInteraction from './actions/calendarInteraction';
-  import { autoScrollSelf } from '../../../../actions/autoScroll';
+  import { autoScrollToCalendarHour } from './actions/autoScroll';
   import { calendarSelectionEnabled, dragDropState, dragDropEnum } from './stores';
   import { selectedUsernames, minUserCountFilter } from '../../stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
@@ -91,7 +91,7 @@
       <div
         class="calendar__body no-highlight"
         use:calendarInteraction={{ enabled }}
-        use:autoScrollSelf={{ hour: earliestHour }}
+        use:autoScrollToCalendarHour={{ hour: earliestHour }}
         on:newSelectStart={newSelectStart}
         on:newSelectMove={newSelectMove}
         on:newSelectStop={newSelectStop}
