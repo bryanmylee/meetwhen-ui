@@ -46,7 +46,7 @@
     } else if ($form === formEnum.JOINING) {
       usernameValidation = validateNewUsername;
       passwordValidation = validateNewPassword;
-      prompt = 'Create an account';
+      prompt = 'Add your schedule';
       tip = 'Account is unique to this event only';
     }
   }

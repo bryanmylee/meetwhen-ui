@@ -39,7 +39,7 @@
   <TextInput label="Title"
     bind:value={title} bind:valid={titleValid}
     on:keydown={handleKeydown}
-    required {attempted}
+    focusOnMount required {attempted}
     validationFunction={getRequired('Your event title cannot be empty')}
     style="margin-top: 0.8em" />
   <TextInput label="Description"
