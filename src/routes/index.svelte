@@ -6,8 +6,8 @@
   import { Button } from 'src/components/form';
 </script>
 
-<div class="main-content fixed-height" in:fadeIn out:fadeOut>
-  <div class="hero-bg">
+<div class="fixed-height" in:fadeIn out:fadeOut>
+  <div class="top-container">
     <div class="icon-container">
       <AppIcon color="var(--primary-text)" borderColor="transparent" />
     </div>
@@ -16,27 +16,34 @@
       <p>Find the perfect time to meet up with your group</p>
     </div>
   </div>
-  <Button on:click={() => goto('/new')}>New Event</Button>
+  <div class="bottom-container">
+    <Button on:click={() => goto('/new')}>New Event</Button>
+  </div>
 </div>
 
 <style>
-  .main-content {
+  .fixed-height {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
   }
 
-  .hero-bg {
-    position: relative;
+  .top-container {
+    flex: 1;
     width: 100vw;
-    min-height: 30vh;
     padding: 1em;
     margin-bottom: 1em;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     background: linear-gradient(90deg, var(--primary-500) 0%, var(--primary-gradient-dark) 100%);
+  }
+
+  .bottom-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .icon-container {

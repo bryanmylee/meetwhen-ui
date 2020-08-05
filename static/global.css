@@ -145,7 +145,13 @@ h1 {
   overflow-x: hidden;
 }
 
+.fixed-height {
+  margin-top: calc(var(--nav-height) * -1);
+  height: calc(var(--vh, 1vh) * 100);
+}
+
 .main-content.fixed-height {
+  margin-top: 0;
   height: calc(var(--vh, 1vh) * 100 - var(--nav-height));
 }
 

@@ -9,7 +9,7 @@
   $: subtitle = segment === 'new' ? 'new' : '';
 </script>
 
-<nav>
+<nav class:transparent={segment == null || segment === ''}>
   <ul>
     {#if segment !== '' && segment != null}
       <a href="/" class="hero" in:fadeIn out:fadeOut>
@@ -41,6 +41,11 @@
     background-color: var(--bg);
     border-bottom: 1px solid var(--grey-400);
     box-sizing: border-box;
+  }
+
+  nav.transparent {
+    background-color: transparent;
+    border-bottom: none;
   }
 
   ul {
