@@ -178,7 +178,6 @@
     min-width: 100%;
     margin-bottom: 5rem;
     transition: font-size 200ms ease-out;
-    touch-action: manipulation;
   }
 
   .month-label {
@@ -197,6 +196,5 @@
     transition: font-size 200ms ease-out,
                 padding 200ms ease-out,
                 min-width 200ms ease-out;
-    touch-action: manipulation;
   }
 </style>
