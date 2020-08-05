@@ -192,3 +192,13 @@ function getIntersectionActions(selectionsA, selectionsB) {
   actionsBuffer.sort((a, b) => a.time - b.time);
   return actionsBuffer;
 }
+
+/**
+ * Remove all selections which are smaller than the defined size.
+ * @param {interval[]} selections The selections to reduce resolution by.
+ * @param {number} resInMs The smallest selection size.
+ * @returns {interval[]} Selections that are larger than resInMs.
+ */
+export function getLowRes(selections, resInMs = 890000) {
+  return selections.filter((selection) => selection.end - selection.start >= resInMs);
+}

@@ -2,7 +2,7 @@
   import dayjs from 'dayjs';
 
   import { isCreatingNewSelection } from './stores';
-  import { getAreaSelection, getUnionOfSelections, getIntersectionOfSelections } from 'src/utils/selection';
+  import { getAreaSelection, getUnionOfSelections, getIntersectionOfSelections, getLowRes } from 'src/utils/selection';
   import { splitIntervalsOnMidnight } from 'src/utils/interval';
 
   // BINDINGS
@@ -26,9 +26,8 @@
   // REACTIVE ATTRIBUTES
   // ===================
   $: newSelections = selectionLimits == null
-    ? getAreaSelection(newSelection)
-    : getIntersectionOfSelections(selectionLimits,
-      getAreaSelection(newSelection));
+    ? getLowRes(getAreaSelection(newSelection))
+    : getLowRes(getIntersectionOfSelections(selectionLimits, getAreaSelection(newSelection)));
 
   // STATE FUNCTIONS
   // ===============
@@ -57,7 +56,7 @@
 
   function newSelectStop() {
     if (newSelections.length === 0) return;
-    selections = getUnionOfSelections([...selections, ...newSelections]);
+    selections = getLowRes(getUnionOfSelections([...selections, ...newSelections]));
     newSelection = null;
   }
 
@@ -100,10 +99,10 @@
     const { initStart } = event.detail;
     if (newSelections.length === 0) return;
     const selectionsWithoutResized = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
-    selections = getUnionOfSelections([
+    selections = splitIntervalsOnMidnight(getUnionOfSelections([
       ...selectionsWithoutResized,
       ...newSelections,
-    ]);
+    ]));
     newSelection = null;
   }
 
@@ -115,9 +114,9 @@
   function setSelections(draggedSelections) {
     const processedSelections = splitIntervalsOnMidnight(getUnionOfSelections(draggedSelections));
     if (selectionLimits == null) {
-      selections = processedSelections;
+      selections = getLowRes(processedSelections);
     } else {
-      selections = getIntersectionOfSelections(processedSelections, selectionLimits);
+      selections = getLowRes(getIntersectionOfSelections(processedSelections, selectionLimits));
     }
   }
 </script>

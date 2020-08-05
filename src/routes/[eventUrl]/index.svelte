@@ -28,6 +28,7 @@
   import { undoRedo } from 'src/actions/hotkeys';
   import undoable from 'src/utils/undoable';
   import nextFrame from 'src/utils/nextFrame';
+  import { getLowRes } from 'src/utils/selection';
   import { splitIntervalsOnMidnight } from 'src/utils/interval';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
   import { addUserToEvent, editUserIntervals } from 'src/api/event';
@@ -48,6 +49,7 @@
   let username = '';
   let password = '';
   const selections = undoable([]);
+  $: console.log($selections.map((selection) => ({ start: +selection.start, end: +selection.end })));
 
   // FORM METADATA
   // =============
@@ -86,7 +88,7 @@
 
   function setForm() {
     if ($form === formEnum.EDITING) {
-      $selections = splitIntervalsOnMidnight(event.userSchedules[$user.username]);
+      $selections = getLowRes(splitIntervalsOnMidnight(event.userSchedules[$user.username]));
     } else {
       $selections = [];
     }
