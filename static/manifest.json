@@ -1,9 +1,16 @@
 {
   "background_color": "#ffffff",
-  "theme_color": "#333333",
+  "theme_color": "#ffffff",
   "name": "meetwhen",
   "short_name": "meetwhen",
   "display": "minimal-ui",
   "start_url": "/",
-  "icons": []
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    }
+  ]
 }
