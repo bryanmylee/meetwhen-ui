@@ -1,5 +1,6 @@
 <script>
   import { goto } from '@sapper/app';
+  import dayjs from 'dayjs';
 
   import { currentColor } from 'src/stores';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
@@ -18,8 +19,8 @@
   let title = '';
   let description = '';
   let selectedDays = [];
-  let startTime = null;
-  let endTime = null;
+  let startTime = dayjs().hour(9).minute(0);
+  let endTime = dayjs().hour(17).minute(0);
 
   // FORM METADATA
   // =============
