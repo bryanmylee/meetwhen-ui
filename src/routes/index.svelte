@@ -1,9 +1,14 @@
 <script>
   import { goto } from '@sapper/app';
+  import { onMount } from 'svelte';
+  import { currentColor } from 'src/stores';
+  import { colors } from 'src/utils/colors';
 
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
   import AppIcon from 'src/components/AppIcon.svelte';
   import { Button } from 'src/components/form';
+
+  onMount(() => currentColor.setBaseColor(colors.blue500));
 </script>
 
 <div class="fixed-height" in:fadeIn out:fadeOut>

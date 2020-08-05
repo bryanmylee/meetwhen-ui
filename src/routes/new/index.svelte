@@ -1,9 +1,7 @@
 <script>
   import { goto } from '@sapper/app';
-  import { onDestroy } from 'svelte';
 
   import { currentColor } from 'src/stores';
-  import { colors } from 'src/utils/colors';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
   import { createNewEvent } from 'src/api/event';
 
@@ -60,8 +58,6 @@
       isLoading = false;
     }
   }
-
-  onDestroy(() => currentColor.setBaseColor(colors.blue500));
 </script>
 
 <div class="main-content grid" in:fadeIn out:fadeOut>
