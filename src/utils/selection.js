@@ -63,31 +63,7 @@ export function getAreaSelection(newSelection) {
  * @returns {interval[]} The selections without any overlaps.
  */
 export function getUnionOfSelections(selections) {
-  /**
-   * Given an array of selections, return an array of actions describing the
-   * starts and ends of intervals sorted by time.
-   * @returns {{time: dayjs.Dayjs, isStart: boolean}[]} The actions.
-   */
-  function getActions() {
-    const actions = [];
-    for (const { start, end } of selections) {
-      actions.push({
-        time: start,
-        isStart: true,
-      }, {
-        time: end,
-        isStart: false,
-      });
-    }
-    actions.sort((a, b) => {
-      if (!a.time.isSame(b.time)) return a.time - b.time;
-      if (a.isStart !== b.isStart) return a.isStart ? 1 : -1;
-      return 0;
-    });
-    return actions;
-  }
-
-  const actions = getActions();
+  const actions = getUnionActions(selections);
   const unionSelections = [];
   let currSelection = {};
   let currLayerCount = 0;
@@ -121,13 +97,38 @@ export function getUnionOfSelections(selections) {
 }
 
 /**
+ * Given an array of selections, return an array of actions describing the
+ * starts and ends of intervals sorted by time.
+ * @param {interval[]} selections The selections to merge.
+ * @returns {{time: dayjs.Dayjs, isStart: boolean}[]} The actions.
+ */
+function getUnionActions(selections) {
+  const actions = [];
+  for (const { start, end } of selections) {
+    actions.push({
+      time: start,
+      isStart: true,
+    }, {
+      time: end,
+      isStart: false,
+    });
+  }
+  actions.sort((a, b) => {
+    if (!a.time.isSame(b.time)) return a.time - b.time;
+    if (a.isStart !== b.isStart) return a.isStart ? 1 : -1;
+    return 0;
+  });
+  return actions;
+}
+
+/**
  * Given two arrays of selections, find the intersection of both selections.
  * @param {interval[]} selectionsA The first array of selections.
  * @param {interval[]} selectionsB The other array of selections.
  * @returns {interval[]} The intersection of both selections.
  */
 export function getIntersectionOfSelections(selectionsA, selectionsB) {
-  const actions = getActions();
+  const actions = getIntersectionActions(selectionsA, selectionsB);
   const intersectSelections = [];
   let currSelection = {};
   let onA = false;
@@ -155,37 +156,39 @@ export function getIntersectionOfSelections(selectionsA, selectionsB) {
     }
   }
   return intersectSelections;
+}
 
-  /**
-   * Given an array of selections, return an array of actions describing the
-   * starts and ends of intervals sorted by time.
-   * @returns {{time: dayjs.Dayjs, isStart: boolean}[]} The actions.
-   */
-  function getActions() {
-    const actionsBuffer = [];
-    for (const { start, end } of selectionsA) {
-      actionsBuffer.push({
-        time: start,
-        isStart: true,
-        isA: true,
-      }, {
-        time: end,
-        isStart: false,
-        isA: true,
-      });
-    }
-    for (const { start, end } of selectionsB) {
-      actionsBuffer.push({
-        time: start,
-        isStart: true,
-        isA: false,
-      }, {
-        time: end,
-        isStart: false,
-        isA: false,
-      });
-    }
-    actionsBuffer.sort((a, b) => a.time - b.time);
-    return actionsBuffer;
+/**
+ * Given an array of selections, return an array of actions describing the
+ * starts and ends of intervals sorted by time.
+ * @param {interval[]} selectionsA The first array of selections.
+ * @param {interval[]} selectionsB The other array of selections.
+ * @returns {{time: dayjs.Dayjs, isStart: boolean}[]} The actions.
+ */
+function getIntersectionActions(selectionsA, selectionsB) {
+  const actionsBuffer = [];
+  for (const { start, end } of selectionsA) {
+    actionsBuffer.push({
+      time: start,
+      isStart: true,
+      isA: true,
+    }, {
+      time: end,
+      isStart: false,
+      isA: true,
+    });
   }
+  for (const { start, end } of selectionsB) {
+    actionsBuffer.push({
+      time: start,
+      isStart: true,
+      isA: false,
+    }, {
+      time: end,
+      isStart: false,
+      isA: false,
+    });
+  }
+  actionsBuffer.sort((a, b) => a.time - b.time);
+  return actionsBuffer;
 }
