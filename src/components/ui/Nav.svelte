@@ -1,15 +1,18 @@
 <script>
   import AppIcon from 'src/components/AppIcon.svelte';
   import DarkModeToggle from './DarkModeToggle.svelte';
+
+  export let segment = '';
+  $: subtitle = segment === 'new' ? 'new' : '';
 </script>
 
 <nav>
   <ul>
     <a href="/" class="hero">
       <div>
-        <AppIcon color="var(--primary-500)" borderColor="transparent"/>
+        <AppIcon color="var(--icon-color)" borderColor="transparent"/>
       </div>
-      meetwhen
+      <span><strong>meetwhen</strong> {subtitle}</span>
     </a>
   </ul>
 
@@ -50,12 +53,18 @@
   .hero {
     display: flex;
     align-items: center;
-    font-weight: 800;
   }
 
   .hero > div {
     width: 32px;
     height: 32px;
     margin-right: 0.5em;
+    --icon-color: var(--primary-500);
+  }
+
+  .hero > div:hover,
+  .hero > div:focus,
+  .hero > div:active {
+    --icon-color: var(--primary-400);
   }
 </style>
