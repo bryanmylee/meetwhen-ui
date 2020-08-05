@@ -1,6 +1,6 @@
 import { cubicOut } from 'svelte/easing';
 
-export function getCardInOut({
+export function leftRight({
   delay: bothDelay = 0,
   duration: bothDuration = 200,
   easing: bothEasing = cubicOut,
@@ -13,7 +13,7 @@ export function getCardInOut({
   let sending = false;
   let receiving = false;
 
-  function leftCardIn(node) {
+  function leftIn(node) {
     receiving = true;
 
     const style = getComputedStyle(node);
@@ -46,7 +46,7 @@ export function getCardInOut({
     };
   }
 
-  function rightCardOut(node) {
+  function rightOut(node) {
     sending = true;
 
     const style = getComputedStyle(node);
@@ -75,7 +75,7 @@ export function getCardInOut({
     };
   }
 
-  function rightCardIn(node) {
+  function rightIn(node) {
     receiving = true;
 
     const style = getComputedStyle(node);
@@ -108,7 +108,7 @@ export function getCardInOut({
     };
   }
 
-  function leftCardOut(node) {
+  function leftOut(node) {
     sending = true;
 
     const style = getComputedStyle(node);
@@ -138,9 +138,9 @@ export function getCardInOut({
   }
 
   return {
-    leftCardIn,
-    leftCardOut,
-    rightCardIn,
-    rightCardOut,
+    leftIn,
+    leftOut,
+    rightIn,
+    rightOut,
   };
 }
