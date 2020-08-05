@@ -5,142 +5,84 @@ export function leftRight({
   duration: bothDuration = 200,
   easing: bothEasing = cubicOut,
 }) {
-  let leftCardWidth = 0;
-  let leftCardHeight = 0;
-  let rightCardWidth = 0;
-  let rightCardHeight = 0;
+  let receivingNode = null;
+  let sendingNode = null;
 
-  let sending = false;
-  let receiving = false;
-
-  function leftIn(node) {
-    receiving = true;
-
+  function fly(node, {
+    isLeft,
+    isIntro,
+    otherStyle,
+    delay = bothDelay,
+    duration = bothDuration,
+    easing = bothEasing,
+  } = {}) {
     const style = getComputedStyle(node);
-    leftCardWidth = parseFloat(style.width);
-    leftCardHeight = parseFloat(style.height);
-    const targetOpacity = +style.opacity;
+    const width = parseFloat(style.width);
+    const height = parseFloat(style.height);
+    const dx = width * (isLeft ? -1 : 1);
+    const dw = parseFloat(otherStyle.width) - width;
+    const dh = parseFloat(otherStyle.height) - height;
     const transform = style.transform === 'none' ? '' : style.transform;
-    const deltaWidth = rightCardWidth - leftCardWidth;
-    const deltaHeight = rightCardHeight - leftCardHeight;
+    const opacity = +style.opacity;
 
-    return () => {
-      if (!sending) {
-        receiving = false;
-        return null;
-      }
-      sending = false;
-      return {
-        delay: bothDelay,
-        duration: bothDuration,
-        easing: bothEasing,
-        css: (t, u) => `
-          transform: ${transform} translate(${u * -leftCardWidth}px, 0);
-          opacity: ${targetOpacity * t};
-          width: ${rightCardWidth - deltaWidth * t}
-          max-height: ${rightCardHeight - deltaHeight * t}px;
-          min-height: ${rightCardHeight - deltaHeight * t}px;
-        `,
-        tick: () => node.style.position = 'initial',
-      };
+    return {
+      delay,
+      duration,
+      easing,
+      css: (t, u) => {
+        if (isIntro) {
+          return `
+            transform: ${transform} translate(${u * dx}px, 0);
+            opacity: ${t * opacity};
+            width: ${width + dw * u}px;
+            min-height: ${height + dh * u}px;
+            max-height: ${height + dh * u}px;
+          `;
+        }
+        return `
+          transform: ${transform} translate(${u * dx}px, 0);
+          opacity: ${t * opacity};
+          width: ${width}px;
+        `;
+      },
+      tick: () => node.style.position = isIntro ? 'initial' : 'fixed',
     };
   }
 
-  function rightOut(node) {
-    sending = true;
-
-    const style = getComputedStyle(node);
-    rightCardWidth = parseFloat(style.width);
-    rightCardHeight = parseFloat(style.height);
-    const targetOpacity = +style.opacity;
-    const transform = style.transform === 'none' ? '' : style.transform;
-
-    return () => {
-      if (!receiving) {
-        sending = false;
-        return null;
+  function transition(isLeft, isIntro) {
+    return (node, params) => {
+      if (isIntro) {
+        receivingNode = node;
+      } else {
+        sendingNode = node;
       }
-      receiving = false;
-      return {
-        delay: bothDelay,
-        duration: bothDuration,
-        easing: bothEasing,
-        css: (t, u) => `
-          transform: ${transform} translate(${u * rightCardWidth}px, 0);
-          opacity: ${targetOpacity * t};
-          width: ${rightCardWidth}px;
-        `,
-        tick: () => node.style.position = 'fixed',
-      };
-    };
-  }
 
-  function rightIn(node) {
-    receiving = true;
+      return () => {
+        if (isIntro && sendingNode != null) {
+          const otherStyle = getComputedStyle(sendingNode);
+          sendingNode = null;
+          return fly(node, { isLeft, isIntro, otherStyle, ...params });
+        }
+        if (!isIntro && receivingNode != null) {
+          const otherStyle = getComputedStyle(receivingNode);
+          receivingNode = null;
+          return fly(node, { isLeft, isIntro, otherStyle, ...params });
+        }
 
-    const style = getComputedStyle(node);
-    rightCardWidth = parseFloat(style.width);
-    rightCardHeight = parseFloat(style.height);
-    const targetOpacity = +style.opacity;
-    const transform = style.transform === 'none' ? '' : style.transform;
-    const deltaWidth = leftCardWidth - rightCardWidth;
-    const deltaHeight = leftCardHeight - rightCardHeight;
-
-    return () => {
-      if (!sending) {
-        receiving = false;
+        if (isIntro) {
+          receivingNode = null;
+        } else {
+          sendingNode = null;
+        }
         return null;
-      }
-      sending = false;
-      return {
-        delay: bothDelay,
-        duration: bothDuration,
-        easing: bothEasing,
-        css: (t, u) => `
-          transform: ${transform} translate(${u * rightCardWidth}px, 0);
-          opacity: ${targetOpacity * t};
-          width: ${leftCardWidth - deltaWidth * t}px;
-          max-height: ${leftCardHeight - deltaHeight * t}px;
-          min-height: ${leftCardHeight - deltaHeight * t}px;
-        `,
-        tick: () => node.style.position = 'initial',
-      };
-    };
-  }
-
-  function leftOut(node) {
-    sending = true;
-
-    const style = getComputedStyle(node);
-    leftCardWidth = parseFloat(style.width);
-    leftCardHeight = parseFloat(style.height);
-    const targetOpacity = +style.opacity;
-    const transform = style.transform === 'none' ? '' : style.transform;
-
-    return () => {
-      if (!receiving) {
-        sending = false;
-        return null;
-      }
-      receiving = false;
-      return {
-        delay: bothDelay,
-        duration: bothDuration,
-        easing: bothEasing,
-        css: (t, u) => `
-          transform: ${transform} translate(${u * -leftCardWidth}px, 0);
-          opacity: ${targetOpacity * t};
-          width: ${leftCardWidth}px;
-        `,
-        tick: () => node.style.position = 'fixed',
       };
     };
   }
 
   return {
-    leftIn,
-    leftOut,
-    rightIn,
-    rightOut,
+    leftIntro: transition(true, true),
+    leftOutro: transition(true, false),
+    rightIntro: transition(false, true),
+    rightOutro: transition(false, false),
   };
 }

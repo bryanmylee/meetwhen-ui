@@ -6,7 +6,7 @@
   import EventDetails from './EventDetails.svelte';
   import FilterCard from './filterCard/FilterCard.svelte';
 
-  const { leftIn, leftOut, rightIn, rightOut } = leftRight({ duration: 400 });
+  const { leftIntro, leftOutro, rightIntro, rightOutro } = leftRight({ duration: 400 });
 
   // PROPS
   // =====
@@ -16,15 +16,15 @@
 {#if $layout === layoutEnum.NARROW}
   {#if $details === detailsEnum.EVENT_DETAILS}
     <div id="left"
-      in:leftIn
-      out:leftOut
+      in:leftIntro
+      out:leftOutro
     >
       <EventDetails title={event.title} description={event.description} />
     </div>
   {:else if $details === detailsEnum.ATTENDANCE}
     <div id="right"
-      in:rightIn
-      out:rightOut
+      in:rightIntro
+      out:rightOutro
     >
       <FilterCard usernames={Object.keys(event.userSchedules)} />
     </div>
