@@ -6,10 +6,11 @@
 
   export let segment = '';
 
+  $: transparent = segment == null || segment === '';
   $: subtitle = segment === 'new' ? 'new' : '';
 </script>
 
-<nav class:transparent={segment == null || segment === ''}>
+<nav class:transparent>
   <ul>
     {#if segment !== '' && segment != null}
       <a href="/" class="hero" in:fadeIn out:fadeOut>
@@ -22,7 +23,7 @@
   </ul>
 
   <ul>
-    <DarkModeToggle/>
+    <DarkModeToggle forceWhite={transparent}/>
   </ul>
 </nav>
 

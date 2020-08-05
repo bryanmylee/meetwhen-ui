@@ -4,11 +4,13 @@
   import { isDarkMode } from 'src/stores';
 
   import SunMoon from 'src/components/icons/SunMoon.svelte';
+
+  export let forceWhite;
 </script>
 
 <div class="container" on:click={() => $isDarkMode = !$isDarkMode}>
   <div class="button" transition:fade={{ duration: 200 }}>
-    <SunMoon color="var(--text-900)" />
+    <SunMoon color={forceWhite ? 'white' : 'var(--text-900)'} />
   </div>
 </div>
 
