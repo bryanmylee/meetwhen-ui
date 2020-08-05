@@ -7,3 +7,8 @@ export function autoScrollSelf(node, { hour } = {}) {
     node.parentNode.scrollTo(0, hour * rowHeight - BUFFER);
   }, FRAME_DURATION);
 }
+
+export function autoScrollToChild(node, { index = 0 } = {}) {
+  const childNode = node.children[index];
+  node.scrollTo(childNode.offsetLeft, childNode.offsetTop);
+}

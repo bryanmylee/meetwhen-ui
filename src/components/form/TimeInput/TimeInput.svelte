@@ -59,7 +59,7 @@
   <TimeDropdown
     on:select={select}
     on:hide={() => showTimes = false}
-    {earliestTime} {latestTime}
+    {selectedTime} {earliestTime} {latestTime}
     popperAction={popperContent}
   />
 {/if}

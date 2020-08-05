@@ -2,12 +2,15 @@
   import { createEventDispatcher } from 'svelte';
   import dayjs from 'dayjs';
 
+  import { autoScrollToChild } from 'src/actions/autoScroll';
+
   import Time from './Time.svelte';
 
   const dispatch = createEventDispatcher();
 
   // PROPS
   // =====
+  export let selectedTime;
   export let earliestTime;
   export let latestTime;
   export let popperAction;
@@ -52,6 +55,7 @@
   bind:this={self}
   class="card"
   use:popperAction={popperOptions}
+  use:autoScrollToChild={{ index: selectedTime.hour() }}
 >
   {#each times as time}
     {#if !latestTime || !time.isAfter(latestTime, 'hour')}

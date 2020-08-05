@@ -10,7 +10,7 @@
   import ZoomButtons from './zoomButtons/ZoomButtons.svelte';
 
   import calendarInteraction from './actions/calendarInteraction';
-  import { autoScrollSelf } from './actions/autoScroll';
+  import { autoScrollSelf } from '../../../../actions/autoScroll';
   import { calendarSelectionEnabled, dragDropState, dragDropEnum } from './stores';
   import { selectedUsernames, minUserCountFilter } from '../../stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
