@@ -1,19 +1,24 @@
 <script>
+  import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
+
   import AppIcon from 'src/components/AppIcon.svelte';
   import DarkModeToggle from './DarkModeToggle.svelte';
 
   export let segment = '';
+
   $: subtitle = segment === 'new' ? 'new' : '';
 </script>
 
 <nav>
   <ul>
-    <a href="/" class="hero">
-      <div>
-        <AppIcon color="var(--icon-color)" borderColor="transparent"/>
-      </div>
-      <span><strong>meetwhen</strong> {subtitle}</span>
-    </a>
+    {#if segment !== '' && segment != null}
+      <a href="/" class="hero" in:fadeIn out:fadeOut>
+        <div>
+          <AppIcon color="var(--icon-color)" borderColor="transparent"/>
+        </div>
+        <span><strong>meetwhen</strong> {subtitle}</span>
+      </a>
+    {/if}
   </ul>
 
   <ul>
