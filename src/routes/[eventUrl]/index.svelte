@@ -25,7 +25,9 @@
 
 <script>
   import { stores } from '@sapper/app';
+  import { onDestroy } from 'svelte';
 
+  import { colors } from 'src/utils/colors';
   import { formEnum, form } from './stores';
   import { undoRedo } from 'src/actions/hotkeys';
   import undoable from 'src/utils/undoable';
@@ -181,6 +183,8 @@
       errorMessage = err.message;
     }
   }
+
+  onDestroy(() => currentColor.setBaseColor(colors.blue500));
 </script>
 
 <svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
