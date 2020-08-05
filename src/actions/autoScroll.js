@@ -1,10 +1,9 @@
 import { FRAME_DURATION } from 'src/utils/nextFrame';
 
-export function autoScrollSelf(node, { hour } = {}) {
-  const rowHeight = node.offsetHeight / 24;
-  const BUFFER = 50;
+export function autoScrollToSelf(node, { marginTop = 0 } = {}) {
+  const { offsetLeft, offsetTop } = node;
   setTimeout(() => {
-    node.parentNode.scrollTo(0, hour * rowHeight - BUFFER);
+    node.parentNode.scrollTo(offsetLeft, offsetTop + marginTop);
   }, FRAME_DURATION);
 }
 
