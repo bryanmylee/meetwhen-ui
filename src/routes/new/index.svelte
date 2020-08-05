@@ -1,5 +1,5 @@
 <script>
-  import { goto, stores } from '@sapper/app';
+  import { goto } from '@sapper/app';
   import { onDestroy } from 'svelte';
 
   import { currentColor } from 'src/stores';
@@ -14,8 +14,6 @@
   import { Button } from 'src/components/form';
   import Toast from 'src/components/ui/Toast.svelte';
   import ErrorTip from 'src/components/ui/ErrorTip.svelte';
-
-  const { session } = stores();
 
   // FORM DATA
   // =========
@@ -54,7 +52,7 @@
         end: day.hour(endTime.hour()).minute(0).add(endTime.hour() === 0 ? 1 : 0, 'day'),
       }));
       const eventDetails = { title, description, color: $currentColor.hex, schedule };
-      const { eventUrl } = await createNewEvent(fetch, $session.API_URL, eventDetails);
+      const { eventUrl } = await createNewEvent(fetch, process.env.SAPPER_APP_API_URL, eventDetails);
       goto(`/${eventUrl}`);
     } catch (err) {
       errorMessage = err.message;

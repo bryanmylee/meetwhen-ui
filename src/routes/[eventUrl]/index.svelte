@@ -3,12 +3,12 @@
   import { getEvent } from 'src/api/event';
   import { login, logout } from 'src/api/authentication';
 
-  export async function preload(page, session) {
+  export async function preload(page) {
     const { eventUrl } = page.params;
     let event;
 
     try {
-      event = await getEvent(this.fetch, session.API_URL, eventUrl);
+      event = await getEvent(this.fetch, process.env.SAPPER_APP_API_URL, eventUrl);
     } catch (err) {
       this.redirect(302, `${eventUrl}/404`);
     }
@@ -17,14 +17,13 @@
       currentColor.setBaseColorHex(event.color);
     }
     if (event.accessToken) {
-      user.setAccessToken(event.accessToken, session.ACCESS_TOKEN_SECRET);
+      user.setAccessToken(event.accessToken, process.env.SAPPER_APP_ACCESS_TOKEN_SECRET);
     }
     return { event };
   }
 </script>
 
 <script>
-  import { stores } from '@sapper/app';
   import { onDestroy } from 'svelte';
 
   import { colors } from 'src/utils/colors';
@@ -42,8 +41,6 @@
   import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
   import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
   import Toast from 'src/components/ui/Toast.svelte';
-
-  const { session } = stores();
 
   // PRELOADED DATA
   // ==============
@@ -85,7 +82,7 @@
   // PAGE FUNCTIONS
   // ==============
   async function refreshDataOnSuccess() {
-    event = await getEvent(fetch, $session.API_URL, event.eventUrl, fetch);
+    event = await getEvent(fetch, process.env.SAPPER_APP_API_URL, event.eventUrl, fetch);
     await nextFrame();
     $form = formEnum.NONE;
   }
@@ -127,7 +124,7 @@
 
   async function handleLogout() {
     try {
-      await logout(fetch, $session.API_URL, event.eventUrl);
+      await logout(fetch, process.env.SAPPER_APP_API_URL, event.eventUrl);
       user.logout();
     } catch (err) {
       errorMessage = err.message;
@@ -141,8 +138,13 @@
     }
     const userDetails = { username, password };
     try {
-      const { accessToken } = await login(fetch, $session.API_URL, event.eventUrl, userDetails);
-      user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
+      const { accessToken } = await login(
+        fetch,
+        process.env.SAPPER_APP_API_URL,
+        event.eventUrl,
+        userDetails,
+      );
+      user.setAccessToken(accessToken, process.env.SAPPER_APP_ACCESS_TOKEN_SECRET);
       refreshDataOnSuccess();
     } catch (err) {
       errorMessage = err.message;
@@ -157,9 +159,9 @@
     const userDetails = { username, password, schedule: $selections };
     try {
       const { accessToken } = await addUserToEvent(
-        fetch, $session.API_URL, event.eventUrl, userDetails,
+        fetch, process.env.SAPPER_APP_API_URL, event.eventUrl, userDetails,
       );
-      user.setAccessToken(accessToken, $session.ACCESS_TOKEN_SECRET);
+      user.setAccessToken(accessToken, process.env.SAPPER_APP_ACCESS_TOKEN_SECRET);
       refreshDataOnSuccess();
     } catch (err) {
       errorMessage = err.message;
@@ -177,7 +179,7 @@
       accessToken: $user.accessToken,
     };
     try {
-      await editUserIntervals(fetch, $session.API_URL, event.eventUrl, userDetails);
+      await editUserIntervals(fetch, process.env.SAPPER_APP_API_URL, event.eventUrl, userDetails);
       refreshDataOnSuccess();
     } catch (err) {
       errorMessage = err.message;
