@@ -49,7 +49,6 @@
   let username = '';
   let password = '';
   const selections = undoable([]);
-  $: console.log($selections.map((selection) => ({ start: +selection.start, end: +selection.end })));
 
   // FORM METADATA
   // =============
