@@ -202,6 +202,14 @@
     />
   {/if}
 
+  <!-- ACTION BAR -->
+  <ActionBar
+    on:submit={handleSubmit}
+    on:logout={handleLogout}
+    disabled={isLoading}
+    fakeDisabled={disableConfirm}
+  />
+
   <!-- CALENDAR PICKER CARD -->
   <div
     class="picker-container card outline"
@@ -222,17 +230,10 @@
       userSchedules={event.userSchedules}
     />
   </div>
-
-  <!-- BOTTOM ACTION BAR -->
-  <ActionBar
-    on:submit={handleSubmit}
-    on:logout={handleLogout}
-    disabled={isLoading}
-    fakeDisabled={disableConfirm}
-  />
 </div>
-  <Toast bind:message={message} />
-  <Toast error bind:message={errorMessage} />
+
+<Toast bind:message={message} />
+<Toast error bind:message={errorMessage} />
 
 <style>
   .picker-container {
