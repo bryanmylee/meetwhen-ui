@@ -1,5 +1,5 @@
 <script>
-  import { slide } from 'svelte/transition';
+  import { fade } from 'svelte/transition';
 
   import { user } from 'src/stores';
 
@@ -20,7 +20,7 @@
     <p>{description}</p>
   {/if}
   {#if $user.isLoggedIn}
-    <h5 class="tip" transition:slide={{ duration: 200 }}>
+    <h5 class="tip" transition:fade={{ duration: 200 }}>
       Logged in as <strong>{$user.username}</strong>
     </h5>
   {/if}
