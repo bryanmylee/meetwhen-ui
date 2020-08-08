@@ -1,4 +1,6 @@
 <script>
+  import Tooltip from 'src/components/ui/Tooltip.svelte';
+
   // PROPS
   // =====
   export let start;
@@ -23,70 +25,17 @@
     : `${usernames.length} people`;
 </script>
 
-<div class="popover" use:popperAction={popperOptions}>
-  <div class="popover__content">
-    <h5>{timeString}</h5>
-    <h5 class="tip">{countString}</h5>
-    <div class="names__container">
-      {#each usernames.sort() as username}
-        <p>{username}</p>
-      {/each}
-    </div>
+<Tooltip use={popperAction} {popperOptions} >
+  <h5>{timeString}</h5>
+  <h5 class="tip">{countString}</h5>
+  <div class="names__container">
+    {#each usernames.sort() as username}
+      <p>{username}</p>
+    {/each}
   </div>
-  <div data-popper-arrow class="popover__arrow"></div>
-</div>
+</Tooltip>
 
 <style>
-  .popover {
-    font-size: 1rem;
-    z-index: 80;
-  }
-
-  .popover__content {
-    z-index: 30;
-    width: -moz-max-content;
-    width: -webkit-max-content;
-    height: -moz-max-content;
-    height: -webkit-max-content;
-    background-color: var(--bg);
-    border-radius: 5px;
-    border: 1px solid var(--grey-300);
-    box-shadow: var(--shadow-med);
-  }
-
-  .popover__arrow {
-    z-index: 31;
-    left: -7px;
-    width: 8px;
-    height: 16px;
-    clip-path: polygon(0 50%, 100% 0, 100% 100%);
-    background-color: var(--grey-300);
-    pointer-events: none;
-  }
-
-  .popover__arrow:before {
-    content: '';
-    position: absolute;
-    top: 1px;
-    left: 1.5px;
-    width: 7px;
-    height: 14px;
-    clip-path: polygon(0 50%, 100% 0, 100% 100%);
-    background-color: var(--bg);
-  }
-
-  :global([data-popper-placement^="left"]) .popover__arrow {
-    left: unset;
-    right: -7px;
-    clip-path: polygon(0 0, 100% 50%, 0 100%);
-  }
-
-  :global([data-popper-placement^="left"]) .popover__arrow:before {
-    left: unset;
-    right: 1.5px;
-    clip-path: polygon(0 0, 100% 50%, 0 100%);
-  }
-
   h5 {
     margin: 1em 1em;
   }
