@@ -34,12 +34,7 @@
     dispatch('logout');
   }
 
-  const popperOptions = {
-    placement: 'bottom-start',
-    modifiers: [
-      { name: 'offset', options: { offset: [0, 8] } },
-    ],
-  };
+  const popperOptions = { placement: 'bottom-start' };
 
   let showHint = false;
   onMount(() => {

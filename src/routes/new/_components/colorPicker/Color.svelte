@@ -3,7 +3,9 @@
 
   import { currentColor } from 'src/stores';
 
-  const [refAction, contentAction] = createPopperActions();
+  import Tooltip from 'src/components/ui/Tooltip.svelte';
+
+  const [popperRef, popperContent] = createPopperActions();
 
   // PROPS
   // =====
@@ -13,14 +15,6 @@
   // STATE
   // =====
   let showName = false;
-
-  // CONSTANTS
-  // =========
-  const popperOptions = {
-    modifiers: [
-      { name: 'offset', options: { offset: [0, 4] } },
-    ],
-  };
 </script>
 
 <button
@@ -30,15 +24,13 @@
   on:focus={() => showName = true}
   on:blur={() => showName = false}
   on:click={() => currentColor.setBaseColor(color)}
-  use:refAction
+  use:popperRef
   style={`background-color: ${hex}`}
 />
 {#if showName}
-  <div class="popover" use:contentAction={popperOptions}>
-    <div class="popover__content">
-      <h5>{name}</h5>
-    </div>
-  </div>
+  <Tooltip use={popperContent}>
+    <h5>{name}</h5>
+  </Tooltip>
 {/if}
 
 <style>
@@ -65,24 +57,7 @@
     box-shadow: 0 0 0 2px var(--primary-500);
   }
 
-  .popover {
-    position: absolute;
-    z-index: 90;
-  }
-
-  .popover__content {
-    z-index: 30;
-    width: -moz-max-content;
-    width: -webkit-max-content;
-    height: -moz-max-content;
-    height: -webkit-max-content;
-    background-color: var(--bg);
-    border: 1px solid var(--grey-300);
-    border-radius: 5px;
-  }
-
   h5 {
     margin: 0.5em;
-    font-weight: 600;
   }
 </style>

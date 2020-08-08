@@ -12,15 +12,6 @@
   // STATE
   // =====
   let showTooltip = false;
-
-  // CONSTANTS
-  // =========
-  const popperOptions = {
-    placement: 'right',
-    modifiers: [
-      { name: 'offset', options: { offset: [0, 8] } },
-    ],
-  };
 </script>
 
 <span
@@ -29,7 +20,7 @@
   on:mouseleave={() => showTooltip = false}
 />
 {#if showTooltip}
-  <Tooltip use={popperContent} {popperOptions}>
+  <Tooltip use={popperContent}>
     <h5>{tooltip}</h5>
   </Tooltip>
 {/if}

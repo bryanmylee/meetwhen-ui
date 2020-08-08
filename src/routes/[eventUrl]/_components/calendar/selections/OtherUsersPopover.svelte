@@ -13,15 +13,6 @@
   export let usernames;
   export let popperAction;
 
-  // CONSTANTS
-  // =========
-  const popperOptions = {
-    placement: 'right',
-    modifiers: [
-      { name: 'offset', options: { offset: [0, 9] } },
-    ],
-  };
-
   // REACTIVE ATTRIBUTES
   // ===================
   $: timeString = `${start.format('h:mm')} - ${end.format('h:mma')}`;
@@ -42,7 +33,7 @@
 
 <svelte:window on:click={handleClick} />
 
-<Tooltip use={popperAction} {popperOptions} >
+<Tooltip use={popperAction} >
   <h5>{timeString}</h5>
   <h5 class="tip">{countString}</h5>
   <div class="names__container">

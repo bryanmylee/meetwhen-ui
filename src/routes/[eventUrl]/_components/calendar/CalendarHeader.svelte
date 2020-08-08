@@ -18,12 +18,7 @@
   // Set showTooltip to false whenever calendarSelecitonEnabled is toggled.
   $: showTooltip = $calendarSelectionEnabled && false;
 
-  const popperOptions = {
-    placement: 'left',
-    modifiers: [
-      { name: 'offset', options: { offset: [0, 8] } },
-    ],
-  };
+  const popperOptions = { placement: 'left' };
 </script>
 
 <!-- CALENDAR PICKER CARD TITLE HEADER -->
@@ -90,9 +85,5 @@ on Chrome and Firefox -->
 
   .tooltip-content {
     padding: 0.5em;
-  }
-
-  h5 {
-    font-weight: 600;
   }
 </style>
