@@ -1,12 +1,16 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { onMount, createEventDispatcher } from 'svelte';
+  import { fade } from 'svelte/transition';
+  import { createPopperActions } from 'svelte-popperjs';
 
   import { layoutEnum, layout, user } from 'src/stores';
   import { detailsEnum, formEnum, details, form } from '../stores';
 
   import { Button } from 'src/components/form';
+  import Tooltip from 'src/components/ui/Tooltip.svelte';
 
   const dispatch = createEventDispatcher();
+  const [popperRef, popperContent] = createPopperActions();
 
   // PROPS
   // =====
@@ -18,6 +22,8 @@
   function resetForm() {
     $form = formEnum.NONE;
   }
+  // eslint-disable-next-line no-unused-expressions
+  $: $form, showHint = false;
 
   function submit() {
     dispatch('submit');
@@ -26,6 +32,20 @@
   function logout() {
     dispatch('logout');
   }
+
+  const popperOptions = {
+    placement: 'bottom-start',
+    modifiers: [
+      { name: 'offset', options: { offset: [0, 8] } },
+    ],
+  };
+
+  let showHint = false;
+  onMount(() => {
+    setTimeout(() => {
+      showHint = true;
+    }, 3000);
+  });
 </script>
 
 <div class="bar">
@@ -62,9 +82,21 @@
       <Button on:click={() => $form = formEnum.LOGGING_IN}>
         Log In
       </Button>
-      <Button style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>
-        Sign Up
-      </Button>
+      <div use:popperRef>
+        <Button style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>
+          Sign Up
+        </Button>
+      </div>
+
+      {#if showHint}
+        <div in:fade={{ duration: 200 }}>
+          <Tooltip use={popperContent} {popperOptions}>
+            <h5>
+              Sign up to add your schedule!
+            </h5>
+          </Tooltip>
+        </div>
+      {/if}
     {/if}
   </div>
 </div>
@@ -90,6 +122,7 @@
     padding-left: 0.5em;
   }
 
-  @media screen and (min-width: 768px) {
+  h5 {
+    margin: 0.5em;
   }
 </style>
