@@ -4,12 +4,12 @@
   import { fade } from 'svelte/transition';
 
   import { currentColor } from 'src/stores';
-  import { form, formEnum } from '../../../stores';
   import { calendarSelectionEnabled, isCreatingNewSelection } from '../stores';
   import colorGradient from 'src/actions/colorGradient';
   import { sizePos } from '../actions/selection';
 
   import Tooltip from 'src/components/ui/Tooltip.svelte';
+  import TooltipDismiss from 'src/components/ui/TooltipDismiss.svelte';
   import OtherUsersPopover from './OtherUsersPopover.svelte';
 
   const dispatch = createEventDispatcher();
@@ -44,6 +44,16 @@
   $: if (isSelected) {
     showHint = false;
   }
+
+  $: if (showHint) {
+    setTimeout(() => {
+      showHint = false;
+    }, 10000);
+  }
+
+  // CONSTANTS
+  // =========
+  const popperOptions = { placement: 'right-start' };
 </script>
 
 <div
@@ -66,11 +76,13 @@
   out:fade={{ duration: 200, delay: 50 }}
 />
 {#if showHint}
-  <div in:fade={{ duration: 200 }}>
-    <Tooltip use={hintPopperContent} >
-      <h5>
-        Other user schedules
-      </h5>
+  <div transition:fade={{ duration: 200 }}>
+    <Tooltip use={hintPopperContent} {popperOptions} >
+      <div class="tooltip">
+        <h5>Other people's schedules</h5>
+        <TooltipDismiss on:click={() => showHint = false}/>
+      </div>
+      <h5 class="tip">Select to view more</h5>
     </Tooltip>
   </div>
 {/if}
@@ -116,7 +128,13 @@
     pointer-events: none;
   }
 
+  .tooltip {
+    display: flex;
+    align-items: center;
+  }
+
   h5 {
     margin: 0.5em;
+    margin-right: 0.5em;
   }
 </style>

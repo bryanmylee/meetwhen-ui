@@ -42,8 +42,7 @@
     }
   }
 
-  function dismissOtherUsersInterval(event) {
-    const interval = event.detail;
+  function dismissOtherUsersInterval() {
     if (selectedOthers != null) {
       selectedOthers = null;
     }
