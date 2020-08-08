@@ -8,6 +8,18 @@ export function getFilteredUserIntervalsByUsername(selectedUsernames, userInterv
     }), {});
 }
 
+export function getUserIntervalsWithoutUser(userIntervalsByUsername, userToExclude) {
+  if (!userToExclude.isLoggedIn) {
+    return userIntervalsByUsername;
+  }
+  return Object.keys(userIntervalsByUsername)
+    .filter((username) => username !== userToExclude.username)
+    .reduce((intervals, username) => ({
+      ...intervals,
+      [username]: userIntervalsByUsername[username],
+    }), {});
+}
+
 export function getTimeIntervalsWithSkip(intervals) {
   const results = [];
   if (intervals.length === 0) {

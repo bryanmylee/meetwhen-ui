@@ -11,11 +11,12 @@
 
   import calendarInteraction from './actions/calendarInteraction';
   import { autoScrollToCalendarHour } from './actions/autoScroll';
+  import { user } from 'src/stores';
   import { calendarSelectionEnabled, dragDropState, dragDropEnum } from './stores';
-  import { selectedUsernames, minUserCountFilter } from '../../_stores';
+  import { selectedUsernames, minUserCountFilter, form, formEnum } from '../../_stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
   import { FRAME_DURATION } from 'src/utils/nextFrame';
-  import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './utils';
+  import { getFilteredUserIntervalsByUsername, getUserIntervalsWithoutUser, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './utils';
 
   // BINDINGS
   // ========
@@ -52,13 +53,19 @@
   // ===================
   $: earliestHour = schedule && schedule.length !== 0 ? schedule[0].start.hour() : 0;
   $: intervalsSplitOnMidnight = splitIntervalsOnMidnight(schedule);
+  // The days containing all event intervals and whether the day sequentially
+  // follows the previous day.
+  $: daysToShow = getDaysToShowWithSkip(intervalsSplitOnMidnight);
+  $: startingDay = daysToShow.length !== 0 ? daysToShow[0].day : null;
+
   // Filtered user intervals based on selected usernames.
   $: filteredUserSchedules = getFilteredUserIntervalsByUsername(
     $selectedUsernames, userSchedules,
   );
+  $: userSchedulesWithoutMe = getUserIntervalsWithoutUser(userSchedules, $user);
   // Time intervals with grouped usernames.
   $: timeIntervalsWithUsers = splitIntervalsOnMidnight(
-    getMergedIntervals(filteredUserSchedules),
+    getMergedIntervals(editing ? userSchedulesWithoutMe : filteredUserSchedules),
   );
   // Time intervals with minimum number of users.
   $: timeIntervalsWithMinUsers = timeIntervalsWithUsers
@@ -67,15 +74,15 @@
   $: timeIntervalsWithMinUsersWithSkip = getTimeIntervalsWithSkip(timeIntervalsWithMinUsers);
   // The minimum and maximum number of usernames in any given interval.
   $: [minUsers, maxUsers] = getMinMaxUsernames(timeIntervalsWithUsers);
-  // The days containing all event intervals and whether the day sequentially
-  // follows the previous day.
-  $: daysToShow = getDaysToShowWithSkip(intervalsSplitOnMidnight);
-  $: startingDay = daysToShow.length !== 0 ? daysToShow[0].day : null;
 
-  // Workaround for bug where store update does not trigger action update.
-  let enabled;
+  // Workaround for bug where store update does not trigger action or child component updates.
+  let enabled = false;
   $: {
     setTimeout(() => enabled = $calendarSelectionEnabled, FRAME_DURATION);
+  }
+  let editing = false;
+  $: {
+    setTimeout(() => editing = $form === formEnum.EDITING, FRAME_DURATION);
   }
 </script>
 
