@@ -199,6 +199,6 @@ function getIntersectionActions(selectionsA, selectionsB) {
  * @param {number} resInMs The smallest selection size.
  * @returns {interval[]} Selections that are larger than resInMs.
  */
-export function getLowRes(selections, resInMs = 890000) {
+export function getLowRes(selections, resInMs = 450000) {
   return selections.filter((selection) => selection.end - selection.start >= resInMs);
 }
