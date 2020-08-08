@@ -56,15 +56,11 @@
   let userDetailsValid;
   $: scheduleValid = $selections.length !== 0;
   $: showCalendarError = attempted
-      && ($form === formEnum.EDITING || $form === formEnum.JOINING)
+      && $form === formEnum.EDITING
       && !scheduleValid;
   let disableConfirm = false;
   $: {
-    if ($form === formEnum.EDITING) {
-      disableConfirm = !scheduleValid;
-    } else if ($form === formEnum.JOINING) {
-      disableConfirm = !userDetailsValid || !scheduleValid;
-    } else if ($form === formEnum.LOGGING_IN) {
+    if ($form === formEnum.JOINING || $form === formEnum.LOGGING_IN) {
       disableConfirm = !userDetailsValid;
     }
   }
@@ -150,7 +146,7 @@
   }
 
   async function handleSubmitNewUser() {
-    if (!userDetailsValid || !scheduleValid) {
+    if (!userDetailsValid) {
       attempted = true;
       return;
     }
@@ -167,10 +163,6 @@
   }
 
   async function handleSubmitEditUser() {
-    if (!scheduleValid) {
-      attempted = true;
-      return;
-    }
     const userDetails = {
       username: $user.username,
       newSchedule: $selections,
