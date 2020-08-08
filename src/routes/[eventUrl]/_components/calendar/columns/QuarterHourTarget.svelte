@@ -27,7 +27,8 @@
   }
 
   div.enabled:hover {
-    background-color: var(--primary-50);
+    background-color: var(--primary-500);
+    opacity: 0.2;
     border-radius: 5px;
   }
 </style>
