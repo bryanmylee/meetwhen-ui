@@ -32,7 +32,9 @@
   // STATE
   // =====
   let showHint = false;
+  let hideTimer = null;
   $: if ($calendarSelectionEnabled && isFirst) {
+    clearTimeout(hideTimer);
     setTimeout(() => {
       if ($calendarSelectionEnabled) {
         showHint = true;
@@ -47,7 +49,7 @@
   }
 
   $: if (showHint) {
-    setTimeout(() => {
+    hideTimer = setTimeout(() => {
       showHint = false;
     }, HIDE_OTHER_USERS);
   }
