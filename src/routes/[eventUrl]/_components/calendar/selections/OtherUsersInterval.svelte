@@ -9,9 +9,8 @@
   import { sizePos } from '../actions/selection';
   import { SHOW_OTHER_USERS, HIDE_OTHER_USERS } from '../../../_tooltipDelays';
 
-  import Tooltip from 'src/components/ui/Tooltip.svelte';
-  import TooltipDismiss from 'src/components/ui/TooltipDismiss.svelte';
   import OtherUsersPopover from './OtherUsersPopover.svelte';
+  import OtherUsersHint from './OtherUsersHint.svelte';
 
   const dispatch = createEventDispatcher();
   const [popperRef, popperContent] = createPopperActions();
@@ -53,10 +52,6 @@
       showHint = false;
     }, HIDE_OTHER_USERS);
   }
-
-  // CONSTANTS
-  // =========
-  const popperOptions = { placement: 'right-start' };
 </script>
 
 <div
@@ -79,15 +74,10 @@
   out:fade={{ duration: 200, delay: 50 }}
 />
 {#if showHint}
-  <div transition:fade={{ duration: 200 }}>
-    <Tooltip use={hintPopperContent} {popperOptions} style="font-size: 1rem">
-      <div class="tooltip">
-        <h5>Other people's schedules</h5>
-        <TooltipDismiss on:click={() => showHint = false}/>
-      </div>
-      <h5 class="tip">Select to view more</h5>
-    </Tooltip>
-  </div>
+  <OtherUsersHint
+    on:dismiss={() => showHint = false}
+    use={hintPopperContent}
+  />
 {/if}
 {#if isSelected}
   <OtherUsersPopover
@@ -129,15 +119,5 @@
 
   .pass-through {
     pointer-events: none;
-  }
-
-  .tooltip {
-    display: flex;
-    align-items: center;
-  }
-
-  h5 {
-    margin: 0.5em;
-    margin-right: 0.5em;
   }
 </style>

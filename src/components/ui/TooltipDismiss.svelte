@@ -10,7 +10,6 @@
   button {
     width: 1em;
     height: 1em;
-    margin: 0.5em;
     padding: 0.2em;
     display: flex;
     justify-content: center;

@@ -129,12 +129,12 @@
   }
 
   .tooltip {
+    margin: 0.5em;
     display: flex;
     align-items: center;
   }
 
   h5 {
-    margin: 0.5em;
-    margin-right: 0;
+    margin-right: 0.5em;
   }
 </style>
