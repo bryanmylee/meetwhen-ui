@@ -41,13 +41,13 @@
     if ($form === formEnum.LOGGING_IN) {
       usernameValidation = validateUsername;
       passwordValidation = validatePassword;
-      prompt = 'Log in';
+      prompt = 'Log In';
       tip = '';
     } else if ($form === formEnum.JOINING) {
       usernameValidation = validateNewUsername;
       passwordValidation = validateNewPassword;
-      prompt = 'Add your schedule';
-      tip = 'Account is unique to this event only';
+      prompt = 'Sign Up';
+      tip = 'Account is for this event only';
     }
   }
 

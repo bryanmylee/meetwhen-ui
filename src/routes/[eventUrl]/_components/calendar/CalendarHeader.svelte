@@ -28,7 +28,7 @@ on Chrome and Firefox -->
   <div class="transition-container">
     <div class="container" transition:slide={{ duration: 300 }}>
       <div class="header">
-        <h3>Pick a time</h3>
+        <h3>Add your schedule</h3>
         <span
           use:popperRef
           on:click={() => showTooltip = !showTooltip}
