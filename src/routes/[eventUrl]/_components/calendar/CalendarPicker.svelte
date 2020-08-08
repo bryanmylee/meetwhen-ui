@@ -111,7 +111,7 @@
       >
         <IndexColumn />
 
-        {#each daysToShow as { day, skipped }}
+        {#each daysToShow as { day, skipped }, columnIndex}
           <Column {day} {skipped}>
 
             <UnavailableColumnOverlay
@@ -122,11 +122,12 @@
 
             {#each timeIntervalsWithMinUsersWithSkip
               .filter((i) => i.start.isSame(day, 'date'))
-            as interval (`${+interval.start}-${+interval.end}`)}
+            as interval, index (`${+interval.start}-${+interval.end}`)}
               <OtherUsersInterval
                 {...interval}
                 {minUsers}
                 {maxUsers}
+                isFirst={index === 0 && columnIndex === 0}
                 on:select={selectOtherUsersInterval}
                 on:dismiss={dismissOtherUsersInterval}
                 isSelected={selectedOthers && selectedOthers.start === interval.start}

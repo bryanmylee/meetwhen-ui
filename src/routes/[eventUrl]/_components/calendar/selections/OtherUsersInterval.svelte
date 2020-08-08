@@ -4,14 +4,17 @@
   import { fade } from 'svelte/transition';
 
   import { currentColor } from 'src/stores';
+  import { form, formEnum } from '../../../stores';
   import { calendarSelectionEnabled, isCreatingNewSelection } from '../stores';
   import colorGradient from 'src/actions/colorGradient';
   import { sizePos } from '../actions/selection';
 
+  import Tooltip from 'src/components/ui/Tooltip.svelte';
   import OtherUsersPopover from './OtherUsersPopover.svelte';
 
   const dispatch = createEventDispatcher();
   const [popperRef, popperContent] = createPopperActions();
+  const [hintPopperRef, hintPopperContent] = createPopperActions();
 
   // PROPS
   // =====
@@ -22,7 +25,25 @@
   export let skipping;
   export let minUsers = 0;
   export let maxUsers = 1;
+  export let isFirst = false;
   export let isSelected = false;
+
+  // STATE
+  // =====
+  let showHint = false;
+  $: if ($calendarSelectionEnabled && isFirst) {
+    setTimeout(() => {
+      if ($calendarSelectionEnabled) {
+        showHint = true;
+      }
+    }, 500);
+  } else {
+    showHint = false;
+  }
+
+  $: if (isSelected) {
+    showHint = false;
+  }
 </script>
 
 <div
@@ -40,9 +61,19 @@
     total: maxUsers - minUsers + 1,
   }}
   use:popperRef
+  use:hintPopperRef
   in:fade={{ duration: 100 }}
   out:fade={{ duration: 200, delay: 50 }}
 />
+{#if showHint}
+  <div in:fade={{ duration: 200 }}>
+    <Tooltip use={hintPopperContent} >
+      <h5>
+        Other user schedules
+      </h5>
+    </Tooltip>
+  </div>
+{/if}
 {#if isSelected}
   <OtherUsersPopover
     on:dismiss
@@ -83,5 +114,9 @@
 
   .pass-through {
     pointer-events: none;
+  }
+
+  h5 {
+    margin: 0.5em;
   }
 </style>
