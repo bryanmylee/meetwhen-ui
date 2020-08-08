@@ -1,5 +1,10 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+
+  import { getTargets } from 'src/utils/eventHandler';
   import Tooltip from 'src/components/ui/Tooltip.svelte';
+
+  const dispatch = createEventDispatcher();
 
   // PROPS
   // =====
@@ -23,7 +28,19 @@
   $: countString = usernames.length === 1
     ? '1 person'
     : `${usernames.length} people`;
+
+  let firstClicked = false;
+  function handleClick(event) {
+    const targets = getTargets(event);
+    const popperContent = targets.find((target) => target.dataset.popperContent != null);
+    if (popperContent == null && firstClicked) {
+      dispatch('dismiss');
+    }
+    firstClicked = true;
+  }
 </script>
+
+<svelte:window on:click={handleClick} />
 
 <Tooltip use={popperAction} {popperOptions} >
   <h5>{timeString}</h5>

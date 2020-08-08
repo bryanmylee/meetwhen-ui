@@ -42,6 +42,13 @@
     }
   }
 
+  function dismissOtherUsersInterval(event) {
+    const interval = event.detail;
+    if (selectedOthers != null) {
+      selectedOthers = null;
+    }
+  }
+
   // REACTIVE ATTRIBUTES
   // ===================
   $: earliestHour = schedule && schedule.length !== 0 ? schedule[0].start.hour() : 0;
@@ -121,6 +128,7 @@
                 {minUsers}
                 {maxUsers}
                 on:select={selectOtherUsersInterval}
+                on:dismiss={dismissOtherUsersInterval}
                 isSelected={selectedOthers && selectedOthers.start === interval.start}
               />
             {/each}

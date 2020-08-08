@@ -23,16 +23,11 @@
   export let minUsers = 0;
   export let maxUsers = 1;
   export let isSelected = false;
-
-  // STATE FUNCTIONS
-  // ===============
-  function handleClick() {
-    dispatch('select', { start, end });
-  }
 </script>
 
 <div
   class="other-user-selection"
+  on:click={() => dispatch('select', { start, end })}
   class:selected={isSelected}
   class:collapsed={$calendarSelectionEnabled}
   class:pass-through={$isCreatingNewSelection}
@@ -45,12 +40,17 @@
     total: maxUsers - minUsers + 1,
   }}
   use:popperRef
-  on:click={handleClick}
   in:fade={{ duration: 100 }}
   out:fade={{ duration: 200, delay: 50 }}
 />
 {#if isSelected}
-  <OtherUsersPopover {start} {end} {usernames} popperAction={popperContent} />
+  <OtherUsersPopover
+    on:dismiss
+    popperAction={popperContent}
+    {start}
+    {end}
+    {usernames}
+  />
 {/if}
 
 <style>
