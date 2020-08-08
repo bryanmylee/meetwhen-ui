@@ -7,6 +7,7 @@
   import { calendarSelectionEnabled, isCreatingNewSelection } from '../stores';
   import colorGradient from 'src/actions/colorGradient';
   import { sizePos } from '../actions/selection';
+  import { SHOW_OTHER_USERS, HIDE_OTHER_USERS } from '../../../_tooltipDelays';
 
   import Tooltip from 'src/components/ui/Tooltip.svelte';
   import TooltipDismiss from 'src/components/ui/TooltipDismiss.svelte';
@@ -36,7 +37,7 @@
       if ($calendarSelectionEnabled) {
         showHint = true;
       }
-    }, 500);
+    }, SHOW_OTHER_USERS);
   } else {
     showHint = false;
   }
@@ -48,7 +49,7 @@
   $: if (showHint) {
     setTimeout(() => {
       showHint = false;
-    }, 10000);
+    }, HIDE_OTHER_USERS);
   }
 
   // CONSTANTS
