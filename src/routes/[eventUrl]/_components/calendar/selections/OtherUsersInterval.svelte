@@ -80,7 +80,7 @@
 />
 {#if showHint}
   <div transition:fade={{ duration: 200 }}>
-    <Tooltip use={hintPopperContent} {popperOptions} >
+    <Tooltip use={hintPopperContent} {popperOptions} style="font-size: 1rem">
       <div class="tooltip">
         <h5>Other people's schedules</h5>
         <TooltipDismiss on:click={() => showHint = false}/>

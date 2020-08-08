@@ -33,7 +33,7 @@
 
 <svelte:window on:click={handleClick} />
 
-<Tooltip use={popperAction} >
+<Tooltip use={popperAction} style="font-size: 1rem">
   <h5>{timeString}</h5>
   <h5 class="tip">{countString}</h5>
   <div class="names__container">

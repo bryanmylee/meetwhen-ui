@@ -3,6 +3,7 @@
   // =====
   export let use;
   export let popperOptions = {};
+  export let style = '';
 
   const defaultOptions = {
     placement: 'right',
@@ -12,7 +13,7 @@
   };
 </script>
 
-<div class="popover" use:use={{ ...defaultOptions, ...popperOptions }}>
+<div class="popover" use:use={{ ...defaultOptions, ...popperOptions }} {style}>
   <div data-popper-content>
     <slot/>
   </div>
