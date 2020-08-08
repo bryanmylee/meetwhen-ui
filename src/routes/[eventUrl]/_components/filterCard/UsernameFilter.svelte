@@ -1,5 +1,5 @@
 <script>
-  import { selectedUsernames } from '../../stores';
+  import { selectedUsernames } from '../../_stores';
   import { flip } from 'svelte/animate';
 
   // PROPS

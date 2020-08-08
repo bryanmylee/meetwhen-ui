@@ -4,7 +4,7 @@
   import { createPopperActions } from 'svelte-popperjs';
 
   import { layoutEnum, layout, user } from 'src/stores';
-  import { detailsEnum, formEnum, details, form } from '../stores';
+  import { detailsEnum, formEnum, details, form } from '../_stores';
 
   import { Button } from 'src/components/form';
   import Tooltip from 'src/components/ui/Tooltip.svelte';

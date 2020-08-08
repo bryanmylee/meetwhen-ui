@@ -3,7 +3,7 @@
   import { fade, slide } from 'svelte/transition';
 
   import { layout, layoutEnum } from 'src/stores';
-  import { form, formEnum } from '../stores';
+  import { form, formEnum } from '../_stores';
   import { validateNewPassword, validateNewUsername, validatePassword, validateUsername } from 'src/utils/validation';
   import { KEY_RETURN } from 'src/utils/constants';
 

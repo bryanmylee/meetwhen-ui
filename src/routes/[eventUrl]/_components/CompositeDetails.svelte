@@ -1,7 +1,7 @@
 <script>
   import { leftRight } from 'src/transitions/leftRightToggle';
   import { layoutEnum, layout } from 'src/stores';
-  import { detailsEnum, details } from '../stores';
+  import { detailsEnum, details } from '../_stores';
 
   import EventDetails from './EventDetails.svelte';
   import FilterCard from './filterCard/FilterCard.svelte';

@@ -12,7 +12,7 @@
   import calendarInteraction from './actions/calendarInteraction';
   import { autoScrollToCalendarHour } from './actions/autoScroll';
   import { calendarSelectionEnabled, dragDropState, dragDropEnum } from './stores';
-  import { selectedUsernames, minUserCountFilter } from '../../stores';
+  import { selectedUsernames, minUserCountFilter } from '../../_stores';
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
   import { FRAME_DURATION } from 'src/utils/nextFrame';
   import { getFilteredUserIntervalsByUsername, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './utils';

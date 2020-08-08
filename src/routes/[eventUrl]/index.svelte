@@ -24,7 +24,7 @@
 </script>
 
 <script>
-  import { formEnum, form } from './stores';
+  import { formEnum, form } from './_stores';
   import { undoRedo } from 'src/actions/hotkeys';
   import undoable from 'src/utils/undoable';
   import nextFrame from 'src/utils/nextFrame';

@@ -1,6 +1,6 @@
 import { writable, derived } from 'svelte/store';
 
-import { form, formEnum } from '../../stores';
+import { form, formEnum } from '../../_stores';
 
 export const calendarSelectionEnabled = derived(
   form,
