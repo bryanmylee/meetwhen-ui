@@ -2,10 +2,17 @@
   // PROPS
   // =====
   export let use;
-  export let popperOptions;
+  export let popperOptions = {};
+
+  const defaultOptions = {
+    placement: 'right',
+    modifiers: [
+      { name: 'offset', options: { offset: [0, 8] } },
+    ],
+  };
 </script>
 
-<div class="popover" use:use={popperOptions}>
+<div class="popover" use:use={{ ...defaultOptions, ...popperOptions }}>
   <div data-popper-content>
     <slot/>
   </div>
