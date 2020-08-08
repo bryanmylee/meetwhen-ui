@@ -20,12 +20,11 @@
   export let fakeDisabled;
 
   const leftMarginStyle = 'margin-left: 1em';
+  const rightMarginStyle = 'margin-right: 1em';
 
   function resetForm() {
     $form = formEnum.NONE;
   }
-  // eslint-disable-next-line no-unused-expressions
-  $: $form, showHint = false;
 
   function submit() {
     dispatch('submit');
@@ -37,16 +36,19 @@
 
   const popperOptions = { placement: 'bottom-start' };
 
-  let showHint = false;
+  let showSignupHint = false;
+  // eslint-disable-next-line no-unused-expressions
+  $: $form, showSignupHint = false;
+
   onMount(() => {
     setTimeout(() => {
-      showHint = true;
+      showSignupHint = true;
     }, SHOW_SIGN_UP);
   });
 
-  $: if (showHint) {
+  $: if (showSignupHint) {
     setTimeout(() => {
-      showHint = false;
+      showSignupHint = false;
     }, HIDE_SIGN_UP);
   }
 </script>
@@ -82,23 +84,24 @@
         Edit Schedule
       </Button>
     {:else}
-      <Button on:click={() => $form = formEnum.LOGGING_IN}>
+      <Button style={rightMarginStyle} on:click={() => $form = formEnum.LOGGING_IN}>
         Log In
       </Button>
+      or
       <div use:popperRef>
         <Button style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>
           Sign Up
         </Button>
       </div>
 
-      {#if showHint}
+      {#if showSignupHint}
         <div in:fade={{ duration: 200 }}>
           <Tooltip use={popperContent} {popperOptions}>
             <div class="tooltip">
               <h5>
                 Sign up to add your schedule!
               </h5>
-              <TooltipDismiss on:click={() => showHint = false} />
+              <TooltipDismiss on:click={() => showSignupHint = false} />
             </div>
           </Tooltip>
         </div>
@@ -116,6 +119,7 @@
   .bar__left,
   .bar__right {
     display: flex;
+    align-items: center;
   }
 
   .bar__left {
