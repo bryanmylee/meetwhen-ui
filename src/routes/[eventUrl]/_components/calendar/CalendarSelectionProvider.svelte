@@ -19,9 +19,7 @@
   // The new selection being made.
   let newSelection = null;
   let selectAttempts = 0;
-  $: {
-    $isCreatingNewSelection = newSelection != null;
-  }
+  $: isCreatingNewSelection.set(newSelection != null);
 
   // REACTIVE ATTRIBUTES
   // ===================
