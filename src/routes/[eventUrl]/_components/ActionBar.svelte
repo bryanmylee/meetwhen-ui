@@ -5,7 +5,7 @@
 
   import { layoutEnum, layout, user } from 'src/stores';
   import { detailsEnum, formEnum, details, form } from '../_stores';
-  import { SHOW_SIGN_UP } from '../_tooltipDelays';
+  import { SHOW_SIGN_UP, HIDE_SIGN_UP } from '../_tooltipDelays';
 
   import { Button } from 'src/components/form';
   import Tooltip from 'src/components/ui/Tooltip.svelte';
@@ -43,6 +43,12 @@
       showHint = true;
     }, SHOW_SIGN_UP);
   });
+
+  $: if (showHint) {
+    setTimeout(() => {
+      showHint = false;
+    }, HIDE_SIGN_UP);
+  }
 </script>
 
 <div class="bar">
