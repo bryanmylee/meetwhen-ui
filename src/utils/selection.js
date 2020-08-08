@@ -1,4 +1,6 @@
-import { MS_PER_DAY } from 'src/utils/constants';
+import dayjs from 'dayjs';
+
+import { MS_PER_DAY, MS_PER_15_MINS } from 'src/utils/constants';
 
 /**
  * @typedef {{
@@ -199,6 +201,12 @@ function getIntersectionActions(selectionsA, selectionsB) {
  * @param {number} resInMs The smallest selection size.
  * @returns {interval[]} Selections that are larger than resInMs.
  */
-export function getLowRes(selections, resInMs = 450000) {
-  return selections.filter((selection) => selection.end - selection.start >= resInMs);
+export function getLowRes(selections, resInMs = MS_PER_15_MINS / 2) {
+  return selections
+    .map((selection) => ({
+      ...selection,
+      start: dayjs(Math.round(selection.start / MS_PER_15_MINS) * MS_PER_15_MINS),
+      end: dayjs(Math.round(selection.end / MS_PER_15_MINS) * MS_PER_15_MINS),
+    }))
+    .filter((selection) => selection.end - selection.start >= resInMs);
 }
