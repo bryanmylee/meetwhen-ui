@@ -44,45 +44,27 @@
   {/if}
 
   <div class="bar__right">
-    {#if $user.isLoggedIn}
-      {#if $form === formEnum.EDITING}
-        <Button alt on:click={resetForm}>
-          Cancel
-        </Button>
-        <Button {disabled} {fakeDisabled} style={leftMarginStyle} on:click={submit}>
-          Confirm
-        </Button>
-      {:else}
-        <Button on:click={logout}>
-          Log Out
-        </Button>
-        <Button style={leftMarginStyle} on:click={() => $form = formEnum.EDITING}>
-          Edit Schedule
-        </Button>
-      {/if}
+    {#if $form !== formEnum.NONE}
+      <Button alt on:click={resetForm}>
+        Cancel
+      </Button>
+      <Button {disabled} {fakeDisabled} style={leftMarginStyle} on:click={submit}>
+        Confirm
+      </Button>
+    {:else if $user.isLoggedIn}
+      <Button on:click={logout}>
+        Log Out
+      </Button>
+      <Button style={leftMarginStyle} on:click={() => $form = formEnum.EDITING}>
+        Edit Schedule
+      </Button>
     {:else}
-      {#if $form === formEnum.LOGGING_IN}
-        <Button alt on:click={resetForm}>
-          Cancel
-        </Button>
-        <Button {disabled} {fakeDisabled} style={leftMarginStyle} on:click={submit}>
-          Confirm
-        </Button>
-      {:else if $form === formEnum.JOINING}
-        <Button alt on:click={resetForm}>
-          Cancel
-        </Button>
-        <Button {disabled} {fakeDisabled} style={leftMarginStyle} on:click={submit}>
-          Confirm
-        </Button>
-      {:else}
-        <Button on:click={() => $form = formEnum.LOGGING_IN}>
-          Log In
-        </Button>
-        <Button style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>
-          Sign Up
-        </Button>
-      {/if}
+      <Button on:click={() => $form = formEnum.LOGGING_IN}>
+        Log In
+      </Button>
+      <Button style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>
+        Sign Up
+      </Button>
     {/if}
   </div>
 </div>
