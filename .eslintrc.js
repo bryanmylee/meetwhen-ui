@@ -68,7 +68,7 @@ module.exports = {
         'import/no-duplicates': ['off'],
         'no-unused-vars': ['warn'],
         'no-unused-expressions': ['warn'],
-        'no-sequences': ['warn'],
+        'no-sequences': ['off'],
       },
     },
   ],
