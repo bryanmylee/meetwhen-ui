@@ -3,7 +3,7 @@
 </script>
 
 <button on:click>
-  <Close/>
+  <Close color="var(--text-900)"/>
 </button>
 
 <style>
