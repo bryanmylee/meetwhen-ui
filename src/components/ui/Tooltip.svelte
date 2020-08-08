@@ -31,10 +31,8 @@
 
   .popover__arrow {
     z-index: 31;
-    left: -7px;
     width: 8px;
     height: 16px;
-    clip-path: polygon(0 50%, 100% 0, 100% 100%);
     background-color: var(--grey-300);
     pointer-events: none;
   }
@@ -43,22 +41,58 @@
     content: '';
     position: absolute;
     top: 1px;
-    left: 1.5px;
     width: 7px;
     height: 14px;
-    clip-path: polygon(0 50%, 100% 0, 100% 100%);
     background-color: var(--bg);
   }
 
+  :global([data-popper-placement^="right"]) .popover__arrow {
+    left: -7px;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+  }
+
+  :global([data-popper-placement^="right"]) .popover__arrow:before {
+    left: 1.5px;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+  }
+
   :global([data-popper-placement^="left"]) .popover__arrow {
-    left: unset;
     right: -7px;
     clip-path: polygon(0 0, 100% 50%, 0 100%);
   }
 
   :global([data-popper-placement^="left"]) .popover__arrow:before {
-    left: unset;
     right: 1.5px;
     clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+
+  :global([data-popper-placement^="top"]) .popover__arrow {
+    width: 16px;
+    height: 8px;
+    bottom: -7px;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+
+  :global([data-popper-placement^="top"]) .popover__arrow:before {
+    width: 14px;
+    height: 6.5px;
+    top: 0px;
+    left: 1px;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+
+  :global([data-popper-placement^="bottom"]) .popover__arrow {
+    width: 16px;
+    height: 8px;
+    top: -7px;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+
+  :global([data-popper-placement^="bottom"]) .popover__arrow:before {
+    width: 14px;
+    height: 7px;
+    top: 1.5px;
+    left: 1px;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
   }
 </style>
