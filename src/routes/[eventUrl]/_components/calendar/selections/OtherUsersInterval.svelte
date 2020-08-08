@@ -31,10 +31,11 @@
   // STATE
   // =====
   let showHint = false;
-  let hideTimer = null;
+  let showHintTimer = null;
+  let hideHintTimer = null;
   $: if ($calendarSelectionEnabled && isFirst) {
-    clearTimeout(hideTimer);
-    setTimeout(() => {
+    clearTimeout(hideHintTimer);
+    showHintTimer = setTimeout(() => {
       if ($calendarSelectionEnabled) {
         showHint = true;
       }
@@ -48,9 +49,14 @@
   }
 
   $: if (showHint) {
-    hideTimer = setTimeout(() => {
+    hideHintTimer = setTimeout(() => {
       showHint = false;
     }, HIDE_OTHER_USERS);
+  }
+
+  function dismissHint() {
+    clearTimeout(showHintTimer);
+    showHint = false;
   }
 </script>
 
@@ -75,7 +81,7 @@
 />
 {#if showHint}
   <OtherUsersHint
-    on:dismiss={() => showHint = false}
+    on:dismiss={dismissHint}
     use={hintPopperContent}
   />
 {/if}

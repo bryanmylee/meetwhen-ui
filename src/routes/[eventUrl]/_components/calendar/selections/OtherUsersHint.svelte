@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
 
+  import { getTargets } from 'src/utils/eventHandler';
   import Tooltip from 'src/components/ui/Tooltip.svelte';
   import TooltipDismiss from 'src/components/ui/TooltipDismiss.svelte';
 
@@ -12,7 +13,17 @@
   // CONSTANTS
   // =========
   const popperOptions = { placement: 'right-start' };
+
+  function handleClick(event) {
+    const targets = getTargets(event);
+    const tooltip = targets.find((target) => target.dataset.popperContent != null);
+    if (tooltip == null) {
+      dispatch('dismiss');
+    }
+  }
 </script>
+
+<svelte:window on:click={handleClick} />
 
 <div transition:fade={{ duration: 200 }}>
   <Tooltip use={use} {popperOptions} style="font-size: 1rem">
