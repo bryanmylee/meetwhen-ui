@@ -8,6 +8,7 @@
 
   import { Button } from 'src/components/form';
   import Tooltip from 'src/components/ui/Tooltip.svelte';
+  import TooltipDismiss from 'src/components/ui/TooltipDismiss.svelte';
 
   const dispatch = createEventDispatcher();
   const [popperRef, popperContent] = createPopperActions();
@@ -91,9 +92,12 @@
       {#if showHint}
         <div in:fade={{ duration: 200 }}>
           <Tooltip use={popperContent} {popperOptions}>
-            <h5>
-              Sign up to add your schedule!
-            </h5>
+            <div class="tooltip">
+              <h5>
+                Sign up to add your schedule!
+              </h5>
+              <TooltipDismiss on:click={() => showHint = false} />
+            </div>
           </Tooltip>
         </div>
       {/if}
@@ -122,7 +126,13 @@
     padding-left: 0.5em;
   }
 
+  .tooltip {
+    display: flex;
+    align-items: center;
+  }
+
   h5 {
     margin: 0.5em;
+    margin-right: 0;
   }
 </style>
