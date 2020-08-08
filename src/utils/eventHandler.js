@@ -47,6 +47,12 @@ export function getTarget(event) {
   return document.elementFromPoint(clientX, clientY);
 }
 
+/**
+ * Get the targets of the event, regardless of whether it was a mouse or touch
+ * event.
+ * @param {MouseEvent | TouchEvent} event The mouse or touch event.
+ * @returns {Element} The target of the event.
+ */
 export function getTargets(event) {
   const { clientX, clientY } = getClient(event);
   return document.elementsFromPoint(clientX, clientY);

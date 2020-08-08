@@ -21,7 +21,7 @@
     : `${usernames.length} people`;
 
   let firstClicked = false;
-  function handleClick(event) {
+  function dismiss(event) {
     const targets = getTargets(event);
     const popperContent = targets.find((target) => target.dataset.popperContent != null);
     if (popperContent == null && firstClicked) {
@@ -31,7 +31,7 @@
   }
 </script>
 
-<svelte:window on:click={handleClick} />
+<svelte:window on:click={dismiss} on:touchstart={dismiss} />
 
 <Tooltip use={popperAction} style="font-size: 1rem">
   <h5>{timeString}</h5>
