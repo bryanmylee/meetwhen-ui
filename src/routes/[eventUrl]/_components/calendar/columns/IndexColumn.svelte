@@ -43,6 +43,6 @@
   .index-col__cell:last-of-type {
     min-height: min-content;
     padding-top: calc(var(--row-height) * 0.5 - 0.5em);
-    margin-bottom: -0.5em;
+    margin-bottom: 4.5rem;
   }
 </style>
