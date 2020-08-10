@@ -1,22 +1,43 @@
 <script>
-  import { slide } from 'svelte/transition';
+  import { fade, slide } from 'svelte/transition';
   import { createPopperActions } from 'svelte-popperjs';
 
-  import { calendarSelectionEnabled } from './stores';
+  import { calendarSelectionEnabled, isCreatingNewSelection } from './stores';
 
   import Info from 'src/components/icons/Info.svelte';
   import ErrorTip from 'src/components/ui/ErrorTip.svelte';
   import Tooltip from 'src/components/ui/Tooltip.svelte';
 
   const [popperRef, popperContent] = createPopperActions();
+  const SHOW_TIP = 500;
+  const HIDE_TIP = 10000;
 
   export let showError = false;
 
   // STATE
   // =====
   let showTooltip = false;
-  // Set showTooltip to false whenever calendarSelecitonEnabled is toggled.
-  $: showTooltip = $calendarSelectionEnabled && false;
+  let showTimer = null;
+  let hideTimer = null;
+  $: if ($calendarSelectionEnabled) {
+    showTimer = setTimeout(() => {
+      showTooltip = true;
+    }, SHOW_TIP);
+  } else {
+    clearTimeout(showTimer);
+    showTooltip = false;
+  }
+
+  $: if (showTooltip) {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      showTooltip = false;
+    }, HIDE_TIP);
+  }
+
+  $: if ($isCreatingNewSelection) {
+    showTooltip = false;
+  }
 
   const popperOptions = { placement: 'left' };
 </script>
@@ -43,10 +64,10 @@ on Chrome and Firefox -->
   </div>
   {#if showTooltip}
     <Tooltip use={popperContent} {popperOptions}>
-      <div class="tooltip-content">
-        <h5>
+      <div class="tooltip-content" transition:fade={{ duration: 200 }}>
+        <h4>
           Long touch and drag to make a selection
-        </h5>
+        </h4>
       </div>
     </Tooltip>
   {/if}
