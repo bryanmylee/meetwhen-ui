@@ -98,9 +98,9 @@
         <div in:fade={{ duration: 200 }}>
           <Tooltip use={popperContent} {popperOptions}>
             <div class="tooltip">
-              <h5>
+              <h4>
                 Sign up to add your schedule!
-              </h5>
+              </h4>
               <TooltipDismiss on:click={() => showSignupHint = false} />
             </div>
           </Tooltip>
@@ -138,7 +138,7 @@
     align-items: center;
   }
 
-  h5 {
+  h4 {
     margin-right: 0.5em;
   }
 </style>

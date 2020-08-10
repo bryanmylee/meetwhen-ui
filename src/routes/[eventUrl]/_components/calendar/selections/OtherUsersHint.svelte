@@ -28,7 +28,7 @@
 <div transition:fade={{ duration: 200 }}>
   <Tooltip use={use} {popperOptions} style="font-size: 1rem">
     <div class="tooltip">
-      <h5>Other people's schedules</h5>
+      <h4>Other people's schedules</h4>
       <TooltipDismiss on:click={() => dispatch('dismiss')}/>
     </div>
     <h5 class="tip">Select to view more</h5>
@@ -42,7 +42,7 @@
     align-items: center;
   }
 
-  h5 {
+  h4 {
     margin-right: 0.5em;
   }
 
