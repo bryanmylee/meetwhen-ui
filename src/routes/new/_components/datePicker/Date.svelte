@@ -53,8 +53,12 @@
     color: var(--text-800);
   }
 
-  span:hover {
+  div:hover > span {
     background-color: var(--grey-200);
+  }
+
+  div:hover.past > span {
+    background-color: unset;
   }
 
   div.today > span {
@@ -69,11 +73,6 @@
   div.past > span {
     color: var(--text-400);
   }
-
-  div.past > span:hover {
-    background-color: unset;
-  }
-
 
   div.selected > span {
     color: white;
