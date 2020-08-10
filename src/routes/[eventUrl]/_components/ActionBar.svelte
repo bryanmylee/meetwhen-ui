@@ -20,8 +20,8 @@
 
   const leftMarginStyle = 'margin-left: 1em';
   const rightMarginStyle = 'margin-right: 1em';
-  const SHOW_SIGN_UP = 2000;
-  const HIDE_SIGN_UP = 8000;
+  const SHOW_SIGN_UP = 500;
+  const HIDE_SIGN_UP = 10000;
 
   function resetForm() {
     $form = formEnum.NONE;

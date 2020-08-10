@@ -15,8 +15,8 @@
   const [popperRef, popperContent] = createPopperActions();
   const [hintPopperRef, hintPopperContent] = createPopperActions();
 
-  const SHOW_OTHER_USERS = 1000;
-  const HIDE_OTHER_USERS = 8000;
+  const SHOW_OTHER_USERS = 500;
+  const HIDE_OTHER_USERS = 10000;
 
   // PROPS
   // =====
