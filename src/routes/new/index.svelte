@@ -18,7 +18,7 @@
   // =========
   let title = '';
   let description = '';
-  let selectedDays = [];
+  let selectedDays = [dayjs()];
   let startTime = dayjs().hour(9).minute(0);
   let endTime = dayjs().hour(17).minute(0);
 
