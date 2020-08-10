@@ -15,7 +15,7 @@
   import { user } from 'src/stores';
   import { calendarSelectionEnabled, dragDropState, dragDropEnum } from './stores';
   import { selectedUsernames, minUserCountFilter, form, formEnum } from '../../_stores';
-  import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
+  import { getMergedIntervals } from 'src/utils/interval';
   import { FRAME_DURATION } from 'src/utils/nextFrame';
   import { getFilteredUserSchedulesByUsername, getUserSchedulesWithoutUser, getTimeIntervalsWithSkip, getMinMaxUsernames, getScheduleWithSkip } from './utils';
 
@@ -65,8 +65,8 @@
   );
   $: userSchedulesWithoutMe = getUserSchedulesWithoutUser(userSchedules, $user);
   // Time intervals with grouped usernames.
-  $: timeIntervalsWithUsers = splitIntervalsOnMidnight(
-    getMergedIntervals(editing ? userSchedulesWithoutMe : filteredUserSchedules),
+  $: timeIntervalsWithUsers = getMergedIntervals(
+    editing ? userSchedulesWithoutMe : filteredUserSchedules,
   );
   // Time intervals with minimum number of users.
   $: timeIntervalsWithMinUsers = timeIntervalsWithUsers

@@ -3,7 +3,6 @@
 
   import { isCreatingNewSelection } from './stores';
   import { getAreaSelection, getUnionOfSelections, getIntersectionOfSelections, getLowRes } from 'src/utils/selection';
-  import { splitIntervalsOnMidnight } from 'src/utils/interval';
 
   // BINDINGS
   // ========
@@ -94,10 +93,10 @@
     const { initStart } = event.detail;
     if (newSelections.length === 0) return;
     const selectionsWithoutResized = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
-    selections = splitIntervalsOnMidnight(getUnionOfSelections([
+    selections = getUnionOfSelections([
       ...selectionsWithoutResized,
       ...newSelections,
-    ]));
+    ]);
     newSelection = null;
   }
 
@@ -107,7 +106,7 @@
   }
 
   function setSelections(draggedSelections) {
-    const processedSelections = splitIntervalsOnMidnight(getUnionOfSelections(draggedSelections));
+    const processedSelections = getUnionOfSelections(draggedSelections);
     if (schedule == null) {
       selections = getLowRes(processedSelections);
     } else {

@@ -29,7 +29,6 @@
   import undoable from 'src/utils/undoable';
   import nextFrame from 'src/utils/nextFrame';
   import { getLowRes } from 'src/utils/selection';
-  import { splitIntervalsOnMidnight } from 'src/utils/interval';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
   import { addUserToEvent, editUserIntervals } from 'src/api/event';
 
@@ -92,7 +91,7 @@
 
   function setForm() {
     if ($form === formEnum.EDITING) {
-      $selections = getLowRes(splitIntervalsOnMidnight(event.userSchedules[$user.username]));
+      $selections = getLowRes(event.userSchedules[$user.username]);
     } else {
       $selections = [];
     }
