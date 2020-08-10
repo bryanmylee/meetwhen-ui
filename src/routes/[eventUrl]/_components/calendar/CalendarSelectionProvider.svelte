@@ -31,20 +31,20 @@
   function newSelectStart(event) {
     selectAttempts = 0;
     const { dayMs, hour } = event.detail;
-    const day = dayjs(dayMs).add(hour, 'hour');
+    const dayHour = dayjs(dayMs).add(hour, 'hour');
     newSelection = {
-      down: day,
-      up: day,
+      down: dayHour,
+      up: dayHour,
     };
   }
 
   function newSelectMove(event) {
     if (newSelection == null) newSelectStart(event);
     const { dayMs, hour } = event.detail;
-    const day = dayjs(dayMs).add(hour, 'hour');
+    const dayHour = dayjs(dayMs).add(hour, 'hour');
     newSelection = {
       ...newSelection,
-      up: day,
+      up: dayHour,
     };
   }
 
@@ -69,19 +69,11 @@
   }
 
   function resizeDefinedStart(event) {
-    const {
-      // To set the new selection to a predefined size.
-      newSelectionStartDay,
-      newSelectionStartHour,
-      newSelectionEndDay,
-      newSelectionEndHour,
-    } = event.detail;
+    const { downDayHour, upDayHour } = event.detail;
 
     newSelection = {
-      downDay: newSelectionStartDay,
-      downHour: newSelectionStartHour,
-      upDay: newSelectionEndDay,
-      upHour: newSelectionEndHour,
+      down: downDayHour,
+      up: upDayHour,
     };
   }
 
@@ -90,9 +82,9 @@
   }
 
   function resizeDefinedStop(event) {
-    const { initStart } = event.detail;
+    const { initStartDayHour } = event.detail;
     if (newSelections.length === 0) return;
-    const selectionsWithoutResized = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
+    const selectionsWithoutResized = selections.filter((selection) => !selection.start.isSame(initStartDayHour, 'minute'));
     selections = getUnionOfSelections([
       ...selectionsWithoutResized,
       ...newSelections,

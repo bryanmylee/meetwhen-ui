@@ -207,13 +207,7 @@ function moveDefinedAction(node) {
 
 // Resize events by deleting the defined selection, and creating a new selection in its place.
 function resizeDefinedAction(node, { resizeTop }) {
-  let initStart;
-  let initEnd;
-  let startHour;
-  let startDay;
-  let endHour;
-  let endDay;
-
+  let initStartDayHour;
   let selectionTarget;
 
   return {
@@ -223,35 +217,20 @@ function resizeDefinedAction(node, { resizeTop }) {
       selectionTarget = targets.find(isDefinedSelection);
       selectionTarget.style.opacity = 0;
 
-      initStart = dayjs(parseInt(selectionTarget.dataset.startMs, 10));
-      initEnd = dayjs(parseInt(selectionTarget.dataset.endMs, 10));
-      startHour = initStart.hour() + Math.round(initStart.minute() / 15) / 4;
-      startDay = initStart.startOf('day');
-      endHour = initEnd.hour() + Math.round(initEnd.minute() / 15) / 4;
-      endDay = initEnd.startOf('day');
-      if (endHour === 0) {
-        endHour = 24;
-        endDay = endDay.subtract(1, 'day');
-      }
+      initStartDayHour = dayjs(parseInt(selectionTarget.dataset.startMs, 10));
 
       if (resizeTop) {
         node.dispatchEvent(new CustomEvent('resizeDefinedStart', {
           detail: {
-            initStart,
-            newSelectionStartDay: endDay,
-            newSelectionStartHour: endHour - 0.25,
-            newSelectionEndDay: startDay,
-            newSelectionEndHour: startHour,
+            downDayHour: dayjs(parseInt(selectionTarget.dataset.endMs, 10)).subtract(15, 'minute'),
+            upDayHour: dayjs(parseInt(selectionTarget.dataset.startMs, 10)),
           },
         }));
       } else {
         node.dispatchEvent(new CustomEvent('resizeDefinedStart', {
           detail: {
-            initStart,
-            newSelectionStartDay: startDay,
-            newSelectionStartHour: startHour,
-            newSelectionEndDay: endDay,
-            newSelectionEndHour: endHour - 0.25,
+            downDayHour: dayjs(parseInt(selectionTarget.dataset.startMs, 10)),
+            upDayHour: dayjs(parseInt(selectionTarget.dataset.endMs, 10)).subtract(15, 'minute'),
           },
         }));
       }
@@ -274,7 +253,7 @@ function resizeDefinedAction(node, { resizeTop }) {
         selectionTarget.style.opacity = 1;
       }
       node.dispatchEvent(new CustomEvent('resizeDefinedStop', {
-        detail: { initStart },
+        detail: { initStartDayHour },
       }));
     },
   };
