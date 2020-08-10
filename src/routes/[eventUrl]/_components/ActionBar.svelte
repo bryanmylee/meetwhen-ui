@@ -5,7 +5,6 @@
 
   import { layoutEnum, layout, user } from 'src/stores';
   import { detailsEnum, formEnum, details, form } from '../_stores';
-  import { SHOW_SIGN_UP, HIDE_SIGN_UP } from '../_tooltipDelays';
 
   import { Button } from 'src/components/form';
   import Tooltip from 'src/components/ui/Tooltip.svelte';
@@ -21,6 +20,8 @@
 
   const leftMarginStyle = 'margin-left: 1em';
   const rightMarginStyle = 'margin-right: 1em';
+  const SHOW_SIGN_UP = 2000;
+  const HIDE_SIGN_UP = 8000;
 
   function resetForm() {
     $form = formEnum.NONE;

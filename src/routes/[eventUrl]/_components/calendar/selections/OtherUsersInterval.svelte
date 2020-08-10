@@ -7,7 +7,6 @@
   import { calendarSelectionEnabled, isCreatingNewSelection } from '../stores';
   import colorGradient from 'src/actions/colorGradient';
   import { sizePos } from '../actions/selection';
-  import { SHOW_OTHER_USERS, HIDE_OTHER_USERS } from '../../../_tooltipDelays';
 
   import OtherUsersPopover from './OtherUsersPopover.svelte';
   import OtherUsersHint from './OtherUsersHint.svelte';
@@ -15,6 +14,9 @@
   const dispatch = createEventDispatcher();
   const [popperRef, popperContent] = createPopperActions();
   const [hintPopperRef, hintPopperContent] = createPopperActions();
+
+  const SHOW_OTHER_USERS = 1000;
+  const HIDE_OTHER_USERS = 8000;
 
   // PROPS
   // =====
