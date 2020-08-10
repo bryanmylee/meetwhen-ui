@@ -29,6 +29,6 @@
     margin: 0 0.2em;
     border-radius: 5px;
     background-color: var(--primary-300);
-    box-shadow: var(--shadow-med);
+    box-shadow: var(--shadow-small);
   }
 </style>
