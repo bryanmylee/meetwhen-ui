@@ -18,6 +18,7 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
+    pointer-events: all;
   }
 
   button:hover, button:focus {
