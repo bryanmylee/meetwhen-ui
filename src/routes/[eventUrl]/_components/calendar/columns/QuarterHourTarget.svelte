@@ -1,14 +1,13 @@
 <script>
   import { calendarSelectionEnabled } from '../stores';
 
-  export let day;
-  export let hour;
+  export let quarter;
 </script>
 
 <div
   class:enabled={$calendarSelectionEnabled}
-  data-quarter-hour-target data-day-ms={+day}
-  data-hour={hour}
+  data-quarter-hour-target data-day-ms={+quarter.startOf('day')}
+  data-hour={quarter.hour() + Math.floor(quarter.minute() / 15) * 0.25}
 />
 
 <style>

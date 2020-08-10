@@ -1,22 +1,22 @@
-export function getFilteredUserIntervalsByUsername(selectedUsernames, userIntervalsByUsername) {
-  if (selectedUsernames.length === 0) return userIntervalsByUsername;
-  return Object.keys(userIntervalsByUsername)
+export function getFilteredUserSchedulesByUsername(selectedUsernames, userSchedulesByUsername) {
+  if (selectedUsernames.length === 0) return userSchedulesByUsername;
+  return Object.keys(userSchedulesByUsername)
     .filter((username) => selectedUsernames.includes(username))
     .reduce((acc, username) => ({
       ...acc,
-      [username]: userIntervalsByUsername[username],
+      [username]: userSchedulesByUsername[username],
     }), {});
 }
 
-export function getUserIntervalsWithoutUser(userIntervalsByUsername, userToExclude) {
+export function getUserSchedulesWithoutUser(userSchedulesByUsername, userToExclude) {
   if (!userToExclude.isLoggedIn) {
-    return userIntervalsByUsername;
+    return userSchedulesByUsername;
   }
-  return Object.keys(userIntervalsByUsername)
+  return Object.keys(userSchedulesByUsername)
     .filter((username) => username !== userToExclude.username)
     .reduce((intervals, username) => ({
       ...intervals,
-      [username]: userIntervalsByUsername[username],
+      [username]: userSchedulesByUsername[username],
     }), {});
 }
 
@@ -50,24 +50,19 @@ export function getMinMaxUsernames(userIntervalsByTime) {
   return [minUsernames, maxUsernames];
 }
 
-export function getDaysToShowWithSkip(eventIntervalsSplitOnMidnight) {
-  const daysWithSkip = [];
-  for (const interval of eventIntervalsSplitOnMidnight) {
-    const { length } = daysWithSkip;
-    const newDay = interval.start.startOf('day');
-    if (length === 0) {
-      daysWithSkip.push({ day: newDay, skipped: false });
-      continue;
-    }
-    const previousDay = daysWithSkip[length - 1].day;
-    if (previousDay.isSame(newDay, 'day')) {
-      continue;
-    }
-    if (previousDay.add(1, 'day').isSame(newDay, 'day')) {
-      daysWithSkip.push({ day: newDay, skipped: false });
-      continue;
-    }
-    daysWithSkip.push({ day: newDay, skipped: true });
+export function getScheduleWithSkip(schedule) {
+  if (schedule.length === 0) {
+    return [];
   }
-  return daysWithSkip;
+  const scheduleWithSkip = [{
+    ...schedule[0],
+    skipped: false,
+  }];
+  schedule.slice(1).forEach((interval, index) => {
+    scheduleWithSkip.push({
+      ...interval,
+      skipped: interval.start.isSame(schedule[index].start, 'day'),
+    });
+  });
+  return scheduleWithSkip;
 }

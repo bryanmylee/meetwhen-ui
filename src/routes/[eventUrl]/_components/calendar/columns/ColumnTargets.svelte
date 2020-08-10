@@ -1,15 +1,21 @@
 <script>
+  import { MS_PER_HOUR } from 'src/utils/constants';
+
   import QuarterHourCell from './QuarterHourTarget.svelte';
 
   // PROPS
   // =====
-  export let day;
+  export let start;
+  export let end;
+
+  const numHours = (end - start) / MS_PER_HOUR;
+  const hours = [...Array(numHours)].map((_, i) => start.add(i, 'hour'));
 </script>
 
 <div class="col__targets">
-  {#each Array(24) as _, hour}
-    {#each Array(4) as _, quarter}
-      <QuarterHourCell {day} hour={hour + quarter * 0.25} />
+  {#each hours as hour}
+    {#each Array(4) as _, quarterIndex}
+      <QuarterHourCell quarter={hour.add(quarterIndex * 0.25, 'hour')} />
     {/each}
   {/each}
 </div>

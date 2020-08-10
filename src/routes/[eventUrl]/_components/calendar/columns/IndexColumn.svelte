@@ -1,17 +1,20 @@
 <script>
-  import dayjs from 'dayjs';
+  import { MS_PER_HOUR } from 'src/utils/constants';
 
-  // ATTRIBUTES
-  // ==========
-  const hours = Array.from(Array(24).keys())
-    .map((inc) => dayjs().startOf('day').add(inc, 'hour'));
+  // PROPS
+  // =====
+  export let start;
+  export let end;
+
+  const numHours = (end - start) / MS_PER_HOUR + 1;
+  const hours = [...Array(numHours)].map((_, i) => start.add(i, 'hour'));
 </script>
 
 <div class="index-col">
   {#each hours as hour}
     <div class="cell index-col__cell">
       <span>
-        {hour.add(1, 'hour').format('ha')}
+        {hour.format('ha')}
       </span>
     </div>
   {/each}
@@ -34,10 +37,6 @@
   .index-col__cell span {
     font-size: 0.8em;
     color: var(--grey-400);
-  }
-
-  .index-col__cell:first-of-type {
-    margin-top: var(--row-height);
   }
 
   .index-col__cell:last-of-type {

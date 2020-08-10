@@ -15,11 +15,10 @@ import { MS_PER_HOUR } from 'src/utils/constants';
  * @param actionOptions.end The end of the interval.
  * @param actionOptions.duration The duration of the tweened value.
  */
-export function smoothSizePos(node, { start, end, duration = 100 }) {
-  const startOfDay = start.startOf('day');
+export function smoothSizePos(node, { columnStart, start, end, duration = 100 }) {
   const smooth = tweened({
-    startInMs: start - startOfDay,
-    endInMs: end - startOfDay,
+    startInMs: start - columnStart,
+    endInMs: end - columnStart,
   }, {
     duration,
     easing: cubicOut,
@@ -31,10 +30,9 @@ export function smoothSizePos(node, { start, end, duration = 100 }) {
   });
   return {
     update({ start: newStart, end: newEnd }) {
-      const newStartOfDay = newStart.startOf('day');
       smooth.set({
-        startInMs: newStart - newStartOfDay,
-        endInMs: newEnd - startOfDay,
+        startInMs: newStart - columnStart,
+        endInMs: newEnd - columnStart,
       });
     },
     destroy() {
@@ -47,19 +45,20 @@ export function smoothSizePos(node, { start, end, duration = 100 }) {
  * Dynamically size an element based on a start and end value.
  * @param {HTMLElement} node The action node.
  * @param {{
+ *   earliestHour: number,
  *   start: Dayjs,
  *   end: Dayjs,
  * }} actionOptions
  * @param actionOptions.start The start of the interval.
  * @param actionOptions.end The end of the interval.
  */
-export function sizePos(node, { start, end }) {
+export function sizePos(node, { columnStart, start, end }) {
   node.style.position = 'absolute';
-  node.style.top = getTop(start - start.startOf('day'));
+  node.style.top = getTop(start - columnStart);
   node.style.height = getHeight(end - start);
   return {
     update({ start: newStart, end: newEnd }) {
-      node.style.top = getTop(newStart - newStart.startOf('day'));
+      node.style.top = getTop(newStart - columnStart);
       node.style.height = getHeight(newEnd - newStart);
     },
   };

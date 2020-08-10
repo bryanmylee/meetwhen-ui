@@ -3,21 +3,21 @@
 
   // PROPS
   // =====
-  export let day;
   // If this day does not sequentially follow the previous day in the calendar.
   export let skipped = false;
+  export let start;
+  export let end;
 </script>
 
 <div class="col" class:skipped>
   <div class="date-label">
-    {day.format('ddd D')}
+    {start.format('ddd D')}
   </div>
   <div
     class="col__body"
     class:skipped
   >
-    <!-- <SeparatorLines /> -->
-    <ColumnTargets {day} />
+    <ColumnTargets {start} {end} />
     <slot/>
   </div>
 </div>
@@ -43,9 +43,7 @@
 
   .col__body {
     position: relative;
-    /* min-width: var(--col-width); */
     width: 100%;
-    min-height: calc(var(--row-height) * 24);
     border-right: 1px var(--grey-300) solid;
     user-select: none;
   }
