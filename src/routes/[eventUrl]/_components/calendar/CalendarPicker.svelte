@@ -1,4 +1,7 @@
 <script>
+  import dayjs from 'dayjs';
+  import isBetween from 'dayjs/plugin/isBetween';
+
   import CalendarSelectionProvider from './CalendarSelectionProvider.svelte';
   import IndexColumn from './columns/IndexColumn.svelte';
   import Column from './columns/Column.svelte';
@@ -15,6 +18,8 @@
   import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
   import { FRAME_DURATION } from 'src/utils/nextFrame';
   import { getFilteredUserSchedulesByUsername, getUserSchedulesWithoutUser, getTimeIntervalsWithSkip, getMinMaxUsernames, getScheduleWithSkip } from './utils';
+
+  dayjs.extend(isBetween);
 
   // BINDINGS
   // ========
@@ -116,7 +121,7 @@
           <Column {skipped} {start} {end} >
 
             {#each timeIntervalsWithMinUsersWithSkip
-              .filter((i) => i.start.isSame(start, 'day'))
+              .filter((i) => i.start.isBetween(start, start.add(24, 'hour')))
             as interval, index (`${+interval.start}-${+interval.end}`)}
               <OtherUsersInterval
                 columnStart={start}
@@ -131,13 +136,13 @@
             {/each}
 
             {#each selections
-              .filter((s) => s.start.isSame(start, 'day'))
+              .filter((s) => s.start.isBetween(start, start.add(24, 'hour')))
             as selection (`${+selection.start}-${+selection.end}`)}
               <DefinedSelection columnStart={start} {...selection} />
             {/each}
 
             {#each newSelections
-              .filter((s) => s.start.isSame(start, 'day'))
+              .filter((s) => s.start.isBetween(start, start.add(24, 'hour')))
             as selection}
               <NewSelection columnStart={start} {...selection} />
             {/each}
