@@ -6,7 +6,7 @@
 
 <div>
   <h3>
-    Set a time
+    Set a time for everyone
   </h3>
   <MonthPicker bind:month/>
 </div>
