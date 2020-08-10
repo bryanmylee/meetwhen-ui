@@ -44,6 +44,15 @@
   // ==============
   export let event;
 
+  // INITIALIZATION
+  // ==============
+  if (typeof navigator !== 'undefined') {
+    navigator.clipboard.writeText(`meetwhen.io/${event.eventUrl}`)
+      .then(() => {
+        message = 'Event link copied to clipboard!';
+      });
+  }
+
   // FORM DATA
   // =========
   let username = '';
