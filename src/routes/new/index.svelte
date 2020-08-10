@@ -5,6 +5,7 @@
   import { currentColor } from 'src/stores';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
   import { createNewEvent } from 'src/api/event';
+  import { getLowRes } from 'src/utils/selection';
 
   import EventDetailsForm from './_components/EventDetailsForm.svelte';
   import ColorPicker from './_components/colorPicker/ColorPicker.svelte';
@@ -47,10 +48,12 @@
     isLoading = true;
     try {
       const schedule = selectedDays.map((day) => ({
-        start: day.hour(startTime.hour()).minute(0),
-        end: day.hour(endTime.hour()).minute(0).add(endTime.hour() === 0 ? 1 : 0, 'day'),
+        start: day.hour(startTime.hour()).minute(0).second(0).millisecond(0),
+        end: day.hour(endTime.hour()).minute(0).second(0).millisecond(0)
+          .add(endTime.hour() === 0 ? 1 : 0, 'day'),
       }));
-      const eventDetails = { title, description, color: $currentColor.hex, schedule };
+      const scheduleLowRes = getLowRes(schedule);
+      const eventDetails = { title, description, color: $currentColor.hex, schedule: scheduleLowRes };
       const { eventUrl } = await createNewEvent(fetch, process.env.SAPPER_APP_API_URL, eventDetails);
       goto(`/${eventUrl}`);
     } catch (err) {
