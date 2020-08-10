@@ -2,6 +2,8 @@
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
 
+  import { isCreatingNewSelection } from '../stores';
+
   import Tooltip from 'src/components/ui/Tooltip.svelte';
   import TooltipDismiss from 'src/components/ui/TooltipDismiss.svelte';
 
@@ -12,6 +14,10 @@
   // CONSTANTS
   // =========
   const popperOptions = { placement: 'right-start' };
+
+  $: if ($isCreatingNewSelection) {
+    dispatch('dismiss');
+  }
 </script>
 
 <div class="tooltip-container" transition:fade={{ duration: 200 }}>
