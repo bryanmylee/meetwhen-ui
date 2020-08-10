@@ -36,7 +36,7 @@
   [data-resize-defined-selection] {
     margin: 0 0.2em;
     position: absolute;
-    height: 10px;
+    height: calc(var(--row-height) / 4);
     left: 0;
     right: 0;
     border-radius: 5px;
