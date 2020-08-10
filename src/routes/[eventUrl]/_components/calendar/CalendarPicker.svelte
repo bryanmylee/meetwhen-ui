@@ -89,7 +89,7 @@
 
 <CalendarSelectionProvider
   bind:selections
-  selectionLimits={schedule}
+  {schedule}
   let:newSelections
   let:newSelectStart
   let:newSelectMove

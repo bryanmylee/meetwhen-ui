@@ -11,8 +11,8 @@
 
   // PROPS
   // =====
-  // Any limitation on the selections possible. If null, treated as no limits.
-  export let selectionLimits = null;
+  export let schedule = [];
+  $: columnStart = schedule && schedule.length > 0 && schedule[0].start;
 
   // STATE
   // =====
@@ -23,32 +23,29 @@
 
   // REACTIVE ATTRIBUTES
   // ===================
-  $: newSelections = selectionLimits == null
-    ? getLowRes(getAreaSelection(newSelection))
-    : getLowRes(getIntersectionOfSelections(selectionLimits, getAreaSelection(newSelection)));
+  $: newSelections = schedule == null && schedule.length > 0
+    ? getLowRes(getAreaSelection(newSelection, schedule))
+    : getLowRes(getIntersectionOfSelections(schedule, getAreaSelection(newSelection, schedule)));
 
   // STATE FUNCTIONS
   // ===============
   function newSelectStart(event) {
     selectAttempts = 0;
     const { dayMs, hour } = event.detail;
-    const day = dayjs(dayMs);
+    const day = dayjs(dayMs).add(hour, 'hour');
     newSelection = {
-      downDay: day,
-      downHour: hour,
-      upDay: day,
-      upHour: hour,
+      down: day,
+      up: day,
     };
   }
 
   function newSelectMove(event) {
     if (newSelection == null) newSelectStart(event);
     const { dayMs, hour } = event.detail;
-    const day = dayjs(dayMs);
+    const day = dayjs(dayMs).add(hour, 'hour');
     newSelection = {
       ...newSelection,
-      upDay: day,
-      upHour: hour,
+      up: day,
     };
   }
 
@@ -111,10 +108,10 @@
 
   function setSelections(draggedSelections) {
     const processedSelections = splitIntervalsOnMidnight(getUnionOfSelections(draggedSelections));
-    if (selectionLimits == null) {
+    if (schedule == null) {
       selections = getLowRes(processedSelections);
     } else {
-      selections = getLowRes(getIntersectionOfSelections(processedSelections, selectionLimits));
+      selections = getLowRes(getIntersectionOfSelections(processedSelections, schedule));
     }
   }
 </script>

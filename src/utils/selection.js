@@ -22,39 +22,48 @@ import { MS_PER_DAY, MS_PER_15_MINS } from 'src/utils/constants';
  *
  * @param {intervalSeparateDayHour} newSelection The new selection made by
  * the user with days and hours separated.
+ * @param {interval[]} schedule The schedule of the event.
  * @returns {interval[]} The new selections across different days.
  */
-export function getAreaSelection(newSelection) {
+export function getAreaSelection(newSelection, schedule) {
   if (newSelection == null) {
     return [];
   }
-  const { downDay, downHour, upDay, upHour } = newSelection;
-  if (downDay == null || downHour == null || upDay == null || upHour == null) {
+  const { down, up } = newSelection;
+  if (down == null || up == null) {
     return [];
   }
 
-  const numDaysSpan = Math.floor(Math.abs(upDay - downDay) / MS_PER_DAY) + 1;
-  if (+downDay <= +upDay && downHour <= upHour) {
+  const columnStartHour = schedule[0].start.hour();
+  const adjustedDown = down.subtract(columnStartHour, 'hour');
+  const adjustedDownDay = adjustedDown.startOf('day');
+  const adjustedUp = up.subtract(columnStartHour, 'hour');
+  const adjustedUpDay = adjustedUp.startOf('day');
+  const adjustedDownHour = adjustedDown.hour() + Math.floor(adjustedDown.minute() / 15) * 0.25;
+  const adjustedUpHour = adjustedUp.hour() + Math.floor(adjustedUp.minute() / 15) * 0.25;
+  const numDaysSpan = Math.floor(Math.abs(adjustedUpDay - adjustedDownDay) / MS_PER_DAY) + 1;
+
+  if (+adjustedDownDay <= +adjustedUpDay && adjustedDownHour <= adjustedUpHour) {
     return [...Array(numDaysSpan)].map((_, i) => ({
-      start: downDay.add(i, 'day').add(downHour, 'hour'),
-      end: downDay.add(i, 'day').add(upHour + 0.25, 'hour'),
+      start: adjustedDownDay.add(i, 'day').add(adjustedDownHour, 'hour').add(columnStartHour, 'hour'),
+      end: adjustedDownDay.add(i, 'day').add(adjustedUpHour + 0.25, 'hour').add(columnStartHour, 'hour'),
     }));
   }
-  if (+downDay <= +upDay && downHour > upHour) {
+  if (+adjustedDownDay <= +adjustedUpDay && adjustedDownHour > adjustedUpHour) {
     return [...Array(numDaysSpan)].map((_, i) => ({
-      start: downDay.add(i, 'day').add(upHour, 'hour'),
-      end: downDay.add(i, 'day').add(downHour + 0.25, 'hour'),
+      start: adjustedDownDay.add(i, 'day').add(adjustedUpHour, 'hour').add(columnStartHour, 'hour'),
+      end: adjustedDownDay.add(i, 'day').add(adjustedDownHour + 0.25, 'hour').add(columnStartHour, 'hour'),
     }));
   }
-  if (+downDay > +upDay && downHour <= upHour) {
+  if (+adjustedDownDay > +adjustedUpDay && adjustedDownHour <= adjustedUpHour) {
     return [...Array(numDaysSpan)].map((_, i) => ({
-      start: upDay.add(i, 'day').add(downHour, 'hour'),
-      end: upDay.add(i, 'day').add(upHour + 0.25, 'hour'),
+      start: adjustedUpDay.add(i, 'day').add(adjustedDownHour, 'hour').add(columnStartHour, 'hour'),
+      end: adjustedUpDay.add(i, 'day').add(adjustedUpHour + 0.25, 'hour').add(columnStartHour, 'hour'),
     }));
   }
   return [...Array(numDaysSpan)].map((_, i) => ({
-    start: upDay.add(i, 'day').add(upHour, 'hour'),
-    end: upDay.add(i, 'day').add(downHour + 0.25, 'hour'),
+    start: adjustedUpDay.add(i, 'day').add(adjustedUpHour, 'hour').add(columnStartHour, 'hour'),
+    end: adjustedUpDay.add(i, 'day').add(adjustedDownHour + 0.25, 'hour').add(columnStartHour, 'hour'),
   }));
 }
 
