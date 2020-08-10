@@ -200,7 +200,6 @@
     align-items: center;
     font-weight: 800;
     padding: 0.5em;
-    padding-bottom: calc(0.5em + 1px);
     border-bottom: 1px var(--grey-400) solid;
     background-color: var(--bg);
     transition: font-size 200ms ease-out,

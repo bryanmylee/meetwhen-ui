@@ -192,14 +192,6 @@ h1 {
   font-weight: 400;
 }
 
-/* Picker */
-.cell {
-  z-index: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 /* Utility */
 .no-highlight {
   -webkit-touch-callout: none;

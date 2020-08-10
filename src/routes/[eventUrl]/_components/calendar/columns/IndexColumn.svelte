@@ -1,6 +1,8 @@
 <script>
   import { MS_PER_HOUR } from 'src/utils/constants';
 
+  import IndexColumnCell from './IndexColumnCell.svelte';
+
   // PROPS
   // =====
   export let start;
@@ -12,11 +14,7 @@
 
 <div class="index-col">
   {#each hours as hour}
-    <div class="cell index-col__cell">
-      <span>
-        {hour.format('ha')}
-      </span>
-    </div>
+    <IndexColumnCell {hour} />
   {/each}
 </div>
 
@@ -29,22 +27,4 @@
     background-color: var(--bg);
   }
 
-  .index-col__cell {
-    min-height: var(--row-height);
-  }
-
-  .index-col__cell span {
-    font-size: 0.8em;
-    color: var(--grey-400);
-  }
-
-  .index-col__cell:first-of-type {
-    margin-top: 1rem;
-  }
-
-  .index-col__cell:last-of-type {
-    min-height: min-content;
-    padding-top: calc(var(--row-height) * 0.5 - 0.5em);
-    margin-bottom: 5rem;
-  }
 </style>
