@@ -17,6 +17,10 @@
     border-bottom: 1px solid transparent;
   }
 
+  div:first-of-type {
+    border-top: 1px solid var(--grey-200);
+  }
+
   div:nth-child(4n) {
     border-bottom: 1px solid var(--grey-200);
   }

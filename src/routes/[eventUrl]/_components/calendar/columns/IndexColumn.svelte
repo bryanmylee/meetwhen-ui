@@ -30,7 +30,6 @@
   }
 
   .index-col__cell {
-    margin-top: 0;
     min-height: var(--row-height);
   }
 
@@ -39,9 +38,13 @@
     color: var(--grey-400);
   }
 
+  .index-col__cell:first-of-type {
+    margin-top: 1rem;
+  }
+
   .index-col__cell:last-of-type {
     min-height: min-content;
     padding-top: calc(var(--row-height) * 0.5 - 0.5em);
-    margin-bottom: 4.5rem;
+    margin-bottom: 5rem;
   }
 </style>

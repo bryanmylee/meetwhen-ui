@@ -44,6 +44,7 @@
   .col__body {
     position: relative;
     width: 100%;
+    margin-top: 1rem;
     border-right: 1px var(--grey-300) solid;
     user-select: none;
   }
