@@ -55,14 +55,14 @@
   }
 
   function moveDefinedStop(event) {
-    const { initStart, newStart, newEnd } = event.detail;
+    const { initStartDayHour, newStartDayHour, newEndDayHour } = event.detail;
     const draggedSelections = selections.map((selection) => {
-      if (!selection.start.isSame(initStart, 'minute')) {
+      if (!selection.start.isSame(initStartDayHour, 'minute')) {
         return selection;
       }
       return {
-        start: newStart,
-        end: newEnd,
+        start: newStartDayHour,
+        end: newEndDayHour,
       };
     });
     setSelections(draggedSelections);
@@ -93,8 +93,8 @@
   }
 
   function deleteDefined(event) {
-    const { initStart } = event.detail;
-    selections = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
+    const { initStartDayHour } = event.detail;
+    selections = selections.filter((selection) => !selection.start.isSame(initStartDayHour, 'minute'));
   }
 
   function setSelections(draggedSelections) {
