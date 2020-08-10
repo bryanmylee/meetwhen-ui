@@ -121,7 +121,7 @@
           <Column {skipped} {start} {end} >
 
             {#each timeIntervalsWithMinUsersWithSkip
-              .filter((i) => i.start.isBetween(start, start.add(24, 'hour')))
+              .filter((i) => i.start.isBetween(start, start.add(24, 'hour'), null, '[)'))
             as interval, index (`${+interval.start}-${+interval.end}`)}
               <OtherUsersInterval
                 columnStart={start}
@@ -136,13 +136,13 @@
             {/each}
 
             {#each selections
-              .filter((s) => s.start.isBetween(start, start.add(24, 'hour')))
+              .filter((s) => s.start.isBetween(start, start.add(24, 'hour'), null, '[)'))
             as selection (`${+selection.start}-${+selection.end}`)}
               <DefinedSelection columnStart={start} {...selection} />
             {/each}
 
             {#each newSelections
-              .filter((s) => s.start.isBetween(start, start.add(24, 'hour')))
+              .filter((s) => s.start.isBetween(start, start.add(24, 'hour'), null, '[)'))
             as selection}
               <NewSelection columnStart={start} {...selection} />
             {/each}
