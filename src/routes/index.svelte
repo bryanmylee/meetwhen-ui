@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>meetwhen - Quick Group Scheduling</title>
+</svelte:head>
+
 <script>
   import { goto } from '@sapper/app';
   import { onMount } from 'svelte';
@@ -18,7 +22,7 @@
     </div>
     <div class="hero-content">
       <h1>meetwhen</h1>
-      <p>Find the perfect time to meet up with your group</p>
+      <p>Find the perfect time to meet up with your team</p>
     </div>
   </div>
   <div class="bottom-container">

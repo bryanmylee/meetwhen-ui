@@ -1,7 +1,3 @@
-<svelte:head>
-  <title>meetwhen</title>
-</svelte:head>
-
 <script>
   import Nav from 'src/components/ui/Nav.svelte';
   import { mediaQueries } from 'src/actions/mediaQuery';

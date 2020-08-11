@@ -23,6 +23,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>meetwhen - {event.title}</title>
+</svelte:head>
+
 <script>
   import { formEnum, form } from './_stores';
   import { undoRedo } from 'src/actions/hotkeys';

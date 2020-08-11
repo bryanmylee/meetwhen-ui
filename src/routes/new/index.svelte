@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>meetwhen - New Event</title>
+</svelte:head>
+
 <script>
   import { goto } from '@sapper/app';
   import dayjs from 'dayjs';
