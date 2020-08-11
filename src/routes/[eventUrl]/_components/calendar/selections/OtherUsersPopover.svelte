@@ -32,7 +32,7 @@
   }
 </script>
 
-<svelte:window on:click={dismiss} on:touchstart={dismiss} />
+<svelte:window on:click={dismiss} />
 
 <Tooltip use={popperAction} style="font-size: 1rem">
   <h5 class="time">{timeString}</h5>
