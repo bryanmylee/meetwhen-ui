@@ -34,5 +34,6 @@
     background-color: var(--bg);
     display: flex;
     flex-direction: column;
+    margin-bottom: 5rem;
   }
 </style>

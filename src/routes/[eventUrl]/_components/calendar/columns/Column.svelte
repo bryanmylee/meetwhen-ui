@@ -29,6 +29,7 @@
     min-width: var(--col-width);
     display: flex;
     flex-direction: column;
+    margin-bottom: 5rem;
   }
 
   .date-label {
