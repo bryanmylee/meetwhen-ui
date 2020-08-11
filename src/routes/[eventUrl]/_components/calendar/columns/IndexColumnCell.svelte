@@ -20,6 +20,13 @@
     margin-top: 1rem;
   }
 
+  .cell:last-of-type {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
   span {
     margin-top: -0.6em;
     font-size: 0.8em;
@@ -28,5 +35,9 @@
 
   span.midnight {
     font-weight: 800;
+  }
+
+  .cell:last-of-type > span {
+    margin-bottom: -0.6em;
   }
 </style>

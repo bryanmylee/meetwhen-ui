@@ -8,7 +8,7 @@
   export let start;
   export let end;
 
-  const numHours = (end - start) / MS_PER_HOUR;
+  const numHours = (end - start) / MS_PER_HOUR + 1;
   const hours = [...Array(numHours)].map((_, i) => start.add(i, 'hour'));
 </script>
 
