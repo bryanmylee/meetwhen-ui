@@ -47,24 +47,9 @@
   --text-100: #F5F5F5;
   --text-50: #FAFAFA;
   /* Shadows */
-  --shadow-small: 0 1px 2px rgba(0,0,0,0.05),
-                  0 2px 4px rgba(0,0,0,0.05),
-                  0 4px 8px rgba(0,0,0,0.05),
-                  0 8px 16px rgba(0,0,0,0.05);
-  --shadow-med: 0 1px 2px rgba(0,0,0,0.05),
-                0 2px 4px rgba(0,0,0,0.05),
-                0 4px 8px rgba(0,0,0,0.05),
-                0 8px 16px rgba(0,0,0,0.05),
-                0 16px 32px rgba(0,0,0,0.05),
-                0 32px 64px rgba(0,0,0,0.05);
-  --shadow-large: 0 1px 2px rgba(0,0,0,0.05),
-                  0 2px 4px rgba(0,0,0,0.05),
-                  0 4px 8px rgba(0,0,0,0.05),
-                  0 8px 16px rgba(0,0,0,0.05),
-                  0 16px 32px rgba(0,0,0,0.05),
-                  0 32px 64px rgba(0,0,0,0.05),
-                  0 64px 128px rgba(0,0,0,0.05),
-                  0 128px 256px rgba(0,0,0,0.05);
+  --shadow-small: 0 5px 10px rgba(0,0,0,0.12);
+  --shadow-med: 0 8px 30px rgba(0,0,0,0.12);
+  --shadow-large: 0 30px 60px rgba(0,0,0,0.12);
   /* Dimensions */
   --nav-height: 50px;
   --index-col-width: 4em;

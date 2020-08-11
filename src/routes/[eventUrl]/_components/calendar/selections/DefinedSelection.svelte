@@ -68,7 +68,7 @@
   :global(.moving) .selection__content {
     z-index: 15;
     background-color: var(--primary-300);
-    box-shadow: var(--shadow-small);
+    box-shadow: var(--shadow-med);
   }
 
   :global(.deleting) .selection__content {
