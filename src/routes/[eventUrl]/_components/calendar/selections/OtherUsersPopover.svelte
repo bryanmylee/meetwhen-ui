@@ -37,21 +37,25 @@
 <Tooltip use={popperAction} style="font-size: 1rem">
   <h5 class="time">{timeString}</h5>
   <h5 class="header">{usernames.length} attending</h5>
-  <div class="names__container">
-    {#each usernames.sort() as username}
-      <p>
-        {username}
-      </p>
-    {/each}
-  </div>
-  {#if notAttendingUsernames.length !== 0}
-    <h5 class="header">{notAttendingUsernames.length} not attending</h5>
-    <div class="names__container">
-      {#each notAttendingUsernames.sort() as username}
-        <p class="not-attending">
+  <div class="names">
+    <div class="names-scroll">
+      {#each usernames.sort() as username}
+        <p>
           {username}
         </p>
       {/each}
+    </div>
+  </div>
+  {#if notAttendingUsernames.length !== 0}
+    <h5 class="header">{notAttendingUsernames.length} not attending</h5>
+    <div class="names">
+      <div class="names-scroll">
+        {#each notAttendingUsernames.sort() as username}
+          <p class="not-attending">
+            {username}
+          </p>
+        {/each}
+      </div>
     </div>
   {/if}
 </Tooltip>
@@ -68,11 +72,27 @@
     border-top: 1px solid var(--grey-300);
   }
 
-  .names__container {
+  .names {
     font-size: 0.8em;
+    position: relative;
+  }
+
+  .names::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1em;
+    background: linear-gradient(0deg, var(--bg) 0%, transparent 100%);
+    pointer-events: none;
+    touch-action: none;
+  }
+
+  .names-scroll {
+    padding: 1em;
     max-height: 15em;
     overflow-y: auto;
-    padding: 1em;
   }
 
   p {
