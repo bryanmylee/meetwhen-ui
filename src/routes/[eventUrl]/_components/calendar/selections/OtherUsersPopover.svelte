@@ -36,29 +36,38 @@
 
 <Tooltip use={popperAction} style="font-size: 1rem">
   <h5 class="time">{timeString}</h5>
-  <h5 class="header">{usernames.length} attending</h5>
-  <div class="names">
-    {#each usernames.sort() as username}
-      <p>
-        {username}
-      </p>
-    {/each}
-  </div>
-  {#if notAttendingUsernames.length !== 0}
-    <h5 class="header">{notAttendingUsernames.length} not attending</h5>
+  <div class="popover-content">
+    <h5 class="header">{usernames.length} attending</h5>
     <div class="names">
-      {#each notAttendingUsernames.sort() as username}
-        <p class="not-attending">
+      {#each usernames.sort() as username}
+        <p>
           {username}
         </p>
       {/each}
     </div>
-  {/if}
+    {#if notAttendingUsernames.length !== 0}
+      <h5 class="header">{notAttendingUsernames.length} not attending</h5>
+      <div class="names">
+        {#each notAttendingUsernames.sort() as username}
+          <p class="not-attending">
+            {username}
+          </p>
+        {/each}
+      </div>
+    {/if}
+  </div>
 </Tooltip>
 
 <style>
   .time {
     padding: 1em;
+  }
+
+  .popover-content {
+    max-height: 20em;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
 
   .header {
@@ -69,8 +78,8 @@
   }
 
   .names {
+    flex: 1;
     padding: 1em;
-    max-height: 15em;
     overflow-y: auto;
     font-size: 0.8em;
     position: relative;
