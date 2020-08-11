@@ -3,12 +3,14 @@
 
   // PROPS
   // =====
+  export let columnStart;
+  export let columnEnd;
   export let start;
   export let end;
 </script>
 
 <div
-  use:smoothSizePos={{ start, end }}
+  use:smoothSizePos={{ columnStart, columnEnd, start, end }}
   class="selection__container"
 >
   <div class="selection__content" />
@@ -29,6 +31,6 @@
     margin: 0 0.2em;
     border-radius: 5px;
     background-color: var(--primary-300);
-    box-shadow: var(--shadow-med);
+    box-shadow: var(--shadow-small);
   }
 </style>

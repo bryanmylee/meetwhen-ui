@@ -1,8 +1,10 @@
 <script>
+  import dayjs from 'dayjs';
+  import isBetween from 'dayjs/plugin/isBetween';
+
   import CalendarSelectionProvider from './CalendarSelectionProvider.svelte';
   import IndexColumn from './columns/IndexColumn.svelte';
   import Column from './columns/Column.svelte';
-  import UnavailableColumnOverlay from './UnavailableColumnOverlay.svelte';
   import OtherUsersInterval from './selections/OtherUsersInterval.svelte';
   import DefinedSelection from './selections/DefinedSelection.svelte';
   import NewSelection from './selections/NewSelection.svelte';
@@ -10,13 +12,14 @@
   import ZoomButtons from './zoomButtons/ZoomButtons.svelte';
 
   import calendarInteraction from './actions/calendarInteraction';
-  import { autoScrollToCalendarHour } from './actions/autoScroll';
   import { user } from 'src/stores';
   import { calendarSelectionEnabled, dragDropState, dragDropEnum } from './stores';
   import { selectedUsernames, minUserCountFilter, form, formEnum } from '../../_stores';
-  import { getMergedIntervals, splitIntervalsOnMidnight } from 'src/utils/interval';
+  import { getMergedIntervals } from 'src/utils/interval';
   import { FRAME_DURATION } from 'src/utils/nextFrame';
-  import { getFilteredUserIntervalsByUsername, getUserIntervalsWithoutUser, getTimeIntervalsWithSkip, getMinMaxUsernames, getDaysToShowWithSkip } from './utils';
+  import { getFilteredUserSchedulesByUsername, getUserSchedulesWithoutUser, getTimeIntervalsWithSkip, getMinMaxUsernames, getScheduleWithSkip } from './utils';
+
+  dayjs.extend(isBetween);
 
   // BINDINGS
   // ========
@@ -51,21 +54,19 @@
 
   // REACTIVE ATTRIBUTES
   // ===================
-  $: earliestHour = schedule && schedule.length !== 0 ? schedule[0].start.hour() : 0;
-  $: intervalsSplitOnMidnight = splitIntervalsOnMidnight(schedule);
   // The days containing all event intervals and whether the day sequentially
   // follows the previous day.
-  $: daysToShow = getDaysToShowWithSkip(intervalsSplitOnMidnight);
-  $: startingDay = daysToShow.length !== 0 ? daysToShow[0].day : null;
+  $: scheduleWithSkip = getScheduleWithSkip(schedule);
+  $: startingDay = scheduleWithSkip[0].start;
 
   // Filtered user intervals based on selected usernames.
-  $: filteredUserSchedules = getFilteredUserIntervalsByUsername(
+  $: filteredUserSchedules = getFilteredUserSchedulesByUsername(
     $selectedUsernames, userSchedules,
   );
-  $: userSchedulesWithoutMe = getUserIntervalsWithoutUser(userSchedules, $user);
+  $: userSchedulesWithoutMe = getUserSchedulesWithoutUser(userSchedules, $user);
   // Time intervals with grouped usernames.
-  $: timeIntervalsWithUsers = splitIntervalsOnMidnight(
-    getMergedIntervals(editing ? userSchedulesWithoutMe : filteredUserSchedules),
+  $: timeIntervalsWithUsers = getMergedIntervals(
+    editing ? userSchedulesWithoutMe : filteredUserSchedules,
   );
   // Time intervals with minimum number of users.
   $: timeIntervalsWithMinUsers = timeIntervalsWithUsers
@@ -88,7 +89,7 @@
 
 <CalendarSelectionProvider
   bind:selections
-  selectionLimits={schedule}
+  {schedule}
   let:newSelections
   let:newSelectStart
   let:newSelectMove
@@ -104,7 +105,6 @@
       <div
         class="calendar__body no-highlight"
         use:calendarInteraction={{ enabled }}
-        use:autoScrollToCalendarHour={{ hour: earliestHour }}
         on:newSelectStart={newSelectStart}
         on:newSelectMove={newSelectMove}
         on:newSelectStop={newSelectStop}
@@ -115,21 +115,17 @@
         on:deleteDefined={deleteDefined}
         style="font-size: {size}px"
       >
-        <IndexColumn />
+        <IndexColumn start={schedule[0].start} end={schedule[0].end} />
 
-        {#each daysToShow as { day, skipped }, columnIndex}
-          <Column {day} {skipped}>
-
-            <UnavailableColumnOverlay
-              eventIntervals={intervalsSplitOnMidnight
-                .filter((interval) => interval.start.isSame(day, 'day'))
-              }
-            />
+        {#each scheduleWithSkip as { start, end, skipped }, columnIndex}
+          <Column {skipped} {start} {end} >
 
             {#each timeIntervalsWithMinUsersWithSkip
-              .filter((i) => i.start.isSame(day, 'date'))
+              .filter((i) => i.start.isBetween(start, start.add(24, 'hour'), null, '[)'))
             as interval, index (`${+interval.start}-${+interval.end}`)}
               <OtherUsersInterval
+                columnStart={start}
+                columnEnd={end}
                 {...interval}
                 {minUsers}
                 {maxUsers}
@@ -141,15 +137,15 @@
             {/each}
 
             {#each selections
-              .filter((s) => s.start.isSame(day, 'date'))
+              .filter((s) => s.start.isBetween(start, start.add(24, 'hour'), null, '[)'))
             as selection (`${+selection.start}-${+selection.end}`)}
-              <DefinedSelection {...selection} />
+              <DefinedSelection columnStart={start} columnEnd={end} {...selection} />
             {/each}
 
             {#each newSelections
-              .filter((s) => s.start.isSame(day, 'date'))
+              .filter((s) => s.start.isBetween(start, start.add(24, 'hour'), null, '[)'))
             as selection}
-              <NewSelection {...selection} />
+              <NewSelection columnStart={start} columnEnd={end} {...selection} />
             {/each}
 
           </Column>
@@ -191,6 +187,8 @@
     display: flex;
     width: fit-content;
     min-width: 100%;
+    height: fit-content;
+    min-height: 100%;
     transition: font-size 200ms ease-out;
   }
 

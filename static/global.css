@@ -72,7 +72,7 @@
   --col-width: 6em;
   --row-height: 5em;
   --select-width: var(--col-width);
-  --select-collapse-width: 1rem;
+  --select-collapse-width: 1em;
 }
 
 :root.dark {
@@ -155,15 +155,6 @@ h1 {
   height: calc(var(--vh, 1vh) * 100 - var(--nav-height));
 }
 
-.main-content.grid {
-  display: grid;
-  padding: 0.4em;
-}
-
-.main-content.grid > div {
-  margin: 0.4em;
-}
-
 /* Card */
 .card {
   border-radius: 5px;
@@ -190,14 +181,6 @@ h1 {
   font-size: 0.8em;
   font-style: italic;
   font-weight: 400;
-}
-
-/* Picker */
-.cell {
-  z-index: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 /* Utility */

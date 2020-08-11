@@ -2,7 +2,8 @@
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
 
-  import { getTargets } from 'src/utils/eventHandler';
+  import { isCreatingNewSelection } from '../stores';
+
   import Tooltip from 'src/components/ui/Tooltip.svelte';
   import TooltipDismiss from 'src/components/ui/TooltipDismiss.svelte';
 
@@ -14,18 +15,12 @@
   // =========
   const popperOptions = { placement: 'right-start' };
 
-  function handleClick(event) {
-    const targets = getTargets(event);
-    const tooltip = targets.find((target) => target.dataset.popperContent != null);
-    if (tooltip == null) {
-      dispatch('dismiss');
-    }
+  $: if ($isCreatingNewSelection) {
+    dispatch('dismiss');
   }
 </script>
 
-<svelte:window on:click={handleClick} />
-
-<div transition:fade={{ duration: 200 }}>
+<div class="tooltip-container" transition:fade={{ duration: 200 }}>
   <Tooltip use={use} {popperOptions} style="font-size: 1rem">
     <div class="tooltip">
       <h4>Other people's schedules</h4>
@@ -36,6 +31,10 @@
 </div>
 
 <style>
+  .tooltip-container {
+    pointer-events: none;
+  }
+
   .tooltip {
     margin: 0.5em;
     display: flex;

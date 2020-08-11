@@ -3,7 +3,6 @@
 
   import { isCreatingNewSelection } from './stores';
   import { getAreaSelection, getUnionOfSelections, getIntersectionOfSelections, getLowRes } from 'src/utils/selection';
-  import { splitIntervalsOnMidnight } from 'src/utils/interval';
 
   // BINDINGS
   // ========
@@ -11,8 +10,8 @@
 
   // PROPS
   // =====
-  // Any limitation on the selections possible. If null, treated as no limits.
-  export let selectionLimits = null;
+  export let schedule = [];
+  $: columnStart = schedule && schedule.length > 0 && schedule[0].start;
 
   // STATE
   // =====
@@ -23,32 +22,29 @@
 
   // REACTIVE ATTRIBUTES
   // ===================
-  $: newSelections = selectionLimits == null
-    ? getLowRes(getAreaSelection(newSelection))
-    : getLowRes(getIntersectionOfSelections(selectionLimits, getAreaSelection(newSelection)));
+  $: newSelections = schedule == null && schedule.length > 0
+    ? getLowRes(getAreaSelection(newSelection, schedule))
+    : getLowRes(getIntersectionOfSelections(schedule, getAreaSelection(newSelection, schedule)));
 
   // STATE FUNCTIONS
   // ===============
   function newSelectStart(event) {
     selectAttempts = 0;
     const { dayMs, hour } = event.detail;
-    const day = dayjs(dayMs);
+    const dayHour = dayjs(dayMs).add(hour, 'hour');
     newSelection = {
-      downDay: day,
-      downHour: hour,
-      upDay: day,
-      upHour: hour,
+      down: dayHour,
+      up: dayHour,
     };
   }
 
   function newSelectMove(event) {
     if (newSelection == null) newSelectStart(event);
     const { dayMs, hour } = event.detail;
-    const day = dayjs(dayMs);
+    const dayHour = dayjs(dayMs).add(hour, 'hour');
     newSelection = {
       ...newSelection,
-      upDay: day,
-      upHour: hour,
+      up: dayHour,
     };
   }
 
@@ -59,33 +55,25 @@
   }
 
   function moveDefinedStop(event) {
-    const { initStart, newStart, newEnd } = event.detail;
+    const { initStartDayHour, newStartDayHour, newEndDayHour } = event.detail;
     const draggedSelections = selections.map((selection) => {
-      if (!selection.start.isSame(initStart, 'minute')) {
+      if (!selection.start.isSame(initStartDayHour, 'minute')) {
         return selection;
       }
       return {
-        start: newStart,
-        end: newEnd,
+        start: newStartDayHour,
+        end: newEndDayHour,
       };
     });
     setSelections(draggedSelections);
   }
 
   function resizeDefinedStart(event) {
-    const {
-      // To set the new selection to a predefined size.
-      newSelectionStartDay,
-      newSelectionStartHour,
-      newSelectionEndDay,
-      newSelectionEndHour,
-    } = event.detail;
+    const { downDayHour, upDayHour } = event.detail;
 
     newSelection = {
-      downDay: newSelectionStartDay,
-      downHour: newSelectionStartHour,
-      upDay: newSelectionEndDay,
-      upHour: newSelectionEndHour,
+      down: downDayHour,
+      up: upDayHour,
     };
   }
 
@@ -94,27 +82,27 @@
   }
 
   function resizeDefinedStop(event) {
-    const { initStart } = event.detail;
+    const { initStartDayHour } = event.detail;
     if (newSelections.length === 0) return;
-    const selectionsWithoutResized = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
-    selections = splitIntervalsOnMidnight(getUnionOfSelections([
+    const selectionsWithoutResized = selections.filter((selection) => !selection.start.isSame(initStartDayHour, 'minute'));
+    selections = getUnionOfSelections([
       ...selectionsWithoutResized,
       ...newSelections,
-    ]));
+    ]);
     newSelection = null;
   }
 
   function deleteDefined(event) {
-    const { initStart } = event.detail;
-    selections = selections.filter((selection) => !selection.start.isSame(initStart, 'minute'));
+    const { initStartDayHour } = event.detail;
+    selections = selections.filter((selection) => !selection.start.isSame(initStartDayHour, 'minute'));
   }
 
   function setSelections(draggedSelections) {
-    const processedSelections = splitIntervalsOnMidnight(getUnionOfSelections(draggedSelections));
-    if (selectionLimits == null) {
+    const processedSelections = getUnionOfSelections(draggedSelections);
+    if (schedule == null) {
       selections = getLowRes(processedSelections);
     } else {
-      selections = getLowRes(getIntersectionOfSelections(processedSelections, selectionLimits));
+      selections = getLowRes(getIntersectionOfSelections(processedSelections, schedule));
     }
   }
 </script>

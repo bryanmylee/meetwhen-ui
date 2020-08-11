@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
+import { getLowRes } from 'src/utils/selection';
+
 dayjs.extend(utc);
 
 /**
@@ -92,7 +94,7 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
 
   const { scheduleInMs, userSchedulesInMs, ...event } = response;
   // Parse datetimes
-  const schedule = scheduleInMs.map(deserializeInterval);
+  const schedule = getLowRes(scheduleInMs.map(deserializeInterval));
   let userSchedules = {};
   if (userSchedulesInMs) {
     userSchedules = Object.fromEntries(Object.entries(userSchedulesInMs)

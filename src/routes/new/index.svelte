@@ -5,6 +5,7 @@
   import { currentColor } from 'src/stores';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
   import { createNewEvent } from 'src/api/event';
+  import { getLowRes } from 'src/utils/selection';
 
   import EventDetailsForm from './_components/EventDetailsForm.svelte';
   import ColorPicker from './_components/colorPicker/ColorPicker.svelte';
@@ -18,7 +19,7 @@
   // =========
   let title = '';
   let description = '';
-  let selectedDays = [];
+  let selectedDays = [dayjs()];
   let startTime = dayjs().hour(9).minute(0);
   let endTime = dayjs().hour(17).minute(0);
 
@@ -47,10 +48,12 @@
     isLoading = true;
     try {
       const schedule = selectedDays.map((day) => ({
-        start: day.hour(startTime.hour()).minute(0),
-        end: day.hour(endTime.hour()).minute(0).add(endTime.hour() === 0 ? 1 : 0, 'day'),
+        start: day.hour(startTime.hour()).minute(0).second(0).millisecond(0),
+        end: day.hour(endTime.hour()).minute(0).second(0).millisecond(0)
+          .add(endTime.hour() === 0 ? 1 : 0, 'day'),
       }));
-      const eventDetails = { title, description, color: $currentColor.hex, schedule };
+      const scheduleLowRes = getLowRes(schedule);
+      const eventDetails = { title, description, color: $currentColor.hex, schedule: scheduleLowRes };
       const { eventUrl } = await createNewEvent(fetch, process.env.SAPPER_APP_API_URL, eventDetails);
       goto(`/${eventUrl}`);
     } catch (err) {
@@ -61,44 +64,59 @@
   }
 </script>
 
-<div class="main-content grid" in:fadeIn out:fadeOut>
-  <EventDetailsForm
-    on:submit={handleSubmitNewEvent}
-    bind:title={title}
-    bind:formValid={eventDetailsValid}
-    bind:description={description}
-    {attempted}
-  />
-  <ColorPicker />
-
-  <!-- DATE AND TIME PICKER CARD -->
-  <div
-    class="picker-container card outline padded no-highlight"
-    class:error={attempted && !(datesValid && timesValid)}
-  >
-    <DatePicker bind:selectedDays={selectedDays} />
-    <ErrorTip show={attempted && !datesValid}>Pick at least one date</ErrorTip>
-    <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />
-    <ErrorTip show={attempted && !timesValid}>Your event time cannot be empty</ErrorTip>
+<div class="main-content" in:fadeIn out:fadeOut>
+  <div class="left-column">
+    <EventDetailsForm
+      on:submit={handleSubmitNewEvent}
+      bind:title={title}
+      bind:formValid={eventDetailsValid}
+      bind:description={description}
+      {attempted}
+    />
+    <ColorPicker />
   </div>
 
-  <div class="button">
-    <!-- <AwaitButton onClick={handleSubmitNewEvent} type="submit">Create Event</AwaitButton> -->
-    <Button on:click={handleSubmitNewEvent} disabled={isLoading}>
-      Create Event
-    </Button>
-  </div>
+  <div class="right-column">
+    <!-- DATE AND TIME PICKER CARD -->
+    <div
+      class="picker-container card outline padded no-highlight"
+      class:error={attempted && !(datesValid && timesValid)}
+    >
+      <DatePicker bind:selectedDays={selectedDays} />
+      <ErrorTip show={attempted && !datesValid}>Pick at least one date</ErrorTip>
+      <TimeInputBar bind:startTime={startTime} bind:endTime={endTime} />
+      <ErrorTip show={attempted && !timesValid}>Your event time cannot be empty</ErrorTip>
+    </div>
 
-  <Toast error bind:message={errorMessage} />
+    <div class="button">
+      <Button on:click={handleSubmitNewEvent} disabled={isLoading}>
+        Create Event
+      </Button>
+    </div>
+  </div>
 </div>
+
+<Toast error bind:message={errorMessage} />
 
 
 <style>
   .main-content {
-    grid-template-rows: repeat(4, min-content);
+    display: flex;
+    flex-direction: column;
+    padding: 0.4em;
   }
 
-  div.picker-container {
+  .left-column, .right-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(.left-column > div),
+  :global(.right-column > div) {
+    margin: 0.4em;
+  }
+
+  .picker-container {
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -107,25 +125,13 @@
 
   .button {
     width: fit-content;
-    justify-self: end;
+    align-self: flex-end;
   }
 
   @media screen and (min-width: 768px) {
     .main-content {
+      display: grid;
       grid-template-columns: 2fr 3fr;
-      grid-auto-flow: column;
-    }
-
-    div.picker-container {
-      grid-row: 1/3;
-      grid-column: 2/3;
-      margin-bottom: 0.5em;
-    }
-
-    .button {
-      grid-row: 4/5;
-      grid-column: 2/3;
-      justify-self: end;
     }
   }
 </style>

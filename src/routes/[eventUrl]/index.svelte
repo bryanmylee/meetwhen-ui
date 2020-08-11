@@ -29,7 +29,6 @@
   import undoable from 'src/utils/undoable';
   import nextFrame from 'src/utils/nextFrame';
   import { getLowRes } from 'src/utils/selection';
-  import { splitIntervalsOnMidnight } from 'src/utils/interval';
   import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
   import { addUserToEvent, editUserIntervals } from 'src/api/event';
 
@@ -92,7 +91,7 @@
 
   function setForm() {
     if ($form === formEnum.EDITING) {
-      $selections = getLowRes(splitIntervalsOnMidnight(event.userSchedules[$user.username]));
+      $selections = getLowRes(event.userSchedules[$user.username]);
     } else {
       $selections = [];
     }
@@ -188,28 +187,30 @@
 
 <svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
 
-<div class="main-content fixed-height grid" in:fadeIn out:fadeOut>
-  <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
-  <CompositeDetails {event} />
+<div class="main-content fixed-height" in:fadeIn out:fadeOut>
+  <div class="left-column">
+    <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
+    <CompositeDetails {event} />
 
-  {#if $form === formEnum.LOGGING_IN || $form === formEnum.JOINING}
-    <UserDetailsForm
+    {#if $form === formEnum.LOGGING_IN || $form === formEnum.JOINING}
+      <UserDetailsForm
+        on:submit={handleSubmit}
+        bind:username
+        bind:password
+        bind:formValid={userDetailsValid}
+        bind:collapsed={userFormCollapsed}
+        {attempted}
+      />
+    {/if}
+
+    <!-- ACTION BAR -->
+    <ActionBar
       on:submit={handleSubmit}
-      bind:username
-      bind:password
-      bind:formValid={userDetailsValid}
-      bind:collapsed={userFormCollapsed}
-      {attempted}
+      on:logout={handleLogout}
+      disabled={isLoading}
+      fakeDisabled={disableConfirm}
     />
-  {/if}
-
-  <!-- ACTION BAR -->
-  <ActionBar
-    on:submit={handleSubmit}
-    on:logout={handleLogout}
-    disabled={isLoading}
-    fakeDisabled={disableConfirm}
-  />
+  </div>
 
   <!-- CALENDAR PICKER CARD -->
   <div
@@ -237,8 +238,24 @@
 <Toast error bind:message={errorMessage} />
 
 <style>
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0.4em;
+  }
+
+  .left-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(.left-column > div) {
+    margin: 0.4em;
+  }
+
   .picker-container {
-    grid-column: 1/-1;
+    margin: 0.4em;
+    flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -246,13 +263,8 @@
 
   @media screen and (min-width: 768px) {
     .main-content {
+      display: grid;
       grid-template-columns: 2fr 3fr;
-      grid-auto-flow: column;
-    }
-
-    .picker-container {
-      grid-row: 1/10;
-      grid-column: 2/3;
     }
   }
 </style>

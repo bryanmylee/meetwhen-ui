@@ -4,6 +4,8 @@
 
   // PROPS
   // =====
+  export let columnStart;
+  export let columnEnd;
   export let start;
   export let end;
 </script>
@@ -12,7 +14,7 @@
   data-defined-selection data-start-ms={+start} data-end-ms={+end}
   class="selection__container"
   class:pass-through={$isCreatingNewSelection}
-  use:sizePos={{ start, end, duration: 0 }}
+  use:sizePos={{ columnStart, columnEnd, start, end, duration: 0 }}
 >
   <span data-resize-defined-selection data-top data-start-ms={+start} data-end-ms={+end}/>
   <div class="selection__content pass-through"/>
@@ -36,7 +38,7 @@
   [data-resize-defined-selection] {
     margin: 0 0.2em;
     position: absolute;
-    height: 10px;
+    height: calc(var(--row-height) / 4);
     left: 0;
     right: 0;
     border-radius: 5px;
@@ -66,7 +68,7 @@
   :global(.moving) .selection__content {
     z-index: 15;
     background-color: var(--primary-300);
-    box-shadow: var(--shadow-med);
+    box-shadow: var(--shadow-small);
   }
 
   :global(.deleting) .selection__content {

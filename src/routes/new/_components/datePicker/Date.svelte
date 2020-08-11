@@ -1,8 +1,5 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
   import dayjs from 'dayjs';
-
-  const dispatch = createEventDispatcher();
 
   // PROPS
   // =====
@@ -13,22 +10,6 @@
   // =====
   $: firstDayOfWeek = date.date() === 1 ? date.day() : null;
   $: isPast = date.isBefore(dayjs(), 'day');
-
-  // STATE FUNCTIONS
-  // ===============
-  function handleDragStart() {
-    if (isPast) return;
-    dispatch('dragStart', { date, selecting: !selected });
-  }
-
-  function handleDragEnter(event) {
-    if (event.buttons !== 1 || isPast) return;
-    dispatch('dragMove', { date });
-  }
-
-  function handleDragStop() {
-    dispatch('dragStop');
-  }
 </script>
 
 <div
@@ -36,11 +17,19 @@
   class:past={isPast}
   class:today={date.isSame(dayjs(), 'day')}
   class:selected={selected}
-  on:mousedown={handleDragStart}
-  on:mouseenter={handleDragEnter}
-  on:mouseup={handleDragStop}
+  data-date-target
+  data-date-ms={+date}
+  data-selected={selected}
+  data-is-past={isPast}
 >
-  <span>{date.date()}</span>
+  <span
+    data-date-target
+    data-date-ms={+date}
+    data-selected={selected}
+    data-is-past={isPast}
+  >
+    {date.date()}
+  </span>
 </div>
 
 <style>
@@ -64,8 +53,12 @@
     color: var(--text-800);
   }
 
-  span:hover {
+  div:hover > span {
     background-color: var(--grey-200);
+  }
+
+  div:hover.past > span {
+    background-color: unset;
   }
 
   div.today > span {
@@ -80,11 +73,6 @@
   div.past > span {
     color: var(--text-400);
   }
-
-  div.past > span:hover {
-    background-color: unset;
-  }
-
 
   div.selected > span {
     color: white;
