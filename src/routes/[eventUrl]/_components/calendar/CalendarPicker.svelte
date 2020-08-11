@@ -125,6 +125,7 @@
             as interval, index (`${+interval.start}-${+interval.end}`)}
               <OtherUsersInterval
                 columnStart={start}
+                columnEnd={end}
                 {...interval}
                 {minUsers}
                 {maxUsers}
@@ -138,13 +139,13 @@
             {#each selections
               .filter((s) => s.start.isBetween(start, start.add(24, 'hour'), null, '[)'))
             as selection (`${+selection.start}-${+selection.end}`)}
-              <DefinedSelection columnStart={start} {...selection} />
+              <DefinedSelection columnStart={start} columnEnd={end} {...selection} />
             {/each}
 
             {#each newSelections
               .filter((s) => s.start.isBetween(start, start.add(24, 'hour'), null, '[)'))
             as selection}
-              <NewSelection columnStart={start} {...selection} />
+              <NewSelection columnStart={start} columnEnd={end} {...selection} />
             {/each}
 
           </Column>

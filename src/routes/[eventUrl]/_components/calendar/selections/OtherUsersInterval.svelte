@@ -20,8 +20,9 @@
 
   // PROPS
   // =====
-  // The beginning hour of the column.
+  // The beginning and ending hour of the column.
   export let columnStart;
+  export let columnEnd;
   export let start;
   export let end;
   export let usernames;
@@ -72,7 +73,7 @@
   class:pass-through={$isCreatingNewSelection}
   class:cap-top={skipped}
   class:cap-bottom={skipping}
-  use:sizePos={{ columnStart, start, end }}
+  use:sizePos={{ columnStart, columnEnd, start, end }}
   use:colorGradient={{
     scale: $currentColor.scale,
     index: usernames.length - minUsers + 1,

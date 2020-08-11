@@ -5,6 +5,7 @@
   // PROPS
   // =====
   export let columnStart;
+  export let columnEnd;
   export let start;
   export let end;
 </script>
@@ -13,7 +14,7 @@
   data-defined-selection data-start-ms={+start} data-end-ms={+end}
   class="selection__container"
   class:pass-through={$isCreatingNewSelection}
-  use:sizePos={{ columnStart, start, end, duration: 0 }}
+  use:sizePos={{ columnStart, columnEnd, start, end, duration: 0 }}
 >
   <span data-resize-defined-selection data-top data-start-ms={+start} data-end-ms={+end}/>
   <div class="selection__content pass-through"/>
