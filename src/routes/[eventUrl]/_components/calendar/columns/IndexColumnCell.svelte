@@ -10,24 +10,18 @@
 
 <style>
   .cell {
-    z-index: 0;
+    flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: var(--row-height);
+    align-items: start;
   }
 
   .cell:first-of-type {
     margin-top: 1rem;
   }
 
-  .cell:last-of-type {
-    min-height: min-content;
-    padding-top: calc(var(--row-height) * 0.5 - 0.5em);
-    margin-bottom: 5rem;
-  }
-
   span {
+    margin-top: -0.6em;
     font-size: 0.8em;
     color: var(--grey-400);
   }

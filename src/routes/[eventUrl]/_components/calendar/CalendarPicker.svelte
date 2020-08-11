@@ -186,6 +186,8 @@
     display: flex;
     width: fit-content;
     min-width: 100%;
+    height: fit-content;
+    min-height: 100%;
     transition: font-size 200ms ease-out;
   }
 

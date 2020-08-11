@@ -27,6 +27,8 @@
     width: 100%;
     max-width: 50%;
     min-width: var(--col-width);
+    display: flex;
+    flex-direction: column;
   }
 
   .date-label {
@@ -42,6 +44,7 @@
   }
 
   .col__body {
+    flex: 1;
     position: relative;
     width: 100%;
     margin-top: 1rem;

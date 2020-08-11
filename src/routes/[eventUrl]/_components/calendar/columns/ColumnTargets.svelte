@@ -19,3 +19,11 @@
     {/each}
   {/each}
 </div>
+
+<style>
+  .col__targets {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+</style>
