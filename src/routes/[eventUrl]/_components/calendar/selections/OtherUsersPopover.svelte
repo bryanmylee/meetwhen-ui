@@ -44,14 +44,16 @@
       </p>
     {/each}
   </div>
-  <h5 class="header">{notAttendingUsernames.length} not attending</h5>
-  <div class="names">
-    {#each notAttendingUsernames.sort() as username}
-      <p class="not-attending">
-        {username}
-      </p>
-    {/each}
-  </div>
+  {#if notAttendingUsernames.length !== 0}
+    <h5 class="header">{notAttendingUsernames.length} not attending</h5>
+    <div class="names">
+      {#each notAttendingUsernames.sort() as username}
+        <p class="not-attending">
+          {username}
+        </p>
+      {/each}
+    </div>
+  {/if}
 </Tooltip>
 
 <style>
