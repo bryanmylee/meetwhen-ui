@@ -14,5 +14,6 @@ export const formEnum = {
 
 export const details = writable(detailsEnum.EVENT_DETAILS);
 export const form = writable(formEnum.NONE);
+export const allUsernames = writable([]);
 export const selectedUsernames = writable([]);
 export const minUserCountFilter = writable(0);

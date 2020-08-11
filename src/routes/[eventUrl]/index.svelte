@@ -49,7 +49,7 @@
 
   // INITIALIZATION
   // ==============
-  if (typeof navigator !== 'undefined') {
+  if (typeof navigator !== 'undefined' && typeof navigator.clipboard !== 'undefined') {
     navigator.clipboard.writeText(`meetwhen.io/${event.eventUrl}`)
       .then(() => {
         message = 'Event link copied to clipboard!';

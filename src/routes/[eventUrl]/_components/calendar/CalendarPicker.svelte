@@ -14,7 +14,7 @@
   import calendarInteraction from './actions/calendarInteraction';
   import { user } from 'src/stores';
   import { calendarSelectionEnabled, dragDropState, dragDropEnum } from './stores';
-  import { selectedUsernames, minUserCountFilter, form, formEnum } from '../../_stores';
+  import { allUsernames, selectedUsernames, minUserCountFilter, form, formEnum } from '../../_stores';
   import { getMergedIntervals } from 'src/utils/interval';
   import { FRAME_DURATION } from 'src/utils/nextFrame';
   import { getFilteredUserSchedulesByUsername, getUserSchedulesWithoutUser, getTimeIntervalsWithSkip, getMinMaxUsernames, getScheduleWithSkip } from './utils';
@@ -39,11 +39,7 @@
   // ===============
   function selectOtherUsersInterval(event) {
     const interval = event.detail;
-    if (selectedOthers && selectedOthers.start === interval.start) {
-      selectedOthers = null;
-    } else {
-      selectedOthers = interval;
-    }
+    selectedOthers = interval;
   }
 
   function dismissOtherUsersInterval() {
@@ -59,6 +55,7 @@
   $: scheduleWithSkip = getScheduleWithSkip(schedule);
   $: startingDay = scheduleWithSkip[0].start;
 
+  $: allUsernames.set(Object.keys(userSchedules));
   // Filtered user intervals based on selected usernames.
   $: filteredUserSchedules = getFilteredUserSchedulesByUsername(
     $selectedUsernames, userSchedules,
