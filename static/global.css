@@ -155,15 +155,6 @@ h1 {
   height: calc(var(--vh, 1vh) * 100 - var(--nav-height));
 }
 
-.main-content.grid {
-  display: grid;
-  padding: 0.4em;
-}
-
-.main-content.grid > div {
-  margin: 0.4em;
-}
-
 /* Card */
 .card {
   border-radius: 5px;
