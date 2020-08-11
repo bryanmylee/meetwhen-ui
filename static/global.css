@@ -109,6 +109,7 @@
 }
 
 html, body {
+  font-size: 0.95rem;
   position: relative;
   width: 100%;
   margin: 0;
