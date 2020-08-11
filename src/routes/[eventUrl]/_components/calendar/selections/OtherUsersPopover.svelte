@@ -19,6 +19,7 @@
   // ===================
   $: timeString = `${start.format('h:mm')} - ${end.format('h:mma')}`;
   $: selectedOrAllUsernames = $selectedUsernames.length === 0 ? $allUsernames : $selectedUsernames;
+  $: notAttendingUsernames = selectedOrAllUsernames.filter((u) => !usernames.includes(u));
 
   let firstClicked = false;
   function dismiss(event) {
@@ -35,7 +36,7 @@
 
 <Tooltip use={popperAction} style="font-size: 1rem">
   <h5 class="time">{timeString}</h5>
-  <h5 class="header">Attending</h5>
+  <h5 class="header">{usernames.length} attending</h5>
   <div class="names__container">
     {#each usernames.sort() as username}
       <p>
@@ -43,9 +44,9 @@
       </p>
     {/each}
   </div>
-  <h5 class="header">Not attending</h5>
+  <h5 class="header">{notAttendingUsernames.length} not attending</h5>
   <div class="names__container">
-    {#each selectedOrAllUsernames.filter((u) => !usernames.includes(u)).sort() as username}
+    {#each notAttendingUsernames.sort() as username}
       <p class="not-attending">
         {username}
       </p>
@@ -73,14 +74,14 @@
   }
 
   p {
-    margin: 0 0 0.5em;
+    margin-bottom: 0.5em;
   }
 
   p:last-child {
-    margin: 0;
+    margin-bottom: 0;
   }
 
   .not-attending {
-    color: var(--text-400);
+    color: var(--text-500);
   }
 </style>
