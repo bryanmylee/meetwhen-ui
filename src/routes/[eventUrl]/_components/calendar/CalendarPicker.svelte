@@ -39,11 +39,7 @@
   // ===============
   function selectOtherUsersInterval(event) {
     const interval = event.detail;
-    if (selectedOthers && selectedOthers.start === interval.start) {
-      selectedOthers = null;
-    } else {
-      selectedOthers = interval;
-    }
+    selectedOthers = interval;
   }
 
   function dismissOtherUsersInterval() {
