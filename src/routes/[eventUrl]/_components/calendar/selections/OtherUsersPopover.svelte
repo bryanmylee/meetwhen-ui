@@ -37,7 +37,7 @@
 <Tooltip use={popperAction} style="font-size: 1rem">
   <h5 class="time">{timeString}</h5>
   <div class="popover-content">
-    <h5 class="header">{usernames.length} attending</h5>
+    <h5 class="header">{usernames.length === $allUsernames.length ? 'All' : usernames.length} attending</h5>
     <div class="names">
       {#each usernames.sort() as username}
         <p>
