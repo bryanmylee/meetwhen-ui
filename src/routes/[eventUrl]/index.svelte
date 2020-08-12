@@ -25,6 +25,7 @@
 
 <svelte:head>
   <title>meetwhen - {event.title}</title>
+  <meta name="robots" content="noindex" />
 </svelte:head>
 
 <script>
