@@ -33,7 +33,7 @@
   // STATE
   // =====
   let selectedOthers = null;
-  let size = 16;
+  let scale = 1;
 
   // STATE FUNCTIONS
   // ===============
@@ -110,7 +110,7 @@
         on:resizeDefinedMove={resizeDefinedMove}
         on:resizeDefinedStop={resizeDefinedStop}
         on:deleteDefined={deleteDefined}
-        style="font-size: {size}px"
+        style="font-size: {scale}rem"
       >
         <IndexColumn start={schedule[0].start} end={schedule[0].end} />
 
@@ -153,13 +153,13 @@
     <!-- MONTH LABEL -->
     <div
       class="month-label"
-      style="font-size: {size}px"
+      style="font-size: {scale}rem"
     >
       {startingDay == null ? 'NIL' : startingDay.format('MMM')}
     </div>
 
     <TrashTarget show={$dragDropState === dragDropEnum.MOVING} />
-    <ZoomButtons bind:size />
+    <ZoomButtons bind:scale />
   </div>
 </CalendarSelectionProvider>
 

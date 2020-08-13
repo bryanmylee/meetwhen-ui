@@ -4,17 +4,17 @@
 
   // BINDINGS
   // ========
-  export let size = 16;
+  export let scale = 1;
 </script>
 
 <div>
   <button
-    on:click={() => size = Math.min(32, size + 4)}
+    on:click={() => scale = Math.min(2, scale + 0.25)}
   >
     <Add color="var(--text-800)" />
   </button>
   <button alt iconOnly
-    on:click={() => size = Math.max(4, size - 4)}
+    on:click={() => scale = Math.max(0.25, scale - 0.25)}
     style="margin-left: 1em;"
   >
     <Remove color="var(--text-800)" />
