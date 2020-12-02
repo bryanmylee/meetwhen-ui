@@ -17,7 +17,7 @@
         <div>
           <AppIcon color="var(--icon-color)" borderColor="transparent"/>
         </div>
-        <span><strong>meetwhen</strong> {subtitle}</span>
+        <span>meetwhen {subtitle}</span>
       </a>
     {/if}
   </ul>

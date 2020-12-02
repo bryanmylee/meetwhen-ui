@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;1,400&display=swap');
 
 :root {
   /* Colors */
@@ -118,7 +118,7 @@ div, span {
 /* Heading */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-800);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 h1 {

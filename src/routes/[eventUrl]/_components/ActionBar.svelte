@@ -100,7 +100,7 @@
           <Tooltip use={popperContent} {popperOptions}>
             <div class="tooltip">
               <h4>
-                Sign up to add your schedule!
+                Get started by adding your schedule!
               </h4>
               <TooltipDismiss on:click={() => showSignupHint = false} />
             </div>
