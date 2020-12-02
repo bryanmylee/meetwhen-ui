@@ -86,12 +86,12 @@
       </Button>
     {:else}
       <Button style={rightMarginStyle} on:click={() => $form = formEnum.LOGGING_IN}>
-        Log In
+        Edit Schedule
       </Button>
       or
       <div use:popperRef>
         <Button style={leftMarginStyle} on:click={() => $form = formEnum.JOINING}>
-          Sign Up
+          Add Schedule
         </Button>
       </div>
 
