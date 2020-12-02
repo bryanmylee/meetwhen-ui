@@ -105,6 +105,7 @@
 
 <style>
   .main-content {
+    max-width: 1000px;
     display: flex;
     flex-direction: column;
     padding: 0.4em;
