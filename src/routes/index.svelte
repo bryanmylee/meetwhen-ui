@@ -1,5 +1,5 @@
 <svelte:head>
-  <title>meetwhen - Quick Group Scheduling</title>
+  <title>meetwhen - quick group scheduling</title>
 </svelte:head>
 
 <script>

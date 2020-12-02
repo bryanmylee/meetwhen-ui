@@ -1,5 +1,5 @@
 <svelte:head>
-  <title>meetwhen - New Event</title>
+  <title>meetwhen - new event</title>
 </svelte:head>
 
 <script>
