@@ -10,7 +10,7 @@
 <div class="card outline padded">
   <h3>Filter</h3>
   {#if usernames.length === 0}
-    <p>Nobody attending</p>
+    <p>No users yet...</p>
   {:else}
     <h5 class="tip">Select a username to see their schedule</h5>
     <UsernameFilter {usernames} />
@@ -18,3 +18,11 @@
     <NumberOfUsersFilter {usernames} />
   {/if}
 </div>
+
+<style>
+  p {
+    margin-top: 0.5em;
+    color: var(--text-400);
+    font-style: italic;
+  }
+</style>
