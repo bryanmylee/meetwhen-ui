@@ -16,6 +16,8 @@
     if (event.color) {
       currentColor.setBaseColorHex(event.color);
     }
+    // Clear the currently loaded user before checking for any persisted session.
+    user.logout();
     if (event.accessToken) {
       user.setAccessToken(event.accessToken, process.env.SAPPER_APP_ACCESS_TOKEN_SECRET);
     }
