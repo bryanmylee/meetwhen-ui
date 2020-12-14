@@ -64,7 +64,7 @@ export async function createNewEvent(fetch, apiUrl, eventDetails) {
       title,
       description,
       color,
-      scheduleInMs,
+      schedule: scheduleInMs,
     }),
   })).json();
 }
@@ -92,9 +92,9 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
     throw new Error(response.error);
   }
 
-  const { scheduleInMs, userSchedulesInMs, ...event } = response;
+  const { schedule, userSchedules: userSchedulesInMs, ...event } = response;
   // Parse datetimes
-  const schedule = getLowRes(scheduleInMs.map(deserializeInterval));
+  const scheduleInMs = getLowRes(schedule.map(deserializeInterval));
   let userSchedules = {};
   if (userSchedulesInMs) {
     userSchedules = Object.fromEntries(Object.entries(userSchedulesInMs)
@@ -104,7 +104,7 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
   }
   return {
     ...event,
-    schedule,
+    schedule: scheduleInMs,
     userSchedules,
   };
 }
@@ -138,7 +138,7 @@ export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
     body: JSON.stringify({
       username,
       password,
-      scheduleInMs,
+      schedule: scheduleInMs,
     }),
   })).json();
 
@@ -163,7 +163,7 @@ export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
  */
 export async function editUserIntervals(fetch, apiUrl, eventUrl, userDetails) {
   const { username, accessToken } = userDetails;
-  const newScheduleInMs = userDetails.newSchedule.map(serializeInterval);
+  const newSchedule = userDetails.newSchedule.map(serializeInterval);
   const response = await (await fetch(
     `${apiUrl}/${eventUrl}/${username}/edit`, {
       method: 'POST',
@@ -171,7 +171,7 @@ export async function editUserIntervals(fetch, apiUrl, eventUrl, userDetails) {
         'Content-Type': 'application/json',
         authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ newScheduleInMs }),
+      body: JSON.stringify({ newSchedule }),
     },
   )).json();
   if (response.error) {
