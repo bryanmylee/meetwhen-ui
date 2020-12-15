@@ -71,7 +71,7 @@ export async function logout(fetch, apiUrl, eventUrl) {
  * @throws An error if the refresh token does not exist.
  */
 export async function getAccessToken(fetch, apiUrl, eventUrl) {
-  const response = await (await fetch(`${apiUrl}/${eventUrl}/refresh_token`, {
+  const response = await (await fetch(`${apiUrl}/${eventUrl}/refresh-token`, {
     method: 'POST',
     credentials: 'include', // Include the protected cookie
     headers: {

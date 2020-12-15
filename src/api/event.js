@@ -129,7 +129,7 @@ export async function getEvent(fetch, apiUrl, eventUrl) {
 export async function addUserToEvent(fetch, apiUrl, eventUrl, userDetails) {
   const { username, password, schedule } = userDetails;
   const scheduleInMs = schedule.map(serializeInterval);
-  const response = await (await fetch(`${apiUrl}/${eventUrl}/new_user`, {
+  const response = await (await fetch(`${apiUrl}/${eventUrl}/new-user`, {
     method: 'POST',
     credentials: 'include',
     headers: {
