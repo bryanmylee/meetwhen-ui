@@ -33,6 +33,7 @@
   export let editable = false;
 
   export let userFocused = false;
+  export let userFocusY = 0;
 </script>
 
 <div class="flex flex-col w-full transform min-w-24">
@@ -66,7 +67,7 @@
       {/each}
     </div>
 
-    {#each userTaggedIntervals as interval (getKey(interval))}
+    {#each userTaggedIntervals as interval, i (getKey(interval))}
       <EventCalendarUserInterval
         {editable}
         {...interval}
@@ -74,7 +75,7 @@
         {maxPerInterval}
         hasTop={hasTopInterval(interval, userTaggedIntervals)}
         hasBottom={hasBottomInterval(interval, userTaggedIntervals)}
-        focused={userFocused}
+        focused={userFocused && userFocusY === i}
       />
     {/each}
   </div>

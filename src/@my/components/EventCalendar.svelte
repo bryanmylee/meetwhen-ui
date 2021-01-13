@@ -183,6 +183,8 @@
       if (newX !== -1) {
         userFocusX = newX;
       }
+      const { length } = taggedDays[userFocusX].userTaggedIntervals;
+      userFocusY = Math.min(userFocusY, length - 1);
     },
     ArrowLeft: () => {
       if (userFocusX <= 0) return;
@@ -190,6 +192,8 @@
       if (newX !== -1) {
         userFocusX = newX;
       }
+      const { length } = taggedDays[userFocusX].userTaggedIntervals;
+      userFocusY = Math.min(userFocusY, length - 1);
     },
     ArrowUp: () => {
       if (userFocusY > 0) userFocusY--;
@@ -243,6 +247,7 @@
               selectFocused={editable && selectFocusX === i}
               {selectFocusY}
               userFocused={userFocusX === i}
+              {userFocusY}
             />
           {/each}
         </div>
