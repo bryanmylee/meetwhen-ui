@@ -22,21 +22,31 @@
     const darkRatio = total / MAX_DARK;
     const darkest = 0.5 + darkRatio * 0.5;
     const ratio = num * darkest / total;
-    return scale(ratio).hex();
+    return scale(ratio);
+  };
+
+  const getBorder = (num: number, total: number, scale: Scale) => {
+    const bg = getColor(num, total, scale);
+    if (bg.luminance() < 0.4) {
+      return bg.brighten(2);
+    } else {
+      return bg.darken(2);
+    }
   };
 </script>
 
 <div
   class={`
-    absolute left-0 rounded-xl
-    border-3 border-transparent focus:outline-none
+    absolute left-0 rounded-xl z-0
+    border-0 focus:outline-none
     ${hasTop ? 'rounded-t-none' : ''}
     ${hasBottom ? 'rounded-b-none' : ''}
     ${editable ? 'w-6' : 'w-full'}
-    ${focused ? 'border-white' : ''}
+    ${focused ? 'border-3 shadow-xl-primary z-10' : ''}
   `.replace(/\s\s+/g, ' ')}
   style={`
-    background-color: ${getColor(users.length, maxPerInterval, $primary.scale)};
+    border-color: ${getBorder(users.length, maxPerInterval, $primary.scale).hex()};
+    background-color: ${getColor(users.length, maxPerInterval, $primary.scale).hex()};
     top: ${getTop(from, hours)}%;
     height: ${getHeight(from, to, hours)}%;
     transition: width 200ms ease-out;
