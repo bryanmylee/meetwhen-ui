@@ -134,50 +134,70 @@
     selectFocusY = halfHourIds.indexOf(id.slice(8, 12));
   }
 
-  let userIntervalFocusX = -1;
-  let userIntervalFocusY = -1;
-  function onUserIntervalFocus() {
-    if (userIntervalFocusX !== -1 || userIntervalFocusY !== -1) return;
-    userIntervalFocusX = 0;
-    userIntervalFocusY = 0;
+  let userFocusX = -1;
+  let userFocusY = -1;
+  $: console.log({ userFocusX, userFocusY });
+  function onUserFocus() {
+    if (userFocusX !== -1 || userFocusY !== -1) return;
+    userFocusX = 0;
+    userFocusY = 0;
   }
 
-  function onUserIntervalBlur() {
-    userIntervalFocusX = -1;
-    userIntervalFocusY = -1;
+  function onUserBlur() {
+    userFocusX = -1;
+    userFocusY = -1;
   }
 
-  function onUserIntervalKeydown(event: KeyboardEvent) {
-    if (!editable) return;
+  function onUserKeydown(event: KeyboardEvent) {
     const { key } = event;
     if (Object.keys(onSelectActions).includes(key)) {
-      onSelectActions[key]();
+      onUserActions[key]();
       event.preventDefault();
     }
-    if (userIntervalFocusX < 0) {
-      userIntervalFocusX = 0;
-    } else if (userIntervalFocusX >= dayIds.length) {
-      userIntervalFocusX = dayIds.length - 1;
+    if (userFocusX < 0) {
+      userFocusX = 0;
+    } else if (userFocusX >= dayIds.length) {
+      userFocusX = dayIds.length - 1;
     }
-    if (userIntervalFocusY < 0) {
-      userIntervalFocusY = 0;
-    } else if (userIntervalFocusY >= halfHourIds.length) {
-      userIntervalFocusY = halfHourIds.length - 1;
+    if (userFocusY < 0) {
+      userFocusY = 0;
+    } else if (userFocusY >= halfHourIds.length) {
+      userFocusY = halfHourIds.length - 1;
     }
   }
 
-  const onUserIntervalActions = {
+  let hasUserInDay: boolean[] = [];
+  $: hasUserInDay = getHasUserInDay(taggedDays);
+  function getHasUserInDay(taggedDays: TaggedDay[] & Partial<UserTaggedDay>[]) {
+    // Cannot use map or forEach due to type erasure.
+    const usersPerDay = [];
+    for (let i = 0; i < taggedDays.length; i++) {
+      usersPerDay.push(Object.keys(taggedDays[i].dayUsers ?? {}).length);
+    }
+    return usersPerDay.map(n => n > 0);
+  }
+
+  const onUserActions = {
     ArrowRight: () => {
-      if (selectFocusX < dayIds.length - 1) selectFocusX++;
+      if (userFocusX >= taggedDays.length - 1) return;
+      const newX = hasUserInDay.indexOf(true, userFocusX + 1);
+      if (newX !== -1) {
+        userFocusX = newX;
+      }
     },
     ArrowLeft: () => {
-      if (selectFocusX > 0) selectFocusX--;
+      if (userFocusX <= 0) return;
+      const newX = hasUserInDay.lastIndexOf(true, userFocusX - 1);
+      if (newX !== -1) {
+        userFocusX = newX;
+      }
     },
     ArrowUp: () => {
-      if (selectFocusY > 0) selectFocusY--;
+      if (userFocusY > 0) userFocusY--;
     },
     ArrowDown: () => {
-      if (selectFocusY < halfHourIds.length - 1) selectFocusY++;
+      const { length } = Object.keys(taggedDays[userFocusX].dayUsers);
+      if (userFocusY < length - 1) userFocusY++;
     },
   };
 
@@ -185,9 +205,9 @@
 
 <div
   tabindex=0
-  on:focus={onUserIntervalFocus}
-  on:blur={onUserIntervalBlur}
-  on:keydown={onUserIntervalKeydown}
+  on:focus={onUserFocus}
+  on:blur={onUserBlur}
+  on:keydown={onUserKeydown}
   class="focus:outline-none"
 />
 
@@ -223,7 +243,7 @@
               {selecting}
               selectFocused={editable && selectFocusX === i}
               {selectFocusY}
-              userIntervalFocused={userIntervalFocusX === i}
+              userFocused={userFocusX === i}
             />
           {/each}
         </div>
