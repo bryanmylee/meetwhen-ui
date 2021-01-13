@@ -2,9 +2,9 @@
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
     "lib": ["DOM", "ES2019", "WebWorker"],
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "src/@my/*": [ "@my/*" ]
+      "@my/*": [ "src/@my/*" ]
     }
   },
   "include": ["src/**/*", "src/node_modules/**/*"],
