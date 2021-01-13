@@ -1,53 +1,45 @@
-<script>
-  import Nav from 'src/components/ui/Nav.svelte';
-  import { mediaQueries } from 'src/actions/mediaQuery';
-  import { layoutEnum, layout, currentColor, isDarkMode } from 'src/stores';
-  import { getTint } from 'src/utils/colors';
+<script lang="ts" context="module">
+  // import required to first set the colors
+  import { primaryBase, DEFAULT_PRIMARY_INDEX } from '@my/state/colors';
+  import type { Writable } from 'svelte/store';
 
-  export let segment;
-
-  // Setting primary colors and all tints, as well as dark mode colors.
-  $: if (typeof document !== 'undefined') {
-    [50, 100, 200, 300, 400, 500, 600, 700, 800, 900].forEach((tint) => {
-      document.documentElement.style.setProperty(`--primary-${tint}`, getTint($currentColor.hex, tint));
-    });
-    document.documentElement.style.setProperty('--primary-gradient-dark', $currentColor.gradientDark);
-
-    if ($isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }
-
-  // Setting 100vh units.
-  let innerHeight;
-  $: if (typeof document !== 'undefined') {
-    document.documentElement.style.setProperty('--vh', `${innerHeight / 100}px`);
-  }
+  export type IColorIndex = Writable<number>;
+  export type INewEventName = Writable<string>;
+  export type IGetCrossfade = () => ReturnType<typeof crossfade>;
 </script>
 
-<svelte:window
-  use:mediaQueries={{
-    queries: [
-      '(min-width: 768px)',
-      '(prefers-color-scheme: dark)',
-    ],
-    callbacks: [
-      (matches) => $layout = matches ? layoutEnum.WIDE : layoutEnum.NARROW,
-      (matches) => $isDarkMode = matches,
-    ],
-  }}
-  bind:innerHeight
-/>
+<script lang="ts">
+  import { setContext } from 'svelte';
+  import { writable } from 'svelte/store';
+  import { cubicOut } from 'svelte/easing';
+  import { crossfade, fade } from 'svelte/transition';
+  import PageTransition from '@my/components/PageTransition.svelte';
+  import Nav from './_nav.svelte';
 
-<Nav {segment} />
-<main>
-  <slot/>
-</main>
+  export let segment: string;
 
-<style>
-  main {
-    margin-top: var(--nav-height);
-  }
-</style>
+  setContext('colorIndex', writable(DEFAULT_PRIMARY_INDEX));
+
+  setContext('newEventName', writable(''));
+
+  const cross = crossfade({
+    duration: 500,
+    easing: cubicOut,
+    fallback: (node, params) => fade(node, {
+      ...params,
+      duration: 200,
+    }),
+  });
+  setContext('getCrossfade', () => cross);
+</script>
+
+<PageTransition refresh={segment}>
+  <main class="select-none-all transition">
+    <slot/>
+  </main>
+</PageTransition>
+
+{#if segment}
+  <Nav/>
+{/if}
+

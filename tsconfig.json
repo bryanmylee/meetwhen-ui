@@ -1,12 +1,8 @@
 {
-  "include": ["src/**/*"],
-  "exclude": ["node_modules/*"],
+  "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-      "target": "es2015",
-      "module": "es2015",
-      "baseUrl": "src",
-      "paths": {
-        "src/*": [ "./*" ]
-      }
+    "lib": ["DOM", "ES2019", "WebWorker"]
   },
+  "include": ["src/**/*", "src/node_modules/**/*"],
+  "exclude": ["node_modules/*", "__sapper__/*", "static/*"]
 }
