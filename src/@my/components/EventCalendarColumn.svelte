@@ -36,14 +36,14 @@
   export let userFocusY = 0;
 </script>
 
-<div class="flex flex-col w-full transform min-w-24">
+<div class="flex flex-col w-full min-w-24">
 
   <div class="sticky top-0 z-20 flex flex-col items-center justify-center h-16 bg-white">
     <p class="font-bold">{day.format('ddd')}</p>
     <p class="text-sm">{day.format('DD MMM')}</p>
   </div>
 
-  <div class="relative flex-1 w-full overflow-hidden shade">
+  <div class="relative flex-1 w-full shade">
     <div class="flex flex-col h-full">
       {#each todayHours as _}
         <div class="flex flex-col w-full h-full border-b-2 last:border-0 min-h-16"/>
