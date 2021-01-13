@@ -36,7 +36,7 @@
   import type Interval from '@my/models/Interval';
 
   export let color: string;
-  $primaryBase = color;
+  $: $primaryBase = color;
   export let eventUrl: string;
   export let name: string = '';
   export let schedule: Interval[];
