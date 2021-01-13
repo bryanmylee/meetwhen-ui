@@ -3,20 +3,16 @@ import { baseUrl } from '@my/state/api';
 import { fromEvent, toEvent } from '@my/models/EventTransferObject';
 import { fromUser } from '@my/models/NewUserTransferObject';
 import type { Readable } from 'svelte/store';
-import type EventTransferObject from '@my/models/EventTransferObject';
 import type Event from '@my/models/Event';
+import type EventTransferObject from '@my/models/EventTransferObject';
+import type Pending from '@my/models/Pending';
 import type User from '@my/models/User';
-import type { NewUserResponse } from '@my/models/NewUserTransferObject';
-
-export interface Pending<T> {
-  pending: boolean;
-  data: T;
-}
+import type { AuthResponse } from '@my/models/Response';
 
 export interface EventLoadable {
   get: (id: string) => Promise<EventTransferObject>,
   post: (data: Partial<Event>) => Promise<EventTransferObject>,
-  addUser: (data: User) => Promise<NewUserResponse>;
+  addUser: (data: User) => Promise<AuthResponse>;
 }
 
 const { subscribe, set, update } = writable<Pending<Event>>({ pending: false, data: null });
@@ -73,7 +69,7 @@ const addUser = async (newUser: User) => {
     },
     body: JSON.stringify(fromUser(newUser)),
   });
-  const data = await res.json() as NewUserResponse;
+  const data = await res.json() as AuthResponse;
 
   if (data.error == null) {
     update($event => ({

@@ -27,6 +27,8 @@
   enum IPageState {
     NONE = 0,
     JOINING = 1,
+    LOGGINGIN = 2,
+    LOGGEDIN = 3,
   }
 </script>
 
@@ -57,27 +59,36 @@
   let selectedSchedule: Interval[] = [];
   let username = '';
   let password = '';
-  $: newUserValid = selectedSchedule.length !== 0
+  $: joiningValid = selectedSchedule.length !== 0
       && username.length !== 0
       && password.length !== 0;
+  $: loggingInValid = username.length !== 0 && password.length !== 0;
 
   async function addNewUser() {
-    const newUser = {
+    const response = await event.addUser({
       eventUrl,
       username,
       password,
       schedule: selectedSchedule
-    };
-    const response = await event.addUser(newUser);
+    });
     if (response.error) {
       console.log(response.error);
       return;
     }
-    auth.login({
-      user: newUser,
-      accessToken: response.accessToken,
-    });
-    pageState = IPageState.NONE;
+    auth.loginWithToken(response.accessToken);
+    pageState = IPageState.LOGGEDIN;
+    selectedSchedule = [];
+    username = '';
+    password = '';
+  }
+
+  async function logIn() {
+    const response = await auth.loginWithPassword(username, password, eventUrl);
+    if (response.error) {
+      console.log(response.error);
+      return;
+    }
+    pageState = IPageState.LOGGEDIN;
     selectedSchedule = [];
     username = '';
     password = '';
@@ -91,8 +102,8 @@
       {name}&nbsp;
     </p>
     <p>
-      {#if $auth.accessToken}
-        {$auth.accessToken}
+      {#if $auth.data}
+        {JSON.stringify($auth.data)}
       {/if}
     </p>
   </div>
@@ -100,46 +111,75 @@
   <EventCalendar
     {schedule} {users}
     bind:selectedSchedule
-    editable={pageState !== IPageState.NONE}
+    editable={pageState === IPageState.JOINING}
     class="flex flex-col flex-1 p-4 pt-0 pl-1 overflow-hidden card"
   />
 
 
-  {#if pageState === IPageState.NONE}
+  {#if pageState === IPageState.JOINING}
+    <div class="flex flex-col p-4 bg-white card space-y-4">
+      <h2>Join Event</h2>
+      <input type="text" bind:value={username} placeholder="Name" class="textfield"/>
+      <input type="password" bind:value={password} placeholder="Password" class="textfield"/>
+    </div>
+  {:else if pageState === IPageState.LOGGINGIN}
+    <div class="flex flex-col p-4 bg-white card space-y-4">
+      <h2>Log In</h2>
+      <input type="text" bind:value={username} placeholder="Name" class="textfield"/>
+      <input type="password" bind:value={password} placeholder="Password" class="textfield"/>
+    </div>
+  {:else}
     <div class="p-4 bg-white card">
       <h2>Find someone</h2>
       Nobody's here yet...
     </div>
-  {:else}
-    <div class="bg-white card flex flex-col p-4 space-y-4">
-      <input type="text" bind:value={username} placeholder="Name" class="textfield"/>
-      <input type="password" bind:value={password} placeholder="Password" class="textfield"/>
-    </div>
   {/if}
 
-  {#if pageState === IPageState.NONE}
-    <div class="flex space-x-4">
-      <button class="w-full p-3 font-bold bg-white card button focusable">
-        Edit
+  <div class="flex space-x-4">
+    {#if pageState === IPageState.NONE}
+      <button
+        on:click={() => pageState = IPageState.LOGGINGIN}
+        class="w-full p-3 font-bold bg-white card button focusable"
+        >
+        Log In
       </button>
       <button
         on:click={() => pageState = IPageState.JOINING}
-        class="w-full p-3 font-bold card button gradient"
+        class="w-full p-3 font-bold card button gradient focusable"
         >
         Join Event
       </button>
-    </div>
-  {:else}
-    <div class="flex space-x-4">
+    {:else if pageState === IPageState.JOINING}
       <button
-        disabled={!newUserValid}
+        on:click={() => pageState = IPageState.NONE}
+        class="w-full p-3 font-bold bg-white card button focusable"
+        >
+        Cancel
+      </button>
+      <button
+        disabled={!joiningValid}
         on:click={addNewUser}
-        class="w-full p-3 font-bold card button gradient"
+        class="w-full p-3 font-bold card button gradient focusable"
         >
         Confirm
       </button>
-    </div>
-  {/if}
+    {:else if pageState === IPageState.LOGGINGIN}
+      <button
+        on:click={() => pageState = IPageState.NONE}
+        class="w-full p-3 font-bold bg-white card button focusable"
+        >
+        Cancel
+      </button>
+      <button
+        disabled={!loggingInValid}
+        on:click={logIn}
+        class="w-full p-3 font-bold card button gradient focusable"
+        >
+        Confirm
+      </button>
+    {:else if pageState === IPageState.LOGGEDIN}
+    {/if}
+  </div>
 
 </div>
 
