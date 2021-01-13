@@ -1,6 +1,5 @@
 <script lang="ts">
   import {
-    getUserTaggedIntervals,
     hasTopInterval,
     hasBottomInterval,
     hasTopHalfHour,
@@ -10,8 +9,8 @@
   import EventCalendarHalfHour from './EventCalendarHalfHour.svelte';
   import EventCalendarUserInterval from './EventCalendarUserInterval.svelte';
   import type { Dayjs } from 'dayjs';
-  import type Interval from '@my/models/Interval';
   import type SelectState from '@my/models/SelectState';
+  import type UserTaggedInterval from '@my/models/UserTaggedInterval';
 
   export let day: Dayjs;
   export let hours: Dayjs[] = [];
@@ -22,8 +21,7 @@
   $: dayDiff = getDayDiff(day, hours);
   $: todayHours = hours.map(h => h.add(dayDiff, 'day'));
 
-  export let users: Record<string, Interval[]> = {};
-  $: userTaggedIntervals = getUserTaggedIntervals(users);
+  export let userTaggedIntervals: UserTaggedInterval[] = [];
 
   export let maxPerInterval = 0;
 

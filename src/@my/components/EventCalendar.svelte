@@ -18,9 +18,6 @@
   import SelectableProvider from '@my/components/SelectableProvider.svelte';
   import type Interval from '@my/models/Interval';
   import type { SelectableProviderEvent } from '@my/components/SelectableProvider.svelte';
-  import type TaggedDay from '@my/models/TaggedDay';
-  import type UserTaggedDay from '@my/models/UserTaggedDay';
-  import type TimeTaggedDay from '@my/models/TimeTaggedDay';
 
   export { className as class };
   let className = '';
@@ -61,10 +58,12 @@
 
   $: baseTaggedDays = days.map(day => ({ day }));
   $: userTaggedDays = getUserTaggedDays(users);
+  $: userTaggedIntervalTaggedDays = userTaggedDays.map(({ day, dayUsers }) => ({
+    day,
+    userTaggedIntervals: getUserTaggedIntervals(dayUsers),
+  }));
   $: selectedTaggedDays = getTimeTaggedDays(selectedHalfHours);
-  // Typescript does not support existential types.
-  $: taggedDays = extendedTaggedDays(baseTaggedDays, userTaggedDays, selectedTaggedDays as any) as
-      TaggedDay[] & Partial<UserTaggedDay>[] & Partial<TimeTaggedDay>[];
+  $: taggedDays = extendedTaggedDays(extendedTaggedDays(baseTaggedDays, userTaggedIntervalTaggedDays), selectedTaggedDays);
 
   export let editable = false;
   let calendarElement: HTMLElement;
@@ -168,11 +167,11 @@
 
   let hasUserInDay: boolean[] = [];
   $: hasUserInDay = getHasUserInDay(taggedDays);
-  function getHasUserInDay(taggedDays: TaggedDay[] & Partial<UserTaggedDay>[]) {
+  function getHasUserInDay(tagged: typeof taggedDays) {
     // Cannot use map or forEach due to type erasure.
     const usersPerDay = [];
-    for (let i = 0; i < taggedDays.length; i++) {
-      usersPerDay.push(Object.keys(taggedDays[i].dayUsers ?? {}).length);
+    for (let i = 0; i < tagged.length; i++) {
+      usersPerDay.push(taggedDays[i].userTaggedIntervals?.length ?? 0);
     }
     return usersPerDay.map(n => n > 0);
   }
@@ -196,7 +195,7 @@
       if (userFocusY > 0) userFocusY--;
     },
     ArrowDown: () => {
-      const { length } = Object.keys(taggedDays[userFocusX].dayUsers);
+      const { length } = taggedDays[userFocusX].userTaggedIntervals;
       if (userFocusY < length - 1) userFocusY++;
     },
   };
@@ -232,12 +231,12 @@
       <div class="overflow-auto scrollbar-none h-full">
         <div class="relative z-0 flex min-w-full min-h-full w-fit h-fit space-x-2">
           <EventCalendarIndex {hours}/>
-          {#each taggedDays as { day, dayUsers, dayTimes }, i}
+          {#each taggedDays as { day, userTaggedIntervals, dayTimes }, i}
             <EventCalendarColumn
               {editable}
               {day}
               {hours}
-              users={dayUsers}
+              userTaggedIntervals={userTaggedIntervals || []}
               {maxPerInterval}
               selectedHours={dayTimes || []}
               {selecting}
