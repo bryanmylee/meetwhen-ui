@@ -30,6 +30,7 @@ const loginWithPassword = async (username: string, password: string, eventUrl: s
       ...$auth,
       data: {
         ...data,
+        eventUrl,
         username,
       },
     }));

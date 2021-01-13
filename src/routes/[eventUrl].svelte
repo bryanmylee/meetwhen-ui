@@ -28,7 +28,7 @@
     NONE = 0,
     JOINING = 1,
     LOGGINGIN = 2,
-    LOGGEDIN = 3,
+    EDITING = 3,
   }
 </script>
 
@@ -63,6 +63,7 @@
       && username.length !== 0
       && password.length !== 0;
   $: loggingInValid = username.length !== 0 && password.length !== 0;
+  $: editingValid = selectedSchedule.length !== 0;
 
   function cancel() {
     selectedSchedule = [];
@@ -83,7 +84,24 @@
       return;
     }
     auth.loginWithToken(response.accessToken);
-    pageState = IPageState.LOGGEDIN;
+    pageState = IPageState.NONE;
+    selectedSchedule = [];
+    username = '';
+    password = '';
+  }
+
+  function initEditUser() {
+    pageState = IPageState.EDITING;
+    selectedSchedule = users[$auth.data.username];
+  }
+
+  async function editUser() {
+    const response = await event.editUserSchedule($auth.data, selectedSchedule);
+    if (response.error) {
+      console.log(response.error);
+      return;
+    }
+    pageState = IPageState.NONE;
     selectedSchedule = [];
     username = '';
     password = '';
@@ -95,10 +113,15 @@
       console.log(response.error);
       return;
     }
-    pageState = IPageState.LOGGEDIN;
+    pageState = IPageState.NONE;
     selectedSchedule = [];
     username = '';
     password = '';
+  }
+
+  async function logOut() {
+    auth.logout();
+    pageState = IPageState.NONE;
   }
 </script>
 
@@ -108,12 +131,17 @@
     <p>
       {name}&nbsp;
     </p>
+    {#if $auth.data}
+      <p class="italic text-xs">
+        Logged in as {$auth.data.username}
+      </p>
+    {/if}
   </div>
 
   <EventCalendar
     {schedule} {users}
     bind:selectedSchedule
-    editable={pageState === IPageState.JOINING}
+    editable={pageState === IPageState.JOINING || pageState === IPageState.EDITING}
     class="flex flex-col flex-1 p-4 pt-0 pl-1 overflow-hidden card"
   />
 
@@ -139,18 +167,33 @@
 
   <div class="flex space-x-4">
     {#if pageState === IPageState.NONE}
-      <button
-        on:click={() => pageState = IPageState.LOGGINGIN}
-        class="w-full p-3 font-bold bg-white card button focusable"
-        >
-        Log In
-      </button>
-      <button
-        on:click={() => pageState = IPageState.JOINING}
-        class="w-full p-3 font-bold card button gradient focusable"
-        >
-        Join Event
-      </button>
+      {#if $auth.data}
+        <button
+          on:click={logOut}
+          class="w-full p-3 font-bold bg-white card button focusable"
+          >
+          Log Out
+        </button>
+        <button
+          on:click={initEditUser}
+          class="w-full p-3 font-bold card button gradient focusable"
+          >
+          Edit
+        </button>
+      {:else}
+        <button
+          on:click={() => pageState = IPageState.LOGGINGIN}
+          class="w-full p-3 font-bold bg-white card button focusable"
+          >
+          Log In
+        </button>
+        <button
+          on:click={() => pageState = IPageState.JOINING}
+          class="w-full p-3 font-bold card button gradient focusable"
+          >
+          Join Event
+        </button>
+      {/if}
     {:else if pageState === IPageState.JOINING}
       <button
         on:click={cancel}
@@ -179,7 +222,20 @@
         >
         Confirm
       </button>
-    {:else if pageState === IPageState.LOGGEDIN}
+    {:else if pageState === IPageState.EDITING}
+      <button
+        on:click={cancel}
+        class="w-full p-3 font-bold bg-white card button focusable"
+        >
+        Cancel
+      </button>
+      <button
+        disabled={!editingValid}
+        on:click={editUser}
+        class="w-full p-3 font-bold card button gradient focusable"
+        >
+        Confirm
+      </button>
     {/if}
   </div>
 
