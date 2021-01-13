@@ -1,7 +1,9 @@
 <script lang="ts">
+  import { getContext } from 'svelte';
   import { createPopperActions } from 'svelte-popperjs';
   import { primary } from '@my/state/colors';
   import { getTop, getHeight } from '@my/utils/eventCalendar';
+  import type { Readable } from 'svelte/store';
   import type { Dayjs } from 'dayjs';
   import type { Scale } from 'chroma-js';
   import type { OptionsGeneric, StrictModifiers } from '@popperjs/core';
@@ -11,6 +13,8 @@
   export let users: string[] = [];
   export let hours: Dayjs[] = [];
   export let maxPerInterval = 0;
+  const allUsers = getContext<Readable<string[]>>('allUsers');
+  $: nonUsers = $allUsers.filter(u => !users.includes(u));
 
   export let editable = false;
 
@@ -79,25 +83,27 @@
     use:popper={options}
     class="z-30 text-xs bg-white pointer-events-none card w-max"
     >
-    <p class="p-3 italic text-gray-400">
+    <p class="p-3 italic text-gray-600">
       {from.format('HH:mm')} - {to.format('HH:mm')}
     </p>
     <div class="p-3 border-t space-y-2">
-      <div class="font-bold">Attending</div>
+      <div class="font-bold">{users.length} attending</div>
       <div>
         {#each users as user}
           <p>{user}</p>
         {/each}
       </div>
     </div>
-    <div class="p-3 border-t space-y-2">
-      <div class="font-bold">Attending</div>
-      <div>
-        {#each users as user}
-          <p>{user}</p>
-        {/each}
+    {#if nonUsers.length !== 0}
+      <div class="p-3 border-t space-y-2">
+        <div class="font-bold">{nonUsers.length} not attending</div>
+        <div class="text-gray-400">
+          {#each nonUsers as user}
+            <p>{user}</p>
+          {/each}
+        </div>
       </div>
-    </div>
+    {/if}
   </div>
 {/if}
 

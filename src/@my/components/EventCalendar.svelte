@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { tick } from 'svelte';
+  import { setContext, tick } from 'svelte';
+  import { writable } from 'svelte/store';
   import dayjs from 'dayjs';
   import { equals } from '@my/utils/array';
   import flat from '@my/utils/flat';
@@ -64,6 +65,9 @@
   }));
   $: selectedTaggedDays = getTimeTaggedDays(selectedHalfHours);
   $: taggedDays = extendedTaggedDays(extendedTaggedDays(baseTaggedDays, userTaggedIntervalTaggedDays), selectedTaggedDays);
+  const allUsers = writable([]);
+  $: $allUsers = Object.keys(users);
+  setContext('allUsers', { subscribe: allUsers.subscribe });
 
   export let editable = false;
   let calendarElement: HTMLElement;
