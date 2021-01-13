@@ -64,6 +64,13 @@
       && password.length !== 0;
   $: loggingInValid = username.length !== 0 && password.length !== 0;
 
+  function cancel() {
+    selectedSchedule = [];
+    username = '';
+    password = '';
+    pageState = IPageState.NONE;
+  }
+
   async function addNewUser() {
     const response = await event.addUser({
       eventUrl,
@@ -146,7 +153,7 @@
       </button>
     {:else if pageState === IPageState.JOINING}
       <button
-        on:click={() => pageState = IPageState.NONE}
+        on:click={cancel}
         class="w-full p-3 font-bold bg-white card button focusable"
         >
         Cancel
@@ -160,7 +167,7 @@
       </button>
     {:else if pageState === IPageState.LOGGINGIN}
       <button
-        on:click={() => pageState = IPageState.NONE}
+        on:click={cancel}
         class="w-full p-3 font-bold bg-white card button focusable"
         >
         Cancel
