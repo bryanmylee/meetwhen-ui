@@ -15,6 +15,8 @@
   export let hasTop = false;
   export let hasBottom = false;
 
+  export let focused = false;
+
   const getColor = (num: number, total: number, scale: Scale) => {
     const MAX_DARK = 10;
     const darkRatio = total / MAX_DARK;
@@ -25,10 +27,13 @@
 </script>
 
 <div
-  class={`absolute left-0 rounded-xl
+  class={`
+    absolute left-0 rounded-xl
+    border-3 border-transparent focus:outline-none
     ${hasTop ? 'rounded-t-none' : ''}
     ${hasBottom ? 'rounded-b-none' : ''}
     ${editable ? 'w-6' : 'w-full'}
+    ${focused ? 'border-white' : ''}
   `.replace(/\s\s+/g, ' ')}
   style={`
     background-color: ${getColor(users.length, maxPerInterval, $primary.scale)};

@@ -106,6 +106,7 @@
     }
   }
 
+  let selector: SelectableProvider;
   const onSelectActions = {
     ArrowRight: () => {
       if (selectFocusX < dayIds.length - 1) selectFocusX++;
@@ -126,15 +127,69 @@
     get Enter() { return this[' '] },
   };
 
-  let selector: SelectableProvider;
-
   function toggle(event: CustomEvent<SelectableProviderEvent['toggle']>) {
     // YYYYMMDDHHmm
     const { id } = event.detail;
     selectFocusX = dayIds.indexOf(id.slice(0, 8));
     selectFocusY = halfHourIds.indexOf(id.slice(8, 12));
   }
+
+  let userIntervalFocusX = -1;
+  let userIntervalFocusY = -1;
+  function onUserIntervalFocus() {
+    if (userIntervalFocusX !== -1 || userIntervalFocusY !== -1) return;
+    userIntervalFocusX = 0;
+    userIntervalFocusY = 0;
+  }
+
+  function onUserIntervalBlur() {
+    userIntervalFocusX = -1;
+    userIntervalFocusY = -1;
+  }
+
+  function onUserIntervalKeydown(event: KeyboardEvent) {
+    if (!editable) return;
+    const { key } = event;
+    if (Object.keys(onSelectActions).includes(key)) {
+      onSelectActions[key]();
+      event.preventDefault();
+    }
+    if (userIntervalFocusX < 0) {
+      userIntervalFocusX = 0;
+    } else if (userIntervalFocusX >= dayIds.length) {
+      userIntervalFocusX = dayIds.length - 1;
+    }
+    if (userIntervalFocusY < 0) {
+      userIntervalFocusY = 0;
+    } else if (userIntervalFocusY >= halfHourIds.length) {
+      userIntervalFocusY = halfHourIds.length - 1;
+    }
+  }
+
+  const onUserIntervalActions = {
+    ArrowRight: () => {
+      if (selectFocusX < dayIds.length - 1) selectFocusX++;
+    },
+    ArrowLeft: () => {
+      if (selectFocusX > 0) selectFocusX--;
+    },
+    ArrowUp: () => {
+      if (selectFocusY > 0) selectFocusY--;
+    },
+    ArrowDown: () => {
+      if (selectFocusY < halfHourIds.length - 1) selectFocusY++;
+    },
+  };
+
 </script>
+
+<div
+  tabindex=0
+  on:focus={onUserIntervalFocus}
+  on:blur={onUserIntervalBlur}
+  on:keydown={onUserIntervalKeydown}
+  class="focus:outline-none"
+/>
 
 <div class={className}>
   <SelectableProvider
@@ -144,6 +199,7 @@
     disabled={!editable}
     let:selecting
     >
+
     <div
       bind:this={calendarElement}
       tabindex={editable ? 0 : -1}
@@ -167,6 +223,7 @@
               {selecting}
               selectFocused={editable && selectFocusX === i}
               {selectFocusY}
+              userIntervalFocused={userIntervalFocusX === i}
             />
           {/each}
         </div>

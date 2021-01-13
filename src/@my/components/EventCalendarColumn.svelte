@@ -33,6 +33,8 @@
   export let selectFocused = false;
   export let selectFocusY = 0;
   export let editable = false;
+
+  export let userIntervalFocused = false;
 </script>
 
 <div class="flex flex-col w-full transform min-w-24">
@@ -74,6 +76,7 @@
         {maxPerInterval}
         hasTop={hasTopInterval(interval, userTaggedIntervals)}
         hasBottom={hasBottomInterval(interval, userTaggedIntervals)}
+        focused={userIntervalFocused}
       />
     {/each}
   </div>
