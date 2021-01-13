@@ -30,8 +30,8 @@
   export let selectedHours: Dayjs[] = [];
   export let selecting: SelectState;
 
-  export let focused = false;
-  export let focusedY = 0;
+  export let selectFocused = false;
+  export let selectFocusY = 0;
   export let editable = false;
 </script>
 
@@ -59,7 +59,7 @@
             hasTop={hasTopHalfHour(halfHour, selectedHours)}
             hasBottom={hasBottomHalfHour(halfHour, selectedHours)}
             disabled={!editable}
-            focused={focused && i * 2 + j === focusedY}
+            focused={selectFocused && i * 2 + j === selectFocusY}
             class="flex-1 ml-8"
           />
         {/each}

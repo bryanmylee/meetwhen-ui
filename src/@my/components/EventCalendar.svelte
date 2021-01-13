@@ -73,55 +73,55 @@
     focus();
   }
 
-  let focusedX = -1;
-  let focusedY = -1;
-  $: focusedId = focusedX === -1 || focusedY === -1 ? -1 : dayIds[focusedX] + halfHourIds[focusedY];
-  function focus() {
-    if (focusedX !== -1 || focusedY !== -1) return;
-    focusedX = 0;
-    focusedY = 0;
+  let selectFocusX = -1;
+  let selectFocusY = -1;
+  $: selectFocusId = selectFocusX === -1 || selectFocusY === -1 ? -1 : dayIds[selectFocusX] + halfHourIds[selectFocusY];
+  function onSelectFocus() {
+    if (selectFocusX !== -1 || selectFocusY !== -1) return;
+    selectFocusX = 0;
+    selectFocusY = 0;
   }
 
-  function blur() {
-    focusedX = -1;
-    focusedY = -1;
+  function onSelectBlur() {
+    selectFocusX = -1;
+    selectFocusY = -1;
   }
 
-  function keydown(event: KeyboardEvent) {
+  function onSelectKeydown(event: KeyboardEvent) {
     if (!editable) return;
     const { key } = event;
-    if (Object.keys(actions).includes(key)) {
-      actions[key]();
+    if (Object.keys(onSelectActions).includes(key)) {
+      onSelectActions[key]();
       event.preventDefault();
     }
-    if (focusedX < 0) {
-      focusedX = 0;
-    } else if (focusedX >= dayIds.length) {
-      focusedX = dayIds.length - 1;
+    if (selectFocusX < 0) {
+      selectFocusX = 0;
+    } else if (selectFocusX >= dayIds.length) {
+      selectFocusX = dayIds.length - 1;
     }
-    if (focusedY < 0) {
-      focusedY = 0;
-    } else if (focusedY >= halfHourIds.length) {
-      focusedY = halfHourIds.length - 1;
+    if (selectFocusY < 0) {
+      selectFocusY = 0;
+    } else if (selectFocusY >= halfHourIds.length) {
+      selectFocusY = halfHourIds.length - 1;
     }
   }
 
-  const actions = {
+  const onSelectActions = {
     ArrowRight: () => {
-      if (focusedX < dayIds.length - 1) focusedX++;
+      if (selectFocusX < dayIds.length - 1) selectFocusX++;
     },
     ArrowLeft: () => {
-      if (focusedX > 0) focusedX--;
+      if (selectFocusX > 0) selectFocusX--;
     },
     ArrowUp: () => {
-      if (focusedY > 0) focusedY--;
+      if (selectFocusY > 0) selectFocusY--;
     },
     ArrowDown: () => {
-      if (focusedY < halfHourIds.length - 1) focusedY++;
+      if (selectFocusY < halfHourIds.length - 1) selectFocusY++;
     },
     ' ': () => {
-      if (focusedId === -1) return;
-      selector?.toggle(focusedId as string);
+      if (selectFocusId === -1) return;
+      selector?.toggle(selectFocusId as string);
     },
     get Enter() { return this[' '] },
   };
@@ -131,8 +131,8 @@
   function toggle(event: CustomEvent<SelectableProviderEvent['toggle']>) {
     // YYYYMMDDHHmm
     const { id } = event.detail;
-    focusedX = dayIds.indexOf(id.slice(0, 8));
-    focusedY = halfHourIds.indexOf(id.slice(8, 12));
+    selectFocusX = dayIds.indexOf(id.slice(0, 8));
+    selectFocusY = halfHourIds.indexOf(id.slice(8, 12));
   }
 </script>
 
@@ -147,9 +147,9 @@
     <div
       bind:this={calendarElement}
       tabindex={editable ? 0 : -1}
-      on:focus={focus}
-      on:blur={blur}
-      on:keydown={keydown}
+      on:focus={onSelectFocus}
+      on:blur={onSelectBlur}
+      on:keydown={onSelectKeydown}
       class="relative overflow-hidden focus:outline-none h-full min-h-0"
       >
 
@@ -165,8 +165,8 @@
               {maxPerInterval}
               selectedHours={dayTimes || []}
               {selecting}
-              focused={editable && focusedX === i}
-              {focusedY}
+              selectFocused={editable && selectFocusX === i}
+              {selectFocusY}
             />
           {/each}
         </div>
