@@ -21,7 +21,7 @@
 
 <div
   data-id={day.format('YYYYMMDD') + halfHour.format('HHmm')}
-  class={`${className} ml-1/4 rounded-xl
+  class={`${className} rounded-xl
     border-3 border-transparent focus:outline-none
     ${selected
       ? `bg-primary shadow-primary z-10

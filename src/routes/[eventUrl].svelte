@@ -101,11 +101,6 @@
     <p>
       {name}&nbsp;
     </p>
-    <p>
-      {#if $auth.data}
-        {JSON.stringify($auth.data)}
-      {/if}
-    </p>
   </div>
 
   <EventCalendar

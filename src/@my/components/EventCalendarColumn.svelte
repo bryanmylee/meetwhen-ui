@@ -35,7 +35,7 @@
   export let editable = false;
 </script>
 
-<div class="flex flex-col w-full transform min-w-16">
+<div class="flex flex-col w-full transform min-w-24">
 
   <div class="sticky top-0 z-20 flex flex-col items-center justify-center h-16 bg-white">
     <p class="font-bold">{day.format('ddd')}</p>
@@ -60,7 +60,7 @@
             hasBottom={hasBottomHalfHour(halfHour, selectedHours)}
             disabled={!editable}
             focused={focused && i * 2 + j === focusedY}
-            class="flex-1"
+            class="flex-1 ml-8"
           />
         {/each}
       {/each}

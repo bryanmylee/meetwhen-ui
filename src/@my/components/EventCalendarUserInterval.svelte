@@ -28,7 +28,7 @@
   class={`absolute left-0 rounded-xl
     ${hasTop ? 'rounded-t-none' : ''}
     ${hasBottom ? 'rounded-b-none' : ''}
-    ${editable ? 'w-1/5' : 'w-full'}
+    ${editable ? 'w-6' : 'w-full'}
   `.replace(/\s\s+/g, ' ')}
   style={`
     background-color: ${getColor(users.length, maxPerInterval, $primary.scale)};
