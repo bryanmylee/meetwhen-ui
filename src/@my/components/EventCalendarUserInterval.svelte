@@ -34,7 +34,7 @@
   const getBorder = (num: number, total: number, scale: Scale) => {
     const bg = getColor(num, total, scale);
     if (bg.luminance() < 0.4) {
-      return bg.brighten(2);
+      return bg.brighten(2).desaturate();
     } else {
       return bg.darken(2);
     }
