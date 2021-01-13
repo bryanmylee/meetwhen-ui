@@ -139,7 +139,6 @@
 
   let userFocusX = -1;
   let userFocusY = -1;
-  $: console.log({ userFocusX, userFocusY });
   function onUserFocus() {
     if (userFocusX !== -1 || userFocusY !== -1) return;
     userFocusX = 0;
