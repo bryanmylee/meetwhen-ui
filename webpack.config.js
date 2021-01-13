@@ -5,11 +5,13 @@ const config = require('sapper/config/webpack.js');
 const sapperEnv = require('sapper-environment');
 const pkg = require('./package.json');
 const { getPreprocess } = require('./svelte.config.js');
-
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 
-const alias = { svelte: path.resolve('node_modules', 'svelte') };
+const alias = {
+  svelte: path.resolve('node_modules', 'svelte'),
+  '@my': path.resolve(__dirname, 'src', '@my'),
+};
 const extensions = ['.mjs', '.js', '.ts', '.json', '.svelte', '.html'];
 const mainFields = ['svelte', 'module', 'browser', 'main'];
 const fileLoaderRule = {
@@ -98,7 +100,7 @@ module.exports = {
   serviceworker: {
     entry: { 'service-worker': config.serviceworker.entry()['service-worker'].replace(/\.js$/, '.ts') },
       output: config.serviceworker.output(),
-      resolve: { extensions: ['.mjs', '.js', '.ts', '.json'] },
+      resolve: { alias, extensions: ['.mjs', '.js', '.ts', '.json'] },
       module: {
         rules: [
           {
