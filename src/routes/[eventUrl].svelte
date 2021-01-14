@@ -44,7 +44,6 @@
   export let name: string = '';
   export let schedule: Interval[];
   export let users: Record<string, Interval[]>;
-  $: allUsers = Object.keys(users || {}).sort();
   $: {
     const { data } = $event;
     if (data) {
@@ -55,6 +54,15 @@
       users = data.users;
     }
   }
+  $: allUsers = Object.keys(users || {}).sort();
+  let unfilteredUsernames: string[] = [];
+  let usersToShow: Record<string, Interval[]>;
+  $: usersToShow = Object.fromEntries(
+    Object.entries(users ?? {}).filter(([name]) => {
+      if (unfilteredUsernames.length === 0) return true;
+      return unfilteredUsernames.includes(name);
+    })
+  );
 
   let pageState = IPageState.NONE;
 
@@ -141,7 +149,7 @@
   </div>
 
   <EventCalendar
-    {schedule} {users}
+    {schedule} users={usersToShow}
     bind:selectedSchedule
     editable={pageState === IPageState.JOINING || pageState === IPageState.EDITING}
     class="flex flex-col flex-1 p-4 pt-0 pl-1 overflow-hidden card"
@@ -161,7 +169,7 @@
       <input type="password" bind:value={password} placeholder="Password" class="textfield"/>
     </div>
   {:else}
-    <EventFilter {allUsers}/>
+    <EventFilter {allUsers} bind:selectedUsers={unfilteredUsernames}/>
   {/if}
 
   <div class="flex space-x-4">
