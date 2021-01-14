@@ -27,6 +27,7 @@
     } else {
       selectedSet.add(user);
     }
+    focusedIndex = allUsers.indexOf(user);
     selectedSet = selectedSet;
   }
 
@@ -45,6 +46,7 @@
     const { key } = event;
     if (Object.keys(actions).includes(key)) {
       actions[key]();
+      event.preventDefault();
     }
   }
 
@@ -64,13 +66,13 @@
   };
 </script>
 
-<div
-  tabindex=0
-  on:focus={focus}
-  on:blur={blur}
-  on:keydown={keydown}
-  class="p-4 bg-white card focus:outline-none"
-  >
+<div class="p-4 bg-white card">
+  <div
+    tabindex=0
+    on:focus={focus}
+    on:blur={blur}
+    on:keydown={keydown}
+  />
   <h2>Find someone</h2>
   {#if allUsers.length === 0}
     Nobody's here yet...
