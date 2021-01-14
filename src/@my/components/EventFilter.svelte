@@ -29,29 +29,69 @@
     }
     selectedSet = selectedSet;
   }
+
+  let focusedIndex = -1;
+
+  function focus() {
+    if (focusedIndex !== -1) return;
+    focusedIndex = 0;
+  }
+
+  function blur() {
+    focusedIndex = -1;
+  }
+
+  function keydown(event: KeyboardEvent) {
+    const { key } = event;
+    if (Object.keys(actions).includes(key)) {
+      actions[key]();
+    }
+  }
+
+  const actions = {
+    ArrowUp: () => {
+      if (focusedIndex > 0) focusedIndex--;
+    },
+    ArrowDown: () => {
+      if (focusedIndex < allUsers.length - 1) focusedIndex++;
+    },
+    get ArrowRight() { return this['ArrowDown'] },
+    get ArrowLeft() { return this['ArrowUp'] },
+    ' ': () => {
+      toggle(allUsers[focusedIndex]);
+    },
+    get Enter() { return this[' '] },
+  };
 </script>
 
-<div tabindex=0 class="p-4 bg-white card focusable">
+<div
+  tabindex=0
+  on:focus={focus}
+  on:blur={blur}
+  on:keydown={keydown}
+  class="p-4 bg-white card focus:outline-none"
+  >
   <h2>Find someone</h2>
   {#if allUsers.length === 0}
     Nobody's here yet...
   {:else}
     <div class="flex flex-wrap items-center text-xs space-x-2 cursor-pointer">
-      {#each allUsers as user}
+      {#each allUsers as user, i}
         <div
           on:click={() => toggle(user)}
           class={`
             p-2 mt-2 bg-gray-100 rounded-full
             ${selectedSet.has(user)
-            ? `
-            bg-primary text-white
-            hover:bg-primary-lighter shadow-md-primary
-            active:bg-primary-darker active:text-white
-            ` : `
-            hover:bg-gray-50 hover:shadow-md
-            active:bg-gray-200
+              ? `
+              bg-primary text-white
+              hover:bg-primary-lighter shadow-md-primary
+              active:bg-primary-darker active:text-white
+              ` : `
+              hover:bg-gray-50 hover:shadow-md
+              active:bg-gray-200
             `}
-          `}
+            ${focusedIndex === i ? 'ring ring-primary' : ''}
+          `.replace(/\s\s+/g, ' ')}
           >
           {user}
         </div>
