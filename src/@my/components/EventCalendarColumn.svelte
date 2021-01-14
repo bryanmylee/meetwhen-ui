@@ -12,6 +12,8 @@
   import type SelectState from '@my/models/SelectState';
   import type UserTaggedInterval from '@my/models/UserTaggedInterval';
 
+  export let xIndex = 0;
+
   export let day: Dayjs;
   export let hours: Dayjs[] = [];
   const getDayDiff = (d: Dayjs, hs: Dayjs[]) => {
@@ -69,6 +71,9 @@
 
     {#each userTaggedIntervals as interval, i (getKey(interval))}
       <EventCalendarUserInterval
+        on:intervalclick
+        xIndex={xIndex}
+        yIndex={i}
         {editable}
         {...interval}
         {hours}

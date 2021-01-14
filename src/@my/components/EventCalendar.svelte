@@ -18,6 +18,7 @@
   import EventCalendarIndex from '@my/components/EventCalendarIndex.svelte';
   import SelectableProvider from '@my/components/SelectableProvider.svelte';
   import type Interval from '@my/models/Interval';
+  import type { EventCalendarUserIntervalEvent } from '@my/components/EventCalendarUserInterval.svelte';
   import type { SelectableProviderEvent } from '@my/components/SelectableProvider.svelte';
 
   export { className as class };
@@ -168,6 +169,17 @@
     }
   }
 
+  function userClick(event: CustomEvent<EventCalendarUserIntervalEvent['intervalclick']>) {
+    const { xIndex, yIndex } = event.detail;
+    if (xIndex === userFocusX && yIndex === userFocusY) {
+      userFocusX = -1;
+      userFocusY = -1;
+    } else {
+      userFocusX = xIndex;
+      userFocusY = yIndex;
+    }
+  }
+
   let hasUserInDay: boolean[] = [];
   $: hasUserInDay = getHasUserInDay(taggedDays);
   function getHasUserInDay(tagged: typeof taggedDays) {
@@ -240,6 +252,8 @@
           <EventCalendarIndex {hours}/>
           {#each taggedDays as { day, userTaggedIntervals, dayTimes }, i}
             <EventCalendarColumn
+              on:intervalclick={userClick}
+              xIndex={i}
               {editable}
               {day}
               {hours}

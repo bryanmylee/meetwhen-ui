@@ -1,5 +1,15 @@
+<script lang="ts" context="module">
+  export interface EventCalendarUserIntervalEvent {
+    intervalclick: {
+      xIndex: number;
+      yIndex: number;
+      focused: boolean;
+    };
+  }
+</script>
+
 <script lang="ts">
-  import { getContext } from 'svelte';
+  import { createEventDispatcher, getContext } from 'svelte';
   import { createPopperActions } from 'svelte-popperjs';
   import { primary } from '@my/state/colors';
   import { getTop, getHeight } from '@my/utils/eventCalendar';
@@ -7,6 +17,19 @@
   import type { Dayjs } from 'dayjs';
   import type { Scale } from 'chroma-js';
   import type { OptionsGeneric, StrictModifiers } from '@popperjs/core';
+
+  const dispatch = createEventDispatcher<EventCalendarUserIntervalEvent>();
+
+  export let xIndex = 0;
+  export let yIndex = 0;
+
+  function click() {
+    dispatch('intervalclick', {
+      xIndex,
+      yIndex,
+      focused,
+    });
+  }
 
   export let from: Dayjs = null;
   export let to: Dayjs = null;
@@ -59,6 +82,7 @@
 
 <div
   use:ref
+  on:click={click}
   on:mouseenter={() => hovered = true}
   on:mouseleave={() => hovered = false}
   class={`
