@@ -75,7 +75,9 @@
   />
   <h2>Find someone</h2>
   {#if allUsers.length === 0}
-    Nobody's here yet...
+    <span class="text-xs">
+      Nobody's here yet...
+    </span>
   {:else}
     <div class="flex flex-wrap items-center text-xs space-x-2 cursor-pointer">
       {#each allUsers as user, i}
