@@ -86,12 +86,13 @@
   on:mouseenter={() => hovered = true}
   on:mouseleave={() => hovered = false}
   class={`
-    absolute left-0 rounded-xl z-0
+    absolute left-0 rounded-xl z-0 transform
     border-0 focus:outline-none cursor-pointer
     ${hasTop ? 'rounded-t-none' : ''}
     ${hasBottom ? 'rounded-b-none' : ''}
     ${editable ? 'w-6' : 'w-full'}
-    ${focused || hovered ? 'border-3 shadow-xl-primary z-10' : ''}
+    ${hovered ? 'scale-105 shadow-xl-primary z-10' : ''}
+    ${focused ? 'border-3 z-10' : ''}
   `.replace(/\s\s+/g, ' ')}
   style={`
     border-color: ${getBorder(users.length, maxPerInterval, $primary.scale).hex()};
