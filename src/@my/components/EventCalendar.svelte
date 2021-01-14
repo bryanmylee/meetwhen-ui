@@ -7,6 +7,7 @@
 <script lang="ts">
   import { setContext, tick } from 'svelte';
   import { writable } from 'svelte/store';
+  import { fade } from 'svelte/transition';
   import dayjs from 'dayjs';
   import { equals } from '@my/utils/array';
   import flat from '@my/utils/flat';
@@ -81,6 +82,18 @@
   $: if (editable) {
     calendarElement.focus();
     focus();
+  }
+
+  const PROMPT_DURATION = 3000;
+  let showPrompt = false;
+  let promptTimer = null;
+  $: if (editable) {
+    clearTimeout(promptTimer);
+    showPrompt = true;
+    promptTimer = setTimeout(() => showPrompt = false, PROMPT_DURATION);
+  } else {
+    clearTimeout(promptTimer);
+    showPrompt = false;
   }
 
   let selectFocusX = -1;
@@ -251,10 +264,10 @@
       on:focus={onSelectFocus}
       on:blur={onSelectBlur}
       on:keydown={onSelectKeydown}
-      class="relative overflow-hidden focus:outline-none h-full min-h-0"
+      class="relative h-full min-h-0 p-4 pt-1 pl-2 overflow-hidden focus:outline-none"
       >
 
-      <div class="overflow-auto scrollbar-none h-full">
+      <div class="h-full overflow-auto scrollbar-none">
         <div class="relative z-0 flex min-w-full min-h-full w-fit h-fit space-x-2">
           <EventCalendarIndex {hours}/>
           {#each taggedDays as { day, userTaggedIntervals, dayTimes }, i}
@@ -277,11 +290,26 @@
         </div>
       </div>
 
-      <div class="absolute top-0 left-0 flex items-center justify-center bg-white h-14 min-w-16">
+      <div class="absolute flex items-center justify-center bg-white top-1 left-2 h-14 min-w-16">
         <span class="text-xl font-bold">
           {displayedMonth}
         </span>
       </div>
+
+      {#if showPrompt}
+        <div
+          in:fade={{duration:200}} out:fade={{duration: editable ? 400 : 0}}
+          on:mouseover={() => showPrompt = false}
+          class={`
+            absolute inset-0 flex items-center justify-center bg-primary-opacity-60
+            ${!showPrompt ? 'pointer-events-none' : ''}
+          `}
+          >
+          <span class="text-white font-bold">
+            Long touch and drag to make a selection
+          </span>
+        </div>
+      {/if}
 
     </div>
   </SelectableProvider>

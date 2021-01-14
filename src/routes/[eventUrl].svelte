@@ -207,7 +207,7 @@
     {schedule} users={usersToShow}
     bind:selectedSchedule
     editable={pageState === IPageState.JOINING || pageState === IPageState.EDITING}
-    class="flex flex-col flex-1 p-4 pt-0 pl-1 overflow-hidden card"
+    class="flex flex-col flex-1 overflow-hidden card"
   />
 
 
