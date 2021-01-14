@@ -227,15 +227,16 @@
 
 </script>
 
-<div
-  tabindex=0
-  on:focus={onUserFocus}
-  on:blur={onUserBlur}
-  on:keydown={onUserKeydown}
-  class="focus:outline-none"
-/>
-
 <div class={className}>
+
+  <div
+    tabindex=0
+    on:focus={onUserFocus}
+    on:blur={onUserBlur}
+    on:keydown={onUserKeydown}
+    class="focus:outline-none"
+  />
+
   <SelectableProvider
     bind:this={selector}
     on:toggle={toggle}
