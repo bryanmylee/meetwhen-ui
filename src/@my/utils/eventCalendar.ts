@@ -142,7 +142,11 @@ export const getUserTaggedIntervals = (users: Record<string, Interval[]>): UserT
       return;
     }
     if (time.isSame(currentInterval.from)) {
-      currentUsers.add(user);
+      if (adding) {
+        currentUsers.add(user);
+      } else {
+        currentUsers.delete(user);
+      }
       currentInterval.users = [...currentUsers];
       return;
     }
