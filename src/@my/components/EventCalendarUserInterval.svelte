@@ -10,13 +10,14 @@
 
 <script lang="ts">
   import { createEventDispatcher, getContext } from 'svelte';
+  import { fade } from 'svelte/transition';
   import { createPopperActions } from 'svelte-popperjs';
   import { primary } from '@my/state/colors';
   import { getTop, getHeight } from '@my/utils/eventCalendar';
   import type { Dayjs } from 'dayjs';
   import type { Scale } from 'chroma-js';
   import type { OptionsGeneric, StrictModifiers } from '@popperjs/core';
-  import type { IAllUsers, IGetCross } from '@my/components/EventCalendar.svelte';
+  import type { IAllUsers } from '@my/components/EventCalendar.svelte';
 
   const dispatch = createEventDispatcher<EventCalendarUserIntervalEvent>();
 
@@ -74,9 +75,6 @@
       }},
     ],
   };
-
-  const getCross = getContext<IGetCross>('getCross');
-  const [send, receive] = getCross();
 </script>
 
 <div
@@ -105,8 +103,8 @@
 {#if focused || hovered}
   <div
     use:popper={options}
-    in:receive={{key:'popper'}} out:send={{key:'popper'}}
-    class="z-30 text-xs bg-white pointer-events-none card w-max"
+    transition:fade={{duration:200}}
+    class={`fixed text-xs bg-white pointer-events-none card w-max ${hovered ? 'z-40' : 'z-30'}`}
     >
     <p class="p-3 italic text-gray-600">
       {from.format('HH:mm')} - {to.format('HH:mm')}
