@@ -13,11 +13,10 @@
   import { createPopperActions } from 'svelte-popperjs';
   import { primary } from '@my/state/colors';
   import { getTop, getHeight } from '@my/utils/eventCalendar';
-  import type { Readable } from 'svelte/store';
   import type { Dayjs } from 'dayjs';
   import type { Scale } from 'chroma-js';
   import type { OptionsGeneric, StrictModifiers } from '@popperjs/core';
-  import type { IGetCross } from '@my/components/EventCalendar.svelte';
+  import type { IAllUsers, IGetCross } from '@my/components/EventCalendar.svelte';
 
   const dispatch = createEventDispatcher<EventCalendarUserIntervalEvent>();
 
@@ -38,7 +37,7 @@
   $: users = users.sort();
   export let hours: Dayjs[] = [];
   export let maxPerInterval = 0;
-  const allUsers = getContext<Readable<string[]>>('allUsers');
+  const allUsers = getContext<IAllUsers>('allUsers');
   $: nonUsers = $allUsers.filter(u => !users.includes(u));
 
   export let editable = false;

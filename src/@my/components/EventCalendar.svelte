@@ -1,4 +1,8 @@
 <script lang="ts" context="module">
+  import type { Readable } from 'svelte/store';
+
+  export type IAllUsers = Readable<string[]>;
+
   export interface IGetCross {
     (): ReturnType<typeof crossfade>
   }
