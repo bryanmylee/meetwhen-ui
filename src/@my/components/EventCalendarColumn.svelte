@@ -24,6 +24,9 @@
   $: todayHours = hours.map(h => h.add(dayDiff, 'day'));
 
   export let userTaggedIntervals: UserTaggedInterval[] = [];
+  $: userTaggedIntervalsWithUsers = userTaggedIntervals.filter(interval => {
+    return interval.users.length > 0;
+  });
 
   export let maxPerInterval = 0;
 
@@ -69,7 +72,7 @@
       {/each}
     </div>
 
-    {#each userTaggedIntervals as interval, i (getKey(interval))}
+    {#each userTaggedIntervalsWithUsers as interval, i (getKey(interval))}
       <EventCalendarUserInterval
         on:intervalclick
         xIndex={xIndex}
@@ -78,8 +81,8 @@
         {...interval}
         {hours}
         {maxPerInterval}
-        hasTop={hasTopInterval(interval, userTaggedIntervals)}
-        hasBottom={hasBottomInterval(interval, userTaggedIntervals)}
+        hasTop={hasTopInterval(interval, userTaggedIntervalsWithUsers)}
+        hasBottom={hasBottomInterval(interval, userTaggedIntervalsWithUsers)}
         focused={userFocused && userFocusY === i}
       />
     {/each}
