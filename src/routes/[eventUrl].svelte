@@ -114,7 +114,7 @@
     }
     const response = await event.addUser(newUser);
     if (response.error) {
-      console.log(response.error);
+      errorMessage = response.error;
       return;
     }
     auth.loginWithToken(response.accessToken);
@@ -143,7 +143,7 @@
     }
     const response = await event.editUserSchedule($auth.data, selectedSchedule);
     if (response.error) {
-      console.log(response.error);
+      errorMessage = response.error;
       return;
     }
     pageState = IPageState.NONE;
@@ -175,7 +175,7 @@
     }
     const response = await auth.loginWithPassword(username, password, eventUrl);
     if (response.error) {
-      console.log(response.error);
+      errorMessage = response.error;
       return;
     }
     pageState = IPageState.NONE;
