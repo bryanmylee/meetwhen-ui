@@ -212,17 +212,17 @@
 
 
   {#if pageState === IPageState.JOINING}
-    <div class="flex flex-col p-4 bg-white card space-y-4">
+    <form on:submit|preventDefault class="flex flex-col p-4 bg-white card space-y-4">
       <h2>Join Event</h2>
       <input type="text" bind:value={username} placeholder="Name" class="textfield"/>
       <input type="password" bind:value={password} placeholder="Password" class="textfield"/>
-    </div>
+    </form>
   {:else if pageState === IPageState.LOGGINGIN}
-    <div class="flex flex-col p-4 bg-white card space-y-4">
+    <form on:submit|preventDefault class="flex flex-col p-4 bg-white card space-y-4">
       <h2>Log In</h2>
       <input type="text" bind:value={username} placeholder="Name" class="textfield"/>
       <input type="password" bind:value={password} placeholder="Password" class="textfield"/>
-    </div>
+    </form>
   {:else}
     <EventFilter {allUsers} bind:selectedUsers={unfilteredUsernames}/>
   {/if}
@@ -230,69 +230,39 @@
   <div class="flex space-x-4">
     {#if pageState === IPageState.NONE}
       {#if $auth.data}
-        <button
-          on:click={logOut}
-          class="w-full p-3 font-bold bg-white card button focusable"
-          >
+        <button on:click={logOut} class="w-full p-3 bg-white card button">
           Log Out
         </button>
-        <button
-          on:click={initEditUser}
-          class="w-full p-3 font-bold card button gradient focusable"
-          >
+        <button on:click={initEditUser} class="w-full p-3 card button gradient">
           Edit
         </button>
       {:else}
-        <button
-          on:click={() => pageState = IPageState.LOGGINGIN}
-          class="w-full p-3 font-bold bg-white card button focusable"
-          >
+        <button on:click={() => pageState = IPageState.LOGGINGIN} class="w-full p-3 bg-white card button">
           Log In
         </button>
-        <button
-          on:click={() => pageState = IPageState.JOINING}
-          class="w-full p-3 font-bold card button gradient focusable"
-          >
+        <button on:click={() => pageState = IPageState.JOINING} class="w-full p-3 card button gradient">
           Join Event
         </button>
       {/if}
     {:else if pageState === IPageState.JOINING}
-      <button
-        on:click={cancel}
-        class="w-full p-3 font-bold bg-white card button focusable"
-        >
+      <button on:click={cancel} class="w-full p-3 bg-white card button">
         Cancel
       </button>
-      <button
-        on:click={addNewUser}
-        class="w-full p-3 font-bold card button gradient focusable"
-        >
+      <button on:click={addNewUser} class="w-full p-3 card button gradient">
         Confirm
       </button>
     {:else if pageState === IPageState.LOGGINGIN}
-      <button
-        on:click={cancel}
-        class="w-full p-3 font-bold bg-white card button focusable"
-        >
+      <button on:click={cancel} class="w-full p-3 bg-white card button">
         Cancel
       </button>
-      <button
-        on:click={logIn}
-        class="w-full p-3 font-bold card button gradient focusable"
-        >
+      <button on:click={logIn} class="w-full p-3 card button gradient">
         Confirm
       </button>
     {:else if pageState === IPageState.EDITING}
-      <button
-        on:click={cancel}
-        class="w-full p-3 font-bold bg-white card button focusable"
-        >
+      <button on:click={cancel} class="w-full p-3 bg-white card button">
         Cancel
       </button>
-      <button
-        on:click={editUser}
-        class="w-full p-3 font-bold card button gradient focusable"
-        >
+      <button on:click={editUser} class="w-full p-3 card button gradient">
         Confirm
       </button>
     {/if}
@@ -302,6 +272,6 @@
 
 <Toast
   bind:message={errorMessage}
-  class="p-3 mt-4 text-sm font-bold text-white bg-red-400 rounded-xl"
+  class="p-3 mt-4 text-sm text-white bg-red-400 rounded-xl"
 />
 

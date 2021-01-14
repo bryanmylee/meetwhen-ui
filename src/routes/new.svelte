@@ -147,7 +147,7 @@
 
   </div>
 
-  <button on:click={submit} class="w-full p-3 font-bold card button gradient">
+  <button on:click={submit} class="w-full p-3 card button gradient">
     Create Event
   </button>
 
