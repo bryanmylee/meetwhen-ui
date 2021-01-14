@@ -86,7 +86,7 @@
     schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one day' : null,
     username: (name: string) => {
       if (name.trim().length <= 0) return 'Your name cannot be empty';
-      if (!name.match(/[A-Za-z0-9]+/)) return 'Your name must be alphanumeric (letters and numbers only)';
+      if (!name.match(/^[A-Za-z0-9]+$/)) return 'Your name must only be letters and numbers';
       return null;
     },
     password: (password: string) => password.trim().length <= 0 ? 'Your password cannot be empty' : null,
@@ -197,7 +197,7 @@
       {name}&nbsp;
     </p>
     {#if $auth.data}
-      <p class="italic text-xs">
+      <p class="text-xs italic">
         Logged in as {$auth.data.username}
       </p>
     {/if}
@@ -302,6 +302,6 @@
 
 <Toast
   bind:message={errorMessage}
-  class="p-4 mt-4 text-white rounded-xl bg-primary shadow-md-primary"
+  class="p-3 mt-4 text-sm font-bold text-white bg-red-400 rounded-xl"
 />
 

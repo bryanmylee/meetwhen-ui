@@ -155,6 +155,6 @@
 
 <Toast
   bind:message={errorMessage}
-  class="p-4 mt-4 text-white rounded-xl bg-primary shadow-md-primary"
+  class="p-3 mt-4 text-sm font-bold text-white bg-red-400 rounded-xl"
 />
 
