@@ -61,7 +61,7 @@
   };
 
   let hovered = false;
-  const [ref, popper] = createPopperActions<StrictModifiers>();
+  const [ref, popper, getInstance] = createPopperActions<StrictModifiers>();
   const options: OptionsGeneric<StrictModifiers> = {
     placement: 'right',
     strategy: 'absolute',
@@ -75,6 +75,9 @@
       }},
     ],
   };
+  function transitionend() {
+    getInstance()?.update();
+  }
 </script>
 
 <div
@@ -82,13 +85,14 @@
   on:click={click}
   on:mouseenter={() => hovered = true}
   on:mouseleave={() => hovered = false}
+  on:transitionend={transitionend}
   class={`
-    absolute left-0 rounded-xl z-0 transform
+    absolute left-0 rounded-xl z-0
     border-0 focus:outline-none cursor-pointer
     ${hasTop ? 'rounded-t-none' : ''}
     ${hasBottom ? 'rounded-b-none' : ''}
     ${editable ? 'w-6' : 'w-full'}
-    ${hovered ? 'scale-105 shadow-xl-primary z-10' : ''}
+    ${hovered ? 'shadow-xl-primary z-10' : ''}
     ${focused ? 'border-3 z-10' : ''}
   `.replace(/\s\s+/g, ' ')}
   style={`
