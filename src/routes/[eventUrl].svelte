@@ -35,6 +35,7 @@
 <script lang="ts">
   import { primaryBase } from '@my/state/colors';
   import EventCalendar from '@my/components/EventCalendar.svelte';
+  import EventFilter from '@my/components/EventFilter.svelte';
   import type Interval from '@my/models/Interval';
 
   export let color: string;
@@ -43,6 +44,7 @@
   export let name: string = '';
   export let schedule: Interval[];
   export let users: Record<string, Interval[]>;
+  $: allUsers = Object.keys(users || {}).sort();
   $: {
     const { data } = $event;
     if (data) {
@@ -159,10 +161,7 @@
       <input type="password" bind:value={password} placeholder="Password" class="textfield"/>
     </div>
   {:else}
-    <div class="p-4 bg-white card">
-      <h2>Find someone</h2>
-      Nobody's here yet...
-    </div>
+    <EventFilter {allUsers}/>
   {/if}
 
   <div class="flex space-x-4">
