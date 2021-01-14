@@ -8,16 +8,18 @@
   import utc from 'dayjs/plugin/utc';
   import { goto } from '@sapper/app';
   dayjs.extend(utc);
+  import validate from '@my/utils/validator';
+  import range from '@my/utils/range';
   import { event } from '@my/state/event';
   import { colors, primaryBase } from '@my/state/colors';
   import Calendar from '@my/components/Calendar.svelte';
   import ColorPicker from '@my/components/ColorPicker.svelte';
   import Select from '@my/components/Select.svelte';
-  import range from '@my/utils/range';
   import type { Dayjs } from 'dayjs';
   import type Event from '@my/models/Event';
   import type Interval from '@my/models/Interval';
   import type { IColorIndex, INewEventName, IGetCrossfade } from './_layout.svelte';
+  import type { Validator, Validated } from '@my/utils/validator';
 
   const newEventName = getContext<INewEventName>('newEventName');
 
@@ -65,7 +67,24 @@
     users: {},
   };
 
+  const newEventValidator: Validator = {
+    color: null,
+    name: (name: string) => name.length <= 0 ? 'Event name cannot be empty' : null,
+    schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one date' : null,
+    users: null,
+  };
+  let validated: Validated;
+
   function submit() {
+    validated = validate(newEvent, newEventValidator);
+    if (validated.schedule != null) {
+      console.log(validated.schedule);
+      return;
+    }
+    if (validated.name != null) {
+      console.log(validated.name);
+      return;
+    }
     event.post(newEvent);
     goto('/event');
     $newEventName = '';
