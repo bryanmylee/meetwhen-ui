@@ -17,6 +17,7 @@
   import type { Dayjs } from 'dayjs';
   import type { Scale } from 'chroma-js';
   import type { OptionsGeneric, StrictModifiers } from '@popperjs/core';
+  import type { IGetCross } from '@my/components/EventCalendar.svelte';
 
   const dispatch = createEventDispatcher<EventCalendarUserIntervalEvent>();
 
@@ -78,6 +79,9 @@
       }},
     ],
   };
+
+  const getCross = getContext<IGetCross>('getCross');
+  const [send, receive] = getCross();
 </script>
 
 <div
@@ -106,6 +110,7 @@
 {#if focused || hovered}
   <div
     use:popper={options}
+    in:receive={{key:'popper'}} out:send={{key:'popper'}}
     class="z-30 text-xs bg-white pointer-events-none card w-max"
     >
     <p class="p-3 italic text-gray-600">

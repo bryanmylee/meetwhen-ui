@@ -1,6 +1,13 @@
+<script lang="ts" context="module">
+  export interface IGetCross {
+    (): ReturnType<typeof crossfade>
+  }
+</script>
+
 <script lang="ts">
   import { setContext, tick } from 'svelte';
   import { writable } from 'svelte/store';
+  import { crossfade, fade } from 'svelte/transition';
   import dayjs from 'dayjs';
   import { equals } from '@my/utils/array';
   import flat from '@my/utils/flat';
@@ -218,6 +225,14 @@
       if (userFocusY < length - 1) userFocusY++;
     },
   };
+
+  const cross = crossfade({
+    fallback: (node, params) => fade(node, {
+      ...params,
+      duration: 200,
+    }),
+  });
+  setContext('getCross', () => cross);
 
 </script>
 
