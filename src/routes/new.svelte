@@ -15,6 +15,7 @@
   import Calendar from '@my/components/Calendar.svelte';
   import ColorPicker from '@my/components/ColorPicker.svelte';
   import Select from '@my/components/Select.svelte';
+  import Toast from '@my/components/Toast.svelte';
   import type { Dayjs } from 'dayjs';
   import type Event from '@my/models/Event';
   import type Interval from '@my/models/Interval';
@@ -75,14 +76,15 @@
   };
   let validated: Validated;
 
+  let errorMessage = '';
   function submit() {
     validated = validate(newEvent, newEventValidator);
     if (validated.schedule != null) {
-      console.log(validated.schedule);
+      errorMessage = validated.schedule as string;
       return;
     }
     if (validated.name != null) {
-      console.log(validated.name);
+      errorMessage = validated.name as string;
       return;
     }
     event.post(newEvent);
@@ -150,4 +152,9 @@
   </button>
 
 </div>
+
+<Toast
+  bind:message={errorMessage}
+  class="p-4 mt-4 text-white rounded-xl bg-primary shadow-md-primary"
+/>
 
