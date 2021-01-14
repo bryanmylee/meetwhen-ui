@@ -35,6 +35,7 @@
   export let from: Dayjs = null;
   export let to: Dayjs = null;
   export let users: string[] = [];
+  $: users = users.sort();
   export let hours: Dayjs[] = [];
   export let maxPerInterval = 0;
   const allUsers = getContext<Readable<string[]>>('allUsers');
