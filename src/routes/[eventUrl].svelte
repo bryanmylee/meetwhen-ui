@@ -17,7 +17,7 @@
     }
     if ($event.data == null || $event.data.eventUrl !== eventUrl) {
       const data = await event.get(eventUrl);
-      if (data != null && data.accessToken != null) {
+      if (data?.accessToken) {
         auth.loginWithToken(data.accessToken);
       }
     }
@@ -34,9 +34,12 @@
 
 <script lang="ts">
   import { primaryBase } from '@my/state/colors';
+  import validate from '@my/utils/validator';
   import EventCalendar from '@my/components/EventCalendar.svelte';
   import EventFilter from '@my/components/EventFilter.svelte';
+  import Toast from '@my/components/Toast.svelte';
   import type Interval from '@my/models/Interval';
+  import type { Validator } from '@my/utils/validator';
 
   export let color: string;
   $: $primaryBase = color;
@@ -69,11 +72,6 @@
   let selectedSchedule: Interval[] = [];
   let username = '';
   let password = '';
-  $: joiningValid = selectedSchedule.length !== 0
-      && username.length !== 0
-      && password.length !== 0;
-  $: loggingInValid = username.length !== 0 && password.length !== 0;
-  $: editingValid = selectedSchedule.length !== 0;
 
   function cancel() {
     selectedSchedule = [];
@@ -82,13 +80,39 @@
     pageState = IPageState.NONE;
   }
 
+  let errorMessage = '';
+
+  const newUserValidator: Validator = {
+    schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one day' : null,
+    username: (name: string) => {
+      if (name.trim().length <= 0) return 'Your name cannot be empty';
+      if (!name.match(/[A-Za-z0-9]+/)) return 'Your name must be alphanumeric (letters and numbers only)';
+      return null;
+    },
+    password: (password: string) => password.trim().length <= 0 ? 'Your password cannot be empty' : null,
+    eventUrl: null,
+  };
+  $: newUser = {
+    schedule: selectedSchedule,
+    username,
+    password,
+    eventUrl,
+  };
+  $: newUserValidation = validate(newUser, newUserValidator);
   async function addNewUser() {
-    const response = await event.addUser({
-      eventUrl,
-      username,
-      password,
-      schedule: selectedSchedule
-    });
+    if (newUserValidation?.schedule) {
+      errorMessage = newUserValidation?.schedule as string;
+      return;
+    }
+    if (newUserValidation?.username) {
+      errorMessage = newUserValidation?.username as string;
+      return;
+    }
+    if (newUserValidation?.password) {
+      errorMessage = newUserValidation?.password as string;
+      return;
+    }
+    const response = await event.addUser(newUser);
     if (response.error) {
       console.log(response.error);
       return;
@@ -105,7 +129,18 @@
     selectedSchedule = users[$auth.data.username];
   }
 
+  const editedUserValidator: Validator = {
+    schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one day' : null,
+  };
+  $: editedUser = {
+    schedule: selectedSchedule,
+  };
+  $: editedUserValidation = validate(editedUser, editedUserValidator);
   async function editUser() {
+    if (editedUserValidation.schedule) {
+      errorMessage = editedUserValidation.schedule as string;
+      return;
+    }
     const response = await event.editUserSchedule($auth.data, selectedSchedule);
     if (response.error) {
       console.log(response.error);
@@ -117,7 +152,27 @@
     password = '';
   }
 
+  const logInValidator: Validator = {
+    username: (name: string) => {
+      if (name.trim().length <= 0) return 'Your name cannot be empty';
+      return null;
+    },
+    password: (password: string) => password.trim().length <= 0 ? 'Your password cannot be empty' : null,
+  };
+  $: logInDetails = {
+    username,
+    password,
+  };
+  $: logInValidation = validate(logInDetails, logInValidator);
   async function logIn() {
+    if (logInValidation.username) {
+      errorMessage = logInValidation.username as string;
+      return;
+    }
+    if (logInValidation.password) {
+      errorMessage = logInValidation.password as string;
+      return;
+    }
     const response = await auth.loginWithPassword(username, password, eventUrl);
     if (response.error) {
       console.log(response.error);
@@ -209,7 +264,6 @@
         Cancel
       </button>
       <button
-        disabled={!joiningValid}
         on:click={addNewUser}
         class="w-full p-3 font-bold card button gradient focusable"
         >
@@ -223,7 +277,6 @@
         Cancel
       </button>
       <button
-        disabled={!loggingInValid}
         on:click={logIn}
         class="w-full p-3 font-bold card button gradient focusable"
         >
@@ -237,7 +290,6 @@
         Cancel
       </button>
       <button
-        disabled={!editingValid}
         on:click={editUser}
         class="w-full p-3 font-bold card button gradient focusable"
         >
@@ -247,4 +299,9 @@
   </div>
 
 </div>
+
+<Toast
+  bind:message={errorMessage}
+  class="p-4 mt-4 text-white rounded-xl bg-primary shadow-md-primary"
+/>
 

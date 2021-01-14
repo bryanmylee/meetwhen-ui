@@ -20,7 +20,7 @@
   import type Event from '@my/models/Event';
   import type Interval from '@my/models/Interval';
   import type { IColorIndex, INewEventName, IGetCrossfade } from './_layout.svelte';
-  import type { Validator, Validated } from '@my/utils/validator';
+  import type { Validator, Validation } from '@my/utils/validator';
 
   const newEventName = getContext<INewEventName>('newEventName');
 
@@ -74,17 +74,17 @@
     schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one date' : null,
     users: null,
   };
-  let validated: Validated;
+  let validation: Validation;
 
   let errorMessage = '';
   function submit() {
-    validated = validate(newEvent, newEventValidator);
-    if (validated.schedule != null) {
-      errorMessage = validated.schedule as string;
+    validation = validate(newEvent, newEventValidator);
+    if (validation.schedule != null) {
+      errorMessage = validation.schedule as string;
       return;
     }
-    if (validated.name != null) {
-      errorMessage = validated.name as string;
+    if (validation.name != null) {
+      errorMessage = validation.name as string;
       return;
     }
     event.post(newEvent);

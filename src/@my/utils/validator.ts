@@ -6,11 +6,11 @@ export interface Validator {
   [key: string]: Validator | ValidatorFunction  | null;
 }
 
-export interface Validated {
-  [key: string]: Validated | string | null;
+export interface Validation {
+  [key: string]: Validation | string | null;
 }
 
-const validate = (obj: Record<string, any>, v: Validator): Validated => {
+const validate = (obj: Record<string, any>, v: Validator): Validation => {
   const valueEntries = Object.entries(obj);
   if (valueEntries.length !== Object.keys(v).length) {
     throw new Error('Validator does not match object');
