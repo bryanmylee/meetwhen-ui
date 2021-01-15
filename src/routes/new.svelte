@@ -67,18 +67,16 @@
     schedule,
     users: {},
   };
-
-  const newEventValidator: Validator = {
+  const newEventValidator: Validator<typeof newEvent> = {
     color: null,
     name: (name: string) => name.length <= 0 ? 'Event name cannot be empty' : null,
     schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one date' : null,
     users: null,
   };
-  let validation: Validation;
+  $: validation = validate(newEvent, newEventValidator);
 
   let errorMessage = '';
   function submit() {
-    validation = validate(newEvent, newEventValidator);
     if (validation.schedule != null) {
       errorMessage = validation.schedule as string;
       return;

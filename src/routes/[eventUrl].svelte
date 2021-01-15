@@ -82,7 +82,13 @@
 
   let errorMessage = '';
 
-  const newUserValidator: Validator = {
+  $: newUser = {
+    schedule: selectedSchedule,
+    username,
+    password,
+    eventUrl,
+  };
+  const newUserValidator: Validator<typeof newUser> = {
     schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one day' : null,
     username: (name: string) => {
       if (name.trim().length <= 0) return 'Your name cannot be empty';
@@ -92,23 +98,17 @@
     password: (password: string) => password.trim().length <= 0 ? 'Your password cannot be empty' : null,
     eventUrl: null,
   };
-  $: newUser = {
-    schedule: selectedSchedule,
-    username,
-    password,
-    eventUrl,
-  };
   $: newUserValidation = validate(newUser, newUserValidator);
   async function addNewUser() {
-    if (newUserValidation?.schedule) {
+    if (newUserValidation.schedule) {
       errorMessage = newUserValidation?.schedule as string;
       return;
     }
-    if (newUserValidation?.username) {
+    if (newUserValidation.username) {
       errorMessage = newUserValidation?.username as string;
       return;
     }
-    if (newUserValidation?.password) {
+    if (newUserValidation.password) {
       errorMessage = newUserValidation?.password as string;
       return;
     }
@@ -129,11 +129,11 @@
     selectedSchedule = users[$auth.data.username];
   }
 
-  const editedUserValidator: Validator = {
-    schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one day' : null,
-  };
   $: editedUser = {
     schedule: selectedSchedule,
+  };
+  const editedUserValidator: Validator<typeof editedUser> = {
+    schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one day' : null,
   };
   $: editedUserValidation = validate(editedUser, editedUserValidator);
   async function editUser() {
@@ -152,16 +152,16 @@
     password = '';
   }
 
-  const logInValidator: Validator = {
+  $: logInDetails = {
+    username,
+    password,
+  };
+  const logInValidator: Validator<typeof logInDetails> = {
     username: (name: string) => {
       if (name.trim().length <= 0) return 'Your name cannot be empty';
       return null;
     },
     password: (password: string) => password.trim().length <= 0 ? 'Your password cannot be empty' : null,
-  };
-  $: logInDetails = {
-    username,
-    password,
   };
   $: logInValidation = validate(logInDetails, logInValidator);
   async function logIn() {
