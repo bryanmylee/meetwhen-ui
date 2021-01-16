@@ -12,9 +12,9 @@
   const [send, receive] = getCrossfade();
 </script>
 
-<div class="p-4 text-white card bg-gradient-primary">
+<div class="p-4 card bg-white">
   <h2 class="text-center">
-    {eventUrl} not found
+    <span class="font-bold">{eventUrl}</span> not found
   </h2>
 </div>
 
