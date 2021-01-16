@@ -20,7 +20,7 @@
     {/if}
   </div>
   <button class="-m-2 rounded-full button icon" on:click={() => showModal = true}>
-    <ShareIcon class="p-3"/>
+    <ShareIcon class="p-2.5"/>
   </button>
 </div>
 

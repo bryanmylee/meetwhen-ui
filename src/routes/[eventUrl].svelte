@@ -264,6 +264,6 @@
 
 <Toast
   bind:message={errorMessage}
-  class="p-3 mt-4 text-sm text-white bg-red-400 rounded-xl"
+  class="p-3 mt-4 text-sm font-bold text-white bg-red-400 rounded-xl"
 />
 
