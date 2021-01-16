@@ -31,7 +31,14 @@
     }),
   });
   setContext('getCrossfade', () => cross);
+
+  let innerHeight: number = 0;
+  $: if (typeof document !== 'undefined') {
+    document.documentElement.style.setProperty('--vh', `${innerHeight / 100}px`);
+  }
 </script>
+
+<svelte:window bind:innerHeight/>
 
 <PageTransition refresh={segment}>
   <main class="select-none-all transition">
