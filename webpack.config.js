@@ -1,82 +1,114 @@
 const webpack = require('webpack');
+const WebpackModules = require('webpack-modules');
 const path = require('path');
 const config = require('sapper/config/webpack.js');
 const sapperEnv = require('sapper-environment');
 const pkg = require('./package.json');
-
+const { getPreprocess } = require('./svelte.config.js');
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 
 const alias = {
   svelte: path.resolve('node_modules', 'svelte'),
-  src: path.resolve(__dirname, 'src'),
+  '@my': path.resolve(__dirname, 'src', '@my'),
 };
-const extensions = ['.mjs', '.js', '.json', '.svelte', '.html'];
+const extensions = ['.mjs', '.js', '.ts', '.json', '.svelte', '.html'];
 const mainFields = ['svelte', 'module', 'browser', 'main'];
+const fileLoaderRule = {
+  test: /\.(png|jpe?g|gif)$/i,
+  use: [
+    'file-loader',
+  ]
+};
 
 module.exports = {
   client: {
-    entry: config.client.entry(),
-    output: config.client.output(),
-    resolve: { alias, extensions, mainFields },
-    module: {
-      rules: [
-        {
-          test: /\.(svelte|html)$/,
-          use: {
-            loader: 'svelte-loader',
-            options: {
-              dev,
-              hydratable: true,
-              hotReload: false, // pending https://github.com/sveltejs/svelte/issues/2377
-            },
+    entry: { main: config.client.entry().main.replace(/\.js$/, '.ts') },
+      output: config.client.output(),
+      resolve: { alias, extensions, mainFields },
+      module: {
+        rules: [
+          {
+            test: /\.ts$/,
+            loader: 'ts-loader'
           },
-        },
-      ],
-    },
-    mode,
-    plugins: [
-      // pending https://github.com/sveltejs/svelte/issues/2377
-      // dev && new webpack.HotModuleReplacementPlugin(),
-      new webpack.DefinePlugin({
-        ...sapperEnv(),
-        'process.browser': true,
-        'process.env.NODE_ENV': JSON.stringify(mode),
-      }),
-    ].filter(Boolean),
-    devtool: dev && 'inline-source-map',
+          {
+            test: /\.(svelte|html)$/,
+            use: {
+              loader: 'svelte-loader',
+                options: {
+                  dev,
+                    hydratable: true,
+                    preprocess: getPreprocess(dev),
+                    hotReload: false // pending https://github.com/sveltejs/svelte/issues/2377
+                }
+            }
+          },
+          fileLoaderRule
+        ]
+      },
+      mode,
+      plugins: [
+        // pending https://github.com/sveltejs/svelte/issues/2377
+        // dev && new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+          ...sapperEnv(),
+          'process.browser': true,
+          'process.env.NODE_ENV': JSON.stringify(mode)
+        }),
+      ].filter(Boolean),
+      devtool: dev && 'inline-source-map'
   },
 
   server: {
-    entry: config.server.entry(),
-    output: config.server.output(),
-    target: 'node',
-    resolve: { alias, extensions, mainFields },
-    externals: Object.keys(pkg.dependencies).concat('encoding'),
-    module: {
-      rules: [
-        {
-          test: /\.(svelte|html)$/,
-          use: {
-            loader: 'svelte-loader',
-            options: {
-              css: false,
-              generate: 'ssr',
-              dev,
-            },
+    entry: { server: config.server.entry().server.replace(/\.js$/, '.ts') },
+      output: config.server.output(),
+      target: 'node',
+      resolve: { alias, extensions, mainFields },
+      externals: Object.keys(pkg.dependencies).concat('encoding'),
+      module: {
+        rules: [
+          {
+            test: /\.ts$/,
+            loader: 'ts-loader'
           },
-        },
+          {
+            test: /\.(svelte|html)$/,
+            use: {
+              loader: 'svelte-loader',
+                options: {
+                  css: false,
+                    generate: 'ssr',
+                    hydratable: true,
+                    preprocess: getPreprocess(dev),
+                    dev
+                }
+            }
+          },
+          fileLoaderRule
+        ]
+      },
+      mode,
+      plugins: [
+        new WebpackModules()
       ],
-    },
-    mode: process.env.NODE_ENV,
-    performance: {
-      hints: false, // it doesn't matter if server.js is large
-    },
+      performance: {
+        hints: false // it doesn't matter if server.js is large
+      }
   },
 
   serviceworker: {
-    entry: config.serviceworker.entry(),
-    output: config.serviceworker.output(),
-    mode: process.env.NODE_ENV,
-  },
+    entry: { 'service-worker': config.serviceworker.entry()['service-worker'].replace(/\.js$/, '.ts') },
+      output: config.serviceworker.output(),
+      resolve: { alias, extensions: ['.mjs', '.js', '.ts', '.json'] },
+      module: {
+        rules: [
+          {
+            test: /\.ts$/,
+            loader: 'ts-loader'
+          }
+        ]
+      },
+      mode
+  }
 };

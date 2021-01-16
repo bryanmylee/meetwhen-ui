@@ -1,5 +1,0 @@
-__sapper__
-.vercel
-node_modules
-src/node_modules
-src/service-worker.js

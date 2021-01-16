@@ -1,278 +1,70 @@
-<script context="module">
-  import { currentColor, user } from 'src/stores';
-  import { getEvent } from 'src/api/event';
-  import { login, logout } from 'src/api/authentication';
-
-  export async function preload(page) {
-    const { eventUrl } = page.params;
-    let event;
-
-    try {
-      event = await getEvent(this.fetch, process.env.SAPPER_APP_API_URL, eventUrl);
-    } catch (err) {
-      this.redirect(302, `${eventUrl}/404`);
-    }
-
-    if (event.color) {
-      currentColor.setBaseColorHex(event.color);
-    }
-    // Clear the currently loaded user before checking for any persisted session.
-    user.logout();
-    if (event.accessToken) {
-      user.setAccessToken(event.accessToken, process.env.SAPPER_APP_ACCESS_TOKEN_SECRET);
-    }
-    return { event };
-  }
-</script>
-
 <svelte:head>
-  <title>meetwhen - {event.title}</title>
-  <meta name="robots" content="noindex" />
+  <title>meetwhen.io {title}</title>
+  <meta name="robots" content="noindex"/>
 </svelte:head>
 
-<script>
-  import { formEnum, form } from './_stores';
-  import { undoRedo } from 'src/actions/hotkeys';
-  import undoable from 'src/utils/undoable';
-  import nextFrame from 'src/utils/nextFrame';
-  import { getLowRes } from 'src/utils/selection';
-  import { fadeIn, fadeOut } from 'src/transitions/pageCrossfade';
-  import { addUserToEvent, editUserIntervals } from 'src/api/event';
+<script lang="ts" context="module">
+  import { get } from 'svelte/store';
+  import { auth } from '@my/state/auth';
+  import { event } from '@my/state/event';
+  import type Common from '@sapper/common';
 
-  import CompositeDetails from './_components/CompositeDetails.svelte';
-  import UserDetailsForm from './_components/UserDetailsForm.svelte';
-  import ActionBar from './_components/ActionBar.svelte';
-  import CalendarHeader from './_components/calendar/CalendarHeader.svelte';
-  import CalendarPicker from './_components/calendar/CalendarPicker.svelte';
-  import Toast from 'src/components/ui/Toast.svelte';
-
-  // PRELOADED DATA
-  // ==============
-  export let event;
-
-  // INITIALIZATION
-  // ==============
-  if (typeof navigator !== 'undefined' && typeof navigator.clipboard !== 'undefined') {
-    navigator.clipboard.writeText(`meetwhen.io/${event.eventUrl}`)
-      .then(() => {
-        message = 'Event link copied to clipboard!';
-      });
+  export const preload: Common.Preload = async function(this, page, session) {
+    const { eventUrl } = page.params;
+    const $event = get(event);
+    if ($event.pending) {
+      this.redirect(301, '/event');
+    }
+    if ($event.data == null || $event.data.eventUrl !== eventUrl) {
+      event.get(eventUrl);
+    }
+    return { eventUrl };
   }
 
-  // FORM DATA
-  // =========
-  let username = '';
-  let password = '';
-  const selections = undoable([]);
-
-  // FORM METADATA
-  // =============
-  let attempted = false;
-  let userDetailsValid;
-  $: scheduleValid = $selections.length !== 0;
-  $: showCalendarError = attempted
-      && $form === formEnum.EDITING
-      && !scheduleValid;
-  let disableConfirm = false;
-  $: {
-    if ($form === formEnum.JOINING || $form === formEnum.LOGGING_IN) {
-      disableConfirm = !userDetailsValid;
-    }
-  }
-
-  // PAGE STATE
-  // ==========
-  let message = '';
-  let errorMessage = '';
-  $: if ($form) setForm();
-  let isLoading = false;
-  let userFormCollapsed = false;
-
-  // PAGE FUNCTIONS
-  // ==============
-  async function refreshDataOnSuccess() {
-    event = await getEvent(fetch, process.env.SAPPER_APP_API_URL, event.eventUrl, fetch);
-    await nextFrame();
-    $form = formEnum.NONE;
-  }
-
-  function setForm() {
-    if ($form === formEnum.EDITING) {
-      $selections = getLowRes(event.userSchedules[$user.username]);
-    } else {
-      $selections = [];
-    }
-    selections.clearStack();
-    errorMessage = '';
-    username = '';
-    password = '';
-    attempted = false;
-    userFormCollapsed = false;
-  }
-
-  function showLongTouchHint() {
-    message = 'Long touch and drag to make a selection!';
-  }
-
-  // API FUNCTIONS
-  // =============
-  async function handleSubmit() {
-    if (isLoading) {
-      return;
-    }
-    isLoading = true;
-    if ($form === formEnum.EDITING) {
-      await handleSubmitEditUser();
-    } else if ($form === formEnum.JOINING) {
-      await handleSubmitNewUser();
-    } else if ($form === formEnum.LOGGING_IN) {
-      await handleSubmitLogin();
-    }
-    isLoading = false;
-  }
-
-  async function handleLogout() {
-    try {
-      await logout(fetch, process.env.SAPPER_APP_API_URL, event.eventUrl);
-      user.logout();
-    } catch (err) {
-      errorMessage = err.message;
-    }
-  }
-
-  async function handleSubmitLogin() {
-    if (!userDetailsValid) {
-      attempted = true;
-      return;
-    }
-    const userDetails = { username, password };
-    try {
-      const { accessToken } = await login(
-        fetch,
-        process.env.SAPPER_APP_API_URL,
-        event.eventUrl,
-        userDetails,
-      );
-      user.setAccessToken(accessToken, process.env.SAPPER_APP_ACCESS_TOKEN_SECRET);
-      refreshDataOnSuccess();
-    } catch (err) {
-      errorMessage = err.message;
-    }
-  }
-
-  async function handleSubmitNewUser() {
-    if (!userDetailsValid) {
-      attempted = true;
-      return;
-    }
-    const userDetails = { username, password, schedule: $selections };
-    try {
-      const { accessToken } = await addUserToEvent(
-        fetch, process.env.SAPPER_APP_API_URL, event.eventUrl, userDetails,
-      );
-      user.setAccessToken(accessToken, process.env.SAPPER_APP_ACCESS_TOKEN_SECRET);
-      refreshDataOnSuccess();
-    } catch (err) {
-      errorMessage = err.message;
-    }
-  }
-
-  async function handleSubmitEditUser() {
-    const userDetails = {
-      username: $user.username,
-      newSchedule: $selections,
-      accessToken: $user.accessToken,
-    };
-    try {
-      await editUserIntervals(fetch, process.env.SAPPER_APP_API_URL, event.eventUrl, userDetails);
-      refreshDataOnSuccess();
-    } catch (err) {
-      errorMessage = err.message;
-    }
-  }
 </script>
 
-<svelte:window use:undoRedo={{ undo: selections.undo, redo: selections.redo }} />
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import { primaryBase } from '@my/state/colors';
+  import Loader from '@my/components/Loader.svelte';
+  import EventNotFound from './_not_found.svelte';
+  import EventPage from './_found.svelte';
 
-<div class="main-content fixed-height" in:fadeIn out:fadeOut>
-  <div class="left-column">
-    <!-- DETAILS CARD WITH PAGING FOR NARROW LAYOUT -->
-    <CompositeDetails {event} />
+  let title = '';
+  $: if ($event.data) {
+    title = `📘 ${$event.data.name}`;
+    $primaryBase = $event.data.color;
+  } else if ($event.pending) {
+    title = '⏳ loading...';
+  } else {
+    title = '🗞 not found';
+  }
 
-    {#if $form === formEnum.LOGGING_IN || $form === formEnum.JOINING}
-      <UserDetailsForm
-        on:submit={handleSubmit}
-        bind:username
-        bind:password
-        bind:formValid={userDetailsValid}
-        bind:collapsed={userFormCollapsed}
-        {attempted}
-      />
+  export let eventUrl: string;
+
+  onMount(() => {
+    if ($event.pending || $event.data?.eventUrl === eventUrl) return;
+    event.get(eventUrl);
+  });
+</script>
+
+<div class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4">
+  {#if $event.data}
+    <EventPage {...$event.data}/>
+    {#if $event.pending || $auth.pending}
+      <div class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
+        <Loader class="w-16 h-16 text-primary"/>
+      </div>
     {/if}
-
-    <!-- ACTION BAR -->
-    <ActionBar
-      on:submit={handleSubmit}
-      on:logout={handleLogout}
-      disabled={isLoading}
-      fakeDisabled={disableConfirm}
-    />
-  </div>
-
-  <!-- CALENDAR PICKER CARD -->
-  <div
-    class="picker-container card outline"
-    class:error={showCalendarError}
-    on:click={() => userFormCollapsed = true}
-    on:touchstart={(e) => {
-      if (!userFormCollapsed) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      userFormCollapsed = true;
-    }}
-  >
-    <CalendarHeader showError={showCalendarError} />
-    <CalendarPicker
-      bind:selections={$selections}
-      schedule={event.schedule}
-      userSchedules={event.userSchedules}
-    />
-  </div>
+  {:else}
+    {#if $event.pending}
+      <EventPage/>
+      <div class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
+        <Loader class="w-16 h-16 text-primary"/>
+      </div>
+    {:else}
+      <EventNotFound {eventUrl}/>
+    {/if}
+  {/if}
 </div>
 
-<Toast bind:message={message} />
-<Toast error bind:message={errorMessage} />
-
-<style>
-  .main-content {
-    max-width: 1000px;
-    display: flex;
-    flex-direction: column;
-    padding: 0.4em;
-  }
-
-  .left-column {
-    display: flex;
-    flex-direction: column;
-  }
-
-  :global(.left-column > div) {
-    margin: 0.4em;
-  }
-
-  .picker-container {
-    margin: 0.4em;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  @media screen and (min-width: 768px) {
-    .main-content {
-      display: grid;
-      grid-template-columns: 2fr 3fr;
-    }
-  }
-</style>
