@@ -1,8 +1,11 @@
 <script lang="ts">
   import { ShareIcon } from 'svelte-feather-icons'
   import { auth } from '@my/state/auth';
+  import ShareModal from '@my/components/ShareModal.svelte';
 
   export let eventName = '';
+
+  let showModal = false;
 </script>
 
 <div class="flex items-center p-4 text-center text-white bg-gradient-primary card">
@@ -16,8 +19,12 @@
       </p>
     {/if}
   </div>
-  <button class="-m-2 rounded-full button icon">
+  <button class="-m-2 rounded-full button icon" on:click={() => showModal = true}>
     <ShareIcon class="p-3"/>
   </button>
 </div>
+
+{#if showModal}
+  <ShareModal on:dismiss={() => showModal = false}/>
+{/if}
 
