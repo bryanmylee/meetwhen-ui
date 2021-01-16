@@ -43,7 +43,7 @@
 
 <div class="flex flex-col w-full min-w-24">
 
-  <div class="sticky top-0 z-20 flex flex-col items-center justify-center h-16 bg-white">
+  <div class="sticky top-0 z-20 flex flex-col items-center justify-center h-16 bg-white -mx-2">
     <p class="font-bold">{day.format('ddd')}</p>
     <p class="text-sm">{day.format('DD MMM')}</p>
   </div>
