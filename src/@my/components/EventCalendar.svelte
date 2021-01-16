@@ -240,9 +240,13 @@
   };
 
   let fullscreen = false;
+  let _fullscreen = fullscreen;
+  $: setTimeout(() => {
+    _fullscreen = fullscreen;
+  }, 20);
 </script>
 
-<div class={`${className} flex flex-col ${fullscreen ? 'fixed inset-4 z-50' : ''}`}>
+<div class={`${className} flex flex-col ${fullscreen ? 'fixed inset-4 z-50 !mt-0' : ''}`}>
 
   <div
     tabindex=0
@@ -302,7 +306,7 @@
         on:click={() => fullscreen = !fullscreen}
         class="absolute bg-white rounded-full shadow-md right-2 bottom-2 button icon"
         >
-        {#if fullscreen}
+        {#if _fullscreen}
           <MinimizeIcon class="p-2.5"/>
         {:else}
           <MaximizeIcon class="p-2.5"/>
@@ -313,6 +317,7 @@
         <div
           in:fade={{duration:200}} out:fade={{duration: editable ? 400 : 0}}
           on:mouseover={() => showPrompt = false}
+          on:touchstart={() => showPrompt = false}
           class={`
             absolute inset-0 flex items-center justify-center bg-primary-opacity-60
             ${!showPrompt ? 'pointer-events-none' : ''}
