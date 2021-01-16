@@ -115,9 +115,12 @@
 }
 
 .select-option {
-  @apply px-4 py-2 z-0 button;
-  &:hover, &:active, &:focus {
-    @apply z-10;
+  @apply px-4 py-2 z-0 cursor-pointer focusable;
+  &:hover {
+    @apply z-10 bg-primary-lighter text-white shadow-md-primary;
+  }
+  &:active {
+    @apply z-10 bg-primary-darker text-white shadow-primary;
   }
   &--selected {
     @apply bg-primary text-white;
