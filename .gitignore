@@ -1,8 +1,8 @@
 .DS_Store
 .env
+static/global.css
+yarn-error.log
 /.vercel/
 /node_modules/
 /src/node_modules/@sapper/
-yarn-error.log
 /__sapper__/
-/static/global.css
