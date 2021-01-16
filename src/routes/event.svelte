@@ -19,14 +19,16 @@
 <script lang="ts">
   import { goto } from '@sapper/app';
   import Loader from '@my/components/Loader.svelte';
-  import EventTemplate from './[eventUrl].svelte';
+  import EventPage from './[eventUrl]/_found.svelte';
 
   $: if (!$event.pending && $event.data) {
     goto($event.data.eventUrl);
   }
 </script>
 
-<EventTemplate {...$event.data}/>
+<div class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4">
+  <EventPage {...$event.data}/>
+</div>
 
 <div class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
   <Loader class="w-16 h-16 text-primary"/>

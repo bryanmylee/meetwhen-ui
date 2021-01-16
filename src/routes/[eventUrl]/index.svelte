@@ -18,14 +18,17 @@
     if ($event.data == null || $event.data.eventUrl !== eventUrl) {
       event.get(eventUrl);
     }
+    return { eventUrl };
   }
 
 </script>
 
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { primaryBase } from '@my/state/colors';
-  import EventPage from '@my/components/EventPage.svelte';
   import Loader from '@my/components/Loader.svelte';
+  import EventNotFound from './_not_found.svelte';
+  import EventPage from './_found.svelte';
 
   let title = '';
   $: if ($event.data) {
@@ -34,8 +37,15 @@
   } else if ($event.pending) {
     title = '⏳ loading...';
   } else {
-    title = '🗞 not foud';
+    title = '🗞 not found';
   }
+
+  export let eventUrl: string;
+
+  onMount(() => {
+    if ($event.pending || $event.data?.eventUrl === eventUrl) return;
+    event.get(eventUrl);
+  });
 </script>
 
 <div class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4">
@@ -47,7 +57,7 @@
   {:else if $event.data}
     <EventPage {...$event.data}/>
   {:else}
-    Not found.
+    <EventNotFound {eventUrl}/>
   {/if}
 </div>
 
