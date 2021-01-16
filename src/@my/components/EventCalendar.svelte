@@ -21,6 +21,7 @@
     getUserTaggedDays,
     getUserTaggedIntervals
   } from '@my/utils/eventCalendar';
+  import { MaximizeIcon, MinimizeIcon } from 'svelte-feather-icons';
   import EventCalendarColumn from '@my/components/EventCalendarColumn.svelte';
   import EventCalendarIndex from '@my/components/EventCalendarIndex.svelte';
   import SelectableProvider from '@my/components/SelectableProvider.svelte';
@@ -238,9 +239,10 @@
     },
   };
 
+  let fullscreen = false;
 </script>
 
-<div class={className}>
+<div class={`${className} flex flex-col ${fullscreen ? 'fixed inset-4 z-50' : ''}`}>
 
   <div
     tabindex=0
@@ -296,6 +298,17 @@
         </span>
       </div>
 
+      <button
+        on:click={() => fullscreen = !fullscreen}
+        class="absolute bg-white rounded-full shadow-md right-2 bottom-2 button icon"
+        >
+        {#if fullscreen}
+          <MinimizeIcon class="p-2.5"/>
+        {:else}
+          <MaximizeIcon class="p-2.5"/>
+        {/if}
+      </button>
+
       {#if showPrompt}
         <div
           in:fade={{duration:200}} out:fade={{duration: editable ? 400 : 0}}
@@ -305,7 +318,7 @@
             ${!showPrompt ? 'pointer-events-none' : ''}
           `}
           >
-          <span class="text-white font-bold">
+          <span class="font-bold text-white">
             Long touch and drag to make a selection
           </span>
         </div>

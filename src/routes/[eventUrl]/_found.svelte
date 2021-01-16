@@ -163,9 +163,8 @@
   {schedule} users={usersToShow}
   bind:selectedSchedule
   editable={pageState === IPageState.JOINING || pageState === IPageState.EDITING}
-  class="flex flex-col flex-1 overflow-hidden card"
+  class="flex-1 overflow-hidden card bg-white"
 />
-
 
 {#if pageState === IPageState.JOINING}
   <form on:submit|preventDefault class="flex flex-col p-4 bg-white card space-y-4">
