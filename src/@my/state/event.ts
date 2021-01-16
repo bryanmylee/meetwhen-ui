@@ -26,6 +26,12 @@ const get = async (eventUrl: string) => {
   update($event => ({ ...$event, pending: true }));
 
   const res = await fetch([baseUrl, eventUrl].join('/'));
+
+  if (res.status === 404) {
+    set({ pending: false, data: null });
+    return null;
+  }
+
   const data = await res.json() as EventTransferObject;
 
   const event = toEvent(data);

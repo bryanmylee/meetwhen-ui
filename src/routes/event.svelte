@@ -1,5 +1,6 @@
 <svelte:head>
-  <title>meetwhen.io ⏳ loading...</title>
+  <title>meetwhen.io ⏳ creating...</title>
+  <meta name="robots" content="noindex"/>
 </svelte:head>
 
 <script lang="ts" context="module">
