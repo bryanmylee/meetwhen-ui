@@ -22,7 +22,9 @@
   import EventPage from './[eventUrl]/_found.svelte';
 
   $: if (!$event.pending && $event.data) {
-    goto($event.data.eventUrl);
+    goto($event.data.eventUrl, {
+      replaceState: true,
+    });
   }
 </script>
 
