@@ -37,6 +37,7 @@
   import validate from '@my/utils/validator';
   import EventCalendar from '@my/components/EventCalendar.svelte';
   import EventFilter from '@my/components/EventFilter.svelte';
+  import EventHero from '@my/components/EventHero.svelte';
   import Toast from '@my/components/Toast.svelte';
   import type Interval from '@my/models/Interval';
   import type { Validator } from '@my/utils/validator';
@@ -192,16 +193,7 @@
 
 <div class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4">
 
-  <div class="p-4 text-center text-white bg-gradient-primary card">
-    <p>
-      {name}&nbsp;
-    </p>
-    {#if $auth.data}
-      <p class="text-xs italic">
-        Logged in as {$auth.data.username}
-      </p>
-    {/if}
-  </div>
+  <EventHero eventName={name}/>
 
   <EventCalendar
     {schedule} users={usersToShow}
