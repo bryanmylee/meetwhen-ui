@@ -49,15 +49,22 @@
 </script>
 
 <div class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4">
-  {#if $event.pending}
-    <EventPage/>
-    <div class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
-      <Loader class="w-16 h-16 text-primary"/>
-    </div>
-  {:else if $event.data}
+  {#if $event.data}
     <EventPage {...$event.data}/>
+    {#if $event.pending || $auth.pending}
+      <div class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
+        <Loader class="w-16 h-16 text-primary"/>
+      </div>
+    {/if}
   {:else}
-    <EventNotFound {eventUrl}/>
+    {#if $event.pending}
+      <EventPage/>
+      <div class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
+        <Loader class="w-16 h-16 text-primary"/>
+      </div>
+    {:else}
+      <EventNotFound {eventUrl}/>
+    {/if}
   {/if}
 </div>
 
