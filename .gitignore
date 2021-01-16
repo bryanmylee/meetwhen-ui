@@ -1,4 +1,6 @@
 .DS_Store
+.env
+/.vercel/
 /node_modules/
 /src/node_modules/@sapper/
 yarn-error.log
