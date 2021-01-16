@@ -20,7 +20,7 @@
   import type Event from '@my/models/Event';
   import type Interval from '@my/models/Interval';
   import type { IColorIndex, INewEventName, IGetCrossfade } from './_layout.svelte';
-  import type { Validator, Validation } from '@my/utils/validator';
+  import type { Validator } from '@my/utils/validator';
 
   const newEventName = getContext<INewEventName>('newEventName');
 

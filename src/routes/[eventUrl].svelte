@@ -16,12 +16,8 @@
       this.redirect(301, '/event');
     }
     if ($event.data == null || $event.data.eventUrl !== eventUrl) {
-      const data = await event.get(eventUrl);
-      if (data?.accessToken) {
-        auth.loginWithToken(data.accessToken);
-      }
+      event.get(eventUrl);
     }
-    return $event.data;
   }
 
   enum IPageState {
@@ -38,26 +34,19 @@
   import EventCalendar from '@my/components/EventCalendar.svelte';
   import EventFilter from '@my/components/EventFilter.svelte';
   import EventHero from '@my/components/EventHero.svelte';
+  import Loader from '@my/components/Loader.svelte';
   import Toast from '@my/components/Toast.svelte';
   import type Interval from '@my/models/Interval';
   import type { Validator } from '@my/utils/validator';
 
-  export let color: string;
-  $: $primaryBase = color;
-  export let eventUrl: string;
-  export let name: string = '';
-  export let schedule: Interval[];
-  export let users: Record<string, Interval[]>;
-  $: {
-    const { data } = $event;
-    if (data) {
-      color = data.color;
-      eventUrl = data.eventUrl;
-      name = data.name;
-      schedule = data.schedule;
-      users = data.users;
-    }
+  $: eventUrl = $event.data?.eventUrl ?? '';
+  $: name = $event.data?.name ?? '';
+  $: schedule = $event.data?.schedule ?? [];
+  $: users = $event.data?.users ?? {};
+  $: if ($event.data) {
+    $primaryBase = $event.data.color;
   }
+
   $: allUsers = Object.keys(users || {}).sort();
   let unfilteredUsernames: string[] = [];
   let usersToShow: Record<string, Interval[]>;
@@ -266,4 +255,10 @@
   bind:message={errorMessage}
   class="p-3 mt-4 text-sm font-bold text-white bg-red-400 rounded-xl"
 />
+
+{#if $event.pending}
+  <div class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
+    <Loader class="w-16 h-16 text-primary"/>
+  </div>
+{/if}
 
