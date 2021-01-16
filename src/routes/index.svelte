@@ -14,6 +14,13 @@
 
   const getCrossfade = getContext<IGetCrossfade>('getCrossfade');
   const [send, receive] = getCrossfade();
+
+  let findUrl = '';
+  function find() {
+    const slashIndex = findUrl.lastIndexOf('/');
+    const path = findUrl.substring(slashIndex + 1);
+    goto(`/${path}`);
+  }
 </script>
 
 <div class="max-w-lg p-6 mx-auto space-y-4">
@@ -54,8 +61,16 @@
         class={`p-2 -m-2 icon transition transform ${expanded ? 'rotate-180' : ''}`}
       />
     </div>
-    <form transition:slide|local class="flex p-4 pt-0 space-x-4">
-      <input type="text" class="flex-1 textfield" placeholder="Event code...">
+    <form
+      on:submit|preventDefault={find}
+      transition:slide|local class="flex p-4 pt-0 space-x-4"
+      >
+      <input
+        type="text"
+        bind:value={findUrl}
+        placeholder="Event code..."
+        class="flex-1 textfield"
+        >
       <button type="submit" class="rounded-full button primary icon">
         <ArrowRightIcon class="p-2"/>
       </button>
