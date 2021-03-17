@@ -32,6 +32,8 @@
   export { className as class };
   let className = "";
 
+  export let style = "";
+
   export let schedule: Interval[] = [];
   $: days = getDays(schedule);
   $: dayIds = days.map((d) => d.format("YYYYMMDD"));
@@ -268,6 +270,7 @@
   class="{`${className} flex flex-col ${
     fullscreen ? 'fixed inset-4 z-50 !mt-0' : ''
   }`}"
+  style="{style}"
 >
   <div
     tabindex="0"

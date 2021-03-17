@@ -8,6 +8,7 @@
 </script>
 
 <script lang="ts">
+  import watchMedia from "svelte-media";
   import { auth } from "@/state/auth";
   import { event } from "@/state/event";
   import validate from "@/utils/validator";
@@ -159,10 +160,20 @@
     auth.logout();
     pageState = IPageState.NONE;
   }
+
+  const media = watchMedia({
+    md: "(max-width: 768px)",
+  });
+
+  let pageWidth = 0;
+  let actionBarWidth = 0;
+  $: calendarWidth = pageWidth - actionBarWidth - 64;
 </script>
 
+<svelte:window bind:innerWidth="{pageWidth}" />
+
 <div
-  class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4"
+  class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4 md:flex-wrap md:max-w-none"
 >
   <EventHero eventName="{name}" />
 
@@ -172,7 +183,8 @@
     bind:selectedSchedule
     editable="{pageState === IPageState.JOINING ||
       pageState === IPageState.EDITING}"
-    class="flex-1 overflow-hidden bg-white card"
+    class="flex-1 overflow-hidden bg-white card md:order-3 md:basis-full md:!mt-0 md:ml-4"
+    style="{$media.md ? 'width: {calendarWidth}px' : ''}"
   />
 
   {#if pageState === IPageState.JOINING}
@@ -220,7 +232,7 @@
     />
   {/if}
 
-  <div class="flex space-x-4">
+  <div bind:clientWidth="{actionBarWidth}" class="flex space-x-4">
     {#if pageState === IPageState.NONE}
       {#if $auth.data}
         <button on:click="{logOut}" class="w-full p-3 bg-white card button">
