@@ -1,4 +1,4 @@
-import { timestamp, files, shell } from '@sapper/service-worker';
+import { timestamp, files, shell } from "@sapper/service-worker";
 
 const ASSETS = `cache${timestamp}`;
 
@@ -7,20 +7,20 @@ const ASSETS = `cache${timestamp}`;
 const to_cache = (shell as string[]).concat(files as string[]);
 const staticAssets = new Set(to_cache);
 
-self.addEventListener('install', (event: ExtendableEvent) => {
+self.addEventListener("install", (event: ExtendableEvent) => {
   event.waitUntil(
     caches
       .open(ASSETS)
-      .then(cache => cache.addAll(to_cache))
+      .then((cache) => cache.addAll(to_cache))
       .then(() => {
         ((self as any) as ServiceWorkerGlobalScope).skipWaiting();
       })
   );
 });
 
-self.addEventListener('activate', (event: ExtendableEvent) => {
+self.addEventListener("activate", (event: ExtendableEvent) => {
   event.waitUntil(
-    caches.keys().then(async keys => {
+    caches.keys().then(async (keys) => {
       // delete old caches
       for (const key of keys) {
         if (key !== ASSETS) await caches.delete(key);
@@ -31,13 +31,12 @@ self.addEventListener('activate', (event: ExtendableEvent) => {
   );
 });
 
-
 /**
  * Fetch the asset from the network and store it in the cache.
  * Fall back to the cache if the user is offline.
  */
 async function fetchAndCache(request: Request) {
-  const cache = await caches.open(`offline${timestamp}`)
+  const cache = await caches.open(`offline${timestamp}`);
 
   try {
     const response = await fetch(request);
@@ -51,16 +50,20 @@ async function fetchAndCache(request: Request) {
   }
 }
 
-self.addEventListener('fetch', (event: FetchEvent) => {
-  if (event.request.method !== 'GET' || event.request.headers.has('range')) return;
+self.addEventListener("fetch", (event: FetchEvent) => {
+  if (event.request.method !== "GET" || event.request.headers.has("range"))
+    return;
 
   const url = new URL(event.request.url);
 
   // don't try to handle e.g. data: URIs
-  const isHttp = url.protocol.startsWith('http');
-  const isDevServerRequest = url.hostname === self.location.hostname && url.port !== self.location.port;
-  const isStaticAsset = url.host === self.location.host && staticAssets.has(url.pathname);
-  const skipBecauseUncached = event.request.cache === 'only-if-cached' && !isStaticAsset;
+  const isHttp = url.protocol.startsWith("http");
+  const isDevServerRequest =
+    url.hostname === self.location.hostname && url.port !== self.location.port;
+  const isStaticAsset =
+    url.host === self.location.host && staticAssets.has(url.pathname);
+  const skipBecauseUncached =
+    event.request.cache === "only-if-cached" && !isStaticAsset;
 
   if (isHttp && !isDevServerRequest && !skipBecauseUncached) {
     event.respondWith(
@@ -68,7 +71,8 @@ self.addEventListener('fetch', (event: FetchEvent) => {
         // always serve static files and bundler-generated assets from cache.
         // if your application has other URLs with data that will never change,
         // set this variable to true for them and they will only be fetched once.
-        const cachedAsset = isStaticAsset && await caches.match(event.request);
+        const cachedAsset =
+          isStaticAsset && (await caches.match(event.request));
 
         // for pages, you might want to serve a shell `service-worker-index.html` file,
         // which Sapper has generated for you. It's not right for every

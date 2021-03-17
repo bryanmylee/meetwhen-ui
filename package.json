@@ -12,7 +12,8 @@
     "export": "run-s build:css export:sapper",
     "export:sapper": "sapper export --ext '.svelte'",
     "start": "node __sapper__/build",
-    "validate": "svelte-check --ignore src/node_modules/@sapper"
+    "validate": "svelte-check --ignore src/node_modules/@sapper",
+    "prettier": "prettier --write --plugin-search-dir=. './src/**/*.(js|ts|html|svelte)'"
   },
   "dependencies": {
     "compression": "^1.7.1",
@@ -43,6 +44,7 @@
     "postcss-import": "^14.0.0",
     "postcss-load-config": "^3.0.0",
     "postcss-nested": "^5.0.3",
+    "prettier-plugin-svelte": "^2.2.0",
     "sapper": "^0.28.0",
     "sapper-environment": "^1.0.1",
     "svelte": "^3.31.2",

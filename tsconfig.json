@@ -4,7 +4,8 @@
     "lib": ["DOM", "ES2019", "WebWorker"],
     "baseUrl": "./",
     "paths": {
-      "@my/*": [ "src/@my/*" ]
+      "@/*": ["src/@/*"],
+      "routes/*": ["src/routes/*"]
     }
   },
   "include": ["src/**/*", "src/node_modules/**/*"],

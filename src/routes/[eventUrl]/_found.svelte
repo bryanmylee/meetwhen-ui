@@ -8,18 +8,18 @@
 </script>
 
 <script lang="ts">
-  import { auth } from '@my/state/auth';
-  import { event } from '@my/state/event';
-  import validate from '@my/utils/validator';
-  import EventCalendar from '@my/components/EventCalendar.svelte';
-  import EventFilter from '@my/components/EventFilter.svelte';
-  import EventHero from '@my/components/EventHero.svelte';
-  import Toast from '@my/components/Toast.svelte';
-  import type Interval from '@my/models/Interval';
-  import type { Validator } from '@my/utils/validator';
+  import { auth } from "@/state/auth";
+  import { event } from "@/state/event";
+  import validate from "@/utils/validator";
+  import EventCalendar from "@/components/EventCalendar.svelte";
+  import EventFilter from "@/components/EventFilter.svelte";
+  import EventHero from "@/components/EventHero.svelte";
+  import Toast from "@/components/Toast.svelte";
+  import type Interval from "@/models/Interval";
+  import type { Validator } from "@/utils/validator";
 
-  export let eventUrl = '';
-  export let name = '';
+  export let eventUrl = "";
+  export let name = "";
   export let schedule: Interval[] = [];
   export let users: Record<string, Interval[]> = {};
 
@@ -36,17 +36,17 @@
   let pageState = IPageState.NONE;
 
   let selectedSchedule: Interval[] = [];
-  let username = '';
-  let password = '';
+  let username = "";
+  let password = "";
 
   function cancel() {
     selectedSchedule = [];
-    username = '';
-    password = '';
+    username = "";
+    password = "";
     pageState = IPageState.NONE;
   }
 
-  let errorMessage = '';
+  let errorMessage = "";
 
   $: newUser = {
     schedule: selectedSchedule,
@@ -55,13 +55,16 @@
     eventUrl,
   };
   const newUserValidator: Validator<typeof newUser> = {
-    schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one day' : null,
+    schedule: (schedule: Interval[]) =>
+      schedule.length <= 0 ? "Pick at least one day" : null,
     username: (name: string) => {
-      if (name.trim().length <= 0) return 'Your name cannot be empty';
-      if (!name.match(/^[A-Za-z0-9]+$/)) return 'Your name must only be letters and numbers';
+      if (name.trim().length <= 0) return "Your name cannot be empty";
+      if (!name.match(/^[A-Za-z0-9]+$/))
+        return "Your name must only be letters and numbers";
       return null;
     },
-    password: (password: string) => password.trim().length <= 0 ? 'Your password cannot be empty' : null,
+    password: (password: string) =>
+      password.trim().length <= 0 ? "Your password cannot be empty" : null,
     eventUrl: null,
   };
   $: newUserValidation = validate(newUser, newUserValidator);
@@ -86,8 +89,8 @@
     auth.loginWithToken(response.accessToken);
     pageState = IPageState.NONE;
     selectedSchedule = [];
-    username = '';
-    password = '';
+    username = "";
+    password = "";
   }
 
   function initEditUser() {
@@ -99,7 +102,8 @@
     schedule: selectedSchedule,
   };
   const editedUserValidator: Validator<typeof editedUser> = {
-    schedule: (schedule: Interval[]) => schedule.length <= 0 ? 'Pick at least one day' : null,
+    schedule: (schedule: Interval[]) =>
+      schedule.length <= 0 ? "Pick at least one day" : null,
   };
   $: editedUserValidation = validate(editedUser, editedUserValidator);
   async function editUser() {
@@ -114,8 +118,8 @@
     }
     pageState = IPageState.NONE;
     selectedSchedule = [];
-    username = '';
-    password = '';
+    username = "";
+    password = "";
   }
 
   $: logInDetails = {
@@ -124,10 +128,11 @@
   };
   const logInValidator: Validator<typeof logInDetails> = {
     username: (name: string) => {
-      if (name.trim().length <= 0) return 'Your name cannot be empty';
+      if (name.trim().length <= 0) return "Your name cannot be empty";
       return null;
     },
-    password: (password: string) => password.trim().length <= 0 ? 'Your password cannot be empty' : null,
+    password: (password: string) =>
+      password.trim().length <= 0 ? "Your password cannot be empty" : null,
   };
   $: logInValidation = validate(logInDetails, logInValidator);
   async function logIn() {
@@ -146,85 +151,120 @@
     }
     pageState = IPageState.NONE;
     selectedSchedule = [];
-    username = '';
-    password = '';
+    username = "";
+    password = "";
   }
 
   async function logOut() {
     auth.logout();
     pageState = IPageState.NONE;
   }
-
 </script>
 
-<EventHero eventName={name}/>
+<EventHero eventName="{name}" />
 
 <EventCalendar
-  {schedule} users={usersToShow}
+  schedule="{schedule}"
+  users="{usersToShow}"
   bind:selectedSchedule
-  editable={pageState === IPageState.JOINING || pageState === IPageState.EDITING}
+  editable="{pageState === IPageState.JOINING ||
+    pageState === IPageState.EDITING}"
   class="flex-1 overflow-hidden card bg-white"
 />
 
 {#if pageState === IPageState.JOINING}
-  <form on:submit|preventDefault class="flex flex-col p-4 bg-white card space-y-4">
+  <form
+    on:submit|preventDefault
+    class="flex flex-col p-4 bg-white card space-y-4"
+  >
     <h2>Join Event</h2>
-    <input type="text" bind:value={username} placeholder="Name" class="textfield"/>
-    <input type="password" bind:value={password} placeholder="Password" class="textfield"/>
+    <input
+      type="text"
+      bind:value="{username}"
+      placeholder="Name"
+      class="textfield"
+    />
+    <input
+      type="password"
+      bind:value="{password}"
+      placeholder="Password"
+      class="textfield"
+    />
   </form>
 {:else if pageState === IPageState.LOGGINGIN}
-  <form on:submit|preventDefault class="flex flex-col p-4 bg-white card space-y-4">
+  <form
+    on:submit|preventDefault
+    class="flex flex-col p-4 bg-white card space-y-4"
+  >
     <h2>Log In</h2>
-    <input type="text" bind:value={username} placeholder="Name" class="textfield"/>
-    <input type="password" bind:value={password} placeholder="Password" class="textfield"/>
+    <input
+      type="text"
+      bind:value="{username}"
+      placeholder="Name"
+      class="textfield"
+    />
+    <input
+      type="password"
+      bind:value="{password}"
+      placeholder="Password"
+      class="textfield"
+    />
   </form>
 {:else}
-  <EventFilter {allUsers} bind:selectedUsers={unfilteredUsernames}/>
+  <EventFilter
+    allUsers="{allUsers}"
+    bind:selectedUsers="{unfilteredUsernames}"
+  />
 {/if}
 
 <div class="flex space-x-4">
   {#if pageState === IPageState.NONE}
     {#if $auth.data}
-      <button on:click={logOut} class="w-full p-3 bg-white card button">
+      <button on:click="{logOut}" class="w-full p-3 bg-white card button">
         Log Out
       </button>
-      <button on:click={initEditUser} class="w-full p-3 card button gradient">
+      <button on:click="{initEditUser}" class="w-full p-3 card button gradient">
         Edit
       </button>
     {:else}
-      <button on:click={() => pageState = IPageState.LOGGINGIN} class="w-full p-3 bg-white card button">
+      <button
+        on:click="{() => (pageState = IPageState.LOGGINGIN)}"
+        class="w-full p-3 bg-white card button"
+      >
         Log In
       </button>
-      <button on:click={() => pageState = IPageState.JOINING} class="w-full p-3 card button gradient">
+      <button
+        on:click="{() => (pageState = IPageState.JOINING)}"
+        class="w-full p-3 card button gradient"
+      >
         Join Event
       </button>
     {/if}
   {:else if pageState === IPageState.JOINING}
-    <button on:click={cancel} class="w-full p-3 bg-white card button">
+    <button on:click="{cancel}" class="w-full p-3 bg-white card button">
       Cancel
     </button>
-    <button on:click={addNewUser} class="w-full p-3 card button gradient">
+    <button on:click="{addNewUser}" class="w-full p-3 card button gradient">
       Confirm
     </button>
   {:else if pageState === IPageState.LOGGINGIN}
-    <button on:click={cancel} class="w-full p-3 bg-white card button">
+    <button on:click="{cancel}" class="w-full p-3 bg-white card button">
       Cancel
     </button>
-    <button on:click={logIn} class="w-full p-3 card button gradient">
+    <button on:click="{logIn}" class="w-full p-3 card button gradient">
       Confirm
     </button>
   {:else if pageState === IPageState.EDITING}
-    <button on:click={cancel} class="w-full p-3 bg-white card button">
+    <button on:click="{cancel}" class="w-full p-3 bg-white card button">
       Cancel
     </button>
-    <button on:click={editUser} class="w-full p-3 card button gradient">
+    <button on:click="{editUser}" class="w-full p-3 card button gradient">
       Confirm
     </button>
   {/if}
 </div>
 
 <Toast
-  bind:message={errorMessage}
+  bind:message="{errorMessage}"
   class="p-3 mt-4 text-sm font-bold text-white bg-red-400 rounded-xl"
 />
-
