@@ -1,9 +1,9 @@
 <script lang="ts" context="module">
   import { get } from "svelte/store";
   import { event } from "@/state/event";
-  import type Common from "@sapper/common";
+  import type { Preload } from "@sapper/common";
 
-  export const preload: Common.Preload = async function (this, page, session) {
+  export const preload: Preload = async function (this, page, session) {
     const $event = get(event);
     if (!$event.pending && $event.data == null) {
       this.redirect(301, "/");
