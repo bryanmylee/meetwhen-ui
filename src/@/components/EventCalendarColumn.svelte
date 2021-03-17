@@ -53,7 +53,7 @@
     <div class="flex flex-col h-full">
       {#each todayHours as _}
         <div
-          class="flex flex-col w-full h-full border-b-2 last:border-0 min-h-16"
+          class="flex flex-col w-full h-full border-b-2 last:border-0 min-h-10"
         ></div>
       {/each}
     </div>

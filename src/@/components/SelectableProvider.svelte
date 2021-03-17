@@ -59,6 +59,10 @@
   function selectTo(id: string) {
     if (previousSelectedId === id) return;
     if (previousSelectedId == null) previousSelectedId = id;
+    if (allIds == null) {
+      select(id);
+      return;
+    }
     const fromIndex = allIds.indexOf(previousSelectedId);
     const toIndex = allIds.indexOf(id);
     if (fromIndex <= toIndex) {
@@ -84,6 +88,10 @@
   function deselectTo(id: string) {
     if (previousDeselectedId == id) return;
     if (previousDeselectedId == null) previousDeselectedId = id;
+    if (allIds == null) {
+      deselect(id);
+      return;
+    }
     const fromIndex = allIds.indexOf(previousDeselectedId);
     const toIndex = allIds.indexOf(id);
     if (fromIndex <= toIndex) {
