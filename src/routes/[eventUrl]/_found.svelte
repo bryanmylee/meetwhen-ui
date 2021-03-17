@@ -169,15 +169,15 @@
   bind:selectedSchedule
   editable="{pageState === IPageState.JOINING ||
     pageState === IPageState.EDITING}"
-  class="flex-1 overflow-hidden card bg-white"
+  class="flex-1 overflow-hidden bg-white card"
 />
 
 {#if pageState === IPageState.JOINING}
   <form
     on:submit|preventDefault
-    class="flex flex-col p-4 bg-white card space-y-4"
+    class="flex flex-col p-4 space-y-4 bg-white card"
   >
-    <h2>Join Event</h2>
+    <!--h2>Join Event</h2-->
     <input
       type="text"
       bind:value="{username}"
@@ -194,9 +194,9 @@
 {:else if pageState === IPageState.LOGGINGIN}
   <form
     on:submit|preventDefault
-    class="flex flex-col p-4 bg-white card space-y-4"
+    class="flex flex-col p-4 space-y-4 bg-white card"
   >
-    <h2>Log In</h2>
+    <!--h2>Log In</h2-->
     <input
       type="text"
       bind:value="{username}"

@@ -101,7 +101,7 @@
 </svelte:head>
 
 <div class="max-w-lg p-6 pt-20 mx-auto space-y-4">
-  <div class="flex flex-col p-4 card space-y-4">
+  <div class="flex flex-col p-4 space-y-4 card">
     <div class="flex flex-col space-y-4">
       <h2 in:receive="{{ key: 'h2' }}" out:send="{{ key: 'h2' }}">
         New event name
@@ -116,14 +116,14 @@
       />
     </div>
 
-    <div>
+    <!--div>
       <h2>Pick a theme</h2>
       <ColorPicker
         bind:index="{$colorIndex}"
         bind:color="{$primaryBase}"
         colors="{colors}"
       />
-    </div>
+    </div-->
 
     <div class="space-y-4">
       <h2>Set a time for everyone</h2>
