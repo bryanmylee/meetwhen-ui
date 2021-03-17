@@ -166,8 +166,8 @@
   });
 
   let pageWidth = 0;
-  let actionBarWidth = 0;
-  $: calendarWidth = pageWidth - actionBarWidth - 64;
+  let leftColWidth = 0;
+  $: calendarWidth = pageWidth - leftColWidth - 64;
 </script>
 
 <svelte:window bind:innerWidth="{pageWidth}" />
@@ -175,7 +175,9 @@
 <div
   class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4 md:flex-wrap md:max-w-none"
 >
-  <EventHero eventName="{name}" />
+  <div bind:clientWidth="{leftColWidth}">
+    <EventHero eventName="{name}" />
+  </div>
 
   <EventCalendar
     schedule="{schedule}"
@@ -232,7 +234,7 @@
     />
   {/if}
 
-  <div bind:clientWidth="{actionBarWidth}" class="flex space-x-4">
+  <div class="flex space-x-4">
     {#if pageState === IPageState.NONE}
       {#if $auth.data}
         <button on:click="{logOut}" class="w-full p-3 bg-white card button">
