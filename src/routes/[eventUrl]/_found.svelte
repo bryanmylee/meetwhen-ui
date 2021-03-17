@@ -175,7 +175,7 @@
 <div
   class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4 md:flex-wrap md:max-w-none"
 >
-  <div bind:clientWidth="{leftColWidth}">
+  <div bind:clientWidth="{leftColWidth}" class="min-w-64">
     <EventHero eventName="{name}" />
   </div>
 
