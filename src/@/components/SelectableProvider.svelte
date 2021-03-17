@@ -38,6 +38,7 @@
     return others.filter((o) => o !== toRemove);
   };
 
+  export let allIds: string[] = null;
   export let disabled = false;
   export let disabledIds: string[] = [];
   export let selectedIds: string[] = [];
@@ -54,11 +55,47 @@
     dispatch("toggle", { id });
   }
 
+  let previousSelectedId: string = null;
+  function selectTo(id: string) {
+    if (previousSelectedId === id) return;
+    if (previousSelectedId == null) previousSelectedId = id;
+    const fromIndex = allIds.indexOf(previousSelectedId);
+    const toIndex = allIds.indexOf(id);
+    if (fromIndex <= toIndex) {
+      for (let i = fromIndex; i <= toIndex; i++) {
+        select(allIds[i]);
+      }
+    } else {
+      for (let i = toIndex; i <= fromIndex; i++) {
+        select(allIds[i]);
+      }
+    }
+    previousSelectedId = id;
+  }
+
   export function deselect(id: string) {
     if (disabledIds.includes(id)) return;
     selectedIds = withoutRemoved(selectedIds, id);
     dispatch("deselect", { id });
     dispatch("toggle", { id });
+  }
+
+  let previousDeselectedId: string = null;
+  function deselectTo(id: string) {
+    if (previousDeselectedId == id) return;
+    if (previousDeselectedId == null) previousDeselectedId = id;
+    const fromIndex = allIds.indexOf(previousDeselectedId);
+    const toIndex = allIds.indexOf(id);
+    if (fromIndex <= toIndex) {
+      for (let i = fromIndex; i <= toIndex; i++) {
+        deselect(allIds[i]);
+      }
+    } else {
+      for (let i = toIndex; i <= fromIndex; i++) {
+        deselect(allIds[i]);
+      }
+    }
+    previousDeselectedId = id;
   }
 
   export function toggle(id: string) {
@@ -75,12 +112,12 @@
     const { id } = target.dataset;
     if (id == null) return;
     if (selectedIds.includes(id)) {
-      deselect(id);
+      deselectTo(id);
       if (selecting === SelectState.NONE) {
         selecting = SelectState.DELETE;
       }
     } else {
-      select(id);
+      selectTo(id);
       if (selecting === SelectState.NONE) {
         selecting = SelectState.CREATE;
       }
@@ -112,9 +149,9 @@
     const { id } = target.dataset;
     if (id == null) return;
     if (selecting === SelectState.CREATE) {
-      select(id);
+      selectTo(id);
     } else {
-      deselect(id);
+      deselectTo(id);
     }
   }
 
@@ -141,6 +178,8 @@
     if (disabled) return;
     if (Object.keys(tracked).length === 0) {
       selecting = SelectState.NONE;
+      previousSelectedId = null;
+      previousDeselectedId = null;
     }
   }
 
@@ -164,7 +203,7 @@
 >
   <div
     on:mousedown="{mousestart}"
-    on:mouseover="{mousemoveinto}"
+    on:mousemove="{mousemoveinto}"
     on:mouseleave="{endSelection}"
     on:mouseup="{endSelection}"
     class="contents"

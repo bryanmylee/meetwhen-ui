@@ -39,6 +39,10 @@
   $: hourIds = hours.map((h) => h.format("HHmm"));
   $: halfHours = flat(hours.map((h) => [h, h.add(30, "minute")]));
   $: halfHourIds = halfHours.map((h) => h.format("HHmm"));
+  $: selectableIds = flat(
+    dayIds.map((dId) => halfHourIds.map((hId) => dId + hId))
+  );
+
   $: displayedMonth = days[0]?.format("MMM") ?? " ";
 
   export let users: Record<string, Interval[]> = {};
@@ -51,9 +55,9 @@
   let selectedIds: string[] = [];
   $: selectedHalfHours = selectedIds.map((id) => dayjs(id, "YYYYMMDDHHmm"));
   $: selectedSchedule = getScheduleFromHalfHours(selectedHalfHours);
-  $: selectedSchedule && scheduleToIds();
+  $: selectedSchedule && selectedScheduleToIds();
 
-  function scheduleToIds() {
+  function selectedScheduleToIds() {
     const newIds = flat(
       selectedSchedule.map(({ from, to }) => {
         const halfHourDiff = to.diff(from, "minute") / 30;
@@ -277,6 +281,7 @@
     bind:this="{selector}"
     on:toggle="{toggle}"
     bind:selectedIds
+    allIds="{selectableIds}"
     disabled="{!editable}"
     let:selecting
   >
