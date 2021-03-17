@@ -162,7 +162,7 @@
   }
 
   const media = watchMedia({
-    md: "(max-width: 768px)",
+    md: "(min-width: 768px)",
   });
 
   let pageWidth = 0;
@@ -184,7 +184,7 @@
     editable="{pageState === IPageState.JOINING ||
       pageState === IPageState.EDITING}"
     class="flex-1 overflow-hidden bg-white card md:order-3 md:basis-full md:!mt-0 md:ml-4"
-    style="{$media.md ? 'width: {calendarWidth}px' : ''}"
+    style="{$media.md ? `max-width: ${calendarWidth}px` : ''}"
   />
 
   {#if pageState === IPageState.JOINING}
