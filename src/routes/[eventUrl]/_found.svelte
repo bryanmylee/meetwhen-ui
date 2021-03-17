@@ -165,17 +165,16 @@
     md: "(min-width: 768px)",
   });
 
-  let pageWidth = 0;
+  let containerWidth = 0;
   let leftColWidth = 0;
-  $: calendarWidth = pageWidth - leftColWidth - 64;
+  $: calendarWidth = containerWidth - leftColWidth - 64;
 </script>
 
-<svelte:window bind:innerWidth="{pageWidth}" />
-
 <div
-  class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4 md:flex-wrap md:max-w-none"
+  bind:clientWidth="{containerWidth}"
+  class="relative flex flex-col h-screen max-w-lg p-6 pt-20 mx-auto space-y-4 md:flex-wrap md:max-w-7xl md:justify-items-center"
 >
-  <div bind:clientWidth="{leftColWidth}" class="min-w-64">
+  <div bind:clientWidth="{leftColWidth}" class="md:min-w-64 md:max-w-96">
     <EventHero eventName="{name}" />
   </div>
 
@@ -186,55 +185,57 @@
     editable="{pageState === IPageState.JOINING ||
       pageState === IPageState.EDITING}"
     class="flex-1 overflow-hidden bg-white card md:order-3 md:basis-full md:!mt-0 md:ml-4"
-    style="{$media.md ? `max-width: ${calendarWidth}px` : ''}"
+    style="{$media.md ? `width: ${calendarWidth}px` : ''}"
   />
 
-  {#if pageState === IPageState.JOINING}
-    <form
-      on:submit|preventDefault
-      class="flex flex-col p-4 space-y-4 bg-white card"
-    >
-      <!--h2>Join Event</h2-->
-      <input
-        type="text"
-        bind:value="{username}"
-        placeholder="Name"
-        class="textfield"
+  <div class="md:min-w-64 md:max-w-96">
+    {#if pageState === IPageState.JOINING}
+      <form
+        on:submit|preventDefault
+        class="flex flex-col p-4 space-y-4 bg-white card"
+      >
+        <!--h2>Join Event</h2-->
+        <input
+          type="text"
+          bind:value="{username}"
+          placeholder="Name"
+          class="textfield"
+        />
+        <input
+          type="password"
+          bind:value="{password}"
+          placeholder="Password"
+          class="textfield"
+        />
+      </form>
+    {:else if pageState === IPageState.LOGGINGIN}
+      <form
+        on:submit|preventDefault
+        class="flex flex-col p-4 space-y-4 bg-white card"
+      >
+        <!--h2>Log In</h2-->
+        <input
+          type="text"
+          bind:value="{username}"
+          placeholder="Name"
+          class="textfield"
+        />
+        <input
+          type="password"
+          bind:value="{password}"
+          placeholder="Password"
+          class="textfield"
+        />
+      </form>
+    {:else}
+      <EventFilter
+        allUsers="{allUsers}"
+        bind:selectedUsers="{unfilteredUsernames}"
       />
-      <input
-        type="password"
-        bind:value="{password}"
-        placeholder="Password"
-        class="textfield"
-      />
-    </form>
-  {:else if pageState === IPageState.LOGGINGIN}
-    <form
-      on:submit|preventDefault
-      class="flex flex-col p-4 space-y-4 bg-white card"
-    >
-      <!--h2>Log In</h2-->
-      <input
-        type="text"
-        bind:value="{username}"
-        placeholder="Name"
-        class="textfield"
-      />
-      <input
-        type="password"
-        bind:value="{password}"
-        placeholder="Password"
-        class="textfield"
-      />
-    </form>
-  {:else}
-    <EventFilter
-      allUsers="{allUsers}"
-      bind:selectedUsers="{unfilteredUsernames}"
-    />
-  {/if}
+    {/if}
+  </div>
 
-  <div class="flex space-x-4">
+  <div class="flex space-x-4 md:min-w-64 md:max-w-96">
     {#if pageState === IPageState.NONE}
       {#if $auth.data}
         <button on:click="{logOut}" class="w-full p-3 bg-white card button">

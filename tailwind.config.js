@@ -100,6 +100,7 @@ module.exports = {
       },
       minHeight: (theme) => theme("height"),
       minWidth: (theme) => theme("width"),
+      maxWidth: (theme) => theme("width"),
       padding: {
         half: "50%",
       },
