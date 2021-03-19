@@ -256,7 +256,7 @@
         </button>
         <button
           on:click="{() => (pageState = IPageState.JOINING)}"
-          class="w-full p-3 card button gradient"
+          class="w-full p-3 card button gradient animate-bump-y hover:animate-none"
         >
           Join Event
         </button>

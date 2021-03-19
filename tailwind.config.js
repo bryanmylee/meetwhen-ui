@@ -45,6 +45,7 @@ module.exports = {
     extend: {
       animation: {
         "wave-y": "wave-y 1s ease-in-out infinite alternate both running",
+        "bump-y": "bump-y 5s ease-in-out 2s infinite both running",
       },
       borderWidth: {
         3: "3px",
@@ -94,6 +95,17 @@ module.exports = {
           "66%": { transform: "translateY(-10px)" },
           "100%": { transform: "translateY(0)" },
         },
+        "bump-y": {
+          "0%": { transform: "translateY(0px)" },
+          "3%": { transform: "translateY(-5px)" },
+          "4.5%": { transform: "translateY(6px)" },
+          "6%": { transform: "translateY(-3px)" },
+          "7.5%": { transform: "translateY(3px)" },
+          "9%": { transform: "translateY(-2px)" },
+          "10.5%": { transform: "translateY(2px)" },
+          "12%": { transform: "translateY(0px)" },
+          "100%": { transform: "translateY(0px)" },
+        },
       },
       margin: {
         "1/4": "25%",
@@ -114,6 +126,7 @@ module.exports = {
   },
   variants: {
     extend: {
+      animation: ["hover"],
       backgroundColor: ["active"],
       borderWidth: ["last"],
       boxShadow: ["active"],
