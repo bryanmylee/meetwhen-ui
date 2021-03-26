@@ -32,8 +32,6 @@
   export { className as class };
   let className = "";
 
-  export let style = "";
-
   export let schedule: Interval[] = [];
   $: days = getDays(schedule);
   $: dayIds = days.map((d) => d.format("YYYYMMDD"));
@@ -259,11 +257,15 @@
     },
   };
 
+  export let width: number = null;
+
   let fullscreen = false;
   let _fullscreen = fullscreen;
   $: setTimeout(() => {
     _fullscreen = fullscreen;
   }, 20);
+
+  $: style = width != null && !fullscreen ? `width: ${width}px` : "";
 </script>
 
 <div

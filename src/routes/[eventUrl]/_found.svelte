@@ -185,7 +185,7 @@
     editable="{pageState === IPageState.JOINING ||
       pageState === IPageState.EDITING}"
     class="flex-1 overflow-hidden bg-white card md:order-3 md:basis-full md:!mt-0 md:ml-4"
-    style="{$media.md ? `width: ${calendarWidth}px` : ''}"
+    width="{$media.md ? calendarWidth : null}"
   />
 
   <div class="md:min-w-64 md:max-w-96">
