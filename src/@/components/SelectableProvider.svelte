@@ -184,11 +184,10 @@
 
   function endSelection() {
     if (disabled) return;
-    if (Object.keys(tracked).length === 0) {
-      selecting = SelectState.NONE;
-      previousSelectedId = null;
-      previousDeselectedId = null;
-    }
+    selecting = SelectState.NONE;
+    tracked = {};
+    previousSelectedId = null;
+    previousDeselectedId = null;
   }
 
   function longtouchend(event: CustomEvent) {
