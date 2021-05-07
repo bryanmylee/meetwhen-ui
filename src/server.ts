@@ -10,10 +10,10 @@ const dev = NODE_ENV === "development";
 
 export default polka() // You can also use Express
   .use(
-    compression({ threshold: 0 }),
+    compression({ threshold: 0 }) as any,
     sirv("static", { dev }),
-    sapper.middleware()
+    sapper.middleware() as any
   )
-  .listen(PORT, (err) => {
+  .listen(PORT, ((err) => {
     if (err) console.log("error", err);
-  });
+  }) as any);
