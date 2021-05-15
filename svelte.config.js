@@ -1,22 +1,15 @@
-const sveltePreprocess = require('svelte-preprocess');
+import preprocess from 'svelte-preprocess';
 
-const preprocessOptions = {
-  postcss: {
-    plugins: [
-      require('postcss-import')(),
-      require('postcss-nested')(),
-    ]
-  },
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	// Consult https://github.com/sveltejs/svelte-preprocess
+	// for more information about preprocessors
+	preprocess: preprocess(),
+
+	kit: {
+		// hydrate the <div id="svelte"> element in src/app.html
+		target: '#svelte'
+	}
 };
 
-const getPreprocess = (dev) => [
-  sveltePreprocess({
-    sourceMap: dev,
-    ...preprocessOptions
-  }),
-];
-
-module.exports = {
-  preprocess: getPreprocess(false),
-  getPreprocess,
-};
+export default config;
