@@ -31,4 +31,6 @@
   </main>
 </PageTransition>
 
-<Nav />
+{#if $page.path !== '/'}
+  <Nav />
+{/if}
