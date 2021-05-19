@@ -1,5 +1,18 @@
-<h1>Welcome to SvelteKit</h1>
-<p>
-  Visit <a class="text-blue-600 underline" href="https://kit.svelte.dev">kit.svelte.dev</a> to read the
-  documentation
-</p>
+<script lang="ts">
+  import Head from '$lib/components/Head.svelte';
+</script>
+
+<Head />
+
+<section class="max-w-lg p-6 mx-auto space-y-4">
+  <div class="p-4 card">
+    <h1 class="text-xl font-bold">meetwhen</h1>
+    <p>Find the perfect time to meet up with your team</p>
+  </div>
+  <div class="p-4 space-y-4 card">
+    <h2>Get started with a new event</h2>
+    <form class="flex space-x-4">
+      <input type="text" placeholder="new event name..." class="flex-1 bg-gray-100 rounded-xl" />
+    </form>
+  </div>
+</section>
