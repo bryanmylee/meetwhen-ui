@@ -11,6 +11,7 @@
   import { cubicOut } from 'svelte/easing';
   import { derived, writable } from 'svelte/store';
   import type { Readable, Writable } from 'svelte/store';
+  import Nav from './_nav.svelte';
 
   setContext('new-event-name', writable(''));
 
@@ -28,3 +29,5 @@
 <main>
   <slot />
 </main>
+
+<Nav />
