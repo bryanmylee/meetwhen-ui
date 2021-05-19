@@ -10,9 +10,11 @@ module.exports = {
           darker: 'var(--primary-darker)',
           warmer: 'var(--primary-warmer)',
           cooler: 'var(--primary-cooler)',
+          sixty: 'var(--primary-sixty)',
+          thirty: 'var(--primary-thirty)',
         },
       },
     },
   },
-  plugins: [],
+  plugins: [require('./src/plugins/tailwind-color-shadows.cjs')],
 };
