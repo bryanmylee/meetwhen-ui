@@ -16,9 +16,37 @@
       @apply hover:shadow-lg focus:shadow-lg active:shadow;
     }
   }
+
+  .button {
+    @apply transition focusable font-bold;
+    @apply disabled:text-gray-400;
+    &:not(:disabled) {
+      @apply hover:bg-primary-lighter hover:shadow-md-primary;
+      @apply focus:bg-primary-lighter focus:shadow-md-primary;
+      @apply active:bg-primary-darker active:shadow-primary;
+    }
+    &.primary {
+      @apply bg-primary text-white;
+      @apply disabled:bg-primary-thirty;
+    }
+    &.gradient {
+      @apply text-white;
+      @apply disabled:bg-primary-thirty;
+      &:not(:disabled) {
+        @apply bg-gradient-primary;
+        @apply hover:shadow-lg-primary;
+        @apply focus:shadow-lg-primary;
+        @apply active:shadow-primary;
+      }
+    }
+  }
 }
 
 @layer utilities {
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-primary-cooler via-primary to-primary-warmer;
+  }
+
   .focusable {
     @apply ring-primary-lighter focus:ring focus:outline-none;
   }
