@@ -7,10 +7,12 @@
   import '../app.postcss';
   import '$lib/colors';
   import { setContext } from 'svelte';
-  import { crossfade, fade } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
-  import { derived, writable } from 'svelte/store';
+  import { writable } from 'svelte/store';
+  import { crossfade, fade } from 'svelte/transition';
   import type { Readable, Writable } from 'svelte/store';
+  import { page } from '$app/stores';
+  import PageTransition from '$lib/components/PageTransition.svelte';
   import Nav from './_nav.svelte';
 
   setContext('new-event-name', writable(''));
@@ -20,14 +22,13 @@
     easing: cubicOut,
     fallback: (node, params) => fade(node, { ...params, duration: 200 }),
   });
-  setContext(
-    'crossfade',
-    derived(writable(appCrossfade), (x) => x)
-  );
+  setContext('crossfade', { subscribe: writable(appCrossfade).subscribe });
 </script>
 
-<main>
-  <slot />
-</main>
+<PageTransition key={$page.path}>
+  <main>
+    <slot />
+  </main>
+</PageTransition>
 
 <Nav />
