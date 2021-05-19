@@ -5,11 +5,9 @@
 
   const crossfade = getContext<ICrossfade>('crossfade');
   const [send, receive] = $crossfade;
-
-  $: ({ path } = $page);
 </script>
 
-{#if path !== '/'}
+{#if $page.path !== '/'}
   <nav class="fixed inset-0 bottom-auto p-4 bg-white card select-none-all">
     <div class="relative pointer-events none">
       <span class="text-transparent bg-clip-text bg-gradient-primary">meetwhen</span>
