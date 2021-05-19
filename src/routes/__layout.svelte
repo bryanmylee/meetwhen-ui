@@ -1,5 +1,8 @@
 <script lang="ts">
   import '../app.postcss';
+  import '$lib/colors';
 </script>
 
-<slot />
+<main>
+  <slot />
+</main>
