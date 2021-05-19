@@ -9,7 +9,8 @@
   import { setContext } from 'svelte';
   import { crossfade, fade } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
-  import { Readable, derived, Writable, writable } from 'svelte/store';
+  import { derived, writable } from 'svelte/store';
+  import type { Readable, Writable } from 'svelte/store';
 
   setContext('new-event-name', writable(''));
 
