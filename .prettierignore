@@ -1,4 +1,10 @@
+# Compiled files
 .svelte-kit/**
 static/**
 build/**
-node_modules/**
+
+# Node.js dependency directory
+node_modules/
+
+# lock-file
+pnpm-lock.yaml
