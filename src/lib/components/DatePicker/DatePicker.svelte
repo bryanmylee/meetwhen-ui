@@ -34,23 +34,47 @@
       ACTIONS[key]();
       event.preventDefault();
     }
-    if (focusedIndex < 0) {
-      $month = $month.subtract(1, 'month');
-      focusedIndex += $month.daysInMonth();
-    }
+  };
+
+  const ACTIONS = {
+    ArrowRight: () => {
+      focusedIndex++;
+      incrementMonthIfOverflow();
+    },
+    ArrowDown: () => {
+      focusedIndex += 7;
+      incrementMonthIfOverflow();
+    },
+    ArrowLeft: () => {
+      if ($month.isSame(dayjs(), 'month') && focusedIndex - 1 < 0) {
+        return;
+      }
+      focusedIndex--;
+      decrementMonthIfUnderflow();
+    },
+    ArrowUp: () => {
+      if ($month.isSame(dayjs(), 'month') && focusedIndex - 7 < 0) {
+        return;
+      }
+      focusedIndex -= 7;
+      decrementMonthIfUnderflow();
+    },
+    Enter: () => selector?.toggle(focusedDateId),
+    ' ': () => selector?.toggle(focusedDateId),
+  };
+
+  const incrementMonthIfOverflow = () => {
     if (focusedIndex >= $month.daysInMonth()) {
       focusedIndex -= $month.daysInMonth();
       $month = $month.add(1, 'month');
     }
   };
 
-  const ACTIONS = {
-    ArrowRight: () => focusedIndex++,
-    ArrowLeft: () => focusedIndex--,
-    ArrowUp: () => (focusedIndex -= 7),
-    ArrowDown: () => (focusedIndex += 7),
-    Enter: () => selector?.toggle(focusedDateId),
-    ' ': () => selector?.toggle(focusedDateId),
+  const decrementMonthIfUnderflow = () => {
+    if (focusedIndex < 0) {
+      $month = $month.subtract(1, 'month');
+      focusedIndex += $month.daysInMonth();
+    }
   };
 
   let selector: SelectableProvider;
