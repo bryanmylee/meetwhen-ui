@@ -18,7 +18,7 @@
   setContext('new-event-name', writable(''));
 
   const appCrossfade = crossfade({
-    duration: 500,
+    duration: 10000,
     easing: cubicOut,
     fallback: (node, params) => fade(node, { ...params, duration: 200 }),
   });
