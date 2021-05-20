@@ -3,7 +3,7 @@
   import type { ICrossfade } from './__layout.svelte';
 
   const crossfade = getContext<ICrossfade>('crossfade');
-  $: [send, receive] = $crossfade;
+  $: [send, receive] = crossfade();
 </script>
 
 <header

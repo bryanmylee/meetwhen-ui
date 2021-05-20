@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   export type INewEventName = Writable<string>;
-  export type ICrossfade = Readable<ReturnType<typeof crossfade>>;
+  export type ICrossfade = () => ReturnType<typeof crossfade>;
 </script>
 
 <script lang="ts">
@@ -10,7 +10,7 @@
   import { cubicOut } from 'svelte/easing';
   import { writable } from 'svelte/store';
   import { crossfade, fade } from 'svelte/transition';
-  import type { Readable, Writable } from 'svelte/store';
+  import type { Writable } from 'svelte/store';
   import { page } from '$app/stores';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import Nav from './_nav.svelte';
@@ -22,7 +22,7 @@
     easing: cubicOut,
     fallback: (node, params) => fade(node, { ...params, duration: 200 }),
   });
-  setContext('crossfade', { subscribe: writable(appCrossfade).subscribe });
+  setContext('crossfade', () => appCrossfade);
 </script>
 
 <PageTransition key={$page.path}>

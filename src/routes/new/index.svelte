@@ -4,7 +4,7 @@
   import Head from '$lib/components/Head.svelte';
 
   const crossfade = getContext<ICrossfade>('crossfade');
-  $: [send, receive] = $crossfade;
+  $: [send, receive] = crossfade();
 </script>
 
 <Head emoji="✏️" subtitle="new event" />
