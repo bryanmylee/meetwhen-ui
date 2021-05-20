@@ -4,6 +4,7 @@
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
   import { getDatePickerState, toId, fromId } from './state';
   import { hasNeighbours } from './has-neighbours';
+  import { keyActions } from './keyboard';
   import MonthPicker from './MonthPicker.svelte';
   import DateItem from './DateItem.svelte';
 
@@ -30,50 +31,16 @@
 
   const keydown = (event: KeyboardEvent) => {
     const { key } = event;
-    if (Object.keys(ACTIONS).includes(key)) {
-      ACTIONS[key]();
+    if (key === ' ' || key === 'Enter') {
+      selector?.toggle(focusedDateId);
+      return;
+    }
+    if (Object.keys(keyActions).includes(key)) {
+      console.log('included! running action');
+      const result = keyActions[key]([focusedIndex, $month]);
+      focusedIndex = result[0];
+      $month = result[1];
       event.preventDefault();
-    }
-  };
-
-  const ACTIONS = {
-    ArrowRight: () => {
-      focusedIndex++;
-      incrementMonthIfOverflow();
-    },
-    ArrowDown: () => {
-      focusedIndex += 7;
-      incrementMonthIfOverflow();
-    },
-    ArrowLeft: () => {
-      if ($month.isSame(dayjs(), 'month') && focusedIndex - 1 < 0) {
-        return;
-      }
-      focusedIndex--;
-      decrementMonthIfUnderflow();
-    },
-    ArrowUp: () => {
-      if ($month.isSame(dayjs(), 'month') && focusedIndex - 7 < 0) {
-        return;
-      }
-      focusedIndex -= 7;
-      decrementMonthIfUnderflow();
-    },
-    Enter: () => selector?.toggle(focusedDateId),
-    ' ': () => selector?.toggle(focusedDateId),
-  };
-
-  const incrementMonthIfOverflow = () => {
-    if (focusedIndex >= $month.daysInMonth()) {
-      focusedIndex -= $month.daysInMonth();
-      $month = $month.add(1, 'month');
-    }
-  };
-
-  const decrementMonthIfUnderflow = () => {
-    if (focusedIndex < 0) {
-      $month = $month.subtract(1, 'month');
-      focusedIndex += $month.daysInMonth();
     }
   };
 
