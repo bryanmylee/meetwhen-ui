@@ -57,32 +57,32 @@
 <div
   bind:this={refElement}
   use:ref
-  on:click={() => (showDropdown = true)}
+  on:click={() => (showDropdown = !showDropdown)}
   on:keydown={keydown}
   tabindex="0"
-  class="px-4 py-2 cursor-pointer bg-gray-100 rounded-xl focusable {className}"
+  class="{className} px-4 py-2 cursor-pointer focusable"
 >
   {getDisplay(selected)}
+  {#if showDropdown}
+    <div
+      use:clickOutside={() => (showDropdown = false)}
+      use:popper={getOptions(focusedIndex, refHeight)}
+      class="relative z-50 overflow-y-auto bg-white max-h-80 card scrollbar-none select-none-all"
+    >
+      {#each items as item, itemIndex (getId(item))}
+        <div
+          on:click={() => optionclick(itemIndex)}
+          class={cx(
+            'px-4 py-2 z-0 cursor-pointer focusable whitespace-nowrap',
+            'hover:z-10 hover:bg-primary-lighter hover:text-white hover:shadow-md-primary',
+            'active:z-10 active:bg-primary-darker active:text-white active:shadow-primary',
+            [itemIndex === index, 'bg-primary text-white'],
+            [itemIndex === focusedIndex, 'bg-primary-lighter text-white shadow-md-primary']
+          )}
+        >
+          {getDisplay(item)}
+        </div>
+      {/each}
+    </div>
+  {/if}
 </div>
-{#if showDropdown}
-  <div
-    use:clickOutside={() => (showDropdown = false)}
-    use:popper={getOptions(focusedIndex, refHeight)}
-    class="relative z-50 overflow-y-auto bg-white max-h-80 card scrollbar-none select-none-all"
-  >
-    {#each items as item, itemIndex (getId(item))}
-      <div
-        on:click={() => optionclick(itemIndex)}
-        class={cx(
-          'px-4 py-2 z-0 cursor-pointer focusable',
-          'hover:z-10 hover:bg-primary-lighter hover:text-white hover:shadow-md-primary',
-          'active:z-10 active:bg-primary-darker active:text-white active:shadow-primary',
-          [itemIndex === index, 'bg-primary text-white'],
-          [itemIndex === focusedIndex, 'bg-primary-lighter text-white shadow-md-primary']
-        )}
-      >
-        {getDisplay(item)}
-      </div>
-    {/each}
-  </div>
-{/if}

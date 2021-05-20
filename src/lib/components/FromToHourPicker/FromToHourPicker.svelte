@@ -1,6 +1,13 @@
 <script lang="ts">
   import dayjs from 'dayjs';
-  import { EARLIEST_OFFSET, HOURS, toDisplay, toId, UTC_OFFSETS } from './utils';
+  import {
+    EARLIEST_OFFSET,
+    HOURS,
+    toDisplay,
+    toId,
+    utcOffsetsToDisplay,
+    UTC_OFFSETS,
+  } from './utils';
   import type { Dayjs } from 'dayjs';
   import Select from '$lib/components/Select/Select.svelte';
 
@@ -29,7 +36,25 @@
 
 <div class="flex items-center space-x-4">
   <span>From</span>
-  <Select bind:index={fromIndex} items={HOURS} getDisplay={toDisplay} getId={toId} class="flex-1" />
+  <Select
+    bind:index={fromIndex}
+    items={HOURS}
+    getDisplay={toDisplay}
+    getId={toId}
+    class="flex-1 bg-gray-100 rounded-xl"
+  />
   <span>To</span>
-  <Select bind:index={toIndex} items={HOURS} getDisplay={toDisplay} getId={toId} class="flex-1" />
+  <Select
+    bind:index={toIndex}
+    items={HOURS}
+    getDisplay={toDisplay}
+    getId={toId}
+    class="flex-1 bg-gray-100 rounded-xl"
+  />
+  <Select
+    bind:index={toIndex}
+    items={UTC_OFFSETS}
+    getDisplay={utcOffsetsToDisplay}
+    class="!ml-0 !-mr-2 text-xs font-bold rounded-xl"
+  />
 </div>
