@@ -7,7 +7,7 @@
     @apply shadow-md rounded-xl;
     &[tabindex='0'] {
       @apply cursor-pointer transition-shadow focusable;
-      @apply hover:shadow-lg focus:shadow-lg active:shadow;
+      @apply hover:shadow-lg active:shadow;
     }
   }
 
@@ -16,7 +16,6 @@
     @apply disabled:text-gray-400;
     &:not(:disabled) {
       @apply hover:bg-primary-lighter hover:shadow-md-primary;
-      @apply focus:bg-primary-lighter focus:shadow-md-primary;
       @apply active:bg-primary-darker active:shadow-primary;
     }
     &.primary {
@@ -29,7 +28,6 @@
       &:not(:disabled) {
         @apply bg-gradient-primary;
         @apply hover:shadow-lg-primary;
-        @apply focus:shadow-lg-primary;
         @apply active:shadow-primary;
       }
     }
