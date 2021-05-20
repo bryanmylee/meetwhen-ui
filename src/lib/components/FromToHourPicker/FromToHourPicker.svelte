@@ -52,7 +52,7 @@
     class="flex-1 bg-gray-100 rounded-xl"
   />
   <Select
-    bind:index={toIndex}
+    bind:index={utcOffsetIndex}
     items={UTC_OFFSETS}
     getDisplay={utcOffsetsToDisplay}
     class="!ml-0 !-mr-2 text-xs font-bold rounded-xl"
