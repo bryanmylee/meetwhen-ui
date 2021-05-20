@@ -10,7 +10,7 @@
 
 <section class="max-w-lg p-6 pt-20 mx-auto space-y-4">
   <div class="p-4 space-y-4 card">
-    <Textfield bind:value={$newEventName} placeholder="Event Name" class="w-full" />
+    <Textfield bind:value={$newEventName} placeholder="Name your event" class="w-full" />
     <h2>Set a time for everyone</h2>
     <DatePicker />
     <FromToHourPicker />
