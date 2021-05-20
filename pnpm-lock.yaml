@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@popperjs/core': ^2.9.2
   '@sveltejs/kit': ^1.0.0-next.108
   '@types/body-scroll-lock': ^2.6.1
   '@types/chroma-js': ^2.1.3
@@ -24,12 +25,14 @@ specifiers:
   prettier-plugin-svelte: ^2.2.0
   svelte: ^3.34.0
   svelte-feather-icons: ^3.3.0
+  svelte-popperjs: ^1.2.6
   svelte-preprocess: ^4.7.1
   tailwindcss: ^2.1.1
   tslib: ^2.0.0
   typescript: ^4.0.0
 
 devDependencies:
+  '@popperjs/core': 2.9.2
   '@sveltejs/kit': 1.0.0-next.108_svelte@3.38.2
   '@types/body-scroll-lock': 2.6.1
   '@types/chroma-js': 2.1.3
@@ -53,6 +56,7 @@ devDependencies:
   prettier-plugin-svelte: 2.3.0_prettier@2.2.1+svelte@3.38.2
   svelte: 3.38.2
   svelte-feather-icons: 3.3.0
+  svelte-popperjs: 1.2.6_@popperjs+core@2.9.2
   svelte-preprocess: 4.7.3_5944bffd99aeae72e0daf7602e6be64e
   tailwindcss: 2.1.2_797cfc3ceddb49f111b184f6879a433f
   tslib: 2.2.0
@@ -126,6 +130,10 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.4
       fastq: 1.11.0
+    dev: true
+
+  /@popperjs/core/2.9.2:
+    resolution: {integrity: sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q==}
     dev: true
 
   /@rollup/pluginutils/4.1.0:
@@ -2762,6 +2770,14 @@ packages:
       svelte: '>=3.19.0'
     dependencies:
       svelte: 3.38.2
+    dev: true
+
+  /svelte-popperjs/1.2.6_@popperjs+core@2.9.2:
+    resolution: {integrity: sha512-xSCAZZgSbjVVfN3GtvWxUypP7jELAdKW6r7PS6bxRN23pCnJPcbPlOjmk8pK5uiMdYWSaib/oy/+EgthrzI1Hw==}
+    peerDependencies:
+      '@popperjs/core': 2.9.x
+    dependencies:
+      '@popperjs/core': 2.9.2
     dev: true
 
   /svelte-preprocess/4.7.3_5944bffd99aeae72e0daf7602e6be64e:

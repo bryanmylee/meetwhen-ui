@@ -43,7 +43,7 @@
     }
   };
 
-  let selector: SelectableProvider;
+  let selector: SelectableProvider | undefined;
 
   const toggle = ({ detail }: CustomEvent) => {
     focusedIndex = $monthDates.findIndex((date) => toId(date) === detail.id);
