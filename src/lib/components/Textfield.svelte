@@ -26,7 +26,7 @@
       }
     }
     & > label {
-      @apply absolute -top-2 left-0 mt-7 mb-5 mx-4 transition-all pointer-events-none;
+      @apply absolute -top-2 left-0 mt-7 mb-5 mx-4 text-gray-700 transition-all pointer-events-none;
     }
   }
 </style>
