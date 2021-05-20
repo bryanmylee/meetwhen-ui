@@ -2,7 +2,8 @@
   import dayjs from 'dayjs';
   import type { Dayjs } from 'dayjs';
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
-  import { getDatePickerState, toId, fromId } from './state';
+  import { getDatePickerState } from './state';
+  import { fromId, toId } from './utils';
   import { hasNeighbours } from './has-neighbours';
   import { keyActions } from './keyboard';
   import MonthPicker from './MonthPicker.svelte';

@@ -4,7 +4,7 @@
   import { Selecting } from '$lib/components/SelectableProvider/selecting';
   import { cx } from '$lib/utils/cx';
   import type { HasNeighbours } from './has-neighbours';
-  import { toId } from './state';
+  import { toId } from './utils';
 
   export let date: Dayjs;
   $: columnStart = date.date() === 1 ? date.day() || 7 : '';

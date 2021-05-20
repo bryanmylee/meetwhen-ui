@@ -25,6 +25,3 @@ export const getDatePickerState = (): DatePickerState => {
     disabledDates,
   };
 };
-
-export const toId = (date: Dayjs): string => date?.format('YYYYMMDD');
-export const fromId = (id: string): Dayjs => dayjs(id, 'YYYYMMDD');
