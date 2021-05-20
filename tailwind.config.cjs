@@ -3,6 +3,9 @@ module.exports = {
   purge: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
+      borderWidth: {
+        3: '3px',
+      },
       colors: {
         primary: {
           DEFAULT: 'var(--primary)',
