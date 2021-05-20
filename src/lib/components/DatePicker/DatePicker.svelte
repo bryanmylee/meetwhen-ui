@@ -54,6 +54,14 @@
 <div class="p-4 bg-gray-100 rounded-xl focusable">
   <MonthPicker bind:month={$month} />
 
+  <div class="grid grid-cols-7">
+    {#each $weekDays as day}
+      <div class="p-2 text-center">
+        {day.format('ddd')}
+      </div>
+    {/each}
+  </div>
+
   <SelectableProvider
     bind:this={selector}
     on:toggle={toggle}
