@@ -3,6 +3,7 @@
   import DatePicker from '$lib/components/DatePicker/DatePicker.svelte';
   import Head from '$lib/components/Head.svelte';
   import Textfield from '$lib/components/Textfield.svelte';
+  import FromToHourPicker from '$lib/components/FromToHourPicker/FromToHourPicker.svelte';
 </script>
 
 <Head emoji="✏️" subtitle="new event" />
@@ -12,10 +13,7 @@
     <Textfield bind:value={$newEventName} placeholder="Event Name" class="w-full" />
     <h2>Set a time for everyone</h2>
     <DatePicker />
-    <div class="flex items-center space-x-4">
-      <span>From</span>
-      <span>To</span>
-    </div>
+    <FromToHourPicker />
   </div>
   <button class="w-full p-3 button gradient card"> Create Event </button>
 </section>
