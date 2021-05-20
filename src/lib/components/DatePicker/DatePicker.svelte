@@ -36,7 +36,6 @@
       return;
     }
     if (Object.keys(keyActions).includes(key)) {
-      console.log('included! running action');
       const result = keyActions[key]([focusedIndex, $month]);
       focusedIndex = result[0];
       $month = result[1];

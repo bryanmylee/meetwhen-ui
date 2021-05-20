@@ -22,7 +22,7 @@ export const keyActions: Record<string, Action> = {
     return [newIndex, month.add(1, 'month')];
   },
   ArrowLeft: ([index, month]) => {
-    if (month.isSame(dayjs(), 'month') && index - 1 < 0) {
+    if (month.isSame(dayjs(), 'month') && index < dayjs().date()) {
       return [index, month];
     }
     let newIndex = index - 1;
@@ -34,7 +34,7 @@ export const keyActions: Record<string, Action> = {
     return [newIndex, newMonth];
   },
   ArrowUp: ([index, month]) => {
-    if (month.isSame(dayjs(), 'month') && index - 7 < 0) {
+    if (month.isSame(dayjs(), 'month') && index - 6 < dayjs().date()) {
       return [index, month];
     }
     let newIndex = index - 7;
