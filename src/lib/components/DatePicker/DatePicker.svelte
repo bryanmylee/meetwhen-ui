@@ -4,6 +4,7 @@
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
   import { getDatePickerState, toId, fromId } from './state';
   import { hasNeighbours } from './has-neighbours';
+  import MonthPicker from './MonthPicker.svelte';
   import DateItem from './DateItem.svelte';
 
   const { month, weekDays, monthDates, disabledDates } = getDatePickerState();
@@ -60,6 +61,8 @@
 </script>
 
 <div class="p-4 bg-gray-100 rounded-xl focusable">
+  <MonthPicker bind:month={$month} />
+
   <SelectableProvider
     bind:this={selector}
     on:toggle={toggle}
