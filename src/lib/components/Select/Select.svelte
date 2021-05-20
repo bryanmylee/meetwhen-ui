@@ -74,10 +74,10 @@
           on:click={() => optionclick(itemIndex)}
           class={cx(
             'px-4 py-2 z-0 cursor-pointer focusable whitespace-nowrap',
-            'hover:z-10 hover:bg-primary-lighter hover:text-white hover:shadow-md-primary',
-            'active:z-10 active:bg-primary-darker active:text-white active:shadow-primary',
-            [itemIndex === index, 'bg-primary text-white'],
-            [itemIndex === focusedIndex, 'bg-primary-lighter text-white shadow-md-primary']
+            'hover:z-10 hover:bg-gray-200',
+            'active:z-10 active:bg-gray-400 active:text-white',
+            [itemIndex === focusedIndex, 'bg-gray-200'],
+            [itemIndex === index, '!bg-primary text-white']
           )}
         >
           {getDisplay(item)}
