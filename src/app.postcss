@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;    /* Firefox */
+  &::-webkit-scrollbar {    /* Chrome, Safari, and Opera */
+    display: none; 
+  }
+}
+
 @layer components {
   .card {
     @apply shadow-md rounded-xl;
