@@ -160,6 +160,7 @@
     on:mousedown={mousestart}
     on:mousemove={mousemoveinto}
     on:mouseleave={endSelection}
+    on:mouseup={endSelection}
     class="contents"
   >
     <slot {selectedIds} {selecting} {isDisabled} />
