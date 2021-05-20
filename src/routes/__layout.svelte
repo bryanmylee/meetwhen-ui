@@ -18,7 +18,7 @@
   setContext('new-event-name', writable(''));
 
   const appCrossfade = crossfade({
-    duration: 10000,
+    duration: 500,
     easing: cubicOut,
     fallback: (node, params) => fade(node, { ...params, duration: 200 }),
   });
@@ -26,9 +26,7 @@
 </script>
 
 <PageTransition key={$page.path}>
-  <main>
-    <slot />
-  </main>
+  <slot />
 </PageTransition>
 
 {#if $page.path !== '/'}
