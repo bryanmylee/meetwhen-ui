@@ -3,6 +3,7 @@
   import { slide } from 'svelte/transition';
   import { ChevronDownIcon, ArrowRightIcon } from 'svelte-feather-icons';
   import Accordian from '$lib/components/Accordian.svelte';
+  import Textfield from '$lib/components/Textfield.svelte';
 
   let findUrl = '';
   const find = () => {
@@ -22,8 +23,12 @@
     <h2>Find an event</h2>
     <ChevronDownIcon class="p-2 -m-2 w-10 h-10 transition transform {expanded && 'rotate-180'}" />
   </svelte:fragment>
-  <form on:submit|preventDefault={find} transition:slide|local class="flex p-4 pt-0 space-x-4">
-    <input type="text" bind:value={findUrl} placeholder="event code..." class="flex-1 " />
+  <form
+    on:submit|preventDefault={find}
+    transition:slide|local
+    class="flex items-center p-4 pt-0 space-x-4"
+  >
+    <Textfield bind:value={findUrl} placeholder="Event Code" class="flex-1" />
     <button type="submit" class="w-10 h-10 rounded-full button primary">
       <ArrowRightIcon class="p-2" />
     </button>
