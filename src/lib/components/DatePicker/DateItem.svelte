@@ -40,7 +40,7 @@
     'z-0',
     [isToday, 'text-primary'],
     [focused, 'border-primary-lighter'],
-    [!selecting && !disabled, 'hover:bg-gray-200']
+    [!selecting && !disabled, 'hover:shade-2']
   );
 </script>
 

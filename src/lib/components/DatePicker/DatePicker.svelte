@@ -51,7 +51,7 @@
   };
 </script>
 
-<div class="p-4 bg-gray-100 rounded-xl focusable">
+<div class="p-4 shade rounded-xl focusable">
   <MonthPicker bind:month={$month} />
 
   <div class="grid grid-cols-7">

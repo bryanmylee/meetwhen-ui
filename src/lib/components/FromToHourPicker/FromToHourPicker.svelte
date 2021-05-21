@@ -35,7 +35,7 @@
     items={HOURS.slice(0, 24)}
     getDisplay={toDisplay}
     getId={toId}
-    class="flex-1 bg-gray-100 rounded-xl"
+    class="flex-1 shade rounded-xl"
   />
   <span>To</span>
   <Select
@@ -43,7 +43,7 @@
     items={toHours.slice(1)}
     getDisplay={toDisplay}
     getId={toId}
-    class="flex-1 bg-gray-100 rounded-xl"
+    class="flex-1 shade rounded-xl"
   />
   <Select
     bind:index={utcOffsetIndex}

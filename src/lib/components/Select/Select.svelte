@@ -60,8 +60,7 @@
   $: refHeight = refElement?.getBoundingClientRect().height ?? 0;
 
   const disabledClass = 'text-gray-300 cursor-default';
-  const enabledClass =
-    'hover:z-10 hover:bg-gray-200 active:z-10 active:bg-gray-400 active:text-white';
+  const enabledClass = 'hover:z-10 hover:shade active:z-10 active:shade-2';
 </script>
 
 <div
@@ -77,7 +76,7 @@
     <div
       use:clickOutside={() => (showDropdown = false)}
       use:popper={getOptions(focusedIndex, refHeight)}
-      class="relative z-50 overflow-y-auto bg-white select-none max-h-80 card scrollbar-none"
+      class="relative z-50 overflow-y-auto select-none max-h-80 card scrollbar-none"
     >
       {#each items as item, itemIndex (getId(item))}
         <div
@@ -85,7 +84,7 @@
           class={cx(
             'px-4 py-2 z-0 focusable whitespace-nowrap',
             [isDisabled(item), disabledClass, enabledClass],
-            [itemIndex === focusedIndex, 'bg-gray-200'],
+            [itemIndex === focusedIndex, 'shade'],
             [itemIndex === index, '!bg-primary text-white']
           )}
         >

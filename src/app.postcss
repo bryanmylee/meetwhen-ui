@@ -10,6 +10,9 @@
   .shade {
     @apply bg-gray-100 dark:bg-gray-700;
   }
+  .shade-2 {
+    @apply bg-gray-200 dark:bg-gray-600;
+  }
 }
 
 @layer components {
@@ -46,7 +49,7 @@
   .textfield {
     @apply relative inline-block;
     & > input[type='text'] {
-      @apply relative w-full p-4 pt-6 rounded-xl text-gray-600 dark:text-white shade focusable;
+      @apply relative w-full p-4 pt-6 rounded-xl text-gray-700 dark:text-white shade focusable;
       &:focus,
       &.filled {
         & + label {
