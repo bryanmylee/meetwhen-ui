@@ -4,4 +4,4 @@ export type Action<Params> = (
 ) => {
   update?: (newParams?: Params) => void;
   destroy?: () => void;
-};
+} | void;
