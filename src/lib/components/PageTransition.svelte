@@ -6,7 +6,7 @@
 
 <div class="relative">
   {#key key}
-    <div in:fade class="absolute inset-0">
+    <div transition:fade class="absolute inset-0">
       <slot />
     </div>
   {/key}
