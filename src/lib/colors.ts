@@ -12,7 +12,7 @@ export interface IColor {
   darker: string;
   warmer: string;
   cooler: string;
-  sixty: string;
+  fifty: string;
   thirty: string;
 }
 
@@ -55,7 +55,7 @@ const getColors = (base: string): IColor => ({
   darker: chroma(base).darken(0.5).css(),
   warmer: hueShifted(chroma(base), -10).css(),
   cooler: hueShifted(chroma(base), 10).css(),
-  sixty: chroma(base).alpha(0.6).css(),
+  fifty: chroma(base).alpha(0.5).css(),
   thirty: chroma(base).alpha(0.3).css(),
 });
 

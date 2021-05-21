@@ -14,7 +14,7 @@ module.exports = {
           darker: 'var(--primary-darker)',
           warmer: 'var(--primary-warmer)',
           cooler: 'var(--primary-cooler)',
-          sixty: 'var(--primary-sixty)',
+          fifty: 'var(--primary-fifty)',
           thirty: 'var(--primary-thirty)',
         },
       },

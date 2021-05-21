@@ -29,7 +29,7 @@
   $: selectedClass = cx(
     'bg-primary text-white shadow-primary z-10',
     [isCreating, 'shadow-lg-primary'],
-    [isDeleting, 'bg-primary-sixty'],
+    [isDeleting, 'bg-primary-fifty'],
     [focused, 'border-white'],
     [neighbours.bottom, 'rounded-b-none'],
     [neighbours.left, 'rounded-l-none'],

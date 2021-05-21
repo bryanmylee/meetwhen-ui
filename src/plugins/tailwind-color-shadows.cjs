@@ -23,19 +23,19 @@ module.exports = plugin(({ addUtilities, theme }) => {
       boxShadow: getShadow.lg('rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.06)'),
     },
     '.shadow-sm-primary': {
-      boxShadow: getShadow.sm(theme('colors.primary.sixty'), theme('colors.primary.thirty')),
+      boxShadow: getShadow.sm(theme('colors.primary.fifty'), theme('colors.primary.thirty')),
     },
     '.shadow-primary': {
-      boxShadow: getShadow.DEFAULT(theme('colors.primary.sixty'), theme('colors.primary.thirty')),
+      boxShadow: getShadow.DEFAULT(theme('colors.primary.fifty'), theme('colors.primary.thirty')),
     },
     '.shadow-md-primary': {
-      boxShadow: getShadow.md(theme('colors.primary.sixty'), theme('colors.primary.thirty')),
+      boxShadow: getShadow.md(theme('colors.primary.fifty'), theme('colors.primary.thirty')),
     },
     '.shadow-lg-primary': {
-      boxShadow: getShadow.lg(theme('colors.primary.sixty'), theme('colors.primary.thirty')),
+      boxShadow: getShadow.lg(theme('colors.primary.fifty'), theme('colors.primary.thirty')),
     },
     '.shadow-xl-primary': {
-      boxShadow: getShadow.xl(theme('colors.primary.sixty'), theme('colors.primary.thirty')),
+      boxShadow: getShadow.xl(theme('colors.primary.fifty'), theme('colors.primary.thirty')),
     },
   });
 });
