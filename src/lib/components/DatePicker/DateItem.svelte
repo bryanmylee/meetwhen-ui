@@ -21,7 +21,7 @@
   export let focused = false;
 
   $: className = cx(
-    'p-2 text-center rounded-xl transition border-3 focus:outline-none select-none-all',
+    'p-2 text-center rounded-xl transition border-3 focus:outline-none select-none',
     [!focused, 'border-transparent'],
     [disabled, 'text-gray-400', 'cursor-pointer'],
     [selected, selectedClass, unselectedClass]

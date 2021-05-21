@@ -3,14 +3,7 @@
 @tailwind utilities;
 
 * {
-  /* IE and Edge */
-  -ms-overflow-style: none;
-  /* Firefox */
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    /* Chrome, Safari, and Opera */
-    display: none;
-  }
+  @apply scrollbar-none select-none;
 }
 
 @layer components {
@@ -75,7 +68,18 @@
     @apply ring-primary-lighter focus:ring focus:outline-none;
   }
 
-  .select-none-all {
+  .scrollbar-none {
+    /* IE and Edge */
+    -ms-overflow-style: none;
+    /* Firefox */
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      /* Chrome, Safari, and Opera */
+      display: none;
+    }
+  }
+
+  .select-none {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;

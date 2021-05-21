@@ -77,7 +77,7 @@
     <div
       use:clickOutside={() => (showDropdown = false)}
       use:popper={getOptions(focusedIndex, refHeight)}
-      class="relative z-50 overflow-y-auto bg-white max-h-80 card scrollbar-none select-none-all"
+      class="relative z-50 overflow-y-auto bg-white select-none max-h-80 card scrollbar-none"
     >
       {#each items as item, itemIndex (getId(item))}
         <div

@@ -5,7 +5,7 @@
 <nav
   in:receive={{ key: 'nav' }}
   out:send={{ key: 'nav' }}
-  class="fixed inset-0 bottom-auto p-4 bg-white card select-none-all"
+  class="fixed inset-0 bottom-auto p-4 bg-white select-none card"
 >
   <div class="relative pointer-events none">
     <span class="text-transparent bg-clip-text bg-gradient-primary">meetwhen</span>
