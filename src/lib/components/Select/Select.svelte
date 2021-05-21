@@ -72,7 +72,7 @@
   tabindex="0"
   class="{className} px-4 py-2 cursor-pointer focusable"
 >
-  {getDisplay(selected)}
+  {@html getDisplay(selected)}
   {#if showDropdown}
     <div
       use:clickOutside={() => (showDropdown = false)}
@@ -89,7 +89,7 @@
             [itemIndex === index, '!bg-primary text-white']
           )}
         >
-          {getDisplay(item)}
+          {@html getDisplay(item)}
         </div>
       {/each}
     </div>

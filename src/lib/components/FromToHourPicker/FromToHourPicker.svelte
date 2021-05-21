@@ -12,20 +12,14 @@
   import Select from '$lib/components/Select/Select.svelte';
 
   let fromIndex = 9;
-  let toIndex = 17;
-
-  $: if (fromIndex >= toIndex) {
-    if (fromIndex === 24) {
-      fromIndex = 23;
-    }
-    toIndex = fromIndex + 1;
-  }
+  let toIndex = 7;
 
   export let fromHour: Dayjs;
   export let toHour: Dayjs;
 
   $: fromHour = HOURS[fromIndex];
-  $: toHour = HOURS[toIndex];
+  $: toHours = HOURS.map((hour) => hour.add(fromHour.hour(), 'hour'));
+  $: toHour = toHours[toIndex];
 
   const currentUtcOffset = Math.floor(dayjs().utcOffset() / 60);
   let utcOffsetIndex = currentUtcOffset - EARLIEST_OFFSET;
@@ -38,7 +32,7 @@
   <span>From</span>
   <Select
     bind:index={fromIndex}
-    items={HOURS}
+    items={HOURS.slice(0, 24)}
     getDisplay={toDisplay}
     getId={toId}
     class="flex-1 bg-gray-100 rounded-xl"
@@ -46,7 +40,7 @@
   <span>To</span>
   <Select
     bind:index={toIndex}
-    items={HOURS}
+    items={toHours.slice(1)}
     getDisplay={toDisplay}
     getId={toId}
     class="flex-1 bg-gray-100 rounded-xl"
