@@ -31,7 +31,7 @@
     items={HOURS}
     getDisplay={toDisplay}
     getId={toId}
-    class="flex-1 shade rounded-xl"
+    class="flex-auto shade rounded-xl"
   />
   <span>to</span>
   <Select
@@ -39,7 +39,7 @@
     items={toHours}
     getDisplay={toDisplay}
     getId={toId}
-    class="flex-1 shade rounded-xl"
+    class="flex-auto shade rounded-xl"
   />
   <Select
     bind:index={selectedUTCIndex}
