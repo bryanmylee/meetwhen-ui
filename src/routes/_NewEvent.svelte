@@ -9,11 +9,7 @@
 <section class="p-4 space-y-4 card">
   <h2>Get started with a new event</h2>
   <form on:submit|preventDefault={() => goto('/new')} class="flex items-center space-x-4">
-    <div
-      in:receive={{ key: 'new-event-input' }}
-      out:send={{ key: 'new-event-input' }}
-      class="flex-1"
-    >
+    <div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
       <Textfield bind:value={$newEventName} placeholder="Name your event" class="w-full" />
     </div>
     <button type="submit" class="w-10 h-10 rounded-full button primary">
