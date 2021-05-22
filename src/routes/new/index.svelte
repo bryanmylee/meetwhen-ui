@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { newEventName } from '$lib/state';
+  import { newEventName } from '$lib/app-state';
   import { receive, send } from '$lib/app-crossfade';
   import DatePicker from '$lib/components/DatePicker/DatePicker.svelte';
   import Head from '$lib/components/Head.svelte';
