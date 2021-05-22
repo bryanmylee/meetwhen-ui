@@ -65,6 +65,7 @@ export const useLocal = <T>(key: string, options?: UseLocalOptions<T>): Writable
   const handleStorageUpdate = () => {
     const storedValue = getLocalStorage();
     if (currentValue !== storedValue) {
+      currentValue = storedValue;
       store.set(storedValue);
     }
   };
