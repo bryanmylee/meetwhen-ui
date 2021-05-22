@@ -9,8 +9,8 @@
 
 <Head emoji="✏️" subtitle="new event" />
 
-<section class="max-w-lg p-6 mx-auto space-y-4">
-  <div class="p-4 space-y-4 card">
+<div class="max-w-lg p-6 mx-auto space-y-4">
+  <section class="p-4 space-y-4 card">
     <div
       in:receive={{ key: 'new-event-input' }}
       out:send={{ key: 'new-event-input' }}
@@ -21,6 +21,6 @@
     <h2>Set a time for everyone</h2>
     <DatePicker />
     <FromToHourPicker />
-  </div>
+  </section>
   <button class="w-full p-3 button gradient card"> Create Event </button>
-</section>
+</div>
