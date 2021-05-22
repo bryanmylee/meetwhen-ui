@@ -27,21 +27,33 @@
   .button {
     @apply transition focusable font-bold;
     @apply disabled:text-gray-400;
-    &:not(:disabled) {
-      @apply hover:bg-primary-lighter hover:shadow-md-primary hover:text-white;
-      @apply active:bg-primary-darker active:shadow-primary hover:text-white;
-    }
     &.primary {
-      @apply bg-primary text-white;
-      @apply disabled:bg-primary-thirty;
+      &:not(.outline) {
+        @apply bg-primary text-white;
+        @apply disabled:bg-primary-thirty;
+        &:not(:disabled) {
+          @apply hover:bg-primary-lighter hover:shadow-md-primary;
+          @apply active:bg-primary-darker active:shadow-primary;
+        }
+      }
+      &.outline {
+        @apply border-3 border-primary text-primary transform;
+        @apply disabled:border-gray-400;
+        &:not(:disabled) {
+          @apply hover:border-primary-lighter hover:scale-105;
+          @apply active:border-primary-darker active:scale-100;
+        }
+      }
     }
     &.gradient {
-      @apply text-white;
-      @apply disabled:bg-primary-thirty;
-      &:not(:disabled) {
-        @apply bg-gradient-primary;
-        @apply hover:shadow-lg-primary;
-        @apply active:shadow-primary;
+      &:not(.outline) {
+        @apply text-white;
+        @apply disabled:bg-primary-thirty;
+        &:not(:disabled) {
+          @apply bg-gradient-primary;
+          @apply hover:shadow-lg-primary;
+          @apply active:shadow-primary;
+        }
       }
     }
   }
