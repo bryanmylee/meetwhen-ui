@@ -45,6 +45,15 @@
         }
       }
     }
+    &.shade {
+      &:not(.outline) {
+        @apply bg-gray-100 text-black dark:bg-gray-700 dark:text-white;
+        &:not(:disabled) {
+          @apply hover:bg-gray-50 dark:hover:bg-gray-600 hover:shadow;
+          @apply active:bg-gray-200 dark:active:bg-gray-800 active:shadow-none;
+        }
+      }
+    }
     &.gradient {
       &:not(.outline) {
         @apply text-white;
@@ -61,7 +70,7 @@
   .textfield {
     @apply relative inline-block;
     & > input[type='text'] {
-      @apply relative w-full p-4 pt-6 rounded-xl text-gray-700 dark:text-white shade focusable;
+      @apply relative w-full p-4 pt-6 rounded-xl text-gray-800 dark:text-white shade focusable;
       &:focus,
       &.filled {
         & + label {
@@ -70,7 +79,7 @@
       }
     }
     & > label {
-      @apply absolute -top-2 left-0 mt-7 mb-5 mx-4 text-gray-700 dark:text-white transition-all pointer-events-none;
+      @apply absolute -top-2 left-0 mt-7 mb-5 mx-4 text-gray-800 dark:text-white transition-all pointer-events-none;
     }
   }
 }
