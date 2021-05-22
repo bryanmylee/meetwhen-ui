@@ -13,7 +13,7 @@ export const toDisplay = (date: Dayjs): string => {
 
 const sign = (n: number) => (n >= 0 ? '+' : '-');
 const padded = (n: number) => `${Math.abs(n)}`.padStart(2, '0');
-export const utcOffsetsToDisplay = (z: number): string => `UTC ${sign(z)}${padded(z)}`;
+export const UTCToDisplay = (z: number): string => `UTC ${sign(z)}${padded(z)}`;
 
 export const EARLIEST_OFFSET = -12;
 export const LATEST_OFFSET = 14;

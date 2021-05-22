@@ -1,13 +1,6 @@
 <script lang="ts">
   import dayjs from 'dayjs';
-  import {
-    EARLIEST_OFFSET,
-    HOURS,
-    toDisplay,
-    toId,
-    utcOffsetsToDisplay,
-    UTC_OFFSETS,
-  } from './utils';
+  import { EARLIEST_OFFSET, HOURS, toDisplay, toId, UTCToDisplay, UTC_OFFSETS } from './utils';
   import type { Dayjs } from 'dayjs';
   import Select from '$lib/components/Select/Select.svelte';
 
@@ -17,15 +10,16 @@
   export let fromHour: Dayjs;
   export let toHour: Dayjs;
 
-  $: fromHour = HOURS[fromIndex];
-  $: toHours = HOURS.map((hour) => hour.add(fromHour.hour(), 'hour'));
-  $: toHour = toHours[toIndex];
+  $: fromHour = HOURS[fromIndex].add(UTCOffset, 'hour');
+  $: toHours = HOURS.map((hour) => hour.add(fromHour.hour() + 1, 'hour'));
+  $: toHour = toHours[toIndex].add(UTCOffset, 'hour');
 
-  const currentUtcOffset = Math.floor(dayjs().utcOffset() / 60);
-  let utcOffsetIndex = currentUtcOffset - EARLIEST_OFFSET;
+  const currentUTC = Math.floor(dayjs().utcOffset() / 60);
 
-  export let utcOffset: number;
-  $: utcOffset = UTC_OFFSETS[utcOffsetIndex];
+  let selectedUTCIndex = currentUTC - EARLIEST_OFFSET;
+  $: selectedUTC = UTC_OFFSETS[selectedUTCIndex];
+  $: UTCOffset = selectedUTC - currentUTC;
+  $: console.log({ fromHour, toHour });
 </script>
 
 <div class="flex items-center space-x-4">
@@ -46,9 +40,9 @@
     class="flex-1 shade rounded-xl"
   />
   <Select
-    bind:index={utcOffsetIndex}
+    bind:index={selectedUTCIndex}
     items={UTC_OFFSETS}
-    getDisplay={utcOffsetsToDisplay}
+    getDisplay={UTCToDisplay}
     class="!ml-0 !-mr-2 text-xs font-bold rounded-xl"
   />
 </div>
