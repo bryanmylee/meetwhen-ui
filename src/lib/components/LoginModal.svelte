@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition';
+  import { fade, fly } from 'svelte/transition';
   import { clickOutside } from '$lib/utils/use-click-outside';
   import Textfield from './Textfield.svelte';
 
@@ -18,10 +18,14 @@
 
 {#if showModal}
   <div
-    transition:fade={{ duration: 100 }}
+    transition:fade={{ duration: 150 }}
     class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50"
   >
-    <form use:clickOutside={() => (showModal = false)} class="flex flex-col p-4 space-y-4 card">
+    <form
+      use:clickOutside={() => (showModal = false)}
+      in:fly={{ y: 200 }}
+      class="flex flex-col p-4 space-y-4 card"
+    >
       <h1 class="font-bold text-center">Login</h1>
       <Textfield placeholder="Email" />
       <Textfield placeholder="Password" password />
