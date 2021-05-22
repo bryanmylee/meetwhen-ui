@@ -7,25 +7,29 @@
   let fromIndex = 9;
   let toIndex = 7;
 
-  export let fromHour: Dayjs;
-  export let toHour: Dayjs;
-
-  $: fromHour = HOURS[fromIndex].add(UTCOffset, 'hour');
+  $: fromHour = HOURS[fromIndex];
   $: toHours = HOURS.map((hour) => hour.add(fromHour.hour() + 1, 'hour'));
-  $: toHour = toHours[toIndex].add(UTCOffset, 'hour');
+  $: toHour = toHours[toIndex];
 
   const currentUTC = Math.floor(dayjs().utcOffset() / 60);
 
   let selectedUTCIndex = currentUTC - EARLIEST_OFFSET;
   $: selectedUTC = UTC_OFFSETS[selectedUTCIndex];
   $: UTCOffset = selectedUTC - currentUTC;
+
+  export let from: Dayjs;
+  export let to: Dayjs;
+  $: {
+    from = fromHour.add(UTCOffset, 'hour');
+    to = toHour.add(UTCOffset, 'hour');
+  }
 </script>
 
 <div class="flex items-center space-x-4">
   <span>From</span>
   <Select
     bind:index={fromIndex}
-    items={HOURS.slice(0, 24)}
+    items={HOURS}
     getDisplay={toDisplay}
     getId={toId}
     class="flex-1 shade rounded-xl"
@@ -33,7 +37,7 @@
   <span>To</span>
   <Select
     bind:index={toIndex}
-    items={toHours.slice(1)}
+    items={toHours}
     getDisplay={toDisplay}
     getId={toId}
     class="flex-1 shade rounded-xl"

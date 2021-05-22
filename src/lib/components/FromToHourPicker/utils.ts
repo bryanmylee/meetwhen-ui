@@ -2,7 +2,7 @@ import { range } from '$lib/utils/range';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 
-export const HOURS = range(0, 25).map((hour) => dayjs().startOf('day').add(hour, 'hour'));
+export const HOURS = range(0, 24).map((hour) => dayjs().startOf('day').add(hour, 'hour'));
 export const toId = (date: Dayjs): string => date?.format('DDHH');
 export const toDisplay = (date: Dayjs): string => {
   if (date.isSame(dayjs(), 'day')) {
