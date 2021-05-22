@@ -24,7 +24,7 @@
     <form use:clickOutside={() => (showModal = false)} class="flex flex-col p-4 space-y-4 card">
       <h1 class="font-bold text-center">Login</h1>
       <Textfield placeholder="Email" />
-      <Textfield placeholder="Password" />
+      <Textfield placeholder="Password" password />
       <div class="flex space-x-4">
         <button
           on:click|preventDefault={() => (showModal = false)}
