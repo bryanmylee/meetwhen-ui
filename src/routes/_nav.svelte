@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
   import { receive, send } from '$lib/app-crossfade';
+  import LoginModal from '$lib/components/LoginModal.svelte';
 
   export let key: string;
 </script>
@@ -11,7 +12,7 @@
     class="fixed inset-0 bottom-auto flex justify-end p-4 dark:text-white"
   >
     <ul>
-      <li><button class="px-2 py-1 -my-1 button primary outline rounded-xl">Login</button></li>
+      <li><LoginModal class="-my-1" /></li>
     </ul>
   </nav>
 {:else}
@@ -34,7 +35,7 @@
       </li>
     </ul>
     <ul>
-      <li><button class="px-2 py-1 -my-1 button primary outline rounded-xl">Login</button></li>
+      <li><LoginModal class="-my-1" /></li>
     </ul>
   </nav>
 {/if}
