@@ -26,7 +26,6 @@
 </script>
 
 <div class="flex items-center space-x-4">
-  <span>From</span>
   <Select
     bind:index={fromIndex}
     items={HOURS}
@@ -34,7 +33,7 @@
     getId={toId}
     class="flex-1 shade rounded-xl"
   />
-  <span>To</span>
+  <span>to</span>
   <Select
     bind:index={toIndex}
     items={toHours}
