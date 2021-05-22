@@ -13,16 +13,15 @@
   import Nav from './_nav.svelte';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import type { Load } from '@sveltejs/kit';
+  import { cx } from '$lib/utils/cx';
 
   export let key: string;
 </script>
 
-<main>
+<main class={cx([key === '/', 'mt-10', 'mt-14'])}>
   <PageTransition {key}>
     <slot />
   </PageTransition>
 </main>
 
-{#if key !== '/'}
-  <Nav />
-{/if}
+<Nav {key} />

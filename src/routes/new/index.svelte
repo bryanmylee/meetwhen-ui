@@ -9,7 +9,7 @@
 
 <Head emoji="✏️" subtitle="new event" />
 
-<section class="max-w-lg p-6 pt-20 mx-auto space-y-4">
+<section class="max-w-lg p-6 mx-auto space-y-4">
   <div class="p-4 space-y-4 card">
     <div
       in:receive={{ key: 'new-event-input' }}
