@@ -19,7 +19,6 @@
   let selectedUTCIndex = currentUTC - EARLIEST_OFFSET;
   $: selectedUTC = UTC_OFFSETS[selectedUTCIndex];
   $: UTCOffset = selectedUTC - currentUTC;
-  $: console.log({ fromHour, toHour });
 </script>
 
 <div class="flex items-center space-x-4">
