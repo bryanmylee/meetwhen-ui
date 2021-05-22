@@ -74,12 +74,14 @@
       &:focus,
       &.filled {
         & + label {
-          @apply text-xs -top-5 text-primary;
+          @apply transform -translate-y-3 scale-75 text-primary;
         }
       }
     }
     & > label {
-      @apply absolute -top-2 left-0 mt-7 mb-5 mx-4 text-gray-800 dark:text-white transition-all pointer-events-none;
+      @apply absolute -top-2 left-0 mt-7 mb-5 mx-4 text-gray-800 dark:text-white;
+      @apply pointer-events-none transition-transform;
+      transform-origin: top left;
     }
   }
 }
