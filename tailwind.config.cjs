@@ -1,7 +1,7 @@
 module.exports = {
   mode: 'jit',
   purge: ['./src/**/*.{html,js,svelte,ts}'],
-  darkMode: 'media',
+  darkMode: 'class',
   theme: {
     extend: {
       borderWidth: {
