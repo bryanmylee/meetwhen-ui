@@ -1,39 +1,27 @@
 <script lang="ts">
   import { focusOnMount as focus } from '$lib/utils/use-focus-on-mount';
 
-  export let id: string;
-  $: if (id === undefined) {
-    id = placeholder;
-  }
-  export let value = '';
-  export let placeholder = '';
-  export let required = false;
+  export let id: string = undefined;
   export let password = false;
+
+  export let placeholder = '';
+  export let value = '';
+  export let required = false;
   export let focusOnMount = false;
+
+  let attrs = {};
+  $: {
+    if (id !== undefined) {
+      attrs = { ...attrs, id };
+    }
+    attrs = { ...attrs, type: password ? 'password' : 'text' };
+  }
 
   let className = '';
   export { className as class };
 </script>
 
 <div class="textfield {className}">
-  {#if password}
-    <input
-      {id}
-      type="password"
-      bind:value
-      {required}
-      use:focus={focusOnMount}
-      class:filled={value !== ''}
-    />
-  {:else}
-    <input
-      {id}
-      type="text"
-      bind:value
-      {required}
-      use:focus={focusOnMount}
-      class:filled={value !== ''}
-    />
-  {/if}
+  <input {...attrs} bind:value {required} use:focus={focusOnMount} class:filled={value !== ''} />
   <label for={id}>{placeholder}</label>
 </div>
