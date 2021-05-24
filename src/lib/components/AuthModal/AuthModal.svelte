@@ -48,7 +48,7 @@
   class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50"
 >
   <form
-    in:fly={{ y: 200 }}
+    in:fly|local={{ y: 200 }}
     on:introstart={() => (transitioning = true)}
     on:introend={() => (transitioning = false)}
     on:submit|preventDefault={confirm}
