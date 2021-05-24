@@ -18,7 +18,7 @@
       on:click={() => (loggingIn = true)}
       in:receive={{ key: 'login' }}
       out:send={{ key: 'login' }}
-      class="absolute left-0 hover:underline"
+      class="absolute left-0 top-1 hover:underline"
     >
       Login
     </button>
@@ -27,7 +27,7 @@
       on:click={() => (loggingIn = false)}
       in:receive={{ key: 'signup' }}
       out:send={{ key: 'signup' }}
-      class="absolute right-0 hover:underline"
+      class="absolute right-0 top-1 hover:underline"
     >
       Signup
     </button>
