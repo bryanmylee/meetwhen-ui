@@ -38,6 +38,6 @@
 
 <style lang="postcss">
   h1 > div {
-    @apply absolute text-2xl font-bold transform -translate-x-1/2 left-1/2;
+    @apply absolute text-xl font-bold transform -translate-x-1/2 left-1/2;
   }
 </style>
