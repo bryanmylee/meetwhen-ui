@@ -11,14 +11,14 @@
   {#if loggingIn}
     <div in:receive={{ key: 'login' }} out:send={{ key: 'login' }}>Login</div>
   {:else}
-    <div in:receive={{ key: 'signup' }} out:send={{ key: 'signup' }}>Signup</div>
+    <div in:receive={{ key: 'signup' }} out:send={{ key: 'signup' }}>Sign Up</div>
   {/if}
   {#if !loggingIn}
     <button
       on:click={() => (loggingIn = true)}
       in:receive={{ key: 'login' }}
       out:send={{ key: 'login' }}
-      class="absolute left-0 top-1 hover:underline"
+      class="absolute left-0 underline top-1 hover:text-primary focus:text-primary"
     >
       Login
     </button>
@@ -27,9 +27,9 @@
       on:click={() => (loggingIn = false)}
       in:receive={{ key: 'signup' }}
       out:send={{ key: 'signup' }}
-      class="absolute right-0 top-1 hover:underline"
+      class="absolute right-0 underline top-1 hover:text-primary focus:text-primary"
     >
-      Signup
+      Sign Up
     </button>
   {/if}
 </h1>
