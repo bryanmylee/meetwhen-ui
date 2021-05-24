@@ -15,7 +15,7 @@
 
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { slide } from 'svelte/transition';
+  import { fade, fly, slide } from 'svelte/transition';
   import Textfield from '$lib/components/Textfield.svelte';
   import Header from './Header.svelte';
   import Tooltip from './Tooltip.svelte';
@@ -47,10 +47,20 @@
 
   let loggingIn = true;
   let hovering = false;
+  let transitioning = false;
 </script>
 
-<div class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-  <form on:submit|preventDefault={confirm} class="p-4 space-y-4 card">
+<div
+  transition:fade={{ duration: 200 }}
+  class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50"
+>
+  <form
+    in:fly={{ y: 200 }}
+    on:introstart={() => (transitioning = true)}
+    on:introend={() => (transitioning = false)}
+    on:submit|preventDefault={confirm}
+    class="p-4 space-y-4 card"
+  >
     <Header bind:loggingIn />
     {#if !loggingIn}
       <div transition:slide={{ duration: 200 }}>
@@ -65,6 +75,6 @@
       </button>
       <button type="submit" class="w-full p-3 button primary rounded-xl"> Confirm </button>
     </div>
-    <Tooltip bind:hovering />
+    <Tooltip bind:hovering {transitioning} />
   </form>
 </div>

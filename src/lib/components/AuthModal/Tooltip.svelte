@@ -7,6 +7,7 @@
   });
 
   export let hovering: boolean;
+  export let transitioning: boolean;
 </script>
 
 <p
@@ -20,13 +21,8 @@
 >
   You can always use <span class="font-bold text-primary">meetwhen.io</span> without logging in!
 </p>
-{#if hovering}
-  <div
-    use:content
-    in:fade={{ duration: 150 }}
-    out:fade={{ delay: 1000, duration: 150 }}
-    class="relative p-4 card"
-  >
+{#if hovering && !transitioning}
+  <div use:content transition:fade={{ duration: 150 }} class="relative p-4 card">
     <h2 class="mb-2 font-bold text-center">Why log in?</h2>
     <ul>
       <li class="ml-4 list-disc list-outside">Keep track of all your meetings</li>

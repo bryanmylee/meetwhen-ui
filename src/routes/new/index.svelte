@@ -6,6 +6,8 @@
   import Textfield from '$lib/components/Textfield.svelte';
   import FromToHourPicker from '$lib/components/FromToHourPicker/FromToHourPicker.svelte';
   import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
+
+  let showAuth = false;
 </script>
 
 <Head emoji="✏️" subtitle="new event" />
@@ -20,9 +22,13 @@
     <FromToHourPicker />
   </section>
   <section class="flex space-x-4">
-    <button class="w-full p-3 button shade rounded-xl"> Login </button>
+    <button on:click={() => (showAuth = true)} class="w-full p-3 button shade rounded-xl">
+      Login
+    </button>
     <button class="w-full p-3 button gradient card"> Continue as Guest </button>
   </section>
 </div>
 
-<AuthModal />
+{#if showAuth}
+  <AuthModal on:dismiss={() => (showAuth = false)} />
+{/if}
