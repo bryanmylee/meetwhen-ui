@@ -18,5 +18,8 @@
     <DatePicker />
     <FromToHourPicker />
   </section>
-  <button class="w-full p-3 button gradient card"> Create Event </button>
+  <section class="flex space-x-4">
+    <button class="w-full p-3 button shade rounded-xl"> Login </button>
+    <button class="w-full p-3 button gradient card"> Continue as Guest </button>
+  </section>
 </div>
