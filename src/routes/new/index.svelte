@@ -15,7 +15,12 @@
 <form class="max-w-lg p-6 mx-auto space-y-4">
   <section class="p-4 space-y-4 card">
     <div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
-      <Textfield bind:value={$newEventName} placeholder="Name your event" class="w-full" />
+      <Textfield
+        bind:value={$newEventName}
+        placeholder="Name your event"
+        focusOnMount
+        class="w-full"
+      />
     </div>
     <h2>Set a time for everyone</h2>
     <DatePicker />

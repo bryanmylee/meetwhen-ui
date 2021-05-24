@@ -60,7 +60,7 @@
         <Textfield bind:value={name} placeholder="Name" class="block" />
       </div>
     {/if}
-    <Textfield bind:value={email} placeholder="Email" class="block" />
+    <Textfield bind:value={email} placeholder="Email" focusOnMount class="block" />
     <Textfield bind:value={password} placeholder="Password" password class="block" />
     <div class="flex space-x-4">
       <button type="button" on:click={dismiss} class="w-full p-3 button shade rounded-xl">
