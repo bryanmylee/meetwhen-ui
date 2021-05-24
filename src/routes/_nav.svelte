@@ -1,7 +1,6 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
   import { receive, send } from '$lib/app-crossfade';
-  import LoginModal from '$lib/components/LoginModal.svelte';
 
   export let key: string;
 </script>
@@ -9,17 +8,13 @@
 {#if key === '/'}
   <nav
     transition:fly={{ y: -50 }}
-    class="fixed inset-0 bottom-auto flex justify-end p-4 dark:text-white"
-  >
-    <ul>
-      <li><LoginModal class="-my-1" /></li>
-    </ul>
-  </nav>
+    class="fixed inset-0 bottom-auto flex items-center justify-end p-4 dark:text-white"
+  />
 {:else}
   <nav
     in:receive={{ key: 'header' }}
     out:send={{ key: 'header' }}
-    class="fixed inset-0 bottom-auto flex justify-between p-4 rounded-t-none card"
+    class="fixed inset-0 bottom-auto flex items-center justify-between p-4 rounded-t-none card"
   >
     <ul>
       <li class="relative pointer-events-none">
@@ -33,9 +28,6 @@
           meetwhen
         </a>
       </li>
-    </ul>
-    <ul>
-      <li><LoginModal class="-my-1" /></li>
     </ul>
   </nav>
 {/if}
