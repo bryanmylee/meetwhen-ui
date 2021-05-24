@@ -14,7 +14,12 @@ interface MeResolved {
   me: User;
 }
 
-export const me = async (): Promise<User> => {
-  const { me } = (await query({ query: ME })) as MeResolved;
+export const me = async (token?: string): Promise<User> => {
+  const { me } = (await query({
+    query: ME,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  })) as MeResolved;
   return me;
 };
