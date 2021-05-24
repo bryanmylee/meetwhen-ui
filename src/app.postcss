@@ -3,7 +3,14 @@
 @tailwind utilities;
 
 * {
-  @apply scrollbar-none;
+  /* IE and Edge */
+  -ms-overflow-style: none;
+  /* Firefox */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    /* Chrome, Safari, and Opera */
+    display: none;
+  }
 }
 
 @layer base {
@@ -103,17 +110,6 @@
 
   .focusable {
     @apply ring-primary-lighter focus:ring focus:outline-none;
-  }
-
-  .scrollbar-none {
-    /* IE and Edge */
-    -ms-overflow-style: none;
-    /* Firefox */
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      /* Chrome, Safari, and Opera */
-      display: none;
-    }
   }
 
   .select-none {
