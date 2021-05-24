@@ -12,7 +12,7 @@
 
 <Head emoji="✏️" subtitle="new event" />
 
-<div class="max-w-lg p-6 mx-auto space-y-4">
+<form class="max-w-lg p-6 mx-auto space-y-4">
   <section class="p-4 space-y-4 card">
     <div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
       <Textfield bind:value={$newEventName} placeholder="Name your event" class="w-full" />
@@ -22,12 +22,16 @@
     <FromToHourPicker />
   </section>
   <section class="flex space-x-4">
-    <button on:click={() => (showAuth = true)} class="w-full p-3 button shade rounded-xl">
+    <button
+      type="button"
+      on:click={() => (showAuth = true)}
+      class="w-full p-3 button shade rounded-xl"
+    >
       Login
     </button>
-    <button class="w-full p-3 button gradient card"> Continue as Guest </button>
+    <button type="submit" class="w-full p-3 button gradient card"> Continue as Guest </button>
   </section>
-</div>
+</form>
 
 {#if showAuth}
   <AuthModal on:dismiss={() => (showAuth = false)} />
