@@ -1,5 +1,8 @@
 <script lang="ts">
-  export let id = '';
+  export let id: string;
+  $: if (id === undefined) {
+    id = placeholder;
+  }
   export let value = '';
   export let placeholder = '';
   export let required = false;
