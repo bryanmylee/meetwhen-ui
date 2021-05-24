@@ -13,7 +13,7 @@
   .shade-2 {
     @apply bg-gray-200 dark:bg-gray-600;
   }
-  
+
   button:focus {
     @apply outline-none;
   }
@@ -73,7 +73,8 @@
 
   .textfield {
     @apply relative inline-block;
-    & > input[type='text'], & > input[type='password'] {
+    & > input[type='text'],
+    & > input[type='password'] {
       @apply relative w-full p-4 pt-6 rounded-xl text-gray-800 dark:text-white shade focusable;
       &:focus,
       &.filled {
