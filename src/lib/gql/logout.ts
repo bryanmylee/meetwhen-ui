@@ -10,6 +10,6 @@ interface LogoutResolved {
 }
 
 export const logout = async (): Promise<boolean> => {
-  const { logout } = (await query(LOGOUT)) as LogoutResolved;
+  const { logout } = (await query({ query: LOGOUT })) as LogoutResolved;
   return logout;
 };

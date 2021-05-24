@@ -15,6 +15,6 @@ interface MeResolved {
 }
 
 export const me = async (): Promise<User> => {
-  const { me } = (await query(ME)) as MeResolved;
+  const { me } = (await query({ query: ME })) as MeResolved;
   return me;
 };

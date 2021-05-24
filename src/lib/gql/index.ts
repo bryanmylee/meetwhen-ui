@@ -10,10 +10,14 @@ export const queryClient: QueryClient = {
   fetch: null,
 };
 
-export const query = async (
-  query: string,
-  variables?: Record<string, unknown>
-): Promise<unknown> => {
+interface QueryParams {
+  query: string;
+  variables?: Record<string, unknown>;
+  request?: Request;
+  response?: Response;
+}
+
+export const query = async ({ query, variables }: QueryParams): Promise<unknown> => {
   const res = await queryClient.fetch(env.apiGraphQLEndpoint, {
     method: 'post',
     credentials: 'same-origin',

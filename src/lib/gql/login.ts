@@ -20,6 +20,6 @@ interface LoginResolved {
 }
 
 export const login = async (variables: LoginVars): Promise<User> => {
-  const { login } = (await query(LOGIN, variables)) as LoginResolved;
+  const { login } = (await query({ query: LOGIN, variables })) as LoginResolved;
   return login;
 };
