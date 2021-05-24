@@ -15,6 +15,7 @@
   {/if}
   {#if !loggingIn}
     <button
+      type="button"
       on:click={() => (loggingIn = true)}
       in:receive={{ key: 'login' }}
       out:send={{ key: 'login' }}
@@ -24,6 +25,7 @@
     </button>
   {:else}
     <button
+      type="button"
       on:click={() => (loggingIn = false)}
       in:receive={{ key: 'signup' }}
       out:send={{ key: 'signup' }}

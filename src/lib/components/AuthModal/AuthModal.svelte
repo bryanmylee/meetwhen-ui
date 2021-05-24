@@ -63,7 +63,7 @@
     <Textfield bind:value={email} placeholder="Email" class="block" />
     <Textfield bind:value={password} placeholder="Password" password class="block" />
     <div class="flex space-x-4">
-      <button on:click|preventDefault={dismiss} class="w-full p-3 button shade rounded-xl">
+      <button type="button" on:click={dismiss} class="w-full p-3 button shade rounded-xl">
         Cancel
       </button>
       <button type="submit" class="w-full p-3 button primary rounded-xl"> Confirm </button>
