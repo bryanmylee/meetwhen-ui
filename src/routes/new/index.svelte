@@ -5,6 +5,7 @@
   import Head from '$lib/components/Head.svelte';
   import Textfield from '$lib/components/Textfield.svelte';
   import FromToHourPicker from '$lib/components/FromToHourPicker/FromToHourPicker.svelte';
+  import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
 </script>
 
 <Head emoji="✏️" subtitle="new event" />
@@ -23,3 +24,5 @@
     <button class="w-full p-3 button gradient card"> Continue as Guest </button>
   </section>
 </div>
+
+<AuthModal />
