@@ -16,6 +16,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { fade, fly, slide } from 'svelte/transition';
+  import { clickOutside } from '$lib/utils/use-click-outside';
   import Textfield from '$lib/components/Textfield.svelte';
   import Header from './Header.svelte';
   import Tooltip from './Tooltip.svelte';
@@ -52,6 +53,7 @@
     on:introstart={() => (transitioning = true)}
     on:introend={() => (transitioning = false)}
     on:submit|preventDefault={confirm}
+    use:clickOutside={dismiss}
     class="p-4 space-y-4 card"
   >
     <Header bind:loggingIn />
