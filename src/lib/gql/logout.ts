@@ -1,5 +1,4 @@
 import { query } from '$lib/gql';
-import type { Fetch } from '$lib/typings/fetch';
 
 const LOGOUT = `
 mutation {
@@ -10,7 +9,7 @@ interface LogoutResolved {
   logout: boolean;
 }
 
-export const logout = async (fetch: Fetch): Promise<boolean> => {
-  const { logout } = (await query(fetch, LOGOUT)) as LogoutResolved;
+export const logout = async (): Promise<boolean> => {
+  const { logout } = (await query(LOGOUT)) as LogoutResolved;
   return logout;
 };

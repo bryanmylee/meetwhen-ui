@@ -1,12 +1,20 @@
 import { env } from '$lib/env';
 import type { Fetch } from '$lib/typings/fetch';
 
+interface QueryClient {
+  fetch: Fetch;
+}
+
+// fetch must be loaded by the root layout component.
+export const queryClient: QueryClient = {
+  fetch: null,
+};
+
 export const query = async (
-  fetch: Fetch,
   query: string,
   variables?: Record<string, unknown>
 ): Promise<unknown> => {
-  const res = await fetch(env.apiGraphQLEndpoint, {
+  const res = await queryClient.fetch(env.apiGraphQLEndpoint, {
     method: 'post',
     credentials: 'same-origin',
     headers: {

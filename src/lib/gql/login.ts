@@ -1,5 +1,4 @@
 import { query } from '$lib/gql';
-import type { Fetch } from '$lib/typings/fetch';
 import type { User } from './types/user';
 
 const LOGIN = `
@@ -20,7 +19,7 @@ interface LoginResolved {
   login: User;
 }
 
-export const login = async (fetch: Fetch, variables: LoginVars): Promise<User> => {
-  const { login } = (await query(fetch, LOGIN, variables)) as LoginResolved;
+export const login = async (variables: LoginVars): Promise<User> => {
+  const { login } = (await query(LOGIN, variables)) as LoginResolved;
   return login;
 };

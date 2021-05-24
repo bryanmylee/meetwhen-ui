@@ -1,19 +1,23 @@
 <script lang="ts" context="module">
-  export const load: Load = ({ page }) => ({
-    props: {
-      key: page.path,
-    },
-  });
+  export const load: Load = ({ fetch, page }) => {
+    queryClient.fetch = fetch;
+    return {
+      props: {
+        key: page.path,
+      },
+    };
+  };
 </script>
 
 <script lang="ts">
   import '../app.postcss';
   import '$lib/colors';
   import '$lib/dark-mode';
+  import { queryClient } from '$lib/gql';
+  import { cx } from '$lib/utils/cx';
   import Nav from './_nav.svelte';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import type { Load } from '@sveltejs/kit';
-  import { cx } from '$lib/utils/cx';
 
   export let key: string;
 </script>
