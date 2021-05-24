@@ -28,16 +28,9 @@
 
   const confirm = () => {
     if (loggingIn) {
-      dispatch('login', {
-        email,
-        password,
-      });
+      dispatch('login', { email, password });
     } else {
-      dispatch('signup', {
-        name,
-        email,
-        password,
-      });
+      dispatch('signup', { name, email, password });
     }
   };
 
