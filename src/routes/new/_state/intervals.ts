@@ -32,6 +32,7 @@ const foldIntervals = (intervals: Interval[]): Interval[] => {
   if (intervals.length <= 1) {
     return intervals;
   }
+  intervals.sort((a, b) => a.beg.diff(b.beg));
   const result: Interval[] = [];
   let previous = intervals[0];
   intervals.slice(1).forEach((current) => {
