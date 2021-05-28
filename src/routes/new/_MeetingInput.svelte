@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { newEventName } from '$lib/app-state';
   import { receive, send } from '$lib/app-crossfade';
   import DatePicker from '$lib/components/DatePicker/DatePicker.svelte';
   import Textfield from '$lib/components/Textfield.svelte';
   import FromToHourPicker from '$lib/components/FromToHourPicker/FromToHourPicker.svelte';
+  import { newEventName } from './_state/meeting';
   import { selectedDates, from, to } from './_state/intervals';
 </script>
 
