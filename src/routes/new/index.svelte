@@ -6,8 +6,10 @@
   import Textfield from '$lib/components/Textfield.svelte';
   import FromToHourPicker from '$lib/components/FromToHourPicker/FromToHourPicker.svelte';
   import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
+  import { selectedDates, from, to, intervals } from './_state';
 
   let showAuth = false;
+  $: console.log($intervals);
 </script>
 
 <Head emoji="✏️" subtitle="new event" />
@@ -23,8 +25,8 @@
       />
     </div>
     <h2>Set a time for everyone</h2>
-    <DatePicker />
-    <FromToHourPicker />
+    <DatePicker bind:selectedDates={$selectedDates} />
+    <FromToHourPicker bind:from={$from} bind:to={$to} />
   </section>
   <section class="flex space-x-4">
     <button
