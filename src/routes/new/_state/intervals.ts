@@ -23,7 +23,7 @@ const getInterval = (date: Dayjs, from: Dayjs, to: Dayjs): Interval => {
   const fromTimestamp = date.hour(from.hour()).add(fromDayOffset, 'day');
   const toTimestamp = date.hour(to.hour()).add(toDayOffset, 'day');
   return new Interval({
-    start: fromTimestamp,
+    beg: fromTimestamp,
     end: toTimestamp,
   });
 };
@@ -35,9 +35,9 @@ const foldIntervals = (intervals: Interval[]): Interval[] => {
   const result: Interval[] = [];
   let previous = intervals[0];
   intervals.slice(1).forEach((current) => {
-    if (previous.end.isSame(current.start)) {
+    if (previous.end.isSame(current.beg)) {
       previous = new Interval({
-        start: previous.start,
+        beg: previous.beg,
         end: current.end,
       });
     } else {

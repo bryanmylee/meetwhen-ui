@@ -21,6 +21,7 @@
   import Template from './_Template.svelte';
 
   export let meeting: Meeting;
+  $: console.log(meeting);
 </script>
 
 <Head emoji="📘" subtitle={meeting.name} />

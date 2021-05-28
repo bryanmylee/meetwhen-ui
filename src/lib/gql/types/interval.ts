@@ -3,7 +3,7 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 
 export class Interval {
-  start: Dayjs;
+  beg: Dayjs;
   end: Dayjs;
 
   constructor(props: ExcludeMethods<Interval>) {
@@ -12,7 +12,7 @@ export class Interval {
 
   serialize(): IntervalDTO {
     return {
-      beg: this.start.unix(),
+      beg: this.beg.unix(),
       end: this.end.unix(),
     };
   }
@@ -23,7 +23,7 @@ export class Interval {
     }
     const { beg, end } = interval;
     return new Interval({
-      start: dayjs.unix(beg),
+      beg: dayjs.unix(beg),
       end: dayjs.unix(end),
     });
   }
