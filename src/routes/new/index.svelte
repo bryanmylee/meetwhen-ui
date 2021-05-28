@@ -9,7 +9,7 @@
 
   const submit = () => {
     $loadingMeetingPromise = addMeeting($meetingInput);
-    goto('/meet/loading');
+    goto('/loading');
   };
 </script>
 
