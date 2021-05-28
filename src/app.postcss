@@ -111,6 +111,14 @@
   .focusable {
     @apply ring-primary-lighter focus:ring focus:outline-none;
   }
+  
+  .h-screen {
+    height: var(--vh, 100vh);
+  }
+  
+  .h-screen-nav {
+    height: calc(var(--vh, 100vh) - 3.5rem);
+  }
 
   .select-none {
     -webkit-touch-callout: none;
@@ -119,13 +127,5 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
-  
-  .h-screen {
-    height: var(--vh, 100vh);
-  }
-  
-  .h-screen-nav {
-    height: calc(var(--vh, 100vh) - 3.5rem);
   }
 }
