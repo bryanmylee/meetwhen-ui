@@ -22,7 +22,11 @@ export class User implements Identifiable {
     };
   }
 
-  static deserialize({ meetings, schedules, ...props }: UserDTO): User {
+  static deserialize(user: UserDTO): User {
+    if (user === null) {
+      return null;
+    }
+    const { meetings, schedules, ...props } = user;
     return new User({
       ...props,
       meetings: meetings.map(Meeting.deserialize),

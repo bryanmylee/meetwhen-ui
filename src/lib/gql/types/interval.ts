@@ -17,7 +17,11 @@ export class Interval {
     };
   }
 
-  static deserialize({ beg, end }: IntervalDTO): Interval {
+  static deserialize(interval: IntervalDTO): Interval {
+    if (interval === null) {
+      return null;
+    }
+    const { beg, end } = interval;
     return new Interval({
       start: dayjs.unix(beg),
       end: dayjs.unix(end),

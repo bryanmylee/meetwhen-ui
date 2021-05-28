@@ -23,7 +23,11 @@ export class Schedule implements Identifiable {
     };
   }
 
-  static deserialize({ meeting, user, intervals, ...props }: ScheduleDTO): Schedule {
+  static deserialize(schedule: ScheduleDTO): Schedule {
+    if (schedule === null) {
+      return null;
+    }
+    const { meeting, user, intervals, ...props } = schedule;
     return new Schedule({
       ...props,
       meeting: Meeting.deserialize(meeting),

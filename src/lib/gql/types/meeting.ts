@@ -25,10 +25,14 @@ export class Meeting implements Identifiable {
     };
   }
 
-  static deserialize({ owner, intervals, schedules, ...props }: MeetingDTO): Meeting {
+  static deserialize(meeting: MeetingDTO): Meeting {
+    if (meeting === null) {
+      return null;
+    }
+    const { owner, intervals, schedules, ...props } = meeting;
     return new Meeting({
       ...props,
-      owner: owner === null ? null : User.deserialize(owner),
+      owner: User.deserialize(owner),
       intervals: intervals.map(Interval.deserialize),
       schedules: schedules.map(Schedule.deserialize),
     });
