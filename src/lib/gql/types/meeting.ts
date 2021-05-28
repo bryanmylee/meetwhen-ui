@@ -1,7 +1,7 @@
 import type { Identifiable } from './identifiable';
-import type { Interval } from './interval';
-import type { Schedule } from './schedule';
-import type { User } from './user';
+import type { Interval, IntervalDTO } from './interval';
+import type { Schedule, ScheduleDTO } from './schedule';
+import type { User, UserDTO } from './user';
 
 export interface Meeting extends Identifiable {
   name: string;
@@ -9,4 +9,12 @@ export interface Meeting extends Identifiable {
   owner: User;
   intervals: Interval[];
   schedules: Schedule[];
+}
+
+export interface MeetingDTO extends Identifiable {
+  name: string;
+  slug: string;
+  owner: UserDTO;
+  intervals: IntervalDTO[];
+  schedules: ScheduleDTO[];
 }

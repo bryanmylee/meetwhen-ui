@@ -1,6 +1,6 @@
-import type { Interval } from '$lib/gql/types/interval';
+import type { IntervalDTO } from '$lib/gql/types/interval';
 
-export const getLocalizedIntervals = (intervals: Interval[]): Interval[] => {
+export const getLocalizedIntervals = (intervals: IntervalDTO[]): IntervalDTO[] => {
   if (intervals.length === 0) {
     return [];
   }

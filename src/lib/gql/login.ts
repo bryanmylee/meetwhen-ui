@@ -1,5 +1,5 @@
 import { query } from '$lib/gql';
-import type { User } from './types/user';
+import type { UserDTO } from './types/user';
 
 const LOGIN = `
 mutation ($email: String!, $password: String!) {
@@ -16,10 +16,10 @@ interface LoginVars extends Record<string, unknown> {
 }
 
 interface LoginResolved {
-  login: User;
+  login: UserDTO;
 }
 
-export const login = async (variables: LoginVars): Promise<User> => {
+export const login = async (variables: LoginVars): Promise<UserDTO> => {
   const { login } = (await query({ query: LOGIN, variables })) as LoginResolved;
   return login;
 };

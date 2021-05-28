@@ -1,6 +1,6 @@
 import { query } from '$lib/gql';
-import type { Interval } from './types/interval';
-import type { Meeting } from './types/meeting';
+import type { IntervalDTO } from './types/interval';
+import type { MeetingDTO } from './types/meeting';
 
 const ADD_MEETING = `
 mutation ($name: String!, $intervals: [IntervalInput!]!) {
@@ -16,14 +16,14 @@ mutation ($name: String!, $intervals: [IntervalInput!]!) {
 
 export interface AddMeetingVars extends Record<string, unknown> {
   name: string;
-  intervals: Interval[];
+  intervals: IntervalDTO[];
 }
 
 interface AddMeetingResolved {
-  addMeeting: Omit<Meeting, 'intervals'>;
+  addMeeting: Omit<MeetingDTO, 'intervals'>;
 }
 
-export const addMeeting = async (variables: AddMeetingVars): Promise<Meeting> => {
+export const addMeeting = async (variables: AddMeetingVars): Promise<MeetingDTO> => {
   const { addMeeting } = (await query({ query: ADD_MEETING, variables })) as AddMeetingResolved;
   return {
     ...addMeeting,

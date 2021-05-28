@@ -1,4 +1,4 @@
-import type { Interval } from '$lib/gql/types/interval';
+import type { IntervalDTO } from '$lib/gql/types/interval';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { derived, writable } from 'svelte/store';
@@ -14,7 +14,7 @@ export const intervals = derived([selectedDates, from, to], ([$selectedDates, $f
 
 const MIDNIGHT_TODAY = dayjs().startOf('day');
 
-const getInterval = (date: Dayjs, from: Dayjs, to: Dayjs): Interval => {
+const getInterval = (date: Dayjs, from: Dayjs, to: Dayjs): IntervalDTO => {
   if (from === undefined || to === undefined) {
     return {
       beg: 0,
@@ -31,11 +31,11 @@ const getInterval = (date: Dayjs, from: Dayjs, to: Dayjs): Interval => {
   };
 };
 
-const foldIntervals = (intervals: Interval[]): Interval[] => {
+const foldIntervals = (intervals: IntervalDTO[]): IntervalDTO[] => {
   if (intervals.length <= 1) {
     return intervals;
   }
-  const result: Interval[] = [];
+  const result: IntervalDTO[] = [];
   let previous = intervals[0];
   intervals.slice(1).forEach((current) => {
     if (previous.end === current.beg) {

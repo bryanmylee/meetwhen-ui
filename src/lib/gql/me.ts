@@ -1,5 +1,5 @@
 import { query } from '$lib/gql';
-import type { User } from './types/user';
+import type { UserDTO } from './types/user';
 
 const ME = `
 {
@@ -11,10 +11,10 @@ const ME = `
 }`;
 
 interface MeResolved {
-  me: User;
+  me: UserDTO;
 }
 
-export const me = async (token?: string): Promise<User> => {
+export const me = async (token?: string): Promise<UserDTO> => {
   const { me } = (await query({
     query: ME,
     headers: {

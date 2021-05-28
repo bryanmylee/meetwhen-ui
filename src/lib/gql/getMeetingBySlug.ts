@@ -1,5 +1,5 @@
 import { query } from '$lib/gql';
-import type { Meeting } from './types/meeting';
+import type { MeetingDTO } from './types/meeting';
 
 const GET_MEETING_BY_SLUG = `
 query ($slug: String!) {
@@ -33,10 +33,10 @@ interface GetMeetingBySlugVars extends Record<string, unknown> {
 }
 
 interface GetMeetingBySlugResolved {
-  meeting: Meeting;
+  meeting: MeetingDTO;
 }
 
-export const getMeetingBySlug = async (variables: GetMeetingBySlugVars): Promise<Meeting> => {
+export const getMeetingBySlug = async (variables: GetMeetingBySlugVars): Promise<MeetingDTO> => {
   const { meeting } = (await query({
     query: GET_MEETING_BY_SLUG,
     variables,
