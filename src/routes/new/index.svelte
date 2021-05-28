@@ -1,13 +1,15 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
+  import { loadingMeetingPromise } from '$lib/app-state';
   import { addMeeting } from '$lib/gql/addMeeting';
   import { meetingInput } from './_state/meeting';
   import Head from '$lib/components/Head.svelte';
   import MeetingInput from './_MeetingInput.svelte';
   import Buttons from './_Buttons.svelte';
 
-  const submit = async () => {
-    const newMeeting = await addMeeting($meetingInput);
-    console.log(newMeeting);
+  const submit = () => {
+    $loadingMeetingPromise = addMeeting($meetingInput);
+    goto('/meet/loading');
   };
 </script>
 
