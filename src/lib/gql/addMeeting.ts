@@ -7,6 +7,10 @@ mutation ($name: String!, $intervals: [IntervalInput!]!) {
   addMeeting(data: {name: $name, intervals: $intervals}) {
     id
     slug
+    owner {
+      id
+      name
+    }
   }
 }`;
 
@@ -21,5 +25,9 @@ interface AddMeetingResolved {
 
 export const addMeeting = async (variables: AddMeetingVars): Promise<Meeting> => {
   const { addMeeting } = (await query({ query: ADD_MEETING, variables })) as AddMeetingResolved;
-  return { ...addMeeting, ...variables };
+  return {
+    ...addMeeting,
+    ...variables,
+    schedules: [],
+  };
 };
