@@ -13,6 +13,7 @@
   import '../app.postcss';
   import '$lib/colors';
   import '$lib/dark-mode';
+  import '$lib/screen-height';
   import { queryClient } from '$lib/gql';
   import { cx } from '$lib/utils/cx';
   import Nav from './_nav.svelte';
