@@ -10,7 +10,7 @@ mutation ($name: String!, $intervals: [IntervalInput!]!) {
   }
 }`;
 
-interface AddMeetingVars extends Record<string, unknown> {
+export interface AddMeetingVars extends Record<string, unknown> {
   name: string;
   intervals: Interval[];
 }
