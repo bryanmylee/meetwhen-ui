@@ -17,8 +17,8 @@
   $: selectedUTC = UTC_OFFSETS[selectedUTCIndex];
   $: UTCOffset = selectedUTC - currentUTC;
 
-  export let from: Dayjs;
-  export let to: Dayjs;
+  export let from: Dayjs = undefined;
+  export let to: Dayjs = undefined;
   $: {
     from = fromHour.add(UTCOffset, 'hour');
     to = toHour.add(UTCOffset, 'hour');

@@ -14,11 +14,11 @@
   $: focusedIndex = index;
 
   export let items: unknown[] = [];
-  export let selected: unknown;
+  export let selected: unknown = undefined;
   export let getDisplay: (item: unknown) => string = (item) => item as string;
   export let getId: (item: unknown) => string = (item) => item as string;
 
-  $: selected = items.length > 0 ? items[index] : null;
+  $: selected = items.length > 0 ? items[index] : undefined;
 
   export let disabledItems: unknown[] = [];
   const isDisabled = (item: unknown) => disabledItems.map(getId).includes(getId(item));
