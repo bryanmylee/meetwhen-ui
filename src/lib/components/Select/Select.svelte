@@ -38,7 +38,7 @@
   const keydown = (event: KeyboardEvent) => {
     const { key } = event;
     if (Object.keys(keyActions).includes(key)) {
-      const result = keyActions[key]([index, focusedIndex, items.length, showDropdown]);
+      const result = keyActions[key]([index, focusedIndex, items.length - 1, showDropdown]);
       index = result[0];
       focusedIndex = result[1];
       showDropdown = result[3];
