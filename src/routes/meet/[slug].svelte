@@ -16,7 +16,7 @@
   import type { Meeting } from '$lib/gql/types/meeting';
   import Head from '$lib/components/Head.svelte';
   import Buttons from './_Buttons.svelte';
-  import Calendar from './_Calendar.svelte';
+  import Calendar from './_Calendar/Calendar.svelte';
   import Header from './_Header.svelte';
   import Template from './_Template.svelte';
 
@@ -33,6 +33,6 @@
     <Buttons />
   </svelte:fragment>
   <svelte:fragment slot="calendar">
-    <Calendar />
+    <Calendar intervals={meeting.intervals} />
   </svelte:fragment>
 </Template>

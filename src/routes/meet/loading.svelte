@@ -18,7 +18,7 @@
   import { ScaleOut } from 'svelte-loading-spinners';
   import Head from '$lib/components/Head.svelte';
   import Buttons from './_Buttons.svelte';
-  import Calendar from './_Calendar.svelte';
+  import Calendar from './_Calendar/Calendar.svelte';
   import Header from './_Header.svelte';
   import Template from './_Template.svelte';
   import type { Load } from '@sveltejs/kit';
