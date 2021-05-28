@@ -6,15 +6,20 @@
   import Textfield from '$lib/components/Textfield.svelte';
   import FromToHourPicker from '$lib/components/FromToHourPicker/FromToHourPicker.svelte';
   import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
+  import { addMeeting } from '$lib/gql/addMeeting';
   import { selectedDates, from, to, intervals } from './_state';
 
   let showAuth = false;
-  $: console.log($intervals);
+
+  const submit = async () => {
+    const newMeeting = await addMeeting({ name: $newEventName, intervals: $intervals });
+    console.log(newMeeting);
+  };
 </script>
 
 <Head emoji="✏️" subtitle="new event" />
 
-<form class="max-w-lg p-6 mx-auto space-y-4">
+<form on:submit|preventDefault={submit} class="max-w-lg p-6 mx-auto space-y-4">
   <section class="p-4 space-y-4 card">
     <div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
       <Textfield
