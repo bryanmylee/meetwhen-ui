@@ -14,10 +14,25 @@
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
   import type { Load } from '@sveltejs/kit';
   import type { Meeting } from '$lib/gql/types/meeting';
+  import Head from '$lib/components/Head.svelte';
+  import Buttons from './_Buttons.svelte';
+  import Calendar from './_Calendar.svelte';
+  import Header from './_Header.svelte';
+  import Template from './_Template.svelte';
 
   export let meeting: Meeting;
 </script>
 
-<p class="text-white">
-  {JSON.stringify(meeting)}
-</p>
+<Head emoji="📘" subtitle={meeting.name} />
+
+<Template>
+  <svelte:fragment slot="header">
+    <Header name={meeting.name} />
+  </svelte:fragment>
+  <svelte:fragment slot="buttons">
+    <Buttons />
+  </svelte:fragment>
+  <svelte:fragment slot="calendar">
+    <Calendar />
+  </svelte:fragment>
+</Template>
