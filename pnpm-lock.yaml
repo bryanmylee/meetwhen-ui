@@ -27,6 +27,7 @@ specifiers:
   prettier-plugin-svelte: ^2.2.0
   svelte: ^3.34.0
   svelte-feather-icons: ^3.3.0
+  svelte-loading-spinners: ^0.1.5
   svelte-media: 0.0.3
   svelte-popperjs: ^1.2.6
   svelte-preprocess: ^4.7.1
@@ -61,6 +62,7 @@ devDependencies:
   prettier-plugin-svelte: 2.3.0_prettier@2.2.1+svelte@3.38.2
   svelte: 3.38.2
   svelte-feather-icons: 3.3.0
+  svelte-loading-spinners: 0.1.5
   svelte-media: 0.0.3_svelte@3.38.2
   svelte-popperjs: 1.2.6_@popperjs+core@2.9.2
   svelte-preprocess: 4.7.3_5944bffd99aeae72e0daf7602e6be64e
@@ -2845,6 +2847,10 @@ packages:
       svelte: '>=3.19.0'
     dependencies:
       svelte: 3.38.2
+    dev: true
+
+  /svelte-loading-spinners/0.1.5:
+    resolution: {integrity: sha512-HpNwNd0jfZAQ2DDMwe5yF8hSUeSSTI5LpkNFhmBDmS/G5r/GdWEP4o6V79sXFC6B1ts+e799aM5FqIC3TyosKw==}
     dev: true
 
   /svelte-media/0.0.3_svelte@3.38.2:

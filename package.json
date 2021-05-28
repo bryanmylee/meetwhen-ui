@@ -37,6 +37,7 @@
     "prettier-plugin-svelte": "^2.2.0",
     "svelte": "^3.34.0",
     "svelte-feather-icons": "^3.3.0",
+    "svelte-loading-spinners": "^0.1.5",
     "svelte-media": "0.0.3",
     "svelte-popperjs": "^1.2.6",
     "svelte-preprocess": "^4.7.1",
