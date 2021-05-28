@@ -7,7 +7,7 @@ const useScreenHeight = (): void => {
 };
 
 const updateDocument = (): void => {
-  document.documentElement.style.setProperty('--vh', `${window.innerHeight / 100}px`);
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight}px`);
 };
 
 useScreenHeight();
