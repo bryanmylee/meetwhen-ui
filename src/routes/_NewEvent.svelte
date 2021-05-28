@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { receive, send } from '$lib/app-crossfade';
-  import { newEventName } from './new/_state/meeting';
+  import { newMeetingName } from './new/_state/meeting';
   import Textfield from '$lib/components/Textfield.svelte';
   import { ArrowRightIcon } from 'svelte-feather-icons';
 </script>
@@ -10,7 +10,7 @@
   <h2>Get started with a new event</h2>
   <form on:submit|preventDefault={() => goto('/new')} class="flex items-center space-x-4">
     <div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
-      <Textfield bind:value={$newEventName} placeholder="Name your event" class="w-full" />
+      <Textfield bind:value={$newMeetingName} placeholder="Name your event" class="w-full" />
     </div>
     <button type="submit" class="w-10 h-10 rounded-full button primary">
       <ArrowRightIcon class="p-2" />

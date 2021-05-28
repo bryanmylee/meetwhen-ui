@@ -2,10 +2,13 @@ import type { AddMeetingVars } from '$lib/gql/addMeeting';
 import { derived, writable } from 'svelte/store';
 import { intervals } from './intervals';
 
-export const newEventName = writable('');
-export const meetingInput = derived([newEventName, intervals], ([$newEventName, $intervals]) => {
-  return {
-    name: $newEventName,
-    intervals: $intervals,
-  } as AddMeetingVars;
-});
+export const newMeetingName = writable('');
+export const meetingInput = derived(
+  [newMeetingName, intervals],
+  ([$newMeetingName, $intervals]) => {
+    return {
+      name: $newMeetingName,
+      intervals: $intervals,
+    } as AddMeetingVars;
+  }
+);
