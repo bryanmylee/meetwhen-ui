@@ -1,15 +1,21 @@
 <script lang="ts">
   import Head from '$lib/components/Head.svelte';
-  import Template from './_template.svelte';
+  import Buttons from './_Buttons.svelte';
+  import Calendar from './_Calendar.svelte';
+  import Header from './_Header.svelte';
+  import Template from './_Template.svelte';
 </script>
 
 <Head emoji="📘" subtitle="loading..." />
 
 <Template>
-  <div slot="header" class="p-4 text-white card bg-gradient-primary">test event</div>
-  <div slot="buttons" class="flex space-x-4">
-    <button class="w-full p-3 button shade rounded-xl">Login</button>
-    <button class="w-full p-3 button gradient rounded-xl">Join as Guest</button>
-  </div>
-  <div slot="calendar" class="bg-green-400 flex-1" />
+  <svelte:fragment slot="header">
+    <Header />
+  </svelte:fragment>
+  <svelte:fragment slot="buttons">
+    <Buttons />
+  </svelte:fragment>
+  <svelte:fragment slot="calendar">
+    <Calendar />
+  </svelte:fragment>
 </Template>
