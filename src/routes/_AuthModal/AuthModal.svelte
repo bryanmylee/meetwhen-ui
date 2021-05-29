@@ -18,31 +18,27 @@
   import { fade, fly, slide } from 'svelte/transition';
   import { clickOutside } from '$lib/utils/use-click-outside';
   import Textfield from '$lib/components/Textfield.svelte';
+  import { login } from '$lib/gql/login';
+  import { getAuthModalState } from './_state';
   import Header from './Header.svelte';
   import Tooltip from './Tooltip.svelte';
-  import { login } from '$lib/gql/login';
   import type { APIError } from '$lib/typings/error';
 
   const dispatch = createEventDispatcher<AuthModalEvent>();
-
-  let name: string;
-  let email: string;
-  let emailError: string;
-  let password: string;
-  let passwordError = '';
+  const { name, email, password } = getAuthModalState();
 
   const confirm = async () => {
     if (loggingIn) {
       await handleLogin();
     } else {
-      dispatch('signup', { name, email, password });
+      dispatch('signup', { name: $name.value, email: $email.value, password: $password.value });
     }
   };
 
   const handleLogin = async () => {
     try {
-      await login({ email, password });
-      dispatch('login', { email, password });
+      await login({ email: $email.value, password: $password.value });
+      dispatch('login', { email: $email.value, password: $password.value });
     } catch (errors) {
       (errors as APIError[]).forEach(handleError);
     }
@@ -52,11 +48,11 @@
     const { id } = error.extensions.exception.details;
     console.log(id);
     if (id === 'auth/user-not-found') {
-      emailError = 'User not found';
+      $email.error = 'User not found';
     } else if (id === 'auth/missing-email') {
-      emailError = 'Required';
+      $email.error = 'Required';
     } else if (id === 'auth/wrong-password') {
-      passwordError = 'Wrong password';
+      $password.error = 'Wrong password';
     }
   };
 
@@ -84,19 +80,19 @@
     <Header bind:loggingIn />
     {#if !loggingIn}
       <div transition:slide={{ duration: 200 }}>
-        <Textfield bind:value={name} placeholder="Name" class="block" />
+        <Textfield bind:value={$name.value} error={$name.error} placeholder="Name" class="block" />
       </div>
     {/if}
     <Textfield
-      bind:value={email}
-      error={emailError}
+      bind:value={$email.value}
+      error={$email.error}
       placeholder="Email"
       focusOnMount
       class="block"
     />
     <Textfield
-      bind:value={password}
-      error={passwordError}
+      bind:value={$password.value}
+      error={$password.error}
       placeholder="Password"
       password
       class="block"
