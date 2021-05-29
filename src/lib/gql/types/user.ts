@@ -1,43 +1,43 @@
-import type { ExcludeMethods } from '$lib/typings/exclude-methods';
 import type { Identifiable } from './identifiable';
-import { Meeting, MeetingDTO } from './meeting';
-import { Schedule, ScheduleDTO } from './schedule';
+import type { Meeting, MeetingDTO } from './meeting';
+import { MeetingSerializer } from './meeting';
+import type { Schedule, ScheduleDTO } from './schedule';
+import { ScheduleSerializer } from './schedule';
 
-export class User implements Identifiable {
-  id: string;
+export interface User extends Identifiable {
   name: string;
   email: string;
-  meetings?: Meeting[];
-  schedules?: Schedule[];
-
-  constructor(props: ExcludeMethods<User>) {
-    Object.assign(this, props);
-  }
-
-  serialize(): UserDTO {
-    return {
-      ...this,
-      meetings: this.meetings?.map((meeting) => meeting.serialize()) ?? [],
-      schedules: this.schedules?.map((schedule) => schedule.serialize()) ?? [],
-    };
-  }
-
-  static deserialize(user: UserDTO): User {
-    if (user === null) {
-      return null;
-    }
-    const { meetings, schedules, ...props } = user;
-    return new User({
-      ...props,
-      meetings: meetings.map(Meeting.deserialize),
-      schedules: schedules.map(Schedule.deserialize),
-    });
-  }
+  meetings: Partial<Meeting>[];
+  schedules: Partial<Schedule>[];
 }
 
 export interface UserDTO extends Identifiable {
   name: string;
   email: string;
-  meetings: MeetingDTO[];
-  schedules: ScheduleDTO[];
+  meetings: Partial<MeetingDTO>[];
+  schedules: Partial<ScheduleDTO>[];
+}
+
+export class UserSerializer {
+  static serialize(user: Partial<User>): Partial<UserDTO> {
+    if (user === null) {
+      return null;
+    }
+    return {
+      ...user,
+      meetings: user.meetings?.map(MeetingSerializer.serialize),
+      schedules: user.schedules?.map(ScheduleSerializer.serialize),
+    };
+  }
+
+  static deserialize(user: Partial<UserDTO>): Partial<User> {
+    if (user === null) {
+      return null;
+    }
+    return {
+      ...user,
+      meetings: user.meetings?.map(MeetingSerializer.deserialize),
+      schedules: user.schedules?.map(ScheduleSerializer.deserialize),
+    };
+  }
 }

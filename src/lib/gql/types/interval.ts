@@ -1,19 +1,25 @@
-import type { ExcludeMethods } from '$lib/typings/exclude-methods';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 
-export class Interval {
+export interface Interval {
   beg: Dayjs;
   end: Dayjs;
+}
 
-  constructor(props: ExcludeMethods<Interval>) {
-    Object.assign(this, props);
-  }
+export interface IntervalDTO {
+  beg: number;
+  end: number;
+}
 
-  serialize(): IntervalDTO {
+export class IntervalSerializer {
+  static serialize(interval: Interval): IntervalDTO {
+    if (interval === null) {
+      return null;
+    }
+    const { beg, end } = interval;
     return {
-      beg: this.beg.unix(),
-      end: this.end.unix(),
+      beg: beg.unix(),
+      end: end.unix(),
     };
   }
 
@@ -22,14 +28,9 @@ export class Interval {
       return null;
     }
     const { beg, end } = interval;
-    return new Interval({
+    return {
       beg: dayjs.unix(beg),
       end: dayjs.unix(end),
-    });
+    };
   }
-}
-
-export interface IntervalDTO {
-  beg: number;
-  end: number;
 }

@@ -1,44 +1,44 @@
-import type { ExcludeMethods } from '$lib/typings/exclude-methods';
 import type { Identifiable } from './identifiable';
-import { Interval, IntervalDTO } from './interval';
-import { Meeting, MeetingDTO } from './meeting';
-import { User, UserDTO } from './user';
+import { Interval, IntervalDTO, IntervalSerializer } from './interval';
+import type { Meeting, MeetingDTO } from './meeting';
+import { MeetingSerializer } from './meeting';
+import type { User, UserDTO } from './user';
+import { UserSerializer } from './user';
 
-export class Schedule implements Identifiable {
-  id: string;
-  meeting: Meeting;
-  user: User;
-  intervals: Interval[];
-
-  constructor(props: ExcludeMethods<Schedule>) {
-    Object.assign(this, props);
-  }
-
-  serialize(): ScheduleDTO {
-    return {
-      ...this,
-      meeting: this.meeting.serialize(),
-      user: this.user.serialize(),
-      intervals: this.intervals.map((interval) => interval.serialize()),
-    };
-  }
-
-  static deserialize(schedule: ScheduleDTO): Schedule {
-    if (schedule === null) {
-      return null;
-    }
-    const { meeting, user, intervals, ...props } = schedule;
-    return new Schedule({
-      ...props,
-      meeting: Meeting.deserialize(meeting),
-      user: User.deserialize(user),
-      intervals: intervals.map(Interval.deserialize),
-    });
-  }
+export interface Schedule extends Identifiable {
+  meeting: Partial<Meeting>;
+  user: Partial<User>;
+  intervals: Partial<Interval>[];
 }
 
 export interface ScheduleDTO extends Identifiable {
-  meeting: MeetingDTO;
-  user: UserDTO;
-  intervals: IntervalDTO[];
+  meeting: Partial<MeetingDTO>;
+  user: Partial<UserDTO>;
+  intervals: Partial<IntervalDTO>[];
+}
+
+export class ScheduleSerializer {
+  static serialize(schedule: Partial<Schedule>): Partial<ScheduleDTO> {
+    if (schedule === null) {
+      return null;
+    }
+    return {
+      ...schedule,
+      meeting: MeetingSerializer.serialize(schedule.meeting),
+      user: UserSerializer.serialize(schedule.user),
+      intervals: schedule.intervals?.map(IntervalSerializer.serialize),
+    };
+  }
+
+  static deserialize(schedule: Partial<ScheduleDTO>): Partial<Schedule> {
+    if (schedule === null) {
+      return null;
+    }
+    return {
+      ...schedule,
+      meeting: MeetingSerializer.deserialize(schedule.meeting),
+      user: UserSerializer.deserialize(schedule.user),
+      intervals: schedule.intervals?.map(IntervalSerializer.deserialize),
+    };
+  }
 }
