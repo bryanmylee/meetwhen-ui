@@ -44,6 +44,6 @@
   </svelte:fragment>
 </Template>
 
-<div class="fixed inset-0 flex items-center justify-center bg-gray-400 bg-opacity-50 text-primary">
+<div class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 text-primary">
   <ScaleOut color="currentColor" duration="1.5s" size="120" />
 </div>
