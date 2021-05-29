@@ -5,6 +5,7 @@
     initClientY: number;
     pending: boolean;
     active: boolean;
+    /* eslint-disable no-undef */
     timer: NodeJS.Timeout;
   }
 

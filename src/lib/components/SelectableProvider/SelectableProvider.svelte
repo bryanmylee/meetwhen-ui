@@ -21,9 +21,9 @@
   export let selectedIds: string[] = [];
   export let disabledIds: string[] = [];
   export let selecting = Selecting.NONE;
-  export let isDisabled = (id: string) => disabledIds.includes(id);
+  export let isDisabled = (id: string): boolean => disabledIds.includes(id);
 
-  export const select = (id: string) => {
+  export const select = (id: string): void => {
     if (isDisabled(id)) {
       return;
     }
@@ -31,7 +31,7 @@
     dispatch('toggle', { id, selected: true });
   };
 
-  export const deselect = (id: string) => {
+  export const deselect = (id: string): void => {
     if (isDisabled(id)) {
       return;
     }
@@ -39,7 +39,7 @@
     dispatch('toggle', { id, selected: false });
   };
 
-  export const toggle = (id: string) => {
+  export const toggle = (id: string): void => {
     if (selectedIds.includes(id)) {
       deselect(id);
     } else {
