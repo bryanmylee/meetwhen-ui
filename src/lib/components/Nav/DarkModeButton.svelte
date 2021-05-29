@@ -19,7 +19,9 @@
 
   const handleClick = (value: boolean) => {
     $isDark = value;
-    showDropdown = false;
+    setTimeout(() => {
+      showDropdown = false;
+    }, 300);
   };
 
   $: activeIcon = $isDark === undefined ? DropletIcon : $isDark ? MoonIcon : SunIcon;
@@ -42,7 +44,7 @@
         class={getClassname(value === $isDark)}
         disabled={value === $isDark}
       >
-        <svelte:component this={icon} class="w-5 h-5" />
+        <svelte:component this={icon} class="w-5 h-5 min-w-5 min-h-5" />
         <p class="text-sm">{title}</p>
       </button>
     {/each}
