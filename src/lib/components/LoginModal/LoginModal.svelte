@@ -40,7 +40,7 @@
 
   const handleError = (error: APIError) => {
     const { id } = error.extensions.exception.details;
-    console.log(id);
+    console.error(id);
     if (id === 'auth/user-not-found') {
       $email.error = 'User not found';
     } else if (id === 'auth/missing-email') {
