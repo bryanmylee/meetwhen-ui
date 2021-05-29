@@ -22,7 +22,6 @@ export const withError = <T>(
   const updateStore = (fn: (v: WithError<T>) => WithError<T>) => {
     store.update(($store) => {
       const newStore = fn($store);
-      console.log({ new: newStore, old: previous });
       if (newStore.value !== previous.value && resetErrorOnChange) {
         newStore.error = '';
       }
