@@ -15,6 +15,8 @@
   let selectedIds: string[] = selectedDates.map(toId);
   $: selectedDates = selectedIds.map(fromId);
 
+  export let error = '';
+
   // -1 as the blurred state.
   let focusedIndex = -1;
   $: focusedDateId = toId($monthDates[focusedIndex]);
@@ -51,7 +53,7 @@
   };
 </script>
 
-<div class="p-4 shade rounded-xl focusable">
+<div class="relative p-4 shade rounded-xl focusable" class:error={error !== ''}>
   <MonthPicker bind:month={$month} />
 
   <div class="grid grid-cols-7">
@@ -89,4 +91,8 @@
       {/each}
     </div>
   </SelectableProvider>
+
+  {#if error !== ''}
+    <span class="absolute text-xs italic text-red-400 bottom-2 left-4">{error}</span>
+  {/if}
 </div>

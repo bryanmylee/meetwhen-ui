@@ -90,7 +90,7 @@
         }
       }
       &.error {
-        @apply ring-red-400 ring;
+        @apply error;
         & + label {
           @apply text-red-400;
         }
@@ -117,9 +117,16 @@
   .bg-gradient-primary {
     @apply bg-gradient-to-r from-primary-cooler via-primary to-primary-warmer;
   }
+  
+  .error {
+    @apply ring-red-400 ring;
+  }
 
   .focusable {
     @apply ring-primary-lighter focus:ring focus:outline-none;
+    &.error {
+      @apply error;
+    }
   }
 
   .h-screen {

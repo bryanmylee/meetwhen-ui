@@ -13,6 +13,7 @@
       bind:value={$newMeetingName}
       placeholder="Name your event"
       focusOnMount
+      required
       class="w-full"
     />
   </div>
