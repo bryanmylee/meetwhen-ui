@@ -7,8 +7,8 @@ export class User implements Identifiable {
   id: string;
   name: string;
   email: string;
-  meetings: Meeting[];
-  schedules: Schedule[];
+  meetings?: Meeting[];
+  schedules?: Schedule[];
 
   constructor(props: ExcludeMethods<User>) {
     Object.assign(this, props);
@@ -17,8 +17,8 @@ export class User implements Identifiable {
   serialize(): UserDTO {
     return {
       ...this,
-      meetings: this.meetings.map((meeting) => meeting.serialize()),
-      schedules: this.schedules.map((schedule) => schedule.serialize()),
+      meetings: this.meetings?.map((meeting) => meeting.serialize()) ?? [],
+      schedules: this.schedules?.map((schedule) => schedule.serialize()) ?? [],
     };
   }
 

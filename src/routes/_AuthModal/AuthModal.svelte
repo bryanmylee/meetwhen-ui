@@ -1,14 +1,7 @@
 <script lang="ts" context="module">
   export interface AuthModalEvent {
-    login: {
-      email: string;
-      password: string;
-    };
-    signup: {
-      name: string;
-      email: string;
-      password: string;
-    };
+    login: never;
+    signup: never;
     dismiss: never;
   }
 </script>
@@ -23,6 +16,7 @@
   import Header from './Header.svelte';
   import Tooltip from './Tooltip.svelte';
   import type { APIError } from '$lib/typings/error';
+  import { currentUser } from '$lib/app-state';
 
   const dispatch = createEventDispatcher<AuthModalEvent>();
   const { name, email, password, resetErrors } = getAuthModalState();
@@ -31,14 +25,14 @@
     if (loggingIn) {
       await handleLogin();
     } else {
-      dispatch('signup', { name: $name.value, email: $email.value, password: $password.value });
+      dispatch('signup');
     }
   };
 
   const handleLogin = async () => {
     try {
-      await login({ email: $email.value, password: $password.value });
-      dispatch('login', { email: $email.value, password: $password.value });
+      $currentUser = await login({ email: $email.value, password: $password.value });
+      dispatch('login');
     } catch (errors) {
       (errors as APIError[]).forEach(handleError);
     }
