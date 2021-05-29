@@ -1,11 +1,18 @@
-interface APIException {
-  details: {
-    id: 'auth/wrong-password' | 'auth/user-not-found' | 'auth/missing-email';
-  };
-}
+type IDs =
+  | 'auth/wrong-password'
+  | 'auth/invalid-password'
+  | 'auth/user-not-found'
+  | 'auth/missing-email'
+  | 'auth/email-already-exists'
+  | 'auth/invalid-email';
 
 export interface APIError {
+  message: string;
   extensions: {
-    exception: APIException;
+    exception: {
+      details: {
+        id: IDs;
+      };
+    };
   };
 }

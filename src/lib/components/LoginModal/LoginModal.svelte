@@ -3,6 +3,7 @@
   import { clickOutside } from '$lib/utils/use-click-outside';
   import Textfield from '$lib/components/Textfield.svelte';
   import { login } from '$lib/gql/login';
+  import { signup } from '$lib/gql/signup';
   import { getAuthModalState } from './state';
   import Header from './Header.svelte';
   import Tooltip from './Tooltip.svelte';
@@ -15,6 +16,7 @@
     if (loggingIn) {
       await handleLogin();
     } else {
+      await handleSignup();
     }
   };
 
@@ -27,15 +29,34 @@
     }
   };
 
+  const handleSignup = async () => {
+    try {
+      $currentUser = await signup({
+        name: $name.value,
+        email: $email.value,
+        password: $password.value,
+      });
+      dismiss();
+    } catch (errors) {
+      (errors as APIError[]).forEach(handleError);
+    }
+  };
+
   const handleError = (error: APIError) => {
     const { id } = error.extensions.exception.details;
-    console.error(id);
+    console.error({ id, meesage: error.message });
     if (id === 'auth/user-not-found') {
       $email.error = 'User not found';
     } else if (id === 'auth/missing-email') {
       $email.error = 'Required';
+    } else if (id === 'auth/email-already-exists') {
+      $email.error = 'Email already taken';
+    } else if (id === 'auth/invalid-email') {
+      $email.error = 'Badly formatted email';
     } else if (id === 'auth/wrong-password') {
       $password.error = 'Wrong password';
+    } else if (id === 'auth/invalid-password') {
+      $password.error = 'Password must be at least 6 characters long';
     }
   };
 
