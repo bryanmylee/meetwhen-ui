@@ -1,8 +1,6 @@
+import type { Meeting, MeetingDTO, Schedule, ScheduleDTO } from '.';
+import { MeetingSerializer, ScheduleSerializer } from '.';
 import type { Identifiable } from './identifiable';
-import type { Meeting, MeetingDTO } from './meeting';
-import { MeetingSerializer } from './meeting';
-import type { Schedule, ScheduleDTO } from './schedule';
-import { ScheduleSerializer } from './schedule';
 
 export interface User extends Identifiable {
   name: string;
@@ -20,7 +18,7 @@ export interface UserDTO extends Identifiable {
 
 export class UserSerializer {
   static serialize(user: Partial<User>): Partial<UserDTO> {
-    if (user === null) {
+    if (user == null) {
       return null;
     }
     return {
@@ -31,7 +29,7 @@ export class UserSerializer {
   }
 
   static deserialize(user: Partial<UserDTO>): Partial<User> {
-    if (user === null) {
+    if (user == null) {
       return null;
     }
     return {

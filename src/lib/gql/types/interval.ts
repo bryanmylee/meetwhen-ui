@@ -13,7 +13,7 @@ export interface IntervalDTO {
 
 export class IntervalSerializer {
   static serialize(interval: Interval): IntervalDTO {
-    if (interval === null) {
+    if (interval == null) {
       return null;
     }
     const { beg, end } = interval;
@@ -24,7 +24,7 @@ export class IntervalSerializer {
   }
 
   static deserialize(interval: IntervalDTO): Interval {
-    if (interval === null) {
+    if (interval == null) {
       return null;
     }
     const { beg, end } = interval;
