@@ -1,5 +1,6 @@
 <script lang="ts">
   import { currentUser } from '$lib/app-state';
+  import DarkModeButton from './DarkModeButton.svelte';
   import HomeNavItem from './HomeNavItem.svelte';
   import Template from './Template.svelte';
 
@@ -14,5 +15,6 @@
     {#if $currentUser !== null}
       <li>Hi, <span class="font-bold">{$currentUser.name}</span></li>
     {/if}
+    <DarkModeButton />
   </svelte:fragment>
 </Template>

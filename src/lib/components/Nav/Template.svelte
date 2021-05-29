@@ -10,7 +10,7 @@
     transition:fly={{ y: -50 }}
     class="fixed inset-0 bottom-auto flex items-center justify-end p-4 dark:text-white"
   >
-    <ul>
+    <ul class="flex items-center space-x-3">
       <slot name="right" />
     </ul>
   </nav>
@@ -20,10 +20,10 @@
     out:send={{ key: 'header' }}
     class="fixed inset-0 bottom-auto flex items-center justify-between p-4 rounded-t-none card"
   >
-    <ul>
+    <ul class="flex items-center space-x-3">
       <slot name="left" />
     </ul>
-    <ul>
+    <ul class="flex items-center space-x-3">
       <slot name="right" />
     </ul>
   </nav>
