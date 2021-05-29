@@ -5,13 +5,13 @@ import type { Identifiable } from './identifiable';
 export interface Schedule extends Identifiable {
   meeting: Partial<Meeting>;
   user: Partial<User>;
-  intervals: Partial<Interval>[];
+  intervals: Interval[];
 }
 
 export interface ScheduleDTO extends Identifiable {
   meeting: Partial<MeetingDTO>;
   user: Partial<UserDTO>;
-  intervals: Partial<IntervalDTO>[];
+  intervals: IntervalDTO[];
 }
 
 export class ScheduleSerializer {

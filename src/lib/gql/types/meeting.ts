@@ -6,7 +6,7 @@ export interface Meeting extends Identifiable {
   name: string;
   slug: string;
   owner: Partial<User> | null;
-  intervals: Partial<Interval>[];
+  intervals: Interval[];
   schedules: Partial<Schedule>[];
 }
 
@@ -14,7 +14,7 @@ export interface MeetingDTO extends Identifiable {
   name: string;
   slug: string;
   owner: Partial<UserDTO>;
-  intervals: Partial<IntervalDTO>[];
+  intervals: IntervalDTO[];
   schedules: Partial<ScheduleDTO>[];
 }
 
