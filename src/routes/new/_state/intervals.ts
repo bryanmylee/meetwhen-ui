@@ -1,4 +1,4 @@
-import { Interval } from '$lib/gql/types/interval';
+import type { Interval } from '$lib/gql/types/interval';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { derived, writable } from 'svelte/store';
@@ -22,10 +22,10 @@ const getInterval = (date: Dayjs, from: Dayjs, to: Dayjs): Interval => {
   const toDayOffset = to.startOf('day').diff(MIDNIGHT_TODAY, 'day');
   const fromTimestamp = date.hour(from.hour()).add(fromDayOffset, 'day');
   const toTimestamp = date.hour(to.hour()).add(toDayOffset, 'day');
-  return new Interval({
+  return {
     beg: fromTimestamp,
     end: toTimestamp,
-  });
+  };
 };
 
 const foldIntervals = (intervals: Interval[]): Interval[] => {
@@ -37,10 +37,10 @@ const foldIntervals = (intervals: Interval[]): Interval[] => {
   let previous = intervals[0];
   intervals.slice(1).forEach((current) => {
     if (previous.end.isSame(current.beg)) {
-      previous = new Interval({
+      previous = {
         beg: previous.beg,
         end: current.end,
-      });
+      };
     } else {
       result.push(previous);
       previous = current;

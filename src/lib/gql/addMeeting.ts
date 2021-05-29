@@ -1,7 +1,6 @@
 import { query } from '$lib/gql';
-import type { Interval } from './types/interval';
-import { Meeting, MeetingDTO } from './types/meeting';
-import { User } from './types/user';
+import type { Meeting, MeetingDTO } from './types/meeting';
+import { MeetingSerializer } from './types/meeting';
 
 const ADD_MEETING = `
 mutation ($name: String!, $intervals: [IntervalInput!]!) {
@@ -15,30 +14,21 @@ mutation ($name: String!, $intervals: [IntervalInput!]!) {
   }
 }`;
 
-export interface AddMeetingVars extends Record<string, unknown> {
-  name: string;
-  intervals: Interval[];
-}
+export type AddMeetingVars = Pick<Meeting, 'name' | 'intervals'>;
+
+type Props = 'id' | 'slug' | 'owner';
 
 interface AddMeetingResolved {
-  addMeeting: Pick<MeetingDTO, 'id' | 'slug' | 'owner'>;
+  addMeeting: Pick<MeetingDTO, Props>;
 }
 
-export const addMeeting = async ({ name, intervals }: AddMeetingVars): Promise<Meeting> => {
-  const serializedVariables = {
-    name,
-    intervals: intervals.map((interval) => interval.serialize()),
-  };
+export const addMeeting = async ({
+  name,
+  intervals,
+}: AddMeetingVars): Promise<Pick<Meeting, Props>> => {
   const { addMeeting } = (await query({
     query: ADD_MEETING,
-    variables: serializedVariables,
+    variables: MeetingSerializer.serialize({ name, intervals }),
   })) as AddMeetingResolved;
-  const { owner, ...props } = addMeeting;
-  return new Meeting({
-    ...props,
-    owner: User.deserialize(owner),
-    name,
-    intervals,
-    schedules: [],
-  });
+  return MeetingSerializer.deserialize(addMeeting) as Pick<Meeting, Props>;
 };
