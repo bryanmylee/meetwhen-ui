@@ -16,7 +16,7 @@
   import '$lib/dark-mode';
   import '$lib/screen-height';
   import { queryClient } from '$lib/gql';
-  import { showAuth, currentUser } from '$lib/app-state';
+  import { currentUser } from '$lib/app-state';
   import { cx } from '$lib/utils/cx';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import LoginModal from '$lib/components/LoginModal/LoginModal.svelte';
@@ -33,10 +33,7 @@
 </main>
 
 <Nav {key} />
-
-{#if $showAuth}
-  <LoginModal on:dismiss={() => ($showAuth = false)} />
-{/if}
+<LoginModal />
 
 <style>
   main {
