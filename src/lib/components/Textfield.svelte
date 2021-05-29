@@ -6,6 +6,7 @@
 
   export let placeholder = '';
   export let value = '';
+  export let error = '';
   export let required = false;
   export let focusOnMount = false;
 
@@ -22,6 +23,16 @@
 </script>
 
 <div class="textfield {className}">
-  <input {...attrs} bind:value {required} use:focus={focusOnMount} class:filled={value !== ''} />
+  <input
+    {...attrs}
+    bind:value
+    {required}
+    use:focus={focusOnMount}
+    class:filled={value !== ''}
+    class:error={error !== ''}
+  />
   <label for={id}>{placeholder}</label>
+  {#if error !== ''}
+    <span for={id}>{error}</span>
+  {/if}
 </div>

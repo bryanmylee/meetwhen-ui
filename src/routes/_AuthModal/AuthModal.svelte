@@ -20,18 +20,43 @@
   import Textfield from '$lib/components/Textfield.svelte';
   import Header from './Header.svelte';
   import Tooltip from './Tooltip.svelte';
+  import { login } from '$lib/gql/login';
+  import type { APIError } from '$lib/typings/error';
 
   const dispatch = createEventDispatcher<AuthModalEvent>();
 
   let name: string;
   let email: string;
+  let emailError: string;
   let password: string;
+  let passwordError = '';
 
-  const confirm = () => {
+  const confirm = async () => {
     if (loggingIn) {
-      dispatch('login', { email, password });
+      await handleLogin();
     } else {
       dispatch('signup', { name, email, password });
+    }
+  };
+
+  const handleLogin = async () => {
+    try {
+      await login({ email, password });
+      dispatch('login', { email, password });
+    } catch (errors) {
+      (errors as APIError[]).forEach(handleError);
+    }
+  };
+
+  const handleError = (error: APIError) => {
+    const { id } = error.extensions.exception.details;
+    console.log(id);
+    if (id === 'auth/user-not-found') {
+      emailError = 'User not found';
+    } else if (id === 'auth/missing-email') {
+      emailError = 'Required';
+    } else if (id === 'auth/wrong-password') {
+      passwordError = 'Wrong password';
     }
   };
 
@@ -62,8 +87,20 @@
         <Textfield bind:value={name} placeholder="Name" class="block" />
       </div>
     {/if}
-    <Textfield bind:value={email} placeholder="Email" focusOnMount class="block" />
-    <Textfield bind:value={password} placeholder="Password" password class="block" />
+    <Textfield
+      bind:value={email}
+      error={emailError}
+      placeholder="Email"
+      focusOnMount
+      class="block"
+    />
+    <Textfield
+      bind:value={password}
+      error={passwordError}
+      placeholder="Password"
+      password
+      class="block"
+    />
     <div class="flex space-x-4">
       <button type="button" on:click={dismiss} class="w-full p-3 button shade rounded-xl">
         Cancel
