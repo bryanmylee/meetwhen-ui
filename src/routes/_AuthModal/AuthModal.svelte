@@ -80,13 +80,20 @@
     <Header bind:loggingIn />
     {#if !loggingIn}
       <div transition:slide={{ duration: 200 }}>
-        <Textfield bind:value={$name.value} error={$name.error} placeholder="Name" class="block" />
+        <Textfield
+          bind:value={$name.value}
+          error={$name.error}
+          placeholder="Name"
+          required
+          class="block"
+        />
       </div>
     {/if}
     <Textfield
       bind:value={$email.value}
       error={$email.error}
       placeholder="Email"
+      required
       focusOnMount
       class="block"
     />
@@ -94,6 +101,7 @@
       bind:value={$password.value}
       error={$password.error}
       placeholder="Password"
+      required
       password
       class="block"
     />
