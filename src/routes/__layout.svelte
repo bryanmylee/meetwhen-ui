@@ -20,7 +20,7 @@
   import { cx } from '$lib/utils/cx';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import AuthModal from './_AuthModal/AuthModal.svelte';
-  import Nav from './_Nav.svelte';
+  import Nav from '$lib/components/Nav/Nav.svelte';
   import type { Load } from '@sveltejs/kit';
 
   export let key: string;
