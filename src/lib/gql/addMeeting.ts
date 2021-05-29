@@ -22,13 +22,14 @@ interface AddMeetingResolved {
   addMeeting: Pick<MeetingDTO, Props>;
 }
 
-export const addMeeting = async ({
-  name,
-  intervals,
-}: AddMeetingVars): Promise<Pick<Meeting, Props>> => {
+export const addMeeting = async ({ name, intervals }: AddMeetingVars): Promise<Meeting> => {
   const { addMeeting } = (await query({
     query: ADD_MEETING,
     variables: MeetingSerializer.serialize({ name, intervals }),
   })) as AddMeetingResolved;
-  return MeetingSerializer.deserialize(addMeeting) as Pick<Meeting, Props>;
+  return {
+    ...MeetingSerializer.deserialize(addMeeting),
+    name,
+    intervals,
+  } as Meeting;
 };
