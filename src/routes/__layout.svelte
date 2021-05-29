@@ -11,11 +11,12 @@
 
 <script lang="ts">
   import '../app.postcss';
+  import { getStores } from '$app/stores';
   import '$lib/colors';
   import '$lib/dark-mode';
   import '$lib/screen-height';
   import { queryClient } from '$lib/gql';
-  import { showAuth } from '$lib/app-state';
+  import { showAuth, currentUser } from '$lib/app-state';
   import { cx } from '$lib/utils/cx';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import AuthModal from './_AuthModal/AuthModal.svelte';
@@ -23,6 +24,9 @@
   import type { Load } from '@sveltejs/kit';
 
   export let key: string;
+
+  const { session } = getStores();
+  $: $currentUser = $session.user;
 </script>
 
 <main class={cx([key === '/', 'mt-10', 'mt-14'])}>

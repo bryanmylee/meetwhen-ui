@@ -6,4 +6,4 @@ export const showAuth = writable(false);
 
 export const loadingMeetingPromise = writable<Promise<Meeting>>(null);
 export const newMeeting = writable<Meeting>(null);
-export const currentUser = writable<User>(null);
+export const currentUser = writable<Partial<User>>(null);
