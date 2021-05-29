@@ -7,7 +7,9 @@
   export let placeholder = '';
   export let value = '';
   export let error = '';
+
   export let required = false;
+  export let touched = false;
   export let focusOnMount = false;
 
   let attrs = {};
@@ -29,7 +31,7 @@
     {required}
     use:focus={focusOnMount}
     class:filled={value !== ''}
-    class:error={error !== ''}
+    class:error={error !== '' || (required && touched)}
   />
   <label for={id}>{placeholder}</label>
   {#if error !== ''}
