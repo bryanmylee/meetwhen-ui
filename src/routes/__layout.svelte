@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
-  export const load: Load = ({ fetch, page }) => {
+  export const load: Load = ({ fetch, page, session }) => {
     queryClient.fetch = fetch;
+    currentUser.set(session.user);
     return {
       props: {
         key: page.path,
@@ -11,7 +12,6 @@
 
 <script lang="ts">
   import '../app.postcss';
-  import { getStores } from '$app/stores';
   import '$lib/colors';
   import '$lib/dark-mode';
   import '$lib/screen-height';
@@ -20,13 +20,10 @@
   import { cx } from '$lib/utils/cx';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import AuthModal from './_AuthModal/AuthModal.svelte';
-  import Nav from './nav.svelte';
+  import Nav from './_Nav.svelte';
   import type { Load } from '@sveltejs/kit';
 
   export let key: string;
-
-  const { session } = getStores();
-  $: $currentUser = $session.user;
 </script>
 
 <main class={cx([key === '/', 'mt-10', 'mt-14'])}>
