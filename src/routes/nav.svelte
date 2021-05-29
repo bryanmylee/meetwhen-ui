@@ -1,15 +1,22 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
   import { receive, send } from '$lib/app-crossfade';
+  import { currentUser } from '$lib/app-state';
 
   export let key: string;
+
+  $: message = $currentUser === null ? '' : `Hi ${$currentUser.name}!`;
 </script>
 
 {#if key === '/'}
   <nav
     transition:fly={{ y: -50 }}
     class="fixed inset-0 bottom-auto flex items-center justify-end p-4 dark:text-white"
-  />
+  >
+    <ul>
+      <li>{message}</li>
+    </ul>
+  </nav>
 {:else}
   <nav
     in:receive={{ key: 'header' }}
@@ -28,6 +35,9 @@
           meetwhen
         </a>
       </li>
+    </ul>
+    <ul>
+      <li>{message}</li>
     </ul>
   </nav>
 {/if}
