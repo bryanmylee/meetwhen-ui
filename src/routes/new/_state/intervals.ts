@@ -1,15 +1,18 @@
 import type { Interval } from '$lib/gql/types/interval';
+import { withError } from '$lib/utils/with-error';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { derived, writable } from 'svelte/store';
 
-export const selectedDates = writable<Dayjs[]>([dayjs().startOf('day')]);
+export const selectedDates = withError<Dayjs[]>([dayjs().startOf('day')]);
 export const from = writable<Dayjs>(undefined);
 export const to = writable<Dayjs>(undefined);
 
 export const intervals = derived([selectedDates, from, to], ([$selectedDates, $from, $to]) => {
-  const _intervals = $selectedDates.map((selectedDate) => getInterval(selectedDate, $from, $to));
-  return foldIntervals(_intervals);
+  const intervals = $selectedDates.value.map((selectedDate) =>
+    getInterval(selectedDate, $from, $to)
+  );
+  return foldIntervals(intervals);
 });
 
 const MIDNIGHT_TODAY = dayjs().startOf('day');

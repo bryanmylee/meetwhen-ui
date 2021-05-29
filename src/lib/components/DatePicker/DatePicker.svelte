@@ -93,6 +93,8 @@
   </SelectableProvider>
 
   {#if error !== ''}
-    <span class="absolute text-xs italic text-red-400 bottom-2 left-4">{error}</span>
+    <span class="absolute text-xs italic text-red-400 transform -translate-x-1/2 bottom-2 left-1/2"
+      >{error}</span
+    >
   {/if}
 </div>

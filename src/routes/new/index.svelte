@@ -3,11 +3,16 @@
   import { loadingMeetingPromise } from '$lib/app-state';
   import { addMeeting } from '$lib/gql/addMeeting';
   import { meetingInput } from './_state/meeting';
+  import { selectedDates } from './_state/intervals';
   import Head from '$lib/components/Head.svelte';
   import MeetingInput from './_MeetingInput.svelte';
   import Buttons from './_Buttons.svelte';
 
   const submit = () => {
+    if ($selectedDates.value.length === 0) {
+      $selectedDates.error = 'Required';
+      return;
+    }
     $loadingMeetingPromise = addMeeting($meetingInput);
     goto('/loading');
   };
