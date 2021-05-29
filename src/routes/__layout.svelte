@@ -19,7 +19,7 @@
   import { showAuth, currentUser } from '$lib/app-state';
   import { cx } from '$lib/utils/cx';
   import PageTransition from '$lib/components/PageTransition.svelte';
-  import AuthModal from './_AuthModal/AuthModal.svelte';
+  import LoginModal from '$lib/components/LoginModal/LoginModal.svelte';
   import Nav from '$lib/components/Nav/Nav.svelte';
   import type { Load } from '@sveltejs/kit';
 
@@ -35,7 +35,7 @@
 <Nav {key} />
 
 {#if $showAuth}
-  <AuthModal on:dismiss={() => ($showAuth = false)} />
+  <LoginModal on:dismiss={() => ($showAuth = false)} />
 {/if}
 
 <style>

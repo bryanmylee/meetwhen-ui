@@ -12,7 +12,7 @@
   import { clickOutside } from '$lib/utils/use-click-outside';
   import Textfield from '$lib/components/Textfield.svelte';
   import { login } from '$lib/gql/login';
-  import { getAuthModalState } from './_state';
+  import { getAuthModalState } from './state';
   import Header from './Header.svelte';
   import Tooltip from './Tooltip.svelte';
   import type { APIError } from '$lib/typings/error';
