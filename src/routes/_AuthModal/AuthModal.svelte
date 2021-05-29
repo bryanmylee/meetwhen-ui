@@ -25,7 +25,7 @@
   import type { APIError } from '$lib/typings/error';
 
   const dispatch = createEventDispatcher<AuthModalEvent>();
-  const { name, email, password } = getAuthModalState();
+  const { name, email, password, resetErrors } = getAuthModalState();
 
   const confirm = async () => {
     if (loggingIn) {
@@ -61,6 +61,10 @@
   };
 
   let loggingIn = true;
+  $: {
+    loggingIn;
+    resetErrors();
+  }
   let hovering = false;
   let transitioning = false;
 </script>
