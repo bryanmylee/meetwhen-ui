@@ -89,11 +89,21 @@
           @apply transform -translate-y-3 scale-75 text-primary;
         }
       }
+      &.error {
+        @apply ring-red-400 ring;
+        & + label {
+          @apply text-red-400;
+        }
+      }
     }
     & > label {
       @apply absolute -top-2 left-0 mt-7 mb-5 mx-4 text-gray-800 dark:text-white;
       @apply pointer-events-none transition-transform;
       transform-origin: top left;
+    }
+    & > span {
+      @apply absolute bottom-1 left-0 mx-4 text-red-400 transform scale-75 italic; 
+      transform-origin: bottom left;
     }
   }
 }
