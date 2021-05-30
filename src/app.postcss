@@ -14,6 +14,10 @@
 }
 
 @layer base {
+  .bg-default {
+    @apply bg-white dark:bg-gray-800 text-black dark:text-white;
+  }
+
   .shade {
     @apply bg-gray-100 dark:bg-gray-700;
   }
@@ -28,7 +32,7 @@
 
 @layer components {
   .card {
-    @apply bg-white dark:bg-gray-800 text-black dark:text-white shadow-md rounded-xl;
+    @apply bg-default shadow-md rounded-xl;
     &[tabindex='0'] {
       @apply cursor-pointer transition-shadow focusable;
       @apply hover:shadow-lg active:shadow;
