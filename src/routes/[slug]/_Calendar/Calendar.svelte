@@ -1,8 +1,11 @@
 <script lang="ts">
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
   import type { Interval } from '$lib/gql/types/interval';
+  import { getLocalizedIntervals } from './utils';
 
   export let intervals: Interval[] = [];
+  $: localizedIntervals = getLocalizedIntervals(intervals);
+  $: console.log(localizedIntervals);
 
   let selector: SelectableProvider | undefined;
   let selectedIds: string[] = [];
