@@ -1,7 +1,5 @@
 import type { Interval } from '$lib/gql/types/interval';
 import { endOf } from '$lib/utils/dayjs-end-of';
-import type { Dayjs } from 'dayjs';
-import dayjs from 'dayjs';
 
 export const getLocalIntervals = (intervals: Interval[]): Interval[] => {
   if (intervals.length === 0) {
@@ -25,11 +23,15 @@ export const getLocalIntervals = (intervals: Interval[]): Interval[] => {
   return results;
 };
 
-export const getDays = (intervals: Interval[]): Dayjs[] => {
-  // Dayjs classes do not conform with Set equality.
-  const result = new Set<number>();
+// Dayjs classes are not strictly equal and do not conform with Map or Set equality.
+export const getIntervalsByDayUnix = (intervals: Interval[]): Record<number, Interval[]> => {
+  const result: Record<number, Interval[]> = {};
   intervals.forEach((interval) => {
-    result.add(interval.beg.startOf('day').unix());
+    const key = interval.beg.startOf('day').unix();
+    if (!result.hasOwnProperty(key)) {
+      result[key] = [];
+    }
+    result[key].push(interval);
   });
-  return Array.from(result).sort().map(dayjs.unix);
+  return result;
 };
