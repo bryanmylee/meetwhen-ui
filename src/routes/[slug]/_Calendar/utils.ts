@@ -1,5 +1,6 @@
 import type { Interval } from '$lib/gql/types';
 import { endOf } from '$lib/utils/dayjs-end-of';
+import type { Dayjs } from 'dayjs';
 
 export const getLocalIntervals = (intervals: Interval[]): Interval[] => {
   if (intervals.length === 0) {
@@ -33,5 +34,15 @@ export const getIntervalsByDayUnix = (intervals: Interval[]): Record<number, Int
     }
     result[key].push(interval);
   });
+  return result;
+};
+
+export const getHoursInInterval = ({ beg, end }: Interval): Dayjs[] => {
+  const result: Dayjs[] = [];
+  let current = beg;
+  while (current.isBefore(end)) {
+    result.push(current);
+    current = current.add(1, 'hour');
+  }
   return result;
 };
