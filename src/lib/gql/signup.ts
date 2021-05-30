@@ -1,5 +1,5 @@
 import { query } from '$lib/gql';
-import type { User, UserDTO } from './types/user';
+import type { User, UserDTO } from './types';
 
 const SIGNUP = `
 mutation ($name: String!, $email: String!, $password: String!) {

@@ -1,6 +1,6 @@
 import { query } from '$lib/gql';
-import type { Meeting, MeetingDTO } from './types/meeting';
-import { MeetingSerializer } from './types/meeting';
+import type { Meeting, MeetingDTO } from './types';
+import { MeetingSerializer } from './types';
 
 const GET_MEETING_BY_SLUG = `
 query ($slug: String!) {

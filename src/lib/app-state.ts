@@ -1,6 +1,5 @@
 import { writable } from 'svelte/store';
-import type { Meeting } from './gql/types/meeting';
-import type { User } from './gql/types/user';
+import type { Meeting, User } from './gql/types';
 
 export const showAuth = writable(false);
 

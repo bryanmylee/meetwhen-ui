@@ -13,7 +13,7 @@
   import { newMeeting } from '$lib/app-state';
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
   import type { Load } from '@sveltejs/kit';
-  import type { Meeting } from '$lib/gql/types/meeting';
+  import type { Meeting } from '$lib/gql/types';
   import Head from '$lib/components/Head.svelte';
   import Buttons from './_Buttons.svelte';
   import Calendar from './_Calendar/Calendar.svelte';

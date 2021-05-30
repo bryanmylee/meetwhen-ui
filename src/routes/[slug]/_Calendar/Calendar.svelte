@@ -1,6 +1,6 @@
 <script lang="ts">
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
-  import type { Interval } from '$lib/gql/types/interval';
+  import type { Interval } from '$lib/gql/types';
   import { intervals as intervalsDep, days } from './state';
   import Column from './Column.svelte';
 

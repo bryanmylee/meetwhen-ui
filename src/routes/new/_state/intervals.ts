@@ -1,4 +1,4 @@
-import type { Interval } from '$lib/gql/types/interval';
+import type { Interval } from '$lib/gql/types';
 import { withError } from '$lib/utils/with-error';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';

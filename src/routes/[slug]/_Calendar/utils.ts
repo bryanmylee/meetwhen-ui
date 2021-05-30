@@ -1,4 +1,4 @@
-import type { Interval } from '$lib/gql/types/interval';
+import type { Interval } from '$lib/gql/types';
 import { endOf } from '$lib/utils/dayjs-end-of';
 
 export const getLocalIntervals = (intervals: Interval[]): Interval[] => {
