@@ -33,15 +33,9 @@
 <Head emoji="📘" subtitle="loading..." />
 
 <Template>
-  <svelte:fragment slot="header">
-    <Header />
-  </svelte:fragment>
-  <svelte:fragment slot="buttons">
-    <Buttons />
-  </svelte:fragment>
-  <svelte:fragment slot="calendar">
-    <Calendar />
-  </svelte:fragment>
+  <Header slot="header" />
+  <Buttons slot="buttons" />
+  <Calendar slot="calendar" />
 </Template>
 
 <div class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 text-primary">

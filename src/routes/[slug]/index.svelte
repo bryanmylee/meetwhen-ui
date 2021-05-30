@@ -27,13 +27,7 @@
 <Head emoji="📘" subtitle={meeting.name} />
 
 <Template>
-  <svelte:fragment slot="header">
-    <Header name={meeting.name} />
-  </svelte:fragment>
-  <svelte:fragment slot="buttons">
-    <Buttons />
-  </svelte:fragment>
-  <svelte:fragment slot="calendar">
-    <Calendar intervals={meeting.intervals} />
-  </svelte:fragment>
+  <Header name={meeting.name} slot="header" />
+  <Buttons slot="buttons" />
+  <Calendar intervals={meeting.intervals} slot="calendar" />
 </Template>
