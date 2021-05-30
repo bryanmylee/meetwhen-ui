@@ -1,12 +1,11 @@
 <script lang="ts">
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
   import type { Interval } from '$lib/gql/types/interval';
-  import { getCalendarState } from './state';
+  import { intervals as intervalsDep, days } from './state';
   import Column from './Column.svelte';
 
-  const { intervals: intervalDep, days } = getCalendarState();
   export let intervals: Interval[] = [];
-  $: $intervalDep = intervals;
+  $: $intervalsDep = intervals;
 
   let selector: SelectableProvider | undefined;
   let selectedIds: string[] = [];
