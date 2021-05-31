@@ -1,8 +1,7 @@
 import type { Interval, LocalTimeInterval } from '$lib/gql/types';
 import { endOf } from '$lib/utils/dayjs-end-of';
 import type { Moment } from '$lib/utils/moment';
-import type { Time } from '$lib/utils/time';
-import time from '$lib/utils/time';
+import time, { Time } from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 
@@ -48,7 +47,7 @@ export const getHoursInInterval = ({ beg, end }: Interval): Time[] => {
     result.push(current);
     current = current.add(1, 'hour');
   }
-  return result.map(time);
+  return result.map(Time.dayjs);
 };
 
 export const union = (intervals: Interval[]): Interval[] => {
