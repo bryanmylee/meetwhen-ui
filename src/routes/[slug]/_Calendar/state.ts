@@ -7,6 +7,7 @@ import {
   getHoursInTimeInterval,
   getIntervalsByDayUnix,
   getLocalIntervals,
+  isIn,
   unionTimeIntervals,
 } from './utils';
 
@@ -25,6 +26,14 @@ export const days = derived([localIntervalsByDayUnix], ([$localIntervalsByDayUni
 export const getIntervalsByDay = derived(
   [localIntervalsByDayUnix],
   ([$localIntervalsByDayUnix]) => (day: Dayjs) => $localIntervalsByDayUnix[day.unix()]
+);
+
+export const getIntervalsInAvailableByDay = derived(
+  [getIntervalsByDay],
+  ([$getIntervalsByDay]) => (available: LocalTimeInterval, day: Dayjs) => {
+    const intervals = $getIntervalsByDay(day);
+    return intervals.filter((interval) => isIn(interval, available));
+  }
 );
 
 /**

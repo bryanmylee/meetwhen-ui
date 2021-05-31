@@ -1,29 +1,15 @@
 <script lang="ts">
-  import GridItem from '$lib/components/Grid/GridItem.svelte';
   import type { LocalTimeInterval } from '$lib/gql/types';
-  import { cx } from '$lib/utils/cx';
-  import { zip } from '$lib/utils/zip';
   import type { Dayjs } from 'dayjs';
-  import { getItemPropsByTime } from './state';
-  import { getHoursInTimeInterval } from './utils';
+  import AvailableInterval from './AvailableInterval.svelte';
+  import { getIntervalsInAvailableByDay } from './state';
 
   export let x: number;
   export let day: Dayjs;
   export let available: LocalTimeInterval;
-  $: hours = getHoursInTimeInterval(available, 0.5);
-  $: props = hours.map($getItemPropsByTime);
-
-  const getClass = (endOfAvailable: boolean) => {
-    // prettier-ignore
-    return cx(
-      'shade min-w-32 min-h-10',
-      [endOfAvailable, 'mb-2', 'border-gray-200 dark:border-gray-600 border-b-2']
-    );
-  };
+  $: intervals = $getIntervalsInAvailableByDay(available, day);
 </script>
 
-{#each zip(hours, props) as [hour, prop], index}
-  <GridItem {x} y={prop.rowIndex} class={getClass(prop.endOfAvailable)}>
-    {hour.hour}-{hour.minute}
-  </GridItem>
+{#each intervals as interval}
+  <AvailableInterval {x} {day} {interval} />
 {/each}

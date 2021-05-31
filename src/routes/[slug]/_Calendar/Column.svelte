@@ -8,5 +8,5 @@
 </script>
 
 {#each $availables as available}
-  <Available {x} {available} />
+  <Available {x} {day} {available} />
 {/each}
