@@ -52,14 +52,16 @@ export const availables = derived([localIntervals], ([$localIntervals]) => {
 
 export const hourStepSize = writable(0.5);
 
-export const numRows = derived([availables, hourStepSize], ([$availables, $hourStepSize]) => {
-  let numRows = 0;
+export const totalHours = derived([availables, hourStepSize], ([$availables, $hourStepSize]) => {
+  let hours: Time[] = [];
   $availables.forEach((available) => {
     const hoursInAvailable = getHoursInTimeInterval(available, $hourStepSize);
-    numRows += hoursInAvailable.length;
+    hours = [...hours, ...hoursInAvailable];
   });
-  return numRows;
+  return hours;
 });
+
+export const numRows = derived([totalHours], ([$totalHours]) => $totalHours.length);
 
 const rowIndexByTimeUnix = derived([availables, hourStepSize], ([$availables, $hourStepSize]) => {
   const rowIndexByTimeUnix: Record<number, number> = {};
