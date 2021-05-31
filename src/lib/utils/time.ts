@@ -1,5 +1,7 @@
 import type { Dayjs } from 'dayjs';
 
+type Unit = 'hour' | 'minute' | 'second';
+
 export class Time {
   private constructor(public unix: number) {}
 
@@ -28,6 +30,16 @@ export class Time {
 
   static dayjs(dayjs: Dayjs): Time {
     return new Time(dayjs.hour() * 3600 + dayjs.minute() * 60 + dayjs.second());
+  }
+
+  add(value: number, unit: Unit = 'second'): Time {
+    if (unit === 'hour') {
+      return Time.build(this.unix + value * 3600);
+    }
+    if (unit === 'minute') {
+      return Time.build(this.unix + value * 60);
+    }
+    return Time.build(this.unix + value);
   }
 }
 
