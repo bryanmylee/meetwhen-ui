@@ -1,5 +1,8 @@
-import type { Interval } from '$lib/gql/types';
+import type { Interval, IntervalDTO } from '$lib/gql/types';
 import { endOf } from '$lib/utils/dayjs-end-of';
+import type { Moment } from '$lib/utils/moment';
+import type { Time } from '$lib/utils/time';
+import time from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 
 export const getLocalIntervals = (intervals: Interval[]): Interval[] => {
@@ -37,12 +40,45 @@ export const getIntervalsByDayUnix = (intervals: Interval[]): Record<number, Int
   return result;
 };
 
-export const getHoursInInterval = ({ beg, end }: Interval): Dayjs[] => {
+export const getHoursInInterval = ({ beg, end }: Interval): Time[] => {
   const result: Dayjs[] = [];
   let current = beg;
   while (current.isBefore(end)) {
     result.push(current);
     current = current.add(1, 'hour');
   }
+  return result.map(time);
+};
+
+export const union = (intervals: IntervalDTO[]): IntervalDTO[] => {
+  const moments: Moment[] = [];
+  intervals.forEach(({ beg, end }) => {
+    moments.push({ unix: beg, end: false }, { unix: end, end: true });
+  });
+  moments.sort((a, b) => a.unix - b.unix);
+  const result: IntervalDTO[] = [];
+  let currentBeg = null;
+  let depth = 0;
+  moments.forEach((moment) => {
+    if (moment.end) {
+      depth--;
+      if (depth === 0) {
+        result.push({ beg: currentBeg, end: moment.unix });
+      }
+    } else {
+      depth++;
+      if (depth === 1) {
+        currentBeg = moment.unix;
+      }
+    }
+  });
   return result;
+};
+
+export const setTimeOfDay = (day: Dayjs, time: Time): Dayjs => {
+  return day.hour(time.hour).minute(time.minute).second(time.second);
+};
+
+export const isIn = (inner: Interval, outer: Interval): boolean => {
+  return !inner.beg.isBefore(outer.beg) && !inner.end.isAfter(outer.end);
 };
