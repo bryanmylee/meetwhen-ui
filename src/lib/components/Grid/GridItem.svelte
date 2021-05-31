@@ -1,6 +1,16 @@
 <script lang="ts">
   import { cssVars } from '$lib/utils/use-css-vars';
 
+  export let dataId: string = undefined;
+
+  let attrs = {};
+  $: {
+    attrs = {};
+    if (dataId !== undefined) {
+      attrs = { ...attrs, 'data-id': dataId };
+    }
+  }
+
   let className = '';
   export { className as class };
 
@@ -16,7 +26,7 @@
   };
 </script>
 
-<div class={className} use:cssVars={vars}>
+<div {...attrs} class={className} use:cssVars={vars}>
   <slot />
 </div>
 

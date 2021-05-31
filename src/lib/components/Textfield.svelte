@@ -14,6 +14,7 @@
 
   let attrs = {};
   $: {
+    attrs = {};
     if (id !== undefined) {
       attrs = { ...attrs, id };
     }
