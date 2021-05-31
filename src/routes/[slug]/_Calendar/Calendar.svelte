@@ -1,9 +1,10 @@
 <script lang="ts">
-  import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
   import type { Interval } from '$lib/gql/types';
-  import { intervals as intervalsDep, days } from './state';
-  import Day from './Day.svelte';
+  import { intervals as intervalsDep, days, numRows } from './state';
+  import Column from './Column.svelte';
   import Grid from '$lib/components/Grid/Grid.svelte';
+  import ColumnHeader from './ColumnHeader.svelte';
+  import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
 
   export let intervals: Interval[] = [];
   $: $intervalsDep = intervals;
@@ -15,11 +16,16 @@
 <div class="flex flex-col flex-1 overflow-hidden card">
   <div tabindex="0" class="focus:outline-none" />
   <SelectableProvider bind:this={selector} bind:selectedIds let:selecting>
-    <div class="relative h-full min-h-0 p-4 pt-1 pl-2 overflow-hidden focus:outline-none">
+    <div class="relative h-full min-h-0 p-4 overflow-hidden focus:outline-none">
       <div class="flex flex-col h-full overflow-auto">
-        <Grid rows={8} cols={$days.length} class="relative z-0 min-w-full min-h-full">
+        <div class="sticky top-0 z-20 flex w-full">
+          {#each $days as day}
+            <ColumnHeader {day} />
+          {/each}
+        </div>
+        <Grid rows={$numRows} cols={$days.length} class="relative z-0 min-w-full min-h-full">
           {#each $days as day, index}
-            <Day {index} {day} />
+            <Column x={index} {day} />
           {/each}
         </Grid>
       </div>
