@@ -3,7 +3,7 @@ import time from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { derived, writable } from 'svelte/store';
-import { getIntervalsByDayUnix, getLocalIntervals, unionTimeIntervals } from './utils';
+import { getIntervalsByDayUnix, getLocalIntervals, isIn, unionTimeIntervals } from './utils';
 
 export const intervals = writable<Interval[]>([]);
 
@@ -23,22 +23,23 @@ export const getIntervalsInDay = derived(
 );
 
 /**
- * Given multiple local intervals per day, we need to find the union between intervals in all days.
+ * Given multiple local intervals per day, get the union of intervals in all days.
  */
-export const localTimeIntervalsPerDay = derived(
-  [localIntervalsByDayUnix],
-  ([$localIntervalsByDayUnix]) => {
-    const intervals: LocalTimeInterval[] = [];
-    Object.entries($localIntervalsByDayUnix).forEach(([dayUnixStr, intervalsInDay]) => {
-      const dayUnix = parseInt(dayUnixStr, 10);
-      intervalsInDay.forEach(({ beg, end }) => {
-        const intervalInDay: LocalTimeInterval = {
-          beg: time(beg.unix() - dayUnix),
-          end: time(end.unix() - dayUnix),
-        };
-        intervals.push(intervalInDay);
-      });
-    });
-    return unionTimeIntervals(intervals);
+export const availableTotalTimeIntervals = derived([localIntervals], ([$localIntervals]) => {
+  const intervals: LocalTimeInterval[] = $localIntervals.map(({ beg, end }) => {
+    const dayUnix = beg.startOf('day').unix();
+    return {
+      beg: time(beg.unix() - dayUnix),
+      end: time(end.unix() - dayUnix),
+    };
+  });
+  return unionTimeIntervals(intervals);
+});
+
+export const getIntervalsInAvailableInDay = derived(
+  [getIntervalsInDay],
+  ([$getIntervalsInDay]) => (available: LocalTimeInterval, day: Dayjs) => {
+    const intervals = $getIntervalsInDay(day);
+    return intervals.filter((interval) => isIn(interval, available));
   }
 );

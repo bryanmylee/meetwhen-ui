@@ -114,6 +114,6 @@ export const setTimeOfDay = (day: Dayjs, time: Time): Dayjs => {
   return day.hour(time.hour).minute(time.minute).second(time.second);
 };
 
-export const isIn = (inner: Interval, outer: Interval): boolean => {
-  return !inner.beg.isBefore(outer.beg) && !inner.end.isAfter(outer.end);
+export const isIn = (interval: Interval, available: LocalTimeInterval): boolean => {
+  return !available.beg.isAfterDayjs(interval.beg) && !available.end.isBeforeDayjs(interval.end);
 };
