@@ -18,12 +18,16 @@
   <SelectableProvider bind:this={selector} bind:selectedIds let:selecting>
     <div class="relative h-full min-h-0 p-4 overflow-hidden focus:outline-none">
       <div class="flex flex-col h-full overflow-auto">
-        <div class="sticky top-0 z-20 flex w-full">
+        <div class="sticky top-0 z-20 flex w-full space-x-4">
           {#each $days as day}
             <ColumnHeader {day} />
           {/each}
         </div>
-        <Grid rows={$numRows} cols={$days.length} class="relative z-0 min-w-full min-h-full">
+        <Grid
+          rows={$numRows}
+          cols={$days.length}
+          class="relative z-0 min-w-full min-h-full gap-x-4"
+        >
           {#each $days as day, index}
             <Column x={index} {day} />
           {/each}
