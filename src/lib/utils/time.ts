@@ -32,7 +32,7 @@ export class Time {
     return Time.build(dayjs.hour(), dayjs.minute(), dayjs.second());
   }
 
-  toDayjs(day: Dayjs): Dayjs {
+  onDayjs(day: Dayjs): Dayjs {
     return day.hour(this.hour).minute(this.minute).second(this.second);
   }
 
