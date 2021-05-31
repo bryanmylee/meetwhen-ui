@@ -2,10 +2,11 @@
   import GridItem from '$lib/components/Grid/GridItem.svelte';
   import type { Interval } from '$lib/gql/types';
   import { cx } from '$lib/utils/cx';
+  import type { Time } from '$lib/utils/time';
   import { zip } from '$lib/utils/zip';
   import type { Dayjs } from 'dayjs';
   import { getItemPropsByTime, hourStepSize } from './state';
-  import { getHoursInInterval } from './utils';
+  import { getHoursInInterval, toId } from './utils';
 
   export let x: number;
   export let day: Dayjs;
@@ -27,5 +28,5 @@
 </script>
 
 {#each zip(hours, props) as [hour, prop], index}
-  <GridItem {x} y={prop.rowIndex} class={getClass(index)} />
+  <GridItem dataId={toId(hour.onDayjs(day))} {x} y={prop.rowIndex} class={getClass(index)} />
 {/each}
