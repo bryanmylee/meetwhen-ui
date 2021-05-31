@@ -110,10 +110,14 @@ export const unionTimeIntervals = (intervals: LocalTimeInterval[]): LocalTimeInt
   return result;
 };
 
-export const setTimeOfDay = (day: Dayjs, time: Time): Dayjs => {
-  return day.hour(time.hour).minute(time.minute).second(time.second);
-};
-
 export const isIn = (interval: Interval, available: LocalTimeInterval): boolean => {
   return !available.beg.isAfterDayjs(interval.beg) && !available.end.isBeforeDayjs(interval.end);
+};
+
+export const toId = (day: Dayjs) => {
+  return day.format('YYYYMMDDHHmm');
+};
+
+export const fromId = (id: string): Dayjs => {
+  return dayjs(id, 'YYYYMMDDHHmm');
 };
