@@ -4,14 +4,14 @@
   import { cx } from '$lib/utils/cx';
   import { zip } from '$lib/utils/zip';
   import type { Dayjs } from 'dayjs';
-  import { getItemPropsByTime, hourStepSize } from './state';
+  import { getRowIndexByTime, hourStepSize } from './state';
   import { getHoursInInterval, toId } from './utils';
 
   export let x: number;
   export let day: Dayjs;
   export let interval: Interval;
   $: hours = getHoursInInterval(interval, $hourStepSize);
-  $: props = hours.map($getItemPropsByTime);
+  $: rowIndices = hours.map($getRowIndexByTime);
 
   const getClass = (index: number) => {
     return cx(
@@ -26,6 +26,6 @@
   };
 </script>
 
-{#each zip(hours, props) as [hour, prop], index}
-  <GridItem dataId={toId(hour.onDayjs(day))} {x} y={prop.rowIndex} class={getClass(index)} />
+{#each zip(hours, rowIndices) as [hour, rowIndex], index}
+  <GridItem dataId={toId(hour.onDayjs(day))} {x} y={rowIndex} class={getClass(index)} />
 {/each}

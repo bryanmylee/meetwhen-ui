@@ -77,35 +77,3 @@ export const getRowIndexByTime = derived(
   [rowIndexByTimeUnix],
   ([$rowIndexByTimeUnix]) => (time: Time) => $rowIndexByTimeUnix[time.unix]
 );
-
-const endOfAvailableByTime = derived([availables, hourStepSize], ([$availables, $hourStepSize]) => {
-  const hasBottomMarginByTimeUnix: Record<number, boolean> = {};
-  const lastAvailable = $availables[$availables.length - 1];
-  $availables.forEach((available) => {
-    const hours = getHoursInTimeInterval(available, $hourStepSize);
-    hours.forEach(({ unix }) => {
-      hasBottomMarginByTimeUnix[unix] = false;
-    });
-    // last hour of each available should have a bottom margin, except for the last available.
-    if (available.beg.unix !== lastAvailable.beg.unix) {
-      const lastHour = hours[hours.length - 1];
-      hasBottomMarginByTimeUnix[lastHour.unix] = true;
-    }
-  });
-  return hasBottomMarginByTimeUnix;
-});
-
-export const getEndOfAvailableByTime = derived(
-  [endOfAvailableByTime],
-  ([$endOfAvailableByTime]) => (time: Time) => $endOfAvailableByTime[time.unix]
-);
-
-export const getItemPropsByTime = derived(
-  [getRowIndexByTime, getEndOfAvailableByTime],
-  ([$getRowIndexByTime, $getEndOfAvailableByTime]) => (time: Time) => {
-    return {
-      rowIndex: $getRowIndexByTime(time),
-      endOfAvailable: $getEndOfAvailableByTime(time),
-    };
-  }
-);
