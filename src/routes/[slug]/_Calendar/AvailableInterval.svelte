@@ -2,7 +2,6 @@
   import GridItem from '$lib/components/Grid/GridItem.svelte';
   import type { Interval } from '$lib/gql/types';
   import { cx } from '$lib/utils/cx';
-  import type { Time } from '$lib/utils/time';
   import { zip } from '$lib/utils/zip';
   import type { Dayjs } from 'dayjs';
   import { getItemPropsByTime, hourStepSize } from './state';
