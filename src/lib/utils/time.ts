@@ -41,6 +41,16 @@ export class Time {
     }
     return Time.build(this.unix + value);
   }
+
+  isBeforeDayjs(day: Dayjs): boolean {
+    const secondsInDay = day.unix() - day.startOf('day').unix();
+    return this.unix < secondsInDay;
+  }
+
+  isAfterDayjs(day: Dayjs): boolean {
+    const secondsInDay = day.unix() - day.startOf('day').unix();
+    return this.unix > secondsInDay;
+  }
 }
 
 export default Time.build;
