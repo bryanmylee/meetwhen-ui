@@ -25,7 +25,7 @@ export const getIntervalsInDay = derived(
 /**
  * Given multiple local intervals per day, get the union of intervals in all days.
  */
-export const availableTotalTimeIntervals = derived([localIntervals], ([$localIntervals]) => {
+export const availables = derived([localIntervals], ([$localIntervals]) => {
   const intervals: LocalTimeInterval[] = $localIntervals.map(({ beg, end }) => {
     const dayUnix = beg.startOf('day').unix();
     return {
