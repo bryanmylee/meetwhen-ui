@@ -25,7 +25,7 @@ export const getIntervalsInDay = derived(
 /**
  * Given multiple local intervals per day, we need to find the union between intervals in all days.
  */
-export const localTimeIntervals = derived(
+export const localTimeIntervalsPerDay = derived(
   [localIntervalsByDayUnix],
   ([$localIntervalsByDayUnix]) => {
     const intervals: LocalTimeInterval[] = [];

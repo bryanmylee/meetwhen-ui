@@ -50,6 +50,16 @@ export const getHoursInInterval = ({ beg, end }: Interval): Time[] => {
   return result.map(Time.dayjs);
 };
 
+export const getHoursInTimeInterval = ({ beg, end }: LocalTimeInterval): Time[] => {
+  const result: Time[] = [];
+  let current = beg;
+  while (current.unix < end.unix) {
+    result.push(current);
+    current = current.add(1, 'hour');
+  }
+  return result;
+};
+
 export const union = (intervals: Interval[]): Interval[] => {
   const moments: Moment[] = [];
   intervals.forEach(({ beg, end }) => {
