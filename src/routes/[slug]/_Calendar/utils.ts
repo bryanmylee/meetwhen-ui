@@ -1,9 +1,10 @@
-import type { Interval, IntervalDTO } from '$lib/gql/types';
+import type { Interval, LocalTimeInterval } from '$lib/gql/types';
 import { endOf } from '$lib/utils/dayjs-end-of';
 import type { Moment } from '$lib/utils/moment';
 import type { Time } from '$lib/utils/time';
 import time from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
 export const getLocalIntervals = (intervals: Interval[]): Interval[] => {
   if (intervals.length === 0) {
@@ -50,25 +51,50 @@ export const getHoursInInterval = ({ beg, end }: Interval): Time[] => {
   return result.map(time);
 };
 
-export const union = (intervals: IntervalDTO[]): IntervalDTO[] => {
+export const union = (intervals: Interval[]): Interval[] => {
   const moments: Moment[] = [];
   intervals.forEach(({ beg, end }) => {
-    moments.push({ unix: beg, end: false }, { unix: end, end: true });
+    moments.push({ unix: beg.unix(), end: false }, { unix: end.unix(), end: true });
   });
   moments.sort((a, b) => a.unix - b.unix);
-  const result: IntervalDTO[] = [];
-  let currentBeg = null;
+  const result: Interval[] = [];
+  let currentBeg: Dayjs = null;
   let depth = 0;
   moments.forEach((moment) => {
     if (moment.end) {
       depth--;
       if (depth === 0) {
-        result.push({ beg: currentBeg, end: moment.unix });
+        result.push({ beg: currentBeg, end: dayjs.unix(moment.unix) });
       }
     } else {
       depth++;
       if (depth === 1) {
-        currentBeg = moment.unix;
+        currentBeg = dayjs.unix(moment.unix);
+      }
+    }
+  });
+  return result;
+};
+
+export const unionTimeIntervals = (intervals: LocalTimeInterval[]): LocalTimeInterval[] => {
+  const moments: Moment[] = [];
+  intervals.forEach(({ beg, end }) => {
+    moments.push({ unix: beg.unix, end: false }, { unix: end.unix, end: true });
+  });
+  moments.sort((a, b) => a.unix - b.unix);
+  const result: LocalTimeInterval[] = [];
+  let currentBeg: Time = null;
+  let depth = 0;
+  moments.forEach((moment) => {
+    if (moment.end) {
+      depth--;
+      if (depth === 0) {
+        result.push({ beg: currentBeg, end: time(moment.unix) });
+      }
+    } else {
+      depth++;
+      if (depth === 1) {
+        currentBeg = time(moment.unix);
       }
     }
   });

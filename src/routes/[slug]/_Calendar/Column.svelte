@@ -1,8 +1,8 @@
 <script lang="ts">
   import ColumnHeader from './ColumnHeader.svelte';
-  import { getIntervalsInDay } from './state';
+  import { getIntervalsInDay, localTimeIntervals } from './state';
+  import { getHoursInInterval, isIn, setTimeOfDay } from './utils';
   import type { Dayjs } from 'dayjs';
-  import { getHoursInInterval } from './utils';
 
   export let day: Dayjs;
   $: console.log($getIntervalsInDay(day));

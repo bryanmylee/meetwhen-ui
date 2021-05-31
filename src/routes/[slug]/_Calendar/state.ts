@@ -1,9 +1,9 @@
-import type { Interval, IntervalDTO } from '$lib/gql/types';
-import { union } from '$lib/utils/interval';
+import type { Interval, LocalTimeInterval } from '$lib/gql/types';
+import time from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { derived, writable } from 'svelte/store';
-import { getIntervalsByDayUnix, getLocalIntervals } from './utils';
+import { getIntervalsByDayUnix, getLocalIntervals, unionTimeIntervals } from './utils';
 
 export const intervals = writable<Interval[]>([]);
 
@@ -25,20 +25,20 @@ export const getIntervalsInDay = derived(
 /**
  * Given multiple local intervals per day, we need to find the union between intervals in all days.
  */
-export const localIntervalsUnionedOnDay = derived(
+export const localTimeIntervals = derived(
   [localIntervalsByDayUnix],
   ([$localIntervalsByDayUnix]) => {
-    const intervals: IntervalDTO[] = [];
+    const intervals: LocalTimeInterval[] = [];
     Object.entries($localIntervalsByDayUnix).forEach(([dayUnixStr, intervalsInDay]) => {
       const dayUnix = parseInt(dayUnixStr, 10);
       intervalsInDay.forEach(({ beg, end }) => {
-        const intervalInDay: IntervalDTO = {
-          beg: beg.unix() - dayUnix,
-          end: end.unix() - dayUnix,
+        const intervalInDay: LocalTimeInterval = {
+          beg: time(beg.unix() - dayUnix),
+          end: time(end.unix() - dayUnix),
         };
         intervals.push(intervalInDay);
       });
     });
-    return union(intervals);
+    return unionTimeIntervals(intervals);
   }
 );
