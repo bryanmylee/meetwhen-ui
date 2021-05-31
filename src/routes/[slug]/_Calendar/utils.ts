@@ -40,27 +40,27 @@ export const getIntervalsByDayUnix = (intervals: Interval[]): Record<number, Int
   return result;
 };
 
-export const getHoursInInterval = ({ beg, end }: Interval): Time[] => {
+export const getHoursInInterval = ({ beg, end }: Interval, step = 1): Time[] => {
   const result: Dayjs[] = [];
   let current = beg;
   while (current.isBefore(end)) {
     result.push(current);
-    current = current.add(1, 'hour');
+    current = current.add(step, 'hour');
   }
   return result.map(Time.dayjs);
 };
 
-export const getHoursInTimeInterval = ({ beg, end }: LocalTimeInterval): Time[] => {
+export const getHoursInTimeInterval = ({ beg, end }: LocalTimeInterval, step = 1): Time[] => {
   const result: Time[] = [];
   let current = beg;
   while (current.unix < end.unix) {
     result.push(current);
-    current = current.add(1, 'hour');
+    current = current.add(step, 'hour');
   }
   return result;
 };
 
-export const union = (intervals: Interval[]): Interval[] => {
+export const unionIntervals = (intervals: Interval[]): Interval[] => {
   const moments: Moment[] = [];
   intervals.forEach(({ beg, end }) => {
     moments.push({ unix: beg.unix(), end: false }, { unix: end.unix(), end: true });
