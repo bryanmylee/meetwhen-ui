@@ -3,13 +3,15 @@
   import type { LocalTimeInterval } from '$lib/gql/types';
   import { cx } from '$lib/utils/cx';
   import { zip } from '$lib/utils/zip';
-  import { getCellPropsByTime } from './state';
+  import type { Dayjs } from 'dayjs';
+  import { getItemPropsByTime } from './state';
   import { getHoursInTimeInterval } from './utils';
 
   export let x: number;
+  export let day: Dayjs;
   export let available: LocalTimeInterval;
   $: hours = getHoursInTimeInterval(available, 0.5);
-  $: props = hours.map($getCellPropsByTime);
+  $: props = hours.map($getItemPropsByTime);
 
   const getClass = (endOfAvailable: boolean) => {
     // prettier-ignore
@@ -20,8 +22,8 @@
   };
 </script>
 
-{#each zip(hours, props) as [hour, { rowIndex, endOfAvailable }]}
-  <GridItem {x} y={rowIndex} class={getClass(endOfAvailable)}>
+{#each zip(hours, props) as [hour, prop], index}
+  <GridItem {x} y={prop.rowIndex} class={getClass(prop.endOfAvailable)}>
     {hour.hour}-{hour.minute}
   </GridItem>
 {/each}

@@ -91,7 +91,7 @@ export const getEndOfAvailableByTime = derived(
   ([$endOfAvailableByTime]) => (time: Time) => $endOfAvailableByTime[time.unix]
 );
 
-export const getCellPropsByTime = derived(
+export const getItemPropsByTime = derived(
   [getRowIndexByTime, getEndOfAvailableByTime],
   ([$getRowIndexByTime, $getEndOfAvailableByTime]) => (time: Time) => {
     return {
