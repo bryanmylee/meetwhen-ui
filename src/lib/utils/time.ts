@@ -29,7 +29,11 @@ export class Time {
   }
 
   static dayjs(dayjs: Dayjs): Time {
-    return new Time(dayjs.hour() * 3600 + dayjs.minute() * 60 + dayjs.second());
+    return Time.build(dayjs.hour(), dayjs.minute(), dayjs.second());
+  }
+
+  toDayjs(day: Dayjs): Dayjs {
+    return day.hour(this.hour).minute(this.minute).second(this.second);
   }
 
   add(value: number, unit: Unit = 'second'): Time {
