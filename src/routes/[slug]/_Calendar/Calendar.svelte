@@ -6,6 +6,7 @@
   import IndexHeader from './IndexHeader.svelte';
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
   import GridItem from '$lib/components/Grid/GridItem.svelte';
+  import IndexColumn from './IndexColumn.svelte';
 
   export let intervals: Interval[] = [];
   $: $intervalsDep = intervals;
@@ -23,7 +24,7 @@
           <IndexHeader />
         </GridItem>
         <GridItem x={0} y={1} class="sticky left-0 z-20 flex flex-col min-w-16 bg-default">
-          hello
+          <IndexColumn />
         </GridItem>
         <GridItem x={1} y={1}>
           <Grid

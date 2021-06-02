@@ -1,4 +1,5 @@
 import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
 type Unit = 'hour' | 'minute' | 'second';
 
@@ -54,6 +55,10 @@ export class Time {
   isAfterDayjs(day: Dayjs): boolean {
     const secondsInDay = day.unix() - day.startOf('day').unix();
     return this.unix > secondsInDay;
+  }
+
+  format(template?: string): string {
+    return this.onDayjs(dayjs()).format(template);
   }
 }
 
