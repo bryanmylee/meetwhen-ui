@@ -12,7 +12,7 @@ module.exports = {
   ignorePatterns: ['*.cjs'],
   overrides: [
     { files: ['*.svelte'], processor: 'svelte3/svelte3' },
-    { files: ['*.*'], rules: { 'no-prototype-builtins': 'off' }},
+    { files: ['*.*'], rules: { 'no-prototype-builtins': 'off' } },
   ],
   settings: {
     'svelte3/typescript': () => require('typescript'),
