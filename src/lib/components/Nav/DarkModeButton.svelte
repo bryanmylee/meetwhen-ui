@@ -13,9 +13,9 @@
   let showDropdown = false;
 
   const options = [
-    { title: 'Dark Mode', value: true, icon: MoonIcon },
-    { title: 'Light Mode', value: false, icon: SunIcon },
-    { title: 'System Setting', value: undefined, icon: DropletIcon },
+    { title: 'Dark', value: true, icon: MoonIcon },
+    { title: 'Light', value: false, icon: SunIcon },
+    { title: 'Auto', value: undefined, icon: DropletIcon },
   ];
 
   const handleClick = (value: boolean) => {
