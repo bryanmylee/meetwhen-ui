@@ -20,10 +20,10 @@
   <SelectableProvider bind:this={selector} bind:selectedIds let:selecting>
     <div class="relative h-full min-h-0 p-4 overflow-hidden focus:outline-none">
       <div class="layout-grid">
-        <GridItem x={1} y={0} class="sticky top-0 z-20 flex w-full space-x-4">
+        <GridItem x={1} y={0} class="sticky top-0 z-20 flex space-x-4 bg-default">
           <IndexHeader />
         </GridItem>
-        <GridItem x={0} y={1} class="sticky left-0 z-20 flex flex-col min-w-16 bg-default">
+        <GridItem x={0} y={1} class="sticky left-0 z-20 flex flex-col bg-default">
           <IndexColumn />
         </GridItem>
         <GridItem x={1} y={1}>
@@ -45,7 +45,7 @@
 <style lang="postcss">
   * {
     --header-row-height: 4rem;
-    --index-col-width: 4rem;
+    --index-col-width: 3rem;
   }
 
   .layout-grid {

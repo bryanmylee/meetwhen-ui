@@ -5,7 +5,7 @@
 </script>
 
 {#each $totalHours as hour}
-  <div class="relative flex items-center justify-center flex-1 transform -translate-y-1/2">
+  <div class="relative flex items-center justify-end flex-1 pr-4 transform -translate-y-1/2">
     {#if hour.minute === 0}
       <span class="text-xs text-gray-400">
         {hour.format('ha')}
@@ -14,7 +14,7 @@
   </div>
 {/each}
 
-<div class="absolute bottom-0 flex items-center justify-center w-full">
+<div class="absolute bottom-0 flex items-center justify-end w-full pr-4">
   {#if lastHour.minute === 0}
     <span class="text-xs text-gray-400">
       {lastHour.format('ha')}
