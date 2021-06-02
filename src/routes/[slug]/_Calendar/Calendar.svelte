@@ -3,7 +3,7 @@
   import { intervals as intervalsDep, days, numRows } from './state';
   import Column from './Column.svelte';
   import Grid from '$lib/components/Grid/Grid.svelte';
-  import ColumnHeader from './ColumnHeader.svelte';
+  import IndexHeader from './IndexHeader.svelte';
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
   import GridItem from '$lib/components/Grid/GridItem.svelte';
 
@@ -20,9 +20,7 @@
     <div class="relative h-full min-h-0 p-4 overflow-hidden focus:outline-none">
       <div class="layout-grid">
         <GridItem x={1} y={0} class="sticky top-0 z-20 flex w-full space-x-4">
-          {#each $days as day}
-            <ColumnHeader {day} />
-          {/each}
+          <IndexHeader />
         </GridItem>
         <GridItem x={0} y={1} class="sticky left-0 z-20 flex flex-col min-w-16 bg-default">
           hello
