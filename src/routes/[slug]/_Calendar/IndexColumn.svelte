@@ -1,7 +1,7 @@
 <script lang="ts">
   import { hourStepSize, totalHours } from './state';
 
-  $: lastHour = $totalHours[$totalHours.length - 1].add($hourStepSize, 'hour');
+  $: lastHour = $totalHours[$totalHours.length - 1]?.add($hourStepSize, 'hour');
 </script>
 
 {#each $totalHours as hour}
@@ -15,9 +15,9 @@
 {/each}
 
 <div class="absolute bottom-0 flex items-center justify-end w-full pr-4">
-  {#if lastHour.minute === 0}
+  {#if lastHour?.minute === 0}
     <span class="text-xs text-gray-400">
-      {lastHour.format('ha')}
+      {lastHour?.format('ha')}
     </span>
   {/if}
 </div>
