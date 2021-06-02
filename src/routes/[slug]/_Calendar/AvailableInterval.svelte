@@ -15,14 +15,14 @@
   $: rowIndices = hours.map($getRowIndexByTime);
 
   const getClass = (hour: Time, index: number) => {
-    const lastInColumn = $totalHours[$totalHours.length - 1].unix === hour.unix;
-    const lastInInterval = index === hours.length - 1;
-    const lastClass = cx('rounded-b-xl', [!lastInColumn, 'mb-4']);
+    const isLastInColumn = $totalHours[$totalHours.length - 1].unix === hour.unix;
+    const isLastInInterval = index === hours.length - 1;
+    const lastClass = cx('rounded-b-xl', [!isLastInColumn, 'mb-4']);
     const notLastClass = cx([index % 2 === 1, 'border-gray-200 dark:border-gray-600 border-b-2']);
     return cx(
       'shade min-w-32 min-h-5',
       [index === 0, 'rounded-t-xl'],
-      [lastInInterval, lastClass, notLastClass]
+      [isLastInInterval, lastClass, notLastClass]
     );
   };
 </script>
