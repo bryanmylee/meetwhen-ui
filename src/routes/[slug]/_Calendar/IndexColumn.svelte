@@ -14,7 +14,7 @@
   </div>
 {/each}
 
-<div class="absolute bottom-0 flex items-center justify-center w-full transform translate-y-1/2">
+<div class="absolute bottom-0 flex items-center justify-center w-full">
   {#if lastHour.minute === 0}
     <span class="text-xs text-gray-400">
       {lastHour.format('ha')}
