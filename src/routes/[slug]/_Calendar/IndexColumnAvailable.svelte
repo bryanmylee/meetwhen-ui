@@ -29,14 +29,13 @@
 {#if !isEndHourLastInColumn}
   <GridItem
     y={rowIndices[rowIndices.length - 1]}
-    class="relative flex items-end justify-end flex-1 pr-4 mb-8 min-h-5"
+    class="flex items-end justify-end flex-1 pr-4 mb-8 min-h-5"
   >
     {#if endHour.minute === 0}
-      <span class="text-xs text-gray-400">
+      <span class="text-xs text-gray-400 ellipsis-after">
         {endHour.format('ha')}
       </span>
     {/if}
-    <div class="absolute text-gray-400 -bottom-5">...</div>
   </GridItem>
 {:else}
   <div class="absolute bottom-0 right-0 flex items-end justify-end pr-4">
@@ -47,3 +46,13 @@
     {/if}
   </div>
 {/if}
+
+<style lang="postcss">
+  .ellipsis-after {
+    @apply relative;
+    &::after {
+      content: '...';
+      @apply absolute text-gray-400 -bottom-4 right-0;
+    }
+  }
+</style>
