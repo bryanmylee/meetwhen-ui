@@ -13,7 +13,7 @@
   let selectedIds: string[] = [];
 </script>
 
-<div class="flex flex-col flex-1 overflow-hidden card">
+<div class="z-0 flex flex-col flex-1 overflow-hidden card">
   <div tabindex="0" class="focus:outline-none" />
   <SelectableProvider bind:this={selector} bind:selectedIds let:selecting>
     <div class="relative h-full min-h-0 p-4 overflow-hidden focus:outline-none">
