@@ -15,6 +15,6 @@
 
 <style>
   div {
-    grid-template: repeat(var(--rows), 1fr) / repeat(var(--cols), 1fr);
+    grid-template: repeat(var(--rows), auto) / repeat(var(--cols), auto);
   }
 </style>
