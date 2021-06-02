@@ -16,7 +16,7 @@
 {#each zip(hours, rowIndices) as [hour, rowIndex]}
   <GridItem
     y={rowIndex}
-    class="flex items-center justify-end flex-1 pr-4 transform -translate-y-1/2"
+    class="flex items-center justify-end flex-1 pr-4 transform -translate-y-1/2 min-h-5"
   >
     {#if hour.minute === 0}
       <span class="text-xs text-gray-400">
@@ -29,7 +29,7 @@
 {#if !isEndHourLastInColumn}
   <GridItem
     y={rowIndices[rowIndices.length - 1]}
-    class="flex items-end justify-end flex-1 pr-4 transform -translate-y-1/2"
+    class="flex items-end justify-end flex-1 pr-4 mb-8 min-h-5"
   >
     {#if endHour.minute === 0}
       <span class="text-xs text-gray-400">
