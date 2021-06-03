@@ -65,7 +65,13 @@ export const unionIntervals = (intervals: Interval[]): Interval[] => {
   intervals.forEach(({ beg, end }) => {
     moments.push({ unix: beg.unix(), end: false }, { unix: end.unix(), end: true });
   });
-  moments.sort((a, b) => a.unix - b.unix);
+  moments.sort((a, b) => {
+    if (a.unix === b.unix) {
+      // order beginning moments first.
+      return a.end === false ? -1 : 1;
+    }
+    return a.unix - b.unix;
+  });
   const result: Interval[] = [];
   let currentBeg: Dayjs = null;
   let depth = 0;
@@ -90,7 +96,13 @@ export const unionTimeIntervals = (intervals: LocalTimeInterval[]): LocalTimeInt
   intervals.forEach(({ beg, end }) => {
     moments.push({ unix: beg.unix, end: false }, { unix: end.unix, end: true });
   });
-  moments.sort((a, b) => a.unix - b.unix);
+  moments.sort((a, b) => {
+    if (a.unix === b.unix) {
+      // order beginning moments first.
+      return a.end === false ? -1 : 1;
+    }
+    return a.unix - b.unix;
+  });
   const result: LocalTimeInterval[] = [];
   let currentBeg: Time = null;
   let depth = 0;
@@ -114,10 +126,10 @@ export const isIn = (interval: Interval, available: LocalTimeInterval): boolean 
   return !available.beg.isAfterDayjs(interval.beg) && !available.end.isBeforeDayjs(interval.end);
 };
 
-export const toId = (day: Dayjs) => {
-  return day.format('YYYYMMDDHHmm');
+export const toId = (day: Dayjs): string => {
+  return day.unix().toString();
 };
 
 export const fromId = (id: string): Dayjs => {
-  return dayjs(id, 'YYYYMMDDHHmm');
+  return dayjs.unix(parseInt(id, 10));
 };
