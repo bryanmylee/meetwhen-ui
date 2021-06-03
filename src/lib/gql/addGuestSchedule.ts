@@ -1,5 +1,5 @@
 import { query } from '.';
-import { Schedule, ScheduleDTO, ScheduleSerializer, UserDTO } from './types';
+import { Interval, Schedule, ScheduleSerializer } from './types';
 
 const ADD_GUEST_SCHEDULE = `
 mutation ($username: String!, $password: String!, $meetingId: ID!, $intervals: [IntervalInput!]!) {
@@ -9,11 +9,10 @@ mutation ($username: String!, $password: String!, $meetingId: ID!, $intervals: [
     meetingId: $meetingId,
     intervals: $intervals
   }) {
-    id
     user {
       id
       name
-      email
+      isGuest
     }
     intervals {
       beg
@@ -22,15 +21,24 @@ mutation ($username: String!, $password: String!, $meetingId: ID!, $intervals: [
   }
 }`;
 
-export type AddGuestScheduleVars = Pick<Schedule, 'intervals'> & {
+export interface AddGuestScheduleVars {
+  intervals: Interval[];
   username: string;
   password: string;
   meetingId: string;
-};
+}
 
 interface AddGuestScheduleResolved {
-  addGuestSchedule: Pick<ScheduleDTO, 'intervals'> & {
-    user: Pick<UserDTO, 'id' | 'name' | 'email'>;
+  addGuestSchedule: {
+    user: {
+      id: string;
+      name: string;
+      isGuest: boolean;
+    };
+    intervals: {
+      beg: number;
+      end: number;
+    }[];
   };
 }
 
@@ -40,8 +48,12 @@ export const addGuestSchedule = async ({
   meetingId,
   intervals,
 }: AddGuestScheduleVars): Promise<Pick<Schedule, 'user' | 'intervals'>> => {
-  const intervalsDTO = ScheduleSerializer.serialize({ intervals });
-  const variables = { intervals: intervalsDTO, username, password, meetingId };
+  const variables = {
+    ...ScheduleSerializer.serialize({ intervals }),
+    username,
+    password,
+    meetingId,
+  };
   const { addGuestSchedule } = (await query({
     query: ADD_GUEST_SCHEDULE,
     variables,

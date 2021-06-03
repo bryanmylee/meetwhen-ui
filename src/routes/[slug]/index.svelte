@@ -10,8 +10,11 @@
 
 <script lang="ts">
   import { get } from 'svelte/store';
+  import { session } from '$app/stores';
   import { newMeeting } from '$lib/app-state';
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
+  import { isEditing } from './_state/page';
+  import { meetingId, intervals, resetForm, addGuestScheduleVars } from './_state/form';
   import type { Load } from '@sveltejs/kit';
   import type { Meeting } from '$lib/gql/types';
   import Head from '$lib/components/Head.svelte';
@@ -19,14 +22,18 @@
   import Header from './_Header.svelte';
   import Modal from './_Modal.svelte';
   import Template from './_Template.svelte';
-  import { isEditing } from './_state/page';
-  import { intervals, resetForm } from './_state/form';
+  import { addGuestSchedule } from '$lib/gql/addGuestSchedule';
 
   export let meeting: Meeting;
+  $: $meetingId = meeting.id;
   $: console.log(meeting);
 
-  const submit = () => {
-    console.log('submitted');
+  const submit = async () => {
+    if ($session.user === null) {
+      const schedule = await addGuestSchedule($addGuestScheduleVars);
+      meeting.schedules.push(schedule);
+      meeting = meeting;
+    }
   };
 
   let calendar: Calendar;
