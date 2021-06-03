@@ -22,12 +22,18 @@
 
   export let meeting: Meeting;
   $: console.log(meeting);
+
+  const submit = () => {
+    console.log('submitted');
+  };
 </script>
 
 <Head emoji="📘" subtitle={meeting.name} />
 
-<Template>
-  <Header name={meeting.name} slot="header" />
-  <Buttons slot="buttons" />
-  <Calendar intervals={meeting.intervals} slot="calendar" />
-</Template>
+<form on:submit|preventDefault={submit} class="contents">
+  <Template>
+    <Header name={meeting.name} slot="header" />
+    <Buttons slot="buttons" />
+    <Calendar intervals={meeting.intervals} slot="calendar" />
+  </Template>
+</form>
