@@ -16,7 +16,7 @@
   import { isEditing } from './_state/page';
   import { meetingId, intervals, resetForm, addGuestScheduleVars } from './_state/form';
   import type { Load } from '@sveltejs/kit';
-  import type { Meeting } from '$lib/gql/types';
+  import type { Meeting, Schedule } from '$lib/gql/types';
   import Head from '$lib/components/Head.svelte';
   import Calendar from './_Calendar/Calendar.svelte';
   import Header from './_Header.svelte';
@@ -31,7 +31,7 @@
   const submit = async () => {
     if ($session.user === null) {
       const schedule = await addGuestSchedule($addGuestScheduleVars);
-      meeting.schedules.push(schedule);
+      meeting.schedules.push(schedule as Schedule);
       meeting = meeting;
     }
   };
