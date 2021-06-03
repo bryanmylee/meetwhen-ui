@@ -153,7 +153,11 @@
     if (disabled) {
       return;
     }
-    selectedIds = effectiveSet?.toArray() ?? [];
+    selectedIds = effectiveSet?.toArray() ?? selectedIds;
+    startingId = undefined;
+    selectedSet = undefined;
+    selectingSet = undefined;
+    effectiveSet = undefined;
     selecting = Selecting.NONE;
     trackedTouches = {};
   };
