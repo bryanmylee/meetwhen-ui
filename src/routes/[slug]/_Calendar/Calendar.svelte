@@ -22,7 +22,6 @@
   export const reset: () => void = () => {
     $selectedIds = [];
   };
-  $: console.log($selectedIds);
 
   export let intervals: Interval[] = [];
   $: $intervalsDep = intervals;
