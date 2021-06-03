@@ -13,10 +13,21 @@
   </svelte:fragment>
   <svelte:fragment slot="right">
     {#if $currentUser !== null}
-      <li>Hi, <span class="font-bold">{$currentUser.name}</span></li>
+      <li>
+        <a href="/profile">
+          Hi, <span class="font-bold">{$currentUser.name}</span>
+        </a>
+      </li>
     {:else}
       <li><button on:click={() => ($showAuth = true)}>Login</button></li>
     {/if}
     <DarkModeButton />
   </svelte:fragment>
 </Template>
+
+<style lang="postcss">
+  a,
+  button {
+    @apply hover:text-primary hover:underline;
+  }
+</style>
