@@ -1,7 +1,7 @@
 <script lang="ts">
   import { zip } from '$lib/utils/zip';
   import type { LocalTimeInterval } from '$lib/gql/types';
-  import { getHoursInTimeInterval } from './utils';
+  import { getHoursInTimeInterval } from './utils/intervals';
   import { hourStepSize } from './state/core';
   import { getRowIndexByTime } from './state/ui';
   import { hoursInDay } from './state/intervals';

@@ -10,7 +10,7 @@ import {
   getLocalIntervals,
   isIntervalInTimeInterval,
   unionTimeIntervals,
-} from '../utils';
+} from '../utils/intervals';
 import { hourStepSize } from './core';
 
 // Stateful logic for all intervals and availables.

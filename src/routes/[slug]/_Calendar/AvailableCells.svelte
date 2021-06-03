@@ -8,7 +8,7 @@
   import { getContext } from 'svelte';
   import { hourStepSize } from './state/core';
   import { numRows, getColIndexByDay, getRowIndexByTime } from './state/ui';
-  import { getHoursInInterval, toId } from './utils';
+  import { getHoursInInterval, toId } from './utils/intervals';
 
   export let day: Dayjs;
   $: x = $getColIndexByDay(day);

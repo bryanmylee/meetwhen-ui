@@ -3,7 +3,7 @@ import { Time } from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import { Set } from 'immutable';
 import { derived, writable } from 'svelte/store';
-import { fromId, getHoursInTimeInterval, toId } from '../utils';
+import { fromId, getHoursInTimeInterval, toId } from '../utils/intervals';
 import { getIntervalsFromIds, hourStepSize } from './core';
 import { allDayHours, days } from './intervals';
 

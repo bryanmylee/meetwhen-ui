@@ -1,7 +1,7 @@
 import type { Time } from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import { derived } from 'svelte/store';
-import { getHoursInTimeInterval } from '../utils';
+import { getHoursInTimeInterval } from '../utils/intervals';
 import { hourStepSize } from './core';
 import { availables, days, hoursInDay } from './intervals';
 

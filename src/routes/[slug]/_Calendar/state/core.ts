@@ -1,6 +1,6 @@
 import type { Interval } from '$lib/gql/types';
 import { derived, writable } from 'svelte/store';
-import { fromId, getLocalIntervals, unionIntervals } from '../utils';
+import { fromId, getLocalIntervals, unionIntervals } from '../utils/intervals';
 
 // Base functionality.
 export const hourStepSize = writable(0.5);
