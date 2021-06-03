@@ -1,23 +1,29 @@
 <script lang="ts">
   import type { Interval } from '$lib/gql/types';
-  import { intervals as intervalsDep, days, numRows } from './state';
+  import {
+    intervals as intervalsDep,
+    days,
+    numRows,
+    selectedIds,
+    selectedIntervals,
+  } from './state';
   import Column from './Column.svelte';
   import Grid from '$lib/components/Grid/Grid.svelte';
   import IndexHeader from './IndexHeader.svelte';
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
   import GridItem from '$lib/components/Grid/GridItem.svelte';
   import IndexColumn from './IndexColumn.svelte';
+  import SelectedInterval from './SelectedInterval.svelte';
 
   export let intervals: Interval[] = [];
   $: $intervalsDep = intervals;
 
   let selector: SelectableProvider | undefined;
-  let selectedIds: string[] = [];
 </script>
 
 <div class="z-0 flex flex-col flex-1 overflow-hidden card">
   <div tabindex="0" class="focus:outline-none" />
-  <SelectableProvider bind:this={selector} bind:selectedIds let:selecting>
+  <SelectableProvider bind:this={selector} bind:selectedIds={$selectedIds} let:selecting>
     <div class="relative h-full min-h-0 p-4 overflow-hidden focus:outline-none">
       <div class="layout-grid">
         <GridItem x={1} y={0} class="sticky top-0 z-20 flex space-x-4 bg-default">
@@ -34,6 +40,9 @@
           >
             {#each $days as day, index}
               <Column x={index} {day} />
+            {/each}
+            {#each $selectedIntervals as selectedInterval}
+              <SelectedInterval {selectedInterval} />
             {/each}
           </Grid>
         </GridItem>

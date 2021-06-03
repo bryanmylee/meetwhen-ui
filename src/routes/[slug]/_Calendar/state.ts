@@ -25,6 +25,10 @@ export const days = derived([localIntervalsByDayUnix], ([$localIntervalsByDayUni
   Object.keys($localIntervalsByDayUnix).map((unix) => dayjs.unix(parseInt(unix, 10)))
 );
 
+export const getColIndexByDay = derived([days], ([$days]) => (toFind: Dayjs) =>
+  $days.findIndex((day) => day.isSame(toFind, 'day'))
+);
+
 export const getIntervalsByDay = derived(
   [localIntervalsByDayUnix],
   ([$localIntervalsByDayUnix]) => (day: Dayjs) => $localIntervalsByDayUnix[day.unix()]
