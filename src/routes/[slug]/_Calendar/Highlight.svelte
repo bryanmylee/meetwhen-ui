@@ -10,7 +10,7 @@
   // prettier-ignore
   $: className = cx(
     'pointer-events-none rounded-xl',
-    [selecting === Selecting.CREATE, 'bg-primary-fifty shadow-xl-primary border-3 border-white'],
+    [selecting === Selecting.CREATE, 'bg-primary-fifty shadow-xl-primary border-3 border-primary-darker dark:border-white'],
     [selecting === Selecting.DELETE, 'border-3 border-red-400']
   );
 </script>
