@@ -2,9 +2,11 @@ import type { Interval, LocalTimeInterval } from '$lib/gql/types';
 import time, { Time } from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
+import { Set } from 'immutable';
 import { derived, writable } from 'svelte/store';
 import {
   fromId,
+  getHoursInInterval,
   getHoursInTimeInterval,
   getIntervalsByDayUnix,
   getLocalIntervals,
@@ -71,7 +73,7 @@ export const availables = derived([localIntervals], ([$localIntervals]) => {
 
 export const hourStepSize = writable(0.5);
 
-export const totalHours = derived([availables, hourStepSize], ([$availables, $hourStepSize]) => {
+export const hoursInDay = derived([availables, hourStepSize], ([$availables, $hourStepSize]) => {
   let hours: Time[] = [];
   $availables.forEach((available) => {
     const hoursInAvailable = getHoursInTimeInterval(available, $hourStepSize);
@@ -80,11 +82,25 @@ export const totalHours = derived([availables, hourStepSize], ([$availables, $ho
   return hours;
 });
 
+export const allDayHours = derived(
+  [localIntervals, hourStepSize],
+  ([$localIntervals, $hourStepSize]) => {
+    const result: Dayjs[] = [];
+    $localIntervals.forEach((interval) => {
+      const hours = getHoursInInterval(interval, $hourStepSize);
+      hours.forEach((hour) => {
+        result.push(hour.onDayjs(interval.beg));
+      });
+    });
+    return result;
+  }
+);
+
 // UI
 
 export const numRows = derived(
-  [availables, totalHours],
-  ([$availables, $totalHours]) => $availables.length + $totalHours.length - 1
+  [availables, hoursInDay],
+  ([$availables, $hoursInDay]) => $availables.length + $hoursInDay.length - 1
 );
 
 const rowIndexByTimeUnix = derived([availables, hourStepSize], ([$availables, $hourStepSize]) => {
@@ -132,9 +148,12 @@ export const getDaysBetween = derived([days], ([$days]) => (from: Dayjs, to: Day
   return $days.slice(fromIndex, toIndex + 1);
 });
 
-export const getDayHoursBetween = derived(
-  [getIntervalsByDay, hourStepSize, getDaysBetween],
-  ([$getIntervalsByDay, $hourStepSize, $getDaysBetween]) => (from: Dayjs, to: Dayjs): Dayjs[] => {
+/**
+ * Generate all day hours between to selected day hours, regardless of the available intervals.
+ */
+const getAllDayHoursBetween = derived(
+  [hourStepSize, getDaysBetween],
+  ([$hourStepSize, $getDaysBetween]) => (from: Dayjs, to: Dayjs): Dayjs[] => {
     const [earliestDay, latestDay] = from.isBefore(to) ? [from, to] : [to, from];
     const fromHour = Time.dayjs(from);
     const toHour = Time.dayjs(to);
@@ -156,7 +175,11 @@ export const getDayHoursBetween = derived(
 );
 
 export const getDayHourIdsBetween = derived(
-  [getDayHoursBetween],
-  ([$getDayHoursBetween]) => (from: string, to: string): string[] =>
-    $getDayHoursBetween(fromId(from), fromId(to)).map(toId)
+  [allDayHours, getAllDayHoursBetween],
+  ([$allDayHours, $getAllDayHoursBetween]) => (from: string, to: string): string[] => {
+    const allBetween = $getAllDayHoursBetween(fromId(from), fromId(to)).map(toId);
+    return Set(allBetween)
+      .intersect(Set($allDayHours.map(toId)))
+      .toArray();
+  }
 );

@@ -2,7 +2,7 @@
   import { zip } from '$lib/utils/zip';
   import type { LocalTimeInterval } from '$lib/gql/types';
   import { getHoursInTimeInterval } from './utils';
-  import { getRowIndexByTime, hourStepSize, totalHours } from './state';
+  import { getRowIndexByTime, hourStepSize, hoursInDay } from './state';
   import GridItem from '$lib/components/Grid/GridItem.svelte';
 
   export let available: LocalTimeInterval;
@@ -12,7 +12,7 @@
   $: endHour = hours[hours.length - 1].add($hourStepSize, 'hour');
   $: endHourIndex = rowIndices[rowIndices.length - 1];
   $: isEndHourLastInColumn =
-    $totalHours[$totalHours.length - 1].unix === hours[hours.length - 1].unix;
+    $hoursInDay[$hoursInDay.length - 1].unix === hours[hours.length - 1].unix;
 </script>
 
 {#each zip(hours, rowIndices) as [hour, rowIndex]}
