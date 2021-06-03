@@ -11,8 +11,8 @@
 <div class="space-y-4">
   {#if $showAddGuest}
     <div class="p-4 space-y-4 card">
-      <Textfield placeholder="Name" class="block" />
-      <Textfield placeholder="Password" class="block" />
+      <Textfield placeholder="Name" focusOnMount class="block" />
+      <Textfield placeholder="Password" password class="block" />
     </div>
     <div class="flex space-x-4">
       <button
@@ -22,7 +22,7 @@
       >
         Cancel
       </button>
-      <button type="submit" class="w-full p-3 button primary rounded-xl"> Confirm </button>
+      <button type="submit" class="w-full p-3 button primary rounded-xl"> Join </button>
     </div>
   {:else}
     <div class="flex space-x-4">
