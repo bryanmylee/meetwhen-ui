@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { setContext } from 'svelte';
+  import { writable } from 'svelte/store';
   import type { Interval } from '$lib/gql/types';
   import {
     intervals as intervalsDep,
@@ -23,6 +25,11 @@
   export let selectedIntervals: Interval[] = [];
   $: selectedIntervals = $selectedIntervalsDep;
 
+  export let disabled = false;
+  const _disabled = writable(disabled);
+  $: $_disabled = disabled;
+  setContext('disabled', _disabled);
+
   let selector: SelectableProvider | undefined;
 </script>
 
@@ -32,6 +39,7 @@
     bind:this={selector}
     bind:selectedIds={$selectedIds}
     interpolateBetween={$getDayHourIdsBetween}
+    {disabled}
     let:selecting
     let:selectingIds
   >

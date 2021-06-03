@@ -19,6 +19,7 @@
   import Header from './_Header.svelte';
   import Modal from './_Modal.svelte';
   import Template from './_Template.svelte';
+  import { isEditing } from './_state/page';
   import { intervals } from './_state/form';
 
   export let meeting: Meeting;
@@ -38,6 +39,7 @@
     <Calendar
       intervals={meeting.intervals}
       bind:selectedIntervals={$intervals.value}
+      disabled={!$isEditing}
       slot="calendar"
     />
   </Template>
