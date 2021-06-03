@@ -4,10 +4,12 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { derived, writable } from 'svelte/store';
 import {
+  fromId,
   getHoursInTimeInterval,
   getIntervalsByDayUnix,
   getLocalIntervals,
   isIn,
+  unionIntervals,
   unionTimeIntervals,
 } from './utils';
 
@@ -37,7 +39,17 @@ export const getIntervalsInAvailableByDay = derived(
 );
 
 /**
- * Given multiple local intervals per day, get the union of intervals in all days.
+ * An available represents a continuous interval across all days.
+ *
+ *   INTERVALS  ->  AVAILABLES
+ *
+ *   |--|           |===|
+ *   |  |           |   |
+ *   |--|  |--|     |   |
+ *         |  |     |   |
+ *   |--|  |--|     |   |
+ *   |  |           |   |
+ *   |--|           |===|
  */
 export const availables = derived([localIntervals], ([$localIntervals]) => {
   const intervals: LocalTimeInterval[] = $localIntervals.map(({ beg, end }) => {
@@ -78,4 +90,19 @@ const rowIndexByTimeUnix = derived([availables, hourStepSize], ([$availables, $h
 export const getRowIndexByTime = derived(
   [rowIndexByTimeUnix],
   ([$rowIndexByTimeUnix]) => (time: Time) => $rowIndexByTimeUnix[time.unix]
+);
+
+export const selectedIds = writable<string[]>([]);
+
+export const selectedDays = derived([selectedIds], ([$selectedIds]) => $selectedIds.map(fromId));
+
+export const selectedIntervals = derived(
+  [selectedDays, hourStepSize],
+  ([$selectedDays, $hourStepSize]) => {
+    const intervals: Interval[] = $selectedDays.map((day) => ({
+      beg: day,
+      end: day.add($hourStepSize, 'hour'),
+    }));
+    return unionIntervals(intervals);
+  }
 );
