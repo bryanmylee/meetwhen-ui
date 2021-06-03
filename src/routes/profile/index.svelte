@@ -19,7 +19,7 @@
   const handleLogout = async () => {
     await logout();
     $session.user = null;
-    goto('/');
+    goto('/', { replaceState: true });
   };
 </script>
 
