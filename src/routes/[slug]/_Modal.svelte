@@ -1,11 +1,15 @@
 <script>
-  import { showAddGuest } from './_state/page';
+  import { showAddGuest, showConfirm } from './_state/page';
   import { username, password } from './_state/form';
   import Textfield from '$lib/components/Textfield.svelte';
   import { session } from '$app/stores';
 
   const handleClick = () => {
     $showAddGuest = true;
+  };
+
+  const handleAuthClick = () => {
+    $showConfirm = true;
   };
 </script>
 
@@ -23,7 +27,18 @@
       >
         Cancel
       </button>
-      <button type="submit" class="w-full p-3 button primary rounded-xl"> Join </button>
+      <button type="submit" class="w-full p-3 button primary rounded-xl"> Confirm </button>
+    </div>
+  {:else if $showConfirm}
+    <div class="flex space-x-4">
+      <button
+        type="button"
+        on:click={() => ($showConfirm = false)}
+        class="w-full p-3 button shade rounded-xl"
+      >
+        Cancel
+      </button>
+      <button type="submit" class="w-full p-3 button primary rounded-xl"> Confirm </button>
     </div>
   {:else}
     <div class="flex space-x-4">
@@ -32,7 +47,13 @@
           Join as Guest
         </button>
       {:else}
-        <button type="submit" class="w-full p-3 button primary rounded-xl"> Join </button>
+        <button
+          type="button"
+          on:click={handleAuthClick}
+          class="w-full p-3 button primary rounded-xl"
+        >
+          Join
+        </button>
       {/if}
     </div>
   {/if}
