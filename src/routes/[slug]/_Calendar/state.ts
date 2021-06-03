@@ -8,7 +8,7 @@ import {
   getHoursInTimeInterval,
   getIntervalsByDayUnix,
   getLocalIntervals,
-  isIn,
+  isIntervalInTimeInterval,
   unionIntervals,
   unionTimeIntervals,
 } from './utils';
@@ -38,7 +38,7 @@ export const getIntervalsInAvailableByDay = derived(
   [getIntervalsByDay],
   ([$getIntervalsByDay]) => (available: LocalTimeInterval, day: Dayjs) => {
     const intervals = $getIntervalsByDay(day);
-    return intervals.filter((interval) => isIn(interval, available));
+    return intervals.filter((interval) => isIntervalInTimeInterval(interval, available));
   }
 );
 
@@ -77,7 +77,10 @@ export const totalHours = derived([availables, hourStepSize], ([$availables, $ho
   return hours;
 });
 
-export const numRows = derived([totalHours], ([$totalHours]) => $totalHours.length);
+export const numRows = derived(
+  [availables, totalHours],
+  ([$availables, $totalHours]) => $availables.length + $totalHours.length - 1
+);
 
 const rowIndexByTimeUnix = derived([availables, hourStepSize], ([$availables, $hourStepSize]) => {
   const rowIndexByTimeUnix: Record<number, number> = {};
@@ -87,6 +90,7 @@ const rowIndexByTimeUnix = derived([availables, hourStepSize], ([$availables, $h
     hours.forEach(({ unix }) => {
       rowIndexByTimeUnix[unix] = index++;
     });
+    index++;
   });
   return rowIndexByTimeUnix;
 });

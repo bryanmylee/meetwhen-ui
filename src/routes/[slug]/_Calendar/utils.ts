@@ -122,8 +122,15 @@ export const unionTimeIntervals = (intervals: LocalTimeInterval[]): LocalTimeInt
   return result;
 };
 
-export const isIn = (interval: Interval, available: LocalTimeInterval): boolean => {
-  return !available.beg.isAfterDayjs(interval.beg) && !available.end.isBeforeDayjs(interval.end);
+export const isIntervalInTimeInterval = (
+  interval: Interval,
+  { beg, end }: LocalTimeInterval
+): boolean => {
+  const day = interval.beg.startOf('day');
+  const begDay = beg.onDayjs(day);
+  // Account for intervals crossing midnight.
+  const endDay = end.unix <= beg.unix ? end.onDayjs(day).add(1, 'day') : end.onDayjs(day);
+  return !begDay.isAfter(interval.beg) && !endDay.isBefore(interval.end);
 };
 
 export const toId = (day: Dayjs): string => {
