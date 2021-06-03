@@ -15,9 +15,9 @@
   import type { Load } from '@sveltejs/kit';
   import type { Meeting } from '$lib/gql/types';
   import Head from '$lib/components/Head.svelte';
-  import Buttons from './_Buttons.svelte';
   import Calendar from './_Calendar/Calendar.svelte';
   import Header from './_Header.svelte';
+  import Modal from './_Modal.svelte';
   import Template from './_Template.svelte';
 
   export let meeting: Meeting;
@@ -33,7 +33,7 @@
 <form on:submit|preventDefault={submit} class="contents">
   <Template>
     <Header name={meeting.name} slot="header" />
-    <Buttons slot="buttons" />
+    <Modal slot="modal" />
     <Calendar intervals={meeting.intervals} slot="calendar" />
   </Template>
 </form>
