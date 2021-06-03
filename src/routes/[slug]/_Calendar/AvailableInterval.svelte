@@ -20,7 +20,7 @@
     const firstClass = cx([index === 0, 'rounded-t-xl']);
     const nonLastClass = cx([index % 2 === 1, 'border-gray-200 dark:border-gray-600 border-b-2']);
     const lastClass = cx([index === hours.length - 1, 'rounded-b-xl', nonLastClass]);
-    return cx('shade min-w-32 min-h-5', firstClass, lastClass);
+    return cx('shade min-w-32 min-h-5 cursor-pointer select-none', firstClass, lastClass);
   };
 </script>
 
