@@ -2,7 +2,7 @@
   import type { LocalTimeInterval } from '$lib/gql/types';
   import type { Dayjs } from 'dayjs';
   import { getIntervalsInAvailableByDay } from './state';
-  import AvailableInterval from './AvailableInterval.svelte';
+  import AvailableCells from './AvailableCells.svelte';
 
   export let day: Dayjs;
   export let available: LocalTimeInterval;
@@ -10,5 +10,5 @@
 </script>
 
 {#each intervals as interval}
-  <AvailableInterval {day} {interval} />
+  <AvailableCells {day} {interval} />
 {/each}

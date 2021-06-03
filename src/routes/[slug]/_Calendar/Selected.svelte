@@ -4,5 +4,5 @@
 </script>
 
 {#each $getLocalIntervalsFromIds($selectedIds) as interval}
-  <Interval {interval} class="pointer-events-none bg-primary rounded-xl" />
+  <Interval {interval} class="pointer-events-none bg-primary-fifty rounded-xl" />
 {/each}
