@@ -20,7 +20,7 @@
   import Modal from './_Modal.svelte';
   import Template from './_Template.svelte';
   import { isEditing } from './_state/page';
-  import { intervals } from './_state/form';
+  import { intervals, resetForm } from './_state/form';
 
   export let meeting: Meeting;
   $: console.log(meeting);
@@ -28,6 +28,12 @@
   const submit = () => {
     console.log('submitted');
   };
+
+  let calendar: Calendar;
+  $: if (!$isEditing) {
+    resetForm();
+    calendar?.reset();
+  }
 </script>
 
 <Head emoji="📘" subtitle={meeting.name} />
@@ -37,6 +43,7 @@
     <Header name={meeting.name} slot="header" />
     <Modal slot="modal" />
     <Calendar
+      bind:this={calendar}
       intervals={meeting.intervals}
       bind:selectedIntervals={$intervals.value}
       disabled={!$isEditing}

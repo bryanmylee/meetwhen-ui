@@ -5,10 +5,11 @@ export interface WithError<T> {
   error: string;
 }
 
-export const withError = <T>(
-  initialValue: T,
-  resetErrorOnChange = true
-): Writable<WithError<T>> => {
+export interface WithErrorStore<T> extends Writable<WithError<T>> {
+  reset: () => void;
+}
+
+export const withError = <T>(initialValue: T, resetErrorOnChange = true): WithErrorStore<T> => {
   const store = writable<WithError<T>>({
     value: initialValue,
     error: '',
@@ -19,7 +20,7 @@ export const withError = <T>(
     error: '',
   };
 
-  const updateStore = (fn: (v: WithError<T>) => WithError<T>) => {
+  const update = (fn: (v: WithError<T>) => WithError<T>) => {
     store.update(($store) => {
       const newStore = fn($store);
       if (newStore.value !== previous.value && resetErrorOnChange) {
@@ -30,9 +31,12 @@ export const withError = <T>(
     });
   };
 
+  const set = (newValue: WithError<T>) => update(() => newValue);
+
   return {
     subscribe: store.subscribe,
-    update: updateStore,
-    set: (newStore: WithError<T>) => updateStore(() => newStore),
+    update,
+    set,
+    reset: () => set({ value: initialValue, error: '' }),
   };
 };

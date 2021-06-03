@@ -19,6 +19,11 @@
   import Selected from './Selected.svelte';
   import Highlight from './Highlight.svelte';
 
+  export const reset: () => void = () => {
+    $selectedIds = [];
+  };
+  $: console.log($selectedIds);
+
   export let intervals: Interval[] = [];
   $: $intervalsDep = intervals;
 
