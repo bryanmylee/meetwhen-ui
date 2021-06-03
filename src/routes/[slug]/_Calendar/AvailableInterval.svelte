@@ -4,15 +4,17 @@
   import { cx } from '$lib/utils/cx';
   import { zip } from '$lib/utils/zip';
   import type { Dayjs } from 'dayjs';
-  import { getColIndexByDay, getRowIndexByTime, hourStepSize } from './state';
+  import { numRows, getColIndexByDay, getRowIndexByTime, hourStepSize } from './state';
   import { getHoursInInterval, toId } from './utils';
 
   export let day: Dayjs;
   $: x = $getColIndexByDay(day);
+
   export let interval: Interval;
   $: hours = getHoursInInterval(interval, $hourStepSize);
   $: rowIndices = hours.map($getRowIndexByTime);
   $: separatorIndex = rowIndices[rowIndices.length - 1] + 1;
+  $: isLastInCol = separatorIndex === $numRows;
 
   const getClass = (index: number) => {
     const firstClass = cx([index === 0, 'rounded-t-xl']);
@@ -26,4 +28,6 @@
   <GridItem dataId={toId(hour.onDayjs(day))} {x} y={rowIndex} class={getClass(index)} />
 {/each}
 
-<GridItem {x} y={separatorIndex} class="bg-red-400 min-h-4" />
+{#if !isLastInCol}
+  <GridItem {x} y={separatorIndex} class="min-h-4" />
+{/if}
