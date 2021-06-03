@@ -8,6 +8,7 @@
 </script>
 
 <script lang="ts">
+  import { Set } from 'immutable';
   import { createEventDispatcher } from 'svelte';
   import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
   import { getTouchArray } from '$lib/utils/touch';
@@ -18,10 +19,13 @@
   const dispatch = createEventDispatcher<SelectableProviderEvent>();
 
   export let disabled = false;
+  // Main interface of the provider.
   export let selectedIds: string[] = [];
   export let disabledIds: string[] = [];
   export let selecting = Selecting.NONE;
   export let isDisabled = (id: string): boolean => disabledIds.includes(id);
+
+  export let selectBetween: (startId: string, endId: string) => string[] = undefined;
 
   export const select = (id: string): void => {
     if (isDisabled(id)) {
@@ -47,6 +51,11 @@
     }
   };
 
+  let startingId: string;
+  let selectedSet: Set<string>;
+  let selectingSet: Set<string>;
+  let effectiveSet: Set<string>;
+
   // STARTING SELECTIONS
   const startSelectionFrom = (target: HTMLElement) => {
     if (disabled) {
@@ -56,19 +65,21 @@
     if (id === undefined) {
       return;
     }
-    if (selectedIds.includes(id)) {
-      // TODO: provide interpolation.
-      deselect(id);
-      if (selecting === Selecting.NONE) {
-        selecting = Selecting.DELETE;
-      }
-    } else {
-      // TODO: provide interpolation.
-      select(id);
+    startingId = id;
+    selectedSet = Set(selectedIds);
+    selectingSet = Set([id]);
+    if (!selectedIds.includes(id)) {
+      effectiveSet = selectedSet.union(selectingSet);
       if (selecting === Selecting.NONE) {
         selecting = Selecting.CREATE;
       }
+    } else {
+      effectiveSet = selectedSet.subtract(selectingSet);
+      if (selecting === Selecting.NONE) {
+        selecting = Selecting.DELETE;
+      }
     }
+    selectedIds = effectiveSet.toArray();
   };
 
   const mousestart = ({ target }: MouseEvent) => {
@@ -98,13 +109,13 @@
     if (id === undefined) {
       return;
     }
+    selectingSet = selectingSet.add(id);
     if (selecting === Selecting.CREATE) {
-      // TODO: provide interpolation.
-      select(id);
+      effectiveSet = selectedSet.union(selectingSet);
     } else {
-      // TODO: provide interpolation.
-      deselect(id);
+      effectiveSet = selectedSet.subtract(selectingSet);
     }
+    selectedIds = effectiveSet.toArray();
   };
 
   const mousemoveinto = ({ target }: MouseEvent) => {
@@ -134,6 +145,7 @@
     if (disabled) {
       return;
     }
+    selectedIds = effectiveSet.toArray();
     selecting = Selecting.NONE;
     trackedTouches = {};
   };
