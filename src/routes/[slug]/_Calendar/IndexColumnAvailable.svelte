@@ -8,7 +8,9 @@
   export let available: LocalTimeInterval;
   $: hours = getHoursInTimeInterval(available, $hourStepSize);
   $: rowIndices = hours.map($getRowIndexByTime);
+
   $: endHour = hours[hours.length - 1].add($hourStepSize, 'hour');
+  $: endHourIndex = rowIndices[rowIndices.length - 1];
   $: isEndHourLastInColumn =
     $totalHours[$totalHours.length - 1].unix === hours[hours.length - 1].unix;
 </script>
@@ -27,15 +29,15 @@
 {/each}
 
 {#if !isEndHourLastInColumn}
-  <GridItem
-    y={rowIndices[rowIndices.length - 1]}
-    class="flex items-end justify-end flex-1 pr-4 min-h-5"
-  >
+  <GridItem y={endHourIndex} class="flex items-end justify-end flex-1 pr-4 min-h-5">
     {#if endHour.minute === 0}
-      <span class="text-xs text-gray-400 ellipsis-after">
+      <span class="text-xs text-gray-400">
         {endHour.format('ha')}
       </span>
     {/if}
+  </GridItem>
+  <GridItem y={endHourIndex + 1} class="flex items-center justify-end flex-1 pr-4 min-h-2">
+    <span class="text-xs text-gray-400 transform -translate-y-1/3"> ... </span>
   </GridItem>
 {:else}
   <div class="absolute bottom-0 right-0 flex items-end justify-end pr-4">
@@ -46,13 +48,3 @@
     {/if}
   </div>
 {/if}
-
-<style lang="postcss">
-  .ellipsis-after {
-    @apply relative;
-    &::after {
-      content: '...';
-      @apply absolute text-gray-400 -bottom-4 right-0;
-    }
-  }
-</style>
