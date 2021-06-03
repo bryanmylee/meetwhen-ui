@@ -1,6 +1,7 @@
 <script>
-  import { isLoggedIn } from '$lib/app-state';
-  $: label = $isLoggedIn ? 'Continue' : 'Continue as Guest';
+  import { session } from '$app/stores';
+
+  $: label = $session.user === null ? 'Continue as Guest' : 'Continue';
 </script>
 
 <section class="flex space-x-4">

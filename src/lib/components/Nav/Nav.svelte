@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { currentUser, showAuth } from '$lib/app-state';
+  import { session } from '$app/stores';
+  import { showAuth } from '$lib/app-state';
   import DarkModeButton from './DarkModeButton.svelte';
   import HomeNavItem from './HomeNavItem.svelte';
   import Template from './Template.svelte';
@@ -12,10 +13,10 @@
     <HomeNavItem />
   </svelte:fragment>
   <svelte:fragment slot="right">
-    {#if $currentUser !== null}
+    {#if $session.user !== null}
       <li>
         <a href="/profile">
-          Hi, <span class="font-bold">{$currentUser.name}</span>
+          Hi, <span class="font-bold">{$session.user.name}</span>
         </a>
       </li>
     {:else}

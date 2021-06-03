@@ -1,7 +1,7 @@
 <script>
   import { showAddGuest } from './_state';
-  import { isLoggedIn, showAuth } from '$lib/app-state';
   import Textfield from '$lib/components/Textfield.svelte';
+  import { session } from '$app/stores';
 
   const handleClick = () => {
     $showAddGuest = true;
@@ -26,7 +26,7 @@
     </div>
   {:else}
     <div class="flex space-x-4">
-      {#if !$isLoggedIn}
+      {#if $session.user === null}
         <button type="button" on:click={handleClick} class="w-full p-3 button primary rounded-xl">
           Join as Guest
         </button>

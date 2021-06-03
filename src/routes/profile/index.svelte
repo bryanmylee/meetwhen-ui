@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
-  export const load: Load = async () => {
-    if (get(currentUser) === null) {
+  export const load: Load = async ({ session }) => {
+    if (session.user === null) {
       return {
         status: 302,
         redirect: '/',
@@ -11,15 +11,14 @@
 </script>
 
 <script lang="ts">
-  import { get } from 'svelte/store';
   import { goto } from '$app/navigation';
-  import { currentUser } from '$lib/app-state';
+  import { session } from '$app/stores';
   import { logout } from '$lib/gql/logout';
   import type { Load } from '@sveltejs/kit';
 
   const handleLogout = async () => {
     await logout();
-    $currentUser = null;
+    $session.user = null;
     goto('/');
   };
 </script>

@@ -8,7 +8,8 @@
   import Header from './Header.svelte';
   import Tooltip from './Tooltip.svelte';
   import type { APIError } from '$lib/typings/error';
-  import { currentUser, showAuth } from '$lib/app-state';
+  import { session } from '$app/stores';
+  import { showAuth } from '$lib/app-state';
 
   const { name, email, password, resetErrors } = getAuthModalState();
 
@@ -22,7 +23,7 @@
 
   const handleLogin = async () => {
     try {
-      $currentUser = await login({ email: $email.value, password: $password.value });
+      $session.user = await login({ email: $email.value, password: $password.value });
       dismiss();
     } catch (errors) {
       (errors as APIError[]).forEach(handleError);
@@ -31,7 +32,7 @@
 
   const handleSignup = async () => {
     try {
-      $currentUser = await signup({
+      $session.user = await signup({
         name: $name.value,
         email: $email.value,
         password: $password.value,

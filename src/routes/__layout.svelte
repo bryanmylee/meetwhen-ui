@@ -1,7 +1,6 @@
 <script lang="ts" context="module">
-  export const load: Load = ({ fetch, page, session }) => {
+  export const load: Load = ({ fetch, page }) => {
     queryClient.fetch = fetch;
-    currentUser.set(session.user);
     return {
       props: {
         key: page.path,
@@ -16,7 +15,6 @@
   import '$lib/dark-mode';
   import '$lib/screen-height';
   import { queryClient } from '$lib/gql';
-  import { currentUser } from '$lib/app-state';
   import { cx } from '$lib/utils/cx';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import LoginModal from '$lib/components/LoginModal/LoginModal.svelte';
