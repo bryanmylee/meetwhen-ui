@@ -38,8 +38,8 @@
             cols={$days.length}
             class="relative z-0 min-w-full min-h-full gap-x-4"
           >
-            {#each $days as day, index}
-              <Column x={index} {day} />
+            {#each $days as day}
+              <Column {day} />
             {/each}
             {#each $selectedIntervals as selectedInterval}
               <SelectedInterval {selectedInterval} />
