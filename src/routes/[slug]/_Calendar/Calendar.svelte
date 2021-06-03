@@ -5,7 +5,6 @@
     days,
     numRows,
     selectedIds,
-    selectedLocalIntervals,
     getDayHourIdsBetween,
   } from './state';
   import Column from './Column.svelte';
@@ -14,7 +13,8 @@
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
   import GridItem from '$lib/components/Grid/GridItem.svelte';
   import IndexColumn from './IndexColumn.svelte';
-  import SelectedInterval from './SelectedInterval.svelte';
+  import { Selecting } from '$lib/components/SelectableProvider/selecting';
+  import Selected from './Selected.svelte';
 
   export let intervals: Interval[] = [];
   $: $intervalsDep = intervals;
@@ -29,6 +29,7 @@
     bind:selectedIds={$selectedIds}
     interpolateBetween={$getDayHourIdsBetween}
     let:selecting
+    let:selectingIds
   >
     <div class="relative h-full min-h-0 p-4 overflow-hidden focus:outline-none">
       <div class="layout-grid">
@@ -47,9 +48,7 @@
             {#each $days as day}
               <Column {day} />
             {/each}
-            {#each $selectedLocalIntervals as selectedInterval}
-              <SelectedInterval {selectedInterval} />
-            {/each}
+            <Selected />
           </Grid>
         </GridItem>
       </div>

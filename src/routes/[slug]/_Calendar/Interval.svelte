@@ -9,6 +9,10 @@
   $: x = $getColIndexByDay(beg);
   $: y = $getRowIndexByTime(Time.dayjs(beg));
   $: height = end.diff(beg, 'minute') / (60 * $hourStepSize);
+
+  let className = '';
+  ('');
+  export { className as class };
 </script>
 
-<GridItem {x} {y} {height} class="pointer-events-none bg-primary rounded-xl" />
+<GridItem {x} {y} {height} class={className} />

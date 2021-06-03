@@ -121,26 +121,27 @@ export const getRowIndexByTime = derived(
   ([$rowIndexByTimeUnix]) => (time: Time) => $rowIndexByTimeUnix[time.unix]
 );
 
-// SELECTIONS
-
-export const selectedIds = writable<string[]>([]);
-
-export const selectedDays = derived([selectedIds], ([$selectedIds]) => $selectedIds.map(fromId));
-
-export const selectedIntervals = derived(
-  [selectedDays, hourStepSize],
-  ([$selectedDays, $hourStepSize]) => {
-    const intervals: Interval[] = $selectedDays.map((day) => ({
-      beg: day,
-      end: day.add($hourStepSize, 'hour'),
+export const getIntervalsFromIds = derived(
+  [hourStepSize],
+  ([$hourStepSize]) => (ids: string[]): Interval[] => {
+    const dayHours = ids.map(fromId);
+    const intervals: Interval[] = dayHours.map((dayHour) => ({
+      beg: dayHour,
+      end: dayHour.add($hourStepSize, 'hour'),
     }));
     return unionIntervals(intervals);
   }
 );
 
-export const selectedLocalIntervals = derived([selectedIntervals], ([$selectedIntervals]) =>
-  getLocalIntervals($selectedIntervals)
+export const getLocalIntervalsFromIds = derived(
+  [getIntervalsFromIds],
+  ([$getIntervalsFromIds]) => (ids: string[]): Interval[] =>
+    getLocalIntervals($getIntervalsFromIds(ids))
 );
+
+// SELECTIONS
+
+export const selectedIds = writable<string[]>([]);
 
 export const getDaysBetween = derived([days], ([$days]) => (from: Dayjs, to: Dayjs) => {
   const fromIndex = $days.findIndex((day) => day.isSame(from, 'day'));
