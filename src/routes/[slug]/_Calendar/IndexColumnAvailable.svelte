@@ -2,7 +2,9 @@
   import { zip } from '$lib/utils/zip';
   import type { LocalTimeInterval } from '$lib/gql/types';
   import { getHoursInTimeInterval } from './utils';
-  import { getRowIndexByTime, hourStepSize, hoursInDay } from './state';
+  import { hourStepSize } from './state/core';
+  import { getRowIndexByTime } from './state/ui';
+  import { hoursInDay } from './state/intervals';
   import GridItem from '$lib/components/Grid/GridItem.svelte';
 
   export let available: LocalTimeInterval;

@@ -1,6 +1,7 @@
 <script lang="ts">
   import GridItem from '$lib/components/Grid/GridItem.svelte';
-  import { getColIndexByDay, getRowIndexByTime, hourStepSize } from './state';
+  import { hourStepSize } from './state/core';
+  import { getColIndexByDay, getRowIndexByTime } from './state/ui';
   import { Time } from '$lib/utils/time';
   import type { Interval } from '$lib/gql/types';
 

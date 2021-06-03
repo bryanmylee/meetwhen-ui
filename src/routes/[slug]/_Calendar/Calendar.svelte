@@ -2,15 +2,14 @@
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
   import type { Interval, Schedule } from '$lib/gql/types';
+  import { intervals as intervalsDep, days } from './state/intervals';
+  import { numRows } from './state/ui';
   import {
-    intervals as intervalsDep,
-    days,
-    numRows,
     selectedIds,
     selectedIntervals as selectedIntervalsDep,
     getDayHourIdsBetween,
-    schedules as schedulesDep,
-  } from './state';
+  } from './state/selections';
+  import { schedules as schedulesDep } from './state/schedules';
   import Column from './Column.svelte';
   import Grid from '$lib/components/Grid/Grid.svelte';
   import IndexHeader from './IndexHeader.svelte';

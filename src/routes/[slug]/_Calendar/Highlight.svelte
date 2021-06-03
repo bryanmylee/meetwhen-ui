@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getLocalIntervalsFromIds } from './state';
+  import { getLocalIntervalsFromIds } from './state/core';
   import Interval from './Interval.svelte';
   import { Selecting } from '$lib/components/SelectableProvider/selecting';
   import { cx } from '$lib/utils/cx';

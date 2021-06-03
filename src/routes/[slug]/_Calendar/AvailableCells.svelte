@@ -6,7 +6,8 @@
   import { zip } from '$lib/utils/zip';
   import type { Dayjs } from 'dayjs';
   import { getContext } from 'svelte';
-  import { numRows, getColIndexByDay, getRowIndexByTime, hourStepSize } from './state';
+  import { hourStepSize } from './state/core';
+  import { numRows, getColIndexByDay, getRowIndexByTime } from './state/ui';
   import { getHoursInInterval, toId } from './utils';
 
   export let day: Dayjs;

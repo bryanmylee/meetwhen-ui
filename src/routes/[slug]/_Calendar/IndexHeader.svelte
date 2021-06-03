@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { days } from './state';
+  import { days } from './state/intervals';
 </script>
 
 {#each $days as day}

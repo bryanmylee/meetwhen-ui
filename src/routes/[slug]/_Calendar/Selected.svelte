@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { selectedIds, getLocalIntervalsFromIds } from './state';
+  import { getLocalIntervalsFromIds } from './state/core';
+  import { selectedIds } from './state/selections';
   import Interval from './Interval.svelte';
 </script>
 
