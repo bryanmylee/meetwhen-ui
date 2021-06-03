@@ -1,6 +1,5 @@
 import { query } from '$lib/gql';
-import type { Meeting, MeetingDTO } from './types';
-import { MeetingSerializer } from './types';
+import { Interval, IntervalDTO, IntervalSerializer } from './types';
 
 const GET_MEETING_BY_SLUG = `
 query ($slug: String!) {
@@ -29,20 +28,61 @@ query ($slug: String!) {
   }
 }`;
 
-export type GetMeetingBySlugVars = Pick<Meeting, 'slug'>;
-
-type Props = 'id' | 'name' | 'owner' | 'intervals' | 'schedules';
+export interface GetMeetingBySlugVars {
+  slug: string;
+}
 
 interface GetMeetingBySlugResolved {
-  meeting: Pick<MeetingDTO, Props>;
+  meeting: {
+    id: string;
+    name: string;
+    owner: {
+      id: string;
+      name: string;
+    };
+    intervals: IntervalDTO[];
+    schedules: {
+      user: {
+        id: string;
+        name: string;
+        isGuest: boolean;
+      };
+      intervals: IntervalDTO[];
+    }[];
+  };
+}
+
+interface GetMeetingBySlugReturned {
+  id: string;
+  name: string;
+  owner: {
+    id: string;
+    name: string;
+  };
+  intervals: Interval[];
+  schedules: {
+    user: {
+      id: string;
+      name: string;
+      isGuest: boolean;
+    };
+    intervals: Interval[];
+  }[];
 }
 
 export const getMeetingBySlug = async (
   variables: GetMeetingBySlugVars
-): Promise<Pick<Meeting, Props>> => {
+): Promise<GetMeetingBySlugReturned> => {
   const { meeting } = (await query({
     query: GET_MEETING_BY_SLUG,
-    variables,
+    variables: { ...variables },
   })) as GetMeetingBySlugResolved;
-  return MeetingSerializer.deserialize(meeting) as Pick<Meeting, Props>;
+  return {
+    ...meeting,
+    intervals: meeting.intervals.map(IntervalSerializer.deserialize),
+    schedules: meeting.schedules.map((schedule) => ({
+      ...schedule,
+      intervals: schedule.intervals.map(IntervalSerializer.deserialize),
+    })),
+  };
 };

@@ -1,5 +1,4 @@
 import { query } from '$lib/gql';
-import type { User, UserDTO } from './types';
 
 const LOGIN = `
 mutation ($email: String!, $password: String!) {
@@ -10,17 +9,26 @@ mutation ($email: String!, $password: String!) {
   }
 }`;
 
-export type LoginVars = Pick<User, 'email'> & {
+export interface LoginVars {
+  email: string;
   password: string;
-};
-
-type Props = 'id' | 'name' | 'email';
-
-interface LoginResolved {
-  login: Pick<UserDTO, Props>;
 }
 
-export const login = async (variables: LoginVars): Promise<Pick<User, Props>> => {
-  const { login } = (await query({ query: LOGIN, variables })) as LoginResolved;
+interface LoginResolved {
+  login: {
+    id: string;
+    name: string;
+    email: string;
+  };
+}
+
+interface LoginReturned {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export const login = async (variables: LoginVars): Promise<LoginReturned> => {
+  const { login } = (await query({ query: LOGIN, variables: { ...variables } })) as LoginResolved;
   return login;
 };

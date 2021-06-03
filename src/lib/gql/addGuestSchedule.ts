@@ -1,5 +1,5 @@
 import { query } from '.';
-import { Interval, Schedule, ScheduleSerializer } from './types';
+import { Interval, IntervalDTO, IntervalSerializer } from './types';
 
 const ADD_GUEST_SCHEDULE = `
 mutation ($username: String!, $password: String!, $meetingId: ID!, $intervals: [IntervalInput!]!) {
@@ -35,11 +35,17 @@ interface AddGuestScheduleResolved {
       name: string;
       isGuest: boolean;
     };
-    intervals: {
-      beg: number;
-      end: number;
-    }[];
+    intervals: IntervalDTO[];
   };
+}
+
+interface AddGuestScheduleReturned {
+  user: {
+    id: string;
+    name: string;
+    isGuest: boolean;
+  };
+  intervals: Interval[];
 }
 
 export const addGuestSchedule = async ({
@@ -47,9 +53,9 @@ export const addGuestSchedule = async ({
   password,
   meetingId,
   intervals,
-}: AddGuestScheduleVars): Promise<Pick<Schedule, 'user' | 'intervals'>> => {
+}: AddGuestScheduleVars): Promise<AddGuestScheduleReturned> => {
   const variables = {
-    ...ScheduleSerializer.serialize({ intervals }),
+    intervals: intervals.map(IntervalSerializer.serialize),
     username,
     password,
     meetingId,
@@ -58,6 +64,8 @@ export const addGuestSchedule = async ({
     query: ADD_GUEST_SCHEDULE,
     variables,
   })) as AddGuestScheduleResolved;
-  // TODO: fix typing of serialize and deserialize
-  return ScheduleSerializer.deserialize(addGuestSchedule) as any;
+  return {
+    ...addGuestSchedule,
+    intervals: addGuestSchedule.intervals.map(IntervalSerializer.deserialize),
+  };
 };

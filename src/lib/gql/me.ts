@@ -1,5 +1,4 @@
 import { query } from '$lib/gql';
-import type { User, UserDTO } from './types';
 
 const ME = `
 {
@@ -10,13 +9,21 @@ const ME = `
   }
 }`;
 
-type Props = 'id' | 'name' | 'email';
-
 interface MeResolved {
-  me: Pick<UserDTO, Props>;
+  me: {
+    id: string;
+    name: string;
+    email: string;
+  };
 }
 
-export const me = async (token?: string): Promise<Pick<User, Props>> => {
+interface MeReturned {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export const me = async (token?: string): Promise<MeReturned> => {
   const headers = token === undefined ? {} : { authorization: `Bearer ${token}` };
   const { me } = (await query({ query: ME, headers })) as MeResolved;
   return me;
