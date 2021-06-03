@@ -1,4 +1,4 @@
-import type { Interval, LocalTimeInterval } from '$lib/gql/types';
+import type { Interval, LocalTimeInterval, Schedule } from '$lib/gql/types';
 import time, { Time } from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
@@ -189,3 +189,7 @@ export const getDayHourIdsBetween = derived(
       .toArray();
   }
 );
+
+// SCHEDULES
+
+export const schedules = writable<Schedule[]>([]);

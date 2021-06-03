@@ -1,7 +1,7 @@
 <script lang="ts">
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
-  import type { Interval } from '$lib/gql/types';
+  import type { Interval, Schedule } from '$lib/gql/types';
   import {
     intervals as intervalsDep,
     days,
@@ -9,6 +9,7 @@
     selectedIds,
     selectedIntervals as selectedIntervalsDep,
     getDayHourIdsBetween,
+    schedules as schedulesDep,
   } from './state';
   import Column from './Column.svelte';
   import Grid from '$lib/components/Grid/Grid.svelte';
@@ -28,6 +29,9 @@
 
   export let selectedIntervals: Interval[] = [];
   $: selectedIntervals = $selectedIntervalsDep;
+
+  export let schedules: Schedule[] = [];
+  $: $schedulesDep = schedules;
 
   export let disabled = false;
   const _disabled = writable(disabled);

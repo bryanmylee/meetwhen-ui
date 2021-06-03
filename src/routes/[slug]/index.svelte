@@ -53,6 +53,7 @@
       bind:this={calendar}
       intervals={meeting.intervals}
       bind:selectedIntervals={$intervals.value}
+      schedules={meeting.schedules}
       disabled={!$isEditing}
       slot="calendar"
     />

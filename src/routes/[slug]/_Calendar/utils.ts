@@ -1,4 +1,4 @@
-import type { Interval, LocalTimeInterval } from '$lib/gql/types';
+import type { Interval, LocalTimeInterval, Schedule, User } from '$lib/gql/types';
 import { endOf } from '$lib/utils/dayjs-end-of';
 import type { Moment } from '$lib/utils/moment';
 import time, { Time } from '$lib/utils/time';
@@ -139,4 +139,15 @@ export const toId = (day: Dayjs): string => {
 
 export const fromId = (id: string): Dayjs => {
   return dayjs.unix(parseInt(id, 10));
+};
+
+interface ScheduleMoment extends Moment {
+  users: Pick<User, 'id' | 'name' | 'email' | 'isGuest'>[];
+}
+
+export const unionSchedules = (schedules: Schedule[]) => {
+  const moments: ScheduleMoment[] = [];
+  schedules.forEach((schedule) => {
+    schedule.user.id;
+  });
 };
