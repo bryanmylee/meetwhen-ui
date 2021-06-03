@@ -14,19 +14,14 @@
   $: hours = getHoursInInterval(interval, $hourStepSize);
   $: rowIndices = hours.map($getRowIndexByTime);
 
-  const getClass = (hour: Time, index: number) => {
-    const isLastInColumn = $totalHours[$totalHours.length - 1].unix === hour.unix;
-    const isLastInInterval = index === hours.length - 1;
-    const lastClass = cx('rounded-b-xl', [!isLastInColumn, 'mb-8']);
-    const notLastClass = cx([index % 2 === 1, 'border-gray-200 dark:border-gray-600 border-b-2']);
-    return cx(
-      'shade min-w-32 min-h-5',
-      [index === 0, 'rounded-t-xl'],
-      [isLastInInterval, lastClass, notLastClass]
-    );
+  const getClass = (index: number) => {
+    const firstClass = cx([index === 0, 'rounded-t-xl']);
+    const nonLastClass = cx([index % 2 === 1, 'border-gray-200 dark:border-gray-600 border-b-2']);
+    const lastClass = cx([index === hours.length - 1, 'rounded-b-xl', nonLastClass]);
+    return cx('shade min-w-32 min-h-5', firstClass, lastClass);
   };
 </script>
 
 {#each zip(hours, rowIndices) as [hour, rowIndex], index}
-  <GridItem dataId={toId(hour.onDayjs(day))} {x} y={rowIndex} class={getClass(hour, index)} />
+  <GridItem dataId={toId(hour.onDayjs(day))} {x} y={rowIndex} class={getClass(index)} />
 {/each}
