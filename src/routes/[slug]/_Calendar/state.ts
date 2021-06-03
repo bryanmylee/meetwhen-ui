@@ -143,6 +143,11 @@ export const getLocalIntervalsFromIds = derived(
 
 export const selectedIds = writable<string[]>([]);
 
+export const selectedIntervals = derived(
+  [getIntervalsFromIds, selectedIds],
+  ([$getIntervalsFromIds, $selectedIds]) => $getIntervalsFromIds($selectedIds)
+);
+
 export const getDaysBetween = derived([days], ([$days]) => (from: Dayjs, to: Dayjs) => {
   const fromIndex = $days.findIndex((day) => day.isSame(from, 'day'));
   const toIndex = $days.findIndex((day) => day.isSame(to, 'day'));

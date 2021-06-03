@@ -19,6 +19,7 @@
   import Header from './_Header.svelte';
   import Modal from './_Modal.svelte';
   import Template from './_Template.svelte';
+  import { intervals } from './_state/form';
 
   export let meeting: Meeting;
   $: console.log(meeting);
@@ -34,6 +35,10 @@
   <Template>
     <Header name={meeting.name} slot="header" />
     <Modal slot="modal" />
-    <Calendar intervals={meeting.intervals} slot="calendar" />
+    <Calendar
+      intervals={meeting.intervals}
+      bind:selectedIntervals={$intervals.value}
+      slot="calendar"
+    />
   </Template>
 </form>

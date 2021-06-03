@@ -5,6 +5,7 @@
     days,
     numRows,
     selectedIds,
+    selectedIntervals as selectedIntervalsDep,
     getDayHourIdsBetween,
   } from './state';
   import Column from './Column.svelte';
@@ -18,6 +19,9 @@
 
   export let intervals: Interval[] = [];
   $: $intervalsDep = intervals;
+
+  export let selectedIntervals: Interval[] = [];
+  $: selectedIntervals = $selectedIntervalsDep;
 
   let selector: SelectableProvider | undefined;
 </script>

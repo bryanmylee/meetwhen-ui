@@ -1,5 +1,6 @@
 <script>
-  import { showAddGuest } from './_state';
+  import { showAddGuest } from './_state/page';
+  import { username, password } from './_state/form';
   import Textfield from '$lib/components/Textfield.svelte';
   import { session } from '$app/stores';
 
@@ -11,8 +12,8 @@
 <div class="space-y-4">
   {#if $showAddGuest}
     <div class="p-4 space-y-4 card">
-      <Textfield placeholder="Name" focusOnMount class="block" />
-      <Textfield placeholder="Password" password class="block" />
+      <Textfield bind:value={$username.value} placeholder="Name" focusOnMount class="block" />
+      <Textfield bind:value={$password.value} placeholder="Password" password class="block" />
     </div>
     <div class="flex space-x-4">
       <button
