@@ -18,11 +18,11 @@
 
   const dispatch = createEventDispatcher<SelectableProviderEvent>();
 
-  export let disabled = false;
   // Main interface of the provider.
   export let selectedIds: string[] = [];
+
+  export let disabled = false;
   export let disabledIds: string[] = [];
-  export let selecting = Selecting.NONE;
   export let isDisabled = (id: string): boolean => disabledIds.includes(id);
 
   export let interpolateBetween: (startId: string, endId: string) => string[] = undefined;
@@ -55,6 +55,10 @@
   let selectedSet: Set<string>;
   let selectingSet: Set<string>;
   let effectiveSet: Set<string>;
+
+  export let selecting: Selecting = Selecting.NONE;
+  export let selectingIds: string[] = [];
+  $: selectingIds = selectingSet?.toArray() ?? [];
 
   // STARTING SELECTIONS
   const startSelectionFrom = (target: HTMLElement) => {
@@ -149,7 +153,7 @@
     if (disabled) {
       return;
     }
-    selectedIds = effectiveSet.toArray();
+    selectedIds = effectiveSet?.toArray() ?? [];
     selecting = Selecting.NONE;
     trackedTouches = {};
   };
@@ -179,6 +183,6 @@
     on:mouseup={endSelection}
     class="contents"
   >
-    <slot {selectedIds} {selecting} {isDisabled} />
+    <slot {selectedIds} {selecting} {selectingIds} {isDisabled} />
   </div>
 </LongTouchProvider>
