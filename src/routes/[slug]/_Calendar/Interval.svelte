@@ -4,14 +4,13 @@
   import { Time } from '$lib/utils/time';
   import type { Interval } from '$lib/gql/types';
 
-  export let selectedInterval: Interval;
-  $: ({ beg, end } = selectedInterval);
+  export let interval: Interval;
+  $: ({ beg, end } = interval);
   $: x = $getColIndexByDay(beg);
   $: y = $getRowIndexByTime(Time.dayjs(beg));
   $: height = end.diff(beg, 'minute') / (60 * $hourStepSize);
 
   let className = '';
-  ('');
   export { className as class };
 </script>
 

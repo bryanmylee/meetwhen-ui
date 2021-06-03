@@ -13,8 +13,8 @@
   import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
   import GridItem from '$lib/components/Grid/GridItem.svelte';
   import IndexColumn from './IndexColumn.svelte';
-  import { Selecting } from '$lib/components/SelectableProvider/selecting';
   import Selected from './Selected.svelte';
+  import Highlight from './Highlight.svelte';
 
   export let intervals: Interval[] = [];
   $: $intervalsDep = intervals;
@@ -49,6 +49,7 @@
               <Column {day} />
             {/each}
             <Selected />
+            <Highlight {selecting} {selectingIds} />
           </Grid>
         </GridItem>
       </div>
