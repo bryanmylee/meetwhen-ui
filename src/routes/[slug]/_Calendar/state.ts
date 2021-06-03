@@ -9,9 +9,12 @@ import {
   getIntervalsByDayUnix,
   getLocalIntervals,
   isIntervalInTimeInterval,
+  toId,
   unionIntervals,
   unionTimeIntervals,
 } from './utils';
+
+// CORE
 
 export const intervals = writable<Interval[]>([]);
 
@@ -77,6 +80,8 @@ export const totalHours = derived([availables, hourStepSize], ([$availables, $ho
   return hours;
 });
 
+// UI
+
 export const numRows = derived(
   [availables, totalHours],
   ([$availables, $totalHours]) => $availables.length + $totalHours.length - 1
@@ -100,6 +105,8 @@ export const getRowIndexByTime = derived(
   ([$rowIndexByTimeUnix]) => (time: Time) => $rowIndexByTimeUnix[time.unix]
 );
 
+// SELECTIONS
+
 export const selectedIds = writable<string[]>([]);
 
 export const selectedDays = derived([selectedIds], ([$selectedIds]) => $selectedIds.map(fromId));
@@ -117,4 +124,39 @@ export const selectedIntervals = derived(
 
 export const selectedLocalIntervals = derived([selectedIntervals], ([$selectedIntervals]) =>
   getLocalIntervals($selectedIntervals)
+);
+
+export const getDaysBetween = derived([days], ([$days]) => (from: Dayjs, to: Dayjs) => {
+  const fromIndex = $days.findIndex((day) => day.isSame(from, 'day'));
+  const toIndex = $days.findIndex((day) => day.isSame(to, 'day'));
+  return $days.slice(fromIndex, toIndex + 1);
+});
+
+export const getDayHoursBetween = derived(
+  [getIntervalsByDay, hourStepSize, getDaysBetween],
+  ([$getIntervalsByDay, $hourStepSize, $getDaysBetween]) => (from: Dayjs, to: Dayjs): Dayjs[] => {
+    const [earliestDay, latestDay] = from.isBefore(to) ? [from, to] : [to, from];
+    const fromHour = Time.dayjs(from);
+    const toHour = Time.dayjs(to);
+    const [earliestHour, latestHour] =
+      fromHour.unix < toHour.unix ? [fromHour, toHour] : [toHour, fromHour];
+    const timeInterval: LocalTimeInterval = {
+      beg: earliestHour,
+      end: latestHour.add($hourStepSize, 'hour'),
+    };
+    const hours = getHoursInTimeInterval(timeInterval, $hourStepSize);
+    const result: Dayjs[] = [];
+    $getDaysBetween(earliestDay, latestDay).forEach((day) => {
+      hours.forEach((hour) => {
+        result.push(hour.onDayjs(day));
+      });
+    });
+    return result;
+  }
+);
+
+export const getDayHourIdsBetween = derived(
+  [getDayHoursBetween],
+  ([$getDayHoursBetween]) => (from: string, to: string): string[] =>
+    $getDayHoursBetween(fromId(from), fromId(to)).map(toId)
 );

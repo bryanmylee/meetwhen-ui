@@ -6,6 +6,7 @@
     numRows,
     selectedIds,
     selectedLocalIntervals,
+    getDayHourIdsBetween,
   } from './state';
   import Column from './Column.svelte';
   import Grid from '$lib/components/Grid/Grid.svelte';
@@ -23,7 +24,12 @@
 
 <div class="z-0 flex flex-col flex-1 overflow-hidden card">
   <div tabindex="0" class="focus:outline-none" />
-  <SelectableProvider bind:this={selector} bind:selectedIds={$selectedIds} let:selecting>
+  <SelectableProvider
+    bind:this={selector}
+    bind:selectedIds={$selectedIds}
+    interpolateBetween={$getDayHourIdsBetween}
+    let:selecting
+  >
     <div class="relative h-full min-h-0 p-4 overflow-hidden focus:outline-none">
       <div class="layout-grid">
         <GridItem x={1} y={0} class="sticky top-0 z-20 flex space-x-4 bg-default">

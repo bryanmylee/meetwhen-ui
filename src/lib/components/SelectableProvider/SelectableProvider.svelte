@@ -25,7 +25,7 @@
   export let selecting = Selecting.NONE;
   export let isDisabled = (id: string): boolean => disabledIds.includes(id);
 
-  export let selectBetween: (startId: string, endId: string) => string[] = undefined;
+  export let interpolateBetween: (startId: string, endId: string) => string[] = undefined;
 
   export const select = (id: string): void => {
     if (isDisabled(id)) {
@@ -109,7 +109,11 @@
     if (id === undefined) {
       return;
     }
-    selectingSet = selectingSet.add(id);
+    if (interpolateBetween !== undefined) {
+      selectingSet = Set(interpolateBetween(startingId, id));
+    } else {
+      selectingSet = selectingSet.add(id);
+    }
     if (selecting === Selecting.CREATE) {
       effectiveSet = selectedSet.union(selectingSet);
     } else {
