@@ -5,7 +5,7 @@
     days,
     numRows,
     selectedIds,
-    selectedIntervals,
+    selectedLocalIntervals,
   } from './state';
   import Column from './Column.svelte';
   import Grid from '$lib/components/Grid/Grid.svelte';
@@ -41,7 +41,7 @@
             {#each $days as day}
               <Column {day} />
             {/each}
-            {#each $selectedIntervals as selectedInterval}
+            {#each $selectedLocalIntervals as selectedInterval}
               <SelectedInterval {selectedInterval} />
             {/each}
           </Grid>

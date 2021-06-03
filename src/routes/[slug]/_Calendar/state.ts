@@ -114,3 +114,7 @@ export const selectedIntervals = derived(
     return unionIntervals(intervals);
   }
 );
+
+export const selectedLocalIntervals = derived([selectedIntervals], ([$selectedIntervals]) =>
+  getLocalIntervals($selectedIntervals)
+);
