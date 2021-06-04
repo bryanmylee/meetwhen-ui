@@ -124,8 +124,12 @@ export const unionTimeIntervals = (intervals: LocalTimeInterval[]): LocalTimeInt
 
 export const isIntervalInTimeInterval = (
   interval: Interval,
-  { beg, end }: LocalTimeInterval
+  timeInterval: LocalTimeInterval
 ): boolean => {
+  if (timeInterval === null) {
+    return false;
+  }
+  const { beg, end } = timeInterval;
   const day = interval.beg.startOf('day');
   const begDay = beg.onDayjs(day);
   // Account for intervals crossing midnight.
