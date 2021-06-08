@@ -15,4 +15,6 @@
   export { className as class };
 </script>
 
-<GridItem {x} {y} {height} class={className} />
+<GridItem {x} {y} {height} class={className}>
+  <slot />
+</GridItem>
