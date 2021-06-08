@@ -5,23 +5,27 @@ import time, { Time } from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 
-export const getLocalIntervals = (intervals: Interval[]): Interval[] => {
+export const getLocalIntervals = <T extends Interval>(intervals: T[]): T[] => {
   if (intervals.length === 0) {
     return [];
   }
   intervals.sort((a, b) => a.beg.diff(b.beg));
-  const results: Interval[] = [];
+  const results: T[] = [];
   let currIndex = 0;
-  let working: Interval = intervals[currIndex];
+  let working: T = intervals[currIndex];
   while (currIndex < intervals.length) {
-    const { beg, end } = working;
+    const { beg, end, ...props } = working;
     if (beg.isSame(end, 'day') || endOf(beg, 'day').isSame(end)) {
       results.push(working);
       currIndex++;
       working = currIndex < intervals.length ? intervals[currIndex] : null;
     } else {
-      results.push({ beg, end: endOf(beg, 'day') });
-      working = { beg: endOf(beg, 'day'), end };
+      results.push({
+        ...props,
+        beg,
+        end: endOf(beg, 'day')
+      } as T);
+      working = { ...props, beg: endOf(beg, 'day'), end } as T;
     }
   }
   return results;
