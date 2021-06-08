@@ -1,4 +1,4 @@
-import type { Interval, Schedule, User } from '$lib/gql/types';
+import type { Interval, Schedule, ShallowUser, User } from '$lib/gql/types';
 import type { Moment } from '$lib/utils/moment';
 import dayjs from 'dayjs';
 import { Map, Set } from 'immutable';
@@ -14,8 +14,6 @@ interface IntervalWithUsersSerial {
   end: number;
   users: Set<UserMap>;
 }
-
-type ShallowUser = Pick<User, 'id' | 'name' | 'isGuest'>;
 
 interface IntervalWithUsers extends Interval {
   users: ShallowUser[];
