@@ -18,6 +18,7 @@
   import IndexColumn from './IndexColumn.svelte';
   import Selected from './Selected.svelte';
   import Highlight from './Highlight.svelte';
+  import Schedules from './Schedules.svelte';
 
   export const reset: () => void = () => {
     $selectedIds = [];
@@ -69,6 +70,7 @@
             {/each}
             <Selected />
             <Highlight {selecting} {selectingIds} />
+            <Schedules />
           </Grid>
         </GridItem>
       </div>
