@@ -6,8 +6,14 @@
   export let interval: Interval;
   export let users: ShallowUser[];
 
+  const HEADER_HEIGHT = 64;
   const [ref, content, getInstance] = createPopperActions({
-    modifiers: [{ name: 'offset', options: { offset: [0, 20] } }],
+    placement: 'right',
+    modifiers: [
+      { name: 'offset', options: { offset: [0, 16] } },
+      { name: 'preventOverflow', options: { padding: { top: HEADER_HEIGHT } } },
+      { name: 'arrow', options: { padding: 16 } },
+    ],
   });
 
   export const updatePopoverPosition = ({ clientX, clientY }: MouseEvent) => {
@@ -36,12 +42,43 @@
   });
 </script>
 
-<div use:content>
-  <div class="card p-4">
-    <ul>
+<div use:content class="popover card">
+  <div data-popper-arrow>
+    <div
+      class="popover--arrow w-4 h-4 bg-default rounded transform rotate-45 pointer-events-none"
+    />
+  </div>
+  <h1 class="p-4 text-sm italic border-b border-gray-200 dark:border-gray-600">
+    {interval.beg.format('HH:mm')} – {interval.end.format('HH:mm')}
+  </h1>
+  <div class="p-4">
+    <h2 class="font-bold text-sm">
+      {users.length} attending
+    </h2>
+    <ul class="mt-2 text-sm">
       {#each users as user}
-        <li class="text-sm font-medium">{user.name}</li>
+        <li>{user.name}</li>
       {/each}
     </ul>
   </div>
 </div>
+
+<style lang="postcss">
+  :global(.popover[data-popper-placement^='right']) {
+    & [data-popper-arrow] {
+      @apply left-0;
+    }
+    & .popover--arrow {
+      @apply -translate-x-1/3;
+    }
+  }
+
+  :global(.popover[data-popper-placement^='left']) {
+    & [data-popper-arrow] {
+      @apply right-0;
+    }
+    & .popover--arrow {
+      @apply translate-x-1/3;
+    }
+  }
+</style>
