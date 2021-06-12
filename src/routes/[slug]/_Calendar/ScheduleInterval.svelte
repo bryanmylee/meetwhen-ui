@@ -57,7 +57,7 @@
 
   // prettier-ignore
   $: referenceClass = cx(
-    'h-[3px] pointer-events-none',
+    'h-[5px] pointer-events-none border-b-[2px] border-white dark:border-gray-900',
     [!isHovered && !isActive, 'hidden'],
     [isHovered && !isActive, 'bg-primary-lighter'],
     [isActive, 'bg-gray-400'],
