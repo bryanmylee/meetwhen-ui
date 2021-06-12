@@ -12,9 +12,7 @@
   import { allUsers, maxNumUsersPerInterval } from './state/schedules';
   import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
-  import type { Scale } from 'chroma-js';
   import { cx } from '$lib/utils/cx';
-  import { hex } from 'chroma-js';
 
   export let id: number;
   export let interval: IInterval;
@@ -56,8 +54,6 @@
   )
 
   $: intervalStyle = toCss({ backgroundColor: bgHex });
-
-  $: referenceClass = cx('h-1 pointer-events-none ml-[-3px]', [!isHovered, 'hidden']);
 </script>
 
 <Interval {interval}>
