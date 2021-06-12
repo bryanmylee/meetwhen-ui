@@ -74,14 +74,13 @@
     style={intervalStyle}
   >
     <div bind:this={referenceElement} class={referenceClass} />
+    <SchedulePopover
+      bind:this={popover}
+      show={isActive || isHovered}
+      fixed={isActive}
+      {referenceElement}
+      {interval}
+      {users}
+    />
   </div>
 </Interval>
-
-<SchedulePopover
-  bind:this={popover}
-  show={isActive || isHovered}
-  fixed={isActive}
-  {referenceElement}
-  {interval}
-  {users}
-/>
