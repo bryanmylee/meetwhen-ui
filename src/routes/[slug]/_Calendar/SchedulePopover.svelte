@@ -40,7 +40,6 @@
     referenceElement.style.position = 'absolute';
     referenceElement.style.left = '0';
     referenceElement.style.top = `${top}px`;
-    referenceElement.style.width = `${parentRect.width}px`;
     updatePopoverPosition();
   };
 
