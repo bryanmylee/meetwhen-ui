@@ -8,6 +8,7 @@
   export let users: ShallowUser[];
   $: complimentUsers = $getComplimentUsers(users);
 
+  const INDEX_COL_WIDTH = 40;
   const HEADER_HEIGHT = 64;
   const [ref, content, getInstance] = createPopperActions({
     strategy: 'absolute',
@@ -19,7 +20,7 @@
         name: 'preventOverflow',
         options: {
           altAxis: true,
-          padding: { top: HEADER_HEIGHT, right: 12, left: 12 },
+          padding: { top: HEADER_HEIGHT, right: 12, left: 12 + INDEX_COL_WIDTH },
         },
       },
     ],
