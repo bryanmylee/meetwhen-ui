@@ -51,13 +51,13 @@
   // prettier-ignore
   $: popperClass = cx(
     'popover card pointer-events-none border-3 w-40',
-    [fixed, 'border-primary-lighter z-20', 'border-gray-400 z-30']
+    [fixed, 'border-primary dark:border-primary-lighter z-20', 'border-gray-400 z-30']
   );
 
   // prettier-ignore
   $: popoverArrowClass = cx(
     'popover--arrow w-4 h-4 bg-default rounded transform rotate-45',
-    [fixed, 'border-primary-lighter', 'border-gray-400']
+    [fixed, 'border-primary dark:border-primary-lighter', 'border-gray-400']
   )
 </script>
 

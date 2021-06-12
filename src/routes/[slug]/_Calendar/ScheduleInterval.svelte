@@ -57,7 +57,7 @@
     'relative h-full rounded-xl pointer-events-auto',
     [isHovered || isActive, 'ring-[3px] dark:ring-offset-gray-900 ring-offset-2'],
     [isHovered && !isActive, 'ring-gray-400'],
-    [isActive, 'ring-primary-lighter'],
+    [isActive, 'ring-primary dark:ring-primary-lighter'],
     [$disabled, 'w-full', 'w-6']
   )
 
@@ -71,7 +71,7 @@
     'w-full h-[5px] pointer-events-none border-b-[2px] border-white dark:border-gray-900',
     [!isHovered && !isActive, 'hidden'],
     [isHovered && !isActive, 'bg-gray-400'],
-    [isActive, 'bg-primary-lighter'],
+    [isActive, 'bg-primary dark:bg-primary-lighter'],
   );
 </script>
 
