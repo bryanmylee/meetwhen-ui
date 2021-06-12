@@ -22,6 +22,8 @@
     ],
   });
 
+  export let show = false;
+
   export let referenceElement: HTMLElement;
   $: if (referenceElement !== undefined) {
     ref(referenceElement);
@@ -43,24 +45,26 @@
   };
 </script>
 
-<div use:content class="popover card pointer-events-none z-20">
-  <div data-popper-arrow>
-    <div class="popover--arrow w-4 h-4 bg-default rounded transform rotate-45" />
+{#if show}
+  <div use:content class="popover card pointer-events-none z-20 border-3 border-primary">
+    <div data-popper-arrow>
+      <div class="popover--arrow w-4 h-4 bg-default rounded transform rotate-45" />
+    </div>
+    <h1 class="p-4 text-sm italic border-b border-gray-200 dark:border-gray-600">
+      {interval.beg.format('HH:mm')} – {interval.end.format('HH:mm')}
+    </h1>
+    <div class="p-4">
+      <h2 class="font-bold text-sm">
+        {users.length} attending
+      </h2>
+      <ul class="mt-2 text-sm">
+        {#each users as user}
+          <li>{user.name}</li>
+        {/each}
+      </ul>
+    </div>
   </div>
-  <h1 class="p-4 text-sm italic border-b border-gray-200 dark:border-gray-600">
-    {interval.beg.format('HH:mm')} – {interval.end.format('HH:mm')}
-  </h1>
-  <div class="p-4">
-    <h2 class="font-bold text-sm">
-      {users.length} attending
-    </h2>
-    <ul class="mt-2 text-sm">
-      {#each users as user}
-        <li>{user.name}</li>
-      {/each}
-    </ul>
-  </div>
-</div>
+{/if}
 
 <style lang="postcss">
   :global(.popover[data-popper-placement^='right']) {
@@ -68,7 +72,8 @@
       @apply left-0;
     }
     & .popover--arrow {
-      @apply -translate-x-1/3;
+      @apply border-primary border-l-3 border-b-3;
+      translate: calc(-50% - 2px);
     }
   }
 
@@ -77,7 +82,8 @@
       @apply right-0;
     }
     & .popover--arrow {
-      @apply translate-x-1/3;
+      @apply border-primary border-r-3 border-t-3;
+      translate: calc(50% + 2px);
     }
   }
 </style>

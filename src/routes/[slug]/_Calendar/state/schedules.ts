@@ -7,6 +7,14 @@ import { unionSchedules } from '../utils/schedules';
 
 export const schedules = writable<Schedule[]>([]);
 
+export const allUsers = derived([schedules], ([$schedules]) =>
+  $schedules.map((schedule) => schedule.user)
+);
+
 export const intervalsWithUsers = derived([schedules], ([$schedules]) =>
   getLocalIntervals(unionSchedules($schedules))
+);
+
+export const maxNumUsersPerInterval = derived([intervalsWithUsers], ([$intervalsWithUsers]) =>
+  Math.max(...$intervalsWithUsers.map((interval) => interval.users.length))
 );

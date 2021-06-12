@@ -4,11 +4,17 @@
 </script>
 
 <script lang="ts">
-  import Interval from './Interval.svelte';
+  import toCss from 'style-css';
   import type { Interval as IInterval, ShallowUser } from '$lib/gql/types';
   import type { Writable } from 'svelte/store';
   import { writable } from 'svelte/store';
+  import { primary } from '$lib/colors';
+  import { allUsers, maxNumUsersPerInterval } from './state/schedules';
+  import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
+  import type { Scale } from 'chroma-js';
+  import { cx } from '$lib/utils/cx';
+  import { hex } from 'chroma-js';
 
   export let id: number;
   export let interval: IInterval;
@@ -27,6 +33,32 @@
 
   let popover: SchedulePopover;
   let referenceElement: HTMLDivElement;
+
+  $: isActive = $activeId === id;
+  $: isHovered = $hoveredId === id;
+
+  $: color = (() => {
+    const MAX_DARK = 10;
+    const darkRatio = $maxNumUsersPerInterval / MAX_DARK;
+    const darkest = 0.5 + darkRatio * 0.5;
+    const ratio = (users.length * darkest) / $maxNumUsersPerInterval;
+    return $primary.scale(ratio);
+  })();
+
+  $: bgHex = color.hex();
+  $: activeHex = color.darken(2).hex();
+  $: highlightHex = color.brighten(2).hex();
+
+  $: style = toCss({
+    backgroundColor: bgHex,
+    borderColor: isActive ? activeHex : isHovered ? highlightHex : 'transparent',
+  });
+
+  // prettier-ignore
+  $: referenceClass = cx(
+    'h-1 pointer-events-none ml-[-3px]',
+    [!isHovered, 'hidden'],
+  );
 </script>
 
 <Interval {interval}>
@@ -35,12 +67,17 @@
     on:mousemove={handleMouseMove}
     on:mouseenter={() => ($hoveredId = id)}
     on:mouseleave={() => ($hoveredId = null)}
-    class="relative w-full h-full rounded-xl bg-red-300"
+    class="relative w-full h-full rounded-xl border-3 bg-clip-border"
+    {style}
   >
     <div bind:this={referenceElement} />
   </div>
 </Interval>
 
-{#if $activeId === id || $hoveredId === id}
-  <SchedulePopover bind:this={popover} {referenceElement} {interval} {users} />
-{/if}
+<SchedulePopover
+  bind:this={popover}
+  show={isActive || isHovered}
+  {referenceElement}
+  {interval}
+  {users}
+/>
