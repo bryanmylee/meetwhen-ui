@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Interval, ShallowUser } from '$lib/gql/types';
   import { cx } from '$lib/utils/cx';
-  import { popper } from '@popperjs/core';
   import { createPopperActions } from 'svelte-popperjs';
 
   export let interval: Interval;
