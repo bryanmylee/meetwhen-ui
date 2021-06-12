@@ -116,10 +116,10 @@
         class="block"
       />
       <div class="flex space-x-4">
-        <button type="button" on:click={dismiss} class="w-full p-3 button shade rounded-xl">
+        <button type="button" on:click={dismiss} class="w-full p-3 rounded-full button shade">
           Cancel
         </button>
-        <button type="submit" class="w-full p-3 button primary rounded-xl"> Confirm </button>
+        <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
       </div>
       <Tooltip bind:hovering {transitioning} />
     </form>

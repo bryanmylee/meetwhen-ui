@@ -15,22 +15,22 @@
       <button
         type="button"
         on:click={() => ($modalState = ModalState.NONE)}
-        class="w-full p-3 button shade rounded-xl"
+        class="w-full p-3 rounded-full button shade"
       >
         Cancel
       </button>
-      <button type="submit" class="w-full p-3 button primary rounded-xl"> Confirm </button>
+      <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
     </div>
   {:else if $modalState === ModalState.ADD_AUTH}
     <div class="flex space-x-4">
       <button
         type="button"
         on:click={() => ($modalState = ModalState.NONE)}
-        class="w-full p-3 button shade rounded-xl"
+        class="w-full p-3 rounded-full button shade"
       >
         Cancel
       </button>
-      <button type="submit" class="w-full p-3 button primary rounded-xl"> Confirm </button>
+      <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
     </div>
   {:else}
     <div class="flex space-x-4">
@@ -38,7 +38,7 @@
         <button
           type="button"
           on:click={() => ($modalState = ModalState.ADD_GUEST)}
-          class="w-full p-3 button primary rounded-xl"
+          class="w-full p-3 rounded-full button primary"
         >
           Join as Guest
         </button>
@@ -46,7 +46,7 @@
         <button
           type="button"
           on:click={() => ($modalState = ModalState.ADD_AUTH)}
-          class="w-full p-3 button primary rounded-xl"
+          class="w-full p-3 rounded-full button primary"
         >
           Join
         </button>
