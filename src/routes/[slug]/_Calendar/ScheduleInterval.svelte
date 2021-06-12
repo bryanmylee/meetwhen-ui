@@ -54,7 +54,7 @@
 
   // prettier-ignore
   $: intervalClass = cx(
-    'relative h-full rounded-xl',
+    'relative h-full rounded-xl pointer-events-auto',
     [isHovered || isActive, 'ring-[3px] dark:ring-offset-gray-900 ring-offset-2'],
     [isHovered && !isActive, 'ring-gray-400'],
     [isActive, 'ring-primary-lighter'],
@@ -75,7 +75,7 @@
   );
 </script>
 
-<Interval {interval}>
+<Interval {interval} class="pointer-events-none">
   <div
     on:click={handleClick}
     on:mousemove={handleMouseMove}
