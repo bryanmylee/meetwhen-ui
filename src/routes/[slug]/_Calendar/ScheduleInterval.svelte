@@ -19,7 +19,11 @@
   export let users: ShallowUser[];
 
   const handleClick = (event: MouseEvent) => {
-    $activeId = id;
+    if ($activeId === id) {
+      $activeId = null;
+    } else {
+      $activeId = id;
+    }
     popover.updateRefPosition(event);
   };
 
