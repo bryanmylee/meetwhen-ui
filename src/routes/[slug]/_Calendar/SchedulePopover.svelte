@@ -10,9 +10,15 @@
     strategy: 'absolute',
     placement: 'right',
     modifiers: [
-      { name: 'offset', options: { offset: [0, 12] } },
-      { name: 'preventOverflow', options: { padding: { top: HEADER_HEIGHT } } },
       { name: 'arrow', options: { padding: 16 } },
+      { name: 'offset', options: { offset: [0, 12] } },
+      {
+        name: 'preventOverflow',
+        options: {
+          altAxis: true,
+          padding: { top: HEADER_HEIGHT, right: 12, left: 12 },
+        },
+      },
     ],
   });
 
