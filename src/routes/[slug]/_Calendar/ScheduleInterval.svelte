@@ -54,6 +54,14 @@
   )
 
   $: intervalStyle = toCss({ backgroundColor: bgHex });
+
+  // prettier-ignore
+  $: referenceClass = cx(
+    'h-[3px] pointer-events-none',
+    [!isHovered && !isActive, 'hidden'],
+    [isHovered && !isActive, 'bg-primary-lighter'],
+    [isActive, 'bg-gray-400'],
+  );
 </script>
 
 <Interval {interval}>
@@ -65,7 +73,7 @@
     class={intervalClass}
     style={intervalStyle}
   >
-    <div bind:this={referenceElement} />
+    <div bind:this={referenceElement} class={referenceClass} />
   </div>
 </Interval>
 
