@@ -48,7 +48,7 @@
   // prettier-ignore
   $: intervalClass = cx(
     'relative w-full h-full rounded-xl',
-    [isHovered || isActive, 'ring-[3px] dark:ring-offset-gray-900 ring-offset-2 z-10'],
+    [isHovered || isActive, 'ring-[3px] dark:ring-offset-gray-900 ring-offset-2'],
     [isHovered && !isActive, 'ring-primary-lighter'],
     [isActive, 'ring-gray-400'],
   )
