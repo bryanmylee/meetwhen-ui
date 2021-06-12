@@ -27,12 +27,23 @@
     ref(referenceElement);
   }
 
+  export const updateRefPosition = (event: MouseEvent) => {
+    const parent = event.target as HTMLDivElement;
+    const parentRect = parent.getBoundingClientRect();
+    const top = Math.max(0, event.clientY - parentRect.top);
+    referenceElement.style.position = 'absolute';
+    referenceElement.style.left = '0';
+    referenceElement.style.top = `${top}px`;
+    referenceElement.style.width = `${parentRect.width}px`;
+    updatePopoverPosition();
+  };
+
   export const updatePopoverPosition = () => {
     getInstance()?.update();
   };
 </script>
 
-<div use:content class="popover card pointer-events-none">
+<div use:content class="popover card pointer-events-none z-20">
   <div data-popper-arrow>
     <div class="popover--arrow w-4 h-4 bg-default rounded transform rotate-45" />
   </div>
