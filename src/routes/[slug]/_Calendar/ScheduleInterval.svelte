@@ -13,6 +13,7 @@
   import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
   import { cx } from '$lib/utils/cx';
+  import { getContext } from 'svelte';
 
   export let id: number;
   export let interval: IInterval;
@@ -49,15 +50,21 @@
 
   $: bgHex = color.hex();
 
+  const disabled = getContext<Writable<boolean>>('disabled');
+
   // prettier-ignore
   $: intervalClass = cx(
-    'relative w-full h-full rounded-xl',
+    'relative h-full rounded-xl',
     [isHovered || isActive, 'ring-[3px] dark:ring-offset-gray-900 ring-offset-2'],
     [isHovered && !isActive, 'ring-primary-lighter'],
     [isActive, 'ring-gray-400'],
+    [$disabled, 'w-full', 'w-6']
   )
 
-  $: intervalStyle = toCss({ backgroundColor: bgHex });
+  $: intervalStyle = toCss({
+    backgroundColor: bgHex,
+    transition: 'width 400ms ease-out',
+  });
 
   // prettier-ignore
   $: referenceClass = cx(

@@ -49,7 +49,7 @@
 
   // prettier-ignore
   $: popperClass = cx(
-    'popover card pointer-events-none border-3',
+    'popover card pointer-events-none border-3 w-40',
     [fixed, 'border-gray-400 z-20', 'border-primary-lighter z-30']
   );
 
