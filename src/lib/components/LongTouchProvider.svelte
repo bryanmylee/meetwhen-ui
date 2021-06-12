@@ -41,13 +41,14 @@
 
   let tracked: Record<number, LongTouch> = {};
 
-  function touchstart(event: TouchEvent) {
+  const touchstart = (event: TouchEvent) => {
     dispatch('touchstart', { event });
     const changedTouches = getTouchArray(event.changedTouches);
     changedTouches.forEach((touch) => track(touch, event));
-  }
+    disableSelect();
+  };
 
-  function track(touch: Touch, event: TouchEvent) {
+  const track = (touch: Touch, event: TouchEvent) => {
     tracked[touch.identifier] = {
       touch,
       initClientX: touch.clientX,
@@ -63,19 +64,19 @@
         }
       }, startDelay),
     };
-  }
+  };
 
-  function touchmove(event: TouchEvent) {
+  const touchmove = (event: TouchEvent) => {
     dispatch('touchmove', { event });
     const changedTouches = getTouchArray(event.changedTouches);
     changedTouches.forEach((touch) => updateMovement(touch, event));
-  }
+  };
 
   const getSquareDistance = (x1: number, x2: number, y1: number, y2: number) => {
     return Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
   };
 
-  function updateMovement(touch: Touch, event: TouchEvent) {
+  const updateMovement = (touch: Touch, event: TouchEvent) => {
     const { identifier } = touch;
     const longTouch = tracked[identifier];
     if (longTouch == null) {
@@ -91,15 +92,16 @@
       longTouch.pending = false;
       untrack(touch, event);
     }
-  }
+  };
 
-  function touchend(event: TouchEvent) {
+  const touchend = (event: TouchEvent) => {
     const changedTouches = getTouchArray(event.changedTouches);
     changedTouches.forEach((touch) => untrack(touch, event));
     dispatch('touchend', { event });
-  }
+    enableSelect();
+  };
 
-  function untrack(touch: Touch, event: TouchEvent) {
+  const untrack = (touch: Touch, event: TouchEvent) => {
     const { identifier } = touch;
     const longTouch = tracked[identifier];
     if (longTouch == null) {
@@ -110,7 +112,21 @@
     }
     clearTimeout(longTouch.timer);
     delete tracked[identifier];
-  }
+  };
+
+  const disableSelect = () => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    document.documentElement.classList.add('select-none');
+  };
+
+  const enableSelect = () => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    document.documentElement.classList.remove('select-none');
+  };
 </script>
 
 <div
