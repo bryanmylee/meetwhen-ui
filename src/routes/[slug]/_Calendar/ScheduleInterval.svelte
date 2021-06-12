@@ -81,6 +81,7 @@
     on:mousemove={handleMouseMove}
     on:mouseenter={() => ($hoveredId = id)}
     on:mouseleave={() => ($hoveredId = null)}
+    on:transitionend={() => popover.updatePopoverPosition()}
     class={intervalClass}
     style={intervalStyle}
   >
