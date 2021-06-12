@@ -42,10 +42,10 @@
   let tracked: Record<number, LongTouch> = {};
 
   const touchstart = (event: TouchEvent) => {
+    disableSelect();
     dispatch('touchstart', { event });
     const changedTouches = getTouchArray(event.changedTouches);
     changedTouches.forEach((touch) => track(touch, event));
-    disableSelect();
   };
 
   const track = (touch: Touch, event: TouchEvent) => {
@@ -60,6 +60,7 @@
         if (longTouch.pending) {
           longTouch.pending = false;
           longTouch.active = true;
+          indicateLongTouch(touch);
           dispatch('longtouchstart', { event });
         }
       }, startDelay),
@@ -95,10 +96,10 @@
   };
 
   const touchend = (event: TouchEvent) => {
+    enableSelect();
     const changedTouches = getTouchArray(event.changedTouches);
     changedTouches.forEach((touch) => untrack(touch, event));
     dispatch('touchend', { event });
-    enableSelect();
   };
 
   const untrack = (touch: Touch, event: TouchEvent) => {
@@ -127,6 +128,23 @@
     }
     document.documentElement.classList.remove('select-none');
   };
+
+  const indicateLongTouch = ({ clientX, clientY }: Touch) => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    const indicatorElement = document.createElement('div');
+    indicatorElement.id = 'indicator';
+    indicatorElement.style.left = `${clientX}px`;
+    indicatorElement.style.top = `${clientY}px`;
+    document.body.appendChild(indicatorElement);
+    requestAnimationFrame(() => {
+      indicatorElement.classList.add('expanded');
+      setTimeout(() => {
+        document.body.removeChild(indicatorElement);
+      }, 300);
+    });
+  };
 </script>
 
 <div
@@ -138,3 +156,16 @@
 >
   <slot />
 </div>
+
+<style lang="postcss">
+  :global(#indicator) {
+    @apply fixed z-50 w-16 h-16 rounded-full pointer-events-none bg-primary-fifty;
+    transform: translate(-50%, -50%);
+    transition: transform 300ms ease-out, opacity 300ms ease-out;
+  }
+
+  :global(#indicator.expanded) {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+</style>
