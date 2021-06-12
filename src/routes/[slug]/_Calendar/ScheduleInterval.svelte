@@ -9,7 +9,7 @@
   import type { Writable } from 'svelte/store';
   import { writable } from 'svelte/store';
   import { primary } from '$lib/colors';
-  import { allUsers, maxNumUsersPerInterval } from './state/schedules';
+  import { maxNumUsersPerInterval } from './state/schedules';
   import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
   import { cx } from '$lib/utils/cx';

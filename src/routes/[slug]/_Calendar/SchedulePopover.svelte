@@ -2,9 +2,11 @@
   import type { Interval, ShallowUser } from '$lib/gql/types';
   import { cx } from '$lib/utils/cx';
   import { createPopperActions } from 'svelte-popperjs';
+  import { getComplimentUsers } from './state/schedules';
 
   export let interval: Interval;
   export let users: ShallowUser[];
+  $: complimentUsers = $getComplimentUsers(users);
 
   const HEADER_HEIGHT = 64;
   const [ref, content, getInstance] = createPopperActions({
@@ -64,11 +66,11 @@
     <div data-popper-arrow>
       <div class={popoverArrowClass} />
     </div>
-    <h1 class="p-4 text-sm italic border-b border-gray-200 dark:border-gray-600">
+    <h1 class="p-4 text-sm italic">
       {interval.beg.format('HH:mm')} – {interval.end.format('HH:mm')}
     </h1>
-    <div class="p-4">
-      <h2 class="font-bold text-sm">
+    <div class="p-4 border-t border-gray-200 dark:border-gray-600">
+      <h2 class="text-sm font-medium">
         {users.length} attending
       </h2>
       <ul class="mt-2 text-sm">
@@ -77,6 +79,18 @@
         {/each}
       </ul>
     </div>
+    {#if complimentUsers.length > 0}
+      <div class="p-4 border-t border-gray-200 dark:border-gray-600">
+        <h2 class="text-sm font-medium">
+          {complimentUsers.length} not attending
+        </h2>
+        <ul class="mt-2 text-sm">
+          {#each complimentUsers as user}
+            <li>{user.name}</li>
+          {/each}
+        </ul>
+      </div>
+    {/if}
   </div>
 {/if}
 
