@@ -46,19 +46,18 @@
   })();
 
   $: bgHex = color.hex();
-  $: activeHex = color.darken(2).hex();
-  $: highlightHex = color.brighten(2).hex();
-
-  $: style = toCss({
-    backgroundColor: bgHex,
-    borderColor: isActive ? activeHex : isHovered ? highlightHex : 'transparent',
-  });
 
   // prettier-ignore
-  $: referenceClass = cx(
-    'h-1 pointer-events-none ml-[-3px]',
-    [!isHovered, 'hidden'],
-  );
+  $: intervalClass = cx(
+    'relative w-full h-full rounded-xl',
+    [isHovered || isActive, 'ring-[3px] dark:ring-offset-gray-900 ring-offset-2 z-10'],
+    [isHovered && !isActive, 'ring-primary-lighter'],
+    [isActive, 'ring-gray-400'],
+  )
+
+  $: intervalStyle = toCss({ backgroundColor: bgHex });
+
+  $: referenceClass = cx('h-1 pointer-events-none ml-[-3px]', [!isHovered, 'hidden']);
 </script>
 
 <Interval {interval}>
@@ -67,8 +66,8 @@
     on:mousemove={handleMouseMove}
     on:mouseenter={() => ($hoveredId = id)}
     on:mouseleave={() => ($hoveredId = null)}
-    class="relative w-full h-full rounded-xl border-3 bg-clip-border"
-    {style}
+    class={intervalClass}
+    style={intervalStyle}
   >
     <div bind:this={referenceElement} />
   </div>
@@ -77,6 +76,7 @@
 <SchedulePopover
   bind:this={popover}
   show={isActive || isHovered}
+  fixed={isActive}
   {referenceElement}
   {interval}
   {users}

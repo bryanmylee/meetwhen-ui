@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { Interval, ShallowUser } from '$lib/gql/types';
+  import { cx } from '$lib/utils/cx';
+  import { popper } from '@popperjs/core';
   import { createPopperActions } from 'svelte-popperjs';
 
   export let interval: Interval;
@@ -23,6 +25,7 @@
   });
 
   export let show = false;
+  export let fixed = false;
 
   export let referenceElement: HTMLElement;
   $: if (referenceElement !== undefined) {
@@ -43,12 +46,24 @@
   export const updatePopoverPosition = () => {
     getInstance()?.update();
   };
+
+  // prettier-ignore
+  $: popperClass = cx(
+    'popover card pointer-events-none border-3',
+    [fixed, 'border-gray-400 z-20', 'border-primary-lighter z-30']
+  );
+
+  // prettier-ignore
+  $: popoverArrowClass = cx(
+    'popover--arrow w-4 h-4 bg-default rounded transform rotate-45',
+    [fixed, 'border-gray-400', 'border-primary-lighter']
+  )
 </script>
 
 {#if show}
-  <div use:content class="popover card pointer-events-none z-20 border-3 border-primary">
+  <div use:content class={popperClass}>
     <div data-popper-arrow>
-      <div class="popover--arrow w-4 h-4 bg-default rounded transform rotate-45" />
+      <div class={popoverArrowClass} />
     </div>
     <h1 class="p-4 text-sm italic border-b border-gray-200 dark:border-gray-600">
       {interval.beg.format('HH:mm')} – {interval.end.format('HH:mm')}
@@ -72,7 +87,7 @@
       @apply left-0;
     }
     & .popover--arrow {
-      @apply border-primary border-l-3 border-b-3;
+      @apply border-l-3 border-b-3;
       translate: calc(-50% - 2px);
     }
   }
@@ -82,7 +97,7 @@
       @apply right-0;
     }
     & .popover--arrow {
-      @apply border-primary border-r-3 border-t-3;
+      @apply border-r-3 border-t-3;
       translate: calc(50% + 2px);
     }
   }
