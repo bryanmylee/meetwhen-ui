@@ -16,28 +16,43 @@
 
   const handleClick = (event: MouseEvent) => {
     $activeId = id;
-    popover.updatePopoverPosition(event);
+    updateRefPosition(event);
   };
 
   const handleMouseMove = (event: MouseEvent) => {
     if ($activeId !== id) {
-      popover.updatePopoverPosition(event);
+      updateRefPosition(event);
     }
   };
 
   let popover: SchedulePopover;
+  let intervalElement: HTMLDivElement;
+  let referenceElement: HTMLDivElement;
+
+  const updateRefPosition = (event: MouseEvent) => {
+    const intervalRect = intervalElement.getBoundingClientRect();
+    const top = Math.max(0, event.clientY - intervalRect.top);
+    referenceElement.style.position = 'absolute';
+    referenceElement.style.left = '0';
+    referenceElement.style.top = `${top}px`;
+    referenceElement.style.width = `${intervalRect.width}px`;
+    popover.updatePopoverPosition();
+  };
 </script>
 
 <Interval {interval}>
   <div
+    bind:this={intervalElement}
     on:click={handleClick}
     on:mousemove={handleMouseMove}
     on:mouseenter={() => ($hoveredId = id)}
     on:mouseleave={() => ($hoveredId = null)}
-    class="w-full h-full rounded-xl bg-red-300"
-  />
+    class="relative w-full h-full rounded-xl bg-red-300"
+  >
+    <div bind:this={referenceElement} />
+  </div>
 </Interval>
 
-{#if $hoveredId === id || $activeId === id}
-  <SchedulePopover bind:this={popover} {interval} {users} />
+{#if $activeId === id || $hoveredId === id}
+  <SchedulePopover bind:this={popover} {referenceElement} {interval} {users} />
 {/if}

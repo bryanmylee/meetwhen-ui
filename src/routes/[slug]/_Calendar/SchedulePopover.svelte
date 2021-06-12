@@ -1,52 +1,34 @@
 <script lang="ts">
   import type { Interval, ShallowUser } from '$lib/gql/types';
   import { createPopperActions } from 'svelte-popperjs';
-  import { onMount } from 'svelte';
 
   export let interval: Interval;
   export let users: ShallowUser[];
 
   const HEADER_HEIGHT = 64;
   const [ref, content, getInstance] = createPopperActions({
+    strategy: 'absolute',
     placement: 'right',
     modifiers: [
-      { name: 'offset', options: { offset: [0, 16] } },
+      { name: 'offset', options: { offset: [0, 12] } },
       { name: 'preventOverflow', options: { padding: { top: HEADER_HEIGHT } } },
       { name: 'arrow', options: { padding: 16 } },
     ],
   });
 
-  export const updatePopoverPosition = ({ clientX, clientY }: MouseEvent) => {
-    virtualElement.getBoundingClientRect = generateGetBoundingClientRect(clientX, clientY);
+  export let referenceElement: HTMLElement;
+  $: if (referenceElement !== undefined) {
+    ref(referenceElement);
+  }
+
+  export const updatePopoverPosition = () => {
     getInstance()?.update();
   };
-
-  const generateGetBoundingClientRect = (x = 0, y = 0) => {
-    return () =>
-      ({
-        width: 0,
-        height: 0,
-        top: y,
-        right: x,
-        bottom: y,
-        left: x,
-      } as DOMRect);
-  };
-
-  const virtualElement = {
-    getBoundingClientRect: generateGetBoundingClientRect(),
-  } as HTMLElement;
-
-  onMount(() => {
-    ref(virtualElement);
-  });
 </script>
 
-<div use:content class="popover card">
+<div use:content class="popover card pointer-events-none">
   <div data-popper-arrow>
-    <div
-      class="popover--arrow w-4 h-4 bg-default rounded transform rotate-45 pointer-events-none"
-    />
+    <div class="popover--arrow w-4 h-4 bg-default rounded transform rotate-45" />
   </div>
   <h1 class="p-4 text-sm italic border-b border-gray-200 dark:border-gray-600">
     {interval.beg.format('HH:mm')} – {interval.end.format('HH:mm')}
