@@ -90,6 +90,7 @@
     <div bind:this={referenceElement} class={referenceClass} />
     <SchedulePopover
       bind:this={popover}
+      on:dismiss={() => ($activeId = null)}
       show={isActive || isHovered}
       fixed={isActive}
       {referenceElement}
