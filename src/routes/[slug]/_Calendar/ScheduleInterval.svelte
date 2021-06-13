@@ -4,7 +4,6 @@
 </script>
 
 <script lang="ts">
-  import toCss from 'style-css';
   import type { Interval as IInterval, ShallowUser } from '$lib/gql/types';
   import type { Writable } from 'svelte/store';
   import { writable } from 'svelte/store';
@@ -14,6 +13,7 @@
   import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
   import { cx } from '$lib/utils/cx';
+  import { cssVars } from '$lib/utils/use-css-vars';
   import { getContext } from 'svelte';
 
   export let id: number;
@@ -61,7 +61,7 @@
 
   // prettier-ignore
   $: intervalClass = cx(
-    'relative h-full pointer-events-auto',
+    'interval relative h-full pointer-events-auto',
     [!$intervalHasBefore(interval), 'rounded-t-xl'],
     [!$intervalHasAfter(interval), 'rounded-b-xl', 'border-b-2 border-white dark:border-gray-900'],
     [isHovered || isActive, 'ring-2 ring-offset-[3px] ring-inset ring-white dark:ring-gray-900'],
@@ -69,11 +69,6 @@
     [isActive, 'ring-offset-primary dark:ring-offset-primary-lighter'],
     [$disabled, 'w-full', 'w-6']
   )
-
-  $: intervalStyle = toCss({
-    backgroundColor: bgHex,
-    transition: 'width 400ms ease-out',
-  });
 
   // prettier-ignore
   $: referenceClass = cx(
@@ -92,8 +87,8 @@
     on:mouseenter={() => ($hoveredId = id)}
     on:mouseleave={() => ($hoveredId = null)}
     on:transitionend={() => popover.updatePopoverPosition()}
+    use:cssVars={{ bgHex }}
     class={intervalClass}
-    style={intervalStyle}
   >
     <div bind:this={referenceElement} class={referenceClass} />
     <SchedulePopover
@@ -107,3 +102,10 @@
     />
   </div>
 </Interval>
+
+<style lang="postcss">
+  .interval {
+    background-color: var(--bgHex);
+    transition: width 300ms ease-out;
+  }
+</style>
