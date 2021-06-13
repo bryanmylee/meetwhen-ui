@@ -8,8 +8,22 @@
 <div class="space-y-4">
   {#if $modalState === ModalState.ADD_GUEST}
     <div class="p-4 space-y-4 card">
-      <Textfield bind:value={$username.value} placeholder="Name" focusOnMount class="block" />
-      <Textfield bind:value={$password.value} placeholder="Password" password class="block" />
+      <Textfield
+        bind:value={$username.value}
+        error={$username.error}
+        placeholder="Name"
+        focusOnMount
+        required
+        class="block"
+      />
+      <Textfield
+        bind:value={$password.value}
+        error={$password.error}
+        placeholder="Password"
+        password
+        required
+        class="block"
+      />
     </div>
     <div class="flex space-x-4">
       <button

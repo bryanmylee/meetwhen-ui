@@ -38,10 +38,12 @@
   $: $_disabled = disabled;
   setContext('disabled', _disabled);
 
+  export let error = '';
+
   let selector: SelectableProvider | undefined;
 </script>
 
-<div class="z-0 flex flex-col flex-1 overflow-hidden card">
+<div class="relative z-0 flex flex-col flex-1 overflow-hidden card" class:error={error !== ''}>
   <div tabindex="0" class="focus:outline-none" />
   <SelectableProvider
     bind:this={selector}
@@ -76,6 +78,13 @@
       </div>
     </div>
   </SelectableProvider>
+  {#if error !== ''}
+    <span
+      class="absolute p-2 text-xs italic text-red-400 transform -translate-x-1/2 rounded dark:text-red-400 bottom-2 left-1/2 bg-default"
+    >
+      {error}
+    </span>
+  {/if}
 </div>
 
 <style lang="postcss">

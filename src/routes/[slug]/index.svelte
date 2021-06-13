@@ -9,30 +9,68 @@
 </script>
 
 <script lang="ts">
-  import { get } from 'svelte/store';
-  import { session } from '$app/stores';
-  import { newMeeting } from '$lib/app-state';
-  import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
-  import { isEditing } from './_state/page';
-  import { meetingId, intervals, resetForm, addGuestScheduleVars } from './_state/form';
-  import type { Load } from '@sveltejs/kit';
-  import type { Meeting, Schedule } from '$lib/gql/types';
-  import Head from '$lib/components/Head.svelte';
   import Calendar from './_Calendar/Calendar.svelte';
+  import Head from '$lib/components/Head.svelte';
   import Header from './_Header.svelte';
   import Modal from './_Modal.svelte';
   import Template from './_Template.svelte';
+  import type { APIError } from '$lib/typings/error';
+  import type { Load } from '@sveltejs/kit';
+  import type { Meeting, Schedule } from '$lib/gql/types';
   import { addGuestSchedule } from '$lib/gql/addGuestSchedule';
+  import { get } from 'svelte/store';
+  import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
+  import { modalState, isEditing, ModalState } from './_state/page';
+  import {
+    meetingId,
+    username,
+    password,
+    intervals,
+    resetForm,
+    addGuestScheduleVars,
+  } from './_state/form';
+  import { newMeeting } from '$lib/app-state';
+  import { session } from '$app/stores';
 
   export let meeting: Meeting;
   $: $meetingId = meeting.id;
-  $: console.log(meeting);
 
-  const submit = async () => {
+  const handleSubmit = async () => {
+    if (!isFormatValid()) {
+      return;
+    }
+    try {
+      await submitNewSchedule();
+    } catch (errors) {
+      (errors as APIError[]).forEach(handleAPIError);
+    }
+  };
+
+  const isFormatValid = () => {
+    let noFormatErrors = true;
+    if ($intervals.value.length === 0) {
+      noFormatErrors = false;
+      $intervals.error = 'Required';
+    }
+    return noFormatErrors;
+  };
+
+  const submitNewSchedule = async () => {
     if ($session.user === null) {
       const schedule = await addGuestSchedule($addGuestScheduleVars);
       meeting.schedules.push(schedule as Schedule);
       meeting = meeting;
+      $modalState = ModalState.NONE;
+    }
+  };
+
+  const handleAPIError = (error: APIError) => {
+    const { id } = error.extensions.exception.details;
+    console.error({ id, meesage: error.message });
+    if (id === 'auth/email-already-exists') {
+      $username.error = 'Username already taken';
+    } else if (id === 'auth/invalid-password') {
+      $password.error = 'Password must be at least 6 characters long';
     }
   };
 
@@ -45,7 +83,7 @@
 
 <Head emoji="📘" subtitle={meeting.name} />
 
-<form on:submit|preventDefault={submit} class="contents">
+<form on:submit|preventDefault={handleSubmit} class="contents">
   <Template>
     <Header name={meeting.name} slot="header" />
     <Modal slot="modal" />
@@ -53,6 +91,7 @@
       bind:this={calendar}
       intervals={meeting.intervals}
       bind:selectedIntervals={$intervals.value}
+      error={$intervals.error}
       schedules={meeting.schedules}
       disabled={!$isEditing}
       slot="calendar"
