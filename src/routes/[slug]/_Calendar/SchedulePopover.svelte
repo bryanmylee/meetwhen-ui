@@ -56,7 +56,7 @@
 
   // prettier-ignore
   $: popoverArrowClass = cx(
-    'popover--arrow w-4 h-4 bg-default rounded transform rotate-45',
+    'popover--arrow w-4 h-4 bg-default transform rotate-45',
     [fixed, 'border-primary dark:border-primary-lighter', 'border-gray-400']
   )
 </script>
