@@ -10,6 +10,7 @@
   import { writable } from 'svelte/store';
   import { primary } from '$lib/colors';
   import { maxNumUsersPerInterval, intervalHasAfter, intervalHasBefore } from './state/schedules';
+  import { clickOutside } from '$lib/utils/use-click-outside';
   import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
   import { cx } from '$lib/utils/cx';
@@ -26,6 +27,12 @@
       $activeId = id;
     }
     popover.updateRefPosition(event);
+  };
+
+  const handleClickOutside = () => {
+    if ($activeId === id) {
+      $activeId = null;
+    }
   };
 
   const handleMouseMove = (event: MouseEvent) => {
@@ -80,6 +87,7 @@
 <Interval {interval} class="pointer-events-none">
   <div
     on:click={handleClick}
+    use:clickOutside={handleClickOutside}
     on:mousemove={handleMouseMove}
     on:mouseenter={() => ($hoveredId = id)}
     on:mouseleave={() => ($hoveredId = null)}

@@ -1,13 +1,5 @@
-<script lang="ts" context="module">
-  export interface SchedulePopoverEvent {
-    dismiss: never;
-  }
-</script>
-
 <script lang="ts">
   import type { Interval, ShallowUser } from '$lib/gql/types';
-  import { clickOutside } from '$lib/utils/use-click-outside';
-  import { createEventDispatcher } from 'svelte';
   import { createPopperActions } from 'svelte-popperjs';
   import { cx } from '$lib/utils/cx';
   import { getComplimentUsers } from './state/schedules';
@@ -15,8 +7,6 @@
   export let interval: Interval;
   export let users: ShallowUser[];
   $: complimentUsers = $getComplimentUsers(users);
-
-  const dispatch = createEventDispatcher<SchedulePopoverEvent>();
 
   const INDEX_COL_WIDTH = 40;
   const HEADER_HEIGHT = 64;
@@ -73,7 +63,7 @@
 </script>
 
 {#if show}
-  <div use:content use:clickOutside={() => dispatch('dismiss')} class={popperClass}>
+  <div use:content class={popperClass}>
     <div data-popper-arrow>
       <div class={popoverArrowClass} />
     </div>
