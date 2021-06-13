@@ -142,7 +142,7 @@
       indicatorElement.classList.add('expanded');
       setTimeout(() => {
         document.body.removeChild(indicatorElement);
-      }, 300);
+      }, 700);
     });
   };
 </script>
@@ -159,13 +159,13 @@
 
 <style lang="postcss">
   :global(#indicator) {
-    @apply fixed z-50 w-16 h-16 rounded-full pointer-events-none bg-primary-fifty;
-    transform: translate(-50%, -50%);
-    transition: transform 300ms ease-out, opacity 300ms ease-out;
+    @apply fixed z-50 w-28 h-28 rounded-full pointer-events-none bg-primary-fifty border-4 border-primary-lighter;
+    transform: translate(-50%, -50%) scale(0.25);
+    transition: transform 200ms ease-out, opacity 300ms ease-out 400ms;
   }
 
   :global(#indicator.expanded) {
-    transform: translate(-50%, -50%) scale(3);
+    transform: translate(-50%, -50%) scale(1);
     opacity: 0;
   }
 </style>
