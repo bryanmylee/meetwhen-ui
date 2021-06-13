@@ -25,6 +25,7 @@
     placement: 'right',
     modifiers: [
       { name: 'arrow', options: { padding: 16 } },
+      { name: 'eventListeners', options: { scroll: false, resize: false } },
       { name: 'offset', options: { offset: [0, 12] } },
       {
         name: 'preventOverflow',
