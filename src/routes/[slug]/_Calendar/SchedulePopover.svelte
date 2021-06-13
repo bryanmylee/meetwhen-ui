@@ -71,21 +71,21 @@
       {interval.beg.format('h:mma')} – {interval.end.format('h:mma')}
     </h1>
     <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-600">
-      <h2 class="text-sm font-medium">
+      <h2 class="text-sm font-bold">
         {users.length} attending
       </h2>
-      <ul class="mt-2 text-sm">
+      <ul class="mt-1 text-sm">
         {#each users as user}
           <li>{user.name}</li>
         {/each}
       </ul>
     </div>
     {#if complimentUsers.length > 0}
-      <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-600">
-        <h2 class="text-sm font-medium">
+      <div class="px-4 py-3 text-gray-400 border-t border-gray-200 dark:border-gray-600">
+        <h2 class="text-sm font-bold">
           {complimentUsers.length} not attending
         </h2>
-        <ul class="mt-2 text-sm">
+        <ul class="mt-1 text-sm">
           {#each complimentUsers as user}
             <li>{user.name}</li>
           {/each}
