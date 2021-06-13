@@ -55,9 +55,9 @@
   // prettier-ignore
   $: intervalClass = cx(
     'relative h-full rounded-xl pointer-events-auto',
-    [isHovered || isActive, 'ring-[3px] dark:ring-offset-gray-900 ring-offset-2'],
-    [isHovered && !isActive, 'ring-gray-400'],
-    [isActive, 'ring-primary dark:ring-primary-lighter'],
+    [isHovered || isActive, 'ring-2 ring-offset-[3px] ring-inset ring-white dark:ring-gray-900'],
+    [isHovered && !isActive, 'ring-offset-gray-400'],
+    [isActive, 'ring-offset-primary dark:ring-offset-primary-lighter'],
     [$disabled, 'w-full', 'w-6']
   )
 
