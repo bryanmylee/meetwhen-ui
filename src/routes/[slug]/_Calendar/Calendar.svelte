@@ -53,13 +53,13 @@
   >
     <div class="relative h-full min-h-0 p-4 overflow-hidden focus:outline-none">
       <div class="layout-grid">
-        <GridItem x={1} y={0} class="sticky top-0 z-20 flex px-2 space-x-4 bg-default">
+        <GridItem x={1} y={0} class="sticky top-0 z-20 flex space-x-4 bg-default">
           <IndexHeader />
         </GridItem>
-        <GridItem x={0} y={1} class="sticky left-0 z-20 flex flex-col py-2 bg-default">
+        <GridItem x={0} y={1} class="sticky left-0 z-20 flex flex-col bg-default">
           <IndexColumn />
         </GridItem>
-        <GridItem x={1} y={1} class="p-2">
+        <GridItem x={1} y={1}>
           <Grid
             rows={$numRows}
             cols={$days.length}
