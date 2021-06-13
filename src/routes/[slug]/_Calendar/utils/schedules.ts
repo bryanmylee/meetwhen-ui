@@ -1,4 +1,4 @@
-import type { Interval, Schedule, ShallowUser, User } from '$lib/gql/types';
+import type { Interval, Schedule, ShallowUser } from '$lib/gql/types';
 import type { Moment } from '$lib/utils/moment';
 import dayjs from 'dayjs';
 import { Map, Set } from 'immutable';
