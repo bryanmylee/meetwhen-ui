@@ -68,14 +68,6 @@
     [isHovered && !isActive, 'ring-offset-gray-400'],
     [isActive, 'ring-offset-primary dark:ring-offset-primary-lighter'],
     [$disabled, 'w-full', 'w-6']
-  )
-
-  // prettier-ignore
-  $: referenceClass = cx(
-    'w-full h-[5px] pointer-events-none border-b-[2px] border-white dark:border-gray-900',
-    [!isHovered && !isActive, 'hidden'],
-    [isHovered && !isActive, 'bg-gray-400'],
-    [isActive, 'bg-primary dark:bg-primary-lighter'],
   );
 </script>
 
@@ -90,7 +82,7 @@
     use:cssVars={{ bgHex }}
     class={intervalClass}
   >
-    <div bind:this={referenceElement} class={referenceClass} />
+    <div bind:this={referenceElement} class="w-full" />
     <SchedulePopover
       bind:this={popover}
       on:dismiss={() => ($activeId = null)}
