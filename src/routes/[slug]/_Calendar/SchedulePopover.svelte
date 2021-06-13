@@ -77,10 +77,10 @@
     <div data-popper-arrow>
       <div class={popoverArrowClass} />
     </div>
-    <h1 class="p-4 text-sm italic">
-      {interval.beg.format('HH:mm')} – {interval.end.format('HH:mm')}
+    <h1 class="px-4 py-3 text-xs text-gray-400">
+      {interval.beg.format('h:mma')} – {interval.end.format('h:mma')}
     </h1>
-    <div class="p-4 border-t border-gray-200 dark:border-gray-600">
+    <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-600">
       <h2 class="text-sm font-medium">
         {users.length} attending
       </h2>
@@ -91,7 +91,7 @@
       </ul>
     </div>
     {#if complimentUsers.length > 0}
-      <div class="p-4 border-t border-gray-200 dark:border-gray-600">
+      <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-600">
         <h2 class="text-sm font-medium">
           {complimentUsers.length} not attending
         </h2>
