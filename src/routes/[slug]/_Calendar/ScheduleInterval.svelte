@@ -9,7 +9,7 @@
   import type { Writable } from 'svelte/store';
   import { writable } from 'svelte/store';
   import { primary } from '$lib/colors';
-  import { maxNumUsersPerInterval } from './state/schedules';
+  import { maxNumUsersPerInterval, intervalHasAfter, intervalHasBefore } from './state/schedules';
   import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
   import { cx } from '$lib/utils/cx';
@@ -54,7 +54,9 @@
 
   // prettier-ignore
   $: intervalClass = cx(
-    'relative h-full rounded-xl pointer-events-auto',
+    'relative h-full pointer-events-auto',
+    [!$intervalHasBefore(interval), 'rounded-t-xl'],
+    [!$intervalHasAfter(interval), 'rounded-b-xl', 'border-b-2 border-white dark:border-gray-900'],
     [isHovered || isActive, 'ring-2 ring-offset-[3px] ring-inset ring-white dark:ring-gray-900'],
     [isHovered && !isActive, 'ring-offset-gray-400'],
     [isActive, 'ring-offset-primary dark:ring-offset-primary-lighter'],

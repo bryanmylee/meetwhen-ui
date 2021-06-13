@@ -1,4 +1,4 @@
-import type { Schedule, ShallowUser } from '$lib/gql/types';
+import type { Interval, Schedule, ShallowUser } from '$lib/gql/types';
 import { Map, Set } from 'immutable';
 import { derived, writable } from 'svelte/store';
 import { getLocalIntervals } from '../utils/intervals';
@@ -25,6 +25,22 @@ export const getComplimentUsers = derived([allUsers], ([$allUsers]) => (users: S
 
 export const intervalsWithUsers = derived([schedules], ([$schedules]) =>
   getLocalIntervals(unionSchedules($schedules))
+);
+
+const intervalBegs = derived([intervalsWithUsers], ([$intervalsWithUsers]) =>
+  Set($intervalsWithUsers.map((interval) => interval.beg.unix()))
+);
+
+const intervalEnds = derived([intervalsWithUsers], ([$intervalsWithUsers]) =>
+  Set($intervalsWithUsers.map((interval) => interval.end.unix()))
+);
+
+export const intervalHasBefore = derived([intervalEnds], ([$intervalEnds]) => (interval: Interval) =>
+  $intervalEnds.includes(interval.beg.unix())
+);
+
+export const intervalHasAfter = derived([intervalBegs], ([$intervalBegs]) => (interval: Interval) =>
+  $intervalBegs.includes(interval.end.unix())
 );
 
 export const maxNumUsersPerInterval = derived([intervalsWithUsers], ([$intervalsWithUsers]) =>
