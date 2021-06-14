@@ -3,7 +3,7 @@
   import { writable } from 'svelte/store';
   import type { Interval, Schedule } from '$lib/gql/types';
   import { intervals as intervalsDep, days } from './state/intervals';
-  import { numRows } from './state/ui';
+  import { numRows, isFullscreen } from './state/ui';
   import { getIdsFromIntervals } from './state/core';
   import {
     selectedIds,
@@ -20,6 +20,8 @@
   import Selected from './Selected.svelte';
   import Highlight from './Highlight.svelte';
   import Schedules from './Schedules.svelte';
+  import FullscreenButton from './FullscreenButton.svelte';
+  import { cx } from '$lib/utils/cx';
 
   export const reset: () => void = () => {
     $selectedIds = [];
@@ -46,10 +48,15 @@
   export let error = '';
 
   let selector: SelectableProvider | undefined;
+
+  // prettier-ignore
+  $: calendarClass = cx(
+    'flex flex-col flex-1 overflow-hidden card',
+    [$isFullscreen, 'fixed inset-4 z-10', 'relative z-0'],
+  );
 </script>
 
-<div class="relative z-0 flex flex-col flex-1 overflow-hidden card" class:error={error !== ''}>
-  <div tabindex="0" class="focus:outline-none" />
+<div class={calendarClass} class:error={error !== ''}>
   <SelectableProvider
     bind:this={selector}
     bind:selectedIds={$selectedIds}
@@ -83,6 +90,7 @@
       </div>
     </div>
   </SelectableProvider>
+  <FullscreenButton bind:isFullscreen={$isFullscreen} />
   {#if error !== ''}
     <span
       class="absolute p-2 text-xs italic text-red-400 transform -translate-x-1/2 rounded dark:text-red-400 bottom-2 left-1/2 bg-default"
