@@ -58,7 +58,7 @@
     let:selecting
     let:selectingIds
   >
-    <div class="relative h-full min-h-0 p-4 overflow-hidden focus:outline-none">
+    <div class="relative h-full min-h-0 p-4 pt-1 overflow-hidden focus:outline-none">
       <div class="layout-grid">
         <GridItem x={1} y={0} class="sticky top-0 z-20 flex space-x-4 bg-default">
           <IndexHeader />
