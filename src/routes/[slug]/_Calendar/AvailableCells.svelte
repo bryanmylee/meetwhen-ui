@@ -21,7 +21,7 @@
 
   const disabled = getContext<Writable<boolean>>('disabled');
 
-  const getClass = (index: number, isDisabled: boolean) => {
+  const getCellClass = (index: number, isDisabled: boolean) => {
     const firstClass = cx([index === 0, 'rounded-t-xl']);
     const midClass = cx([index % 2 === 1, 'border-gray-200 dark:border-gray-600 border-b-2']);
     const lastClass = cx([index === hours.length - 1, 'rounded-b-xl', midClass]);
@@ -30,13 +30,18 @@
       'shade min-w-32 min-h-5 select-none',
       firstClass,
       lastClass,
-      [isDisabled, 'cursor-default', 'cursor-pointer']
+      [isDisabled, 'cursor-default', 'cursor-pointer hover:shade-2']
     );
   };
 </script>
 
 {#each zip(hours, rowIndices) as [hour, rowIndex], index}
-  <GridItem dataId={toId(hour.onDayjs(day))} {x} y={rowIndex} class={getClass(index, $disabled)} />
+  <GridItem
+    dataId={toId(hour.onDayjs(day))}
+    {x}
+    y={rowIndex}
+    class={getCellClass(index, $disabled)}
+  />
 {/each}
 
 {#if !isLastInCol}
