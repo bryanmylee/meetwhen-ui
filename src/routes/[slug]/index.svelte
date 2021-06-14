@@ -77,6 +77,10 @@
     $modalState = 'none';
   };
 
+  $: if ($session.user !== null) {
+    $guestUser = null;
+  }
+
   const isFormatValid = () => {
     let noFormatErrors = true;
     if ($intervals.value.length === 0) {
