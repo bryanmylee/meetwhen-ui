@@ -81,10 +81,9 @@ const ratioWithMax = (ratio: number, max: number) => {
 
 // scale(0 to 1) reflects light to dark colors.
 const getFractionalFromScale = (scale: Scale) => (num: number, denom: number) => {
-  // const darkRatio = denom / 10;
   const darkIndex = ratioWithMin(Math.min(1, denom / 10), 0.5);
   const index = ratioWithMax(num / denom, darkIndex);
-  return scale(index);
+  return scale(index).alpha(ratioWithMin(index, 0.2));
 };
 
 const hueShifted = (color: chroma.Color, shift: number) => {
