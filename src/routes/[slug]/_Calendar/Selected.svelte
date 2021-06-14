@@ -7,7 +7,7 @@
 
   $: className = cx('pointer-events-none bg-primary-fifty rounded-xl', [
     $schedules.length > 0,
-    'ml-6',
+    'ml-8',
   ]);
 </script>
 
