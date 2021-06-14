@@ -141,7 +141,7 @@
 
   let calendar: Calendar;
 
-  $: if (!$isEditing) {
+  $: if ($modalState === 'none') {
     resetForm();
     calendar?.reset();
   }
