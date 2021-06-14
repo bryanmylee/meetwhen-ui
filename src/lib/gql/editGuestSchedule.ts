@@ -27,7 +27,7 @@ export interface EditScheduleVars {
 }
 
 interface EditScheduleResolved {
-  editSchedule: {
+  editGuestSchedule: {
     user: {
       id: string;
       name: string;
@@ -56,12 +56,12 @@ export const editGuestSchedule = async ({
     intervals: intervals.map(IntervalSerializer.serialize),
     token,
   };
-  const { editSchedule } = (await query({
+  const { editGuestSchedule } = (await query({
     query: EDIT_SCHEDULE,
     variables,
   })) as EditScheduleResolved;
   return {
-    ...editSchedule,
-    intervals: editSchedule.intervals.map(IntervalSerializer.deserialize),
+    ...editGuestSchedule,
+    intervals: editGuestSchedule.intervals.map(IntervalSerializer.deserialize),
   };
 };
