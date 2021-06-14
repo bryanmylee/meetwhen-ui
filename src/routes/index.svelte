@@ -2,7 +2,7 @@
   import Head from '$lib/components/Head.svelte';
   import Header from './_Header.svelte';
   import NewMeeting from './_NewMeeting.svelte';
-  import FindMeeting from './_FindMeeting.svelte';
+  import FindMeeting from./_FindMeeting.svelteelte';
 </script>
 
 <Head />

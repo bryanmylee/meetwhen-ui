@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { media } from '$lib/media';
   import { guestUser, modalState, showShare } from './_state/page';
   import type { ModalState } from './_state/page';
   import { ShareIcon } from 'svelte-feather-icons';
@@ -10,7 +11,7 @@
   const statesWithTextfield: ModalState[] = ['add-auth', 'add-guest'];
 </script>
 
-{#if !statesWithTextfield.includes($modalState)}
+{#if !statesWithTextfield.includes($modalState) || $media.md}
   <div class="flex items-center justify-between p-4 text-white card bg-gradient-primary">
     <div>
       <p class="text-lg font-medium">
