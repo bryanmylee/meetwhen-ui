@@ -1,10 +1,17 @@
 <script lang="ts" context="module">
   export const load: Load = async ({ page }) => {
     const { slug } = page.params;
-    const meeting = get(newMeeting) ?? (await getMeetingBySlug({ slug }));
-    return {
-      props: { meeting },
-    };
+    try {
+      const meeting = get(newMeeting) ?? (await getMeetingBySlug({ slug }));
+      return {
+        props: { meeting },
+      };
+    } catch (errors) {
+      return {
+        error: `${slug} not found`,
+        status: 404,
+      };
+    }
   };
 </script>
 
