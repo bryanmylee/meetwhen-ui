@@ -1,19 +1,20 @@
 import { flat } from '$lib/utils/flat';
 import { range } from '$lib/utils/range';
-import type { Scale } from 'chroma-js';
+import type { Color, Scale } from 'chroma-js';
 import chroma from 'chroma-js';
 import type { Readable, Writable } from 'svelte/store';
 import { writable } from 'svelte/store';
 
 export interface IColor {
   DEFAULT: string;
-  scale: Scale;
   lighter: string;
   darker: string;
   warmer: string;
   cooler: string;
   fifty: string;
   thirty: string;
+  scale: Scale;
+  getFractional: (num: number, denom: number) => Color;
 }
 
 const useColor = (name: string, initColor: string): [Writable<string>, Readable<IColor>] => {
@@ -48,22 +49,42 @@ const useColor = (name: string, initColor: string): [Writable<string>, Readable<
   ];
 };
 
-const getColors = (base: string): IColor => ({
-  DEFAULT: chroma(base).css(),
-  scale: colorScale(base),
-  lighter: chroma(base).brighten(0.5).css(),
-  darker: chroma(base).darken(0.5).css(),
-  warmer: hueShifted(chroma(base), -10).css(),
-  cooler: hueShifted(chroma(base), 10).css(),
-  fifty: chroma(base).alpha(0.5).css(),
-  thirty: chroma(base).alpha(0.3).css(),
-});
+const getColors = (base: string): IColor => {
+  const scale = colorScale(base);
+  return {
+    DEFAULT: chroma(base).css(),
+    lighter: chroma(base).brighten(0.5).css(),
+    darker: chroma(base).darken(0.5).css(),
+    warmer: hueShifted(chroma(base), -10).css(),
+    cooler: hueShifted(chroma(base), 10).css(),
+    fifty: chroma(base).alpha(0.5).css(),
+    thirty: chroma(base).alpha(0.3).css(),
+    scale,
+    getFractional: getFractionalFromScale(scale),
+  };
+};
 
 const colorScale = (hex: string) => {
   const base = chroma(hex);
-  const light = base.brighten(1.8).desaturate();
-  const dark = base.darken(1.8);
+  const light = base.brighten(1).desaturate(0.5);
+  const dark = base.darken(2);
   return chroma.scale([light, base, dark]).mode('lrgb');
+};
+
+const ratioWithMin = (ratio: number, min: number) => {
+  return ratio * (1 - min) + min;
+};
+
+const ratioWithMax = (ratio: number, max: number) => {
+  return ratio * max;
+};
+
+// scale(0 to 1) reflects light to dark colors.
+const getFractionalFromScale = (scale: Scale) => (num: number, denom: number) => {
+  // const darkRatio = denom / 10;
+  const darkIndex = ratioWithMin(Math.min(1, denom / 10), 0.5);
+  const index = ratioWithMax(num / denom, darkIndex);
+  return scale(index);
 };
 
 const hueShifted = (color: chroma.Color, shift: number) => {
@@ -76,7 +97,9 @@ const updateCssVars = (name: string, colors: IColor) => {
     return;
   }
   Object.entries(colors).forEach(([variant, value]) => {
-    document.documentElement.style.setProperty(property(name, variant), value);
+    if (typeof value === 'string') {
+      document.documentElement.style.setProperty(property(name, variant), value);
+    }
   });
 };
 

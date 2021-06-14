@@ -47,15 +47,7 @@
   $: isActive = $activeId === id;
   $: isHovered = $hoveredId === id;
 
-  $: color = (() => {
-    const MAX_DARK = 10;
-    const darkRatio = $maxNumUsersPerInterval / MAX_DARK;
-    const darkest = 0.5 + darkRatio * 0.5;
-    const ratio = (users.length * darkest) / $maxNumUsersPerInterval;
-    return $primary.scale(ratio);
-  })();
-
-  $: bgHex = color.hex();
+  $: bgColor = $primary.getFractional(users.length, $maxNumUsersPerInterval).css();
 
   const disabled = getContext<Writable<boolean>>('disabled');
 
@@ -79,7 +71,7 @@
     on:mouseenter={() => ($hoveredId = id)}
     on:mouseleave={() => ($hoveredId = null)}
     on:transitionend={() => popover.updatePopoverPosition()}
-    use:cssVars={{ bgHex }}
+    use:cssVars={{ bgColor }}
     class={intervalClass}
   >
     <div bind:this={referenceElement} class="w-full" />
@@ -96,7 +88,7 @@
 
 <style lang="postcss">
   .interval {
-    background-color: var(--bgHex);
+    background-color: var(--bgColor);
     transition: width 300ms ease-out;
   }
 </style>
