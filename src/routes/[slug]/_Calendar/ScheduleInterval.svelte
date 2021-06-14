@@ -85,7 +85,6 @@
     <div bind:this={referenceElement} class="w-full" />
     <SchedulePopover
       bind:this={popover}
-      on:dismiss={() => ($activeId = null)}
       show={isActive || isHovered}
       fixed={isActive}
       {referenceElement}
