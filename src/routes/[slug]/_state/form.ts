@@ -41,6 +41,6 @@ export const addScheduleVars = derived(
 export const editScheduleVars = addScheduleVars;
 
 export const editGuestScheduleVars = derived([editScheduleVars, session], ([$editScheduleVars, $session]) => ({
-  token: $session.token,
+  token: $session.guestUser?.token,
   ...$editScheduleVars,
 }));

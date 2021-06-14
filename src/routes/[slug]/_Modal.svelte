@@ -35,7 +35,36 @@
       </button>
       <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
     </div>
-  {:else if ['add-auth', 'edit-auth'].includes($modalState)}
+  {:else if $modalState === 'login-guest'}
+    <div class="p-4 space-y-4 card">
+      <Textfield
+        bind:value={$username.value}
+        error={$username.error}
+        placeholder="Name"
+        focusOnMount
+        required
+        class="block"
+      />
+      <Textfield
+        bind:value={$password.value}
+        error={$password.error}
+        placeholder="Password"
+        password
+        required
+        class="block"
+      />
+    </div>
+    <div class="flex space-x-4">
+      <button
+        type="button"
+        on:click={() => ($modalState = 'none')}
+        class="w-full p-3 rounded-full button shade"
+      >
+        Cancel
+      </button>
+      <button type="submit" class="w-full p-3 rounded-full button primary"> Login </button>
+    </div>
+  {:else if $modalState === 'add-auth' || $modalState === 'edit-auth' || $modalState === 'edit-guest'}
     <div class="flex space-x-4">
       <button
         type="button"
@@ -46,7 +75,7 @@
       </button>
       <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
     </div>
-  {:else}
+  {:else if $modalState === 'none'}
     <div class="flex space-x-4">
       {#if $session.user === null && $session.guestUser === null}
         <button

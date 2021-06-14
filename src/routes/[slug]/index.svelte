@@ -48,10 +48,16 @@
       return;
     }
     try {
-      if (['add-auth', 'add-guest'].includes($modalState)) {
-        await submitNewSchedule();
+      if ($modalState === 'add-auth') {
+        await submitAuthSchedule();
+      } else if ($modalState === 'add-guest') {
+        await submitGuestSchedule();
       } else if ($modalState === 'edit-auth') {
-        await submitEditSchedule();
+        await submitEditAuthSchedule();
+      } else if ($modalState === 'edit-guest') {
+        await submitEditGuestSchedule();
+      } else if ($modalState === 'login-guest') {
+        await submitLoginGuest();
       }
     } catch (errors) {
       (errors as APIError[]).forEach(handleAPIError);
@@ -67,40 +73,46 @@
     return noFormatErrors;
   };
 
-  const submitNewSchedule = async () => {
-    if ($session.user === null) {
-      const { token, ...schedule } = await addGuestSchedule($addGuestScheduleVars);
-      meeting.schedules.push(schedule as Schedule);
-      $session.guestUser = {
-        token,
-        ...schedule.user,
-      };
-    } else {
-      const schedule = await addSchedule($addScheduleVars);
-      meeting.schedules.push(schedule as Schedule);
-      $session.user = schedule.user;
-    }
+  const submitAuthSchedule = async () => {
+    const schedule = await addSchedule($addScheduleVars);
+    meeting.schedules.push(schedule as Schedule);
+    $session.user = schedule.user;
     meeting = meeting;
     $modalState = 'none';
   };
 
-  const submitEditSchedule = async () => {
-    if ($session.user === null) {
-      const newSchedule = await editGuestSchedule($editGuestScheduleVars);
-      const currentSchedule = meeting.schedules.find(
-        (schedule) => schedule.user.id === newSchedule.user.id
-      );
-      currentSchedule.intervals = newSchedule.intervals;
-    } else {
-      const newSchedule = await editSchedule($editScheduleVars);
-      const currentSchedule = meeting.schedules.find(
-        (schedule) => schedule.user.id === newSchedule.user.id
-      );
-      currentSchedule.intervals = newSchedule.intervals;
-    }
+  const submitGuestSchedule = async () => {
+    const { token, ...schedule } = await addGuestSchedule($addGuestScheduleVars);
+    meeting.schedules.push(schedule as Schedule);
+    $session.guestUser = {
+      token,
+      ...schedule.user,
+    };
     meeting = meeting;
     $modalState = 'none';
   };
+
+  const submitEditAuthSchedule = async () => {
+    const newSchedule = await editSchedule($editScheduleVars);
+    const currentSchedule = meeting.schedules.find(
+      (schedule) => schedule.user.id === newSchedule.user.id
+    );
+    currentSchedule.intervals = newSchedule.intervals;
+    meeting = meeting;
+    $modalState = 'none';
+  };
+
+  const submitEditGuestSchedule = async () => {
+    const newSchedule = await editGuestSchedule($editGuestScheduleVars);
+    const currentSchedule = meeting.schedules.find(
+      (schedule) => schedule.user.id === newSchedule.user.id
+    );
+    currentSchedule.intervals = newSchedule.intervals;
+    meeting = meeting;
+    $modalState = 'none';
+  };
+
+  const submitLoginGuest = async () => {};
 
   const handleAPIError = (error: APIError) => {
     const { id } = error.extensions.exception.details;

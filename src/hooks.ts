@@ -7,13 +7,13 @@ export const getSession: GetSession = async (request) => {
   const sessionId = cookies.__session;
 
   if (sessionId === undefined) {
-    return { user: null };
+    return { user: null, guestUser: null };
   }
 
   try {
     const user = await me(sessionId);
-    return { user };
+    return { user, guestUser: null };
   } catch {
-    return { user: null };
+    return { user: null, guestUser: null };
   }
 };
