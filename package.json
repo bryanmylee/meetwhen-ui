@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@popperjs/core": "^2.9.2",
+    "@sveltejs/adapter-vercel": "^1.0.0-next.22",
     "@sveltejs/kit": "^1.0.0-next.108",
     "@types/body-scroll-lock": "^2.6.1",
     "@types/chroma-js": "^2.1.3",
