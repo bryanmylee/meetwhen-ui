@@ -1,11 +1,7 @@
 <script lang="ts" context="module">
-  export const load: Load = async ({ page, session }) => {
+  export const load: Load = async ({ page }) => {
     const { slug } = page.params;
     const meeting = get(newMeeting) ?? (await getMeetingBySlug({ slug }));
-    if (session.user !== null && session.user.guestOf !== meeting.id.toLowerCase()) {
-      await logout();
-      session.user = null;
-    }
     return {
       props: { meeting },
     };
@@ -39,7 +35,6 @@
   import { session } from '$app/stores';
   import { addSchedule } from '$lib/gql/addSchedule';
   import { editSchedule } from '$lib/gql/editSchedule';
-  import { logout } from '$lib/gql/logout';
 
   export let meeting: Meeting;
   $: $meetingDep = meeting;

@@ -12,7 +12,6 @@ mutation ($username: String!, $password: String!, $meetingId: ID!, $intervals: [
     user {
       id
       name
-      guestOf
     }
     intervals {
       beg
@@ -33,7 +32,6 @@ interface AddGuestScheduleResolved {
     user: {
       id: string;
       name: string;
-      guestOf: string | null;
     };
     intervals: IntervalDTO[];
   };
@@ -65,7 +63,10 @@ export const addGuestSchedule = async ({
     variables,
   })) as AddGuestScheduleResolved;
   return {
-    ...addGuestSchedule,
+    user: {
+      ...addGuestSchedule.user,
+      guestOf: meetingId,
+    },
     intervals: addGuestSchedule.intervals.map(IntervalSerializer.deserialize),
   };
 };
