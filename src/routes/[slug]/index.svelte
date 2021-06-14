@@ -43,8 +43,6 @@
   export let meeting: Meeting;
   $: $meetingDep = meeting;
 
-  $: console.log($session);
-
   const handleSubmit = async () => {
     try {
       if ($modalState === 'login-guest') {
@@ -66,6 +64,11 @@
     } catch (errors) {
       (errors as APIError[]).forEach(handleAPIError);
     }
+  };
+
+  const submitLoginGuest = async () => {
+    $guestUser = await loginGuest($loginGuestVars);
+    $modalState = 'none';
   };
 
   const isFormatValid = () => {
@@ -116,11 +119,6 @@
     $modalState = 'none';
   };
 
-  const submitLoginGuest = async () => {
-    $guestUser = await loginGuest($loginGuestVars);
-    console.log($guestUser);
-  };
-
   const handleAPIError = (error: APIError) => {
     console.log(error);
     const { id } = error.extensions.exception.details;
@@ -133,6 +131,7 @@
   };
 
   let calendar: Calendar;
+
   $: if (!$isEditing) {
     resetForm();
     calendar?.reset();
@@ -141,6 +140,13 @@
   $: if ($modalState === 'edit-auth') {
     const currentSchedule = $meetingDep.schedules.find(
       (schedule) => schedule.user.id === $session.user?.id
+    );
+    calendar?.initializeWithSelected(currentSchedule.intervals);
+  }
+
+  $: if ($modalState === 'edit-guest') {
+    const currentSchedule = $meetingDep.schedules.find(
+      (schedule) => schedule.user.id === $guestUser?.id
     );
     calendar?.initializeWithSelected(currentSchedule.intervals);
   }

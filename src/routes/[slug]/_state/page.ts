@@ -6,7 +6,7 @@ export type ModalState = 'none' | 'add-guest' | 'add-auth' | 'edit-guest' | 'edi
 export const modalState = writable<ModalState>('none');
 
 export const isEditing = derived([modalState], ([$modalState]) => {
-  const editingStates: ModalState[] = ['add-auth', 'add-guest', 'edit-auth'];
+  const editingStates: ModalState[] = ['add-auth', 'add-guest', 'edit-auth', 'edit-guest'];
   return editingStates.includes($modalState)
 });
 

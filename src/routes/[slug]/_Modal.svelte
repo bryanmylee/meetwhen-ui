@@ -113,7 +113,7 @@
       {:else if $guestUser !== null}
         <button
           type="button"
-          on:click={() => ($modalState = 'edit-auth')}
+          on:click={() => ($modalState = 'edit-guest')}
           class="w-full p-3 rounded-full button primary"
         >
           Edit
