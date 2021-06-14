@@ -28,9 +28,11 @@
     intervals,
     resetForm,
     addGuestScheduleVars,
+    addScheduleVars,
   } from './_state/form';
   import { newMeeting } from '$lib/app-state';
   import { session } from '$app/stores';
+  import { addSchedule } from '$lib/gql/addSchedule';
 
   export let meeting: Meeting;
   $: $meetingId = meeting.id;
@@ -56,17 +58,18 @@
   };
 
   const submitNewSchedule = async () => {
-    if ($session.user === null) {
-      const schedule = await addGuestSchedule($addGuestScheduleVars);
-      meeting.schedules.push(schedule as Schedule);
-      meeting = meeting;
-      $modalState = ModalState.NONE;
-    }
+    const schedule =
+      $session.user === null
+        ? await addGuestSchedule($addGuestScheduleVars)
+        : await addSchedule($addScheduleVars);
+    meeting.schedules.push(schedule as Schedule);
+    meeting = meeting;
+    $modalState = ModalState.NONE;
   };
 
   const handleAPIError = (error: APIError) => {
     const { id } = error.extensions.exception.details;
-    console.error({ id, meesage: error.message });
+    console.error({ id, message: error.message });
     if (id === 'auth/email-already-exists') {
       $username.error = 'Username already taken';
     } else if (id === 'auth/invalid-password') {

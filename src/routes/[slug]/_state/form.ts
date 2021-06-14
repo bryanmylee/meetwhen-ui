@@ -1,4 +1,5 @@
 import type { AddGuestScheduleVars } from '$lib/gql/addGuestSchedule';
+import type { AddScheduleVars } from '$lib/gql/addSchedule';
 import type { Interval } from '$lib/gql/types';
 import { withError } from '$lib/utils/with-error';
 import { derived, writable } from 'svelte/store';
@@ -23,5 +24,15 @@ export const addGuestScheduleVars = derived(
       password: $password.value,
       intervals: $intervals.value,
     } as AddGuestScheduleVars;
+  }
+);
+
+export const addScheduleVars = derived(
+  [meetingId, intervals],
+  ([$meetingId, $intervals]) => {
+    return {
+      meetingId: $meetingId,
+      intervals: $intervals.value,
+    } as AddScheduleVars;
   }
 );
