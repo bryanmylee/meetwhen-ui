@@ -35,8 +35,9 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher<LongTouchEvent>();
   import { getTouchArray } from '$lib/utils/touch';
+  import { cssVars } from '$lib/utils/use-css-vars';
 
-  export let startDelay = 200;
+  export let startDelay = 300;
   export let deviateLimit = 5;
 
   let tracked: Record<number, LongTouch> = {};
@@ -49,6 +50,7 @@
   };
 
   const track = (touch: Touch, event: TouchEvent) => {
+    indicateLongTouch(touch);
     tracked[touch.identifier] = {
       touch,
       initClientX: touch.clientX,
@@ -60,7 +62,6 @@
         if (longTouch.pending) {
           longTouch.pending = false;
           longTouch.active = true;
-          indicateLongTouch(touch);
           dispatch('longtouchstart', { event });
         }
       }, startDelay),
@@ -81,6 +82,7 @@
     const { identifier } = touch;
     const longTouch = tracked[identifier];
     if (longTouch == null) {
+      removeIndicator();
       return;
     }
     const { initClientX: x1, initClientY: y1 } = longTouch;
@@ -99,6 +101,7 @@
     enableSelect();
     const changedTouches = getTouchArray(event.changedTouches);
     changedTouches.forEach((touch) => untrack(touch, event));
+    removeIndicator();
     dispatch('touchend', { event });
   };
 
@@ -129,21 +132,31 @@
     document.documentElement.classList.remove('select-none');
   };
 
+  let indicatorElement: HTMLDivElement;
   const indicateLongTouch = ({ clientX, clientY }: Touch) => {
     if (typeof document === 'undefined') {
       return;
     }
-    const indicatorElement = document.createElement('div');
+    indicatorElement = document.createElement('div');
     indicatorElement.id = 'indicator';
     indicatorElement.style.left = `${clientX}px`;
     indicatorElement.style.top = `${clientY}px`;
+    cssVars(indicatorElement, { startDelay: `${startDelay}ms` });
     document.body.appendChild(indicatorElement);
     requestAnimationFrame(() => {
       indicatorElement.classList.add('expanded');
       setTimeout(() => {
-        document.body.removeChild(indicatorElement);
-      }, 700);
+        removeIndicator();
+      }, startDelay + 500);
     });
+  };
+
+  const removeIndicator = () => {
+    if (indicatorElement === undefined) {
+      return;
+    }
+    document.body.removeChild(indicatorElement);
+    indicatorElement = undefined;
   };
 </script>
 
@@ -159,13 +172,19 @@
 
 <style lang="postcss">
   :global(#indicator) {
-    @apply fixed z-50 w-28 h-28 rounded-full pointer-events-none bg-primary-fifty border-4 border-primary-lighter;
+    @apply fixed z-50 w-28 h-28 rounded-full pointer-events-none bg-primary-fifty;
     transform: translate(-50%, -50%) scale(0.25);
-    transition: transform 200ms ease-out, opacity 300ms ease-out 400ms;
+    transition: transform var(--startDelay) ease-out,
+      opacity 300ms ease-out calc(var(--startDelay) + 200ms), border 0ms var(--startDelay);
   }
 
   :global(#indicator.expanded) {
+    @apply border-4 border-primary-darker;
     transform: translate(-50%, -50%) scale(1);
     opacity: 0;
+  }
+
+  :global(.dark #indicator.expanded) {
+    @apply border-white;
   }
 </style>
