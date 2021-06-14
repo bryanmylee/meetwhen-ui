@@ -17,7 +17,7 @@ interface QueryParams {
 }
 
 export const query = async ({ query, variables, headers }: QueryParams): Promise<unknown> => {
-  const res = await queryClient.fetch(env.apiGraphQLEndpoint, {
+  const res = await queryClient.fetch(env.VITE_API_GQL_ENDPOINT, {
     method: 'post',
     credentials: 'include',
     headers: {

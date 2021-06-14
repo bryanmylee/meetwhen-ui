@@ -6,7 +6,7 @@
  * - Files imported by Svelte components e.g. $lib/api.ts
  */
 export const env = {
-  apiGraphQLEndpoint: import.meta.env.VITE_API_GQL_ENDPOINT as string,
+  VITE_API_GQL_ENDPOINT: import.meta.env.VITE_API_GQL_ENDPOINT as string,
 };
 
 const validateEnv = (e: typeof env) => {
