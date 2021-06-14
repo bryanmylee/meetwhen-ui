@@ -99,6 +99,13 @@
     resetForm();
     calendar?.reset();
   }
+
+  $: if ($modalState === ModalState.EDIT_AUTH) {
+    const currentSchedule = $meetingDep.schedules.find(
+      (schedule) => schedule.user.id === $session.user?.id
+    );
+    calendar?.initializeWithSelected(currentSchedule.intervals);
+  }
 </script>
 
 <Head emoji="📘" subtitle={meeting.name} />

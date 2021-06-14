@@ -4,6 +4,7 @@
   import type { Interval, Schedule } from '$lib/gql/types';
   import { intervals as intervalsDep, days } from './state/intervals';
   import { numRows } from './state/ui';
+  import { getIdsFromIntervals } from './state/core';
   import {
     selectedIds,
     selectedIntervals as selectedIntervalsDep,
@@ -29,6 +30,10 @@
 
   export let selectedIntervals: Interval[] = [];
   $: selectedIntervals = $selectedIntervalsDep;
+
+  export const initializeWithSelected: (initial: Interval[]) => void = (initial) => {
+    $selectedIds = $getIdsFromIntervals(initial);
+  };
 
   export let schedules: Schedule[] = [];
   $: $schedulesDep = schedules;

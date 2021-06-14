@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { ModalState, modalState, isJoined } from './_state/page';
   import { username, password } from './_state/form';
   import Textfield from '$lib/components/Textfield.svelte';

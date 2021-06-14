@@ -1,6 +1,6 @@
 import type { Interval } from '$lib/gql/types';
 import { derived, writable } from 'svelte/store';
-import { fromId, getLocalIntervals, unionIntervals } from '../utils/intervals';
+import { fromId, getLocalIntervals, toId, unionIntervals } from '../utils/intervals';
 
 // Base functionality.
 export const hourStepSize = writable(0.5);
@@ -21,4 +21,21 @@ export const getLocalIntervalsFromIds = derived(
   [getIntervalsFromIds],
   ([$getIntervalsFromIds]) => (ids: string[]): Interval[] =>
     getLocalIntervals($getIntervalsFromIds(ids))
+);
+
+export const getIdsFromIntervals = derived(
+  [hourStepSize],
+  ([$hourStepSize]) => (intervals: Interval[]): string[] => {
+    const ids: string[] = [];
+    intervals.forEach((interval) => {
+      for (
+        let current = interval.beg;
+        !current.isSame(interval.end);
+        current = current.add($hourStepSize, 'hour')
+      ) {
+        ids.push(toId(current));
+      }
+    });
+    return ids;
+  }
 );
