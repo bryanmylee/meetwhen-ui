@@ -86,7 +86,7 @@
     @apply relative inline-block;
     & > input[type='text'],
     & > input[type='password'] {
-      @apply relative w-full p-4 pt-6 rounded-xl text-gray-800 dark:text-white shade focusable;
+      @apply relative w-full px-4 pt-5 pb-3 rounded-xl text-gray-800 dark:text-white shade focusable;
       &:focus,
       &.filled {
         & + label {
@@ -101,13 +101,12 @@
       }
     }
     & > label {
-      @apply absolute -top-2 left-0 mt-7 mb-5 mx-4 text-gray-800 dark:text-white;
+      @apply absolute -top-3 left-0 mt-7 mb-5 mx-4 text-gray-800 dark:text-white;
       @apply pointer-events-none transition-transform;
       transform-origin: top left;
     }
     & > span {
-      @apply absolute bottom-1 left-0 mx-4 text-red-400 transform scale-75 italic;
-      transform-origin: bottom left;
+      @apply absolute bottom-0.5 left-0 mx-4 text-red-400 transform text-xs italic select-none;
     }
   }
 }
