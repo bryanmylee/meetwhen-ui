@@ -1,5 +1,5 @@
-import type { Meeting } from '$lib/gql/types';
 import { session } from '$app/stores';
+import type { Meeting } from '$lib/gql/types';
 import { derived, writable } from 'svelte/store';
 
 export const meeting = writable<Meeting>(null);

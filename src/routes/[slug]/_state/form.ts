@@ -3,7 +3,7 @@ import type { AddScheduleVars } from '$lib/gql/addSchedule';
 import type { Interval } from '$lib/gql/types';
 import { withError } from '$lib/utils/with-error';
 import { derived } from 'svelte/store';
-import { meeting, guestUser } from './page';
+import { guestUser, meeting } from './page';
 
 export const username = withError('');
 export const password = withError('');

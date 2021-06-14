@@ -19,7 +19,7 @@ export const getComplimentUsers = derived([allUsers], ([$allUsers]) => (users: S
     .subtract(usersSet)
     .toArray()
     .map((userMap) => userMap.toObject() as ShallowUser);
-  complimentUsers.sort((a, b) => a.name === b.name ? 0 : a.name < b.name ? -1 : 1);
+  complimentUsers.sort((a, b) => (a.name === b.name ? 0 : a.name < b.name ? -1 : 1));
   return complimentUsers;
 });
 
@@ -35,8 +35,9 @@ const intervalEnds = derived([intervalsWithUsers], ([$intervalsWithUsers]) =>
   Set($intervalsWithUsers.map((interval) => interval.end.unix()))
 );
 
-export const intervalHasBefore = derived([intervalEnds], ([$intervalEnds]) => (interval: Interval) =>
-  $intervalEnds.includes(interval.beg.unix())
+export const intervalHasBefore = derived(
+  [intervalEnds],
+  ([$intervalEnds]) => (interval: Interval) => $intervalEnds.includes(interval.beg.unix())
 );
 
 export const intervalHasAfter = derived([intervalBegs], ([$intervalBegs]) => (interval: Interval) =>

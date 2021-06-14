@@ -23,7 +23,7 @@ export const getLocalIntervals = <T extends Interval>(intervals: T[]): T[] => {
       results.push({
         ...props,
         beg,
-        end: endOf(beg, 'day')
+        end: endOf(beg, 'day'),
       } as T);
       working = { ...props, beg: endOf(beg, 'day'), end } as T;
     }

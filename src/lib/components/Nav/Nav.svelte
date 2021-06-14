@@ -10,7 +10,7 @@
 
 <Template {key}>
   <svelte:fragment slot="left">
-    <HomeNavItem />
+    <HomeNavItem slot="left" />
   </svelte:fragment>
   <svelte:fragment slot="right">
     {#if $session.user !== null}
