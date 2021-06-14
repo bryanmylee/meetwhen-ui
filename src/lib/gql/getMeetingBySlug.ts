@@ -18,7 +18,7 @@ query ($slug: String!) {
       user {
         id
         name
-        isGuest
+        guestOf
       }
       intervals {
         beg
@@ -45,7 +45,7 @@ interface GetMeetingBySlugResolved {
       user: {
         id: string;
         name: string;
-        isGuest: boolean;
+        guestOf: string | null;
       };
       intervals: IntervalDTO[];
     }[];
@@ -64,7 +64,7 @@ interface GetMeetingBySlugReturned {
     user: {
       id: string;
       name: string;
-      isGuest: boolean;
+      guestOf: string | null;
     };
     intervals: Interval[];
   }[];

@@ -1,7 +1,11 @@
 <script lang="ts" context="module">
-  export const load: Load = async ({ page }) => {
+  export const load: Load = async ({ page, session }) => {
     const { slug } = page.params;
     const meeting = get(newMeeting) ?? (await getMeetingBySlug({ slug }));
+    if (session.user !== null && session.user.guestOf !== meeting.id.toLowerCase()) {
+      await logout();
+      session.user = null;
+    }
     return {
       props: { meeting },
     };
@@ -35,6 +39,7 @@
   import { session } from '$app/stores';
   import { addSchedule } from '$lib/gql/addSchedule';
   import { editSchedule } from '$lib/gql/editSchedule';
+  import { logout } from '$lib/gql/logout';
 
   export let meeting: Meeting;
   $: $meetingDep = meeting;
@@ -75,7 +80,10 @@
   };
 
   const submitEditSchedule = async () => {
-    const newSchedule = $session.user === null ? null : await editSchedule($editScheduleVars);
+    if ($session.user === null) {
+      return;
+    }
+    const newSchedule = await editSchedule($editScheduleVars);
     const currentSchedule = meeting.schedules.find(
       (schedule) => schedule.user.id === newSchedule.user.id
     );

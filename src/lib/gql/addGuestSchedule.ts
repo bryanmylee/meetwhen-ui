@@ -12,7 +12,7 @@ mutation ($username: String!, $password: String!, $meetingId: ID!, $intervals: [
     user {
       id
       name
-      isGuest
+      guestOf
     }
     intervals {
       beg
@@ -33,7 +33,7 @@ interface AddGuestScheduleResolved {
     user: {
       id: string;
       name: string;
-      isGuest: boolean;
+      guestOf: string | null;
     };
     intervals: IntervalDTO[];
   };
@@ -43,7 +43,7 @@ interface AddGuestScheduleReturned {
   user: {
     id: string;
     name: string;
-    isGuest: boolean;
+    guestOf: string | null;
   };
   intervals: Interval[];
 }

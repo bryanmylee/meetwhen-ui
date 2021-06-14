@@ -10,7 +10,7 @@ mutation ($meetingId: ID!, $intervals: [IntervalInput!]!) {
     user {
       id
       name
-      isGuest
+      guestOf
     }
     intervals {
       beg
@@ -29,7 +29,7 @@ interface AddScheduleResolved {
     user: {
       id: string;
       name: string;
-      isGuest: boolean;
+      guestOf: string | null;
     };
     intervals: IntervalDTO[];
   };
@@ -39,7 +39,7 @@ interface AddScheduleReturned {
   user: {
     id: string;
     name: string;
-    isGuest: boolean;
+    guestOf: string | null;
   };
   intervals: Interval[];
 }

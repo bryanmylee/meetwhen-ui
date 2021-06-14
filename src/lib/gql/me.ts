@@ -6,6 +6,7 @@ const ME = `
     id
     name
     email
+    guestOf
   }
 }`;
 
@@ -14,6 +15,7 @@ interface MeResolved {
     id: string;
     name: string;
     email: string;
+    guestOf: string | null;
   };
 }
 
@@ -21,6 +23,7 @@ interface MeReturned {
   id: string;
   name: string;
   email: string;
+  guestOf: string | null;
 }
 
 export const me = async (token?: string): Promise<MeReturned> => {

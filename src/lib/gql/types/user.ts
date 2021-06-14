@@ -4,7 +4,7 @@ import type { Identifiable } from './identifiable';
 export interface ShallowUser extends Identifiable {
   name: string;
   email: string;
-  isGuest: boolean;
+  guestOf: string | null;
 }
 
 export interface User extends ShallowUser {
