@@ -20,9 +20,8 @@
   import { addGuestSchedule } from '$lib/gql/addGuestSchedule';
   import { get } from 'svelte/store';
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
-  import { modalState, isEditing, guestUser } from './_state/page';
+  import { meeting as meetingDep, modalState, isEditing, guestUser } from './_state/page';
   import {
-    meeting as meetingDep,
     username,
     password,
     intervals,
@@ -91,7 +90,7 @@
   const submitGuestSchedule = async () => {
     const { token, ...schedule } = await addGuestSchedule($addGuestScheduleVars);
     meeting.schedules.push(schedule as Schedule);
-    $session.guestUser = {
+    $guestUser = {
       token,
       ...schedule.user,
     };

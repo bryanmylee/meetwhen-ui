@@ -1,13 +1,21 @@
+import type { Meeting } from '$lib/gql/types';
 import { session } from '$app/stores';
 import { derived, writable } from 'svelte/store';
-import { meeting } from './form';
 
-export type ModalState = 'none' | 'add-guest' | 'add-auth' | 'edit-guest' | 'edit-auth' | 'login-guest';
+export const meeting = writable<Meeting>(null);
+
+export type ModalState =
+  | 'none'
+  | 'add-guest'
+  | 'add-auth'
+  | 'edit-guest'
+  | 'edit-auth'
+  | 'login-guest';
 export const modalState = writable<ModalState>('none');
 
 export const isEditing = derived([modalState], ([$modalState]) => {
   const editingStates: ModalState[] = ['add-auth', 'add-guest', 'edit-auth', 'edit-guest'];
-  return editingStates.includes($modalState)
+  return editingStates.includes($modalState);
 });
 
 export const isJoined = derived([meeting, session], ([$meeting, $session]) => {

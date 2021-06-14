@@ -1,12 +1,10 @@
-import { session } from '$app/stores';
 import type { AddGuestScheduleVars } from '$lib/gql/addGuestSchedule';
 import type { AddScheduleVars } from '$lib/gql/addSchedule';
-import type { Interval, Meeting } from '$lib/gql/types';
+import type { Interval } from '$lib/gql/types';
 import { withError } from '$lib/utils/with-error';
-import { derived, writable } from 'svelte/store';
-import { guestUser } from './page';
+import { derived } from 'svelte/store';
+import { meeting, guestUser } from './page';
 
-export const meeting = writable<Meeting>(null);
 export const username = withError('');
 export const password = withError('');
 export const intervals = withError<Interval[]>([]);
@@ -41,7 +39,7 @@ export const editScheduleVars = addScheduleVars;
 export const editGuestScheduleVars = derived(
   [editScheduleVars, guestUser],
   ([$editScheduleVars, $guestUser]) => ({
-    token: $guestUser?.token,
+    token: $guestUser?.token ?? '',
     ...$editScheduleVars,
   })
 );
