@@ -1,3 +1,4 @@
+import { session } from '$app/stores';
 import type { AddGuestScheduleVars } from '$lib/gql/addGuestSchedule';
 import type { AddScheduleVars } from '$lib/gql/addSchedule';
 import type { Interval, Meeting } from '$lib/gql/types';
@@ -38,3 +39,8 @@ export const addScheduleVars = derived(
 );
 
 export const editScheduleVars = addScheduleVars;
+
+export const editGuestScheduleVars = derived([editScheduleVars, session], ([$editScheduleVars, $session]) => ({
+  token: $session.token,
+  ...$editScheduleVars,
+}));

@@ -30,11 +30,13 @@
     addGuestScheduleVars,
     addScheduleVars,
     editScheduleVars,
+    editGuestScheduleVars,
   } from './_state/form';
   import { newMeeting } from '$lib/app-state';
   import { session } from '$app/stores';
   import { addSchedule } from '$lib/gql/addSchedule';
   import { editSchedule } from '$lib/gql/editSchedule';
+  import { editGuestSchedule } from '$lib/gql/editGuestSchedule';
 
   export let meeting: Meeting;
   $: $meetingDep = meeting;
@@ -64,25 +66,33 @@
   };
 
   const submitNewSchedule = async () => {
-    const schedule =
-      $session.user === null
-        ? await addGuestSchedule($addGuestScheduleVars)
-        : await addSchedule($addScheduleVars);
-    meeting.schedules.push(schedule as Schedule);
+    if ($session.user === null) {
+      const { token, ...schedule } = await addGuestSchedule($addGuestScheduleVars);
+      meeting.schedules.push(schedule as Schedule);
+      $session.token = token;
+    } else {
+      const schedule = await addSchedule($addScheduleVars);
+      meeting.schedules.push(schedule as Schedule);
+      $session.user = schedule.user;
+    }
     meeting = meeting;
     $modalState = ModalState.NONE;
-    $session.user = schedule.user;
   };
 
   const submitEditSchedule = async () => {
     if ($session.user === null) {
-      return;
+      const newSchedule = await editGuestSchedule($editGuestScheduleVars);
+      const currentSchedule = meeting.schedules.find(
+        (schedule) => schedule.user.id === newSchedule.user.id
+      );
+      currentSchedule.intervals = newSchedule.intervals;
+    } else {
+      const newSchedule = await editSchedule($editScheduleVars);
+      const currentSchedule = meeting.schedules.find(
+        (schedule) => schedule.user.id === newSchedule.user.id
+      );
+      currentSchedule.intervals = newSchedule.intervals;
     }
-    const newSchedule = await editSchedule($editScheduleVars);
-    const currentSchedule = meeting.schedules.find(
-      (schedule) => schedule.user.id === newSchedule.user.id
-    );
-    currentSchedule.intervals = newSchedule.intervals;
     meeting = meeting;
     $modalState = ModalState.NONE;
   };

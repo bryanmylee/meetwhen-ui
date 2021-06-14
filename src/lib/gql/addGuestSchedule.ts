@@ -13,6 +13,7 @@ mutation ($username: String!, $password: String!, $meetingId: ID!, $intervals: [
       id
       name
     }
+    token
     intervals {
       beg
       end
@@ -33,6 +34,7 @@ interface AddGuestScheduleResolved {
       id: string;
       name: string;
     };
+    token: string;
     intervals: IntervalDTO[];
   };
 }
@@ -43,6 +45,7 @@ interface AddGuestScheduleReturned {
     name: string;
     guestOf: string | null;
   };
+  token: string;
   intervals: Interval[];
 }
 
@@ -67,6 +70,7 @@ export const addGuestSchedule = async ({
       ...addGuestSchedule.user,
       guestOf: meetingId,
     },
+    token: addGuestSchedule.token,
     intervals: addGuestSchedule.intervals.map(IntervalSerializer.deserialize),
   };
 };
