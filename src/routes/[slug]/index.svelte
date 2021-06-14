@@ -20,7 +20,7 @@
   import { addGuestSchedule } from '$lib/gql/addGuestSchedule';
   import { get } from 'svelte/store';
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
-  import { modalState, isEditing, ModalState } from './_state/page';
+  import { modalState, isEditing } from './_state/page';
   import {
     meeting as meetingDep,
     username,
@@ -41,14 +41,16 @@
   export let meeting: Meeting;
   $: $meetingDep = meeting;
 
+  $: console.log($session);
+
   const handleSubmit = async () => {
     if (!isFormatValid()) {
       return;
     }
     try {
-      if ($modalState === ModalState.ADD_AUTH || $modalState === ModalState.ADD_GUEST) {
+      if (['add-auth', 'add-guest'].includes($modalState)) {
         await submitNewSchedule();
-      } else if ($modalState === ModalState.EDIT_AUTH) {
+      } else if ($modalState === 'edit-auth') {
         await submitEditSchedule();
       }
     } catch (errors) {
@@ -69,14 +71,17 @@
     if ($session.user === null) {
       const { token, ...schedule } = await addGuestSchedule($addGuestScheduleVars);
       meeting.schedules.push(schedule as Schedule);
-      $session.token = token;
+      $session.guestUser = {
+        token,
+        ...schedule.user,
+      };
     } else {
       const schedule = await addSchedule($addScheduleVars);
       meeting.schedules.push(schedule as Schedule);
       $session.user = schedule.user;
     }
     meeting = meeting;
-    $modalState = ModalState.NONE;
+    $modalState = 'none';
   };
 
   const submitEditSchedule = async () => {
@@ -94,7 +99,7 @@
       currentSchedule.intervals = newSchedule.intervals;
     }
     meeting = meeting;
-    $modalState = ModalState.NONE;
+    $modalState = 'none';
   };
 
   const handleAPIError = (error: APIError) => {
@@ -113,7 +118,7 @@
     calendar?.reset();
   }
 
-  $: if ($modalState === ModalState.EDIT_AUTH) {
+  $: if ($modalState === 'edit-auth') {
     const currentSchedule = $meetingDep.schedules.find(
       (schedule) => schedule.user.id === $session.user?.id
     );

@@ -2,15 +2,13 @@ import { session } from '$app/stores';
 import { derived, writable } from 'svelte/store';
 import { meeting } from './form';
 
-export enum ModalState {
-  NONE,
-  ADD_GUEST,
-  ADD_AUTH,
-  EDIT_AUTH,
-}
-export const modalState = writable<ModalState>(ModalState.NONE);
+export type ModalState = 'none' | 'add-guest' | 'add-auth' | 'edit-guest' | 'edit-auth' | 'login-guest';
+export const modalState = writable<ModalState>('none');
 
-export const isEditing = derived([modalState], ([$modalState]) => $modalState !== ModalState.NONE);
+export const isEditing = derived([modalState], ([$modalState]) => {
+  const editingStates: ModalState[] = ['add-auth', 'add-guest', 'edit-auth'];
+  return editingStates.includes($modalState)
+});
 
 export const isJoined = derived([meeting, session], ([$meeting, $session]) => {
   if ($meeting === null || $session.user === null) {
