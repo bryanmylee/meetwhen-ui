@@ -1,5 +1,5 @@
 <script>
-  import { ModalState, modalState } from './_state/page';
+  import { ModalState, modalState, isJoined } from './_state/page';
   import { username, password } from './_state/form';
   import Textfield from '$lib/components/Textfield.svelte';
   import { session } from '$app/stores';
@@ -35,7 +35,7 @@
       </button>
       <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
     </div>
-  {:else if $modalState === ModalState.ADD_AUTH}
+  {:else if $modalState === ModalState.ADD_AUTH || $modalState === ModalState.EDIT_AUTH}
     <div class="flex space-x-4">
       <button
         type="button"
@@ -55,6 +55,14 @@
           class="w-full p-3 rounded-full button primary"
         >
           Join as Guest
+        </button>
+      {:else if $isJoined}
+        <button
+          type="button"
+          on:click={() => ($modalState = ModalState.EDIT_AUTH)}
+          class="w-full p-3 rounded-full button primary"
+        >
+          Edit
         </button>
       {:else}
         <button

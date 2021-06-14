@@ -22,27 +22,33 @@
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
   import { modalState, isEditing, ModalState } from './_state/page';
   import {
-    meetingId,
+    meeting as meetingDep,
     username,
     password,
     intervals,
     resetForm,
     addGuestScheduleVars,
     addScheduleVars,
+    editScheduleVars,
   } from './_state/form';
   import { newMeeting } from '$lib/app-state';
   import { session } from '$app/stores';
   import { addSchedule } from '$lib/gql/addSchedule';
+  import { editSchedule } from '$lib/gql/editSchedule';
 
   export let meeting: Meeting;
-  $: $meetingId = meeting.id;
+  $: $meetingDep = meeting;
 
   const handleSubmit = async () => {
     if (!isFormatValid()) {
       return;
     }
     try {
-      await submitNewSchedule();
+      if ($modalState === ModalState.ADD_AUTH || $modalState === ModalState.ADD_GUEST) {
+        await submitNewSchedule();
+      } else if ($modalState === ModalState.EDIT_AUTH) {
+        await submitEditSchedule();
+      }
     } catch (errors) {
       (errors as APIError[]).forEach(handleAPIError);
     }
@@ -63,6 +69,17 @@
         ? await addGuestSchedule($addGuestScheduleVars)
         : await addSchedule($addScheduleVars);
     meeting.schedules.push(schedule as Schedule);
+    meeting = meeting;
+    $modalState = ModalState.NONE;
+    $session.user = schedule.user;
+  };
+
+  const submitEditSchedule = async () => {
+    const newSchedule = $session.user === null ? null : await editSchedule($editScheduleVars);
+    const currentSchedule = meeting.schedules.find(
+      (schedule) => schedule.user.id === newSchedule.user.id
+    );
+    currentSchedule.intervals = newSchedule.intervals;
     meeting = meeting;
     $modalState = ModalState.NONE;
   };
