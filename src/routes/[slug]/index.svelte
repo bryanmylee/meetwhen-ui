@@ -121,7 +121,6 @@
   const handleAPIError = (error: APIError) => {
     console.log(error);
     const { id } = error.extensions.exception.details;
-    console.error({ id, message: error.message });
     if (id === 'auth/email-already-exists') {
       $username.error = 'Username already taken';
     } else if (id === 'auth/invalid-password') {
@@ -155,7 +154,7 @@
 
 <form on:submit|preventDefault={handleSubmit} class="contents">
   <Template>
-    <Header name={meeting.name} slot="header" />
+    <Header name={meeting.name} slug={meeting.slug} slot="header" />
     <Modal slot="modal" />
     <Calendar
       bind:this={calendar}

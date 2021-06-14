@@ -35,3 +35,5 @@ export interface GuestUser {
 }
 
 export const guestUser = writable<GuestUser | null>(null);
+
+export const showShare = writable(false);
