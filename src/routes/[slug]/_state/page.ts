@@ -18,3 +18,12 @@ export const isJoined = derived([meeting, session], ([$meeting, $session]) => {
     $meeting.schedules.find((schedule) => schedule.user.id === $session.user?.id) !== undefined
   );
 });
+
+export interface GuestUser {
+  id: string;
+  name: string;
+  guestOf: string;
+  token: string;
+}
+
+export const guestUser = writable<GuestUser | null>(null);
