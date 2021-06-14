@@ -83,7 +83,7 @@
           on:click={() => ($modalState = 'login-guest')}
           class="w-full p-3 rounded-full button shade"
         >
-          Login Guest
+          Guest Login
         </button>
         <button
           type="button"
