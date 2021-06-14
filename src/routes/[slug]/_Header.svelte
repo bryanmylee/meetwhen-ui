@@ -8,7 +8,7 @@
   export let name = '';
   export let slug = '';
 
-  const statesWithTextfield: ModalState[] = ['add-auth', 'add-guest'];
+  const statesWithTextfield: ModalState[] = ['add-auth', 'add-guest', 'login-guest'];
 </script>
 
 {#if !statesWithTextfield.includes($modalState) || $media.md}
