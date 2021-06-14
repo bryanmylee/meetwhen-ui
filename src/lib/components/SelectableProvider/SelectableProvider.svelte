@@ -66,7 +66,7 @@
       return;
     }
     const { id } = target.dataset;
-    if (id === undefined) {
+    if (id === undefined || isDisabled(id)) {
       return;
     }
     startingId = id;
@@ -110,7 +110,7 @@
       return;
     }
     const { id } = target.dataset;
-    if (id === undefined) {
+    if (id === undefined || isDisabled(id)) {
       return;
     }
     if (interpolateBetween !== undefined) {
