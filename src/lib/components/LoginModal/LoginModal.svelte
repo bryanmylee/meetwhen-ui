@@ -26,7 +26,7 @@
       $session.user = await login({ email: $email.value, password: $password.value });
       dismiss();
     } catch (errors) {
-      (errors as APIError[]).forEach(handleError);
+      (errors as APIError[]).forEach(handleAPIError);
     }
   };
 
@@ -39,11 +39,11 @@
       });
       dismiss();
     } catch (errors) {
-      (errors as APIError[]).forEach(handleError);
+      (errors as APIError[]).forEach(handleAPIError);
     }
   };
 
-  const handleError = (error: APIError) => {
+  const handleAPIError = (error: APIError) => {
     const { id } = error.extensions.exception.details;
     console.error({ id, message: error.message });
     if (id === 'auth/user-not-found') {

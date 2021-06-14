@@ -128,8 +128,12 @@
   const handleAPIError = (error: APIError) => {
     console.log(error);
     const { id } = error.extensions.exception.details;
-    if (id === 'auth/email-already-exists') {
+    if (id === 'auth/user-not-found') {
+      $username.error = 'User not found';
+    } else if (id === 'auth/email-already-exists') {
       $username.error = 'Username already taken';
+    } else if (id === 'auth/wrong-password') {
+      $password.error = 'Wrong password';
     } else if (id === 'auth/invalid-password') {
       $password.error = 'Password must be at least 6 characters long';
     }
