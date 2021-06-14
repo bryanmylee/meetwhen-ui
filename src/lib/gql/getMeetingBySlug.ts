@@ -54,6 +54,7 @@ interface GetMeetingBySlugResolved {
 
 interface GetMeetingBySlugReturned {
   id: string;
+  slug: string;
   name: string;
   owner: {
     id: string;
@@ -70,15 +71,16 @@ interface GetMeetingBySlugReturned {
   }[];
 }
 
-export const getMeetingBySlug = async (
-  variables: GetMeetingBySlugVars
-): Promise<GetMeetingBySlugReturned> => {
+export const getMeetingBySlug = async ({
+  slug,
+}: GetMeetingBySlugVars): Promise<GetMeetingBySlugReturned> => {
   const { meeting } = (await query({
     query: GET_MEETING_BY_SLUG,
-    variables: { ...variables },
+    variables: { slug },
   })) as GetMeetingBySlugResolved;
   return {
     ...meeting,
+    slug,
     intervals: meeting.intervals.map(IntervalSerializer.deserialize),
     schedules: meeting.schedules.map((schedule) => ({
       ...schedule,
