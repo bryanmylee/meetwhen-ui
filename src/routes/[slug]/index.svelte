@@ -20,7 +20,7 @@
   import { addGuestSchedule } from '$lib/gql/addGuestSchedule';
   import { get } from 'svelte/store';
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
-  import { modalState, isEditing } from './_state/page';
+  import { modalState, isEditing, guestUser } from './_state/page';
   import {
     meeting as meetingDep,
     username,
@@ -31,12 +31,14 @@
     addScheduleVars,
     editScheduleVars,
     editGuestScheduleVars,
+    loginGuestVars,
   } from './_state/form';
   import { newMeeting } from '$lib/app-state';
   import { session } from '$app/stores';
   import { addSchedule } from '$lib/gql/addSchedule';
   import { editSchedule } from '$lib/gql/editSchedule';
   import { editGuestSchedule } from '$lib/gql/editGuestSchedule';
+  import { loginGuest } from '$lib/gql/loginGuest';
 
   export let meeting: Meeting;
   $: $meetingDep = meeting;
@@ -44,10 +46,14 @@
   $: console.log($session);
 
   const handleSubmit = async () => {
-    if (!isFormatValid()) {
-      return;
-    }
     try {
+      if ($modalState === 'login-guest') {
+        await submitLoginGuest();
+        return;
+      }
+      if (!isFormatValid()) {
+        return;
+      }
       if ($modalState === 'add-auth') {
         await submitAuthSchedule();
       } else if ($modalState === 'add-guest') {
@@ -56,8 +62,6 @@
         await submitEditAuthSchedule();
       } else if ($modalState === 'edit-guest') {
         await submitEditGuestSchedule();
-      } else if ($modalState === 'login-guest') {
-        await submitLoginGuest();
       }
     } catch (errors) {
       (errors as APIError[]).forEach(handleAPIError);
@@ -112,9 +116,13 @@
     $modalState = 'none';
   };
 
-  const submitLoginGuest = async () => {};
+  const submitLoginGuest = async () => {
+    $guestUser = await loginGuest($loginGuestVars);
+    console.log($guestUser);
+  };
 
   const handleAPIError = (error: APIError) => {
+    console.log(error);
     const { id } = error.extensions.exception.details;
     console.error({ id, message: error.message });
     if (id === 'auth/email-already-exists') {

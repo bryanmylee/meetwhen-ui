@@ -28,19 +28,28 @@ export const addGuestScheduleVars = derived(
   }
 );
 
-export const addScheduleVars = derived(
-  [meeting, intervals],
-  ([$meeting, $intervals]) => {
-    return {
-      meetingId: $meeting?.id ?? '',
-      intervals: $intervals.value,
-    } as AddScheduleVars;
-  }
-);
+export const addScheduleVars = derived([meeting, intervals], ([$meeting, $intervals]) => {
+  return {
+    meetingId: $meeting?.id ?? '',
+    intervals: $intervals.value,
+  } as AddScheduleVars;
+});
 
 export const editScheduleVars = addScheduleVars;
 
-export const editGuestScheduleVars = derived([editScheduleVars, session], ([$editScheduleVars, $session]) => ({
-  token: $session.guestUser?.token,
-  ...$editScheduleVars,
-}));
+export const editGuestScheduleVars = derived(
+  [editScheduleVars, session],
+  ([$editScheduleVars, $session]) => ({
+    token: $session.guestUser?.token,
+    ...$editScheduleVars,
+  })
+);
+
+export const loginGuestVars = derived(
+  [meeting, username, password],
+  ([$meeting, $username, $password]) => ({
+    meetingId: $meeting?.id ?? '',
+    username: $username.value,
+    password: $password.value,
+  })
+);
