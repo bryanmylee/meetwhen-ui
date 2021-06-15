@@ -102,7 +102,7 @@
     }
     & .popover--arrow {
       @apply border-l-3 border-b-3;
-      translate: calc(-50% - 2px);
+      --tw-translate-x: calc(-50% - 2px);
     }
   }
 
@@ -112,7 +112,7 @@
     }
     & .popover--arrow {
       @apply border-r-3 border-t-3;
-      translate: calc(50% + 2px);
+      --tw-translate-x: calc(50% + 2px);
     }
   }
 </style>
