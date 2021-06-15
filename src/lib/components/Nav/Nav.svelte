@@ -29,6 +29,6 @@
 <style lang="postcss">
   a,
   button {
-    @apply hover:text-primary hover:underline;
+    @apply font-medium hover:text-primary hover:underline;
   }
 </style>
