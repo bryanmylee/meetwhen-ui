@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { getLocalIntervalsFromIds } from './state/core';
   import Interval from './Interval.svelte';
   import { Selecting } from '$lib/components/SelectableProvider/selecting';
   import { cx } from '$lib/utils/cx';
-  import { schedules } from './state/schedules';
+  import { getContext } from 'svelte';
+  import type { CalendarState } from './state/core';
+
+  const state = getContext<CalendarState>('state');
+  const { schedules, getLocalIntervalsFromIds } = state;
 
   export let selectingIds: string[];
 

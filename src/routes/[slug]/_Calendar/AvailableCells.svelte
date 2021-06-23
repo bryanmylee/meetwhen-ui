@@ -6,9 +6,11 @@
   import { zip } from '$lib/utils/zip';
   import type { Dayjs } from 'dayjs';
   import { getContext } from 'svelte';
-  import { hourStepSize } from './state/core';
-  import { numRows, getColIndexByDay, getRowIndexByTime } from './state/ui';
   import { getHoursInInterval, toId } from './utils/intervals';
+  import type { CalendarState } from './state/core';
+
+  const state = getContext<CalendarState>('state');
+  const { getColIndexByDay, hourStepSize, getRowIndexByTime, numRows } = state;
 
   export let day: Dayjs;
   $: x = $getColIndexByDay(day);

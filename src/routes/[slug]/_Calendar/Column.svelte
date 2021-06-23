@@ -1,7 +1,11 @@
 <script lang="ts">
   import type { Dayjs } from 'dayjs';
-  import { availables } from './state/intervals';
   import Available from './Available.svelte';
+  import { getContext } from 'svelte';
+  import type { CalendarState } from './state/core';
+
+  const state = getContext<CalendarState>('state');
+  const { availables } = state;
 
   export let day: Dayjs;
 </script>

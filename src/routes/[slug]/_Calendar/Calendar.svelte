@@ -2,15 +2,7 @@
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
   import type { Interval, Schedule } from '$lib/gql/types';
-  import { intervals as intervalsDep, days } from './state/intervals';
-  import { numRows, isFullscreen } from './state/ui';
-  import { getIdsFromIntervals } from './state/core';
-  import {
-    selectedIds,
-    selectedIntervals as selectedIntervalsDep,
-    getDayHourIdsBetween,
-  } from './state/selections';
-  import { schedules as schedulesDep } from './state/schedules';
+  import { getCoreState } from './state/core';
   import Column from './Column.svelte';
   import Grid from '$lib/components/Grid/Grid.svelte';
   import IndexHeader from './IndexHeader.svelte';
@@ -23,12 +15,26 @@
   import FullscreenButton from './FullscreenButton.svelte';
   import { cx } from '$lib/utils/cx';
 
+  const state = getCoreState();
+  const {
+    selectedIds,
+    intervals: intervalsInput,
+    schedules: schedulesInput,
+    isFullscreen,
+    selectedIntervals: selectedIntervalsDep,
+    getIdsFromIntervals,
+    getDayHourIdsBetween,
+    numRows,
+    days,
+  } = state;
+  setContext('state', state);
+
   export const reset: () => void = () => {
     $selectedIds = [];
   };
 
   export let intervals: Interval[] = [];
-  $: $intervalsDep = intervals;
+  $: $intervalsInput = intervals;
 
   export let selectedIntervals: Interval[] = [];
   $: selectedIntervals = $selectedIntervalsDep;
@@ -38,7 +44,7 @@
   };
 
   export let schedules: Schedule[] = [];
-  $: $schedulesDep = schedules;
+  $: $schedulesInput = schedules;
 
   export let disabled = false;
   const _disabled = writable(disabled);

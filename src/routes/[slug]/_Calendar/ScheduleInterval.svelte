@@ -8,13 +8,16 @@
   import type { Writable } from 'svelte/store';
   import { writable } from 'svelte/store';
   import { primary } from '$lib/colors';
-  import { maxNumUsersPerInterval, intervalHasAfter, intervalHasBefore } from './state/schedules';
   import { clickOutside } from '$lib/utils/use-click-outside';
   import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
   import { cx } from '$lib/utils/cx';
   import { cssVars } from '$lib/utils/use-css-vars';
   import { getContext } from 'svelte';
+  import type { CalendarState } from './state/core';
+
+  const state = getContext<CalendarState>('state');
+  const { maxNumUsersPerInterval, intervalHasAfter, intervalHasBefore } = state;
 
   export let id: number;
   export let interval: IInterval;

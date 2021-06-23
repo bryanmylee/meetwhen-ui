@@ -15,7 +15,7 @@ interface IntervalWithUsersSerial {
   users: Set<UserMap>;
 }
 
-interface IntervalWithUsers extends Interval {
+export interface IntervalWithUsers extends Interval {
   users: ShallowUser[];
 }
 
