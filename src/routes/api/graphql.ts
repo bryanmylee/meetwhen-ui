@@ -37,10 +37,13 @@ const getClientHeaders = (host: string, response: Response) => {
   return headers;
 };
 
+const CLEAR_COOKIE_SIGNAL = '_';
+
 const getSetCookieHeader = (host: string, key: string, value: string) => {
-  const header = `${key}=${value}; Path=/; Max-Age=604800; Secure; HttpOnly; SameSite=None`;
-  if (host.startsWith('localhost')) {
-    return header;
-  }
-  return `${header}; Domain=${host}`;
+  const SECONDS_IN_WEEK = 604800;
+  // Force the cookie to expire.
+  const maxAge = value === CLEAR_COOKIE_SIGNAL ? 0 : SECONDS_IN_WEEK;
+  const cookieValue = value === CLEAR_COOKIE_SIGNAL ? '' : value;
+  const header = `${key}=${cookieValue}; Max-Age=${maxAge}; Path=/; Secure; HttpOnly; SameSite=None`;
+  return host.startsWith('localhost') ? header : `${header}; Domain=${host}`;
 };
