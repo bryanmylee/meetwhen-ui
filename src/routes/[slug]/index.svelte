@@ -99,12 +99,9 @@
   };
 
   const submitGuestSchedule = async () => {
-    const { token, ...schedule } = await addGuestSchedule($addGuestScheduleVars);
+    const schedule = await addGuestSchedule($addGuestScheduleVars);
     meeting.schedules.push(schedule as Schedule);
-    $guestUser = {
-      token,
-      ...schedule.user,
-    };
+    $guestUser = schedule.user;
     meeting = meeting;
     $modalState = 'none';
   };

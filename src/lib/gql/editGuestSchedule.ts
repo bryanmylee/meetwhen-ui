@@ -6,7 +6,6 @@ mutation ($meetingId: ID!, $intervals: [IntervalInput!]!, $token: String!) {
   editGuestSchedule(data: {
     meetingId: $meetingId,
     intervals: $intervals,
-    token: $token
   }) {
     user {
       id
@@ -23,7 +22,6 @@ mutation ($meetingId: ID!, $intervals: [IntervalInput!]!, $token: String!) {
 export interface EditScheduleVars {
   intervals: Interval[];
   meetingId: string;
-  token: string;
 }
 
 interface EditScheduleResolved {
@@ -49,12 +47,10 @@ interface EditScheduleReturned {
 export const editGuestSchedule = async ({
   meetingId,
   intervals,
-  token,
 }: EditScheduleVars): Promise<EditScheduleReturned> => {
   const variables = {
     meetingId,
     intervals: intervals.map(IntervalSerializer.serialize),
-    token,
   };
   const { editGuestSchedule } = (await query({
     query: EDIT_SCHEDULE,

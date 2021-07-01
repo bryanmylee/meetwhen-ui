@@ -31,7 +31,6 @@ export interface GuestUser {
   id: string;
   name: string;
   guestOf: string;
-  token: string;
 }
 
 export const guestUser = writable<GuestUser | null>(null);

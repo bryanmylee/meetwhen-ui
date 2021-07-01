@@ -3,7 +3,7 @@ import type { AddScheduleVars } from '$lib/gql/addSchedule';
 import type { Interval } from '$lib/gql/types';
 import { withError } from '$lib/utils/with-error';
 import { derived } from 'svelte/store';
-import { guestUser, meeting } from './page';
+import { meeting } from './page';
 
 export const username = withError('');
 export const password = withError('');
@@ -14,6 +14,15 @@ export const resetForm = (): void => {
   password.reset();
   intervals.reset();
 };
+
+export const addScheduleVars = derived([meeting, intervals], ([$meeting, $intervals]) => {
+  return {
+    meetingId: $meeting?.id ?? '',
+    intervals: $intervals.value,
+  } as AddScheduleVars;
+});
+
+export const editScheduleVars = addScheduleVars;
 
 export const addGuestScheduleVars = derived(
   [meeting, username, password, intervals],
@@ -27,22 +36,7 @@ export const addGuestScheduleVars = derived(
   }
 );
 
-export const addScheduleVars = derived([meeting, intervals], ([$meeting, $intervals]) => {
-  return {
-    meetingId: $meeting?.id ?? '',
-    intervals: $intervals.value,
-  } as AddScheduleVars;
-});
-
-export const editScheduleVars = addScheduleVars;
-
-export const editGuestScheduleVars = derived(
-  [editScheduleVars, guestUser],
-  ([$editScheduleVars, $guestUser]) => ({
-    token: $guestUser?.token ?? '',
-    ...$editScheduleVars,
-  })
-);
+export const editGuestScheduleVars = addScheduleVars;
 
 export const loginGuestVars = derived(
   [meeting, username, password],
