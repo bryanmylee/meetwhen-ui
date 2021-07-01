@@ -9,7 +9,7 @@
   export let name = '';
   export let slug = '';
 
-  $: isGuest = $session.user.guestOf !== null;
+  $: isGuest = $session.user?.guestOf !== null;
 
   const statesWithTextfield: ModalState[] = ['add-auth', 'add-guest', 'login-guest'];
 </script>

@@ -5,6 +5,7 @@ mutation ($username: String!, $password: String!, $meetingId: ID!) {
   loginGuest(data: {username: $username, password: $password, meetingId: $meetingId}) {
     id
     name
+    email
     guestOf
   }
 }`;
@@ -19,6 +20,7 @@ interface LoginGuestResolved {
   loginGuest: {
     id: string;
     name: string;
+    email: string;
     guestOf: string;
   };
 }
@@ -26,6 +28,7 @@ interface LoginGuestResolved {
 interface LoginGuestReturned {
   id: string;
   name: string;
+  email: string;
   guestOf: string;
 }
 
