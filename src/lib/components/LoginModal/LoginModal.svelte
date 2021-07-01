@@ -58,6 +58,8 @@
       $password.error = 'Wrong password';
     } else if (id === 'auth/invalid-password') {
       $password.error = 'Password must be at least 6 characters long';
+    } else if (id === 'auth/too-many-requests') {
+      $password.error = 'Too many attempts';
     }
   };
 
