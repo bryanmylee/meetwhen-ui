@@ -6,13 +6,16 @@ export const getSession: GetSession = async (request) => {
   const cookies = parse(request.headers.cookie ?? '');
 
   if (cookies['access-token'] === undefined) {
-    return { user: null };
+    return { user: null, guestUser: null };
   }
 
   try {
     const user = await me();
-    return { user };
+    if (user.guestOf !== null) {
+      return { user: null, guestUser: user };
+    }
+    return { user: user, guestUser: null };
   } catch {
-    return { user: null };
+    return { user: null, guestUser: null };
   }
 };

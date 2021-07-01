@@ -1,9 +1,10 @@
 <script lang="ts">
   import { media } from '$lib/media';
-  import { guestUser, modalState, showShare } from './_state/page';
+  import { modalState, showShare } from './_state/page';
   import type { ModalState } from './_state/page';
   import { ShareIcon } from 'svelte-feather-icons';
   import ShareModal from './_ShareModal.svelte';
+  import { session } from '$app/stores';
 
   export let name = '';
   export let slug = '';
@@ -17,9 +18,9 @@
       <p class="text-lg font-medium">
         {name}&nbsp;
       </p>
-      {#if $guestUser !== null}
+      {#if $session.guestUser !== null}
         <p class="text-xs italic text-white">
-          Logged in as guest <strong>{$guestUser.name}</strong>
+          Logged in as guest <strong>{$session.guestUser.name}</strong>
         </p>
       {/if}
     </div>

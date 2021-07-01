@@ -27,12 +27,4 @@ export const isJoined = derived([meeting, session], ([$meeting, $session]) => {
   );
 });
 
-export interface GuestUser {
-  id: string;
-  name: string;
-  guestOf: string;
-}
-
-export const guestUser = writable<GuestUser | null>(null);
-
 export const showShare = writable(false);

@@ -27,7 +27,7 @@
   import { addGuestSchedule } from '$lib/gql/addGuestSchedule';
   import { get } from 'svelte/store';
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
-  import { meeting as meetingDep, modalState, isEditing, guestUser } from './_state/page';
+  import { meeting as meetingDep, modalState, isEditing } from './_state/page';
   import {
     username,
     password,
@@ -73,12 +73,12 @@
   };
 
   const submitLoginGuest = async () => {
-    $guestUser = await loginGuest($loginGuestVars);
+    $session.guestUser = await loginGuest($loginGuestVars);
     $modalState = 'none';
   };
 
   $: if ($session.user !== null) {
-    $guestUser = null;
+    $session.guestUser = null;
   }
 
   const isFormatValid = () => {
@@ -101,7 +101,7 @@
   const submitGuestSchedule = async () => {
     const schedule = await addGuestSchedule($addGuestScheduleVars);
     meeting.schedules.push(schedule as Schedule);
-    $guestUser = schedule.user;
+    $session.guestUser = schedule.user;
     meeting = meeting;
     $modalState = 'none';
   };
@@ -156,7 +156,7 @@
 
   $: if ($modalState === 'edit-guest') {
     const currentSchedule = $meetingDep.schedules.find(
-      (schedule) => schedule.user.id === $guestUser?.id
+      (schedule) => schedule.user.id === $session.guestUser?.id
     );
     calendar?.initializeWithSelected(currentSchedule.intervals);
   }
