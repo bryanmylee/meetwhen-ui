@@ -1,8 +1,9 @@
 import { env } from '$lib/env';
 import type { RequestHandler } from '@sveltejs/kit';
+import { parse } from 'cookie';
 
 export const post: RequestHandler = async (request) => {
-  const cookies = getCookies(request.headers.cookie);
+  const cookies = parse(request.headers.cookie ?? '');
   const response = await fetch(env.VITE_API_GQL_ENDPOINT, {
     method: 'post',
     headers: getBackendHeaders(cookies),
@@ -14,12 +15,6 @@ export const post: RequestHandler = async (request) => {
     headers: getClientHeaders(request.host, response),
     body,
   };
-};
-
-const getCookies = (rawCookie: string): Record<string, string> => {
-  return Object.fromEntries(
-    rawCookie.split('; ').map((rawCookieEntry: string) => rawCookieEntry.split('='))
-  );
 };
 
 const getBackendHeaders = (cookies: Record<string, string>): Record<string, string> => {
