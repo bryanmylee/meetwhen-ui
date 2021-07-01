@@ -2,20 +2,30 @@ import { env } from '$lib/env';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const post: RequestHandler = async (request) => {
-  const response = await fetch(env.VITE_API_GQL_ENDPOINT, {
-    method: 'post',
-    headers: {
-      'content-type': 'application/json',
-      accept: 'application/json',
-    },
-    body: request.rawBody,
-  });
-  const body = await response.json();
-  return {
-    status: response.status,
-    headers: getClientHeaders(request.host, response),
-    body,
-  };
+  try {
+    const response = await fetch(env.VITE_API_GQL_ENDPOINT, {
+      method: 'post',
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json',
+      },
+      body: request.rawBody,
+    });
+    const body = await response.json();
+    const headers = getClientHeaders(request.host, response);
+    console.info(headers);
+    return {
+      status: response.status,
+      headers,
+      body,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      status: 200,
+      body: 'failed',
+    };
+  }
 };
 
 const getClientHeaders = (host: string, response: Response) => {
