@@ -77,7 +77,7 @@
     </div>
   {:else if $modalState === 'none'}
     <div class="flex space-x-4">
-      {#if $session.user === null && $session.guestUser === null}
+      {#if $session.user === null}
         <button
           type="button"
           on:click={() => ($modalState = 'login-guest')}
@@ -92,7 +92,7 @@
         >
           Join as Guest
         </button>
-      {:else if $session.user !== null}
+      {:else if $session.user.guestOf === null}
         {#if $isJoined}
           <button
             type="button"
@@ -110,7 +110,7 @@
             Join
           </button>
         {/if}
-      {:else if $session.guestUser !== null}
+      {:else}
         <button
           type="button"
           on:click={() => ($modalState = 'edit-guest')}

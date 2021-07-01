@@ -9,6 +9,8 @@
   export let name = '';
   export let slug = '';
 
+  $: isGuest = $session.user.guestOf !== null;
+
   const statesWithTextfield: ModalState[] = ['add-auth', 'add-guest', 'login-guest'];
 </script>
 
@@ -18,9 +20,9 @@
       <p class="text-lg font-medium">
         {name}&nbsp;
       </p>
-      {#if $session.guestUser !== null}
+      {#if $session.user !== null}
         <p class="text-xs italic text-white">
-          Logged in as guest <strong>{$session.guestUser.name}</strong>
+          Logged in as {isGuest ? 'guest ' : ''}<strong>{$session.user.name}</strong>
         </p>
       {/if}
     </div>

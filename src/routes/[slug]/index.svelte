@@ -73,13 +73,9 @@
   };
 
   const submitLoginGuest = async () => {
-    $session.guestUser = await loginGuest($loginGuestVars);
+    $session.user = await loginGuest($loginGuestVars);
     $modalState = 'none';
   };
-
-  $: if ($session.user !== null) {
-    $session.guestUser = null;
-  }
 
   const isFormatValid = () => {
     let noFormatErrors = true;
@@ -101,7 +97,7 @@
   const submitGuestSchedule = async () => {
     const schedule = await addGuestSchedule($addGuestScheduleVars);
     meeting.schedules.push(schedule as Schedule);
-    $session.guestUser = schedule.user;
+    $session.user = schedule.user;
     meeting = meeting;
     $modalState = 'none';
   };
@@ -147,16 +143,9 @@
     calendar?.reset();
   }
 
-  $: if ($modalState === 'edit-auth') {
+  $: if ($modalState === 'edit-auth' || $modalState === 'edit-guest') {
     const currentSchedule = $meetingDep.schedules.find(
       (schedule) => schedule.user.id === $session.user?.id
-    );
-    calendar?.initializeWithSelected(currentSchedule.intervals);
-  }
-
-  $: if ($modalState === 'edit-guest') {
-    const currentSchedule = $meetingDep.schedules.find(
-      (schedule) => schedule.user.id === $session.guestUser?.id
     );
     calendar?.initializeWithSelected(currentSchedule.intervals);
   }
