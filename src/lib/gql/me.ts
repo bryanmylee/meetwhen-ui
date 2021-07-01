@@ -1,4 +1,5 @@
 import { query } from '$lib/gql';
+import type { ShallowUser } from './types';
 
 const ME = `
 {
@@ -19,14 +20,7 @@ interface MeResolved {
   };
 }
 
-interface MeReturned {
-  id: string;
-  name: string;
-  email: string;
-  guestOf: string | null;
-}
-
-export const me = async (): Promise<MeReturned> => {
+export const me = async (): Promise<ShallowUser> => {
   const { me } = (await query({ query: ME })) as MeResolved;
   return me;
 };
