@@ -11,23 +11,15 @@ export const post: RequestHandler = async (request) => {
     body: request.rawBody,
   });
   const body = await response.json();
-  const headers = getClientHeaders(request.host, response);
-  console.info({ status: response.status, headers, body });
   return {
     status: response.status,
-    headers,
+    headers: getClientHeaders(request.host, response),
     body,
   };
 };
 
 const getClientHeaders = (host: string, response: Response) => {
   const headers: Record<string, string> = {};
-  response.headers.forEach((value, key) => {
-    // Cookies prefixed with __ should not be forwarded to the client.
-    if (!key.startsWith('__')) {
-      headers[key] = value;
-    }
-  });
   const token = response.headers.get('__token');
   if (token !== null) {
     headers['set-cookie'] = getSetCookieHeader(host, 'access-token', token);
