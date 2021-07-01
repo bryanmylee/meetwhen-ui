@@ -12,15 +12,13 @@ export const queryClient: QueryClient = {
 interface QueryParams {
   query: string;
   variables?: Record<string, unknown>;
-  headers?: Record<string, string>;
 }
 
-export const query = async ({ query, variables, headers }: QueryParams): Promise<unknown> => {
+export const query = async ({ query, variables }: QueryParams): Promise<unknown> => {
   const response = await queryClient.fetch('/api/graphql', {
     method: 'post',
     credentials: 'include',
     headers: {
-      ...headers,
       'content-type': 'application/json',
       accept: 'application/json',
     },

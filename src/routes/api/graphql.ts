@@ -4,7 +4,10 @@ import type { RequestHandler } from '@sveltejs/kit';
 export const post: RequestHandler = async (request) => {
   const response = await fetch(env.VITE_API_GQL_ENDPOINT, {
     method: 'post',
-    headers: request.headers,
+    headers: {
+      'content-type': 'application/json',
+      accept: 'application/json',
+    },
     body: request.rawBody,
   });
   const body = await response.json();

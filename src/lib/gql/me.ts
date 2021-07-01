@@ -27,7 +27,7 @@ interface MeReturned {
 }
 
 export const me = async (token?: string): Promise<MeReturned> => {
-  const headers = token === undefined ? {} : { authorization: `Bearer ${token}` };
-  const { me } = (await query({ query: ME, headers })) as MeResolved;
+  // const headers = token === undefined ? {} : { authorization: `Bearer ${token}` };
+  const { me } = (await query({ query: ME })) as MeResolved;
   return me;
 };
