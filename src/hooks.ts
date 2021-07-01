@@ -4,14 +4,13 @@ import { parse } from 'cookie';
 
 export const getSession: GetSession = async (request) => {
   const cookies = parse(request.headers.cookie ?? '');
-  const sessionId = cookies.__session;
 
-  if (sessionId === undefined) {
+  if (cookies['access-token'] === undefined) {
     return { user: null };
   }
 
   try {
-    const user = await me(sessionId);
+    const user = await me();
     return { user };
   } catch {
     return { user: null };

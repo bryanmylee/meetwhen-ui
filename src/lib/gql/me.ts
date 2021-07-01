@@ -26,8 +26,7 @@ interface MeReturned {
   guestOf: string | null;
 }
 
-export const me = async (token?: string): Promise<MeReturned> => {
-  // const headers = token === undefined ? {} : { authorization: `Bearer ${token}` };
+export const me = async (): Promise<MeReturned> => {
   const { me } = (await query({ query: ME })) as MeResolved;
   return me;
 };
