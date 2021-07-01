@@ -138,6 +138,10 @@
     }
   };
 
+  $: if ($session.user !== null) {
+    $modalState === 'none';
+  }
+
   let calendar: Calendar;
 
   $: if ($modalState === 'none') {
