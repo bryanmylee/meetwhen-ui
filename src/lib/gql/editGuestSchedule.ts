@@ -2,7 +2,7 @@ import { query } from '.';
 import { Interval, IntervalDTO, IntervalSerializer } from './types';
 
 const EDIT_SCHEDULE = `
-mutation ($meetingId: ID!, $intervals: [IntervalInput!]!, $token: String!) {
+mutation ($meetingId: ID!, $intervals: [IntervalInput!]!) {
   editGuestSchedule(data: {
     meetingId: $meetingId,
     intervals: $intervals,
