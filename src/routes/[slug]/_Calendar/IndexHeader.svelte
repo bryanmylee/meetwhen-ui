@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { days } from './state/intervals';
+  import { getContext } from 'svelte';
+  import type { CalendarState } from './state/core';
+
+  const state = getContext<CalendarState>('state');
+  const { days } = state;
 </script>
 
 {#each $days as day}

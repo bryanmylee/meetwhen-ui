@@ -2,7 +2,11 @@
   import type { Interval, ShallowUser } from '$lib/gql/types';
   import { createPopperActions } from 'svelte-popperjs';
   import { cx } from '$lib/utils/cx';
-  import { getComplimentUsers } from './state/schedules';
+  import { getContext } from 'svelte';
+  import type { CalendarState } from './state/core';
+
+  const state = getContext<CalendarState>('state');
+  const { getComplimentUsers } = state;
 
   export let interval: Interval;
   export let users: ShallowUser[];

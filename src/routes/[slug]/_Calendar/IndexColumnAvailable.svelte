@@ -2,10 +2,12 @@
   import { zip } from '$lib/utils/zip';
   import type { LocalTimeInterval } from '$lib/gql/types';
   import { getHoursInTimeInterval } from './utils/intervals';
-  import { hourStepSize } from './state/core';
-  import { getRowIndexByTime } from './state/ui';
-  import { hoursInDay } from './state/intervals';
   import GridItem from '$lib/components/Grid/GridItem.svelte';
+  import { getContext } from 'svelte';
+  import type { CalendarState } from './state/core';
+
+  const state = getContext<CalendarState>('state');
+  const { hourStepSize, getRowIndexByTime, hoursInDay } = state;
 
   export let available: LocalTimeInterval;
   $: hours = getHoursInTimeInterval(available, $hourStepSize);
