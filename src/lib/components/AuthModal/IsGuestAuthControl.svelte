@@ -7,6 +7,7 @@
   });
 
   export let isGuestAuth = false;
+  export let activeMeetingId: string | null = null;
   export let isLoggingIn = true;
   export let noGuestLogin = true;
 
@@ -14,23 +15,26 @@
   export let transitioning: boolean;
 </script>
 
-{#if !isLoggingIn || !noGuestLogin}
-  <button
-    type="button"
-    use:ref
-    on:click={() => (isGuestAuth = !isGuestAuth)}
-    on:blur={() => (hovering = false)}
-    on:focus={() => (hovering = true)}
-    on:mouseleave={() => (hovering = false)}
-    on:mouseenter={() => (hovering = true)}
-    class="w-full p-1 rounded-md button hover:text-primary-lighter active:text-primary"
-  >
-    {#if isGuestAuth}
-      Use a full account?
-    {:else}
-      {isLoggingIn ? 'Login' : 'Join'} as guest?
-    {/if}
-  </button>
+<!-- Only allow guest option if active meeting exists -->
+{#if activeMeetingId !== null}
+  {#if !isLoggingIn || !noGuestLogin}
+    <button
+      type="button"
+      use:ref
+      on:click={() => (isGuestAuth = !isGuestAuth)}
+      on:blur={() => (hovering = false)}
+      on:focus={() => (hovering = true)}
+      on:mouseleave={() => (hovering = false)}
+      on:mouseenter={() => (hovering = true)}
+      class="w-full p-1 rounded-md button hover:text-primary-lighter active:text-primary"
+    >
+      {#if isGuestAuth}
+        Use a full account?
+      {:else}
+        {isLoggingIn ? 'Login' : 'Join'} as guest?
+      {/if}
+    </button>
+  {/if}
 {/if}
 
 {#if hovering && !transitioning}

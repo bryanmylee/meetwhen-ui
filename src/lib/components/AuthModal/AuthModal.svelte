@@ -150,6 +150,12 @@
       </button>
       <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
     </div>
-    <IsGuestAuthControl bind:isGuestAuth {isLoggingIn} {noGuestLogin} {transitioning} />
+    <IsGuestAuthControl
+      bind:isGuestAuth
+      {activeMeetingId}
+      {isLoggingIn}
+      {noGuestLogin}
+      {transitioning}
+    />
   </form>
 </div>
