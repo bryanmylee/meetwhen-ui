@@ -1,6 +1,17 @@
+<script lang="ts" context="module">
+  export interface ButtonsEvent {
+    join: never;
+    edit: never;
+    leave: never;
+  }
+</script>
+
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import { pageState, isUserJoined } from './_state/page';
   import { session } from '$app/stores';
+
+  const dispatch = createEventDispatcher<ButtonsEvent>();
 </script>
 
 <div class="space-y-4">
@@ -16,6 +27,13 @@
         </button>
       {:else if $session.user !== null}
         {#if $isUserJoined}
+          <button
+            type="button"
+            on:click={() => dispatch('leave')}
+            class="w-full p-3 rounded-full button shade"
+          >
+            Leave
+          </button>
           <button
             type="button"
             on:click={() => ($pageState = 'editing')}
