@@ -2,7 +2,7 @@
   import GridItem from '$lib/components/Grid/GridItem.svelte';
   import type { Interval } from '$lib/gql/types';
   import type { Writable } from 'svelte/store';
-  import { cx } from '$lib/utils/cx';
+  import { classes } from '$lib/utils/classes';
   import { zip } from '$lib/utils/zip';
   import type { Dayjs } from 'dayjs';
   import { getContext } from 'svelte';
@@ -24,16 +24,17 @@
   const disabled = getContext<Writable<boolean>>('disabled');
 
   const getCellClass = (index: number, isDisabled: boolean) => {
-    const firstClass = cx([index === 0, 'rounded-t-xl']);
-    const midClass = cx([index % 2 === 1, 'border-gray-200 dark:border-gray-600 border-b-2']);
-    const lastClass = cx([index === hours.length - 1, 'rounded-b-xl', midClass]);
-    // prettier-ignore
-    return cx(
+    const firstClass = classes([index === 0 && 'rounded-t-xl']);
+    const midClass = classes([
+      index % 2 === 1 && 'border-gray-200 dark:border-gray-600 border-b-2',
+    ]);
+    const lastClass = classes([index === hours.length - 1 ? 'rounded-b-xl' : midClass]);
+    return classes([
       'shade min-w-32 min-h-5 select-none',
       firstClass,
       lastClass,
-      [isDisabled, 'cursor-default', 'cursor-pointer hover:shade-2']
-    );
+      isDisabled ? 'cursor-default' : 'cursor-pointer hover:shade-2',
+    ]);
   };
 </script>
 

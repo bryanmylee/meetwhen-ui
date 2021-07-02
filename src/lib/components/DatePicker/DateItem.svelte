@@ -2,7 +2,7 @@
   import dayjs from 'dayjs';
   import type { Dayjs } from 'dayjs';
   import { Selecting } from '$lib/components/SelectableProvider/selecting';
-  import { cx } from '$lib/utils/cx';
+  import { classes } from '$lib/utils/classes';
   import type { HasNeighbours } from './has-neighbours';
   import { toId } from './utils';
 
@@ -20,28 +20,28 @@
   export let disabled = false;
   export let focused = false;
 
-  $: className = cx(
+  $: className = classes([
     'p-2 text-center rounded-xl transition border-3 focus:outline-none select-none',
-    [!focused, 'border-transparent'],
-    [disabled, 'text-gray-400', 'cursor-pointer'],
-    [selected, selectedClass, unselectedClass]
-  );
-  $: selectedClass = cx(
+    !focused && 'border-transparent',
+    disabled ? 'text-gray-400' : 'cursor-pointer',
+    selected ? selectedClass : unselectedClass,
+  ]);
+  $: selectedClass = classes([
     'bg-primary text-white shadow-primary z-10',
-    [isCreating, 'shadow-lg-primary'],
-    [isDeleting, 'bg-primary-fifty'],
-    [focused, 'border-white'],
-    [neighbours.bottom, 'rounded-b-none'],
-    [neighbours.left, 'rounded-l-none'],
-    [neighbours.right, 'rounded-r-none'],
-    [neighbours.top, 'rounded-t-none']
-  );
-  $: unselectedClass = cx(
+    isCreating && 'shadow-lg-primary',
+    isDeleting && 'bg-primary-fifty',
+    focused && 'border-white',
+    neighbours.bottom && 'rounded-b-none',
+    neighbours.left && 'rounded-l-none',
+    neighbours.right && 'rounded-r-none',
+    neighbours.top && 'rounded-t-none',
+  ]);
+  $: unselectedClass = classes([
     'z-0',
-    [isToday, 'text-primary'],
-    [focused, 'border-primary-lighter'],
-    [!selecting && !disabled, 'hover:shade-2']
-  );
+    isToday && 'text-primary',
+    focused && 'border-primary-lighter',
+    !selecting && !disabled && 'hover:shade-2',
+  ]);
 </script>
 
 <div data-id={toId(date)} class={className} style="grid-column-start: {columnStart}">

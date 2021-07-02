@@ -13,7 +13,7 @@
   import Highlight from './Highlight.svelte';
   import Schedules from './Schedules.svelte';
   import FullscreenButton from './FullscreenButton.svelte';
-  import { cx } from '$lib/utils/cx';
+  import { classes } from '$lib/utils/classes';
 
   const state = getCoreState();
   const {
@@ -55,11 +55,10 @@
 
   let selector: SelectableProvider | undefined;
 
-  // prettier-ignore
-  $: calendarClass = cx(
+  $: calendarClass = classes([
     'flex flex-col flex-1 overflow-hidden card',
-    [$isFullscreen, 'fixed inset-4 z-10', 'relative z-0'],
-  );
+    $isFullscreen ? 'fixed inset-4 z-10' : 'relative z-0',
+  ]);
 </script>
 
 <div class={calendarClass} class:error={error !== ''}>

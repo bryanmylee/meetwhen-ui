@@ -15,7 +15,6 @@
   import '$lib/dark-mode';
   import '$lib/screen-height';
   import { queryClient } from '$lib/gql';
-  import { cx } from '$lib/utils/cx';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import LoginModal from '$lib/components/LoginModal/LoginModal.svelte';
   import Nav from '$lib/components/Nav/Nav.svelte';
@@ -24,7 +23,7 @@
   export let key: string;
 </script>
 
-<main class={cx([key === '/', 'mt-10', 'mt-14'])}>
+<main class={key === '/' ? 'mt-10' : 'mt-14'}>
   <PageTransition {key}>
     <slot />
   </PageTransition>

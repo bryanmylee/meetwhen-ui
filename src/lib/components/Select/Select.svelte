@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tick } from 'svelte';
   import { createPopperActions } from 'svelte-popperjs';
-  import { cx } from '$lib/utils/cx';
+  import { classes } from '$lib/utils/classes';
   import { clickOutside } from '$lib/utils/use-click-outside';
   import { keyActions } from './keyboard';
   import { getOptions } from './popper';
@@ -81,12 +81,12 @@
       {#each items as item, itemIndex (getId(item))}
         <div
           on:click={() => optionclick(item, itemIndex)}
-          class={cx(
+          class={classes([
             'px-4 py-2 z-0 focusable whitespace-nowrap',
-            [isDisabled(item), disabledClass, enabledClass],
-            [itemIndex === focusedIndex, 'shade'],
-            [itemIndex === index, '!bg-primary text-white']
-          )}
+            isDisabled(item) ? disabledClass : enabledClass,
+            itemIndex === focusedIndex && 'shade',
+            itemIndex === index && '!bg-primary text-white',
+          ])}
         >
           {@html getDisplay(item)}
         </div>

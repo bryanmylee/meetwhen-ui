@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Interval, ShallowUser } from '$lib/gql/types';
   import { createPopperActions } from 'svelte-popperjs';
-  import { cx } from '$lib/utils/cx';
+  import { classes } from '$lib/utils/classes';
   import { getContext } from 'svelte';
   import type { CalendarState } from './state/core';
 
@@ -53,17 +53,15 @@
     getInstance()?.update();
   };
 
-  // prettier-ignore
-  $: popperClass = cx(
+  $: popperClass = classes([
     'popover card pointer-events-none border-3 w-40',
-    [fixed, 'border-primary dark:border-primary-lighter z-20', 'border-gray-400 z-30']
-  );
+    fixed ? 'border-primary dark:border-primary-lighter z-20' : 'border-gray-400 z-30',
+  ]);
 
-  // prettier-ignore
-  $: popoverArrowClass = cx(
+  $: popoverArrowClass = classes([
     'popover--arrow w-4 h-4 bg-default transform rotate-45',
-    [fixed, 'border-primary dark:border-primary-lighter', 'border-gray-400']
-  )
+    fixed ? 'border-primary dark:border-primary-lighter' : 'border-gray-400',
+  ]);
 </script>
 
 {#if show}

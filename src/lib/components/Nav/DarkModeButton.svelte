@@ -3,7 +3,7 @@
   import { createPopperActions } from 'svelte-popperjs';
   import { isDark } from '$lib/dark-mode';
   import { clickOutside } from '$lib/utils/use-click-outside';
-  import { cx } from '$lib/utils/cx';
+  import { classes } from '$lib/utils/classes';
   import { DropletIcon, MoonIcon, SunIcon } from 'svelte-feather-icons';
 
   const [ref, content] = createPopperActions({
@@ -27,17 +27,17 @@
 
   $: activeIcon = $isDark === undefined ? DropletIcon : $isDark ? MoonIcon : SunIcon;
 
-  // prettier-ignore
-  const contentClassName = (active: boolean) => cx(
-    'flex flex-col items-center w-16 p-2 space-y-2 rounded-lg button shade',
-    [active, '!text-primary-darker dark:!text-primary']
-  );
+  const contentClassName = (active: boolean) =>
+    classes([
+      'flex flex-col items-center w-16 p-2 space-y-2 rounded-lg button shade',
+      active && '!text-primary-darker dark:!text-primary',
+    ]);
 </script>
 
 <button use:ref on:click={() => (showDropdown = !showDropdown)} class="w-5 h-5">
   <svelte:component
     this={activeIcon}
-    class="hover:text-primary {cx([showDropdown, 'text-primary'])}"
+    class={classes(['hover:text-primary', showDropdown && 'text-primary'])}
   />
 </button>
 
