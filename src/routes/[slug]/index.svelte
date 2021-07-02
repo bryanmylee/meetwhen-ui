@@ -3,6 +3,7 @@
     const { slug } = page.params;
     try {
       const meeting = get(newMeeting) ?? (await getMeetingBySlug({ slug }));
+      activeMeeting.set(meeting as Meeting);
       return {
         props: { meeting },
       };
@@ -35,7 +36,7 @@
     addScheduleVars,
     editScheduleVars,
   } from './_state/form';
-  import { newMeeting } from '$lib/app-state';
+  import { activeMeeting, newMeeting } from '$lib/app-state';
   import { session } from '$app/stores';
   import { addSchedule } from '$lib/gql/addSchedule';
   import { editSchedule } from '$lib/gql/editSchedule';

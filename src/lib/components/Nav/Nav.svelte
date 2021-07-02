@@ -4,6 +4,7 @@
   import DarkModeButton from './DarkModeButton.svelte';
   import HomeNavItem from './HomeNavItem.svelte';
   import Template from './Template.svelte';
+  import { activeMeeting } from '$lib/app-state';
 
   export let key: string;
 
@@ -29,7 +30,7 @@
 </Template>
 
 {#if showAuthModal}
-  <AuthModal on:dismiss={() => (showAuthModal = false)} />
+  <AuthModal activeMeetingId={$activeMeeting?.id} on:dismiss={() => (showAuthModal = false)} />
 {/if}
 
 <style lang="postcss">

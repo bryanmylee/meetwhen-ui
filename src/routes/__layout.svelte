@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
   export const load: Load = ({ fetch, page }) => {
     queryClient.fetch = fetch;
+    activeMeeting.set(null);
     return {
       props: {
         key: page.path,
@@ -15,6 +16,7 @@
   import '$lib/dark-mode';
   import '$lib/screen-height';
   import { queryClient } from '$lib/gql';
+  import { activeMeeting } from '$lib/app-state';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import Nav from '$lib/components/Nav/Nav.svelte';
   import type { Load } from '@sveltejs/kit';
