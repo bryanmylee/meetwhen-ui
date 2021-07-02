@@ -24,7 +24,6 @@
   import type { APIError } from '$lib/typings/error';
   import type { Load } from '@sveltejs/kit';
   import type { Meeting, Schedule } from '$lib/gql/types';
-  import { addGuestSchedule } from '$lib/gql/addGuestSchedule';
   import { get } from 'svelte/store';
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
   import { meeting as meetingDep, pageState, isEditing } from './_state/page';
@@ -33,17 +32,13 @@
     password,
     intervals,
     resetForm,
-    addGuestScheduleVars,
     addScheduleVars,
     editScheduleVars,
-    loginGuestVars,
   } from './_state/form';
   import { newMeeting } from '$lib/app-state';
   import { session } from '$app/stores';
   import { addSchedule } from '$lib/gql/addSchedule';
   import { editSchedule } from '$lib/gql/editSchedule';
-  import { editGuestSchedule } from '$lib/gql/editGuestSchedule';
-  import { loginGuest } from '$lib/gql/loginGuest';
 
   export let meeting: Meeting;
   $: $meetingDep = meeting;
@@ -141,7 +136,7 @@
 <form on:submit|preventDefault={handleSubmit} class="contents">
   <Template>
     <Header name={meeting.name} slug={meeting.slug} slot="header" />
-    <Buttons slot="buttons" />
+    <Buttons meetingId={meeting.id} slot="buttons" />
     <Calendar
       bind:this={calendar}
       intervals={meeting.intervals}

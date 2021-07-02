@@ -13,62 +13,62 @@
   import { login } from '$lib/gql/login';
   import { loginGuest } from '$lib/gql/loginGuest';
   import { signup } from '$lib/gql/signup';
+  import { signupGuest } from '$lib/gql/signupGuest';
   import Textfield from '$lib/components/Textfield.svelte';
-  import Header from './Header.svelte';
-  import Tooltip from './Tooltip.svelte';
+  import IsLoggingInControl from './IsLoggingInControl.svelte';
+  import IsGuestAuthControl from './IsGuestAuthControl.svelte';
   import type { APIError } from '$lib/typings/error';
 
-  export let guestOfMeetingId: string | null = null;
+  export let activeMeetingId: string | null = null;
+  export let isLoggingIn = true;
+  export let isGuestAuth = false;
+  export let noGuestLogin = false;
+  $: {
+    isLoggingIn;
+    resetErrors();
+  }
+  $: if (isLoggingIn && isGuestAuth && noGuestLogin) {
+    isLoggingIn = false;
+  }
 
   const dispatch = createEventDispatcher<AuthModalEvent>();
 
   const { name, email, password, resetErrors } = getAuthModalState();
 
-  let loggingIn = true;
-  $: {
-    loggingIn;
-    resetErrors();
-  }
-
   const confirm = async () => {
     try {
-      if (loggingIn) {
-        await handleLogin();
+      if (isLoggingIn) {
+        if (isGuestAuth) {
+          $session.user = await loginGuest({
+            meetingId: activeMeetingId,
+            username: $name.value,
+            password: $password.value,
+          });
+        } else {
+          $session.user = await login({ email: $email.value, password: $password.value });
+        }
       } else {
-        await handleSignup();
+        if (isGuestAuth) {
+          $session.user = await signupGuest({
+            meetingId: activeMeetingId,
+            username: $name.value,
+            password: $password.value,
+          });
+        } else {
+          $session.user = await signup({
+            name: $name.value,
+            email: $email.value,
+            password: $password.value,
+          });
+        }
       }
+      dismiss();
     } catch (errors) {
       console.error(errors);
       if (Array.isArray(errors)) {
         (errors as APIError[]).forEach(handleAPIError);
       }
     }
-  };
-
-  const handleLogin = async () => {
-    if (guestOfMeetingId === null) {
-      $session.user = await login({ email: $email.value, password: $password.value });
-    } else {
-      $session.user = await loginGuest({
-        meetingId: guestOfMeetingId,
-        username: $name.value,
-        password: $password.value,
-      });
-    }
-    dismiss();
-  };
-
-  const handleSignup = async () => {
-    if (guestOfMeetingId === null) {
-      $session.user = await signup({
-        name: $name.value,
-        email: $email.value,
-        password: $password.value,
-      });
-    } else {
-      // TODO: signupGuest
-    }
-    dismiss();
   };
 
   const handleAPIError = (error: APIError) => {
@@ -95,25 +95,26 @@
     dispatch('dismiss');
   };
 
-  let hovering = false;
   let transitioning = false;
 </script>
 
 <div
   transition:fade={{ duration: 200 }}
-  class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50"
+  on:introstart={() => (transitioning = true)}
+  on:introend={() => (transitioning = false)}
+  on:outrostart={() => (transitioning = true)}
+  on:outroend={() => (transitioning = false)}
+  class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50 !m-0"
 >
   <form
     in:fly|local={{ y: 200 }}
-    on:introstart={() => (transitioning = true)}
-    on:introend={() => (transitioning = false)}
     on:submit|preventDefault={confirm}
     use:clickOutside={dismiss}
-    class="p-4 m-4 space-y-4 card"
+    class="p-4 m-4 space-y-4 card min-w-96"
   >
-    <Header bind:loggingIn />
-    {#if !loggingIn}
-      <div transition:slide={{ duration: 200 }}>
+    <IsLoggingInControl bind:isLoggingIn {isGuestAuth} {noGuestLogin} />
+    {#if !isLoggingIn || isGuestAuth}
+      <div transition:slide|local={{ duration: 200 }}>
         <Textfield
           bind:value={$name.value}
           error={$name.error}
@@ -123,14 +124,18 @@
         />
       </div>
     {/if}
-    <Textfield
-      bind:value={$email.value}
-      error={$email.error}
-      placeholder="Email"
-      required
-      focusOnMount
-      class="block"
-    />
+    {#if !isGuestAuth}
+      <div transition:slide|local={{ duration: 200 }}>
+        <Textfield
+          bind:value={$email.value}
+          error={$email.error}
+          placeholder="Email"
+          required
+          focusOnMount
+          class="block"
+        />
+      </div>
+    {/if}
     <Textfield
       bind:value={$password.value}
       error={$password.error}
@@ -145,6 +150,6 @@
       </button>
       <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
     </div>
-    <Tooltip bind:hovering {transitioning} />
+    <IsGuestAuthControl bind:isGuestAuth {isLoggingIn} {noGuestLogin} {transitioning} />
   </form>
 </div>

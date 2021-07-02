@@ -10,8 +10,13 @@
   import { createEventDispatcher } from 'svelte';
   import { pageState, isUserJoined } from './_state/page';
   import { session } from '$app/stores';
+  import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
 
   const dispatch = createEventDispatcher<ButtonsEvent>();
+
+  export let meetingId: string | null = null;
+
+  let showAuthModal = false;
 </script>
 
 <div class="space-y-4">
@@ -68,8 +73,23 @@
       >
         Cancel
       </button>
-      <!-- show login modal -->
-      <button type="submit" class="w-full p-3 rounded-full button primary"> Continue </button>
+      <button
+        type="button"
+        on:click={() => (showAuthModal = true)}
+        class="w-full p-3 rounded-full button primary"
+      >
+        Continue
+      </button>
     {/if}
   </div>
 </div>
+
+{#if showAuthModal}
+  <AuthModal
+    activeMeetingId={meetingId}
+    isLoggingIn={false}
+    isGuestAuth
+    noGuestLogin
+    on:dismiss={() => (showAuthModal = false)}
+  />
+{/if}
