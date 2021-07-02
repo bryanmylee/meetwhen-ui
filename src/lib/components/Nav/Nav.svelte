@@ -1,11 +1,13 @@
 <script lang="ts">
   import { session } from '$app/stores';
-  import { showAuth } from '$lib/app-state';
+  import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
   import DarkModeButton from './DarkModeButton.svelte';
   import HomeNavItem from './HomeNavItem.svelte';
   import Template from './Template.svelte';
 
   export let key: string;
+
+  let showAuthModal = false;
 </script>
 
 <Template {key}>
@@ -20,11 +22,15 @@
         </a>
       </li>
     {:else}
-      <li><button on:click={() => ($showAuth = true)}>Login</button></li>
+      <li><button on:click={() => (showAuthModal = true)}>Login</button></li>
     {/if}
     <DarkModeButton />
   </svelte:fragment>
 </Template>
+
+{#if showAuthModal}
+  <AuthModal on:dismiss={() => (showAuthModal = false)} />
+{/if}
 
 <style lang="postcss">
   a,

@@ -16,7 +16,6 @@
   import '$lib/screen-height';
   import { queryClient } from '$lib/gql';
   import PageTransition from '$lib/components/PageTransition.svelte';
-  import LoginModal from '$lib/components/LoginModal/LoginModal.svelte';
   import Nav from '$lib/components/Nav/Nav.svelte';
   import type { Load } from '@sveltejs/kit';
 
@@ -30,7 +29,6 @@
 </main>
 
 <Nav {key} />
-<LoginModal />
 
 <style lang="postcss">
   main {
