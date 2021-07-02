@@ -1,7 +1,7 @@
 <script lang="ts">
   import { media } from '$lib/media';
-  import { modalState, showShare } from './_state/page';
-  import type { ModalState } from './_state/page';
+  import { pageState, showShare } from './_state/page';
+  import type { PageState } from './_state/page';
   import { ShareIcon } from 'svelte-feather-icons';
   import ShareModal from './_ShareModal.svelte';
   import { session } from '$app/stores';
@@ -11,10 +11,10 @@
 
   $: isGuest = $session.user?.guestOf !== null;
 
-  const statesWithTextfield: ModalState[] = ['add-auth', 'add-guest', 'login-guest'];
+  const statesWithTextfield: PageState[] = ['add-auth', 'add-guest', 'login-guest'];
 </script>
 
-{#if !statesWithTextfield.includes($modalState) || $media.md}
+{#if !statesWithTextfield.includes($pageState) || $media.md}
   <div class="flex items-center justify-between p-4 text-white card bg-gradient-primary">
     <div>
       <p class="text-lg font-medium">

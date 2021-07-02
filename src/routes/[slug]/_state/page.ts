@@ -4,18 +4,18 @@ import { derived, writable } from 'svelte/store';
 
 export const meeting = writable<Meeting>(null);
 
-export type ModalState =
+export type PageState =
   | 'none'
   | 'add-guest'
   | 'add-auth'
   | 'edit-guest'
   | 'edit-auth'
   | 'login-guest';
-export const modalState = writable<ModalState>('none');
+export const pageState = writable<PageState>('none');
 
-export const isEditing = derived([modalState], ([$modalState]) => {
-  const editingStates: ModalState[] = ['add-auth', 'add-guest', 'edit-auth', 'edit-guest'];
-  return editingStates.includes($modalState);
+export const isEditing = derived([pageState], ([$pageState]) => {
+  const editingStates: PageState[] = ['add-auth', 'add-guest', 'edit-auth', 'edit-guest'];
+  return editingStates.includes($pageState);
 });
 
 export const isJoined = derived([meeting, session], ([$meeting, $session]) => {

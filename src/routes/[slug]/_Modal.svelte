@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { modalState, isJoined } from './_state/page';
+  import { pageState, isJoined } from './_state/page';
   import { username, password } from './_state/form';
   import Textfield from '$lib/components/Textfield.svelte';
   import { session } from '$app/stores';
 </script>
 
 <div class="space-y-4">
-  {#if $modalState === 'add-guest'}
+  {#if $pageState === 'add-guest'}
     <div class="p-4 space-y-4 card">
       <Textfield
         bind:value={$username.value}
@@ -28,14 +28,14 @@
     <div class="flex space-x-4">
       <button
         type="button"
-        on:click={() => ($modalState = 'none')}
+        on:click={() => ($pageState = 'none')}
         class="w-full p-3 rounded-full button shade"
       >
         Cancel
       </button>
       <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
     </div>
-  {:else if $modalState === 'login-guest'}
+  {:else if $pageState === 'login-guest'}
     <div class="p-4 space-y-4 card">
       <Textfield
         bind:value={$username.value}
@@ -57,37 +57,37 @@
     <div class="flex space-x-4">
       <button
         type="button"
-        on:click={() => ($modalState = 'none')}
+        on:click={() => ($pageState = 'none')}
         class="w-full p-3 rounded-full button shade"
       >
         Cancel
       </button>
       <button type="submit" class="w-full p-3 rounded-full button primary"> Login </button>
     </div>
-  {:else if $modalState === 'add-auth' || $modalState === 'edit-auth' || $modalState === 'edit-guest'}
+  {:else if $pageState === 'add-auth' || $pageState === 'edit-auth' || $pageState === 'edit-guest'}
     <div class="flex space-x-4">
       <button
         type="button"
-        on:click={() => ($modalState = 'none')}
+        on:click={() => ($pageState = 'none')}
         class="w-full p-3 rounded-full button shade"
       >
         Cancel
       </button>
       <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
     </div>
-  {:else if $modalState === 'none'}
+  {:else if $pageState === 'none'}
     <div class="flex space-x-4">
       {#if $session.user === null}
         <button
           type="button"
-          on:click={() => ($modalState = 'login-guest')}
+          on:click={() => ($pageState = 'login-guest')}
           class="w-full p-3 rounded-full button shade"
         >
           Guest Login
         </button>
         <button
           type="button"
-          on:click={() => ($modalState = 'add-guest')}
+          on:click={() => ($pageState = 'add-guest')}
           class="w-full p-3 rounded-full button primary"
         >
           Join as Guest
@@ -96,7 +96,7 @@
         {#if $isJoined}
           <button
             type="button"
-            on:click={() => ($modalState = 'edit-auth')}
+            on:click={() => ($pageState = 'edit-auth')}
             class="w-full p-3 rounded-full button primary"
           >
             Edit
@@ -104,7 +104,7 @@
         {:else}
           <button
             type="button"
-            on:click={() => ($modalState = 'add-auth')}
+            on:click={() => ($pageState = 'add-auth')}
             class="w-full p-3 rounded-full button primary"
           >
             Join
@@ -113,7 +113,7 @@
       {:else}
         <button
           type="button"
-          on:click={() => ($modalState = 'edit-guest')}
+          on:click={() => ($pageState = 'edit-guest')}
           class="w-full p-3 rounded-full button primary"
         >
           Edit

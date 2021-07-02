@@ -27,7 +27,7 @@
   import { addGuestSchedule } from '$lib/gql/addGuestSchedule';
   import { get } from 'svelte/store';
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
-  import { meeting as meetingDep, modalState, isEditing } from './_state/page';
+  import { meeting as meetingDep, pageState, isEditing } from './_state/page';
   import {
     username,
     password,
@@ -51,20 +51,20 @@
 
   const handleSubmit = async () => {
     try {
-      if ($modalState === 'login-guest') {
+      if ($pageState === 'login-guest') {
         await submitLoginGuest();
         return;
       }
       if (!isFormatValid()) {
         return;
       }
-      if ($modalState === 'add-auth') {
+      if ($pageState === 'add-auth') {
         await submitAuthSchedule();
-      } else if ($modalState === 'add-guest') {
+      } else if ($pageState === 'add-guest') {
         await submitGuestSchedule();
-      } else if ($modalState === 'edit-auth') {
+      } else if ($pageState === 'edit-auth') {
         await submitEditAuthSchedule();
-      } else if ($modalState === 'edit-guest') {
+      } else if ($pageState === 'edit-guest') {
         await submitEditGuestSchedule();
       }
     } catch (errors) {
@@ -74,7 +74,7 @@
 
   const submitLoginGuest = async () => {
     $session.user = await loginGuest($loginGuestVars);
-    $modalState = 'none';
+    $pageState = 'none';
   };
 
   const isFormatValid = () => {
@@ -91,7 +91,7 @@
     meeting.schedules.push(schedule as Schedule);
     $session.user = schedule.user;
     meeting = meeting;
-    $modalState = 'none';
+    $pageState = 'none';
   };
 
   const submitGuestSchedule = async () => {
@@ -99,7 +99,7 @@
     meeting.schedules.push(schedule as Schedule);
     $session.user = schedule.user;
     meeting = meeting;
-    $modalState = 'none';
+    $pageState = 'none';
   };
 
   const submitEditAuthSchedule = async () => {
@@ -109,7 +109,7 @@
     );
     currentSchedule.intervals = newSchedule.intervals;
     meeting = meeting;
-    $modalState = 'none';
+    $pageState = 'none';
   };
 
   const submitEditGuestSchedule = async () => {
@@ -119,7 +119,7 @@
     );
     currentSchedule.intervals = newSchedule.intervals;
     meeting = meeting;
-    $modalState = 'none';
+    $pageState = 'none';
   };
 
   const handleAPIError = (error: APIError) => {
@@ -139,17 +139,17 @@
   };
 
   $: if ($session.user !== null) {
-    $modalState === 'none';
+    $pageState === 'none';
   }
 
   let calendar: Calendar;
 
-  $: if ($modalState === 'none') {
+  $: if ($pageState === 'none') {
     resetForm();
     calendar?.reset();
   }
 
-  $: if ($modalState === 'edit-auth' || $modalState === 'edit-guest') {
+  $: if ($pageState === 'edit-auth' || $pageState === 'edit-guest') {
     const currentSchedule = $meetingDep.schedules.find(
       (schedule) => schedule.user.id === $session.user?.id
     );
