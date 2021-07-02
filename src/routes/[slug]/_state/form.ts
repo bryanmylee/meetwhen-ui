@@ -36,8 +36,6 @@ export const addGuestScheduleVars = derived(
   }
 );
 
-export const editGuestScheduleVars = addScheduleVars;
-
 export const loginGuestVars = derived(
   [meeting, username, password],
   ([$meeting, $username, $password]) => ({

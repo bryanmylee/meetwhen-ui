@@ -19,7 +19,7 @@
   import Calendar from './_Calendar/Calendar.svelte';
   import Head from '$lib/components/Head.svelte';
   import Header from './_Header.svelte';
-  import Modal from './_Modal.svelte';
+  import Buttons from './_Buttons.svelte';
   import Template from './_Template.svelte';
   import type { APIError } from '$lib/typings/error';
   import type { Load } from '@sveltejs/kit';
@@ -36,7 +36,6 @@
     addGuestScheduleVars,
     addScheduleVars,
     editScheduleVars,
-    editGuestScheduleVars,
     loginGuestVars,
   } from './_state/form';
   import { newMeeting } from '$lib/app-state';
@@ -51,30 +50,28 @@
 
   const handleSubmit = async () => {
     try {
-      if ($pageState === 'login-guest') {
-        await submitLoginGuest();
-        return;
-      }
       if (!isFormatValid()) {
         return;
       }
-      if ($pageState === 'add-auth') {
-        await submitAuthSchedule();
-      } else if ($pageState === 'add-guest') {
-        await submitGuestSchedule();
-      } else if ($pageState === 'edit-auth') {
-        await submitEditAuthSchedule();
-      } else if ($pageState === 'edit-guest') {
-        await submitEditGuestSchedule();
+      if ($pageState === 'joining') {
+        if ($session.user === null) {
+          // TODO: logging in / signing up if not authed.
+          throw 'must be authenticated to join';
+          return;
+        }
+        await submitAddSchedule();
+      } else if ($pageState === 'editing') {
+        if ($session.user === null) {
+          throw 'must be authenticated to edit';
+        }
+        await submitEditSchedule();
       }
     } catch (errors) {
-      (errors as APIError[]).forEach(handleAPIError);
+      console.error(errors);
+      if (Array.isArray(errors)) {
+        (errors as APIError[]).forEach(handleAPIError);
+      }
     }
-  };
-
-  const submitLoginGuest = async () => {
-    $session.user = await loginGuest($loginGuestVars);
-    $pageState = 'none';
   };
 
   const isFormatValid = () => {
@@ -86,7 +83,7 @@
     return noFormatErrors;
   };
 
-  const submitAuthSchedule = async () => {
+  const submitAddSchedule = async () => {
     const schedule = await addSchedule($addScheduleVars);
     meeting.schedules.push(schedule as Schedule);
     $session.user = schedule.user;
@@ -94,26 +91,8 @@
     $pageState = 'none';
   };
 
-  const submitGuestSchedule = async () => {
-    const schedule = await addGuestSchedule($addGuestScheduleVars);
-    meeting.schedules.push(schedule as Schedule);
-    $session.user = schedule.user;
-    meeting = meeting;
-    $pageState = 'none';
-  };
-
-  const submitEditAuthSchedule = async () => {
+  const submitEditSchedule = async () => {
     const newSchedule = await editSchedule($editScheduleVars);
-    const currentSchedule = meeting.schedules.find(
-      (schedule) => schedule.user.id === newSchedule.user.id
-    );
-    currentSchedule.intervals = newSchedule.intervals;
-    meeting = meeting;
-    $pageState = 'none';
-  };
-
-  const submitEditGuestSchedule = async () => {
-    const newSchedule = await editGuestSchedule($editGuestScheduleVars);
     const currentSchedule = meeting.schedules.find(
       (schedule) => schedule.user.id === newSchedule.user.id
     );
@@ -149,7 +128,7 @@
     calendar?.reset();
   }
 
-  $: if ($pageState === 'edit-auth' || $pageState === 'edit-guest') {
+  $: if ($pageState === 'editing') {
     const currentSchedule = $meetingDep.schedules.find(
       (schedule) => schedule.user.id === $session.user?.id
     );
@@ -162,7 +141,7 @@
 <form on:submit|preventDefault={handleSubmit} class="contents">
   <Template>
     <Header name={meeting.name} slug={meeting.slug} slot="header" />
-    <Modal slot="modal" />
+    <Buttons slot="buttons" />
     <Calendar
       bind:this={calendar}
       intervals={meeting.intervals}

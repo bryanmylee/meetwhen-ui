@@ -17,7 +17,7 @@
   import { loadingMeetingPromise, newMeeting } from '$lib/app-state';
   import { ScaleOut } from 'svelte-loading-spinners';
   import Head from '$lib/components/Head.svelte';
-  import Modal from '../[slug]/_Modal.svelte';
+  import Buttons from '../[slug]/_Buttons.svelte';
   import Calendar from '../[slug]/_Calendar/Calendar.svelte';
   import Header from '../[slug]/_Header.svelte';
   import Template from '../[slug]/_Template.svelte';
@@ -34,7 +34,7 @@
 
 <Template>
   <Header slot="header" />
-  <Modal slot="modal" />
+  <Buttons slot="buttons" />
   <Calendar slot="calendar" />
 </Template>
 
