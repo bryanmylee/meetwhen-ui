@@ -16,7 +16,7 @@
 
 <div class="space-y-4">
   {#if $pageState === 'leaving'}
-    <div>
+    <div class="p-4 card">
       <h3 class="font-medium text-center">Are you sure?</h3>
       {#if $session.user.guestOf !== null}
         <p class="text-sm text-center">Your guest account will be deleted</p>
