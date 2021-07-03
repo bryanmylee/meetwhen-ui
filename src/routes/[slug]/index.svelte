@@ -79,6 +79,11 @@
   let showAuthModal = false;
   let waitingToJoin = false;
 
+  const dismissAuthModal = () => {
+    showAuthModal = false;
+    waitingToJoin = false;
+  };
+
   $: if (!showAuthModal && waitingToJoin) {
     waitingToJoin = false;
     handleJoin();
@@ -198,10 +203,10 @@
 
 {#if showAuthModal}
   <AuthModal
-    activeMeetingId={meeting.id}
+    activeMeeting={meeting}
     isLoggingIn={false}
     isGuestAuth
     noGuestLogin
-    on:dismiss={() => (showAuthModal = false)}
+    on:dismiss={dismissAuthModal}
   />
 {/if}
