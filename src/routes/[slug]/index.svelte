@@ -53,8 +53,7 @@
     if ($session.user.guestOf === null) {
       return;
     }
-    // TODO: guestOf is in lowercase only due to backend issue.
-    if ($session.user.guestOf.toLowerCase() !== meeting.id.toLowerCase()) {
+    if ($session.user.guestOf !== meeting.id) {
       console.error('guest does not belong to this meeting');
       $session.user = null;
       await logout();
