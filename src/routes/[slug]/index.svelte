@@ -81,13 +81,10 @@
 
   const dismissAuthModal = () => {
     showAuthModal = false;
-    waitingToJoin = false;
+    if (waitingToJoin) {
+      handleJoin();
+    }
   };
-
-  $: if (!showAuthModal && waitingToJoin) {
-    waitingToJoin = false;
-    handleJoin();
-  }
 
   const handleJoin = async () => {
     if (!isFormFormatValid()) {
@@ -100,6 +97,7 @@
         waitingToJoin = true;
         return;
       }
+      waitingToJoin = false;
       const schedule = await addSchedule($addScheduleVars);
       meeting.schedules.push(schedule as Schedule);
       meeting = meeting;
