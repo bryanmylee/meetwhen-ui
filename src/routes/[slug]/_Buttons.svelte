@@ -15,6 +15,14 @@
 </script>
 
 <div class="space-y-4">
+  {#if $pageState === 'leaving'}
+    <div>
+      <h3 class="font-medium text-center">Are you sure?</h3>
+      {#if $session.user.guestOf !== null}
+        <p class="text-sm text-center">Your guest account will be deleted</p>
+      {/if}
+    </div>
+  {/if}
   <div class="flex space-x-4">
     {#if $pageState === 'none'}
       {#if $session.user === null}
@@ -29,7 +37,7 @@
         {#if $isUserJoined}
           <button
             type="button"
-            on:click={() => dispatch('leave')}
+            on:click={() => ($pageState = 'leaving')}
             class="w-full p-3 rounded-full button shade"
           >
             Leave
@@ -80,6 +88,21 @@
         class="w-full p-3 rounded-full button primary"
       >
         Continue
+      </button>
+    {:else if $pageState === 'leaving'}
+      <button
+        type="button"
+        on:click={() => ($pageState = 'none')}
+        class="w-full p-3 rounded-full button shade"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        on:click|preventDefault={() => dispatch('leave')}
+        class="w-full p-3 rounded-full button primary"
+      >
+        Confirm
       </button>
     {/if}
   </div>

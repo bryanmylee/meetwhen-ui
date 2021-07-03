@@ -49,17 +49,25 @@
   let showAuthModal = false;
 
   const handleLeave = async () => {
-    if ($session.user === null) {
-      throw 'must be authenticated to leave';
+    try {
+      if ($session.user === null) {
+        throw 'must be authenticated to leave';
+      }
+      await deleteSchedule({ meetingId: meeting.id });
+      meeting = {
+        ...meeting,
+        schedules: meeting.schedules.filter((schedule) => schedule.user.id !== $session.user.id),
+      };
+      if ($session.user.guestOf !== null) {
+        $session.user = null;
+      }
+      $pageState = 'none';
+    } catch (errors) {
+      console.error(errors);
+      if (Array.isArray(errors)) {
+        (errors as APIError[]).forEach(handleAPIError);
+      }
     }
-    const success = await deleteSchedule({ meetingId: meeting.id });
-    if (!success) {
-      return;
-    }
-    meeting = {
-      ...meeting,
-      schedules: meeting.schedules.filter((schedule) => schedule.user.id !== $session.user.id),
-    };
   };
 
   const handleSubmit = async () => {
@@ -90,8 +98,8 @@
       }
       const schedule = await addSchedule($addScheduleVars);
       meeting.schedules.push(schedule as Schedule);
-      $session.user = schedule.user;
       meeting = meeting;
+      $session.user = schedule.user;
       $pageState = 'none';
     } catch (errors) {
       console.error(errors);

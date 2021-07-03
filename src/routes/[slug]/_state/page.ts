@@ -4,7 +4,7 @@ import { derived, writable } from 'svelte/store';
 
 export const meeting = writable<Meeting>(null);
 
-export type PageState = 'none' | 'joining' | 'editing';
+export type PageState = 'none' | 'joining' | 'editing' | 'leaving';
 export const pageState = writable<PageState>('none');
 
 const EDITING_STATES: PageState[] = ['joining', 'editing'];
