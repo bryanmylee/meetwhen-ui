@@ -19,6 +19,7 @@
 <script lang="ts">
   import Calendar from './_Calendar/Calendar.svelte';
   import Head from '$lib/components/Head.svelte';
+  import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
   import Header from './_Header.svelte';
   import Buttons from './_Buttons.svelte';
   import Template from './_Template.svelte';
@@ -40,37 +41,36 @@
   import { session } from '$app/stores';
   import { addSchedule } from '$lib/gql/addSchedule';
   import { editSchedule } from '$lib/gql/editSchedule';
+  import { deleteSchedule } from '$lib/gql/deleteSchedule';
 
   export let meeting: Meeting;
   $: $meetingDep = meeting;
 
+  let showAuthModal = false;
+
+  const handleLeave = async () => {
+    if ($session.user === null) {
+      throw 'must be authenticated to leave';
+    }
+    const success = await deleteSchedule({ meetingId: meeting.id });
+    if (!success) {
+      return;
+    }
+    meeting = {
+      ...meeting,
+      schedules: meeting.schedules.filter((schedule) => schedule.user.id !== $session.user.id),
+    };
+  };
+
   const handleSubmit = async () => {
-    try {
-      if (!isFormatValid()) {
-        return;
-      }
-      if ($pageState === 'joining') {
-        if ($session.user === null) {
-          // TODO: logging in / signing up if not authed.
-          throw 'must be authenticated to join';
-          return;
-        }
-        await submitAddSchedule();
-      } else if ($pageState === 'editing') {
-        if ($session.user === null) {
-          throw 'must be authenticated to edit';
-        }
-        await submitEditSchedule();
-      }
-    } catch (errors) {
-      console.error(errors);
-      if (Array.isArray(errors)) {
-        (errors as APIError[]).forEach(handleAPIError);
-      }
+    if ($pageState === 'joining') {
+      await handleJoin();
+    } else if ($pageState === 'editing') {
+      await handleEdit();
     }
   };
 
-  const isFormatValid = () => {
+  const isFormFormatValid = () => {
     let noFormatErrors = true;
     if ($intervals.value.length === 0) {
       noFormatErrors = false;
@@ -79,22 +79,49 @@
     return noFormatErrors;
   };
 
-  const submitAddSchedule = async () => {
-    const schedule = await addSchedule($addScheduleVars);
-    meeting.schedules.push(schedule as Schedule);
-    $session.user = schedule.user;
-    meeting = meeting;
-    $pageState = 'none';
+  const handleJoin = async () => {
+    if (!isFormFormatValid()) {
+      return;
+    }
+    try {
+      if ($session.user === null) {
+        // TODO: logging in / signing up if not authed.
+        throw 'must be authenticated to join';
+      }
+      const schedule = await addSchedule($addScheduleVars);
+      meeting.schedules.push(schedule as Schedule);
+      $session.user = schedule.user;
+      meeting = meeting;
+      $pageState = 'none';
+    } catch (errors) {
+      console.error(errors);
+      if (Array.isArray(errors)) {
+        (errors as APIError[]).forEach(handleAPIError);
+      }
+    }
   };
 
-  const submitEditSchedule = async () => {
-    const newSchedule = await editSchedule($editScheduleVars);
-    const currentSchedule = meeting.schedules.find(
-      (schedule) => schedule.user.id === newSchedule.user.id
-    );
-    currentSchedule.intervals = newSchedule.intervals;
-    meeting = meeting;
-    $pageState = 'none';
+  const handleEdit = async () => {
+    if (!isFormFormatValid()) {
+      return;
+    }
+    try {
+      if ($session.user === null) {
+        throw 'must be authenticated to edit';
+      }
+      const newSchedule = await editSchedule($editScheduleVars);
+      const currentSchedule = meeting.schedules.find(
+        (schedule) => schedule.user.id === newSchedule.user.id
+      );
+      currentSchedule.intervals = newSchedule.intervals;
+      meeting = meeting;
+      $pageState = 'none';
+    } catch (errors) {
+      console.error(errors);
+      if (Array.isArray(errors)) {
+        (errors as APIError[]).forEach(handleAPIError);
+      }
+    }
   };
 
   const handleAPIError = (error: APIError) => {
@@ -137,7 +164,7 @@
 <form on:submit|preventDefault={handleSubmit} class="contents">
   <Template>
     <Header name={meeting.name} slug={meeting.slug} slot="header" />
-    <Buttons meetingId={meeting.id} slot="buttons" />
+    <Buttons on:join={handleJoin} on:edit={handleEdit} on:leave={handleLeave} slot="buttons" />
     <Calendar
       bind:this={calendar}
       intervals={meeting.intervals}
@@ -149,3 +176,12 @@
     />
   </Template>
 </form>
+
+{#if showAuthModal}
+  <AuthModal
+    isLoggingIn={false}
+    isGuestAuth
+    noGuestLogin
+    on:dismiss={() => (showAuthModal = false)}
+  />
+{/if}
