@@ -42,6 +42,24 @@
   import { addSchedule } from '$lib/gql/addSchedule';
   import { editSchedule } from '$lib/gql/editSchedule';
   import { deleteSchedule } from '$lib/gql/deleteSchedule';
+  import { logout } from '$lib/gql/logout';
+  import { onMount } from 'svelte';
+
+  // logout previous guest if on wrong meeting.
+  onMount(async () => {
+    if ($session.user === null) {
+      return;
+    }
+    if ($session.user.guestOf === null) {
+      return;
+    }
+    // TODO: guestOf is in lowercase only due to backend issue.
+    if ($session.user.guestOf.toLowerCase() !== meeting.id.toLowerCase()) {
+      console.error('guest does not belong to this meeting');
+      $session.user = null;
+      await logout();
+    }
+  });
 
   export let meeting: Meeting;
   $: $meetingDep = meeting;
