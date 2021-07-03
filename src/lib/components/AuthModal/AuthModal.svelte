@@ -109,23 +109,17 @@
   const dismiss = () => {
     dispatch('dismiss');
   };
-
-  let transitioning = false;
 </script>
 
 <div
   transition:fade={{ duration: 200 }}
-  on:introstart={() => (transitioning = true)}
-  on:introend={() => (transitioning = false)}
-  on:outrostart={() => (transitioning = true)}
-  on:outroend={() => (transitioning = false)}
   class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50 !m-0"
 >
   <form
     in:fly|local={{ y: 200 }}
     on:submit|preventDefault={confirm}
     use:clickOutside={dismiss}
-    class="m-4 overflow-hidden card min-w-96"
+    class="m-4 card min-w-96"
   >
     <TabBar bind:isGuestAuth />
     <div class="p-4 space-y-4">

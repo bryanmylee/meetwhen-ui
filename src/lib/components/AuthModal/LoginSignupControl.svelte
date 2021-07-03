@@ -17,7 +17,11 @@
 <div class="flex items-baseline justify-between space-x-4">
   <h1 class="text-lg font-medium">{headerLabel}</h1>
   {#if !isGuestAuth || enableGuestLogin}
-    <button type="button" on:click={() => (isLoggingIn = !isLoggingIn)} class="text-sm underline">
+    <button
+      type="button"
+      on:click={() => (isLoggingIn = !isLoggingIn)}
+      class="text-sm underline hover:text-primary-lighter rounded-sm focus:ring-[3px] ring-primary-lighter ring-offset-4 dark:ring-offset-gray-800"
+    >
       {buttonLabel}
     </button>
   {/if}
