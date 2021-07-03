@@ -19,7 +19,7 @@
     <div class="p-4 card">
       <h3 class="font-medium text-center">Are you sure?</h3>
       {#if $session.user.guestOf !== null}
-        <p class="text-sm text-center">Your guest account will be deleted</p>
+        <p class="text-sm text-center text-red-400">Your guest account will be deleted</p>
       {/if}
     </div>
   {/if}
