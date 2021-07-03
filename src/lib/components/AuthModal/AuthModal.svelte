@@ -5,8 +5,8 @@
 </script>
 
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { fade, fly, slide } from 'svelte/transition';
+  import { createEventDispatcher, setContext } from 'svelte';
+  import { fade, fly } from 'svelte/transition';
   import { session } from '$app/stores';
   import { clickOutside } from '$lib/utils/use-click-outside';
   import { getAuthModalState } from './state';
@@ -14,33 +14,40 @@
   import { loginGuest } from '$lib/gql/loginGuest';
   import { signup } from '$lib/gql/signup';
   import { signupGuest } from '$lib/gql/signupGuest';
-  import Textfield from '$lib/components/Textfield.svelte';
-  import IsLoggingInControl from './IsLoggingInControl.svelte';
-  import IsGuestAuthControl from './IsGuestAuthControl.svelte';
   import type { APIError } from '$lib/typings/error';
+  import type { Meeting } from '$lib/gql/types';
+  import PlusAccountFields from './PlusAccountFields.svelte';
+  import GuestAccountFields from './GuestAccountFields.svelte';
+  import TabBar from './TabBar.svelte';
+  import LoginSignupControl from './LoginSignupControl.svelte';
+  import Description from './Description.svelte';
 
-  export let activeMeetingId: string | null = null;
+  export let activeMeeting: Meeting | null = null;
   export let isLoggingIn = true;
   export let isGuestAuth = false;
-  export let noGuestLogin = false;
+  export let enableGuestLogin = true;
+
   $: {
     isLoggingIn;
     resetErrors();
   }
-  $: if (isLoggingIn && isGuestAuth && noGuestLogin) {
+
+  $: if (!enableGuestLogin && isLoggingIn && isGuestAuth) {
     isLoggingIn = false;
   }
 
   const dispatch = createEventDispatcher<AuthModalEvent>();
 
-  const { name, email, password, resetErrors } = getAuthModalState();
+  const state = getAuthModalState();
+  const { name, email, password, resetErrors } = state;
+  setContext('state', state);
 
   const confirm = async () => {
     try {
       if (isLoggingIn) {
         if (isGuestAuth) {
           $session.user = await loginGuest({
-            meetingId: activeMeetingId,
+            meetingId: activeMeeting!.id,
             username: $name.value,
             password: $password.value,
           });
@@ -50,7 +57,7 @@
       } else {
         if (isGuestAuth) {
           $session.user = await signupGuest({
-            meetingId: activeMeetingId,
+            meetingId: activeMeeting!.id,
             username: $name.value,
             password: $password.value,
           });
@@ -120,50 +127,19 @@
     use:clickOutside={dismiss}
     class="p-4 m-4 space-y-4 card min-w-96"
   >
-    <IsLoggingInControl bind:isLoggingIn {isGuestAuth} {noGuestLogin} />
-    {#if !isLoggingIn || isGuestAuth}
-      <div transition:slide|local={{ duration: 200 }}>
-        <Textfield
-          bind:value={$name.value}
-          error={$name.error}
-          placeholder="Name"
-          required
-          class="block"
-        />
-      </div>
+    <TabBar bind:isGuestAuth />
+    <Description {isGuestAuth} />
+    <LoginSignupControl bind:isLoggingIn {isGuestAuth} {enableGuestLogin} />
+    {#if isGuestAuth}
+      <GuestAccountFields />
+    {:else}
+      <PlusAccountFields />
     {/if}
-    {#if !isGuestAuth}
-      <div transition:slide|local={{ duration: 200 }}>
-        <Textfield
-          bind:value={$email.value}
-          error={$email.error}
-          placeholder="Email"
-          required
-          focusOnMount
-          class="block"
-        />
-      </div>
-    {/if}
-    <Textfield
-      bind:value={$password.value}
-      error={$password.error}
-      placeholder="Password"
-      required
-      password
-      class="block"
-    />
     <div class="flex space-x-4">
       <button type="button" on:click={dismiss} class="w-full p-3 rounded-full button shade">
         Cancel
       </button>
       <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
     </div>
-    <IsGuestAuthControl
-      bind:isGuestAuth
-      {activeMeetingId}
-      {isLoggingIn}
-      {noGuestLogin}
-      {transitioning}
-    />
   </form>
 </div>

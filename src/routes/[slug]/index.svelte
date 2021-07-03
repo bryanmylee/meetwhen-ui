@@ -206,7 +206,7 @@
     activeMeeting={meeting}
     isLoggingIn={false}
     isGuestAuth
-    noGuestLogin
+    enableGuestLogin={false}
     on:dismiss={dismissAuthModal}
   />
 {/if}

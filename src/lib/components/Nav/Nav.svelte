@@ -30,7 +30,7 @@
 </Template>
 
 {#if showAuthModal}
-  <AuthModal activeMeetingId={$activeMeeting?.id} on:dismiss={() => (showAuthModal = false)} />
+  <AuthModal activeMeeting={$activeMeeting} on:dismiss={() => (showAuthModal = false)} />
 {/if}
 
 <style lang="postcss">
