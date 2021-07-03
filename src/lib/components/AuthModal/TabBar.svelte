@@ -1,6 +1,5 @@
 <script lang="ts">
   import { classes } from '$lib/utils/classes';
-  import Tooltip from '$lib/components/Tooltip.svelte';
 
   export let isGuestAuth = false;
 
@@ -15,26 +14,20 @@
 </script>
 
 <div class="flex">
-  <Tooltip class="w-full">
-    <button
-      slot="reference"
-      type="button"
-      on:click={() => (isGuestAuth = false)}
-      disabled={!isGuestAuth}
-      class="rounded-tl-xl {getButtonClass(!isGuestAuth)}"
-    >
-      Plus
-    </button>
-  </Tooltip>
-  <Tooltip class="w-full">
-    <button
-      slot="reference"
-      type="button"
-      on:click={() => (isGuestAuth = true)}
-      disabled={isGuestAuth}
-      class="rounded-tr-xl {getButtonClass(isGuestAuth)}"
-    >
-      Guest
-    </button>
-  </Tooltip>
+  <button
+    type="button"
+    on:click={() => (isGuestAuth = false)}
+    disabled={!isGuestAuth}
+    class="rounded-tl-xl {getButtonClass(!isGuestAuth)}"
+  >
+    Plus
+  </button>
+  <button
+    type="button"
+    on:click={() => (isGuestAuth = true)}
+    disabled={isGuestAuth}
+    class="rounded-tr-xl {getButtonClass(isGuestAuth)}"
+  >
+    Guest
+  </button>
 </div>
