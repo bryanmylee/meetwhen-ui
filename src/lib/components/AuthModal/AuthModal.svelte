@@ -125,21 +125,23 @@
     in:fly|local={{ y: 200 }}
     on:submit|preventDefault={confirm}
     use:clickOutside={dismiss}
-    class="p-4 m-4 space-y-4 card min-w-96"
+    class="m-4 overflow-hidden card min-w-96"
   >
     <TabBar bind:isGuestAuth />
-    <Description {isGuestAuth} />
-    <LoginSignupControl bind:isLoggingIn {isGuestAuth} {enableGuestLogin} />
-    {#if isGuestAuth}
-      <GuestAccountFields />
-    {:else}
-      <PlusAccountFields />
-    {/if}
-    <div class="flex space-x-4">
-      <button type="button" on:click={dismiss} class="w-full p-3 rounded-full button shade">
-        Cancel
-      </button>
-      <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
+    <div class="p-4 space-y-4">
+      <Description {isGuestAuth} />
+      <LoginSignupControl bind:isLoggingIn {isGuestAuth} {enableGuestLogin} />
+      {#if isGuestAuth}
+        <GuestAccountFields />
+      {:else}
+        <PlusAccountFields {isLoggingIn} />
+      {/if}
+      <div class="flex space-x-4">
+        <button type="button" on:click={dismiss} class="w-full p-3 rounded-full button shade">
+          Cancel
+        </button>
+        <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
+      </div>
     </div>
   </form>
 </div>

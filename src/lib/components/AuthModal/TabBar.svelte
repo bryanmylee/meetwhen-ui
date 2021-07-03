@@ -5,14 +5,14 @@
 
   const getButtonClass = (active: boolean) =>
     classes([
-      'w-full rounded-xl p-2 button',
+      'w-full p-2 font-bold',
       active
-        ? 'underline bg-gray-100 dark:hover:bg-gray-500'
-        : 'hover:bg-gray-100 dark:hover:bg-gray-500',
+        ? 'z-10 underline'
+        : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600',
     ]);
 </script>
 
-<div class="flex space-x-4">
+<div class="flex">
   <button type="button" on:click={() => (isGuestAuth = false)} class={getButtonClass(!isGuestAuth)}>
     Plus
   </button>
