@@ -156,17 +156,20 @@
     }
   };
 
+  // if a user logs in, reset the page state.
   $: if ($session.user !== null) {
     $pageState === 'none';
   }
 
   let calendar: Calendar;
 
+  // if the page state is reset, reset the form and calendar.
   $: if ($pageState === 'none') {
     resetForm();
     calendar?.reset();
   }
 
+  // initialize the calendar with the current user's schedule.
   $: if ($pageState === 'editing') {
     const currentSchedule = $meetingDep.schedules.find(
       (schedule) => schedule.user.id === $session.user?.id
