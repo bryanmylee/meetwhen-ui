@@ -75,11 +75,19 @@
     const { id } = error.extensions.exception.details;
     console.error({ id, message: error.message });
     if (id === 'auth/user-not-found') {
-      $email.error = 'User not found';
+      if (isGuestAuth) {
+        $name.error = 'Guest not found';
+      } else {
+        $email.error = 'User not found';
+      }
     } else if (id === 'auth/missing-email') {
       $email.error = 'Required';
     } else if (id === 'auth/email-already-exists') {
-      $email.error = 'Email already taken';
+      if (isGuestAuth) {
+        $name.error = 'Name already taken';
+      } else {
+        $email.error = 'Email already taken';
+      }
     } else if (id === 'auth/invalid-email') {
       $email.error = 'Badly formatted email';
     } else if (id === 'auth/wrong-password') {
