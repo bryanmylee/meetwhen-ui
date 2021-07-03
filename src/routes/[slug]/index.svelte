@@ -85,7 +85,7 @@
     }
     try {
       if ($session.user === null) {
-        // TODO: logging in / signing up if not authed.
+        showAuthModal = true;
         throw 'must be authenticated to join';
       }
       const schedule = await addSchedule($addScheduleVars);
@@ -179,6 +179,7 @@
 
 {#if showAuthModal}
   <AuthModal
+    activeMeetingId={meeting.id}
     isLoggingIn={false}
     isGuestAuth
     noGuestLogin
