@@ -5,7 +5,7 @@
 
   const getButtonClass = (active: boolean) =>
     classes([
-      'w-full p-2 font-bold',
+      'w-full p-2 py-4 font-bold',
       active
         ? 'z-10 underline'
         : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600',
