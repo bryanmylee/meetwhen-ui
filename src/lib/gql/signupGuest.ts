@@ -6,6 +6,7 @@ mutation ($username: String!, $password: String!, $meetingId: String!) {
     id
     name
     email
+    guestOf
   }
 }`;
 
@@ -20,6 +21,7 @@ interface SignupGuestResolved {
     id: string;
     name: string;
     email: string;
+    guestOf: string | null;
   };
 }
 
@@ -27,6 +29,7 @@ interface SignupGuestReturned {
   id: string;
   name: string;
   email: string;
+  guestOf: string | null;
 }
 
 export const signupGuest = async (variables: SignupGuestVars): Promise<SignupGuestReturned> => {
