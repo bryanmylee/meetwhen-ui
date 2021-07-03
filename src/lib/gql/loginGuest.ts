@@ -1,6 +1,6 @@
 import { query } from '$lib/gql';
 
-const LOGIN = `
+const LOGIN_GUEST = `
 mutation ($username: String!, $password: String!, $meetingId: ID!) {
   loginGuest(data: {username: $username, password: $password, meetingId: $meetingId}) {
     id
@@ -34,7 +34,7 @@ interface LoginGuestReturned {
 
 export const loginGuest = async (variables: LoginGuestVars): Promise<LoginGuestReturned> => {
   const { loginGuest } = (await query({
-    query: LOGIN,
+    query: LOGIN_GUEST,
     variables: { ...variables },
   })) as LoginGuestResolved;
   return loginGuest;
