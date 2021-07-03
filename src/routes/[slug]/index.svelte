@@ -46,8 +46,6 @@
   export let meeting: Meeting;
   $: $meetingDep = meeting;
 
-  let showAuthModal = false;
-
   const handleLeave = async () => {
     try {
       if ($session.user === null) {
@@ -78,23 +76,24 @@
     }
   };
 
-  const isFormFormatValid = () => {
-    let noFormatErrors = true;
-    if ($intervals.value.length === 0) {
-      noFormatErrors = false;
-      $intervals.error = 'Required';
-    }
-    return noFormatErrors;
-  };
+  let showAuthModal = false;
+  let waitingToJoin = false;
+
+  $: if (!showAuthModal && waitingToJoin) {
+    waitingToJoin = false;
+    handleJoin();
+  }
 
   const handleJoin = async () => {
     if (!isFormFormatValid()) {
       return;
     }
     try {
+      // handleJoin() will be called again after dismissal of auth modal.
       if ($session.user === null) {
         showAuthModal = true;
-        throw 'must be authenticated to join';
+        waitingToJoin = true;
+        return;
       }
       const schedule = await addSchedule($addScheduleVars);
       meeting.schedules.push(schedule as Schedule);
@@ -130,6 +129,15 @@
         (errors as APIError[]).forEach(handleAPIError);
       }
     }
+  };
+
+  const isFormFormatValid = () => {
+    let noFormatErrors = true;
+    if ($intervals.value.length === 0) {
+      noFormatErrors = false;
+      $intervals.error = 'Required';
+    }
+    return noFormatErrors;
   };
 
   const handleAPIError = (error: APIError) => {
