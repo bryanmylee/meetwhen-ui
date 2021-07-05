@@ -82,9 +82,9 @@
         <div
           on:click={() => optionclick(item, itemIndex)}
           class={classes([
-            'px-4 py-2 z-0 focusable whitespace-nowrap',
+            'px-4 py-2 z-0 focusable whitespace-nowrap first:rounded-t-xl last:rounded-b-xl',
             isDisabled(item) ? disabledClass : enabledClass,
-            itemIndex === focusedIndex && 'shade',
+            itemIndex === focusedIndex && 'shade ring-[3px] ring-inset ring-primary',
             itemIndex === index && '!bg-primary text-white',
           ])}
         >
