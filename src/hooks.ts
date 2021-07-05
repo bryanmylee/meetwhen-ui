@@ -1,4 +1,4 @@
-import type { GetSession, Request } from '@sveltejs/kit';
+import type { GetSession } from '@sveltejs/kit';
 import type { ShallowUser } from '$lib/gql/types';
 import { dev } from '$app/env';
 import { me } from '$lib/gql/me';
@@ -6,24 +6,20 @@ import { parse } from 'cookie';
 import { queryClient } from '$lib/gql';
 
 export const getSession: GetSession = async (request) => {
-  const endpoint = `${dev ? 'http' : 'https'}://${request.host}/api/graphql`;
-
-  queryClient.endpoint = endpoint;
+  queryClient.endpoint = `${dev ? 'http' : 'https'}://${request.host}/api/graphql`;
   queryClient.fetch = fetch;
 
-  const user = await getUser(request);
+  const cookies = parse(request.headers.cookie ?? '');
+  const user = await getUser(cookies['access-token']);
   return { user };
 };
 
-const getUser = async (request: Request): Promise<ShallowUser | null> => {
-  const cookies = parse(request.headers.cookie ?? '');
-
-  if (cookies['access-token'] === undefined) {
+const getUser = async (accessToken: string | undefined): Promise<ShallowUser | null> => {
+  if (accessToken === undefined) {
     return null;
   }
-
   try {
-    return await me(cookies['access-token']);
+    return await me(accessToken);
   } catch (error) {
     return null;
   }
