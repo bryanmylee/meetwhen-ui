@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { media } from '$lib/media';
-  import { isEditing, showShare } from './_state/page';
+  import { showShare } from './_state/page';
   import { ShareIcon } from 'svelte-feather-icons';
   import ShareModal from './_ShareModal.svelte';
   import { session } from '$app/stores';

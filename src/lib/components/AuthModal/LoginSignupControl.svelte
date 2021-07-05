@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { classes } from '$lib/utils/classes';
-
   export let isLoggingIn = false;
   export let isGuestAuth = false;
   export let enableGuestLogin = true;

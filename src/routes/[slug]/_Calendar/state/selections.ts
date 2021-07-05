@@ -1,10 +1,10 @@
 import type { Interval, LocalTimeInterval } from '$lib/gql/types';
+import { fromId, getHoursInTimeInterval, toId } from '$lib/utils/intervals';
 import { Time } from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import { Set } from 'immutable';
 import type { Readable, Writable } from 'svelte/store';
 import { derived, writable } from 'svelte/store';
-import { fromId, getHoursInTimeInterval, toId } from '$lib/utils/intervals';
 
 // Stateful logic related to selections.
 interface StateDependencies {

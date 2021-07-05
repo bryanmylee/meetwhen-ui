@@ -1,9 +1,4 @@
 import type { Interval, LocalTimeInterval } from '$lib/gql/types';
-import time, { Time } from '$lib/utils/time';
-import type { Dayjs } from 'dayjs';
-import dayjs from 'dayjs';
-import type { Readable, Writable } from 'svelte/store';
-import { derived, writable } from 'svelte/store';
 import {
   getHoursInInterval,
   getHoursInTimeInterval,
@@ -12,6 +7,11 @@ import {
   isIntervalInTimeInterval,
   unionTimeIntervals,
 } from '$lib/utils/intervals';
+import time, { Time } from '$lib/utils/time';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import type { Readable, Writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 
 // Stateful logic for all intervals and availables.
 export interface IntervalsState {
