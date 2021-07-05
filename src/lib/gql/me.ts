@@ -20,7 +20,12 @@ interface MeResolved {
   };
 }
 
-export const me = async (): Promise<ShallowUser> => {
-  const { me } = (await query({ query: ME })) as MeResolved;
+export const me = async (accessToken: string): Promise<ShallowUser> => {
+  const { me } = (await query({
+    query: ME,
+    headers: {
+      cookie: `access-token=${accessToken}`,
+    },
+  })) as MeResolved;
   return me;
 };

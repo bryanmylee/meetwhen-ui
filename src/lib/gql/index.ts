@@ -1,24 +1,28 @@
 import type { Fetch } from '$lib/typings/fetch';
 
 interface QueryClient {
-  fetch: Fetch;
+  fetch: Fetch | null;
+  endpoint: string;
 }
 
 // fetch must be loaded by the root layout component.
 export const queryClient: QueryClient = {
   fetch: null,
+  endpoint: null,
 };
 
 interface QueryParams {
   query: string;
   variables?: Record<string, unknown>;
+  headers?: Record<string, string>;
 }
 
-export const query = async ({ query, variables }: QueryParams): Promise<unknown> => {
-  const response = await queryClient.fetch('/api/graphql', {
+export const query = async ({ query, variables, headers }: QueryParams): Promise<unknown> => {
+  const response = await queryClient.fetch(queryClient.endpoint, {
     method: 'post',
     credentials: 'include',
     headers: {
+      ...headers,
       'content-type': 'application/json',
       accept: 'application/json',
     },

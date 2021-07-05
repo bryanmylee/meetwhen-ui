@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
   export const load: Load = ({ fetch, page }) => {
     queryClient.fetch = fetch;
+    queryClient.endpoint = '/api/graphql';
     activeMeeting.set(null);
     return {
       props: {
