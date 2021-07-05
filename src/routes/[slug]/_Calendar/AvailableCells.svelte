@@ -6,7 +6,7 @@
   import { zip } from '$lib/utils/zip';
   import type { Dayjs } from 'dayjs';
   import { getContext } from 'svelte';
-  import { getHoursInInterval, toId } from './utils/intervals';
+  import { getHoursInInterval, toId } from '$lib/utils/intervals';
   import type { CalendarState } from './state/core';
 
   const state = getContext<CalendarState>('state');

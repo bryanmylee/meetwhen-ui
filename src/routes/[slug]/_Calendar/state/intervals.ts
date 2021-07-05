@@ -11,7 +11,7 @@ import {
   getLocalIntervals,
   isIntervalInTimeInterval,
   unionTimeIntervals,
-} from '../utils/intervals';
+} from '$lib/utils/intervals';
 
 // Stateful logic for all intervals and availables.
 export interface IntervalsState {

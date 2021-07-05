@@ -1,7 +1,7 @@
 import type { Interval } from '$lib/gql/types';
 import type { Readable, Writable } from 'svelte/store';
 import { derived, writable } from 'svelte/store';
-import { fromId, getLocalIntervals, toId, unionIntervals } from '../utils/intervals';
+import { fromId, getLocalIntervals, toId, unionIntervals } from '$lib/utils/intervals';
 import type { IntervalsState } from './intervals';
 import { getIntervalsState } from './intervals';
 import type { ScheduleState } from './schedules';

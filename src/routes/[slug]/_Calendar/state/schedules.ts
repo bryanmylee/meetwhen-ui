@@ -2,7 +2,7 @@ import type { Interval, Schedule, ShallowUser, User } from '$lib/gql/types';
 import { Map, Set } from 'immutable';
 import type { Readable, Writable } from 'svelte/store';
 import { derived, writable } from 'svelte/store';
-import { getLocalIntervals } from '../utils/intervals';
+import { getLocalIntervals } from '$lib/utils/intervals';
 import { IntervalWithUsers, unionSchedules } from '../utils/schedules';
 
 // Logic for all user schedules and the nested intervals.

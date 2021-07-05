@@ -3,7 +3,7 @@ import type { Time } from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import type { Readable, Writable } from 'svelte/store';
 import { derived, writable } from 'svelte/store';
-import { getHoursInTimeInterval } from '../utils/intervals';
+import { getHoursInTimeInterval } from '$lib/utils/intervals';
 
 // Stateful logic for transforming data to UI.
 interface StateDependencies {
