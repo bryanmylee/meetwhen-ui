@@ -108,7 +108,7 @@
 
 <style lang="postcss">
   * {
-    --header-row-height: 4rem;
+    --header-row-height: 3.5rem;
     --index-col-width: 3rem;
   }
 

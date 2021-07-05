@@ -9,6 +9,6 @@
 {#each $days as day}
   <div class="flex flex-col items-center justify-center w-full h-full">
     <p class="font-bold">{day.format('ddd')}</p>
-    <p class="text-sm">{day.format('DD MMM')}</p>
+    <p class="-mt-1 text-sm">{day.format('DD MMM')}</p>
   </div>
 {/each}
