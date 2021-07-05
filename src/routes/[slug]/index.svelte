@@ -24,6 +24,7 @@
   import Buttons from './_Buttons.svelte';
   import Template from './_Template.svelte';
   import type { APIError } from '$lib/typings/error';
+  import type { AuthModalEvent } from '$lib/components/AuthModal/AuthModal.svelte';
   import type { Load } from '@sveltejs/kit';
   import type { Meeting, Schedule } from '$lib/gql/types';
   import { get } from 'svelte/store';
@@ -94,11 +95,10 @@
   };
 
   let showAuthModal = false;
-  let waitingToJoin = false;
 
-  const dismissAuthModal = () => {
+  const dismissAuthModal = ({ detail }: CustomEvent<AuthModalEvent['dismiss']>) => {
     showAuthModal = false;
-    if (waitingToJoin) {
+    if (detail.authenticated) {
       handleJoin();
     }
   };
@@ -111,10 +111,8 @@
       // handleJoin() will be called again after dismissal of auth modal.
       if ($session.user === null) {
         showAuthModal = true;
-        waitingToJoin = true;
         return;
       }
-      waitingToJoin = false;
       const schedule = await addSchedule($addScheduleVars);
       meeting.schedules.push(schedule as Schedule);
       meeting = meeting;

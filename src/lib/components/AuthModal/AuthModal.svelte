@@ -1,6 +1,8 @@
 <script lang="ts" context="module">
   export interface AuthModalEvent {
-    dismiss: never;
+    dismiss: {
+      authenticated: boolean;
+    };
   }
 </script>
 
@@ -69,7 +71,7 @@
           });
         }
       }
-      dismiss();
+      dismiss(true);
     } catch (errors) {
       console.error(errors);
       if (Array.isArray(errors)) {
@@ -106,8 +108,8 @@
     }
   };
 
-  const dismiss = () => {
-    dispatch('dismiss');
+  const dismiss = (authenticated: boolean) => {
+    dispatch('dismiss', { authenticated });
   };
 </script>
 
@@ -118,7 +120,7 @@
   <form
     in:fly|local={{ y: 200 }}
     on:submit|preventDefault={confirm}
-    use:clickOutside={dismiss}
+    use:clickOutside={() => dismiss(false)}
     class="m-4 card min-w-96"
   >
     <TabBar bind:isGuestAuth />
@@ -131,7 +133,11 @@
         <PlusAccountFields {isLoggingIn} />
       {/if}
       <div class="flex space-x-4">
-        <button type="button" on:click={dismiss} class="w-full p-3 rounded-full button shade">
+        <button
+          type="button"
+          on:click={() => dismiss(false)}
+          class="w-full p-3 rounded-full button shade"
+        >
           Cancel
         </button>
         <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
