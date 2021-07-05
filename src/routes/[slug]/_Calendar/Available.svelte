@@ -18,7 +18,7 @@
 
   $: intervalClass = classes([
     'shadow-lg pointer-events-none rounded-xl border-3 border-primary-lighter dark:shadow-md-primary transition-all',
-    $disabled && 'opacity-0',
+    $disabled ? 'ml-0 opacity-0' : 'ml-4',
   ]);
 </script>
 

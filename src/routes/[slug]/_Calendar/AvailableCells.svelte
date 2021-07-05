@@ -30,10 +30,10 @@
     ]);
     const lastClass = classes([index === hours.length - 1 ? 'rounded-b-xl' : midClass]);
     return classes([
-      'shade min-w-32 min-h-5 select-none',
+      'shade min-h-5 select-none transition-all',
       firstClass,
       lastClass,
-      isDisabled ? 'cursor-default' : 'cursor-pointer hover:shade-2',
+      isDisabled ? 'min-w-20 cursor-default' : 'min-w-16 ml-4 cursor-pointer hover:shade-2',
     ]);
   };
 </script>

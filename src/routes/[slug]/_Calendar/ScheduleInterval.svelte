@@ -61,7 +61,7 @@
     (isHovered || isActive) && 'ring-2 ring-offset-[3px] ring-inset ring-white dark:ring-gray-900',
     isHovered && !isActive && 'ring-offset-gray-400',
     isActive && 'ring-offset-primary dark:ring-offset-primary-lighter',
-    $disabled ? 'w-full' : 'w-6',
+    $disabled ? 'w-full' : 'w-4 !rounded-r-none !ring-offset-2',
   ]);
 </script>
 
@@ -91,6 +91,6 @@
 <style lang="postcss">
   .interval {
     background-color: var(--bgColor);
-    transition: width 300ms ease-out;
+    transition: width 200ms ease-out;
   }
 </style>
