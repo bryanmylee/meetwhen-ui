@@ -13,6 +13,18 @@
   }
 }
 
+html {
+  font-size: 14px;
+  /* sm */
+  @media (min-width: 640px) {
+    font-size: 16px;
+  }
+  /* xl */
+  @media (min-width: 1280px) {
+    font-size: 18px;
+  }
+}
+
 @layer base {
   .bg-default {
     @apply bg-white dark:bg-gray-800 text-black dark:text-white;
