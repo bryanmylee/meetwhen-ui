@@ -91,6 +91,6 @@
 <style lang="postcss">
   .interval {
     background-color: var(--bgColor);
-    transition: width 200ms ease-out;
+    transition: width 150ms ease-out;
   }
 </style>
