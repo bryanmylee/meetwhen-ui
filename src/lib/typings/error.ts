@@ -5,7 +5,8 @@ type IDs =
   | 'auth/missing-email'
   | 'auth/email-already-exists'
   | 'auth/invalid-email'
-  | 'auth/too-many-requests';
+  | 'auth/too-many-requests'
+  | 'already-exists';
 
 export interface APIError {
   message: string;

@@ -17,34 +17,28 @@
 </script>
 
 <script lang="ts">
+  import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
+  import Buttons from './_Buttons.svelte';
   import Calendar from './_Calendar/Calendar.svelte';
   import Head from '$lib/components/Head.svelte';
-  import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
   import Header from './_Header.svelte';
-  import Buttons from './_Buttons.svelte';
   import Template from './_Template.svelte';
   import type { APIError } from '$lib/typings/error';
   import type { AuthModalEvent } from '$lib/components/AuthModal/AuthModal.svelte';
   import type { Load } from '@sveltejs/kit';
   import type { Meeting, Schedule } from '$lib/gql/types';
+  import { activeMeeting, newMeeting } from '$lib/app-state';
+  import { addSchedule } from '$lib/gql/addSchedule';
+  import { deleteSchedule } from '$lib/gql/deleteSchedule';
+  import { editSchedule } from '$lib/gql/editSchedule';
   import { get } from 'svelte/store';
   import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
-  import { meeting as meetingDep, pageState, isEditing } from './_state/page';
-  import {
-    username,
-    password,
-    intervals,
-    resetForm,
-    addScheduleVars,
-    editScheduleVars,
-  } from './_state/form';
-  import { activeMeeting, newMeeting } from '$lib/app-state';
-  import { session } from '$app/stores';
-  import { addSchedule } from '$lib/gql/addSchedule';
-  import { editSchedule } from '$lib/gql/editSchedule';
-  import { deleteSchedule } from '$lib/gql/deleteSchedule';
+  import { intervals, resetForm, addScheduleVars, editScheduleVars } from './_state/form';
   import { logout } from '$lib/gql/logout';
+  import { meeting as meetingDep, pageState, isEditing } from './_state/page';
   import { onMount } from 'svelte';
+  import { session } from '$app/stores';
+  import { unionIntervals } from '$lib/utils/intervals';
 
   // logout previous guest if on wrong meeting.
   onMount(async () => {
@@ -113,6 +107,7 @@
         showAuthModal = true;
         return;
       }
+      // api error will be thrown if already-joined event is joined.
       const schedule = await addSchedule($addScheduleVars);
       meeting.schedules.push(schedule as Schedule);
       meeting = meeting;
@@ -161,16 +156,13 @@
   const handleAPIError = (error: APIError) => {
     console.log(error);
     const { id } = error.extensions.exception.details;
-    if (id === 'auth/user-not-found') {
-      $username.error = 'User not found';
-    } else if (id === 'auth/email-already-exists') {
-      $username.error = 'Username already taken';
-    } else if (id === 'auth/wrong-password') {
-      $password.error = 'Wrong password';
-    } else if (id === 'auth/invalid-password') {
-      $password.error = 'Password must be at least 6 characters long';
-    } else if (id === 'auth/too-many-requests') {
-      $password.error = 'Too many attempts';
+    if (id === 'already-exists') {
+      // merge current selection intervals with current user's intervals.
+      const currentSchedule = meeting.schedules.find(
+        (schedule) => schedule.user.id === $session.user.id
+      );
+      $intervals.value = unionIntervals([...$intervals.value, ...currentSchedule.intervals]);
+      handleEdit();
     }
   };
 
