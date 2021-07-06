@@ -46,12 +46,12 @@ export const getScheduleState = (): ScheduleState => {
     Set($intervalsWithUsers.map((interval) => interval.end.unix()))
   );
 
-  const intervalHasBefore = derived([intervalEnds], ([$intervalEnds]) => (interval: Interval) =>
-    $intervalEnds.includes(interval.beg.unix())
+  const intervalHasBefore = derived([intervalEnds], ([$intervalEnds]) => ({ beg }: Interval) =>
+    $intervalEnds.includes(beg.unix()) && !beg.startOf('day').isSame(beg)
   );
 
-  const intervalHasAfter = derived([intervalBegs], ([$intervalBegs]) => (interval: Interval) =>
-    $intervalBegs.includes(interval.end.unix())
+  const intervalHasAfter = derived([intervalBegs], ([$intervalBegs]) => ({ end }: Interval) =>
+    $intervalBegs.includes(end.unix()) && !end.startOf('day').isSame(end)
   );
 
   const maxNumUsersPerInterval = derived([intervalsWithUsers], ([$intervalsWithUsers]) =>
