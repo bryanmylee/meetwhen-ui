@@ -137,6 +137,11 @@
     if (typeof document === 'undefined') {
       return;
     }
+    if (indicatorElement !== undefined) {
+      try {
+        document.body.removeChild(indicatorElement);
+      } catch {}
+    }
     indicatorElement = document.createElement('div');
     indicatorElement.id = 'indicator';
     indicatorElement.style.left = `${clientX}px`;
