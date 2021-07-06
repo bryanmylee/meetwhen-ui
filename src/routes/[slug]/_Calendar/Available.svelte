@@ -17,7 +17,7 @@
   $: intervals = $getIntervalsInAvailableByDay(available, day);
 
   $: intervalClass = classes([
-    'shadow-lg pointer-events-none rounded-xl border-3 border-primary-lighter dark:shadow-md-primary transition-all',
+    'pointer-events-none rounded-xl border-3 border-primary-lighter dark:shadow-md-primary transition-all',
     $disabled ? 'ml-0 opacity-0' : 'ml-4',
   ]);
 </script>
