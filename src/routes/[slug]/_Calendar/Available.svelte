@@ -10,23 +10,23 @@
 
   const disabled = getContext<Writable<boolean>>('disabled');
   const state = getContext<CalendarState>('state');
-  const { getIntervalsInAvailableByDay, availableHasLeftCorners } = state;
+  const { getIntervalsInAvailableByDay, intervalHasLeftCorners } = state;
 
   export let day: Dayjs;
   export let available: LocalTimeInterval;
   $: intervals = $getIntervalsInAvailableByDay(available, day);
-  $: ({ top, bottom } = $availableHasLeftCorners(day, available));
 
-  $: intervalClass = classes([
-    'pointer-events-none rounded-xl border-3 border-primary-lighter dark:shadow-md-primary transition-all',
-    $disabled ? 'ml-0 opacity-0' : 'ml-4',
-    top && 'rounded-tl-none',
-    bottom && 'rounded-bl-none',
-  ]);
+  $: getIntervalClass = ({ top, bottom }: { top: boolean; bottom: boolean }) =>
+    classes([
+      'pointer-events-none rounded-xl border-3 border-primary-lighter dark:shadow-md-primary transition-all',
+      $disabled ? 'ml-0 opacity-0' : 'ml-4',
+      top && 'rounded-tl-none',
+      bottom && 'rounded-bl-none',
+    ]);
 </script>
 
 {#each intervals as interval}
   <AvailableCells {day} {interval} />
   <!-- For indicating enabled/disabled status -->
-  <Interval {interval} class={intervalClass} />
+  <Interval {interval} class={getIntervalClass($intervalHasLeftCorners(interval))} />
 {/each}

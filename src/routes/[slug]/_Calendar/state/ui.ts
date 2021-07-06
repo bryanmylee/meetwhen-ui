@@ -1,5 +1,5 @@
-import type { LocalTimeInterval, Schedule } from '$lib/gql/types';
-import { getHoursInTimeInterval } from '$lib/utils/intervals';
+import type { Interval, LocalTimeInterval, Schedule } from '$lib/gql/types';
+import { getHoursInTimeInterval, getLocalIntervals } from '$lib/utils/intervals';
 import type { Time } from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
 import { Set } from 'immutable';
@@ -20,9 +20,7 @@ export interface UiState {
   getColIndexByDay: Readable<(toFind: Dayjs) => number>;
   numRows: Readable<number>;
   getRowIndexByTime: Readable<(time: Time) => number>;
-  availableHasLeftCorners: Readable<
-    (day: Dayjs, available: LocalTimeInterval) => { top: boolean; bottom: boolean }
-  >;
+  intervalHasLeftCorners: Readable<(interval: Interval) => { top: boolean; bottom: boolean }>;
 }
 
 export const getUiState = ({
@@ -64,20 +62,20 @@ export const getUiState = ({
     let begs: Set<number> = Set();
     let ends: Set<number> = Set();
     $schedules.forEach((schedule) => {
-      begs = begs.union(schedule.intervals.map((interval) => interval.beg.unix()));
-      ends = ends.union(schedule.intervals.map((interval) => interval.end.unix()));
+      const intervals = getLocalIntervals(schedule.intervals);
+      begs = begs.union(intervals.map((interval) => interval.beg.unix()));
+      ends = ends.union(intervals.map((interval) => interval.end.unix()));
     });
     console.log(ends.toArray());
     return [begs, ends] as [begs: Set<number>, ends: Set<number>];
   });
 
-  const availableHasLeftCorners = derived(
+  const intervalHasLeftCorners = derived(
     [allScheduleBegEnds],
-    ([$allScheduleBegEnds]) => (day: Dayjs, available: LocalTimeInterval) => {
+    ([$allScheduleBegEnds]) => (interval: Interval) => {
       const [begs, ends] = $allScheduleBegEnds;
-      const hasTopLeftCorner = begs.includes(available.beg.onDayjs(day).unix());
-      console.log(available.end.hour);
-      const hasBottomLeftCorner = ends.includes(available.end.onDayjs(day).unix());
+      const hasTopLeftCorner = begs.includes(interval.beg.unix());
+      const hasBottomLeftCorner = ends.includes(interval.end.unix());
       return {
         top: hasTopLeftCorner,
         bottom: hasBottomLeftCorner,
@@ -90,6 +88,6 @@ export const getUiState = ({
     getColIndexByDay,
     numRows,
     getRowIndexByTime,
-    availableHasLeftCorners,
+    intervalHasLeftCorners,
   };
 };
