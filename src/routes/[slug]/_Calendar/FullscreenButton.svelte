@@ -10,6 +10,7 @@
 
 <button
   type="button"
+  aria-label={isFullscreenDelayed ? 'Minimize calendar' : 'Maximize calendar'}
   on:click={() => (isFullscreen = !isFullscreen)}
   class="absolute w-10 h-10 rounded-full right-2 bottom-2 button shade"
 >

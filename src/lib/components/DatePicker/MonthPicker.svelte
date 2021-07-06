@@ -31,6 +31,7 @@
 <div tabindex="0" on:keydown={keydown} class="flex justify-between rounded-xl focusable">
   <button
     type="button"
+    aria-label="Previous month"
     tabindex="-1"
     class="w-10 h-10 rounded-full button"
     on:click={decrement}
@@ -41,7 +42,13 @@
   <span class="p-2 font-bold">
     {monthDisplay}
   </span>
-  <button type="button" tabindex="-1" class="w-10 h-10 rounded-full button" on:click={increment}>
+  <button
+    type="button"
+    aria-label="Next month"
+    tabindex="-1"
+    class="w-10 h-10 rounded-full button"
+    on:click={increment}
+  >
     <ChevronRightIcon class="p-2" />
   </button>
 </div>

@@ -17,6 +17,7 @@
 <div class="flex">
   <button
     type="button"
+    aria-label="Use plus account"
     on:click={() => (isGuestAuth = false)}
     disabled={!isGuestAuth}
     class="rounded-tl-xl {getButtonClass(!isGuestAuth)}"
@@ -26,6 +27,7 @@
   {#if enableGuestAuth}
     <button
       type="button"
+      aria-label="Use guest account"
       on:click={() => (isGuestAuth = true)}
       disabled={isGuestAuth}
       class="rounded-tr-xl {getButtonClass(isGuestAuth)}"

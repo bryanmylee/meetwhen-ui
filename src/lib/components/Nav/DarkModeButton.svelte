@@ -20,9 +20,6 @@
 
   const handleClick = (value: boolean) => {
     $isDark = value;
-    setTimeout(() => {
-      showDropdown = false;
-    }, 300);
   };
 
   $: activeIcon = $isDark === undefined ? DropletIcon : $isDark ? MoonIcon : SunIcon;
@@ -34,7 +31,13 @@
     ]);
 </script>
 
-<button use:ref on:click={() => (showDropdown = !showDropdown)} class="w-5 h-5">
+<button
+  type="button"
+  aria-label="Show theme panel"
+  use:ref
+  on:click={() => (showDropdown = !showDropdown)}
+  class="w-5 h-5"
+>
   <svelte:component
     this={activeIcon}
     class={classes(['hover:text-primary', showDropdown && 'text-primary'])}
@@ -50,6 +53,8 @@
   >
     {#each options as { title, icon, value }}
       <button
+        type="button"
+        aria-label={title}
         on:click={() => handleClick(value)}
         class={contentClassName(value === $isDark)}
         disabled={value === $isDark}

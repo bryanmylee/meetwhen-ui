@@ -12,7 +12,7 @@
     <div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
       <Textfield bind:value={$newMeetingName} placeholder="Name your event" class="w-full" />
     </div>
-    <button type="submit" class="w-10 h-10 rounded-full button primary">
+    <button type="submit" aria-label="New meeting" class="w-10 h-10 rounded-full button primary">
       <ArrowRightIcon class="p-2" />
     </button>
   </form>

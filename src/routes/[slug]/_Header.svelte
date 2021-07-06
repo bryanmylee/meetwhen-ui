@@ -23,6 +23,7 @@
   </div>
   <button
     type="button"
+    aria-label="Share"
     on:click={() => ($showShare = true)}
     class="w-10 h-10 -m-2 rounded-full button hover:bg-primary-darker focus:ring-white"
   >

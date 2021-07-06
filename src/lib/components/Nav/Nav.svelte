@@ -25,7 +25,7 @@
     {:else}
       <li><button on:click={() => (showAuthModal = true)}>Login</button></li>
     {/if}
-    <DarkModeButton />
+    <li class="flex items-center"><DarkModeButton /></li>
   </svelte:fragment>
 </Template>
 
