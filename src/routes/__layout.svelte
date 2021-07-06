@@ -25,16 +25,10 @@
   export let key: string;
 </script>
 
-<main class={key === '/' ? 'mt-10' : 'mt-14'}>
+<main class="mt-14">
   <PageTransition {key}>
     <slot />
   </PageTransition>
 </main>
 
 <Nav {key} />
-
-<style lang="postcss">
-  main {
-    transition: margin 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-</style>
