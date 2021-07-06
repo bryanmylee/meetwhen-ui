@@ -136,8 +136,7 @@ export const isIntervalInTimeInterval = (
   const { beg, end } = timeInterval;
   const day = interval.beg.startOf('day');
   const begDay = beg.onDayjs(day);
-  // Account for intervals crossing midnight.
-  const endDay = end.unix <= beg.unix ? end.onDayjs(day).add(1, 'day') : end.onDayjs(day);
+  const endDay = end.onDayjs(day);
   return !begDay.isAfter(interval.beg) && !endDay.isBefore(interval.end);
 };
 
