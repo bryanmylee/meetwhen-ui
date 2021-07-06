@@ -18,10 +18,6 @@ export class Time {
     return this.unix % 60;
   }
 
-  get isTomorrow(): boolean {
-    return this.unix >= 86400;
-  }
-
   static build(unix: number): Time;
   static build(hour: number, minute: number, second: number): Time;
   static build(...args: [unix: number] | [hour: number, minute: number, second: number]): Time {
@@ -38,11 +34,7 @@ export class Time {
   }
 
   onDayjs(day: Dayjs): Dayjs {
-    return day
-      .hour(this.hour)
-      .minute(this.minute)
-      .second(this.second)
-      .add(this.isTomorrow ? 1 : 0, 'day');
+    return day.hour(this.hour).minute(this.minute).second(this.second);
   }
 
   add(value: number, unit: Unit = 'second'): Time {
