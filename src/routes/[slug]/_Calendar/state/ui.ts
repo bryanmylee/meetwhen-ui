@@ -66,7 +66,6 @@ export const getUiState = ({
       begs = begs.union(intervals.map((interval) => interval.beg.unix()));
       ends = ends.union(intervals.map((interval) => interval.end.unix()));
     });
-    console.log(ends.toArray());
     return [begs, ends] as [begs: Set<number>, ends: Set<number>];
   });
 
