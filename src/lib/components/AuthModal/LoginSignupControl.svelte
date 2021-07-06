@@ -3,11 +3,11 @@
   export let isGuestAuth = false;
   export let enableGuestLogin = true;
 
-  $: guestButtonLabel = isLoggingIn ? 'Create new guest' : 'Already have an account?';
+  $: guestButtonLabel = isLoggingIn ? 'Join as new guest' : 'Already a guest?';
   $: plusButtonLabel = isLoggingIn ? 'Create new account' : 'Already have an account?';
   $: buttonLabel = isGuestAuth ? guestButtonLabel : plusButtonLabel;
 
-  $: guestHeaderLabel = isLoggingIn ? 'Login as guest' : 'Join as guest';
+  $: guestHeaderLabel = isLoggingIn ? 'Login as guest' : 'Join as new guest';
   $: plusHeaderLabel = isLoggingIn ? 'Login' : 'Join';
   $: headerLabel = isGuestAuth ? guestHeaderLabel : plusHeaderLabel;
 </script>

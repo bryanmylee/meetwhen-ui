@@ -123,9 +123,9 @@
     use:clickOutside={() => dismiss(false)}
     class="m-4 card min-w-96"
   >
-    <TabBar bind:isGuestAuth />
+    <TabBar bind:isGuestAuth enableGuestAuth={activeMeeting !== null} />
     <div class="p-4 space-y-4">
-      <Description {isGuestAuth} />
+      <Description {activeMeeting} {isGuestAuth} />
       <LoginSignupControl bind:isLoggingIn {isGuestAuth} {enableGuestLogin} />
       {#if isGuestAuth}
         <GuestAccountFields />

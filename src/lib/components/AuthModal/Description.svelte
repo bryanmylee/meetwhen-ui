@@ -1,13 +1,20 @@
 <script lang="ts">
+  import type { Meeting } from '$lib/gql/types';
+
+  export let activeMeeting: Meeting;
   export let isGuestAuth = false;
 
-  const spanClass = 'font-bold text-transparent bg-clip-text bg-gradient-primary';
+  const spanClass = '';
 </script>
 
-<p class="text-sm">
-  {#if isGuestAuth}
-    Your account will be used for <span class={spanClass}>this meeting only</span>
-  {:else}
-    Your account can be used anywhere on <span class={spanClass}>meetwhen</span>
-  {/if}
-</p>
+{#if isGuestAuth}
+  <p class="text-sm">Your account will only be used for this meeting</p>
+  <div class="card p-4 text-white bg-gradient-primary">
+    {activeMeeting.name}
+  </div>
+{:else}
+  <p class="text-sm">
+    Your account can be used anywhere on
+    <span class="font-bold text-transparent bg-clip-text bg-gradient-primary"> meetwhen </span>
+  </p>
+{/if}

@@ -2,6 +2,7 @@
   import { classes } from '$lib/utils/classes';
 
   export let isGuestAuth = false;
+  export let enableGuestAuth = false;
 
   const getButtonClass = (active: boolean) =>
     classes([
@@ -22,12 +23,14 @@
   >
     Plus
   </button>
-  <button
-    type="button"
-    on:click={() => (isGuestAuth = true)}
-    disabled={isGuestAuth}
-    class="rounded-tr-xl {getButtonClass(isGuestAuth)}"
-  >
-    Guest
-  </button>
+  {#if enableGuestAuth}
+    <button
+      type="button"
+      on:click={() => (isGuestAuth = true)}
+      disabled={isGuestAuth}
+      class="rounded-tr-xl {getButtonClass(isGuestAuth)}"
+    >
+      Guest
+    </button>
+  {/if}
 </div>
