@@ -30,7 +30,7 @@
     ]);
     const lastClass = classes([index === hours.length - 1 ? 'rounded-b-xl' : midClass]);
     return classes([
-      'shade min-h-5 select-none transition-all',
+      'cell shade min-h-5 select-none',
       firstClass,
       lastClass,
       isDisabled ? 'min-w-20 cursor-default' : 'min-w-16 ml-4 cursor-pointer hover:shade-2',
@@ -50,3 +50,9 @@
 {#if !isLastInCol}
   <GridItem {x} y={separatorIndex} class="min-h-4" />
 {/if}
+
+<style lang="postcss">
+  :global(.cell) {
+    transition: min-width 150ms ease-out, margin-left 150ms ease-out;
+  }
+</style>
