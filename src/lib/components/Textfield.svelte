@@ -12,14 +12,13 @@
   export let touched = false;
   export let focusOnMount = false;
 
-  let attrs = {};
-  $: {
-    attrs = {};
-    if (id !== undefined) {
-      attrs = { ...attrs, id };
-    }
-    attrs = { ...attrs, type: password ? 'password' : 'text' };
-  }
+  const getIdFromTitle = (title: string) => title.toLowerCase().replace(/\s/g, '-');
+  $: resolvedId = id ?? getIdFromTitle(placeholder);
+
+  $: attrs = {
+    id: resolvedId,
+    type: password ? 'password' : 'text',
+  };
 
   let className = '';
   export { className as class };
@@ -34,8 +33,8 @@
     class:filled={value !== ''}
     class:error={error !== '' || (required && touched)}
   />
-  <label for={id}>{placeholder}</label>
+  <label for={resolvedId}>{placeholder}</label>
   {#if error !== ''}
-    <span for={id}>{error}</span>
+    <span for={resolvedId}>{error}</span>
   {/if}
 </div>
