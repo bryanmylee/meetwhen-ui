@@ -133,7 +133,7 @@
   };
 
   let indicatorElement: HTMLDivElement;
-  const indicateLongTouch = ({ clientX, clientY }: Touch) => {
+  const indicateLongTouch = ({ screenX, screenY }: Touch) => {
     if (typeof document === 'undefined') {
       return;
     }
@@ -144,8 +144,8 @@
     }
     indicatorElement = document.createElement('div');
     indicatorElement.id = 'indicator';
-    indicatorElement.style.left = `${clientX}px`;
-    indicatorElement.style.top = `${clientY}px`;
+    indicatorElement.style.left = `${screenX}px`;
+    indicatorElement.style.top = `${screenY}px`;
     cssVars(indicatorElement, { startDelay: `${startDelay}ms` });
     document.body.appendChild(indicatorElement);
     requestAnimationFrame(() => {
