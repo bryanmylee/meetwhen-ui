@@ -80,14 +80,6 @@
     }
   };
 
-  const handleSubmit = async () => {
-    if ($pageState === 'joining') {
-      await handleJoin();
-    } else if ($pageState === 'editing') {
-      await handleEdit();
-    }
-  };
-
   let showAuthModal = false;
 
   const dismissAuthModal = ({ detail }: CustomEvent<AuthModalEvent['dismiss']>) => {
@@ -190,21 +182,19 @@
 
 <Head emoji="📘" subtitle={meeting.name} />
 
-<form on:submit|preventDefault={handleSubmit} class="contents">
-  <Template>
-    <Header name={meeting.name} slug={meeting.slug} slot="header" />
-    <Buttons on:join={handleJoin} on:edit={handleEdit} on:leave={handleLeave} slot="buttons" />
-    <Calendar
-      bind:this={calendar}
-      intervals={meeting.intervals}
-      bind:selectedIntervals={$intervals.value}
-      error={$intervals.error}
-      schedules={meeting.schedules}
-      disabled={!$isEditing}
-      slot="calendar"
-    />
-  </Template>
-</form>
+<Template>
+  <Header name={meeting.name} slug={meeting.slug} slot="header" />
+  <Buttons on:join={handleJoin} on:edit={handleEdit} on:leave={handleLeave} slot="buttons" />
+  <Calendar
+    bind:this={calendar}
+    intervals={meeting.intervals}
+    bind:selectedIntervals={$intervals.value}
+    error={$intervals.error}
+    schedules={meeting.schedules}
+    disabled={!$isEditing}
+    slot="calendar"
+  />
+</Template>
 
 {#if showAuthModal}
   <AuthModal
