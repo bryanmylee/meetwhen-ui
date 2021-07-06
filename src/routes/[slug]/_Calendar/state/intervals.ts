@@ -69,6 +69,7 @@ export const getIntervalsState = (hourStepSize: Readable<number>): IntervalsStat
       const dayUnix = beg.startOf('day').unix();
       return {
         beg: time(beg.unix() - dayUnix),
+        // produces unix that can be larger than 86400.
         end: time(end.unix() - dayUnix),
       };
     });

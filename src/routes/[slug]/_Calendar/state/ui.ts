@@ -1,7 +1,8 @@
-import type { LocalTimeInterval } from '$lib/gql/types';
+import type { LocalTimeInterval, Schedule } from '$lib/gql/types';
 import { getHoursInTimeInterval } from '$lib/utils/intervals';
 import type { Time } from '$lib/utils/time';
 import type { Dayjs } from 'dayjs';
+import { Set } from 'immutable';
 import type { Readable, Writable } from 'svelte/store';
 import { derived, writable } from 'svelte/store';
 
@@ -10,6 +11,7 @@ interface StateDependencies {
   hourStepSize: Readable<number>;
   days: Readable<Dayjs[]>;
   availables: Readable<LocalTimeInterval[]>;
+  schedules: Readable<Schedule[]>;
   hoursInDay: Readable<Time[]>;
 }
 
@@ -18,12 +20,16 @@ export interface UiState {
   getColIndexByDay: Readable<(toFind: Dayjs) => number>;
   numRows: Readable<number>;
   getRowIndexByTime: Readable<(time: Time) => number>;
+  availableHasLeftCorners: Readable<
+    (day: Dayjs, available: LocalTimeInterval) => { top: boolean; bottom: boolean }
+  >;
 }
 
 export const getUiState = ({
   hourStepSize,
   days,
   availables,
+  schedules,
   hoursInDay,
 }: StateDependencies): UiState => {
   const isFullscreen = writable(false);
@@ -54,10 +60,36 @@ export const getUiState = ({
     $rowIndexByTimeUnix[time.unix]
   );
 
+  const allScheduleBegEnds = derived([schedules], ([$schedules]) => {
+    let begs: Set<number> = Set();
+    let ends: Set<number> = Set();
+    $schedules.forEach((schedule) => {
+      begs = begs.union(schedule.intervals.map((interval) => interval.beg.unix()));
+      ends = ends.union(schedule.intervals.map((interval) => interval.end.unix()));
+    });
+    console.log(ends.toArray());
+    return [begs, ends] as [begs: Set<number>, ends: Set<number>];
+  });
+
+  const availableHasLeftCorners = derived(
+    [allScheduleBegEnds],
+    ([$allScheduleBegEnds]) => (day: Dayjs, available: LocalTimeInterval) => {
+      const [begs, ends] = $allScheduleBegEnds;
+      const hasTopLeftCorner = begs.includes(available.beg.onDayjs(day).unix());
+      console.log(available.end.hour);
+      const hasBottomLeftCorner = ends.includes(available.end.onDayjs(day).unix());
+      return {
+        top: hasTopLeftCorner,
+        bottom: hasBottomLeftCorner,
+      };
+    }
+  );
+
   return {
     isFullscreen,
     getColIndexByDay,
     numRows,
     getRowIndexByTime,
+    availableHasLeftCorners,
   };
 };

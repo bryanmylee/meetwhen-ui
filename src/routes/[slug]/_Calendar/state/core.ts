@@ -69,6 +69,7 @@ export const getCoreState = (): CalendarState => {
     days: intervalsState.days,
     hoursInDay: intervalsState.hoursInDay,
     availables: intervalsState.availables,
+    schedules: scheduleState.schedules,
   });
 
   return {

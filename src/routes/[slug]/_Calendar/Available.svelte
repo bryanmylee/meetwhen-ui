@@ -10,15 +10,18 @@
 
   const disabled = getContext<Writable<boolean>>('disabled');
   const state = getContext<CalendarState>('state');
-  const { getIntervalsInAvailableByDay } = state;
+  const { getIntervalsInAvailableByDay, availableHasLeftCorners } = state;
 
   export let day: Dayjs;
   export let available: LocalTimeInterval;
   $: intervals = $getIntervalsInAvailableByDay(available, day);
+  $: ({ top, bottom } = $availableHasLeftCorners(day, available));
 
   $: intervalClass = classes([
     'pointer-events-none rounded-xl border-3 border-primary-lighter dark:shadow-md-primary transition-all',
     $disabled ? 'ml-0 opacity-0' : 'ml-4',
+    top && 'rounded-tl-none',
+    bottom && 'rounded-bl-none',
   ]);
 </script>
 
