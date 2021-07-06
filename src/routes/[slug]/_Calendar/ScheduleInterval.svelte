@@ -12,7 +12,7 @@
   import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
   import { classes } from '$lib/utils/classes';
-  import { cssVars } from '$lib/utils/use-css-vars';
+  import { cssVars } from '$lib/utils/css-vars';
   import { getContext } from 'svelte';
   import type { CalendarState } from './state/core';
 
@@ -73,8 +73,8 @@
     on:mouseenter={() => ($hoveredId = id)}
     on:mouseleave={() => ($hoveredId = null)}
     on:transitionend={() => popover.updatePopoverPosition()}
-    use:cssVars={{ bgColor }}
     class={intervalClass}
+    style={cssVars({ bgColor })}
   >
     <div bind:this={referenceElement} class="w-full" />
     <SchedulePopover

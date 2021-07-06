@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cssVars } from '$lib/utils/use-css-vars';
+  import { cssVars } from '$lib/utils/css-vars';
 
   export let dataId: string = undefined;
 
@@ -26,7 +26,7 @@
   };
 </script>
 
-<div {...attrs} class={className} use:cssVars={vars}>
+<div {...attrs} class={className} style={cssVars(vars)}>
   <slot />
 </div>
 

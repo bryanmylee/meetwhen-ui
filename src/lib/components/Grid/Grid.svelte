@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cssVars } from '$lib/utils/use-css-vars';
+  import { cssVars } from '$lib/utils/css-vars';
 
   let className = '';
   export { className as class };
@@ -9,7 +9,7 @@
   $: vars = { rows, cols };
 </script>
 
-<div class="{className} grid" use:cssVars={vars}>
+<div class="{className} grid" style={cssVars(vars)}>
   <slot />
 </div>
 
