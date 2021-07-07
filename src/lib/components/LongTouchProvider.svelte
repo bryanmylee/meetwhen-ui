@@ -32,12 +32,14 @@
 </script>
 
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher<LongTouchEvent>();
+  import Indicator from './Indicator.svelte';
+  import { APP_ROOT_ID } from '$lib/app-state';
+  import { createEventDispatcher, onMount } from 'svelte';
   import { getTouchArray } from '$lib/utils/touch';
-  import { cssVars } from '$lib/utils/use-css-vars';
 
-  export let startDelay = 300;
+  const dispatch = createEventDispatcher<LongTouchEvent>();
+
+  export let startDelay = 500;
   export let deviateLimit = 5;
 
   let tracked: Record<number, LongTouch> = {};
@@ -132,36 +134,27 @@
     document.documentElement.classList.remove('select-none');
   };
 
-  let indicatorElement: HTMLDivElement;
-  const indicateLongTouch = ({ screenX, screenY }: Touch) => {
-    if (typeof document === 'undefined') {
-      return;
+  let appRootElement: HTMLDivElement;
+  let indicator: Indicator;
+  onMount(() => {
+    appRootElement = document.getElementById(APP_ROOT_ID) as HTMLDivElement;
+  });
+
+  const indicateLongTouch = (touch: Touch) => {
+    if (indicator !== undefined) {
+      indicator.$destroy();
     }
-    if (indicatorElement !== undefined) {
-      try {
-        document.body.removeChild(indicatorElement);
-      } catch {}
-    }
-    indicatorElement = document.createElement('div');
-    indicatorElement.id = 'indicator';
-    indicatorElement.style.left = `${screenX}px`;
-    indicatorElement.style.top = `${screenY}px`;
-    cssVars(indicatorElement, { startDelay: `${startDelay}ms` });
-    document.body.appendChild(indicatorElement);
-    requestAnimationFrame(() => {
-      indicatorElement.classList.add('expanded');
-      setTimeout(() => {
-        removeIndicator();
-      }, startDelay + 500);
+    indicator = new Indicator({
+      target: appRootElement,
+      props: { x: touch.clientX, y: touch.clientY, triggerDelay: startDelay },
     });
+    setTimeout(() => {
+      removeIndicator();
+    }, startDelay + 200);
   };
 
   const removeIndicator = () => {
-    if (indicatorElement === undefined) {
-      return;
-    }
-    document.body.removeChild(indicatorElement);
-    indicatorElement = undefined;
+    indicator.$destroy();
   };
 </script>
 
@@ -174,22 +167,3 @@
 >
   <slot />
 </div>
-
-<style lang="postcss">
-  :global(#indicator) {
-    @apply fixed z-50 w-28 h-28 rounded-full pointer-events-none bg-primary-fifty;
-    transform: translate(-50%, -50%) scale(0.25);
-    transition: transform var(--startDelay) ease-out,
-      opacity 300ms ease-out calc(var(--startDelay) + 200ms), border 0ms var(--startDelay);
-  }
-
-  :global(#indicator.expanded) {
-    @apply border-4 border-primary-darker;
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0;
-  }
-
-  :global(.dark #indicator.expanded) {
-    @apply border-white;
-  }
-</style>

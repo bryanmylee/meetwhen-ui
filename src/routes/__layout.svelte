@@ -17,7 +17,7 @@
   import '$lib/screen-height';
   import { primaryCssVars } from '$lib/colors';
   import { queryClient } from '$lib/gql';
-  import { activeMeeting } from '$lib/app-state';
+  import { activeMeeting, APP_ROOT_ID } from '$lib/app-state';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import Nav from '$lib/components/Nav/Nav.svelte';
   import type { Load } from '@sveltejs/kit';
@@ -25,7 +25,7 @@
   export let key: string;
 </script>
 
-<div class="contents" style={$primaryCssVars}>
+<div id={APP_ROOT_ID} class="contents" style={$primaryCssVars}>
   <main class="mt-14">
     <PageTransition {key}>
       <slot />
