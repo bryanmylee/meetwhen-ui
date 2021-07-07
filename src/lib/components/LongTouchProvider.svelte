@@ -39,7 +39,7 @@
 
   const dispatch = createEventDispatcher<LongTouchEvent>();
 
-  export let startDelay = 500;
+  export let startDelay = 300;
   export let deviateLimit = 5;
 
   let tracked: Record<number, LongTouch> = {};
@@ -150,7 +150,7 @@
     });
     setTimeout(() => {
       removeIndicator();
-    }, startDelay + 200);
+    }, startDelay + indicator.triggerDuration);
   };
 
   const removeIndicator = () => {

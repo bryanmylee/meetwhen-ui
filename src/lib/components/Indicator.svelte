@@ -6,17 +6,20 @@
   export let y = 0;
   export let triggerDelay = 100;
 
+  // time to wait after trigger before unmounting element.
+  export const triggerDuration = 200;
+
   let expanding = false;
+  let triggered = false;
+
   onMount(() => {
     requestAnimationFrame(() => {
       expanding = true;
     });
+    setTimeout(() => {
+      triggered = true;
+    }, triggerDelay);
   });
-
-  let triggered = false;
-  setTimeout(() => {
-    triggered = true;
-  }, triggerDelay);
 </script>
 
 <div
