@@ -130,7 +130,26 @@ html {
   }
 
   .bg-gradient-primary {
-    @apply bg-gradient-to-r from-primary-cooler via-primary to-primary-warmer;
+    background-image: linear-gradient(
+      to top right,
+      var(--primary-warmer),
+      var(--primary),
+      var(--primary-cooler)
+    );
+    background-size: 200% 200%;
+    animation: gradient-top-right 15s ease infinite both;
+  }
+
+  @keyframes gradient-top-right {
+    0% {
+      background-position: 0% 100%;
+    }
+    50% {
+      background-position: 100% 0%;
+    }
+    100% {
+      background-position: 0% 100%;
+    }
   }
 
   .error {
