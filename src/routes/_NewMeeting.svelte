@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { receive, send } from '$lib/app-crossfade';
+  import { receive, send } from '$lib/app-state';
   import { newMeetingName } from './new/_state/meeting';
   import Textfield from '$lib/components/Textfield.svelte';
   import { ArrowRightIcon } from 'svelte-feather-icons';

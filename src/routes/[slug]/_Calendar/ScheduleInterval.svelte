@@ -7,7 +7,7 @@
   import type { Interval as IInterval, ShallowUser } from '$lib/gql/types';
   import type { Writable } from 'svelte/store';
   import { writable } from 'svelte/store';
-  import { primarySet } from '$lib/colors';
+  import { primaryColorSet } from '$lib/app-state';
   import { clickOutside } from '$lib/utils/use-click-outside';
   import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
@@ -50,7 +50,7 @@
   $: isActive = $activeId === id;
   $: isHovered = $hoveredId === id;
 
-  $: bgColor = $primarySet.getFractional(users.length, $maxNumUsersPerInterval).css();
+  $: bgColor = $primaryColorSet.getFractional(users.length, $maxNumUsersPerInterval).css();
 
   const disabled = getContext<Writable<boolean>>('disabled');
 

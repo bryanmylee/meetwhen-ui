@@ -3,7 +3,7 @@ import type { Writable } from 'svelte/store';
 
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';
 
-const useDarkMode = (): Writable<boolean> => {
+export const useDarkMode = (): Writable<boolean> => {
   const isDarkLocal = useLocal('dark', { code: BOOLEAN });
 
   isDarkLocal.subscribe(($isDarkLocal) => {
@@ -64,5 +64,3 @@ const updateDocument = (isDark: boolean): void => {
     document.documentElement.classList.remove('dark');
   }
 };
-
-export const isDark = useDarkMode();

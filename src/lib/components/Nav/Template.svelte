@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
-  import { receive, send } from '$lib/app-crossfade';
+  import { receive, send } from '$lib/app-state';
 
   export let key: string;
 </script>

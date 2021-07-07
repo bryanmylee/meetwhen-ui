@@ -3,8 +3,8 @@ import { range } from '$lib/utils/range';
 import type { Color, Scale } from 'chroma-js';
 import chroma from 'chroma-js';
 import type { Readable, Writable } from 'svelte/store';
-import { writable, derived } from 'svelte/store';
-import { cssVars } from './utils/css-vars';
+import { derived, writable } from 'svelte/store';
+import { cssVars } from './css-vars';
 
 export interface ColorSet {
   DEFAULT: string;
@@ -20,7 +20,7 @@ export interface ColorSet {
 
 type CssVars = string;
 
-const useColor = (
+export const useColor = (
   name: string,
   initColor: string
 ): [Writable<string>, Readable<ColorSet>, Readable<CssVars>] => {
@@ -95,9 +95,7 @@ const sats = range(0.25, 1, 0.25);
 const brightColors = flat(hues.map((hue) => sats.map((sat) => chroma.hsl(hue, sat, 0.52).hex())));
 // list of greyscales with varying lightness.
 const greyColors = range(0.3, 0.8, 0.2).map((light) => chroma.hsl(0, 0, light).hex());
+
 export const allColors = [...brightColors, ...greyColors];
-
 export const DEFAULT_INDEX = 17;
-const defaultPrimaryColor = allColors[DEFAULT_INDEX];
-
-export const [primaryBase, primarySet, primaryCssVars] = useColor('primary', defaultPrimaryColor);
+export const defaultPrimaryColor = allColors[DEFAULT_INDEX];

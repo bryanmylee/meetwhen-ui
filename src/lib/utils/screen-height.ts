@@ -1,4 +1,4 @@
-const useScreenHeight = (): void => {
+export const useScreenHeight = (): void => {
   if (typeof window === 'undefined') {
     return;
   }
@@ -9,7 +9,3 @@ const useScreenHeight = (): void => {
 const updateDocument = (): void => {
   document.documentElement.style.setProperty('--vh', `${window.innerHeight}px`);
 };
-
-useScreenHeight();
-
-export {};

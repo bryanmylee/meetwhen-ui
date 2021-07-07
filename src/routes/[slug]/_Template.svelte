@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { media } from '$lib/media';
+  import { media } from '$lib/app-state';
 </script>
 
 {#if $media.md}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { receive, send } from '$lib/app-crossfade';
+  import { receive, send } from '$lib/app-state';
   import DatePicker from '$lib/components/DatePicker/DatePicker.svelte';
   import Textfield from '$lib/components/Textfield.svelte';
   import FromToHourPicker from '$lib/components/FromToHourPicker/FromToHourPicker.svelte';

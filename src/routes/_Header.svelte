@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { receive, send } from '$lib/app-crossfade';
+  import { receive, send } from '$lib/app-state';
 </script>
 
 <header

@@ -13,20 +13,21 @@
 
 <script lang="ts">
   import '../app.postcss';
-  import '$lib/dark-mode';
-  import '$lib/screen-height';
-  import { primaryCssVars } from '$lib/colors';
+  import { useScreenHeight } from '$lib/utils/screen-height';
   import { queryClient } from '$lib/gql';
-  import { activeMeeting, touchEnabled, APP_ROOT_ID } from '$lib/app-state';
+  import { primaryColorCssVars, activeMeeting, touchEnabled, APP_ROOT_ID } from '$lib/app-state';
   import PageTransition from '$lib/components/PageTransition.svelte';
   import Nav from '$lib/components/Nav/Nav.svelte';
   import type { Load } from '@sveltejs/kit';
+  import { onMount } from 'svelte';
 
   export let key: string;
-  $: console.log($touchEnabled);
+  onMount(() => {
+    useScreenHeight();
+  });
 </script>
 
-<div id={APP_ROOT_ID} class="contents" style={$primaryCssVars}>
+<div id={APP_ROOT_ID} class="contents" style={$primaryColorCssVars}>
   <main class="mt-14">
     <PageTransition {key}>
       <slot />
