@@ -114,7 +114,7 @@
   <FullscreenButton bind:isFullscreen={$isFullscreen} />
   {#if error !== ''}
     <span
-      class="absolute p-2 text-xs italic text-red-400 transform -translate-x-1/2 rounded dark:text-red-400 bottom-2 left-1/2 bg-default"
+      class="absolute p-2 text-xs italic text-red-400 transform -translate-x-1/2 rounded pointer-events-none ring ring-red-400 bottom-4 left-1/2 bg-default"
     >
       {error}
     </span>
