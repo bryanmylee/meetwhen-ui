@@ -24,10 +24,12 @@
     colStart: x + 1,
     colEnd: x + 1 + width,
   };
+
+  let element: HTMLDivElement;
 </script>
 
-<div {...attrs} class={className} style={cssVars(vars)}>
-  <slot />
+<div bind:this={element} {...attrs} class={className} style={cssVars(vars)}>
+  <slot {element} />
 </div>
 
 <style>
