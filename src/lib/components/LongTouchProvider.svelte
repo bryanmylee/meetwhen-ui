@@ -150,7 +150,7 @@
     });
     setTimeout(() => {
       removeIndicator();
-    }, startDelay + indicator.triggerDuration);
+    }, startDelay + indicator.triggerDuration + indicator.outroDuration);
   };
 
   const removeIndicator = () => {
