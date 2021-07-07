@@ -145,9 +145,7 @@
   });
 
   const indicateLongTouch = (touch: Touch) => {
-    if (indicator !== undefined) {
-      indicator.$destroy();
-    }
+    indicator?.$destroy();
     indicator = new Indicator({
       target: appRootElement,
       props: { x: touch.clientX, y: touch.clientY, triggerDelay: startDelay },
@@ -158,7 +156,7 @@
   };
 
   const removeIndicator = () => {
-    indicator.$destroy();
+    indicator?.$destroy();
   };
 </script>
 
