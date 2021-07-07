@@ -13,9 +13,9 @@
 
 <script lang="ts">
   import '../app.postcss';
-  import '$lib/colors';
   import '$lib/dark-mode';
   import '$lib/screen-height';
+  import { primaryCssVars } from '$lib/colors';
   import { queryClient } from '$lib/gql';
   import { activeMeeting } from '$lib/app-state';
   import PageTransition from '$lib/components/PageTransition.svelte';
@@ -25,10 +25,12 @@
   export let key: string;
 </script>
 
-<main class="mt-14">
-  <PageTransition {key}>
-    <slot />
-  </PageTransition>
-</main>
+<div class="contents" style={$primaryCssVars}>
+  <main class="mt-14">
+    <PageTransition {key}>
+      <slot />
+    </PageTransition>
+  </main>
 
-<Nav {key} />
+  <Nav {key} />
+</div>

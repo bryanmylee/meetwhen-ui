@@ -3,9 +3,10 @@ import { range } from '$lib/utils/range';
 import type { Color, Scale } from 'chroma-js';
 import chroma from 'chroma-js';
 import type { Readable, Writable } from 'svelte/store';
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
+import { cssVars } from './utils/css-vars';
 
-export interface IColor {
+export interface ColorSet {
   DEFAULT: string;
   lighter: string;
   darker: string;
@@ -17,39 +18,20 @@ export interface IColor {
   getFractional: (num: number, denom: number) => Color;
 }
 
-const useColor = (name: string, initColor: string): [Writable<string>, Readable<IColor>] => {
+type CssVars = string;
+
+const useColor = (
+  name: string,
+  initColor: string
+): [Writable<string>, Readable<ColorSet>, Readable<CssVars>] => {
   const base = writable(initColor);
-  const initColors = getColors(initColor);
-  updateCssVars(name, initColors);
-  const colors = writable(initColors);
+  const colorSet = derived([base], ([$base]) => getColorSet($base));
+  const cssVars = derived([colorSet], ([$colorSet]) => getCssVars(name, $colorSet));
 
-  const updateBase = (fn: (s: string) => string) => {
-    base.update(($base) => {
-      const newBase = fn($base);
-      if (!chroma.valid(newBase)) {
-        return $base;
-      }
-
-      const newColors = getColors(newBase);
-      updateCssVars(name, newColors);
-      colors.set(newColors);
-      return newBase;
-    });
-  };
-
-  return [
-    {
-      subscribe: base.subscribe,
-      update: updateBase,
-      set: (newBase: string) => updateBase(() => newBase),
-    },
-    {
-      subscribe: colors.subscribe,
-    },
-  ];
+  return [base, colorSet, cssVars];
 };
 
-const getColors = (base: string): IColor => {
+const getColorSet = (base: string): ColorSet => {
   const scale = colorScale(base);
   return {
     DEFAULT: chroma(base).css(),
@@ -91,22 +73,20 @@ const hueShifted = (color: chroma.Color, shift: number) => {
   return color.set('hsl.h', hue + shift);
 };
 
-const updateCssVars = (name: string, colors: IColor) => {
-  if (typeof document === 'undefined') {
-    return;
-  }
-  Object.entries(colors).forEach(([variant, value]) => {
-    if (typeof value === 'string') {
-      document.documentElement.style.setProperty(property(name, variant), value);
-    }
-  });
-};
+const getCssVars = (name: string, colors: ColorSet) =>
+  cssVars(
+    Object.fromEntries(
+      Object.entries(colors)
+        .filter(([, value]) => typeof value === 'string')
+        .map(([variant, value]) => [property(name, variant), value])
+    )
+  );
 
 const property = (prop: string, variant: string) => {
   if (variant === 'DEFAULT') {
-    return `--${prop}`;
+    return `${prop}`;
   }
-  return `--${prop}-${variant}`;
+  return `${prop}-${variant}`;
 };
 
 const hues = range(0, 360, 40);
@@ -120,4 +100,4 @@ export const allColors = [...brightColors, ...greyColors];
 export const DEFAULT_INDEX = 17;
 const defaultPrimaryColor = allColors[DEFAULT_INDEX];
 
-export const [primaryBase, primary] = useColor('primary', defaultPrimaryColor);
+export const [primaryBase, primarySet, primaryCssVars] = useColor('primary', defaultPrimaryColor);
