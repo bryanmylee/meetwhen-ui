@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { focusOnMount as focus } from '$lib/utils/use-focus-on-mount';
+  import { focusOnMount as focus } from '$lib/utils/actions/use-focus-on-mount';
 
   export let id: string = undefined;
   export let password = false;

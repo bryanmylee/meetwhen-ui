@@ -1,10 +1,10 @@
+import { cssVars } from '$lib/utils/css-vars';
 import { flat } from '$lib/utils/flat';
 import { range } from '$lib/utils/range';
 import type { Color, Scale } from 'chroma-js';
 import chroma from 'chroma-js';
 import type { Readable, Writable } from 'svelte/store';
 import { derived, writable } from 'svelte/store';
-import { cssVars } from './css-vars';
 
 export interface ColorSet {
   DEFAULT: string;

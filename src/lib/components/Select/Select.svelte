@@ -2,7 +2,7 @@
   import { tick } from 'svelte';
   import { createPopperActions } from 'svelte-popperjs';
   import { classes } from '$lib/utils/classes';
-  import { clickOutside } from '$lib/utils/use-click-outside';
+  import { clickOutside } from '$lib/utils/actions/use-click-outside';
   import { keyActions } from './keyboard';
   import { getOptions } from './popper';
   import type { SelectModifiers } from './popper';

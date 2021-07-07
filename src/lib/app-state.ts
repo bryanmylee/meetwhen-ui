@@ -1,11 +1,11 @@
-import { defaultPrimaryColor, useColor } from '$lib/utils/colors-store';
-import { useDarkMode } from '$lib/utils/dark-mode-store';
+import { defaultPrimaryColor, useColor } from '$lib/utils/stores/colors-store';
+import { useDarkMode } from '$lib/utils/stores/dark-mode-store';
 import watchMedia from 'svelte-media';
 import { cubicOut } from 'svelte/easing';
 import { writable } from 'svelte/store';
 import { crossfade, fade } from 'svelte/transition';
 import type { Meeting } from './gql/types';
-import { useTouchEnabled } from './utils/touch-enabled-store';
+import { useTouchEnabled } from './utils/stores/touch-enabled-store';
 
 export const APP_ROOT_ID = 'meetwhen';
 

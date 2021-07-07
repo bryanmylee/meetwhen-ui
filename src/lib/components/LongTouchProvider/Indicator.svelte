@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cssVars } from '$lib/utils/use-css-vars';
+  import { cssVars } from '$lib/utils/actions/use-css-vars';
   import { classes } from '$lib/utils/classes';
   import { onMount } from 'svelte';
 

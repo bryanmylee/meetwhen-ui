@@ -10,7 +10,7 @@
   import { createEventDispatcher, setContext } from 'svelte';
   import { fade, fly } from 'svelte/transition';
   import { session } from '$app/stores';
-  import { clickOutside } from '$lib/utils/use-click-outside';
+  import { clickOutside } from '$lib/utils/actions/use-click-outside';
   import { getAuthModalState } from './state';
   import { login } from '$lib/gql/login';
   import { loginGuest } from '$lib/gql/loginGuest';

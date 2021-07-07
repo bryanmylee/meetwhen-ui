@@ -1,4 +1,4 @@
-import { BOOLEAN, useLocal } from '$lib/utils/local-storage-store';
+import { BOOLEAN, useLocal } from '$lib/utils/stores/local-storage-store';
 import type { Writable } from 'svelte/store';
 
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';

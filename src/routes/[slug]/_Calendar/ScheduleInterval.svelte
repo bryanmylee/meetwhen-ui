@@ -8,7 +8,7 @@
   import type { Writable } from 'svelte/store';
   import { writable } from 'svelte/store';
   import { primaryColorSet } from '$lib/app-state';
-  import { clickOutside } from '$lib/utils/use-click-outside';
+  import { clickOutside } from '$lib/utils/actions/use-click-outside';
   import Interval from './Interval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
   import { classes } from '$lib/utils/classes';

@@ -2,7 +2,7 @@
   import { slide } from 'svelte/transition';
   import { createPopperActions } from 'svelte-popperjs';
   import { isDark } from '$lib/app-state';
-  import { clickOutside } from '$lib/utils/use-click-outside';
+  import { clickOutside } from '$lib/utils/actions/use-click-outside';
   import { classes } from '$lib/utils/classes';
   import { DropletIcon, MoonIcon, SunIcon } from 'svelte-feather-icons';
 
