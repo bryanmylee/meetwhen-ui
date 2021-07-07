@@ -77,11 +77,13 @@
       if (selecting === Selecting.NONE) {
         selecting = Selecting.CREATE;
       }
+      dispatch('toggle', { id, selected: true });
     } else {
       effectiveSet = selectedSet.subtract(selectingSet);
       if (selecting === Selecting.NONE) {
         selecting = Selecting.DELETE;
       }
+      dispatch('toggle', { id, selected: true });
     }
     selectedIds = effectiveSet.toArray();
   };
@@ -120,8 +122,10 @@
     }
     if (selecting === Selecting.CREATE) {
       effectiveSet = selectedSet.union(selectingSet);
+      dispatch('toggle', { id, selected: true });
     } else {
       effectiveSet = selectedSet.subtract(selectingSet);
+      dispatch('toggle', { id, selected: false });
     }
     selectedIds = effectiveSet.toArray();
   };
