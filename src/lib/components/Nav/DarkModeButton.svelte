@@ -36,7 +36,7 @@
   aria-label="Show theme panel"
   use:ref
   on:click={() => (showDropdown = !showDropdown)}
-  class="w-5 h-5"
+  class="w-5 h-5 text-focusable"
 >
   <svelte:component
     this={activeIcon}

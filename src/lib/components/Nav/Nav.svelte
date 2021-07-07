@@ -23,7 +23,7 @@
         </a>
       </li>
     {:else}
-      <li><button on:click={() => (showAuthModal = true)}>Login</button></li>
+      <li><button on:click={() => (showAuthModal = true)} class="text-focusable">Login</button></li>
     {/if}
     <li class="flex items-center"><DarkModeButton /></li>
   </svelte:fragment>
