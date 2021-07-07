@@ -3,6 +3,7 @@
   import { ChevronDownIcon, ArrowRightIcon } from 'svelte-feather-icons';
   import Accordian from '$lib/components/Accordian.svelte';
   import Textfield from '$lib/components/Textfield.svelte';
+  import { classes } from '$lib/utils/classes';
 
   let findUrl = '';
   $: href = getHref(findUrl);
@@ -16,7 +17,10 @@
   <Accordian
     xclass={({ expanded }) => expanded && 'card'}
     xtitleclass={({ expanded }) =>
-      'flex justify-between w-full p-4 card ' + (expanded && '!shadow-none rounded-b-none')}
+      classes([
+        'flex justify-between w-full p-4 card focus:outline-none focus:ring ring-inset ring-primary-lighter',
+        expanded && '!shadow-none rounded-b-none',
+      ])}
     let:expanded
   >
     <svelte:fragment slot="title">
