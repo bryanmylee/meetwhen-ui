@@ -7,13 +7,15 @@ export const useTouchEnabled = (): Readable<boolean> => {
     return readable(false, () => {});
   }
   return readable<boolean>(false, (set) => {
-    const handleTouch = () => set(true);
-    const handleMouse = () => set(false);
+    const handleTouch = () => {
+      set(true);
+      window.removeEventListener('touchstart', handleTouch);
+    };
+
     window.addEventListener('touchstart', handleTouch);
-    window.addEventListener('mousedown', handleMouse);
+
     return () => {
       window.removeEventListener('touchstart', handleTouch);
-      window.removeEventListener('mousedown', handleMouse);
     };
   });
 };
