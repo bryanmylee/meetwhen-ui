@@ -10,7 +10,7 @@
       active
         ? 'z-10 underline'
         : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600',
-      'focus:ring-[3px] ring-primary-lighter',
+      'focus:ring ring-primary-lighter',
     ]);
 </script>
 
