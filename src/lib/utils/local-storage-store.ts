@@ -33,6 +33,8 @@ export const useLocal = <T>(key: string, options?: UseLocalOptions<T>): Writable
     }
     if (value !== undefined) {
       window.localStorage.setItem(key, encode(value));
+    } else {
+      window.localStorage.removeItem(key);
     }
   };
 
@@ -58,8 +60,6 @@ export const useLocal = <T>(key: string, options?: UseLocalOptions<T>): Writable
       window.removeEventListener('storage', handleStorageUpdate);
     };
   });
-
-  setLocalStorage(options?.init);
 
   let currentValue: T;
   const handleStorageUpdate = () => {
