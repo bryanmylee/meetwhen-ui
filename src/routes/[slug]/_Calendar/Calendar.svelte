@@ -101,7 +101,7 @@
                 referenceElement={element}
               >
                 {$touchEnabled
-                  ? 'Long touch and drag to pick your time'
+                  ? 'Long press and drag to pick your time'
                   : 'Click and drag to pick your time'}
               </DelayedHint>
             </GridItem>
