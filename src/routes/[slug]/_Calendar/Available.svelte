@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { LocalTimeInterval } from '$lib/gql/types';
   import type { Dayjs } from 'dayjs';
-  import AvailableCells from './AvailableCells.svelte';
+  import IntervalCells from './IntervalCells.svelte';
   import { getContext } from 'svelte';
   import type { Writable } from 'svelte/store';
   import Interval from './Interval.svelte';
@@ -26,7 +26,7 @@
 </script>
 
 {#each intervals as interval}
-  <AvailableCells {day} {interval} />
+  <IntervalCells {day} {interval} />
   <!-- For indicating enabled/disabled status -->
   <Interval {interval} class={getIntervalClass($intervalHasLeftCorners(interval))} />
 {/each}
