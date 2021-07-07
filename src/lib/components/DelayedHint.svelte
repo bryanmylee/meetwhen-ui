@@ -5,10 +5,18 @@
 
   const [ref, content] = createPopperActions({
     placement: 'right',
-    strategy: 'fixed',
     modifiers: [
-      { name: 'eventListeners', options: { scroll: false, resize: false } },
       { name: 'offset', options: { offset: [0, 8] } },
+      {
+        name: 'preventOverflow',
+        options: {
+          altAxis: true,
+          padding: {
+            left: 12,
+            right: 12,
+          },
+        },
+      },
     ],
   });
 

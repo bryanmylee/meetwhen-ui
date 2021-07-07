@@ -93,8 +93,8 @@
             <Selected />
             <Highlight {selecting} {selectingIds} />
             <Schedules />
-            <!-- Hint -->
-            <GridItem let:element x={0} y={0} class="w-full h-full pointer-events-none">
+            <!-- day[0], hour[1] guaranteed to exist -->
+            <GridItem let:element x={0} y={1} class="w-full h-full pointer-events-none">
               <DelayedHint
                 show={!disabled && $selectedIds.length === 0}
                 delay={5000}
