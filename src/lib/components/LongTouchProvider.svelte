@@ -39,12 +39,16 @@
 
   const dispatch = createEventDispatcher<LongTouchEvent>();
 
+  export let disabled = false;
   export let startDelay = 300;
   export let deviateLimit = 5;
 
   let tracked: Record<number, LongTouch> = {};
 
   const touchstart = (event: TouchEvent) => {
+    if (disabled) {
+      return;
+    }
     disableSelect();
     dispatch('touchstart', { event });
     const changedTouches = getTouchArray(event.changedTouches);

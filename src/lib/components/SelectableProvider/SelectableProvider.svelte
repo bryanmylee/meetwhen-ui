@@ -176,6 +176,7 @@
 </script>
 
 <LongTouchProvider
+  {disabled}
   on:longtouchstart={longtouchstart}
   on:longtouchmove={longtouchmove}
   on:longtouchend={longtouchend}
