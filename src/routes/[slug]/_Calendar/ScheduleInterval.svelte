@@ -58,10 +58,11 @@
     'interval relative h-full pointer-events-auto',
     !$intervalHasBefore(interval) && 'rounded-t-xl',
     !$intervalHasAfter(interval) ? 'rounded-b-xl' : 'border-b-2 border-white dark:border-gray-900',
+    // use ring as spacer and ring offset as ring
     (isHovered || isActive) && 'ring-2 ring-offset-[3px] ring-inset ring-white dark:ring-gray-900',
     isHovered && !isActive && 'ring-offset-gray-400',
     isActive && 'ring-offset-primary dark:ring-offset-primary-lighter',
-    $disabled ? 'w-full' : 'w-4 !rounded-r-none !ring-offset-2',
+    $disabled ? 'w-full' : 'w-4 !rounded-r-none',
   ]);
 </script>
 
