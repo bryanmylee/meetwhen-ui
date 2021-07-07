@@ -7,7 +7,7 @@
     "preview": "svelte-kit preview",
     "lint:prettier": "prettier --check --plugin-search-dir=. .",
     "lint:eslint": "eslint --ignore-path .gitignore .",
-    "lint": "run-s lint:*",
+    "lint": "run-p lint:*",
     "format": "prettier --write --plugin-search-dir=. ."
   },
   "devDependencies": {
