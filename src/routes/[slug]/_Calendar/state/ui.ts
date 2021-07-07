@@ -1,3 +1,4 @@
+import { Selecting } from '$lib/components/SelectableProvider/selecting';
 import type { Interval, LocalTimeInterval, Schedule } from '$lib/gql/types';
 import { getHoursInTimeInterval, getLocalIntervals } from '$lib/utils/intervals';
 import type { Time } from '$lib/utils/time';
@@ -16,6 +17,7 @@ interface StateDependencies {
 }
 
 export interface UiState {
+  selecting: Writable<Selecting>;
   isFullscreen: Writable<boolean>;
   getColIndexByDay: Readable<(toFind: Dayjs) => number>;
   numRows: Readable<number>;
@@ -30,6 +32,7 @@ export const getUiState = ({
   schedules,
   hoursInDay,
 }: StateDependencies): UiState => {
+  const selecting = writable(Selecting.NONE);
   const isFullscreen = writable(false);
 
   const getColIndexByDay = derived([days], ([$days]) => (toFind: Dayjs) =>
@@ -83,6 +86,7 @@ export const getUiState = ({
   );
 
   return {
+    selecting,
     isFullscreen,
     getColIndexByDay,
     numRows,

@@ -22,6 +22,7 @@
     selectedIds,
     intervals: intervalsInput,
     schedules: schedulesInput,
+    selecting,
     isFullscreen,
     selectedIntervals: selectedIntervalsDep,
     getIdsFromIntervals,
@@ -67,9 +68,9 @@
   <SelectableProvider
     bind:this={selector}
     bind:selectedIds={$selectedIds}
+    bind:selecting={$selecting}
     interpolateBetween={$getDayHourIdsBetween}
     {disabled}
-    let:selecting
     let:selectingIds
   >
     <div class="relative h-full min-h-0 p-4 pt-1 overflow-hidden focus:outline-none">
@@ -91,7 +92,7 @@
               <Column {day} />
             {/each}
             <Selected />
-            <Highlight {selecting} {selectingIds} />
+            <Highlight {selectingIds} />
             <Schedules />
             <!-- day[0], hour[1] guaranteed to exist -->
             <GridItem let:element x={0} y={1} class="w-full h-full pointer-events-none">
