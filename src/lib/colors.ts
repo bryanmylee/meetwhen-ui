@@ -95,10 +95,9 @@ const updateCssVars = (name: string, colors: IColor) => {
   if (typeof document === 'undefined') {
     return;
   }
-  const body = document.querySelector('body');
   Object.entries(colors).forEach(([variant, value]) => {
     if (typeof value === 'string') {
-      body.style.setProperty(property(name, variant), value);
+      document.documentElement.style.setProperty(property(name, variant), value);
     }
   });
 };
