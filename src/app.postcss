@@ -99,7 +99,13 @@ html {
     @apply relative inline-block;
     & > input[type='text'],
     & > input[type='password'] {
-      @apply relative w-full px-4 pt-5 pb-3 rounded-xl text-gray-800 dark:text-white shade focusable;
+      @apply relative w-full px-4 pt-5 pb-3 rounded-xl dark:text-white shade focusable;
+      &:disabled {
+        @apply shade-2 ring ring-inset text-gray-400 ring-gray-100 dark:ring-gray-700;
+        & + label {
+          @apply !text-gray-400;
+        }
+      }
       &:focus,
       &.filled {
         & + label {
@@ -114,7 +120,7 @@ html {
       }
     }
     & > label {
-      @apply absolute -top-3 left-0 mt-7 mb-5 mx-4 text-gray-800 dark:text-white;
+      @apply absolute -top-3 left-0 mt-7 mb-5 mx-4 dark:text-white;
       @apply pointer-events-none transition-transform;
       transform-origin: top left;
     }
