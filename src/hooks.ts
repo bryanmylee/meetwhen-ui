@@ -1,6 +1,6 @@
 import { dev } from '$app/env';
 import { queryClient } from '$lib/gql';
-import { me } from '$lib/gql/me';
+import { getMe } from '$lib/gql/getMe';
 import type { ShallowUser } from '$lib/gql/types';
 import type { GetSession } from '@sveltejs/kit';
 import { parse } from 'cookie';
@@ -19,7 +19,7 @@ const getUser = async (accessToken: string | undefined): Promise<ShallowUser | n
     return null;
   }
   try {
-    return await me(accessToken);
+    return await getMe(accessToken);
   } catch (error) {
     return null;
   }

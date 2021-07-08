@@ -1,7 +1,7 @@
 import { query } from '$lib/gql';
 import type { ShallowUser } from './types';
 
-const ME = `
+const GET_ME = `
 {
   me {
     id
@@ -12,17 +12,12 @@ const ME = `
 }`;
 
 interface MeResolved {
-  me: {
-    id: string;
-    name: string;
-    email: string;
-    guestOf: string | null;
-  };
+  me: ShallowUser;
 }
 
-export const me = async (accessToken: string): Promise<ShallowUser> => {
+export const getMe = async (accessToken: string): Promise<ShallowUser> => {
   const { me } = (await query({
-    query: ME,
+    query: GET_ME,
     headers: {
       cookie: `access-token=${accessToken}`,
     },
