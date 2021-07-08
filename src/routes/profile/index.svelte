@@ -11,7 +11,6 @@
 </script>
 
 <script lang="ts">
-  import { goto } from '$app/navigation';
   import { session } from '$app/stores';
   import { logout } from '$lib/gql/logout';
   import { setLoadingContext, withLoading } from '$lib/components/Loading';
@@ -23,7 +22,7 @@
   const handleLogout = withLoading(isLoading, async () => {
     await logout();
     $session.user = null;
-    goto('/', { replaceState: true });
+    window.history.back();
   });
 </script>
 
