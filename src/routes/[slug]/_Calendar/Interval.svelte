@@ -18,6 +18,6 @@
   export { className as class };
 </script>
 
-<GridItem {x} {y} {height} class={className}>
-  <slot />
+<GridItem let:element {x} {y} {height} class={className}>
+  <slot {element} />
 </GridItem>

@@ -14,8 +14,7 @@
   import Schedules from './Schedules.svelte';
   import FullscreenButton from './FullscreenButton.svelte';
   import { classes } from '$lib/utils/classes';
-  import DelayedHint from '$lib/components/DelayedHint.svelte';
-  import { touchEnabled } from '$lib/app-state';
+  import CalendarHint from './CalendarHint.svelte';
 
   const state = getCoreState();
   const {
@@ -94,18 +93,7 @@
             <Selected />
             <Highlight {selectingIds} />
             <Schedules />
-            <!-- day[0], hour[1] guaranteed to exist -->
-            <GridItem let:element x={0} y={1} class="w-full h-full pointer-events-none">
-              <DelayedHint
-                show={!disabled && $selectedIds.length === 0}
-                delay={5000}
-                referenceElement={element}
-              >
-                {$touchEnabled
-                  ? 'Long press and drag to pick your time'
-                  : 'Click and drag to pick your time'}
-              </DelayedHint>
-            </GridItem>
+            <CalendarHint />
           </Grid>
         </GridItem>
       </div>
