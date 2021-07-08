@@ -88,7 +88,7 @@
 
   const handleAPIError = (error: APIError) => {
     const { id } = error.extensions.exception.details;
-    console.error({ id, message: error.message });
+    console.error(error);
     if (id === 'auth/user-not-found') {
       if (isGuestAuth) {
         $name.error = 'Guest not found';

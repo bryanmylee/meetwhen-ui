@@ -149,7 +149,7 @@
   };
 
   const handleAPIError = (error: APIError) => {
-    console.log(error);
+    console.error(error);
     const { id } = error.extensions.exception.details;
     if (id === 'already-exists') {
       // merge current selection intervals with current user's intervals.
