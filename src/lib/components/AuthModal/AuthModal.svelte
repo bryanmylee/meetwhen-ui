@@ -150,6 +150,7 @@
           Cancel
         </LoadingButton>
         <LoadingButton
+          type="submit"
           isPrimary
           on:click={submitAuth}
           class="w-full p-3 rounded-full button primary"
