@@ -15,7 +15,6 @@
     beg: selectedHour,
     end: selectedHour.add($hourStepSize, 'hour'),
   };
-  $: console.log(interval);
 </script>
 
 {#if interval !== undefined}
