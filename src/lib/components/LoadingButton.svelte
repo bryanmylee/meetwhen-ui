@@ -42,4 +42,3 @@
 <button {...attrs} on:click class={buttonClass}>
   <slot />
 </button>
-

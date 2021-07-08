@@ -14,6 +14,7 @@
   import { goto } from '$app/navigation';
   import { session } from '$app/stores';
   import { logout } from '$lib/gql/logout';
+  import LoadingButton from '$lib/components/LoadingButton.svelte';
   import type { Load } from '@sveltejs/kit';
 
   const handleLogout = async () => {
@@ -27,6 +28,6 @@
   <div class="p-4 space-y-4 card">
     <h1 class="text-xl font-bold">Upcoming meetings</h1>
     <p>Coming soon...</p>
-    <button on:click={handleLogout} class="p-4 button shade rounded-xl"> Logout </button>
+    <LoadingButton on:click={handleLogout} class="px-4 py-3 button shade rounded-full"> Logout </LoadingButton>
   </div>
 </div>

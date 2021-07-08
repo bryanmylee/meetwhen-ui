@@ -23,6 +23,7 @@
   import TabBar from './TabBar.svelte';
   import LoginSignupControl from './LoginSignupControl.svelte';
   import Description from './Description.svelte';
+  import LoadingButton from '$lib/components/LoadingButton.svelte';
 
   export let activeMeeting: Meeting | null = null;
   export let isLoggingIn = true;
@@ -140,7 +141,9 @@
         >
           Cancel
         </button>
-        <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
+        <LoadingButton type="submit" class="w-full p-3 rounded-full button primary">
+          Confirm
+        </LoadingButton>
       </div>
     </div>
   </form>
