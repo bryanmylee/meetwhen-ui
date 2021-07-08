@@ -11,7 +11,7 @@
 </script>
 
 <div
-  class="flex items-center justify-between p-4 text-white card bg-gradient-primary bg-animated-slow"
+  class="flex items-center justify-between p-4 text-white card bg-gradient-primary bg-animate-slow"
 >
   <div>
     <p class="text-lg font-medium">

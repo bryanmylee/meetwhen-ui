@@ -8,11 +8,11 @@
 {#if isGuestAuth}
   <p class="text-sm">
     Your account will be used for
-    <span class="font-bold text-transparent bg-clip-text bg-gradient-primary bg-animated-slow">
+    <span class="font-bold text-transparent bg-clip-text bg-gradient-primary">
       this meeting only
     </span>
   </p>
-  <div class="card p-4 text-white bg-gradient-primary font-medium">
+  <div class="p-4 font-medium text-white card bg-gradient-primary bg-animate-slow">
     {activeMeeting.name}
   </div>
 {:else}

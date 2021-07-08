@@ -31,7 +31,7 @@
   export { className as class };
   $: buttonClass = classes([
     className,
-    $isLoading && 'bg-gradient-primary bg-animated-fast !text-white !text-opacity-50',
+    $isLoading && 'bg-gradient-primary bg-animate-fast !text-white !text-opacity-50',
   ]);
 </script>
 
