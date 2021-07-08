@@ -18,12 +18,12 @@
 <div class="flex">
   <button
     type="button"
-    aria-label="Use plus account"
+    aria-label="Use full account"
     on:click={() => (isGuestAuth = false)}
     disabled={!isGuestAuth || $isLoading}
     class="rounded-tl-xl {getButtonClass(!isGuestAuth, $isLoading)}"
   >
-    Plus
+    Login / Signup
   </button>
   {#if enableGuestAuth}
     <button
