@@ -6,8 +6,11 @@
 
 <script lang="ts">
   import { getContext } from 'svelte';
+  import type { Writable } from 'svelte/store';
+  import { classes } from '$lib/utils/classes';
 
-  const isLoading = getContext(IS_LOADING_KEY);
+  const _isLoading = getContext<Writable<boolean>>(IS_LOADING_KEY);
+  $: isLoading = $_isLoading ?? false;
 
   export let type: ButtonType = 'button';
   export let disabled = false;
@@ -18,7 +21,7 @@
   $: {
     attrs = {
       type,
-      disabled,
+      disabled: isLoading || disabled,
     };
     if (ariaLabel !== undefined) {
       attrs['aria-label'] = ariaLabel;
@@ -30,8 +33,13 @@
 
   let className = '';
   export { className as class };
+  $: buttonClass = classes([
+    className,
+    isLoading && 'bg-gradient-primary bg-animated-fast !text-white !text-opacity-50',
+  ]);
 </script>
 
-<button {...attrs} on:click class={className}>
+<button {...attrs} on:click class={buttonClass}>
   <slot />
 </button>
+

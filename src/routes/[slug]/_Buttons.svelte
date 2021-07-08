@@ -10,6 +10,7 @@
   import { createEventDispatcher } from 'svelte';
   import { pageState, isUserJoined } from './_state/page';
   import { session } from '$app/stores';
+  import LoadingButton from '$lib/components/LoadingButton.svelte';
 
   const dispatch = createEventDispatcher<ButtonsEvent>();
 </script>
@@ -29,7 +30,7 @@
         <button
           type="button"
           on:click={() => ($pageState = 'joining')}
-          class="w-full p-3 rounded-full button primary"
+          class="w-full py-3 rounded-full button primary"
         >
           Join
         </button>
@@ -38,14 +39,14 @@
           <button
             type="button"
             on:click={() => ($pageState = 'leaving')}
-            class="w-full p-3 rounded-full button shade"
+            class="w-full py-3 rounded-full button shade"
           >
             Leave
           </button>
           <button
             type="button"
             on:click={() => ($pageState = 'editing')}
-            class="w-full p-3 rounded-full button primary"
+            class="w-full py-3 rounded-full button primary"
           >
             Edit
           </button>
@@ -53,7 +54,7 @@
           <button
             type="button"
             on:click={() => ($pageState = 'joining')}
-            class="w-full p-3 rounded-full button primary"
+            class="w-full py-3 rounded-full button primary"
           >
             Join
           </button>
@@ -63,32 +64,32 @@
       <button
         type="button"
         on:click={() => ($pageState = 'none')}
-        class="w-full p-3 rounded-full button shade"
+        class="w-full py-3 rounded-full button shade"
       >
         Cancel
       </button>
-      <button
-        type="submit"
-        on:click|preventDefault={() => dispatch('edit')}
-        class="w-full p-3 rounded-full button primary"
+      <LoadingButton
+        type="button"
+        on:click={() => dispatch('edit')}
+        class="w-full py-3 rounded-full button primary"
       >
         Confirm
-      </button>
+      </LoadingButton>
     {:else if $pageState === 'joining'}
       <button
         type="button"
         on:click={() => ($pageState = 'none')}
-        class="w-full p-3 rounded-full button shade"
+        class="w-full py-3 rounded-full button shade"
       >
         Cancel
       </button>
-      <button
-        type="submit"
-        on:click|preventDefault={() => dispatch('join')}
+      <LoadingButton
+        type="button"
+        on:click={() => dispatch('join')}
         class="w-full p-3 rounded-full button primary"
       >
         Continue
-      </button>
+      </LoadingButton>
     {:else if $pageState === 'leaving'}
       <button
         type="button"
@@ -97,13 +98,13 @@
       >
         Cancel
       </button>
-      <button
+      <LoadingButton
         type="submit"
-        on:click|preventDefault={() => dispatch('leave')}
+        on:click={() => dispatch('leave')}
         class="w-full p-3 rounded-full button primary"
       >
         Confirm
-      </button>
+      </LoadingButton>
     {/if}
   </div>
 </div>
