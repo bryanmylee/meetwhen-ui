@@ -61,45 +61,48 @@
         {/if}
       {/if}
     {:else if $pageState === 'editing'}
-      <button
+      <LoadingButton
         type="button"
         on:click={() => ($pageState = 'none')}
         class="w-full py-3 rounded-full button shade"
       >
         Cancel
-      </button>
+      </LoadingButton>
       <LoadingButton
         type="button"
+        isPrimary
         on:click={() => dispatch('edit')}
         class="w-full py-3 rounded-full button primary"
       >
         Confirm
       </LoadingButton>
     {:else if $pageState === 'joining'}
-      <button
+      <LoadingButton
         type="button"
         on:click={() => ($pageState = 'none')}
         class="w-full py-3 rounded-full button shade"
       >
         Cancel
-      </button>
+      </LoadingButton>
       <LoadingButton
         type="button"
+        isPrimary
         on:click={() => dispatch('join')}
         class="w-full p-3 rounded-full button primary"
       >
         Continue
       </LoadingButton>
     {:else if $pageState === 'leaving'}
-      <button
+      <LoadingButton
         type="button"
         on:click={() => ($pageState = 'none')}
         class="w-full p-3 rounded-full button shade"
       >
         Cancel
-      </button>
+      </LoadingButton>
       <LoadingButton
         type="submit"
+        isPrimary
         on:click={() => dispatch('leave')}
         class="w-full p-3 rounded-full button primary"
       >

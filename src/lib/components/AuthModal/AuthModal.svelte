@@ -136,15 +136,16 @@
         <PlusAccountFields {isLoggingIn} />
       {/if}
       <div class="flex space-x-4">
-        <button
+        <LoadingButton
           type="button"
           on:click={() => dismiss(false)}
           class="w-full p-3 rounded-full button shade"
         >
           Cancel
-        </button>
+        </LoadingButton>
         <LoadingButton
           type="submit"
+          isPrimary
           on:click={submitAuth}
           class="w-full p-3 rounded-full button primary"
         >

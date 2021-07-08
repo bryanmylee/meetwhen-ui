@@ -31,7 +31,12 @@
   <div class="p-4 space-y-4 card">
     <h1 class="text-xl font-bold">Upcoming meetings</h1>
     <p>Coming soon...</p>
-    <LoadingButton on:click={handleLogout} class="px-4 py-3 rounded-full button shade">
+    <LoadingButton
+      type="button"
+      isPrimary
+      on:click={handleLogout}
+      class="px-4 py-3 rounded-full button shade"
+    >
       Logout
     </LoadingButton>
   </div>

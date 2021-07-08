@@ -7,6 +7,7 @@
   import { classes } from '$lib/utils/classes';
   import { getLoadingContext } from './index';
 
+  export let isPrimary = false;
   export let type: ButtonType = 'button';
   export let disabled = false;
   export let ariaLabel: string = undefined;
@@ -33,17 +34,17 @@
   $: buttonClass = classes([
     className,
     'relative min-w-28',
-    $isLoading && 'bg-gradient-primary bg-animate-fast opacity-50',
+    $isLoading && isPrimary && 'bg-gradient-primary bg-animate-fast opacity-50',
   ]);
 </script>
 
 <button {...attrs} on:click class={buttonClass}>
-  {#if $isLoading}
+  {#if $isLoading && isPrimary}
     <div class="loading" in:fly={{ y: 20 }}>Loading...</div>
-  {/if}
-  <div class={classes([$isLoading && 'opacity-0'])}>
+    &nbsp;
+  {:else}
     <slot />
-  </div>
+  {/if}
 </button>
 
 <style lang="postcss">
