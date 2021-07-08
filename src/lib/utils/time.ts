@@ -29,8 +29,8 @@ export class Time {
     return new Time(hour * 3600 + minute * 60 + second);
   }
 
-  static dayjs(dayjs: Dayjs): Time {
-    return Time.build(dayjs.hour(), dayjs.minute(), dayjs.second());
+  static dayjs(day: Dayjs): Time {
+    return Time.build(day.hour(), day.minute(), day.second());
   }
 
   onDayjs(day: Dayjs): Dayjs {
