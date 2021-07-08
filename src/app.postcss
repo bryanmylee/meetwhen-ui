@@ -75,6 +75,7 @@ html {
     &.shade {
       &:not(.outline) {
         @apply bg-gray-100 text-black dark:bg-gray-700 dark:text-white;
+        @apply disabled:text-gray-400 disabled:cursor-default;
         &:not(:disabled) {
           @apply hover:bg-gray-50 dark:hover:bg-gray-600 hover:shadow;
           @apply active:bg-gray-200 dark:active:bg-gray-800 active:shadow-none;
