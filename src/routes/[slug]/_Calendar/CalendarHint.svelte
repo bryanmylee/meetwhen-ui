@@ -9,20 +9,22 @@
   const state = getContext<CalendarState>('state');
   const { allDayHours, hourStepSize, selectedIds } = state;
   const disabled = getContext<Writable<boolean>>('disabled');
-  // hours[1] always guaranteed to exist.
+  // hours[1] can be undefined.
   $: selectedHour = $allDayHours[1];
-  $: interval = {
+  $: interval = selectedHour !== undefined && {
     beg: selectedHour,
     end: selectedHour.add($hourStepSize, 'hour'),
   };
 </script>
 
-<GridInterval let:element {interval} class="w-full h-full pointer-events-none">
-  <DelayedHint
-    show={!$disabled && $selectedIds.length === 0}
-    delay={5000}
-    referenceElement={element}
-  >
-    {$touchEnabled ? 'Long press and drag to pick your time' : 'Click and drag to pick your time'}
-  </DelayedHint>
-</GridInterval>
+{#if interval !== undefined}
+  <GridInterval let:element {interval} class="w-full h-full pointer-events-none">
+    <DelayedHint
+      show={!$disabled && $selectedIds.length === 0}
+      delay={5000}
+      referenceElement={element}
+    >
+      {$touchEnabled ? 'Long press and drag to pick your time' : 'Click and drag to pick your time'}
+    </DelayedHint>
+  </GridInterval>
+{/if}
