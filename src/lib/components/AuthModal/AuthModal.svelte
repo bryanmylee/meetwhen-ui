@@ -23,7 +23,7 @@
   import TabBar from './TabBar.svelte';
   import LoginSignupControl from './LoginSignupControl.svelte';
   import Description from './Description.svelte';
-  import LoadingButton from '$lib/components/LoadingButton.svelte';
+  import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
 
   export let activeMeeting: Meeting | null = null;
   export let isLoggingIn = true;

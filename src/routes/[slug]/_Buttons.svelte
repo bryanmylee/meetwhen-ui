@@ -1,7 +1,7 @@
 <script lang="ts">
   import { pageState, isUserJoined } from './_state/page';
   import { session } from '$app/stores';
-  import LoadingButton from '$lib/components/LoadingButton.svelte';
+  import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
 
   export let onJoin: () => Promise<void> = undefined;
   export let onEdit: () => Promise<void> = undefined;

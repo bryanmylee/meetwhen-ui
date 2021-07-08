@@ -14,7 +14,7 @@
   import { goto } from '$app/navigation';
   import { session } from '$app/stores';
   import { logout } from '$lib/gql/logout';
-  import LoadingButton from '$lib/components/LoadingButton.svelte';
+  import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
   import type { Load } from '@sveltejs/kit';
 
   const handleLogout = async () => {
