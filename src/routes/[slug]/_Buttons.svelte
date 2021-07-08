@@ -1,11 +1,18 @@
+<script lang="ts" context="module">
+  export interface ButtonsEvent {
+    join: never;
+    edit: never;
+    leave: never;
+  }
+</script>
+
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import { pageState, isUserJoined } from './_state/page';
   import { session } from '$app/stores';
   import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
 
-  export let onJoin: () => Promise<void> = undefined;
-  export let onEdit: () => Promise<void> = undefined;
-  export let onLeave: () => Promise<void> = undefined;
+  const dispatch = createEventDispatcher<ButtonsEvent>();
 </script>
 
 <div class="space-y-4">
@@ -61,7 +68,11 @@
       >
         Cancel
       </button>
-      <LoadingButton type="button" onClick={onEdit} class="w-full py-3 rounded-full button primary">
+      <LoadingButton
+        type="button"
+        on:click={() => dispatch('edit')}
+        class="w-full py-3 rounded-full button primary"
+      >
         Confirm
       </LoadingButton>
     {:else if $pageState === 'joining'}
@@ -72,7 +83,11 @@
       >
         Cancel
       </button>
-      <LoadingButton type="button" onClick={onJoin} class="w-full p-3 rounded-full button primary">
+      <LoadingButton
+        type="button"
+        on:click={() => dispatch('join')}
+        class="w-full p-3 rounded-full button primary"
+      >
         Continue
       </LoadingButton>
     {:else if $pageState === 'leaving'}
@@ -83,7 +98,11 @@
       >
         Cancel
       </button>
-      <LoadingButton type="submit" onClick={onLeave} class="w-full p-3 rounded-full button primary">
+      <LoadingButton
+        type="submit"
+        on:click={() => dispatch('leave')}
+        class="w-full p-3 rounded-full button primary"
+      >
         Confirm
       </LoadingButton>
     {/if}

@@ -23,6 +23,7 @@
   import TabBar from './TabBar.svelte';
   import LoginSignupControl from './LoginSignupControl.svelte';
   import Description from './Description.svelte';
+  import { setLoadingContext, withLoading } from '$lib/components/Loading';
   import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
 
   export let activeMeeting: Meeting | null = null;
@@ -45,7 +46,8 @@
   const { name, email, password, resetErrors } = state;
   setContext('state', state);
 
-  const submitAuth = async () => {
+  const isLoading = setLoadingContext(false);
+  const submitAuth = withLoading(isLoading, async () => {
     try {
       if (isLoggingIn) {
         if (isGuestAuth) {
@@ -79,7 +81,7 @@
         (errors as APIError[]).forEach(handleAPIError);
       }
     }
-  };
+  });
 
   const handleAPIError = (error: APIError) => {
     const { id } = error.extensions.exception.details;
@@ -118,8 +120,12 @@
   transition:fade={{ duration: 200 }}
   class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50 !m-0"
 >
-  <!-- TODO: custom loading form -->
-  <form in:fly|local={{ y: 200 }} use:clickOutside={() => dismiss(false)} class="m-4 card min-w-96">
+  <form
+    in:fly|local={{ y: 200 }}
+    on:submit|preventDefault={submitAuth}
+    use:clickOutside={() => dismiss(false)}
+    class="m-4 card min-w-96"
+  >
     <TabBar bind:isGuestAuth enableGuestAuth={activeMeeting !== null} />
     <div class="p-4 space-y-4">
       <Description {activeMeeting} {isGuestAuth} />
@@ -137,7 +143,11 @@
         >
           Cancel
         </button>
-        <LoadingButton onClick={submitAuth} class="w-full p-3 rounded-full button primary">
+        <LoadingButton
+          type="submit"
+          on:click={submitAuth}
+          class="w-full p-3 rounded-full button primary"
+        >
           Confirm
         </LoadingButton>
       </div>

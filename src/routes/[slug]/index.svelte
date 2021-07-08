@@ -39,6 +39,7 @@
   import { onMount } from 'svelte';
   import { session } from '$app/stores';
   import { unionIntervals } from '$lib/utils/intervals';
+  import { setLoadingContext, withLoading } from '$lib/components/Loading';
 
   // logout previous guest if on wrong meeting.
   onMount(async () => {
@@ -58,7 +59,9 @@
   export let meeting: Meeting;
   $: $meetingDep = meeting;
 
-  const handleLeave = async () => {
+  const isLoading = setLoadingContext(false);
+
+  const handleLeave = withLoading(isLoading, async () => {
     try {
       if ($session.user === null) {
         throw 'must be authenticated to leave';
@@ -78,7 +81,7 @@
         (errors as APIError[]).forEach(handleAPIError);
       }
     }
-  };
+  });
 
   let showAuthModal = false;
 
@@ -89,7 +92,7 @@
     }
   };
 
-  const handleJoin = async () => {
+  const handleJoin = withLoading(isLoading, async () => {
     if (!isFormFormatValid()) {
       return;
     }
@@ -111,9 +114,9 @@
         (errors as APIError[]).forEach(handleAPIError);
       }
     }
-  };
+  });
 
-  const handleEdit = async () => {
+  const handleEdit = withLoading(isLoading, async () => {
     if (!isFormFormatValid()) {
       return;
     }
@@ -134,7 +137,7 @@
         (errors as APIError[]).forEach(handleAPIError);
       }
     }
-  };
+  });
 
   const isFormFormatValid = () => {
     let noFormatErrors = true;
@@ -184,7 +187,7 @@
 
 <Template>
   <Header name={meeting.name} slug={meeting.slug} slot="header" />
-  <Buttons onJoin={handleJoin} onEdit={handleEdit} onLeave={handleLeave} slot="buttons" />
+  <Buttons on:join={handleJoin} on:edit={handleEdit} on:leave={handleLeave} slot="buttons" />
   <Calendar
     bind:this={calendar}
     intervals={meeting.intervals}
