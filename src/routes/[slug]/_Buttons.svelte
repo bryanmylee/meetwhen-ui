@@ -101,7 +101,7 @@
         Cancel
       </LoadingButton>
       <LoadingButton
-        type="submit"
+        type="button"
         isPrimary
         on:click={() => dispatch('leave')}
         class="w-full p-3 rounded-full button primary"
