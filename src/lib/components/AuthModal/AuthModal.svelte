@@ -74,7 +74,10 @@
           });
         }
       }
-      dismiss(true);
+      // wait for withLoading to set loading.
+      setTimeout(() => {
+        dismiss(true);
+      }, 20);
     } catch (errors) {
       console.error(errors);
       if (Array.isArray(errors)) {
@@ -112,6 +115,9 @@
   };
 
   const dismiss = (authenticated: boolean) => {
+    if ($isLoading) {
+      return;
+    }
     dispatch('dismiss', { authenticated });
   };
 </script>
@@ -144,7 +150,6 @@
           Cancel
         </LoadingButton>
         <LoadingButton
-          type="submit"
           isPrimary
           on:click={submitAuth}
           class="w-full p-3 rounded-full button primary"
