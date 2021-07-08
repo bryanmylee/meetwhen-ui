@@ -9,6 +9,7 @@ import { useTouchEnabled } from './utils/stores/touch-enabled-store';
 
 export const APP_ROOT_ID = 'meetwhen';
 
+export const isLoadingApi = writable<boolean>(false);
 export const loadingMeetingPromise = writable<Promise<Meeting>>(null);
 export const newMeeting = writable<Meeting>(null);
 export const activeMeeting = writable<Meeting>(null);
