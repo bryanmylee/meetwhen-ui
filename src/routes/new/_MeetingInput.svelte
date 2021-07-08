@@ -11,7 +11,7 @@
   <div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
     <Textfield
       bind:value={$newMeetingName}
-      placeholder="Name your event"
+      placeholder="Name your meet"
       focusOnMount
       required
       class="w-full"

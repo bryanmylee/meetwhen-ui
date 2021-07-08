@@ -23,6 +23,8 @@
   import TabBar from './TabBar.svelte';
   import LoginSignupControl from './LoginSignupControl.svelte';
   import Description from './Description.svelte';
+  import { setLoadingContext, withLoading } from '$lib/components/Loading';
+  import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
 
   export let activeMeeting: Meeting | null = null;
   export let isLoggingIn = true;
@@ -44,7 +46,8 @@
   const { name, email, password, resetErrors } = state;
   setContext('state', state);
 
-  const confirm = async () => {
+  const isLoading = setLoadingContext(false);
+  const submitAuth = withLoading(isLoading, async () => {
     try {
       if (isLoggingIn) {
         if (isGuestAuth) {
@@ -71,18 +74,21 @@
           });
         }
       }
-      dismiss(true);
+      // wait for withLoading to set loading.
+      setTimeout(() => {
+        dismiss(true);
+      }, 20);
     } catch (errors) {
       console.error(errors);
       if (Array.isArray(errors)) {
         (errors as APIError[]).forEach(handleAPIError);
       }
     }
-  };
+  });
 
   const handleAPIError = (error: APIError) => {
     const { id } = error.extensions.exception.details;
-    console.error({ id, message: error.message });
+    console.error(error);
     if (id === 'auth/user-not-found') {
       if (isGuestAuth) {
         $name.error = 'Guest not found';
@@ -109,6 +115,9 @@
   };
 
   const dismiss = (authenticated: boolean) => {
+    if ($isLoading) {
+      return;
+    }
     dispatch('dismiss', { authenticated });
   };
 </script>
@@ -119,7 +128,7 @@
 >
   <form
     in:fly|local={{ y: 200 }}
-    on:submit|preventDefault={confirm}
+    on:submit|preventDefault={submitAuth}
     use:clickOutside={() => dismiss(false)}
     class="m-4 card min-w-96"
   >
@@ -133,14 +142,21 @@
         <PlusAccountFields {isLoggingIn} />
       {/if}
       <div class="flex space-x-4">
-        <button
+        <LoadingButton
           type="button"
           on:click={() => dismiss(false)}
           class="w-full p-3 rounded-full button shade"
         >
           Cancel
-        </button>
-        <button type="submit" class="w-full p-3 rounded-full button primary"> Confirm </button>
+        </LoadingButton>
+        <LoadingButton
+          type="submit"
+          isPrimary
+          on:click={submitAuth}
+          class="w-full p-3 rounded-full button primary"
+        >
+          Confirm
+        </LoadingButton>
       </div>
     </div>
   </form>

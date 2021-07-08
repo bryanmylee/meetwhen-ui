@@ -1,5 +1,5 @@
-import type { Fetch } from '$lib/typings/fetch';
 import { isLoadingApi } from '$lib/app-state';
+import type { Fetch } from '$lib/typings/fetch';
 
 interface QueryClient {
   fetch: Fetch | null;

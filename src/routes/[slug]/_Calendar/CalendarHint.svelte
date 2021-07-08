@@ -11,10 +11,13 @@
   const disabled = getContext<Writable<boolean>>('disabled');
   // hours[1] can be undefined.
   $: selectedHour = $allDayHours[1];
-  $: interval = selectedHour === undefined ? undefined : {
-    beg: selectedHour,
-    end: selectedHour.add($hourStepSize, 'hour'),
-  };
+  $: interval =
+    selectedHour === undefined
+      ? undefined
+      : {
+          beg: selectedHour,
+          end: selectedHour.add($hourStepSize, 'hour'),
+        };
 </script>
 
 {#if interval !== undefined}

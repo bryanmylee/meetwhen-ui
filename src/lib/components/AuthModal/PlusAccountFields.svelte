@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getContext } from 'svelte';
   import { slide } from 'svelte/transition';
-  import Textfield from '$lib/components/Textfield.svelte';
+  import LoadingTextfield from '$lib/components/Loading/LoadingTextfield.svelte';
   import type { AuthModalState } from './state';
 
   export let isLoggingIn = true;
@@ -12,7 +12,7 @@
 
 {#if !isLoggingIn}
   <div transition:slide|local={{ duration: 200 }}>
-    <Textfield
+    <LoadingTextfield
       bind:value={$name.value}
       error={$name.error}
       placeholder="Name"
@@ -21,7 +21,7 @@
     />
   </div>
 {/if}
-<Textfield
+<LoadingTextfield
   bind:value={$email.value}
   error={$email.error}
   placeholder="Email"
@@ -29,7 +29,7 @@
   focusOnMount
   class="block"
 />
-<Textfield
+<LoadingTextfield
   bind:value={$password.value}
   error={$password.error}
   placeholder="Password"

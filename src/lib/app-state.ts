@@ -1,3 +1,4 @@
+import { dev } from '$app/env';
 import { defaultPrimaryColor, useColor } from '$lib/utils/stores/colors-store';
 import { useDarkMode } from '$lib/utils/stores/dark-mode-store';
 import watchMedia from 'svelte-media';
@@ -6,6 +7,14 @@ import { writable } from 'svelte/store';
 import { crossfade, fade } from 'svelte/transition';
 import type { Meeting } from './gql/types';
 import { useTouchEnabled } from './utils/stores/touch-enabled-store';
+
+// stub console.
+if (!dev) {
+  console.log = () => {};
+  console.warn = () => {};
+  console.info = () => {};
+  console.error = () => {};
+}
 
 export const APP_ROOT_ID = 'meetwhen';
 

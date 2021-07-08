@@ -4,13 +4,17 @@
   export let id: string = undefined;
   export let password = false;
 
-  export let placeholder = '';
   export let value = '';
+  export let placeholder = '';
   export let error = '';
 
   export let required = false;
+  export let disabled = false;
   export let touched = false;
   export let focusOnMount = false;
+
+  let className = '';
+  export { className as class };
 
   const getIdFromTitle = (title: string) => title.toLowerCase().replace(/\s/g, '-');
   $: resolvedId = id ?? getIdFromTitle(placeholder);
@@ -19,9 +23,6 @@
     id: resolvedId,
     type: password ? 'password' : 'text',
   };
-
-  let className = '';
-  export { className as class };
 </script>
 
 <div class="textfield {className}">
@@ -29,6 +30,7 @@
     {...attrs}
     bind:value
     {required}
+    {disabled}
     use:focus={focusOnMount}
     class:filled={value !== ''}
     class:error={error !== '' || (required && touched)}

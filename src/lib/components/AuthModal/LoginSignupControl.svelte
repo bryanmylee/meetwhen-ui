@@ -1,7 +1,12 @@
 <script lang="ts">
+  import { getLoadingContext } from '$lib/components/Loading';
+  import { classes } from '$lib/utils/classes';
+
   export let isLoggingIn = false;
   export let isGuestAuth = false;
   export let enableGuestLogin = true;
+
+  const isLoading = getLoadingContext();
 
   $: guestButtonLabel = isLoggingIn ? 'Join as new guest' : 'Already a guest?';
   $: plusButtonLabel = isLoggingIn ? 'Create new account' : 'Already have an account?';
@@ -10,6 +15,11 @@
   $: guestHeaderLabel = isLoggingIn ? 'Login as guest' : 'Join as new guest';
   $: plusHeaderLabel = isLoggingIn ? 'Login' : 'Join';
   $: headerLabel = isGuestAuth ? guestHeaderLabel : plusHeaderLabel;
+
+  $: buttonClass = classes([
+    'text-sm underline text-focusable',
+    $isLoading ? 'cursor-default' : 'hover:text-primary-lighter ',
+  ]);
 </script>
 
 <div class="flex items-baseline justify-between space-x-4">
@@ -18,7 +28,8 @@
     <button
       type="button"
       on:click={() => (isLoggingIn = !isLoggingIn)}
-      class="text-sm underline hover:text-primary-lighter text-focusable"
+      disabled={$isLoading}
+      class={buttonClass}
     >
       {buttonLabel}
     </button>

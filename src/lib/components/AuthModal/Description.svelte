@@ -12,7 +12,7 @@
       this meeting only
     </span>
   </p>
-  <div class="card p-4 text-white bg-gradient-primary font-medium">
+  <div class="p-4 font-medium text-white card bg-gradient-primary bg-animate-slow">
     {activeMeeting.name}
   </div>
 {:else}
