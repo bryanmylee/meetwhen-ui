@@ -3,6 +3,7 @@
 </script>
 
 <script lang="ts">
+  import { fly } from 'svelte/transition';
   import { classes } from '$lib/utils/classes';
   import { getLoadingContext } from './index';
 
@@ -31,10 +32,33 @@
   export { className as class };
   $: buttonClass = classes([
     className,
-    $isLoading && 'bg-gradient-primary bg-animate-fast !text-white !text-opacity-50',
+    'relative',
+    $isLoading && 'bg-gradient-primary bg-animate-fast opacity-50',
   ]);
 </script>
 
 <button {...attrs} on:click class={buttonClass}>
-  <slot />
+  {#if $isLoading}
+    <div in:fly={{ y: 20 }}>Loading...</div>
+  {:else}
+    <slot />
+  {/if}
 </button>
+
+<style lang="postcss">
+  div {
+    @apply flex justify-center items-center absolute inset-0 rounded-full ring-primary text-white;
+    animation: ring-breathe 1.4s ease-in-out infinite both;
+  }
+  @keyframes ring-breathe {
+    0% {
+      box-shadow: 0 0 0 0px var(--tw-ring-color);
+    }
+    50% {
+      box-shadow: 0 0 0 3px var(--tw-ring-color);
+    }
+    100% {
+      box-shadow: 0 0 0 0px var(--tw-ring-color);
+    }
+  }
+</style>
