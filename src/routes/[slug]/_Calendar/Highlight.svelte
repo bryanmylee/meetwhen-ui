@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Interval from './Interval.svelte';
+  import GridInterval from './GridInterval.svelte';
   import { Selecting } from '$lib/components/SelectableProvider/selecting';
   import { classes } from '$lib/utils/classes';
   import { getContext } from 'svelte';
@@ -21,5 +21,5 @@
 </script>
 
 {#each $getLocalIntervalsFromIds(selectingIds) as interval}
-  <Interval {interval} class={className} />
+  <GridInterval {interval} class={className} />
 {/each}

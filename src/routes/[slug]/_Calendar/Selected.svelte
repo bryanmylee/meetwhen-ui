@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Interval from './Interval.svelte';
+  import GridInterval from './GridInterval.svelte';
   import { classes } from '$lib/utils/classes';
   import { getContext } from 'svelte';
   import type { CalendarState } from './state/core';
@@ -16,5 +16,5 @@
 </script>
 
 {#each $getLocalIntervalsFromIds($selectedIds) as interval}
-  <Interval {interval} class={className} />
+  <GridInterval {interval} class={className} />
 {/each}

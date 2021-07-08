@@ -4,12 +4,12 @@
 </script>
 
 <script lang="ts">
-  import type { Interval as IInterval, ShallowUser } from '$lib/gql/types';
+  import type { Interval, ShallowUser } from '$lib/gql/types';
   import type { Writable } from 'svelte/store';
   import { writable } from 'svelte/store';
   import { primaryColorSet } from '$lib/app-state';
   import { clickOutside } from '$lib/utils/actions/use-click-outside';
-  import Interval from './Interval.svelte';
+  import GridInterval from './GridInterval.svelte';
   import SchedulePopover from './SchedulePopover.svelte';
   import { classes } from '$lib/utils/classes';
   import { cssVars } from '$lib/utils/css-vars';
@@ -21,7 +21,7 @@
   const { maxNumUsersPerInterval, intervalHasAfter, intervalHasBefore, selecting } = state;
 
   export let id: number;
-  export let interval: IInterval;
+  export let interval: Interval;
   export let users: ShallowUser[];
 
   const handleClick = (event: MouseEvent) => {
@@ -69,7 +69,7 @@
   ]);
 </script>
 
-<Interval {interval} class="pointer-events-none">
+<GridInterval {interval} class="pointer-events-none">
   <div
     on:click={handleClick}
     use:clickOutside={handleClickOutside}
@@ -90,7 +90,7 @@
       {users}
     />
   </div>
-</Interval>
+</GridInterval>
 
 <style lang="postcss">
   .interval {

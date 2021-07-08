@@ -4,7 +4,7 @@
   import IntervalCells from './IntervalCells.svelte';
   import { getContext } from 'svelte';
   import type { Writable } from 'svelte/store';
-  import Interval from './Interval.svelte';
+  import GridInterval from './GridInterval.svelte';
   import { classes } from '$lib/utils/classes';
   import type { CalendarState } from './state/core';
 
@@ -28,5 +28,5 @@
 {#each intervals as interval}
   <IntervalCells {day} {interval} />
   <!-- For indicating enabled/disabled status -->
-  <Interval {interval} class={getIntervalClass($intervalHasLeftCorners(interval))} />
+  <GridInterval {interval} class={getIntervalClass($intervalHasLeftCorners(interval))} />
 {/each}
