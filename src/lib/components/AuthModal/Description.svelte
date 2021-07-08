@@ -8,7 +8,7 @@
 {#if isGuestAuth}
   <p class="text-sm">
     Your account will be used for
-    <span class="font-bold text-transparent bg-clip-text bg-gradient-primary">
+    <span class="font-bold text-transparent bg-clip-text bg-gradient-primary bg-animated-slow">
       this meeting only
     </span>
   </p>

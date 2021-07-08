@@ -136,8 +136,14 @@ html {
       var(--primary),
       var(--primary-cooler)
     );
-    background-size: 200% 200%;
-    animation: gradient-top-right 15s ease infinite both;
+    &.bg-animated-slow {
+      background-size: 150% 150%;
+      animation: gradient-top-right 10s ease infinite both;
+    }
+    &.bg-animated-fast {
+      background-size: 200% 200%;
+      animation: gradient-top-right 2s ease infinite both;
+    }
   }
 
   @keyframes gradient-top-right {

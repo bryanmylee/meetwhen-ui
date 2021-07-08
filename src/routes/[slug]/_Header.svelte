@@ -10,7 +10,7 @@
   $: isGuest = $session.user?.guestOf !== null;
 </script>
 
-<div class="flex items-center justify-between p-4 text-white card bg-gradient-primary">
+<div class="flex items-center justify-between p-4 text-white card bg-gradient-primary bg-animated-slow">
   <div>
     <p class="text-lg font-medium">
       {name}&nbsp;
