@@ -184,7 +184,7 @@
 
 <Template>
   <Header name={meeting.name} slug={meeting.slug} slot="header" />
-  <Buttons on:join={handleJoin} on:edit={handleEdit} on:leave={handleLeave} slot="buttons" />
+  <Buttons onJoin={handleJoin} onEdit={handleEdit} onLeave={handleLeave} slot="buttons" />
   <Calendar
     bind:this={calendar}
     intervals={meeting.intervals}

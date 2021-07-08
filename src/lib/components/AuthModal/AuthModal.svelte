@@ -45,7 +45,7 @@
   const { name, email, password, resetErrors } = state;
   setContext('state', state);
 
-  const confirm = async () => {
+  const submitAuth = async () => {
     try {
       if (isLoggingIn) {
         if (isGuestAuth) {
@@ -118,12 +118,8 @@
   transition:fade={{ duration: 200 }}
   class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50 !m-0"
 >
-  <form
-    in:fly|local={{ y: 200 }}
-    on:submit|preventDefault={confirm}
-    use:clickOutside={() => dismiss(false)}
-    class="m-4 card min-w-96"
-  >
+  <!-- TODO: custom loading form -->
+  <form in:fly|local={{ y: 200 }} use:clickOutside={() => dismiss(false)} class="m-4 card min-w-96">
     <TabBar bind:isGuestAuth enableGuestAuth={activeMeeting !== null} />
     <div class="p-4 space-y-4">
       <Description {activeMeeting} {isGuestAuth} />
@@ -141,7 +137,7 @@
         >
           Cancel
         </button>
-        <LoadingButton type="submit" class="w-full p-3 rounded-full button primary">
+        <LoadingButton onClick={submitAuth} class="w-full p-3 rounded-full button primary">
           Confirm
         </LoadingButton>
       </div>

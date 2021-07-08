@@ -5,17 +5,27 @@
 </script>
 
 <script lang="ts">
-  import { getContext } from 'svelte';
-  import type { Writable } from 'svelte/store';
   import { classes } from '$lib/utils/classes';
-
-  const _isLoading = getContext<Writable<boolean>>(IS_LOADING_KEY);
-  $: isLoading = $_isLoading ?? false;
 
   export let type: ButtonType = 'button';
   export let disabled = false;
   export let ariaLabel: string = undefined;
   export let tabindex: number = undefined;
+
+  let isLoading = false;
+  export let onClick: (event: MouseEvent) => Promise<void> = undefined;
+
+  const handleClick = async (event: MouseEvent) => {
+    if (onClick === undefined) {
+      return;
+    }
+    try {
+      isLoading = true;
+      await onClick(event);
+    } finally {
+      isLoading = false;
+    }
+  };
 
   let attrs = {};
   $: {
@@ -39,6 +49,6 @@
   ]);
 </script>
 
-<button {...attrs} on:click class={buttonClass}>
+<button {...attrs} on:click={handleClick} class={buttonClass}>
   <slot />
 </button>
