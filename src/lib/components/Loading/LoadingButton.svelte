@@ -32,21 +32,22 @@
   export { className as class };
   $: buttonClass = classes([
     className,
-    'relative',
+    'relative min-w-28',
     $isLoading && 'bg-gradient-primary bg-animate-fast opacity-50',
   ]);
 </script>
 
 <button {...attrs} on:click class={buttonClass}>
   {#if $isLoading}
-    <div in:fly={{ y: 20 }}>Loading...</div>
-  {:else}
-    <slot />
+    <div class="loading" in:fly={{ y: 20 }}>Loading...</div>
   {/if}
+  <div class={classes([$isLoading && 'opacity-0'])}>
+    <slot />
+  </div>
 </button>
 
 <style lang="postcss">
-  div {
+  div.loading {
     @apply flex justify-center items-center absolute inset-0 rounded-full ring-primary text-white;
     animation: ring-breathe 1.4s ease-in-out infinite both;
   }
