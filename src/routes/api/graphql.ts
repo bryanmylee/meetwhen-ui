@@ -1,3 +1,4 @@
+import { dev } from '$app/env';
 import { env } from '$lib/env';
 import type { RequestHandler } from '@sveltejs/kit';
 import { parse } from 'cookie';
@@ -44,6 +45,9 @@ const getSetCookieHeader = (host: string, key: string, value: string) => {
   // Force the cookie to expire.
   const maxAge = value === CLEAR_COOKIE_SIGNAL ? 0 : SECONDS_IN_WEEK;
   const cookieValue = value === CLEAR_COOKIE_SIGNAL ? '' : value;
-  const header = `${key}=${cookieValue}; Max-Age=${maxAge}; Path=/; Secure; HttpOnly; SameSite=None`;
-  return host.startsWith('localhost') ? header : `${header}; Domain=${host}`;
+  const header = `${key}=${cookieValue}; Max-Age=${maxAge}; Path=/; HttpOnly`;
+  if (dev) {
+    return header;
+  }
+  return `${header}; Domain=${host}; Secure; SameSite=None`;
 };
