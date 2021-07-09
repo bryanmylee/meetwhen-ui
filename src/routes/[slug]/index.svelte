@@ -21,7 +21,7 @@
   import Buttons from './_Buttons.svelte';
   import Calendar from './_Calendar/Calendar.svelte';
   import Head from '$lib/components/Head.svelte';
-  import Header from './_Header.svelte';
+  import MeetingCard from '$lib/components/Meeting/MeetingCard.svelte';
   import Template from './_Template.svelte';
   import type { APIError } from '$lib/typings/error';
   import type { AuthModalEvent } from '$lib/components/AuthModal/AuthModal.svelte';
@@ -186,7 +186,7 @@
 <Head emoji={meeting.emoji} subtitle={meeting.name} noRobots />
 
 <Template>
-  <Header name={meeting.name} slug={meeting.slug} slot="header" />
+  <MeetingCard {meeting} slot="header" />
   <Buttons on:join={handleJoin} on:edit={handleEdit} on:leave={handleLeave} slot="buttons" />
   <Calendar
     bind:this={calendar}
