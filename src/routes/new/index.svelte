@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { loadingMeetingPromise } from '$lib/app-state';
+  import { loadingMeetingPromise, newMeeting } from '$lib/app-state';
   import { addMeeting } from '$lib/gql/addMeeting';
   import { meetingInput } from './_state/meeting';
   import { selectedDates } from './_state/intervals';
@@ -14,6 +14,7 @@
       return;
     }
     $loadingMeetingPromise = addMeeting($meetingInput);
+    $newMeeting = { ...$meetingInput, slug: '' };
     goto('/loading');
   };
 </script>
