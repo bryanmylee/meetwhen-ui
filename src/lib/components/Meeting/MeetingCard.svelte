@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ShallowMeeting } from '$lib/gql/types';
+  import { onSubmitKey } from '$lib/utils/on-submit-key';
   import { ShareIcon } from 'svelte-feather-icons';
   import ShareModal from './ShareModal.svelte';
 
@@ -9,6 +10,7 @@
 </script>
 
 <div
+  on:click
   class="flex items-center justify-between p-4 text-white card bg-gradient-primary bg-animate-slow"
 >
   <div>
@@ -19,7 +21,8 @@
   <button
     type="button"
     aria-label="Share"
-    on:click={() => (showShareModal = true)}
+    on:keydown|stopPropagation={onSubmitKey(() => (showShareModal = true))}
+    on:click|preventDefault|stopPropagation={() => (showShareModal = true)}
     class="w-10 h-10 -m-2 rounded-full button hover:bg-primary-darker focus:ring-white"
   >
     <ShareIcon class="p-2.5" />

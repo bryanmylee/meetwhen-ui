@@ -1,16 +1,16 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
+  import MeetingCard from '$lib/components/Meeting/MeetingCard.svelte';
   import type { ShallowMeeting } from '$lib/gql/types';
+  import { onSubmitKey } from '$lib/utils/on-submit-key';
 
   export let meeting: ShallowMeeting;
+
+  const navigate = () => {
+    goto(`/${meeting.slug}`);
+  };
 </script>
 
-<li>
-  <a
-    href={`/${meeting.slug}`}
-    class="block p-3 rounded-xl text-white bg-gradient-primary bg-animate-slow hover:bg-primary-lighter hover:shadow-md-primary"
-  >
-    <h2 class="font-medium text-lg">
-      {meeting.name}
-    </h2>
-  </a>
+<li tabindex="0" on:keydown={onSubmitKey(navigate)} class="cursor-pointer button rounded-xl">
+  <MeetingCard on:click={navigate} {meeting} />
 </li>
