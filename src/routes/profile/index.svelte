@@ -1,4 +1,6 @@
 <script lang="ts" context="module">
+  const UPCOMING_TO_SHOW = 3;
+
   export const load: Load = async ({ session }) => {
     if (session.user === null) {
       return {
@@ -6,13 +8,16 @@
         redirect: '/',
       };
     }
-    const { owned, joined } = await getMyMeetings();
-    return {
-      props: {
-        ownedMeetings: owned,
-        joinedMeetings: joined,
-      },
-    };
+    try {
+      const { upcomingMeetings } = await getProfilePage({ upcomingLimit: UPCOMING_TO_SHOW });
+      return {
+        props: {
+          upcomingMeetings,
+        },
+      };
+    } catch (error) {
+      console.error(error);
+    }
   };
 </script>
 
@@ -20,22 +25,13 @@
   import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
   import type { Load } from '@sveltejs/kit';
   import type { ShallowMeeting } from '$lib/gql/types';
-  import { getMyMeetings } from '$lib/gql/getMyMeetings';
+  import { getProfilePage } from '$lib/gql/getProfilePage';
   import { logout } from '$lib/gql/logout';
   import { session } from '$app/stores';
   import { setLoadingContext, withLoading } from '$lib/components/Loading';
-  import {
-    joinedMeetings as joinedInput,
-    ownedMeetings as ownedInput,
-    upcomingMeetings,
-  } from './_state/page';
   import MeetingItem from './_MeetingItem.svelte';
 
-  export let ownedMeetings: ShallowMeeting[];
-  export let joinedMeetings: ShallowMeeting[];
-
-  $: $ownedInput = ownedMeetings;
-  $: $joinedInput = joinedMeetings;
+  export let upcomingMeetings: ShallowMeeting[];
 
   const isLoading = setLoadingContext(false);
 
@@ -50,7 +46,7 @@
   <div class="p-4 space-y-4 card">
     <h1 class="text-xl font-bold">Upcoming meetings</h1>
     <ul class="space-y-4">
-      {#each $upcomingMeetings as meeting}
+      {#each upcomingMeetings as meeting}
         <MeetingItem {meeting} />
       {/each}
     </ul>
