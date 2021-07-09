@@ -28,11 +28,10 @@
 </script>
 
 <div id={APP_ROOT_ID} class="contents" style={$primaryColorCssVars}>
+  <Nav {key} />
   <main class="mt-14">
     <PageTransition {key}>
       <slot />
     </PageTransition>
   </main>
-
-  <Nav {key} />
 </div>

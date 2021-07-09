@@ -6,7 +6,7 @@
 </script>
 
 {#if key === '/'}
-  <nav transition:fly={{ y: -50 }} class="fixed inset-0 bottom-auto">
+  <nav transition:fly={{ y: -50 }} class="fixed inset-0 bottom-auto z-50">
     <div class="flex items-center justify-end mx-auto max-w-7xl dark:text-white">
       <ul class="flex items-center p-4 space-x-3">
         <slot name="right" />
@@ -17,7 +17,7 @@
   <nav
     in:receive={{ key: 'header' }}
     out:send={{ key: 'header' }}
-    class="fixed inset-0 bottom-auto rounded-t-none card"
+    class="fixed inset-0 bottom-auto z-50 rounded-t-none card"
   >
     <div class="flex items-center justify-between mx-auto max-w-7xl dark:text-white">
       <ul class="flex items-center p-4 space-x-3">
