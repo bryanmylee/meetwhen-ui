@@ -43,7 +43,7 @@
       <div
         class="absolute inset-0 transition-all rounded-lg opacity-0 group-hover:opacity-100 group-hover:bg-gradient-primary hover:bg-animate-fast"
       />
-      <div class="relative px-4 py-2 font-medium cursor-text">
+      <div class="relative px-4 py-2 font-medium cursor-text group-hover:text-white">
         {shareLink}
       </div>
     </div>
