@@ -6,6 +6,7 @@ query ($slug: String!) {
   meeting(slug: $slug) {
     id
     name
+    emoji
     owner {
       id
       name
@@ -36,7 +37,8 @@ interface GetMeetingBySlugResolved {
   meeting: {
     id: string;
     name: string;
-    owner: {
+    emoji: string;
+    owner: null | {
       id: string;
       name: string;
     };
@@ -56,7 +58,8 @@ interface GetMeetingBySlugReturned {
   id: string;
   slug: string;
   name: string;
-  owner: {
+  emoji: string;
+  owner: null | {
     id: string;
     name: string;
   };

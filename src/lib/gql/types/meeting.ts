@@ -3,6 +3,7 @@ import type { Identifiable } from './identifiable';
 
 export interface ShallowMeeting extends Identifiable {
   name: string;
+  emoji: string;
   slug: string;
   owner: Partial<User> | null;
 }

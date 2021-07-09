@@ -183,7 +183,7 @@
   }
 </script>
 
-<Head emoji="📘" subtitle={meeting.name} noRobots />
+<Head emoji={meeting.emoji} subtitle={meeting.name} noRobots />
 
 <Template>
   <Header name={meeting.name} slug={meeting.slug} slot="header" />
