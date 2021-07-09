@@ -4,7 +4,7 @@
   </span>
   <a
     href="/"
-    class="absolute inset-0 text-xl font-bold pointer-events-auto z-[-1] rounded-sm text-primary hover:underline text-focusable"
+    class="absolute inset-0 text-xl font-bold pointer-events-auto z-[-1] text-primary hover:underline text-focusable"
   >
     meetwhen
   </a>

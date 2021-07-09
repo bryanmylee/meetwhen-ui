@@ -18,7 +18,7 @@
   <svelte:fragment slot="right">
     {#if $session.user !== null}
       <li>
-        <a href="/profile">
+        <a href="/profile" class="text-focusable">
           Hi, <span class="font-bold">{$session.user.name}</span>
         </a>
       </li>
