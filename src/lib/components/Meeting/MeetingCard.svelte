@@ -4,7 +4,7 @@
   import { ShareIcon } from 'svelte-feather-icons';
   import ShareModal from './ShareModal.svelte';
 
-  export let meeting: ShallowMeeting;
+  export let meeting: Pick<ShallowMeeting, 'name' | 'slug'>;
 
   let showShareModal = false;
 </script>
