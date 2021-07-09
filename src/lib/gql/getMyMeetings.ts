@@ -23,8 +23,8 @@ interface MyMeetingsResolved {
   me: {
     meetings: ShallowMeeting[];
     schedules: {
-      meeting: ShallowMeeting[];
-    };
+      meeting: ShallowMeeting;
+    }[];
   };
 }
 
@@ -42,6 +42,6 @@ export const getMyMeetings = async (accessToken?: string): Promise<MyMeetingsRet
   })) as MyMeetingsResolved;
   return {
     owned: me.meetings ?? [],
-    joined: me.schedules.meeting ?? [],
+    joined: me.schedules.map(({ meeting }) => meeting) ?? [],
   };
 };
