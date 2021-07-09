@@ -10,17 +10,19 @@ import { useTouchEnabled } from './utils/stores/touch-enabled-store';
 
 // stub console.
 if (!dev) {
-  console.log = () => {};
-  console.warn = () => {};
-  console.info = () => {};
-  console.error = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const emptyFunction = () => {};
+  console.log = emptyFunction;
+  console.warn = emptyFunction;
+  console.info = emptyFunction;
+  console.error = emptyFunction;
 }
 
 export const APP_ROOT_ID = 'meetwhen';
 
 export const isLoadingApi = writable<boolean>(false);
 export const loadingMeetingPromise = writable<Promise<Meeting>>(null);
-export const newMeeting = writable<Meeting>(null);
+export const newMeeting = writable<Partial<Meeting>>(null);
 export const activeMeeting = writable<Meeting>(null);
 
 export const [send, receive] = crossfade({
