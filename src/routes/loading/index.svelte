@@ -19,21 +19,24 @@
   import Head from '$lib/components/Head.svelte';
   import Buttons from '../[slug]/_Buttons.svelte';
   import Calendar from '../[slug]/_Calendar/Calendar.svelte';
-  import Header from '../[slug]/_Header.svelte';
+  import MeetingCard from '$lib/components/Meeting/MeetingCard.svelte';
   import Template from '../[slug]/_Template.svelte';
   import type { Load } from '@sveltejs/kit';
+  import type { ShallowMeeting } from '$lib/gql/types';
 
   onMount(async () => {
     $newMeeting = await $loadingMeetingPromise;
     $loadingMeetingPromise = null;
     goto(`/${$newMeeting.slug}`, { replaceState: true });
   });
+
+  $: meeting = $newMeeting as ShallowMeeting;
 </script>
 
 <Head emoji="📘" subtitle="loading..." />
 
 <Template>
-  <Header slot="header" />
+  <MeetingCard {meeting} slot="header" />
   <Buttons slot="buttons" />
   <Calendar slot="calendar" />
 </Template>
