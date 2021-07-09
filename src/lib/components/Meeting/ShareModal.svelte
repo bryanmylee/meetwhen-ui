@@ -26,6 +26,8 @@
     try {
       await navigator.clipboard.writeText(shareLink);
       message = 'Copied to clipboard!';
+    } catch {
+      message = 'Click to copy not supported';
     }
   };
 </script>
