@@ -1,5 +1,5 @@
-import dayjs from 'dayjs';
 import { query } from '$lib/gql';
+import dayjs from 'dayjs';
 import { IntervalSerializer, ShallowMeeting, ShallowMeetingDTO } from './types';
 
 const GET_PROFILE_PAGE = `

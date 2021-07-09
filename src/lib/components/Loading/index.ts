@@ -1,6 +1,6 @@
 import { getContext, setContext } from 'svelte';
-import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 /**
  * All Loading components must be used in a context with setLoadingContext.
  */
