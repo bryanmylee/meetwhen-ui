@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
-  const UPCOMING_TO_SHOW = 3;
+  const UPCOMING_TO_SHOW = 5;
+  const PREVIOUS_TO_SHOW = 3;
 
   export const load: Load = async ({ session }) => {
     if (session.user === null) {
@@ -9,10 +10,14 @@
       };
     }
     try {
-      const { upcomingMeetings } = await getProfilePage({ upcomingLimit: UPCOMING_TO_SHOW });
+      const { upcomingMeetings, previousMeetings } = await getProfilePage({
+        upcomingLimit: UPCOMING_TO_SHOW,
+        previousLimit: PREVIOUS_TO_SHOW,
+      });
       return {
         props: {
           upcomingMeetings,
+          previousMeetings,
         },
       };
     } catch (error) {
@@ -35,6 +40,7 @@
   import MeetingItem from './_MeetingItem.svelte';
 
   export let upcomingMeetings: ShallowMeeting[];
+  export let previousMeetings: ShallowMeeting[];
 
   const isLoading = setLoadingContext(false);
 
@@ -50,6 +56,14 @@
     <h1 class="text-xl font-bold">Upcoming meetings</h1>
     <ul class="space-y-4">
       {#each upcomingMeetings as meeting}
+        <MeetingItem {meeting} />
+      {/each}
+    </ul>
+  </div>
+  <div class="p-4 space-y-4 card">
+    <h1 class="text-xl font-bold">Previous meetings</h1>
+    <ul class="space-y-4">
+      {#each previousMeetings as meeting}
         <MeetingItem {meeting} />
       {/each}
     </ul>
