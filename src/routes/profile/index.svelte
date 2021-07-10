@@ -18,7 +18,7 @@
     } catch (error) {
       console.error(error);
       return {
-        error: error,
+        error: JSON.stringify(error),
       };
     }
   };
