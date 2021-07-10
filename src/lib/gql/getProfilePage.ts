@@ -3,33 +3,44 @@ import dayjs from 'dayjs';
 import { IntervalSerializer, ShallowMeeting, ShallowMeetingDTO } from './types';
 
 const GET_PROFILE_PAGE = `
-query ($timeNow: Int!, $upcomingLimit: Int) {
+query ($timeNow: Int!, $upcomingLimit: Int, $previousLimit: Int) {
   me {
     upcomingMeetings: allMeetings(order: EARLIEST, key: END, after: $timeNow, limit: $upcomingLimit) {
-      id
-      slug
-      name
-      total {
-        beg
-        end
-      }
+      ...shallowFields
+    }
+    previousMeetings: allMeetings(order: EARLIEST, key: END, before: $timeNow, limit: $previousLimit) {
+      ...shallowFields
     }
   }
-}`;
+}
+
+fragment shallowFields on Meeting {
+  id
+  slug
+  name
+  total {
+    beg
+    end
+  }
+}
+`;
 
 export interface ProfilePageVariables {
   timeNow?: number;
   upcomingLimit?: number;
+  previousLimit?: number;
 }
 
 interface ProfilePageResolved {
   me: {
     upcomingMeetings: ShallowMeetingDTO[];
+    previousMeetings: ShallowMeetingDTO[];
   };
 }
 
 interface ProfilePageReturned {
   upcomingMeetings: ShallowMeeting[];
+  previousMeetings: ShallowMeeting[];
 }
 
 export const getProfilePage = async ({
@@ -47,7 +58,12 @@ export const getProfilePage = async ({
     ...meeting,
     total: IntervalSerializer.deserialize(total),
   }));
+  const previousMeetings = me.previousMeetings.map(({ total, ...meeting }) => ({
+    ...meeting,
+    total: IntervalSerializer.deserialize(total),
+  }));
   return {
     upcomingMeetings,
+    previousMeetings,
   };
 };
