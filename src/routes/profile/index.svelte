@@ -39,6 +39,7 @@
   import { setLoadingContext, withLoading } from '$lib/components/Loading';
   import Previous from './_Previous.svelte';
   import MeetingItem from './_MeetingItem.svelte';
+  import Upcoming from './_Upcoming.svelte';
 
   export let upcomingMeetings: ShallowMeeting[];
   export let previousMeetings: ShallowMeeting[];
@@ -53,15 +54,10 @@
 </script>
 
 <div class="max-w-lg p-6 mx-auto space-y-4">
-  <div class="p-4 space-y-4 card">
-    <h1 class="text-lg font-bold">Upcoming meetings</h1>
-    <ul class="space-y-4">
-      {#each upcomingMeetings as meeting}
-        <MeetingItem {meeting} />
-      {/each}
-    </ul>
-  </div>
-  <Previous {previousMeetings} />
+  <Upcoming {upcomingMeetings} />
+  {#if previousMeetings.length > 0}
+    <Previous {previousMeetings} />
+  {/if}
   <div class="flex justify-end p-4 card">
     <LoadingButton
       type="button"
