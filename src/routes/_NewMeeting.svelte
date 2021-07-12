@@ -7,7 +7,7 @@
 </script>
 
 <section class="p-4 space-y-4 card">
-  <h2 class="text-lg font-bold">
+  <h2 class="text-lg font-medium">
     Start a new
     <span class="text-transparent bg-clip-text bg-gradient-primary"> meet </span>
   </h2>

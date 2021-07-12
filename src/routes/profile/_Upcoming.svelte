@@ -6,7 +6,7 @@
 </script>
 
 <div class="p-4 space-y-4 card">
-  <h1 class="text-lg font-bold">Upcoming meetings</h1>
+  <h1 class="text-lg font-medium">Upcoming meetings</h1>
   <ul class="space-y-4">
     {#each upcomingMeetings as meeting}
       <MeetingItem {meeting} />

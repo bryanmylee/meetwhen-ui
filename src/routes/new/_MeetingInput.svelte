@@ -17,7 +17,7 @@
       class="w-full"
     />
   </div>
-  <h2>Set a time for everyone</h2>
+  <h2 class="font-medium text-lg">Set a time for everyone</h2>
   <DatePicker bind:selectedDates={$selectedDates.value} error={$selectedDates.error} />
   <FromToHourPicker bind:from={$from} bind:to={$to} />
 </section>
