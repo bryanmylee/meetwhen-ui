@@ -20,7 +20,7 @@
     let:expanded
   >
     <svelte:fragment slot="title">
-      <h1 class="text-xl font-bold">Previous meetings</h1>
+      <h1 class="text-lg font-bold">Previous meetings</h1>
       <ChevronDownIcon class="p-2 -m-2 w-10 h-10 transition transform {expanded && 'rotate-180'}" />
     </svelte:fragment>
     <ul class="space-y-4 p-4" transition:slide|local>

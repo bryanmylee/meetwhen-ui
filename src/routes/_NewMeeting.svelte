@@ -7,9 +7,9 @@
 </script>
 
 <section class="p-4 space-y-4 card">
-  <h2>
+  <h2 class="text-lg font-bold">
     Start a new
-    <span class="font-bold text-transparent bg-clip-text bg-gradient-primary"> meet </span>
+    <span class="text-transparent bg-clip-text bg-gradient-primary"> meet </span>
   </h2>
   <form on:submit|preventDefault={() => goto('/new')} class="flex items-center space-x-4">
     <div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
