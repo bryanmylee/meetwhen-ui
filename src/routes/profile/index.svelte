@@ -37,6 +37,7 @@
   import { logout } from '$lib/gql/logout';
   import { session } from '$app/stores';
   import { setLoadingContext, withLoading } from '$lib/components/Loading';
+  import Previous from './_Previous.svelte';
   import MeetingItem from './_MeetingItem.svelte';
 
   export let upcomingMeetings: ShallowMeeting[];
@@ -60,14 +61,7 @@
       {/each}
     </ul>
   </div>
-  <div class="p-4 space-y-4 card">
-    <h1 class="text-xl font-bold">Previous meetings</h1>
-    <ul class="space-y-4">
-      {#each previousMeetings as meeting}
-        <MeetingItem {meeting} dimmed />
-      {/each}
-    </ul>
-  </div>
+  <Previous {previousMeetings} />
   <div class="flex justify-end p-4 card">
     <LoadingButton
       type="button"
