@@ -9,18 +9,20 @@
   import { onSubmitKey } from '$lib/utils/on-submit-key';
   import { ShareIcon } from 'svelte-feather-icons';
   import ShareModal from './ShareModal.svelte';
+  import { classes } from '$lib/utils/classes';
 
   export let meeting: Pick<ShallowMeeting, 'name' | 'slug'>;
+  export let dimmed = false;
+
+  $: cardClass = classes([
+    'flex items-center justify-between text-white card p-4 z-50',
+    dimmed ? '!bg-primary-fifty opacity-75' : 'bg-gradient-primary bg-animate-slow ',
+  ]);
 
   let showShareModal = false;
 </script>
 
-<div
-  in:receive={{ key: meeting.slug }}
-  out:send={{ key: meeting.slug }}
-  on:click
-  class="flex items-center justify-between p-4 text-white card bg-gradient-primary bg-animate-slow z-50"
->
+<div in:receive={{ key: meeting.slug }} out:send={{ key: meeting.slug }} on:click class={cardClass}>
   <div>
     <h2 class="text-lg font-medium">
       {meeting.name}&nbsp;

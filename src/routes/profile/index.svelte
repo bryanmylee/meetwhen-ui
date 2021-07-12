@@ -64,7 +64,7 @@
     <h1 class="text-xl font-bold">Previous meetings</h1>
     <ul class="space-y-4">
       {#each previousMeetings as meeting}
-        <MeetingItem {meeting} />
+        <MeetingItem {meeting} dimmed />
       {/each}
     </ul>
   </div>
