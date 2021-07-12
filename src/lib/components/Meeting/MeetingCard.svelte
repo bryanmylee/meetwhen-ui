@@ -9,7 +9,7 @@
   export let dimmed = false;
 
   $: cardClass = classes([
-    'flex items-center justify-between text-white card p-4 z-50',
+    'flex items-center justify-between text-white card p-4',
     dimmed ? '!bg-primary-fifty opacity-75' : 'bg-gradient-primary bg-animate-slow ',
   ]);
 
