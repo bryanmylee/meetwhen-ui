@@ -27,7 +27,6 @@
       {#each previousMeetings as meeting}
         <MeetingItem {meeting} dimmed />
       {/each}
-      <li class="flex justify-end"><a href="/profile/previous">View more</a></li>
     </ul>
   </Accordian>
 </section>
