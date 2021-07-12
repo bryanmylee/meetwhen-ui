@@ -1,5 +1,8 @@
 <script lang="ts" context="module">
-  const [send, receive] = crossfade({ duration: 150, easing: cubicOut });
+  const [send, receive] = crossfade({
+    duration: (d: number) => d * 2,
+    easing: cubicOut,
+  });
 </script>
 
 <script lang="ts">
