@@ -1,4 +1,10 @@
+<script lang="ts" context="module">
+  const [send, receive] = crossfade({ duration: 150, easing: cubicOut });
+</script>
+
 <script lang="ts">
+  import { cubicOut } from 'svelte/easing';
+  import { crossfade } from 'svelte/transition';
   import type { ShallowMeeting } from '$lib/gql/types';
   import { onSubmitKey } from '$lib/utils/on-submit-key';
   import { ShareIcon } from 'svelte-feather-icons';
@@ -10,8 +16,10 @@
 </script>
 
 <div
+  in:receive={{ key: meeting.slug }}
+  out:send={{ key: meeting.slug }}
   on:click
-  class="flex items-center justify-between p-4 text-white card bg-gradient-primary bg-animate-slow"
+  class="flex items-center justify-between p-4 text-white card bg-gradient-primary bg-animate-slow z-50"
 >
   <div>
     <h2 class="text-lg font-medium">
