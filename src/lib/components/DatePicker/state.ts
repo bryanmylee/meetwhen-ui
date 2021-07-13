@@ -16,7 +16,7 @@ export const getDatePickerState = (): DatePickerState => {
     range(1, $month.daysInMonth() + 1).map((date) => $month.date(date).startOf('day'))
   );
   const disabledDates = derived(monthDates, ($monthDates) =>
-    $monthDates.filter((date) => date.isBefore(dayjs().subtract(1, 'day').startOf('day')))
+    $monthDates.filter((date) => date.isBefore(dayjs().startOf('day')))
   );
   return {
     month,
