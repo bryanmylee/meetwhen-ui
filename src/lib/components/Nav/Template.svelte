@@ -23,7 +23,7 @@
       <ul class="flex items-center p-4 space-x-3">
         <slot name="left" />
       </ul>
-      <ul class="flex items-center p-4 space-x-3">
+      <ul class="flex items-center p-4 divide-x divide-gray-400">
         <slot name="right" />
       </ul>
     </div>

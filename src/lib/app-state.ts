@@ -35,6 +35,7 @@ export const touchEnabled = useTouchEnabled();
 
 const primaryColor = useColor('primary', defaultPrimaryColor);
 export const [primaryColorBase, primaryColorSet, primaryColorCssVars] = primaryColor;
+
 export const isDark = useDarkMode();
 
 const mediaQueries = {
