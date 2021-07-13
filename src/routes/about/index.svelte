@@ -19,7 +19,7 @@
   <img src="/about/meeting_joining_{$isDark ? 'dark' : 'light'}.gif" alt="Join a meet" />
 </article>
 <footer class="mt-4 max-w-lg mx-auto px-6">
-  <a href="https://bryanmylee.github.io/" class="block card p-4 rounded-b-none text-sm">
+  <a href="https://bryanmylee.github.io/" class="block card px-4 pt-6 pb-8 rounded-b-none text-sm">
     <p class="text-center">
       Proudly developed by
       <span class="font-bold text-gradient-primary"> Bryan Lee </span>
