@@ -8,7 +8,7 @@
 {#if key === '/'}
   <nav transition:fly={{ y: -50 }} class="fixed inset-0 bottom-auto z-50">
     <div class="flex items-center justify-end mx-auto max-w-7xl dark:text-white">
-      <ul class="flex items-center p-4 space-x-3">
+      <ul class="flex items-center p-4 divide-x divide-gray-400">
         <slot name="right" />
       </ul>
     </div>
