@@ -12,11 +12,15 @@
   <section class="card p-4 space-y-2">
     <h2 class="font-medium">Create meetings</h2>
   </section>
-  <img src="/about/new_{$isDark ? 'dark' : 'light'}.png" alt="Create a new meet" />
+  <img src="/about/new_{$isDark ? 'dark' : 'light'}.gif" alt="Create a new meet" />
   <section class="card p-4 space-y-2">
     <h2 class="font-medium">Join your friends</h2>
   </section>
   <img src="/about/meeting_joining_{$isDark ? 'dark' : 'light'}.gif" alt="Join a meet" />
+  <section class="card p-4 space-y-2">
+    <h2 class="font-medium">Share with others</h2>
+  </section>
+  <img src="/about/meeting_share_{$isDark ? 'dark' : 'light'}.gif" alt="Join a meet" />
 </article>
 <footer class="mt-4 max-w-lg mx-auto px-6">
   <a href="https://bryanmylee.github.io/" class="block card px-4 pt-6 pb-8 rounded-b-none text-sm">
