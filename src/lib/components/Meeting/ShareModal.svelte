@@ -38,12 +38,12 @@
   class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-50 !mt-0"
 >
   <div on:click|stopPropagation={handleClick} class="p-4 space-y-2 cursor-pointer group card">
-    <h2 class="font-bold">Share this event!</h2>
+    <h2 class="text-lg font-medium">Share this event!</h2>
     <div class="relative rounded-lg shade">
       <div
         class="absolute inset-0 transition-all rounded-lg opacity-0 group-hover:opacity-100 group-hover:bg-gradient-primary hover:bg-animate-fast"
       />
-      <div class="relative px-4 py-2 font-medium cursor-text group-hover:text-white">
+      <div class="relative px-4 py-2 cursor-text group-hover:text-white">
         {shareLink}
       </div>
     </div>
