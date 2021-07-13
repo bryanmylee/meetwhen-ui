@@ -5,7 +5,7 @@
 </script>
 
 <Accordian
-  xclass={() => 'dark:text-white select-none'}
+  xclass={() => 'flex flex-col items-center dark:text-white select-none'}
   xtitleclass={() =>
     'flex justify-between w-full p-4 card focus:outline-none focus:ring ring-inset ring-primary-lighter'}
   let:expanded
@@ -24,10 +24,7 @@
 
 <style lang="postcss">
   h2 {
-    @apply font-medium px-4 pt-4 my-2 border-t border-gray-400;
-    &:first-of-type {
-      @apply border-t-0;
-    }
+    @apply font-medium px-4 pt-4 mt-2;
   }
 
   img {
