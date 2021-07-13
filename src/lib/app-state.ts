@@ -36,7 +36,7 @@ export const touchEnabled = useTouchEnabled();
 const primaryColor = useColor('primary', defaultPrimaryColor);
 export const [primaryColorBase, primaryColorSet, primaryColorCssVars] = primaryColor;
 
-export const isDark = useDarkMode();
+export const [isDark, darkModeSetting] = useDarkMode();
 
 const mediaQueries = {
   md: '(min-width: 768px)',

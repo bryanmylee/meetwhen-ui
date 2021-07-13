@@ -1,7 +1,7 @@
 <script lang="ts">
   import { slide } from 'svelte/transition';
   import { createPopperActions } from 'svelte-popperjs';
-  import { isDark } from '$lib/app-state';
+  import { darkModeSetting } from '$lib/app-state';
   import { clickOutside } from '$lib/utils/actions/use-click-outside';
   import { classes } from '$lib/utils/classes';
   import { DropletIcon, MoonIcon, SunIcon } from 'svelte-feather-icons';
@@ -19,10 +19,11 @@
   ];
 
   const handleClick = (value: boolean) => {
-    $isDark = value;
+    $darkModeSetting = value;
   };
 
-  $: activeIcon = $isDark === undefined ? DropletIcon : $isDark ? MoonIcon : SunIcon;
+  $: activeIcon =
+    $darkModeSetting === undefined ? DropletIcon : $darkModeSetting ? MoonIcon : SunIcon;
 
   const contentClassName = (active: boolean) =>
     classes([
@@ -56,8 +57,8 @@
         type="button"
         aria-label={title}
         on:click={() => handleClick(value)}
-        class={contentClassName(value === $isDark)}
-        disabled={value === $isDark}
+        class={contentClassName(value === $darkModeSetting)}
+        disabled={value === $darkModeSetting}
       >
         <svelte:component this={icon} class="w-5 h-5 min-w-5 min-h-5" />
         <p class="text-sm">{title}</p>
