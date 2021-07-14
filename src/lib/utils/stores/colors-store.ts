@@ -1,6 +1,4 @@
 import { cssVars } from '$lib/utils/css-vars';
-import { flat } from '$lib/utils/flat';
-import { range } from '$lib/utils/range';
 import type { Color, Scale } from 'chroma-js';
 import chroma from 'chroma-js';
 import type { Readable, Writable } from 'svelte/store';
@@ -31,8 +29,8 @@ export const useColor = (
   return [base, colorSet, cssVars];
 };
 
-const getColorSet = (base: string): ColorSet => {
-  const scale = colorScale(base);
+export const getColorSet = (base: string): ColorSet => {
+  const scale = getColorScale(base);
   return {
     DEFAULT: chroma(base).css(),
     lighter: chroma(base).brighten(0.5).css(),
@@ -46,7 +44,7 @@ const getColorSet = (base: string): ColorSet => {
   };
 };
 
-const colorScale = (hex: string) => {
+const getColorScale = (hex: string) => {
   const base = chroma(hex);
   const light = base.brighten(1).desaturate(0.5);
   const dark = base.darken(2);
@@ -73,7 +71,7 @@ const hueShifted = (color: chroma.Color, shift: number) => {
   return color.set('hsl.h', hue + shift);
 };
 
-const getCssVars = (name: string, colors: ColorSet) =>
+export const getCssVars = (name: string, colors: ColorSet): string =>
   cssVars(
     Object.fromEntries(
       Object.entries(colors)
@@ -89,13 +87,4 @@ const property = (prop: string, variant: string) => {
   return `${prop}-${variant}`;
 };
 
-const hues = range(0, 360, 40);
-const sats = range(0.25, 1, 0.25);
-// list of colors with varying hues and saturations.
-const brightColors = flat(hues.map((hue) => sats.map((sat) => chroma.hsl(hue, sat, 0.52).hex())));
-// list of greyscales with varying lightness.
-const greyColors = range(0.3, 0.8, 0.2).map((light) => chroma.hsl(0, 0, light).hex());
-
-export const allColors = [...brightColors, ...greyColors];
-export const DEFAULT_INDEX = 17;
-export const defaultPrimaryColor = allColors[DEFAULT_INDEX];
+export const defaultPrimaryColor = '#29a3e0';
