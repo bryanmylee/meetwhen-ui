@@ -39,7 +39,7 @@ interface GetMeetingBySlugResolved {
     id: string;
     name: string;
     emoji: string;
-    color?: string;
+    color: string;
     owner: null | {
       id: string;
       name: string;
@@ -61,7 +61,7 @@ interface GetMeetingBySlugReturned {
   slug: string;
   name: string;
   emoji: string;
-  color?: string;
+  color: string;
   owner: null | {
     id: string;
     name: string;

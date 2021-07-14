@@ -4,19 +4,21 @@
   import { ShareIcon } from 'svelte-feather-icons';
   import ShareModal from './ShareModal.svelte';
   import { classes } from '$lib/utils/classes';
+  import { getCssVars, getColorSet } from '$lib/utils/stores/colors-store';
 
-  export let meeting: Pick<ShallowMeeting, 'name' | 'slug'>;
+  export let meeting: Pick<ShallowMeeting, 'name' | 'slug' | 'color'>;
   export let dimmed = false;
 
   $: cardClass = classes([
     'flex items-center justify-between !text-primary-text card p-4',
     dimmed ? '!bg-primary-fifty opacity-75' : 'bg-gradient-primary bg-animate-slow ',
   ]);
+  $: colorVars = getCssVars('primary', getColorSet(meeting.color));
 
   let showShareModal = false;
 </script>
 
-<div on:click class={cardClass}>
+<div on:click class={cardClass} style={colorVars}>
   <div>
     <h2 class="text-lg font-medium">
       {meeting.name}&nbsp;

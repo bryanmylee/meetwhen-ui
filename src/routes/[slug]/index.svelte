@@ -4,7 +4,7 @@
     try {
       const meeting = get(newMeeting) ?? (await getMeetingBySlug({ slug }));
       activeMeeting.set(meeting as Meeting);
-      primaryColorBase.set(meeting.color ?? DEFAULT_PRIMARY_COLOR);
+      primaryColorBase.set(meeting.color);
       return {
         props: { meeting },
       };
@@ -41,7 +41,6 @@
   import { session } from '$app/stores';
   import { unionIntervals } from '$lib/utils/intervals';
   import { setLoadingContext, withLoading } from '$lib/components/Loading';
-  import { DEFAULT_PRIMARY_COLOR } from '$lib/utils/stores/colors-store';
 
   // logout previous guest if on wrong meeting.
   onMount(async () => {
