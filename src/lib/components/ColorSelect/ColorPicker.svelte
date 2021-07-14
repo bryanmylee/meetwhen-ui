@@ -5,7 +5,7 @@
 
   export let value: string;
 
-  const hues = [0, 35, 60, 100, 160, 200, 220, 260, 300, 330];
+  const hues = [0, 32, 50, 110, 160, 200, 220, 260, 300, 330];
 
   const handleClick = ({ detail }: CustomEvent<ColorItemEvent['click']>) => {
     value = detail.hex;
