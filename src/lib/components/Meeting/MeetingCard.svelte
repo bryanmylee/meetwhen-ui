@@ -9,7 +9,7 @@
   export let dimmed = false;
 
   $: cardClass = classes([
-    'flex items-center justify-between text-white card p-4',
+    'flex items-center justify-between !text-primary-text card p-4',
     dimmed ? '!bg-primary-fifty opacity-75' : 'bg-gradient-primary bg-animate-slow ',
   ]);
 
@@ -27,7 +27,7 @@
     aria-label="Share"
     on:keydown|stopPropagation={onSubmitKey(() => (showShareModal = true))}
     on:click|preventDefault|stopPropagation={() => (showShareModal = true)}
-    class="w-10 h-10 -m-2 rounded-full button hover:bg-primary-darker focus:ring-white"
+    class="w-10 h-10 -m-2 rounded-full button hover:bg-primary-darker focus:ring-primary-text"
   >
     <ShareIcon class="p-2.5" />
   </button>

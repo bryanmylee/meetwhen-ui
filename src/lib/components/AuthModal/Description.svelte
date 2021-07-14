@@ -10,7 +10,7 @@
     Your account will be used for
     <span class="font-bold text-gradient-primary"> this meeting only </span>
   </p>
-  <div class="p-4 font-medium text-white card bg-gradient-primary bg-animate-slow">
+  <div class="p-4 font-medium !text-primary-text card bg-gradient-primary bg-animate-slow">
     {activeMeeting.name}
   </div>
 {:else}

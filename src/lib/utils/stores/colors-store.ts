@@ -12,6 +12,7 @@ export interface ColorSet {
   cooler: string;
   fifty: string;
   thirty: string;
+  text: string;
   scale: Scale;
   getFractional: (num: number, denom: number) => Color;
 }
@@ -39,6 +40,7 @@ export const getColorSet = (base: string): ColorSet => {
     cooler: hueShifted(chroma(base), 12).css(),
     fifty: chroma(base).alpha(0.5).css(),
     thirty: chroma(base).alpha(0.3).css(),
+    text: getTextContrastColor(base),
     scale,
     getFractional: getFractionalFromScale(scale),
   };
@@ -69,6 +71,15 @@ const getFractionalFromScale = (scale: Scale) => (num: number, denom: number) =>
 const hueShifted = (color: chroma.Color, shift: number) => {
   const hue = color.get('hsl.h');
   return color.set('hsl.h', hue + shift);
+};
+
+const WHITE = '#ffffff';
+const BLACK = '#000000';
+
+export const getTextContrastColor = (base: string): string => {
+  const contrastWhite = chroma.contrast(base, WHITE);
+  const contrastBlack = chroma.contrast(base, BLACK);
+  return contrastWhite > contrastBlack ? WHITE : BLACK;
 };
 
 export const getCssVars = (name: string, colors: ColorSet): string =>

@@ -27,7 +27,7 @@
     selected ? selectedClass : unselectedClass,
   ]);
   $: selectedClass = classes([
-    'bg-primary text-white shadow-primary z-10',
+    'bg-primary text-primary-text shadow-primary z-10',
     isCreating && 'shadow-lg-primary',
     isDeleting && 'bg-primary-fifty',
     focused && 'border-white',

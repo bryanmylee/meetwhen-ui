@@ -2,7 +2,7 @@
   import { isDark } from '$lib/app-state';
 </script>
 
-<div class="flex flex-col items-center">
+<div class="flex flex-col items-center dark:text-white">
   <h2>Create meetings</h2>
   <img src="/about/new_{$isDark ? 'dark' : 'light'}.gif" alt="Create a new meet" />
   <h2>Join your friends</h2>

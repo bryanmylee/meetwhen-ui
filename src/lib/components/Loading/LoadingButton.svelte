@@ -49,7 +49,7 @@
 
 <style lang="postcss">
   div.loading {
-    @apply flex justify-center items-center absolute inset-0 rounded-full ring-primary text-white;
+    @apply flex justify-center items-center absolute inset-0 rounded-full ring-primary text-primary-text;
     animation: ring-breathe 1.4s ease-in-out infinite both;
   }
   @keyframes ring-breathe {

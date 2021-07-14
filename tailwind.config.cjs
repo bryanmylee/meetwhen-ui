@@ -16,6 +16,7 @@ module.exports = {
           cooler: 'var(--primary-cooler)',
           fifty: 'var(--primary-fifty)',
           thirty: 'var(--primary-thirty)',
+          text: 'var(--primary-text)',
         },
       },
       minHeight: (theme) => theme('height'),

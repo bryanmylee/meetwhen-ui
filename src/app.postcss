@@ -56,7 +56,7 @@ html {
     @apply disabled:text-gray-400 disabled:cursor-default;
     &.primary {
       &:not(.outline) {
-        @apply bg-primary text-white;
+        @apply bg-primary text-primary-text;
         @apply disabled:bg-primary-thirty;
         &:not(:disabled) {
           @apply hover:bg-primary-lighter hover:shadow-md-primary;
@@ -84,7 +84,7 @@ html {
     }
     &.gradient {
       &:not(.outline) {
-        @apply text-white;
+        @apply text-primary-text;
         @apply disabled:bg-primary-thirty;
         &:not(:disabled) {
           @apply bg-gradient-primary;

@@ -85,7 +85,7 @@
             'px-4 py-2 z-0 focusable whitespace-nowrap first:rounded-t-xl last:rounded-b-xl',
             isDisabled(item) ? disabledClass : enabledClass,
             itemIndex === focusedIndex && 'shade ring ring-inset ring-primary',
-            itemIndex === index && '!bg-primary text-white',
+            itemIndex === index && '!bg-primary text-primary-text',
           ])}
         >
           {@html getDisplay(item)}

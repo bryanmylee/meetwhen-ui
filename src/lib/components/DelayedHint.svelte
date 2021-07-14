@@ -53,7 +53,7 @@
   <div
     use:content
     transition:fade={{ duration: 150 }}
-    class="z-50 p-2 text-sm text-white rounded-md hint bg-primary shadow-md-primary"
+    class="z-50 p-2 text-sm text-primary-text rounded-md hint bg-primary shadow-md-primary"
   >
     <div data-popper-arrow>
       <div class="w-3 h-3 transform rotate-45 hint--arrow bg-primary" />
