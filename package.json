@@ -47,5 +47,8 @@
     "tslib": "^2.3.0",
     "typescript": "^4.3.5"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "emoji-picker-element": "^1.6.4"
+  }
 }

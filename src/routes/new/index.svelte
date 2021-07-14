@@ -7,6 +7,9 @@
   import Head from '$lib/components/Head.svelte';
   import MeetingInput from './_MeetingInput.svelte';
   import Buttons from './_Buttons.svelte';
+  import AdvancedSettings from './_AdvancedSettings.svelte';
+
+  let showAdvanced = false;
 
   const submit = () => {
     if ($selectedDates.value.length === 0) {
@@ -23,5 +26,8 @@
 
 <form on:submit|preventDefault={submit} class="max-w-lg p-6 mx-auto space-y-4">
   <MeetingInput />
-  <Buttons />
+  {#if showAdvanced}
+    <AdvancedSettings />
+  {/if}
+  <Buttons on:more={() => (showAdvanced = !showAdvanced)} />
 </form>
