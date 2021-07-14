@@ -77,9 +77,10 @@ const WHITE = '#ffffff';
 const BLACK = '#000000';
 
 export const getTextContrastColor = (base: string): string => {
-  const contrastWhite = chroma.contrast(base, WHITE);
-  const contrastBlack = chroma.contrast(base, BLACK);
-  return contrastWhite > contrastBlack ? WHITE : BLACK;
+  if (chroma.contrast(base, WHITE) > 2.5) {
+    return WHITE;
+  }
+  return BLACK;
 };
 
 export const getCssVars = (name: string, colors: ColorSet): string =>
