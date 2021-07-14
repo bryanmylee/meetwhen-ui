@@ -31,9 +31,9 @@ const getBackendHeaders = (cookies: Record<string, string>): Record<string, stri
 
 const getClientHeaders = (host: string, response: Response) => {
   const headers: Record<string, string> = {};
-  const token = response.headers.get('__token');
-  if (token !== null) {
-    headers['set-cookie'] = getSetCookieHeader(host, 'access-token', token);
+  const accessToken = response.headers.get('__access-token');
+  if (accessToken !== null) {
+    headers['set-cookie'] = getSetCookieHeader(host, 'access-token', accessToken);
   }
   return headers;
 };
