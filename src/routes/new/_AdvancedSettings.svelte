@@ -1,19 +1,20 @@
 <script lang="ts">
+  import { emoji, color } from './_state/meeting';
+  import { primaryColorBase } from '$lib/app-state';
   import ColorSelect from '$lib/components/ColorSelect/ColorSelect.svelte';
   import EmojiSelect from '$lib/components/EmojiSelect/EmojiSelect.svelte';
 
-  let emoji: string;
-  let colorHex: string;
+  $: $primaryColorBase = $color;
 </script>
 
 <div class="card p-4 space-y-4">
   <h1 class="font-medium text-lg">Advanced settings</h1>
   <div class="flex justify-between items-center">
     <span>Pick a custom color</span>
-    <ColorSelect bind:value={colorHex} />
+    <ColorSelect bind:value={$color} />
   </div>
   <div class="flex justify-between items-center">
     <span>Set a custom emoji</span>
-    <EmojiSelect bind:value={emoji} />
+    <EmojiSelect bind:value={$emoji} />
   </div>
 </div>
