@@ -99,4 +99,4 @@ const property = (prop: string, variant: string) => {
   return `${prop}-${variant}`;
 };
 
-export const defaultPrimaryColor = '#0aadff';
+export const DEFAULT_PRIMARY_COLOR = '#0aadff';

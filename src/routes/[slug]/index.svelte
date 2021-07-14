@@ -4,6 +4,7 @@
     try {
       const meeting = get(newMeeting) ?? (await getMeetingBySlug({ slug }));
       activeMeeting.set(meeting as Meeting);
+      primaryColorBase.set(meeting.color ?? DEFAULT_PRIMARY_COLOR);
       return {
         props: { meeting },
       };
@@ -27,7 +28,7 @@
   import type { AuthModalEvent } from '$lib/components/AuthModal/AuthModal.svelte';
   import type { Load } from '@sveltejs/kit';
   import type { Meeting, Schedule } from '$lib/gql/types';
-  import { activeMeeting, newMeeting } from '$lib/app-state';
+  import { activeMeeting, newMeeting, primaryColorBase } from '$lib/app-state';
   import { addSchedule } from '$lib/gql/addSchedule';
   import { deleteSchedule } from '$lib/gql/deleteSchedule';
   import { editSchedule } from '$lib/gql/editSchedule';
@@ -40,6 +41,7 @@
   import { session } from '$app/stores';
   import { unionIntervals } from '$lib/utils/intervals';
   import { setLoadingContext, withLoading } from '$lib/components/Loading';
+  import { DEFAULT_PRIMARY_COLOR } from '$lib/utils/stores/colors-store';
 
   // logout previous guest if on wrong meeting.
   onMount(async () => {

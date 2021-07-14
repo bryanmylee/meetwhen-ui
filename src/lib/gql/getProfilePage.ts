@@ -18,6 +18,8 @@ fragment shallowFields on Meeting {
   id
   slug
   name
+  emoji
+  color
   total {
     beg
     end

@@ -1,5 +1,5 @@
 import { dev } from '$app/env';
-import { defaultPrimaryColor, useColor } from '$lib/utils/stores/colors-store';
+import { DEFAULT_PRIMARY_COLOR, useColor } from '$lib/utils/stores/colors-store';
 import { useDarkMode } from '$lib/utils/stores/dark-mode-store';
 import watchMedia from 'svelte-media';
 import { cubicOut } from 'svelte/easing';
@@ -33,7 +33,7 @@ export const [send, receive] = crossfade({
 
 export const touchEnabled = useTouchEnabled();
 
-const primaryColor = useColor('primary', defaultPrimaryColor);
+const primaryColor = useColor('primary', DEFAULT_PRIMARY_COLOR);
 export const [primaryColorBase, primaryColorSet, primaryColorCssVars] = primaryColor;
 
 export const [isDark, darkModeSetting] = useDarkMode();
