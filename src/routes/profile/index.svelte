@@ -30,6 +30,7 @@
 </script>
 
 <script lang="ts">
+  import Head from '$lib/components/Head.svelte';
   import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
   import type { Load } from '@sveltejs/kit';
   import type { ShallowMeeting } from '$lib/gql/types';
@@ -38,7 +39,6 @@
   import { session } from '$app/stores';
   import { setLoadingContext, withLoading } from '$lib/components/Loading';
   import Previous from './_Previous.svelte';
-  import MeetingItem from './_MeetingItem.svelte';
   import Upcoming from './_Upcoming.svelte';
 
   export let upcomingMeetings: ShallowMeeting[];
@@ -52,6 +52,8 @@
     window.history.back();
   });
 </script>
+
+<Head subtitle="profile" emoji="🤖" />
 
 <div class="max-w-lg p-6 mx-auto space-y-4">
   <Upcoming {upcomingMeetings} />

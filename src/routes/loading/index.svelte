@@ -33,7 +33,7 @@
   $: meeting = $newMeeting as ShallowMeeting;
 </script>
 
-<Head emoji="📘" subtitle="loading..." />
+<Head emoji="☁️" subtitle="loading..." />
 
 <Template>
   <MeetingCard {meeting} slot="header" />

@@ -1,6 +1,9 @@
 <script lang="ts">
+  import Head from '$lib/components/Head.svelte';
   import Help from './_Help.svelte';
 </script>
+
+<Head subtitle="about" emoji="🔬" />
 
 <article class="max-w-lg p-6 pb-4 mx-auto space-y-4">
   <section class="card p-4 space-y-2">

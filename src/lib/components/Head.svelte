@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>meetwhen.io {emoji} {subtitle}</title>
+  <title>meetwhen {emoji} {subtitle}</title>
   <meta name="description" content="Find the perfect time to meet up with your team" />
   {#if noRobots}
     <meta name="robots" content="noindex" />
