@@ -2,10 +2,11 @@ import { query } from '$lib/gql';
 import { Interval, IntervalSerializer, Meeting } from './types';
 
 const ADD_MEETING = `
-mutation ($name: String!, $intervals: [IntervalInput!]!) {
-  addMeeting(data: {name: $name, intervals: $intervals}) {
+mutation ($name: String!, $emoji: String, $intervals: [IntervalInput!]!) {
+  addMeeting(data: {name: $name, emoji: $emoji, intervals: $intervals}) {
     id
     slug
+    emoji
     owner {
       id
       name
@@ -15,6 +16,7 @@ mutation ($name: String!, $intervals: [IntervalInput!]!) {
 
 export interface AddMeetingVars {
   name: string;
+  emoji?: string;
   intervals: Interval[];
 }
 
@@ -22,16 +24,18 @@ interface AddMeetingResolved {
   addMeeting: {
     id: string;
     slug: string;
-    owner: {
+    emoji: string;
+    owner: null | {
       id: string;
       name: string;
     };
   };
 }
 
-export const addMeeting = async ({ name, intervals }: AddMeetingVars): Promise<Meeting> => {
+export const addMeeting = async ({ name, emoji, intervals }: AddMeetingVars): Promise<Meeting> => {
   const variables = {
     name,
+    emoji,
     intervals: intervals.map(IntervalSerializer.serialize),
   };
   const { addMeeting } = (await query({ query: ADD_MEETING, variables })) as AddMeetingResolved;

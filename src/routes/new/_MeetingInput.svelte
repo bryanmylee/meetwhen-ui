@@ -3,14 +3,14 @@
   import DatePicker from '$lib/components/DatePicker/DatePicker.svelte';
   import Textfield from '$lib/components/Textfield.svelte';
   import FromToHourPicker from '$lib/components/FromToHourPicker/FromToHourPicker.svelte';
-  import { newMeetingName } from './_state/meeting';
+  import { name } from './_state/meeting';
   import { selectedDates, from, to } from './_state/intervals';
 </script>
 
 <section class="p-4 space-y-4 card">
   <div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
     <Textfield
-      bind:value={$newMeetingName}
+      bind:value={$name}
       placeholder="Name your meet"
       focusOnMount
       required
