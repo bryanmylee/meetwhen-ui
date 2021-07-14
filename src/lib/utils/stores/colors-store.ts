@@ -77,7 +77,7 @@ const WHITE = '#ffffff';
 const BLACK = '#000000';
 
 export const getTextContrastColor = (base: string): string => {
-  if (chroma.contrast(base, WHITE) > 2.5) {
+  if (chroma.contrast(base, WHITE) > 2.45) {
     return WHITE;
   }
   return BLACK;
@@ -99,4 +99,4 @@ const property = (prop: string, variant: string) => {
   return `${prop}-${variant}`;
 };
 
-export const defaultPrimaryColor = '#29a3e0';
+export const defaultPrimaryColor = '#0aadff';

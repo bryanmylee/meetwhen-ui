@@ -2,7 +2,7 @@
   import { clickOutside } from '$lib/utils/actions/use-click-outside';
   import ColorPicker from './ColorPicker.svelte';
 
-  export let value = '#29a3e0';
+  export let value = '#0aadff';
 
   let showPicker = false;
 
