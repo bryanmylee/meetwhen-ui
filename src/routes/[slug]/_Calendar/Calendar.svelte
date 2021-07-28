@@ -59,7 +59,7 @@
 
   $: calendarClass = classes([
     'flex flex-col flex-1 overflow-hidden card',
-    $isFullscreen ? 'fixed inset-4 z-10' : 'relative z-0',
+    $isFullscreen ? 'fixed inset-4 z-50' : 'relative z-0',
   ]);
 </script>
 
