@@ -69,7 +69,7 @@
     <div data-popper-arrow>
       <div class={popoverArrowClass} />
     </div>
-    <h1 class="px-4 py-3 text-xs text-gray-400">
+    <h1 class="px-4 py-3 text-xs">
       {interval.beg.format('h:mma')} – {interval.end.format('h:mma')}
     </h1>
     <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-600">
