@@ -7,12 +7,9 @@
   import { getCssVars, getColorSet } from '$lib/utils/stores/colors-store';
 
   export let meeting: Pick<ShallowMeeting, 'name' | 'slug' | 'color'>;
-  export let dimmed = false;
 
-  $: cardClass = classes([
-    'flex items-center justify-between !text-primary-text card p-4',
-    dimmed ? '!bg-primary-fifty opacity-75' : 'bg-gradient-primary bg-animate-slow ',
-  ]);
+  const cardClass =
+    'flex items-center justify-between !text-primary-text card p-4 bg-gradient-primary bg-animate-slow';
   $: colorVars = getCssVars('primary', getColorSet(meeting.color));
 
   let showShareModal = false;

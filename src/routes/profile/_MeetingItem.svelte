@@ -1,17 +1,29 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import MeetingCard from '$lib/components/Meeting/MeetingCard.svelte';
   import type { ShallowMeeting } from '$lib/gql/types';
   import { onSubmitKey } from '$lib/utils/on-submit-key';
+  import { getCssVars, getColorSet } from '$lib/utils/stores/colors-store';
 
   export let meeting: ShallowMeeting;
-  export let dimmed = false;
 
   const navigate = () => {
     goto(`/${meeting.slug}`);
   };
+
+  $: colorVars = getCssVars('primary', getColorSet(meeting.color));
 </script>
 
-<li tabindex="0" on:keydown={onSubmitKey(navigate)} class="cursor-pointer button rounded-xl">
-  <MeetingCard on:click={navigate} {meeting} {dimmed} />
+<li
+  tabindex="0"
+  on:keydown={onSubmitKey(navigate)}
+  on:click={navigate}
+  class="relative button cursor-pointer rounded-lg overflow-hidden shade"
+  style={colorVars}
+>
+  <div class="absolute left-0 w-2 h-full bg-primary" />
+  <div class="flex p-2 space-x-2 ml-2 items-center font-normal">
+    <div>
+      {meeting.name}&nbsp;
+    </div>
+  </div>
 </li>

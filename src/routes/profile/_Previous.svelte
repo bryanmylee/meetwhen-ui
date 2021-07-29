@@ -23,9 +23,9 @@
       <h1 class="text-lg font-medium">Previous meetings</h1>
       <ChevronDownIcon class="p-2 -m-2 w-10 h-10 transition transform {expanded && 'rotate-180'}" />
     </svelte:fragment>
-    <ul class="space-y-4 p-4" transition:slide|local>
+    <ul class="space-y-4 p-4 pt-0" transition:slide|local>
       {#each previousMeetings as meeting}
-        <MeetingItem {meeting} dimmed />
+        <MeetingItem {meeting} />
       {/each}
     </ul>
   </Accordian>
