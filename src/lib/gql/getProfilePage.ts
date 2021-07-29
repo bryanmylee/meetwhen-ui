@@ -5,10 +5,10 @@ import { IntervalSerializer, ShallowMeeting, ShallowMeetingDTO } from './types';
 const GET_PROFILE_PAGE = `
 query ($timeNow: Int!, $upcomingLimit: Int, $previousLimit: Int) {
   me {
-    upcomingMeetings: allMeetings(order: EARLIEST, key: END, after: $timeNow, limit: $upcomingLimit) {
+    upcomingMeetings: allMeetings(order: EARLIEST, key: BEG, after: $timeNow, limit: $upcomingLimit) {
       ...shallowFields
     }
-    previousMeetings: allMeetings(order: EARLIEST, key: END, before: $timeNow, limit: $previousLimit) {
+    previousMeetings: allMeetings(order: EARLIEST, key: BEG, before: $timeNow, limit: $previousLimit) {
       ...shallowFields
     }
   }
