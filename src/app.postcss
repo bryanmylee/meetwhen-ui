@@ -113,7 +113,7 @@ html {
         }
       }
       &.error {
-        @apply error;
+        @apply ring ring-red-400;
         & + label {
           @apply text-red-400;
         }
@@ -169,14 +169,10 @@ html {
     }
   }
 
-  .error {
-    @apply ring-red-400 ring;
-  }
-
   .focusable {
     @apply ring-primary-lighter focus:ring focus:outline-none;
     &.error {
-      @apply error;
+      @apply ring ring-red-400;
     }
   }
 
