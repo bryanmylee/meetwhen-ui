@@ -42,8 +42,11 @@
   import { unionIntervals } from '$lib/utils/intervals';
   import { setLoadingContext, withLoading } from '$lib/components/Loading';
 
+  export let meeting: Meeting;
+  $: $meetingDep = meeting;
+
   // logout previous guest if on wrong meeting.
-  onMount(async () => {
+  const validateGuestUser = async () => {
     if ($session.user === null) {
       return;
     }
@@ -55,10 +58,15 @@
       $session.user = null;
       await logout();
     }
+  };
+
+  onMount(async () => {
+    await validateGuestUser();
   });
 
-  export let meeting: Meeting;
-  $: $meetingDep = meeting;
+  $: if (meeting.slug) {
+    validateGuestUser();
+  }
 
   const isLoading = setLoadingContext(false);
 
