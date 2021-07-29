@@ -16,7 +16,7 @@
   <ul class="space-y-4">
     {#each groupedEntries as [date, meetings]}
       <li class="flex space-x-4">
-        <div class="py-2 w-12">
+        <div class="py-2 w-[6ch] text-right">
           {date.format('DD MMM')}
         </div>
         <ul class="space-y-4 flex-1">
