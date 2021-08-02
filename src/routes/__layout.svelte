@@ -20,17 +20,20 @@
   import Nav from '$lib/components/Nav/Nav.svelte';
   import type { Load } from '@sveltejs/kit';
   import { onMount } from 'svelte';
+  import { navigating } from '$app/stores';
 
   export let key: string;
   onMount(() => {
     useScreenHeight();
   });
+
+  $: console.log('navigating', $navigating);
 </script>
 
 <div id={APP_ROOT_ID} class="contents" style={$primaryColorCssVars}>
   <Nav {key} />
   <main class="mt-14">
-    <PageTransition {key}>
+    <PageTransition {key} isLoading={$navigating !== null}>
       <slot />
     </PageTransition>
   </main>
