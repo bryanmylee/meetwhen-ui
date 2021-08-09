@@ -8,12 +8,12 @@
 
   const isLoading = getLoadingContext();
 
-  $: guestButtonLabel = isLoggingIn ? 'Join as new guest' : 'Already a guest?';
+  $: guestButtonLabel = isLoggingIn ? 'Join as guest' : 'Already a guest?';
   $: plusButtonLabel = isLoggingIn ? 'Create new account' : 'Already have an account?';
   $: buttonLabel = isGuestAuth ? guestButtonLabel : plusButtonLabel;
 
   $: guestHeaderLabel = isLoggingIn ? 'Login as guest' : 'Join as new guest';
-  $: plusHeaderLabel = isLoggingIn ? 'Login' : 'Join';
+  $: plusHeaderLabel = isLoggingIn ? 'Login' : 'Signup';
   $: headerLabel = isGuestAuth ? guestHeaderLabel : plusHeaderLabel;
 
   $: buttonClass = classes([
