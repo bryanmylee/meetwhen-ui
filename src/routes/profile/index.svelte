@@ -58,8 +58,8 @@
 <Head subtitle="profile" emoji="🤖" />
 
 <div class="max-w-lg p-6 mx-auto space-y-4">
-  <section class="p-4 card">
-    <h1 class="mb-2 text-2xl font-bold">Profile</h1>
+  <section class="p-4 space-y-2 card">
+    <h1 class="text-2xl font-bold">Profile</h1>
     {#if isGuest}
       <p>You are using a guest account.</p>
     {/if}
