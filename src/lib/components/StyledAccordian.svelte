@@ -39,7 +39,7 @@
     <slot name="title" />
     <ChevronDownIcon class="p-2 -m-2 w-10 h-10 transition transform {expanded && 'rotate-180'}" />
   </svelte:fragment>
-  <div class="p-4 pt-0 space-y-4" transition:slide|local>
+  <div class="p-4 pt-0" transition:slide|local>
     <slot {expanded} />
   </div>
 </Accordian>
