@@ -62,6 +62,8 @@
     <h1 class="text-2xl font-bold">Profile</h1>
     {#if isGuest}
       <p>You are using a guest account.</p>
+    {:else}
+      <p>Track all your previous and upcoming meetings.</p>
     {/if}
   </section>
   {#if !isGuest}
