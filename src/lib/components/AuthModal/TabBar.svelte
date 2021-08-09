@@ -23,7 +23,7 @@
     disabled={!isGuestAuth || $isLoading}
     class="rounded-tl-xl {getButtonClass(!isGuestAuth, $isLoading)}"
   >
-    Login / Signup
+    Log In / Sign Up
   </button>
   {#if enableGuestAuth}
     <button

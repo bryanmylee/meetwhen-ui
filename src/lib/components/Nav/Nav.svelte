@@ -30,7 +30,7 @@
             isLoggingIn = true;
             showAuthModal = true;
           }}
-          class="text-focusable">Login</button
+          class="text-focusable">Log In</button
         >
       </li>
       <li>
@@ -39,7 +39,7 @@
             isLoggingIn = false;
             showAuthModal = true;
           }}
-          class="text-focusable">Signup</button
+          class="text-focusable">Sign Up</button
         >
       </li>
     {/if}

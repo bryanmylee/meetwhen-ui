@@ -12,8 +12,8 @@
   $: plusButtonLabel = isLoggingIn ? 'Create new account' : 'Already have an account?';
   $: buttonLabel = isGuestAuth ? guestButtonLabel : plusButtonLabel;
 
-  $: guestHeaderLabel = isLoggingIn ? 'Login as guest' : 'Join as guest';
-  $: plusHeaderLabel = isLoggingIn ? 'Login' : 'Signup';
+  $: guestHeaderLabel = isLoggingIn ? 'Log in as guest' : 'Join as guest';
+  $: plusHeaderLabel = isLoggingIn ? 'Log In' : 'Sign Up';
   $: headerLabel = isGuestAuth ? guestHeaderLabel : plusHeaderLabel;
 
   $: buttonClass = classes([
