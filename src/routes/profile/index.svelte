@@ -56,9 +56,13 @@
 <Head subtitle="profile" emoji="🤖" />
 
 <div class="max-w-lg p-6 mx-auto space-y-4">
-  <Upcoming {upcomingMeetings} />
-  {#if previousMeetings.length > 0}
-    <Previous {previousMeetings} />
+  {#if $session.user.guestOf === null}
+    <Upcoming {upcomingMeetings} />
+    {#if previousMeetings.length > 0}
+      <Previous {previousMeetings} />
+    {/if}
+  {:else}
+    <div class="flex p-4 card">You are using a guest account.</div>
   {/if}
   <div class="flex justify-end p-4 card">
     <LoadingButton
