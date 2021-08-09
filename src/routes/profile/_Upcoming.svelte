@@ -14,7 +14,7 @@
 
 <section>
   <StyledAccordian expanded={true}>
-    <h1 slot="title" class="text-xl font-medium">Upcoming meetings</h1>
+    <h2 slot="title" class="text-xl font-medium">Upcoming meetings</h2>
     <ul class="space-y-4">
       {#each groupedEntries as [date, meetings]}
         <li class="flex space-x-4">
