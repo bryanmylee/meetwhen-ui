@@ -72,7 +72,18 @@
       <Previous {previousMeetings} />
     {/if}
   {/if}
-  <div class="flex justify-end p-4 card">
+  <div class="p-4 space-y-4 card">
+    <h2 class="text-xl font-medium">Coming soon!</h2>
+    <div class="space-x-4">
+      <button disabled class="px-4 py-3 rounded-full button shade">Import school calendar</button>
+      <button disabled class="px-4 py-3 rounded-full button shade">Add to calendar</button>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between p-4 card">
+    <div>
+      Logged in as <span class="font-bold">{$session.user?.name}</span>
+    </div>
     <LoadingButton
       type="button"
       isPrimary
