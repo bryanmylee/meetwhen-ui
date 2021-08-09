@@ -18,7 +18,7 @@
   </svelte:fragment>
   <svelte:fragment slot="right">
     {#if $session.user !== null}
-      <li>
+      <li class:active={key === '/profile'}>
         <a href="/profile" class="text-focusable">
           Hi, <span class="font-bold">{$session.user.name}</span>
         </a>
@@ -43,7 +43,7 @@
         >
       </li>
     {/if}
-    <li><a href="/help" class="text-focusable">Help</a></li>
+    <li class:active={key === '/help'}><a href="/help" class="text-focusable">Help</a></li>
     <li class="flex items-center"><DarkModeButton /></li>
   </svelte:fragment>
 </Template>
@@ -67,5 +67,9 @@
     &:last-child {
       @apply pr-0;
     }
+  }
+
+  .active {
+    @apply text-primary;
   }
 </style>

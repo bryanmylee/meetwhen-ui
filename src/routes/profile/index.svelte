@@ -56,6 +56,9 @@
 <Head subtitle="profile" emoji="🤖" />
 
 <div class="max-w-lg p-6 mx-auto space-y-4">
+  <section class="p-4 card">
+    <h1 class="text-2xl font-bold">Profile</h1>
+  </section>
   {#if $session.user.guestOf === null}
     <Upcoming {upcomingMeetings} />
     {#if previousMeetings.length > 0}
