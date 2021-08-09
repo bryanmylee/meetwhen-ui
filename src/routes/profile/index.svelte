@@ -40,6 +40,7 @@
   import { setLoadingContext, withLoading } from '$lib/components/Loading';
   import Previous from './_Previous.svelte';
   import Upcoming from './_Upcoming.svelte';
+  import ComingSoon from './_ComingSoon.svelte';
 
   export let upcomingMeetings: ShallowMeeting[];
   export let previousMeetings: ShallowMeeting[];
@@ -50,8 +51,8 @@
 
   const handleLogout = withLoading(isLoading, async () => {
     await logout();
-    $session.user = null;
     window.history.back();
+    $session.user = null;
   });
 </script>
 
@@ -71,18 +72,12 @@
     {#if previousMeetings.length > 0}
       <Previous {previousMeetings} />
     {/if}
+    <ComingSoon />
   {/if}
-  <div class="p-4 space-y-4 card">
-    <h2 class="text-xl font-medium">Coming soon!</h2>
-    <div class="space-x-4">
-      <button disabled class="px-4 py-3 rounded-full button shade">Import school calendar</button>
-      <button disabled class="px-4 py-3 rounded-full button shade">Add to calendar</button>
-    </div>
-  </div>
 
   <div class="flex items-center justify-between p-4 card">
     <div>
-      Logged in as <span class="font-bold">{$session.user?.name}</span>
+      Logged in as <span class="font-bold">{$session.user?.name ?? ''}</span>
     </div>
     <LoadingButton
       type="button"
