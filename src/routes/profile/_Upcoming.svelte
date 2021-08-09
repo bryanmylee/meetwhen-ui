@@ -13,8 +13,8 @@
 </script>
 
 <section>
-  <StyledAccordian>
-    <h1 slot="title" class="text-lg font-medium">Upcoming meetings</h1>
+  <StyledAccordian expanded={true}>
+    <h1 slot="title" class="text-xl font-medium">Upcoming meetings</h1>
     <ul>
       {#each groupedEntries as [date, meetings]}
         <li class="flex space-x-4">

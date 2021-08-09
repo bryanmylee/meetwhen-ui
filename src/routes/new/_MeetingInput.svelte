@@ -8,6 +8,7 @@
 </script>
 
 <section class="p-4 space-y-4 card">
+  <h1 class="text-2xl font-bold">Start a new meet</h1>
   <div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
     <Textfield
       bind:value={$name}
@@ -17,7 +18,7 @@
       class="w-full"
     />
   </div>
-  <h2 class="font-medium text-lg">Set a time for everyone</h2>
+  <h2 class="text-xl font-medium">Set a time for everyone</h2>
   <DatePicker bind:selectedDates={$selectedDates.value} error={$selectedDates.error} />
   <FromToHourPicker bind:from={$from} bind:to={$to} />
 </section>

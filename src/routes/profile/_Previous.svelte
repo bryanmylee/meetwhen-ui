@@ -14,7 +14,7 @@
 
 <section>
   <StyledAccordian>
-    <h1 slot="title" class="text-lg font-medium">Previous meetings</h1>
+    <h1 slot="title" class="text-xl font-medium">Previous meetings</h1>
     <ul>
       {#each groupedEntries as [date, meetings]}
         <li class="flex space-x-4">
