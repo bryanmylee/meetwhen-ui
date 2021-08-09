@@ -8,6 +8,7 @@
 
   export let key: string;
 
+  let isLoggingIn = true;
   let showAuthModal = false;
 </script>
 
@@ -23,7 +24,24 @@
         </a>
       </li>
     {:else}
-      <li><button on:click={() => (showAuthModal = true)} class="text-focusable">Login</button></li>
+      <li>
+        <button
+          on:click={() => {
+            isLoggingIn = true;
+            showAuthModal = true;
+          }}
+          class="text-focusable">Login</button
+        >
+      </li>
+      <li>
+        <button
+          on:click={() => {
+            isLoggingIn = false;
+            showAuthModal = true;
+          }}
+          class="text-focusable">Signup</button
+        >
+      </li>
     {/if}
     <li><a href="/help" class="text-focusable">Help</a></li>
     <li class="flex items-center"><DarkModeButton /></li>
@@ -31,7 +49,11 @@
 </Template>
 
 {#if showAuthModal}
-  <AuthModal activeMeeting={$activeMeeting} on:dismiss={() => (showAuthModal = false)} />
+  <AuthModal
+    activeMeeting={$activeMeeting}
+    {isLoggingIn}
+    on:dismiss={() => (showAuthModal = false)}
+  />
 {/if}
 
 <style lang="postcss">
