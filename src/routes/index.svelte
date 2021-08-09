@@ -10,5 +10,4 @@
 <div class="max-w-lg p-6 mx-auto space-y-4">
   <Header />
   <NewMeeting />
-  <FindMeeting />
 </div>
