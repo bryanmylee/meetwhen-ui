@@ -135,7 +135,7 @@
     <TabBar bind:isGuestAuth enableGuestAuth={activeMeeting !== null} />
     <div class="p-4 space-y-4">
       <LoginSignupControl bind:isLoggingIn {isGuestAuth} {enableGuestLogin} />
-      <Description {activeMeeting} {isGuestAuth} />
+      <Description {isGuestAuth} />
       {#if isGuestAuth}
         <GuestAccountFields />
       {:else}

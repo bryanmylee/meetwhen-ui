@@ -1,7 +1,4 @@
 <script lang="ts">
-  import type { Meeting } from '$lib/gql/types';
-
-  export let activeMeeting: Meeting;
   export let isGuestAuth = false;
 </script>
 
@@ -11,9 +8,6 @@
       Your account will be used for
       <span class="font-bold text-gradient-primary"> this meeting only.</span>
     </p>
-    <!--div class="p-4 font-medium !text-primary-text card bg-gradient-primary bg-animate-slow">
-    {activeMeeting.name}
-  </div-->
     <p class="text-sm">You will not be able to track your other meetings.</p>
   </div>
 {:else}
