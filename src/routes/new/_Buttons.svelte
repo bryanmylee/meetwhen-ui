@@ -10,12 +10,10 @@
   import { MoreHorizontalIcon } from 'svelte-feather-icons';
 
   const dispatch = createEventDispatcher<ButtonsEvent>();
-
-  $: label = $session.user === null ? 'Continue as Guest' : 'Continue';
 </script>
 
 <section class="flex space-x-4">
-  <button type="submit" class="w-full p-3 rounded-full button gradient card">{label}</button>
+  <button type="submit" class="w-full p-3 rounded-full button gradient card">Continue</button>
   <button
     type="button"
     aria-label="More settings"
