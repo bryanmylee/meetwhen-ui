@@ -46,6 +46,8 @@
 
   const isLoading = setLoadingContext(false);
 
+  $: isGuest = $session.user?.guestOf !== null ?? true;
+
   const handleLogout = withLoading(isLoading, async () => {
     await logout();
     $session.user = null;
@@ -57,15 +59,16 @@
 
 <div class="max-w-lg p-6 mx-auto space-y-4">
   <section class="p-4 card">
-    <h1 class="text-2xl font-bold">Profile</h1>
+    <h1 class="mb-2 text-2xl font-bold">Profile</h1>
+    {#if isGuest}
+      <p>You are using a guest account.</p>
+    {/if}
   </section>
-  {#if $session.user.guestOf === null}
+  {#if !isGuest}
     <Upcoming {upcomingMeetings} />
     {#if previousMeetings.length > 0}
       <Previous {previousMeetings} />
     {/if}
-  {:else}
-    <div class="flex p-4 card">You are using a guest account.</div>
   {/if}
   <div class="flex justify-end p-4 card">
     <LoadingButton
