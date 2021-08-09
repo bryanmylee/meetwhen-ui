@@ -12,7 +12,7 @@
   $: plusButtonLabel = isLoggingIn ? 'Create new account' : 'Already have an account?';
   $: buttonLabel = isGuestAuth ? guestButtonLabel : plusButtonLabel;
 
-  $: guestHeaderLabel = isLoggingIn ? 'Login as guest' : 'Join as new guest';
+  $: guestHeaderLabel = isLoggingIn ? 'Login as guest' : 'Join as guest';
   $: plusHeaderLabel = isLoggingIn ? 'Login' : 'Signup';
   $: headerLabel = isGuestAuth ? guestHeaderLabel : plusHeaderLabel;
 
