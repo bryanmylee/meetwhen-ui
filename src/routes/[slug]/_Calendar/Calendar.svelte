@@ -53,6 +53,11 @@
   $: $_disabled = disabled;
   setContext('disabled', _disabled);
 
+  let hasTouched = false;
+  $: if (!$_disabled) {
+    hasTouched = false;
+  }
+
   export let error = '';
 
   let selector: SelectableProvider | undefined;
@@ -71,6 +76,7 @@
     interpolateBetween={$getDayHourIdsBetween}
     {disabled}
     let:selectingIds
+    on:toggle={() => (hasTouched = true)}
   >
     <div class="relative h-full min-h-0 p-4 pt-1 overflow-hidden focus:outline-none">
       <div class="absolute top-0 left-0 z-30 bg-default corner" />
@@ -93,7 +99,7 @@
             <Selected />
             <Highlight {selectingIds} />
             <Schedules />
-            <CalendarHint />
+            <CalendarHint {hasTouched} />
           </Grid>
         </GridItem>
       </div>
