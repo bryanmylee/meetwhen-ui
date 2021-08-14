@@ -33,10 +33,10 @@ export const [send, receive] = crossfade({
 
 export const touchEnabled = useTouchEnabled();
 
-const primaryColor = useColor('primary', DEFAULT_PRIMARY_COLOR);
-export const [primaryColorBase, primaryColorSet, primaryColorCssVars] = primaryColor;
-
 export const [isDark, darkModeSetting] = useDarkMode();
+
+const primaryColor = useColor('primary', DEFAULT_PRIMARY_COLOR, isDark);
+export const [primaryColorBase, primaryColorSet, primaryColorCssVars] = primaryColor;
 
 const mediaQueries = {
   md: '(min-width: 768px)',

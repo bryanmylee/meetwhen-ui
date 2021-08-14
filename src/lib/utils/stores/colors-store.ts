@@ -21,17 +21,17 @@ type CssVars = string;
 
 export const useColor = (
   name: string,
-  initColor: string
+  initColor: string,
+  isDark: Readable<boolean>
 ): [Writable<string>, Readable<ColorSet>, Readable<CssVars>] => {
   const base = writable(initColor);
-  const colorSet = derived([base], ([$base]) => getColorSet($base));
+  const colorSet = derived([base, isDark], ([$base, $isDark]) => getColorSet($base, $isDark));
   const cssVars = derived([colorSet], ([$colorSet]) => getCssVars(name, $colorSet));
-
   return [base, colorSet, cssVars];
 };
 
-export const getColorSet = (base: string): ColorSet => {
-  const scale = getColorScale(base);
+export const getColorSet = (base: string, isDark: boolean): ColorSet => {
+  const scale = getColorScale(base, isDark);
   return {
     DEFAULT: chroma(base).css(),
     lighter: chroma(base).brighten(0.5).css(),
@@ -46,11 +46,13 @@ export const getColorSet = (base: string): ColorSet => {
   };
 };
 
-const getColorScale = (hex: string) => {
+// scale(0 to 1) reflects least to most colors.
+const getColorScale = (hex: string, isDark = false) => {
   const base = chroma(hex);
   const light = base.brighten(1).desaturate(0.5);
   const dark = base.darken(2);
-  return chroma.scale([light, base, dark]).mode('lrgb');
+  const scalePoints = isDark ? [dark, base, light] : [light, base, dark];
+  return chroma.scale(scalePoints).mode('lrgb');
 };
 
 const ratioWithMin = (ratio: number, min: number) => {
@@ -61,10 +63,10 @@ const ratioWithMax = (ratio: number, max: number) => {
   return ratio * max;
 };
 
-// scale(0 to 1) reflects light to dark colors.
+// scale(0 to 1) reflects least to most colors.
 const getFractionalFromScale = (scale: Scale) => (num: number, denom: number) => {
-  const darkIndex = ratioWithMin(Math.min(1, denom / 10), 0.5);
-  const index = ratioWithMax(num / denom, darkIndex);
+  const mostIndex = ratioWithMin(Math.min(1, denom / 10), 0.5);
+  const index = ratioWithMax(num / denom, mostIndex);
   return scale(index).alpha(ratioWithMin(index, 0.2));
 };
 
