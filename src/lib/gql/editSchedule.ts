@@ -20,44 +20,44 @@ mutation ($meetingId: ID!, $intervals: [IntervalInput!]!) {
 }`;
 
 export interface EditScheduleVars {
-  intervals: Interval[];
-  meetingId: string;
+	intervals: Interval[];
+	meetingId: string;
 }
 
 interface EditScheduleResolved {
-  editSchedule: {
-    user: {
-      id: string;
-      name: string;
-      guestOf: string | null;
-    };
-    intervals: IntervalDTO[];
-  };
+	editSchedule: {
+		user: {
+			id: string;
+			name: string;
+			guestOf: string | null;
+		};
+		intervals: IntervalDTO[];
+	};
 }
 
 interface EditScheduleReturned {
-  user: {
-    id: string;
-    name: string;
-    guestOf: string | null;
-  };
-  intervals: Interval[];
+	user: {
+		id: string;
+		name: string;
+		guestOf: string | null;
+	};
+	intervals: Interval[];
 }
 
 export const editSchedule = async ({
-  meetingId,
-  intervals,
+	meetingId,
+	intervals,
 }: EditScheduleVars): Promise<EditScheduleReturned> => {
-  const variables = {
-    intervals: intervals.map(IntervalSerializer.serialize),
-    meetingId,
-  };
-  const { editSchedule } = (await query({
-    query: EDIT_SCHEDULE,
-    variables,
-  })) as EditScheduleResolved;
-  return {
-    ...editSchedule,
-    intervals: editSchedule.intervals.map(IntervalSerializer.deserialize),
-  };
+	const variables = {
+		intervals: intervals.map(IntervalSerializer.serialize),
+		meetingId,
+	};
+	const { editSchedule } = (await query({
+		query: EDIT_SCHEDULE,
+		variables,
+	})) as EditScheduleResolved;
+	return {
+		...editSchedule,
+		intervals: editSchedule.intervals.map(IntervalSerializer.deserialize),
+	};
 };

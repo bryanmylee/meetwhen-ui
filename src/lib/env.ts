@@ -6,24 +6,24 @@
  * - Files imported by Svelte components e.g. $lib/api.ts
  */
 export const env = {
-  VITE_API_GQL_ENDPOINT: import.meta.env.VITE_API_GQL_ENDPOINT as string,
+	VITE_API_GQL_ENDPOINT: import.meta.env.VITE_API_GQL_ENDPOINT as string,
 };
 
 const validateEnv = (e: typeof env) => {
-  const undefinedKeys = Object.entries(e)
-    .filter(([, value]) => [undefined, ''].includes(value))
-    .map(([key]) => key);
+	const undefinedKeys = Object.entries(e)
+		.filter(([, value]) => [undefined, ''].includes(value))
+		.map(([key]) => key);
 
-  if (undefinedKeys.length > 0) {
-    const message =
-      '.env missing the following properties:\n' +
-      undefinedKeys.map((key) => '- ' + key).join('\n');
-    throw new Error(message);
-  }
+	if (undefinedKeys.length > 0) {
+		const message =
+			'.env missing the following properties:\n' +
+			undefinedKeys.map((key) => '- ' + key).join('\n');
+		throw new Error(message);
+	}
 
-  const fgGreen = '\x1b[32m';
-  const fgReset = '\x1b[0m';
-  console.log(`${fgGreen}.env configured${fgReset}`);
+	const fgGreen = '\x1b[32m';
+	const fgReset = '\x1b[0m';
+	console.log(`${fgGreen}.env configured${fgReset}`);
 };
 
 validateEnv(env);

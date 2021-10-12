@@ -11,31 +11,31 @@ mutation ($username: String!, $password: String!, $meetingId: ID!) {
 }`;
 
 export interface LoginGuestVars {
-  meetingId: string;
-  username: string;
-  password: string;
+	meetingId: string;
+	username: string;
+	password: string;
 }
 
 interface LoginGuestResolved {
-  loginGuest: {
-    id: string;
-    name: string;
-    email: string;
-    guestOf: string;
-  };
+	loginGuest: {
+		id: string;
+		name: string;
+		email: string;
+		guestOf: string;
+	};
 }
 
 interface LoginGuestReturned {
-  id: string;
-  name: string;
-  email: string;
-  guestOf: string;
+	id: string;
+	name: string;
+	email: string;
+	guestOf: string;
 }
 
 export const loginGuest = async (variables: LoginGuestVars): Promise<LoginGuestReturned> => {
-  const { loginGuest } = (await query({
-    query: LOGIN_GUEST,
-    variables: { ...variables },
-  })) as LoginGuestResolved;
-  return loginGuest;
+	const { loginGuest } = (await query({
+		query: LOGIN_GUEST,
+		variables: { ...variables },
+	})) as LoginGuestResolved;
+	return loginGuest;
 };

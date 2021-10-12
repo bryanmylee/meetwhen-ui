@@ -9,16 +9,16 @@ export const pageState = writable<PageState>('none');
 
 const EDITING_STATES: PageState[] = ['joining', 'editing'];
 export const isEditing = derived([pageState], ([$pageState]) => {
-  return EDITING_STATES.includes($pageState);
+	return EDITING_STATES.includes($pageState);
 });
 
 export const isUserJoined = derived([meeting, session], ([$meeting, $session]) => {
-  if ($meeting === null || $session.user === null) {
-    return false;
-  }
-  return (
-    $meeting.schedules.find((schedule) => schedule.user.id === $session.user?.id) !== undefined
-  );
+	if ($meeting === null || $session.user === null) {
+		return false;
+	}
+	return (
+		$meeting.schedules.find((schedule) => schedule.user.id === $session.user?.id) !== undefined
+	);
 });
 
 export const showShare = writable(false);

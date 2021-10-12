@@ -20,44 +20,44 @@ mutation ($meetingId: ID!, $intervals: [IntervalInput!]!) {
 }`;
 
 export interface AddScheduleVars {
-  intervals: Interval[];
-  meetingId: string;
+	intervals: Interval[];
+	meetingId: string;
 }
 
 interface AddScheduleResolved {
-  addSchedule: {
-    user: {
-      id: string;
-      name: string;
-      guestOf: string | null;
-    };
-    intervals: IntervalDTO[];
-  };
+	addSchedule: {
+		user: {
+			id: string;
+			name: string;
+			guestOf: string | null;
+		};
+		intervals: IntervalDTO[];
+	};
 }
 
 interface AddScheduleReturned {
-  user: {
-    id: string;
-    name: string;
-    guestOf: string | null;
-  };
-  intervals: Interval[];
+	user: {
+		id: string;
+		name: string;
+		guestOf: string | null;
+	};
+	intervals: Interval[];
 }
 
 export const addSchedule = async ({
-  meetingId,
-  intervals,
+	meetingId,
+	intervals,
 }: AddScheduleVars): Promise<AddScheduleReturned> => {
-  const variables = {
-    intervals: intervals.map(IntervalSerializer.serialize),
-    meetingId,
-  };
-  const { addSchedule } = (await query({
-    query: ADD_SCHEDULE,
-    variables,
-  })) as AddScheduleResolved;
-  return {
-    ...addSchedule,
-    intervals: addSchedule.intervals.map(IntervalSerializer.deserialize),
-  };
+	const variables = {
+		intervals: intervals.map(IntervalSerializer.serialize),
+		meetingId,
+	};
+	const { addSchedule } = (await query({
+		query: ADD_SCHEDULE,
+		variables,
+	})) as AddScheduleResolved;
+	return {
+		...addSchedule,
+		intervals: addSchedule.intervals.map(IntervalSerializer.deserialize),
+	};
 };

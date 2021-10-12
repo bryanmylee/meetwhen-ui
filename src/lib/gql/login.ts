@@ -11,27 +11,27 @@ mutation ($email: String!, $password: String!) {
 }`;
 
 export interface LoginVars {
-  email: string;
-  password: string;
+	email: string;
+	password: string;
 }
 
 interface LoginResolved {
-  login: {
-    id: string;
-    name: string;
-    email: string;
-    guestOf: string;
-  };
+	login: {
+		id: string;
+		name: string;
+		email: string;
+		guestOf: string;
+	};
 }
 
 interface LoginReturned {
-  id: string;
-  name: string;
-  email: string;
-  guestOf: string;
+	id: string;
+	name: string;
+	email: string;
+	guestOf: string;
 }
 
 export const login = async (variables: LoginVars): Promise<LoginReturned> => {
-  const { login } = (await query({ query: LOGIN, variables: { ...variables } })) as LoginResolved;
-  return login;
+	const { login } = (await query({ query: LOGIN, variables: { ...variables } })) as LoginResolved;
+	return login;
 };

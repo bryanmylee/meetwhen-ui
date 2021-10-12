@@ -11,31 +11,31 @@ mutation ($username: String!, $password: String!, $meetingId: String!) {
 }`;
 
 export interface SignupGuestVars {
-  username: string;
-  password: string;
-  meetingId: string;
+	username: string;
+	password: string;
+	meetingId: string;
 }
 
 interface SignupGuestResolved {
-  addGuestUser: {
-    id: string;
-    name: string;
-    email: string;
-    guestOf: string | null;
-  };
+	addGuestUser: {
+		id: string;
+		name: string;
+		email: string;
+		guestOf: string | null;
+	};
 }
 
 interface SignupGuestReturned {
-  id: string;
-  name: string;
-  email: string;
-  guestOf: string | null;
+	id: string;
+	name: string;
+	email: string;
+	guestOf: string | null;
 }
 
 export const signupGuest = async (variables: SignupGuestVars): Promise<SignupGuestReturned> => {
-  const { addGuestUser } = (await query({
-    query: SIGNUP_GUEST,
-    variables: { ...variables },
-  })) as SignupGuestResolved;
-  return addGuestUser;
+	const { addGuestUser } = (await query({
+		query: SIGNUP_GUEST,
+		variables: { ...variables },
+	})) as SignupGuestResolved;
+	return addGuestUser;
 };

@@ -7,14 +7,14 @@ import { meeting } from './page';
 export const intervals = withError<Interval[]>([]);
 
 export const resetForm = (): void => {
-  intervals.reset();
+	intervals.reset();
 };
 
 export const addScheduleVars = derived([meeting, intervals], ([$meeting, $intervals]) => {
-  return {
-    meetingId: $meeting?.id ?? '',
-    intervals: $intervals.value,
-  } as AddScheduleVars;
+	return {
+		meetingId: $meeting?.id ?? '',
+		intervals: $intervals.value,
+	} as AddScheduleVars;
 });
 
 export const editScheduleVars = addScheduleVars;

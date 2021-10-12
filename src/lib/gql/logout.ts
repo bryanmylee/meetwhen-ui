@@ -6,10 +6,10 @@ mutation {
 }`;
 
 interface LogoutResolved {
-  logout: boolean;
+	logout: boolean;
 }
 
 export const logout = async (): Promise<boolean> => {
-  const { logout } = (await query({ query: LOGOUT })) as LogoutResolved;
-  return logout;
+	const { logout } = (await query({ query: LOGOUT })) as LogoutResolved;
+	return logout;
 };

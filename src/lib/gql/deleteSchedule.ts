@@ -6,17 +6,17 @@ mutation ($meetingId: ID!) {
 }`;
 
 export interface DeleteScheduleVars {
-  meetingId: string;
+	meetingId: string;
 }
 
 interface DeleteScheduleResolved {
-  deleteSchedule: boolean;
+	deleteSchedule: boolean;
 }
 
 export const deleteSchedule = async ({ meetingId }: DeleteScheduleVars): Promise<boolean> => {
-  const { deleteSchedule } = (await query({
-    query: DELETE_SCHEDULE,
-    variables: { meetingId },
-  })) as DeleteScheduleResolved;
-  return deleteSchedule;
+	const { deleteSchedule } = (await query({
+		query: DELETE_SCHEDULE,
+		variables: { meetingId },
+	})) as DeleteScheduleResolved;
+	return deleteSchedule;
 };

@@ -3,197 +3,197 @@
 @tailwind utilities;
 
 * {
-  /* IE and Edge */
-  -ms-overflow-style: none;
-  /* Firefox */
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    /* Chrome, Safari, and Opera */
-    display: none;
-  }
+	/* IE and Edge */
+	-ms-overflow-style: none;
+	/* Firefox */
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		/* Chrome, Safari, and Opera */
+		display: none;
+	}
 }
 
 html {
-  font-size: 14px;
-  /* sm */
-  @media (min-width: 640px) {
-    font-size: 16px;
-  }
-  /* xl */
-  @media (min-width: 1280px) {
-    font-size: 18px;
-  }
+	font-size: 14px;
+	/* sm */
+	@media (min-width: 640px) {
+		font-size: 16px;
+	}
+	/* xl */
+	@media (min-width: 1280px) {
+		font-size: 18px;
+	}
 }
 
 @layer base {
-  .bg-default {
-    @apply bg-white dark:bg-gray-800 text-black dark:text-white;
-  }
+	.bg-default {
+		@apply bg-white dark:bg-gray-800 text-black dark:text-white;
+	}
 
-  .shade {
-    @apply bg-gray-100 dark:bg-gray-700;
-  }
-  .shade-2 {
-    @apply bg-gray-200 dark:bg-gray-600;
-  }
+	.shade {
+		@apply bg-gray-100 dark:bg-gray-700;
+	}
+	.shade-2 {
+		@apply bg-gray-200 dark:bg-gray-600;
+	}
 
-  button:focus {
-    @apply outline-none;
-  }
+	button:focus {
+		@apply outline-none;
+	}
 }
 
 @layer components {
-  .card {
-    @apply bg-default shadow-md rounded-xl;
-    &[tabindex='0'] {
-      @apply cursor-pointer transition-shadow;
-      @apply hover:shadow-lg active:shadow;
-    }
-  }
+	.card {
+		@apply bg-default shadow-md rounded-xl;
+		&[tabindex='0'] {
+			@apply cursor-pointer transition-shadow;
+			@apply hover:shadow-lg active:shadow;
+		}
+	}
 
-  .button {
-    @apply transition focusable font-bold;
-    @apply disabled:text-gray-400 disabled:cursor-default;
-    &.primary {
-      &:not(.outline) {
-        @apply bg-primary text-primary-text;
-        @apply disabled:bg-primary-thirty;
-        &:not(:disabled) {
-          @apply hover:bg-primary-lighter hover:shadow-md-primary;
-          @apply active:bg-primary-darker active:shadow-primary;
-        }
-      }
-      &.outline {
-        @apply border-3 border-primary text-primary transform;
-        @apply disabled:border-gray-400;
-        &:not(:disabled) {
-          @apply hover:border-primary-lighter hover:scale-105;
-          @apply active:border-primary-darker active:scale-100;
-        }
-      }
-    }
-    &.shade {
-      &:not(.outline) {
-        @apply bg-gray-100 text-black dark:bg-gray-700 dark:text-white;
-        @apply disabled:text-gray-400 disabled:cursor-default;
-        &:not(:disabled) {
-          @apply hover:bg-gray-50 dark:hover:bg-gray-600 hover:shadow;
-          @apply active:bg-gray-200 dark:active:bg-gray-800 active:shadow-none;
-        }
-      }
-    }
-    &.gradient {
-      &:not(.outline) {
-        @apply text-primary-text;
-        @apply disabled:bg-primary-thirty;
-        &:not(:disabled) {
-          @apply bg-gradient-primary;
-          @apply hover:shadow-lg-primary;
-          @apply active:shadow-primary;
-        }
-      }
-    }
-  }
+	.button {
+		@apply transition focusable font-bold;
+		@apply disabled:text-gray-400 disabled:cursor-default;
+		&.primary {
+			&:not(.outline) {
+				@apply bg-primary text-primary-text;
+				@apply disabled:bg-primary-thirty;
+				&:not(:disabled) {
+					@apply hover:bg-primary-lighter hover:shadow-md-primary;
+					@apply active:bg-primary-darker active:shadow-primary;
+				}
+			}
+			&.outline {
+				@apply border-3 border-primary text-primary transform;
+				@apply disabled:border-gray-400;
+				&:not(:disabled) {
+					@apply hover:border-primary-lighter hover:scale-105;
+					@apply active:border-primary-darker active:scale-100;
+				}
+			}
+		}
+		&.shade {
+			&:not(.outline) {
+				@apply bg-gray-100 text-black dark:bg-gray-700 dark:text-white;
+				@apply disabled:text-gray-400 disabled:cursor-default;
+				&:not(:disabled) {
+					@apply hover:bg-gray-50 dark:hover:bg-gray-600 hover:shadow;
+					@apply active:bg-gray-200 dark:active:bg-gray-800 active:shadow-none;
+				}
+			}
+		}
+		&.gradient {
+			&:not(.outline) {
+				@apply text-primary-text;
+				@apply disabled:bg-primary-thirty;
+				&:not(:disabled) {
+					@apply bg-gradient-primary;
+					@apply hover:shadow-lg-primary;
+					@apply active:shadow-primary;
+				}
+			}
+		}
+	}
 
-  .textfield {
-    @apply relative inline-block;
-    & > input[type='text'],
-    & > input[type='password'] {
-      @apply relative w-full px-4 pt-5 pb-3 rounded-xl dark:text-white shade focusable;
-      &:disabled {
-        @apply shade-2 ring ring-inset text-gray-400 ring-gray-100 dark:ring-gray-700;
-        & + label {
-          @apply !text-gray-400;
-        }
-      }
-      &:focus,
-      &.filled {
-        & + label {
-          @apply transform -translate-y-3 scale-75 text-primary;
-        }
-      }
-      &.error {
-        @apply ring ring-red-400;
-        & + label {
-          @apply text-red-400;
-        }
-      }
-    }
-    & > label {
-      @apply absolute -top-3 left-0 mt-7 mb-5 mx-4 dark:text-white;
-      @apply pointer-events-none transition-transform;
-      transform-origin: top left;
-    }
-    & > span {
-      @apply absolute bottom-0.5 left-0 mx-4 text-red-400 transform text-xs italic select-none;
-    }
-  }
+	.textfield {
+		@apply relative inline-block;
+		& > input[type='text'],
+		& > input[type='password'] {
+			@apply relative w-full px-4 pt-5 pb-3 rounded-xl dark:text-white shade focusable;
+			&:disabled {
+				@apply shade-2 ring ring-inset text-gray-400 ring-gray-100 dark:ring-gray-700;
+				& + label {
+					@apply !text-gray-400;
+				}
+			}
+			&:focus,
+			&.filled {
+				& + label {
+					@apply transform -translate-y-3 scale-75 text-primary;
+				}
+			}
+			&.error {
+				@apply ring ring-red-400;
+				& + label {
+					@apply text-red-400;
+				}
+			}
+		}
+		& > label {
+			@apply absolute -top-3 left-0 mt-7 mb-5 mx-4 dark:text-white;
+			@apply pointer-events-none transition-transform;
+			transform-origin: top left;
+		}
+		& > span {
+			@apply absolute bottom-0.5 left-0 mx-4 text-red-400 transform text-xs italic select-none;
+		}
+	}
 }
 
 @layer utilities {
-  .bg-clip-text {
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
+	.bg-clip-text {
+		-webkit-background-clip: text;
+		background-clip: text;
+	}
 
-  .bg-gradient-primary {
-    background-image: linear-gradient(
-      to top right,
-      var(--primary-warmer),
-      var(--primary),
-      var(--primary-cooler)
-    );
-    &.bg-animate-slow {
-      background-size: 150% 150%;
-      animation: gradient-top-right 10s ease infinite both;
-    }
-    &.bg-animate-fast {
-      background-size: 200% 200%;
-      animation: gradient-top-right 1.4s ease infinite both;
-    }
-  }
+	.bg-gradient-primary {
+		background-image: linear-gradient(
+			to top right,
+			var(--primary-warmer),
+			var(--primary),
+			var(--primary-cooler)
+		);
+		&.bg-animate-slow {
+			background-size: 150% 150%;
+			animation: gradient-top-right 10s ease infinite both;
+		}
+		&.bg-animate-fast {
+			background-size: 200% 200%;
+			animation: gradient-top-right 1.4s ease infinite both;
+		}
+	}
 
-  .text-gradient-primary {
-    @apply bg-clip-text bg-gradient-primary text-transparent;
-  }
+	.text-gradient-primary {
+		@apply bg-clip-text bg-gradient-primary text-transparent;
+	}
 
-  @keyframes gradient-top-right {
-    0% {
-      background-position: 0% 100%;
-    }
-    50% {
-      background-position: 100% 0%;
-    }
-    100% {
-      background-position: 0% 100%;
-    }
-  }
+	@keyframes gradient-top-right {
+		0% {
+			background-position: 0% 100%;
+		}
+		50% {
+			background-position: 100% 0%;
+		}
+		100% {
+			background-position: 0% 100%;
+		}
+	}
 
-  .focusable {
-    @apply ring-primary-lighter focus:ring focus:outline-none;
-    &.error {
-      @apply ring ring-red-400;
-    }
-  }
+	.focusable {
+		@apply ring-primary-lighter focus:ring focus:outline-none;
+		&.error {
+			@apply ring ring-red-400;
+		}
+	}
 
-  .text-focusable {
-    @apply rounded-sm focus:ring ring-primary-lighter ring-offset-4 dark:ring-offset-gray-800 focus:outline-none;
-  }
+	.text-focusable {
+		@apply rounded-sm focus:ring ring-primary-lighter ring-offset-4 dark:ring-offset-gray-800 focus:outline-none;
+	}
 
-  .h-screen {
-    height: var(--vh, 100vh);
-  }
+	.h-screen {
+		height: var(--vh, 100vh);
+	}
 
-  .h-screen-nav {
-    height: calc(var(--vh, 100vh) - 3.5rem);
-  }
+	.h-screen-nav {
+		height: calc(var(--vh, 100vh) - 3.5rem);
+	}
 
-  .select-none {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
+	.select-none {
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
 }

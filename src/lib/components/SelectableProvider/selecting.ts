@@ -1,5 +1,5 @@
 export enum Selecting {
-  DELETE = -1,
-  NONE = 0,
-  CREATE = 1,
+	DELETE = -1,
+	NONE = 0,
+	CREATE = 1,
 }
