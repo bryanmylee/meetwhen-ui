@@ -1,10 +1,12 @@
 <script lang="ts">
+  import { isDark } from '$lib/app-state';
+
   import type { ShallowMeeting } from '$lib/gql/types';
   import { getCssVars, getColorSet } from '$lib/utils/stores/colors-store';
 
   export let meeting: ShallowMeeting;
 
-  $: colorVars = getCssVars('primary', getColorSet(meeting.color));
+  $: colorVars = getCssVars('primary', getColorSet(meeting.color, $isDark));
 </script>
 
 <li style={colorVars}>
