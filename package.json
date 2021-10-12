@@ -8,7 +8,8 @@
     "lint:prettier": "prettier --check --plugin-search-dir=. .",
     "lint:eslint": "eslint --ignore-path .gitignore .",
     "lint": "run-p lint:*",
-    "format": "prettier --write --plugin-search-dir=. ."
+    "format": "prettier --write --plugin-search-dir=. .",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@popperjs/core": "^2.9.2",
@@ -29,7 +30,9 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-svelte3": "^3.2.0",
+    "husky": "^7.0.2",
     "immutable": "^4.0.0-rc.12",
+    "lint-staged": "^11.2.3",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.3.5",
     "postcss-load-config": "^3.1.0",
@@ -50,5 +53,11 @@
   "type": "module",
   "dependencies": {
     "emoji-picker-element": "^1.6.4"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --cache --fix --ext .js,.ts",
+      "prettier --write --plugin-search-dir=."
+    ]
   }
 }
