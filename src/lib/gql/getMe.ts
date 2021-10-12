@@ -3,12 +3,12 @@ import type { ShallowUser } from './types';
 
 const GET_ME = `
 {
-  me {
-    id
-    name
-    email
-    guestOf
-  }
+	me {
+		id
+		name
+		email
+		guestOf
+	}
 }`;
 
 interface MeResolved {

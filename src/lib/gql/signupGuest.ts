@@ -2,12 +2,12 @@ import { query } from '$lib/gql';
 
 const SIGNUP_GUEST = `
 mutation ($username: String!, $password: String!, $meetingId: String!) {
-  addGuestUser(data: {username: $username, password: $password, meetingId: $meetingId}) {
-    id
-    name
-    email
-    guestOf
-  }
+	addGuestUser(data: {username: $username, password: $password, meetingId: $meetingId}) {
+		id
+		name
+		email
+		guestOf
+	}
 }`;
 
 export interface SignupGuestVars {

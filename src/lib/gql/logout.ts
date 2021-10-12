@@ -2,7 +2,7 @@ import { query } from '$lib/gql';
 
 const LOGOUT = `
 mutation {
-  logout
+	logout
 }`;
 
 interface LogoutResolved {

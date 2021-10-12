@@ -2,12 +2,12 @@ import { query } from '$lib/gql';
 
 const SIGNUP = `
 mutation ($name: String!, $email: String!, $password: String!) {
-  addUser(data: {name: $name, email: $email, password: $password}) {
-    id
-    name
-    email
-    guestOf
-  }
+	addUser(data: {name: $name, email: $email, password: $password}) {
+		id
+		name
+		email
+		guestOf
+	}
 }`;
 
 export interface SignupVars {

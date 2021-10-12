@@ -3,31 +3,31 @@ import { Interval, IntervalDTO, IntervalSerializer } from './types';
 
 const GET_MEETING_BY_SLUG = `
 query ($slug: String!) {
-  meeting(slug: $slug) {
-    id
-    name
-    emoji
-    color
-    owner {
-      id
-      name
-    }
-    intervals {
-      beg
-      end
-    }
-    schedules {
-      user {
-        id
-        name
-        guestOf
-      }
-      intervals {
-        beg
-        end
-      }
-    }
-  }
+	meeting(slug: $slug) {
+		id
+		name
+		emoji
+		color
+		owner {
+			id
+			name
+		}
+		intervals {
+			beg
+			end
+		}
+		schedules {
+			user {
+				id
+				name
+				guestOf
+			}
+			intervals {
+				beg
+				end
+			}
+		}
+	}
 }`;
 
 export interface GetMeetingBySlugVars {

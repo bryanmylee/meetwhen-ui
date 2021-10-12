@@ -2,12 +2,12 @@ import { query } from '$lib/gql';
 
 const LOGIN = `
 mutation ($email: String!, $password: String!) {
-  login(data: {email: $email, password: $password}) {
-    id
-    name
-    email
-    guestOf
-  }
+	login(data: {email: $email, password: $password}) {
+		id
+		name
+		email
+		guestOf
+	}
 }`;
 
 export interface LoginVars {

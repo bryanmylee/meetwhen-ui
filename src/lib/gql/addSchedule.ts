@@ -3,20 +3,20 @@ import { Interval, IntervalDTO, IntervalSerializer } from './types';
 
 const ADD_SCHEDULE = `
 mutation ($meetingId: ID!, $intervals: [IntervalInput!]!) {
-  addSchedule(data: {
-    meetingId: $meetingId,
-    intervals: $intervals
-  }) {
-    user {
-      id
-      name
-      guestOf
-    }
-    intervals {
-      beg
-      end
-    }
-  }
+	addSchedule(data: {
+		meetingId: $meetingId,
+		intervals: $intervals
+	}) {
+		user {
+			id
+			name
+			guestOf
+		}
+		intervals {
+			beg
+			end
+		}
+	}
 }`;
 
 export interface AddScheduleVars {

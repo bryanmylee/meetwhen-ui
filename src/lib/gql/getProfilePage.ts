@@ -4,26 +4,26 @@ import { IntervalSerializer, ShallowMeeting, ShallowMeetingDTO } from './types';
 
 const GET_PROFILE_PAGE = `
 query ($timeNow: Int!, $upcomingLimit: Int, $previousLimit: Int) {
-  me {
-    upcomingMeetings: allMeetings(order: EARLIEST, key: BEG, after: $timeNow, limit: $upcomingLimit) {
-      ...shallowFields
-    }
-    previousMeetings: allMeetings(order: EARLIEST, key: BEG, before: $timeNow, limit: $previousLimit) {
-      ...shallowFields
-    }
-  }
+	me {
+		upcomingMeetings: allMeetings(order: EARLIEST, key: BEG, after: $timeNow, limit: $upcomingLimit) {
+			...shallowFields
+		}
+		previousMeetings: allMeetings(order: EARLIEST, key: BEG, before: $timeNow, limit: $previousLimit) {
+			...shallowFields
+		}
+	}
 }
 
 fragment shallowFields on Meeting {
-  id
-  slug
-  name
-  emoji
-  color
-  total {
-    beg
-    end
-  }
+	id
+	slug
+	name
+	emoji
+	color
+	total {
+		beg
+		end
+	}
 }
 `;
 

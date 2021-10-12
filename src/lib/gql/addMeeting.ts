@@ -3,15 +3,15 @@ import { Interval, IntervalSerializer, Meeting } from './types';
 
 const ADD_MEETING = `
 mutation ($name: String!, $emoji: String, $color: String, $intervals: [IntervalInput!]!) {
-  addMeeting(data: {name: $name, emoji: $emoji, color: $color, intervals: $intervals}) {
-    id
-    slug
-    emoji
-    owner {
-      id
-      name
-    }
-  }
+	addMeeting(data: {name: $name, emoji: $emoji, color: $color, intervals: $intervals}) {
+		id
+		slug
+		emoji
+		owner {
+			id
+			name
+		}
+	}
 }`;
 
 export interface AddMeetingVars {

@@ -2,7 +2,7 @@ import { query } from '$lib/gql';
 
 const DELETE_SCHEDULE = `
 mutation ($meetingId: ID!) {
-  deleteSchedule(meetingId: $meetingId)
+	deleteSchedule(meetingId: $meetingId)
 }`;
 
 export interface DeleteScheduleVars {
