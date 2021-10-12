@@ -1,5 +1,6 @@
 <script lang="ts">
   import Head from '$lib/components/Head.svelte';
+  import Credits from '../../lib/components/Credits.svelte';
   import Help from './_Help.svelte';
 </script>
 
@@ -12,11 +13,7 @@
   </section>
   <Help />
 </article>
+
 <footer class="max-w-lg px-6 pb-4 mx-auto">
-  <a href="https://bryanmylee.github.io/" class="block p-4 text-sm card hover:ring ring-primary">
-    <p class="text-base italic text-center">
-      Proudly developed by
-      <span class="font-bold text-gradient-primary"> Bryan Lee </span>
-    </p>
-  </a>
+  <Credits />
 </footer>
