@@ -10,11 +10,12 @@
   import { createEventDispatcher } from 'svelte';
   import { getColorSet } from '$lib/utils/stores/colors-store';
   import { cssVars } from '$lib/utils/css-vars';
+  import { isDark } from '$lib/app-state';
 
   const dispatch = createEventDispatcher<ColorItemEvent>();
 
   export let hex: string;
-  $: colorSet = getColorSet(hex);
+  $: colorSet = getColorSet(hex, $isDark);
   $: colorVars = {
     primary: colorSet.DEFAULT,
     'primary-lighter': colorSet.lighter,
