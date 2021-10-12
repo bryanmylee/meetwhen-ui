@@ -1,63 +1,66 @@
 {
-  "name": "meetwhen",
-  "version": "3.0.0",
-  "scripts": {
-    "dev": "svelte-kit dev",
-    "build": "svelte-kit build",
-    "preview": "svelte-kit preview",
-    "lint:prettier": "prettier --check --plugin-search-dir=. .",
-    "lint:eslint": "eslint --ignore-path .gitignore .",
-    "lint": "run-p lint:*",
-    "format": "prettier --write --plugin-search-dir=. .",
-    "prepare": "husky install"
-  },
-  "devDependencies": {
-    "@popperjs/core": "^2.9.2",
-    "@sveltejs/adapter-vercel": "^1.0.0-next.24",
-    "@sveltejs/kit": "^1.0.0-next.127",
-    "@types/body-scroll-lock": "^2.6.2",
-    "@types/chroma-js": "^2.1.3",
-    "@types/cookie": "^0.4.1",
-    "@typescript-eslint/eslint-plugin": "^4.28.2",
-    "@typescript-eslint/parser": "^4.28.2",
-    "autoprefixer": "^10.2.6",
-    "body-scroll-lock": "^3.1.5",
-    "chroma-js": "^2.1.2",
-    "cookie": "^0.4.1",
-    "cssnano": "^5.0.6",
-    "dayjs": "^1.10.6",
-    "eslint": "^7.30.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-svelte3": "^3.2.0",
-    "husky": "^7.0.2",
-    "immutable": "^4.0.0-rc.12",
-    "lint-staged": "^11.2.3",
-    "npm-run-all": "^4.1.5",
-    "postcss": "^8.3.5",
-    "postcss-load-config": "^3.1.0",
-    "postcss-nested": "^5.0.6",
-    "prettier": "~2.2.1",
-    "prettier-plugin-organize-imports": "^2.2.0",
-    "prettier-plugin-svelte": "^2.3.1",
-    "svelte": "^3.38.3",
-    "svelte-feather-icons": "^3.5.0",
-    "svelte-loading-spinners": "^0.1.6",
-    "svelte-media": "0.0.3",
-    "svelte-popperjs": "^1.2.6",
-    "svelte-preprocess": "^4.7.3",
-    "tailwindcss": "^2.2.7",
-    "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
-  },
-  "type": "module",
-  "dependencies": {
-    "emoji-picker-element": "^1.6.4"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "eslint --cache --fix --ext .js,.ts",
-      "prettier --write --plugin-search-dir=."
-    ]
-  }
+	"name": "meetwhen-next",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "svelte-kit dev",
+		"build": "svelte-kit build",
+		"preview": "svelte-kit preview",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint:prettier": "prettier --ignore-path .gitignore --check --plugin-search-dir=. .",
+		"lint:eslint": "eslint --ignore-path .gitignore .",
+		"lint": "run-p lint:*",
+		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. .",
+		"prepare": "husky install"
+	},
+	"devDependencies": {
+		"@popperjs/core": "^2.10.2",
+		"@sveltejs/adapter-vercel": "^1.0.0-next.30",
+		"@sveltejs/kit": "next",
+		"@types/body-scroll-lock": "^3.1.0",
+		"@types/chroma-js": "^2.1.3",
+		"@types/cookie": "^0.4.1",
+		"@typescript-eslint/eslint-plugin": "^4.31.1",
+		"@typescript-eslint/parser": "^4.31.1",
+		"autoprefixer": "^10.3.7",
+		"body-scroll-lock": "^4.0.0-beta.0",
+		"chroma-js": "^2.1.2",
+		"cookie": "^0.4.1",
+		"cssnano": "^5.0.8",
+		"dayjs": "^1.10.7",
+		"eslint": "^7.32.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-import": "^2.24.2",
+		"eslint-plugin-svelte3": "^3.2.1",
+		"husky": "^7.0.2",
+		"immutable": "^4.0.0",
+		"lint-staged": "^11.2.3",
+		"npm-run-all": "^4.1.5",
+		"postcss": "^8.3.9",
+		"postcss-load-config": "^3.1.0",
+		"postcss-nested": "^5.0.6",
+		"prettier": "^2.4.1",
+		"prettier-plugin-organize-imports": "^2.3.4",
+		"prettier-plugin-svelte": "^2.4.0",
+		"svelte": "^3.42.6",
+		"svelte-check": "^2.2.6",
+		"svelte-feather-icons": "^3.5.0",
+		"svelte-loading-spinners": "^0.1.7",
+		"svelte-media": "^0.1.5",
+		"svelte-popperjs": "^1.2.6",
+		"svelte-preprocess": "^4.9.8",
+		"tailwindcss": "^2.2.16",
+		"tslib": "^2.3.1",
+		"typescript": "^4.4.3"
+	},
+	"type": "module",
+	"dependencies": {
+		"emoji-picker-element": "^1.8.2"
+	},
+	"lint-staged": {
+		"*.ts": [
+			"eslint --cache --fix --ext .js,.ts",
+			"prettier --write --plugin-search-dir=."
+		]
+	}
 }
