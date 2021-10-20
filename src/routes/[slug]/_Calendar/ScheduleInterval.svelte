@@ -16,6 +16,7 @@
 	import { getContext } from 'svelte';
 	import type { CalendarState } from './state/core';
 	import { Selecting } from '$lib/components/SelectableProvider/selecting';
+	import SchedulePreviewInfo from './SchedulePreviewInfo.svelte';
 
 	const state = getContext<CalendarState>('state');
 	const { maxNumUsersPerInterval, intervalHasAfter, intervalHasBefore, selecting } = state;
@@ -51,7 +52,7 @@
 	$: isActive = $activeId === id;
 	$: isHovered = $hoveredId === id;
 
-	$: bgColor = $primaryColorSet.getFractional(users.length, $maxNumUsersPerInterval).css();
+	$: bgColor = $primaryColorSet.getFractional(users.length, $maxNumUsersPerInterval);
 
 	const disabled = getContext<Writable<boolean>>('disabled');
 
@@ -78,9 +79,10 @@
 		on:mouseleave={() => ($hoveredId = null)}
 		on:transitionend={() => popover.updatePopoverPosition()}
 		class={intervalClass}
-		style={cssVars({ bgColor })}
+		style={cssVars({ bgColor: bgColor.css() })}
 	>
 		<div bind:this={referenceElement} class="w-full" />
+		<SchedulePreviewInfo {users} {bgColor} />
 		<SchedulePopover
 			bind:this={popover}
 			show={showPopover}

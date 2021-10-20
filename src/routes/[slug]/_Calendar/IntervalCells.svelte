@@ -30,7 +30,7 @@
 		]);
 		const lastClass = classes([index === hours.length - 1 ? 'rounded-b-xl' : midClass]);
 		return classes([
-			'cell shade min-h-5 select-none',
+			'cell shade min-h-8 select-none',
 			firstClass,
 			lastClass,
 			isDisabled ? 'min-w-20 cursor-default' : 'min-w-16 ml-4 cursor-pointer hover:shade-2',
@@ -47,6 +47,7 @@
 	/>
 {/each}
 
+<!-- represents the vertical gap between availabilities -->
 {#if !isLastInCol}
 	<GridItem {x} y={separatorIndex} class="min-h-4" />
 {/if}
