@@ -3,7 +3,9 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import { classes } from '$lib/utils/classes';
 	import { getContext } from 'svelte';
-	import type { CalendarState } from './state/core';
+	import type { CalendarState } from '../state/core';
+	import AvailableUsers from './AvailableUsers.svelte';
+	import UnavailableUsers from './UnavailableUsers.svelte';
 
 	const state = getContext<CalendarState>('state');
 	const { getComplimentUsers } = state;
@@ -54,7 +56,7 @@
 	};
 
 	$: popperClass = classes([
-		'popover card pointer-events-none border-3 w-40',
+		'popover card pointer-events-none border-3 w-50',
 		fixed ? 'border-primary dark:border-primary-lighter z-20' : 'border-gray-400 z-30',
 	]);
 
@@ -69,33 +71,19 @@
 		<div data-popper-arrow>
 			<div class={popoverArrowClass} />
 		</div>
-		<h1 class="px-4 py-3 text-xs">
-			{interval.beg.format('h:mma')} – {interval.end.format('h:mma')}
-		</h1>
-		<div class="px-4 py-3 border-t border-gray-200 dark:border-gray-600">
-			<h2 class="text-sm font-bold">
-				{complimentUsers.length > 0 && users.length > 1
-					? `${users.length} attending`
-					: `All ${users.length} attending!`}
-			</h2>
-			<ul class="mt-1 text-sm">
-				{#each users as user}
-					<li>{user.name}</li>
-				{/each}
-			</ul>
-		</div>
-		{#if complimentUsers.length > 0}
-			<div class="px-4 py-3 text-gray-400 border-t border-gray-200 dark:border-gray-600">
-				<h2 class="text-sm font-bold">
-					{complimentUsers.length} not attending
-				</h2>
-				<ul class="mt-1 text-sm">
-					{#each complimentUsers as user}
-						<li>{user.name}</li>
-					{/each}
-				</ul>
+		<div class="divide-y divide-gray-200 dark:divide-gray-600">
+			<h1 class="px-4 py-3 text-sm font-bold">
+				{interval.beg.format('h:mma')} – {interval.end.format('h:mma')}
+			</h1>
+			<div class="px-4 py-3">
+				<AvailableUsers {users} />
 			</div>
-		{/if}
+			{#if complimentUsers.length > 0}
+				<div class="px-4 py-3 text-gray-400">
+					<UnavailableUsers users={complimentUsers} />
+				</div>
+			{/if}
+		</div>
 	</div>
 {/if}
 
