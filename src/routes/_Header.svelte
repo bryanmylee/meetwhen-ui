@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { receive, send } from '$lib/app-state';
+	import { fly } from 'svelte/transition';
 </script>
 
 <header
-	in:receive={{ key: 'header' }}
-	out:send={{ key: 'header' }}
+	transition:fly={{ y: -60 }}
 	class="p-4 !text-primary-text card bg-gradient-primary bg-animate-slow"
 >
 	<h1 class="text-2xl font-bold">meetwhen</h1>

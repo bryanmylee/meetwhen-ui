@@ -1,4 +1,8 @@
-<li class="relative z-0 pointer-events-none">
+<script lang="ts">
+	import { fade } from 'svelte/transition';
+</script>
+
+<li class="relative z-0 pointer-events-none" transition:fade={{ duration: 300 }}>
 	<span class="text-xl font-bold text-gradient-primary"> meetwhen </span>
 	<a
 		href="/"
