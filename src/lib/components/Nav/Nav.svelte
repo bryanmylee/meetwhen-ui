@@ -19,7 +19,7 @@
 	<svelte:fragment slot="right">
 		{#if $session.user !== null}
 			<li class:active={key === '/profile'}>
-				<a href="/profile" class="text-focusable">
+				<a href="/profile" class="nav-item">
 					Hi, <span class="font-bold">{$session.user.name}</span>
 				</a>
 			</li>
@@ -30,8 +30,10 @@
 						isLoggingIn = true;
 						showAuthModal = true;
 					}}
-					class="text-focusable">Log In</button
+					class="nav-item"
 				>
+					Log In
+				</button>
 			</li>
 			<li>
 				<button
@@ -39,12 +41,19 @@
 						isLoggingIn = false;
 						showAuthModal = true;
 					}}
-					class="text-focusable">Sign Up</button
+					class="nav-item"
 				>
+					Sign Up
+				</button>
 			</li>
 		{/if}
-		<li class:active={key === '/help'}><a href="/help" class="text-focusable">Help</a></li>
-		<li class="flex items-center"><DarkModeButton /></li>
+		<li class:active={key === '/new'}>
+			<a href="/new" class="nav-item">New</a>
+		</li>
+		<li class:active={key === '/help'}>
+			<a href="/help" class="nav-item">Help</a>
+		</li>
+		<li><DarkModeButton class="nav-item" /></li>
 	</svelte:fragment>
 </Template>
 
@@ -57,19 +66,11 @@
 {/if}
 
 <style lang="postcss">
-	a,
-	button {
-		@apply font-medium hover:text-primary hover:underline;
+	.active {
+		@apply text-primary;
 	}
 
 	li {
-		@apply px-4;
-		&:last-child {
-			@apply pr-0;
-		}
-	}
-
-	.active {
-		@apply text-primary;
+		@apply flex justify-center;
 	}
 </style>

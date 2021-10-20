@@ -30,6 +30,9 @@
 			'flex flex-col items-center w-16 p-2 space-y-2 rounded-lg button shade',
 			active && '!text-primary-darker dark:!text-primary',
 		]);
+
+	let className = '';
+	export { className as class };
 </script>
 
 <button
@@ -37,11 +40,11 @@
 	aria-label="Show theme panel"
 	use:ref
 	on:click={() => (showDropdown = !showDropdown)}
-	class="w-5 h-5 text-focusable"
+	class={className}
 >
 	<svelte:component
 		this={activeIcon}
-		class={classes(['hover:text-primary', showDropdown && 'text-primary'])}
+		class={classes(['w-5 h-5', showDropdown && 'text-primary'])}
 	/>
 </button>
 

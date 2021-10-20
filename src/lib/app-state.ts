@@ -39,6 +39,7 @@ const primaryColor = useColor('primary', DEFAULT_PRIMARY_COLOR, isDark);
 export const [primaryColorBase, primaryColorSet, primaryColorCssVars] = primaryColor;
 
 const mediaQueries = {
+	sm: '(min-width: 640px)',
 	md: '(min-width: 768px)',
 };
 
