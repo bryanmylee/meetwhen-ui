@@ -19,11 +19,14 @@
 	<svelte:fragment slot="right">
 		{#if $session.user !== null}
 			<li class:active={key === '/profile'}>
-				<a href="/profile" class="nav-item">
-					Hi, <span class="font-bold">{$session.user.name}</span>
+				<a href="/profile" class="font-bold nav-item">
+					{$session.user.name}
 				</a>
 			</li>
-		{:else}
+		{/if}
+	</svelte:fragment>
+	<svelte:fragment slot="right-collapsable">
+		{#if $session.user === null}
 			<li>
 				<button
 					on:click={() => {
