@@ -74,7 +74,7 @@
 		</h1>
 		<div class="px-4 py-3 border-t border-gray-200 dark:border-gray-600">
 			<h2 class="text-sm font-bold">
-				{complimentUsers.length > 0
+				{complimentUsers.length > 0 && users.length > 1
 					? `${users.length} attending`
 					: `All ${users.length} attending!`}
 			</h2>
