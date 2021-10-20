@@ -17,7 +17,7 @@
 		<div
 			in:fade={{ duration: 800, delay: 300, easing: cubicOut }}
 			out:fade={{ duration: 150 }}
-			class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 text-primary"
+			class="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-70 dark:bg-gray-900 dark:bg-opacity-70 text-primary"
 		>
 			<ScaleOut color="currentColor" duration="1.5s" size="120" />
 		</div>
