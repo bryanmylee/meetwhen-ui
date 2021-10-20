@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { slide } from 'svelte/transition';
 	import { media } from '$lib/app-state';
 	import { classes } from '$lib/utils/classes';
 	import { clickOutside } from '$lib/utils/actions/use-click-outside';
@@ -42,7 +43,10 @@
 						<MenuIcon class="w-5 h-5" />
 					</button>
 					{#if dropdownExpanded}
-						<ul class="absolute right-0 flex flex-col items-stretch w-32 p-2 top-12 card">
+						<ul
+							transition:slide={{ duration: 200 }}
+							class="absolute right-0 flex flex-col items-stretch w-32 p-2 top-12 card"
+						>
 							<slot name="right-collapsable" />
 						</ul>
 					{/if}
