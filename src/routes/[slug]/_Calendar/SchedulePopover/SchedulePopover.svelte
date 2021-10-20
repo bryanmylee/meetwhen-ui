@@ -56,7 +56,7 @@
 	};
 
 	$: popperClass = classes([
-		'popover card pointer-events-none border-3 w-50',
+		'popover card pointer-events-none border-3 w-52',
 		fixed ? 'border-primary dark:border-primary-lighter z-20' : 'border-gray-400 z-30',
 	]);
 
