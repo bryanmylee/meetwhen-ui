@@ -87,7 +87,9 @@
 		style={cssVars({ bgColor: bgColor.css() })}
 	>
 		<div bind:this={referenceElement} class="w-full" />
-		<SchedulePreviewInfo {users} textColor={adjustedTextColor.css()} />
+		{#if $disabled}
+			<SchedulePreviewInfo {users} textColor={adjustedTextColor.css()} />
+		{/if}
 		<SchedulePopover
 			bind:this={popover}
 			show={showPopover}
