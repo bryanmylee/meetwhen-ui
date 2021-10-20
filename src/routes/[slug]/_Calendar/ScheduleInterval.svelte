@@ -10,7 +10,7 @@
 	import { primaryColorSet } from '$lib/app-state';
 	import { clickOutside } from '$lib/utils/actions/use-click-outside';
 	import GridInterval from './GridInterval.svelte';
-	import SchedulePopover from './SchedulePopover.svelte';
+	import SchedulePopover from './SchedulePopover/SchedulePopover.svelte';
 	import { classes } from '$lib/utils/classes';
 	import { cssVars } from '$lib/utils/css-vars';
 	import { getContext } from 'svelte';
@@ -55,6 +55,8 @@
 	$: isMaxUsers = $allUsers.length === users.length;
 
 	$: bgColor = $primaryColorSet.getFractional(users.length, $maxNumUsersPerInterval);
+	$: bgIsDark = bgColor.luminance() < 0.3;
+	$: adjustedTextColor = bgIsDark ? bgColor.brighten(4) : bgColor.darken(4);
 
 	const disabled = getContext<Writable<boolean>>('disabled');
 
@@ -68,7 +70,7 @@
 		showPopover && 'ring-2 ring-offset-[3px] ring-inset ring-white dark:ring-gray-900',
 		isHovered && !isActive && 'ring-offset-gray-400',
 		isActive && 'ring-offset-primary dark:ring-offset-primary-lighter',
-		isMaxUsers && 'bg-gradient-primary bg-animate-fast',
+		isMaxUsers && 'bg-gradient-primary bg-animate',
 		$disabled ? 'w-full' : 'w-4 !rounded-r-none',
 	]);
 </script>
@@ -85,7 +87,7 @@
 		style={cssVars({ bgColor: bgColor.css() })}
 	>
 		<div bind:this={referenceElement} class="w-full" />
-		<SchedulePreviewInfo {users} {bgColor} />
+		<SchedulePreviewInfo {users} textColor={adjustedTextColor.css()} />
 		<SchedulePopover
 			bind:this={popover}
 			show={showPopover}
