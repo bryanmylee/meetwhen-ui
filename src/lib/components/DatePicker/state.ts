@@ -1,6 +1,7 @@
 import { range } from '$lib/utils/range';
 import dayjs, { Dayjs } from 'dayjs';
-import { derived, Readable, Writable, writable } from 'svelte/store';
+import type { Readable, Writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 
 interface DatePickerState {
 	month: Writable<Dayjs>;

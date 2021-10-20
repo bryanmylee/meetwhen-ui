@@ -1,5 +1,6 @@
 import { query } from '$lib/gql';
-import { Interval, IntervalSerializer, Meeting } from './types';
+import type { Interval, Meeting } from './types';
+import { IntervalSerializer } from './types';
 
 const ADD_MEETING = `
 mutation ($name: String!, $emoji: String, $color: String, $intervals: [IntervalInput!]!) {

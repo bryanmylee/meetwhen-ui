@@ -1,5 +1,6 @@
 import { query } from '$lib/gql';
-import { Interval, IntervalDTO, IntervalSerializer } from './types';
+import type { Interval, IntervalDTO } from './types';
+import { IntervalSerializer } from './types';
 
 const GET_MEETING_BY_SLUG = `
 query ($slug: String!) {

@@ -1,6 +1,7 @@
 import { query } from '$lib/gql';
 import dayjs from 'dayjs';
-import { IntervalSerializer, ShallowMeeting, ShallowMeetingDTO } from './types';
+import type { ShallowMeeting, ShallowMeetingDTO } from './types';
+import { IntervalSerializer } from './types';
 
 const GET_PROFILE_PAGE = `
 query ($timeNow: Int!, $upcomingLimit: Int, $previousLimit: Int) {

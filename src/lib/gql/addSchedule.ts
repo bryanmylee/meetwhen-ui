@@ -1,5 +1,6 @@
 import { query } from '.';
-import { Interval, IntervalDTO, IntervalSerializer } from './types';
+import type { Interval, IntervalDTO } from './types';
+import { IntervalSerializer } from './types';
 
 const ADD_SCHEDULE = `
 mutation ($meetingId: ID!, $intervals: [IntervalInput!]!) {

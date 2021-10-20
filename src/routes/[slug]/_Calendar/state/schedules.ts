@@ -3,7 +3,8 @@ import { getLocalIntervals } from '$lib/utils/intervals';
 import { Map, Set } from 'immutable';
 import type { Readable, Writable } from 'svelte/store';
 import { derived, writable } from 'svelte/store';
-import { IntervalWithUsers, unionSchedules } from '../utils/schedules';
+import type { IntervalWithUsers } from '../utils/schedules';
+import { unionSchedules } from '../utils/schedules';
 
 // Logic for all user schedules and the nested intervals.
 export interface ScheduleState {
