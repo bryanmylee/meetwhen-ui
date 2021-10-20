@@ -39,6 +39,7 @@
 	import { meeting as meetingDep, pageState, isEditing } from './_state/page';
 	import { onMount } from 'svelte';
 	import { session } from '$app/stores';
+	import { browser } from '$app/env';
 	import { unionIntervals } from '$lib/utils/intervals';
 	import { setLoadingContext, withLoading } from '$lib/components/Loading';
 
@@ -55,7 +56,9 @@
 		}
 		if ($session.user.guestOf !== meeting.id) {
 			console.error('guest does not belong to this meeting');
-			$session.user = null;
+			if (browser) {
+				$session.user = null;
+			}
 			await logout();
 		}
 	};
