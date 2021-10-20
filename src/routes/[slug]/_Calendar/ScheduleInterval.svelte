@@ -19,7 +19,8 @@
 	import SchedulePreviewInfo from './SchedulePreviewInfo.svelte';
 
 	const state = getContext<CalendarState>('state');
-	const { maxNumUsersPerInterval, intervalHasAfter, intervalHasBefore, selecting } = state;
+	const { allUsers, maxNumUsersPerInterval, intervalHasAfter, intervalHasBefore, selecting } =
+		state;
 
 	export let id: number;
 	export let interval: Interval;
@@ -51,6 +52,7 @@
 
 	$: isActive = $activeId === id;
 	$: isHovered = $hoveredId === id;
+	$: isMaxUsers = $allUsers.length === users.length;
 
 	$: bgColor = $primaryColorSet.getFractional(users.length, $maxNumUsersPerInterval);
 
@@ -66,6 +68,7 @@
 		showPopover && 'ring-2 ring-offset-[3px] ring-inset ring-white dark:ring-gray-900',
 		isHovered && !isActive && 'ring-offset-gray-400',
 		isActive && 'ring-offset-primary dark:ring-offset-primary-lighter',
+		isMaxUsers && 'bg-gradient-primary bg-animate-fast',
 		$disabled ? 'w-full' : 'w-4 !rounded-r-none',
 	]);
 </script>
