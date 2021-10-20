@@ -9,7 +9,7 @@ query ($timeNow: Int!, $upcomingLimit: Int, $previousLimit: Int) {
 		upcomingMeetings: allMeetings(order: EARLIEST, key: BEG, after: $timeNow, limit: $upcomingLimit) {
 			...shallowFields
 		}
-		previousMeetings: allMeetings(order: EARLIEST, key: BEG, before: $timeNow, limit: $previousLimit) {
+		previousMeetings: allMeetings(order: LATEST, key: BEG, before: $timeNow, limit: $previousLimit) {
 			...shallowFields
 		}
 	}
