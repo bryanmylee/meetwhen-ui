@@ -8,11 +8,22 @@
 	const state = getContext<CalendarState>('state');
 	const { allUsers } = state;
 
+	const getMaxHeaderLabel = (count: number) => {
+		switch (count) {
+			case 2:
+				return 'Both available!';
+			default:
+				return `All ${count} available!`;
+		}
+	};
+
 	$: hasMaxUsers = users.length === $allUsers.length;
-	$: headerLabel = hasMaxUsers ? `All ${users.length} available!` : `${users.length} available`;
+	$: headerLabel = hasMaxUsers ? getMaxHeaderLabel(users.length) : `${users.length} available`;
 </script>
 
-<h2 class="text-sm font-bold">
-	{headerLabel}
-</h2>
-<ChipList chips={users.map((u) => u.name)} class="mt-2" isActive />
+{#if users.length > 1}
+	<h2 class="mb-2 text-sm font-bold">
+		{headerLabel}
+	</h2>
+{/if}
+<ChipList chips={users.map((u) => u.name)} isActive />
