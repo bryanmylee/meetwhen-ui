@@ -1,21 +1,19 @@
 <script lang="ts">
-	import { emoji, color } from './_state/meeting';
-	import { primaryColorBase } from '$lib/app-state';
 	import ColorPickerButton from '$lib/components/color-picker/organisms/ColorPickerButton.svelte';
 	import EmojiPickerButton from '$lib/components/emoji-picker/organisms/EmojiPickerButton.svelte';
 
-	$color = $primaryColorBase;
-	$: $primaryColorBase = $color;
+	export let emoji: string;
+	export let color: string;
 </script>
 
 <div class="p-4 space-y-4 card">
 	<h1 class="text-lg font-medium">Advanced settings</h1>
 	<div class="flex items-center justify-between">
 		<span>Pick a custom color</span>
-		<ColorPickerButton bind:value={$color} />
+		<ColorPickerButton bind:value={color} />
 	</div>
 	<div class="flex items-center justify-between">
 		<span>Set a custom emoji</span>
-		<EmojiPickerButton bind:value={$emoji} />
+		<EmojiPickerButton bind:value={emoji} />
 	</div>
 </div>

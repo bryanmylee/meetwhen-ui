@@ -2,16 +2,22 @@
 	import DatePicker from '$lib/components/date-picker/organisms/DatePicker.svelte';
 	import Textfield from '$lib/components/atoms/Textfield.svelte';
 	import TimeRangePicker from '$lib/components/time-range-picker/molecues/TimeRangePicker.svelte';
-	import { name } from './_state/meeting';
+	import type { Dayjs } from 'dayjs';
 	import { receive, send } from '$lib/app-state';
-	import { selectedDates, from, to } from './_state/intervals';
+
+	export let name: string;
+	export let selectedDates: Dayjs[];
+	export let from: Dayjs;
+	export let to: Dayjs;
+
+	export let selectedDatesError: string;
 </script>
 
 <section class="p-4 space-y-4 card">
 	<h1 class="text-2xl font-bold">Start a new meet</h1>
 	<div in:receive={{ key: 'new-name' }} out:send={{ key: 'new-name' }} class="flex-1">
 		<Textfield
-			bind:value={$name}
+			bind:value={name}
 			placeholder="Name your meet"
 			focusOnMount
 			required
@@ -19,6 +25,6 @@
 		/>
 	</div>
 	<h2 class="text-xl font-medium">Set a time for everyone</h2>
-	<DatePicker bind:selectedDates={$selectedDates.value} error={$selectedDates.error} />
-	<TimeRangePicker bind:from={$from} bind:to={$to} />
+	<DatePicker bind:selectedDates error={selectedDatesError} />
+	<TimeRangePicker bind:from bind:to />
 </section>
