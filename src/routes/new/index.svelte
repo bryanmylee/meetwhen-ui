@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { loadingMeetingPromise, newMeeting } from '$lib/app-state';
-	import { addMeeting } from '$lib/gql/addMeeting';
-	import { meetingInput } from './_state/meeting';
-	import { selectedDates } from './_state/intervals';
-	import { page } from '$app/stores';
+	import AdvancedSettings from './_AdvancedSettings.svelte';
+	import Buttons from './_Buttons.svelte';
 	import Head from '$lib/components/Head.svelte';
 	import MeetingInput from './_MeetingInput.svelte';
-	import Buttons from './_Buttons.svelte';
-	import AdvancedSettings from './_AdvancedSettings.svelte';
+	import { addMeeting } from '$lib/gql/addMeeting';
+	import { goto } from '$app/navigation';
+	import { loadingMeetingPromise, newMeeting } from '$lib/app-state';
+	import { meetingInput } from './_state/meeting';
+	import { page } from '$app/stores';
+	import { selectedDates } from './_state/intervals';
 
 	let showAdvanced = false;
 

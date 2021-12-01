@@ -1,10 +1,10 @@
 <script lang="ts">
 	import GridInterval from './GridInterval.svelte';
-	import { Selecting } from '$lib/components/SelectableProvider/selecting';
-	import { classes } from '$lib/utils/classes';
-	import { getContext } from 'svelte';
 	import type { CalendarState } from './state/core';
 	import type { Writable } from 'svelte/store';
+	import { Selecting } from '$lib/components/utils/selectable/selecting';
+	import { classes } from '$lib/utils/classes';
+	import { getContext } from 'svelte';
 
 	const disabled = getContext<Writable<boolean>>('disabled');
 	const state = getContext<CalendarState>('state');

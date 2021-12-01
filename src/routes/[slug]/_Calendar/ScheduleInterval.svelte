@@ -4,19 +4,19 @@
 </script>
 
 <script lang="ts">
-	import type { Interval, ShallowUser } from '$lib/gql/types';
-	import type { Writable } from 'svelte/store';
-	import { writable } from 'svelte/store';
-	import { primaryColorSet } from '$lib/app-state';
-	import { clickOutside } from '$lib/utils/actions/use-click-outside';
 	import GridInterval from './GridInterval.svelte';
 	import SchedulePopover from './SchedulePopover/SchedulePopover.svelte';
+	import SchedulePreviewInfo from './SchedulePreviewInfo.svelte';
+	import type { CalendarState } from './state/core';
+	import type { Interval, ShallowUser } from '$lib/gql/types';
+	import type { Writable } from 'svelte/store';
+	import { Selecting } from '$lib/components/utils/selectable/selecting';
 	import { classes } from '$lib/utils/classes';
+	import { clickOutside } from '$lib/utils/actions/use-click-outside';
 	import { cssVars } from '$lib/utils/css-vars';
 	import { getContext } from 'svelte';
-	import type { CalendarState } from './state/core';
-	import { Selecting } from '$lib/components/SelectableProvider/selecting';
-	import SchedulePreviewInfo from './SchedulePreviewInfo.svelte';
+	import { primaryColorSet } from '$lib/app-state';
+	import { writable } from 'svelte/store';
 
 	const state = getContext<CalendarState>('state');
 	const { allUsers, maxNumUsersPerInterval, intervalHasAfter, intervalHasBefore, selecting } =

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
-	import { Selecting } from '$lib/components/SelectableProvider/selecting';
-	import { classes } from '$lib/utils/classes';
 	import type { HasNeighbours } from '../has-neighbours';
+	import { Selecting } from '$lib/components/utils/selectable/selecting';
+	import { classes } from '$lib/utils/classes';
 	import { toId } from '../utils';
 
 	export let date: Dayjs;
