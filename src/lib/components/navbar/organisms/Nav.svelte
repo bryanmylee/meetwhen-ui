@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { session } from '$app/stores';
 	import AuthModal from '$lib/components/auth/organisms/AuthModal.svelte';
-	import DarkModeButton from './DarkModeButton.svelte';
-	import HomeNavItem from './HomeNavItem.svelte';
-	import Template from './Template.svelte';
+	import DarkModeButton from '../atoms/DarkModeButton.svelte';
+	import HomeNavItem from '../atoms/HomeNavItem.svelte';
+	import Template from '../templates/Template.svelte';
 	import { activeMeeting } from '$lib/app-state';
 
 	export let key: string;
