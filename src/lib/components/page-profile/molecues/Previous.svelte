@@ -1,0 +1,35 @@
+<script lang="ts">
+	import MeetingListItem from '$lib/components/meetings/atoms/MeetingListItem.svelte';
+	import StyledAccordian from '$lib/components/atoms/StyledAccordian.svelte';
+	import type { Dayjs } from 'dayjs';
+	import type { ShallowMeeting } from '$lib/gql/types';
+	import { entriesById } from '$lib/utils/entries-by-id';
+
+	export let previousMeetings: ShallowMeeting[];
+	$: groupedEntries = entriesById(previousMeetings, {
+		getKey: (item) => item.total.beg,
+		keyEqual: (lhs: Dayjs, rhs: Dayjs) => lhs.isSame(rhs, 'date'),
+	});
+</script>
+
+<section>
+	<StyledAccordian>
+		<h2 slot="title" class="text-xl font-medium">Previous meetings</h2>
+		<ul class="space-y-4">
+			{#each groupedEntries as [date, meetings]}
+				<li class="flex space-x-4">
+					<div class="py-2 w-[6ch] text-right">
+						{date.format('DD MMM')}
+					</div>
+					<ul class="flex-1 space-y-4">
+						{#each meetings as meeting}
+							<MeetingListItem {meeting} />
+						{/each}
+					</ul>
+				</li>
+			{:else}
+				No previous meetings...
+			{/each}
+		</ul>
+	</StyledAccordian>
+</section>

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Head from '$lib/components/Head.svelte';
-	import Credits from '../../lib/components/Credits.svelte';
-	import Help from './_Help.svelte';
+	import Credits from '../../lib/components/atoms/Credits.svelte';
+	import Head from '$lib/components/atoms/Head.svelte';
+	import { isDark } from '$lib/app-state';
 </script>
 
 <Head subtitle="help" emoji="🔬" />
@@ -11,7 +11,14 @@
 		<h1 class="text-2xl font-bold">Help</h1>
 		<p>Learn how to use <span class="font-bold text-gradient-primary">meetwhen</span>!</p>
 	</section>
-	<Help />
+	<div class="flex flex-col items-center dark:text-white">
+		<h2>Create a new meeting</h2>
+		<img src="/about/new_{$isDark ? 'dark' : 'light'}.gif" alt="Create a new meet" />
+		<h2>Join a meeting with others</h2>
+		<img src="/about/meeting_joining_{$isDark ? 'dark' : 'light'}.gif" alt="Join a meet" />
+		<h2>Share your meeting link</h2>
+		<img src="/about/meeting_share_{$isDark ? 'dark' : 'light'}.gif" alt="Join a meet" />
+	</div>
 </article>
 
 <footer class="max-w-lg px-6 pb-4 mx-auto">
