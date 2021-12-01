@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { isDark } from '$lib/app-state';
-
 	import type { ShallowMeeting } from '$lib/gql/types';
 	import { getCssVars, getColorSet } from '$lib/utils/stores/colors-store';
+	import { isDark } from '$lib/app-state';
 
 	export let meeting: ShallowMeeting;
 

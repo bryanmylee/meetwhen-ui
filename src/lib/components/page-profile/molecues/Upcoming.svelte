@@ -1,9 +1,9 @@
 <script lang="ts">
-	import MeetingItem from './_MeetingItem.svelte';
-	import { entriesById } from '$lib/utils/entries-by-id';
-	import type { ShallowMeeting } from '$lib/gql/types';
-	import type { Dayjs } from 'dayjs';
+	import MeetingListItem from '$lib/components/meetings/atoms/MeetingListItem.svelte';
 	import StyledAccordian from '$lib/components/atoms/StyledAccordian.svelte';
+	import type { Dayjs } from 'dayjs';
+	import type { ShallowMeeting } from '$lib/gql/types';
+	import { entriesById } from '$lib/utils/entries-by-id';
 
 	export let upcomingMeetings: ShallowMeeting[] = [];
 	$: groupedEntries = entriesById(upcomingMeetings, {
@@ -23,7 +23,7 @@
 					</div>
 					<ul class="flex-1 space-y-4">
 						{#each meetings as meeting}
-							<MeetingItem {meeting} />
+							<MeetingListItem {meeting} />
 						{/each}
 					</ul>
 				</li>
