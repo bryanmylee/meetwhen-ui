@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Credits from '$lib/components/atoms/Credits.svelte';
 	import Head from '$lib/components/atoms/Head.svelte';
-	import NewMeeting from '$lib/components/home-page/NewMeeting.svelte';
+	import NewMeeting from '$lib/components/home-page/organisms/NewMeeting.svelte';
 	import TitleCard from '$lib/components/home-page/TitleCard.svelte';
 	import { name } from './new/_state/meeting';
 </script>
