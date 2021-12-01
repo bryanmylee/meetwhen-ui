@@ -2,12 +2,12 @@
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
 	import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
-	import { getDatePickerState } from './state';
-	import { fromId, toId } from './utils';
-	import { hasNeighbours } from './has-neighbours';
-	import { keyActions } from './keyboard';
-	import MonthPicker from './MonthPicker.svelte';
-	import DateItem from './DateItem.svelte';
+	import { getDatePickerState } from '../state';
+	import { fromId, toId } from '../utils';
+	import { hasNeighbours } from '../has-neighbours';
+	import { keyActions } from '../keyboard';
+	import MonthPicker from '../molecues/MonthPicker.svelte';
+	import DateItem from '../atoms/DateItem.svelte';
 
 	const { month, weekDays, monthDates, disabledDates } = getDatePickerState();
 

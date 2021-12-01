@@ -18,14 +18,14 @@
 </script>
 
 <script lang="ts">
-	import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
+	import AuthModal from '$lib/components/auth/organisms/AuthModal.svelte';
 	import Buttons from './_Buttons.svelte';
 	import Calendar from './_Calendar/Calendar.svelte';
 	import Head from '$lib/components/Head.svelte';
 	import MeetingCard from '$lib/components/Meeting/MeetingCard.svelte';
 	import Template from './_Template.svelte';
 	import type { APIError } from '$lib/typings/error';
-	import type { AuthModalEvent } from '$lib/components/AuthModal/AuthModal.svelte';
+	import type { AuthModalEvent } from '$lib/components/auth/organisms/AuthModal.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { Meeting, Schedule } from '$lib/gql/types';
 	import { activeMeeting, newMeeting, primaryColorBase } from '$lib/app-state';
@@ -41,7 +41,7 @@
 	import { session } from '$app/stores';
 	import { browser } from '$app/env';
 	import { unionIntervals } from '$lib/utils/intervals';
-	import { setLoadingContext, withLoading } from '$lib/components/Loading';
+	import { setLoadingContext, withLoading } from '$lib/components/loading/atoms';
 
 	export let meeting: Meeting;
 	$: $meetingDep = meeting;

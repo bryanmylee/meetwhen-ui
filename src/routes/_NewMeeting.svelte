@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { receive, send } from '$lib/app-state';
 	import { name } from './new/_state/meeting';
-	import Textfield from '$lib/components/Textfield.svelte';
+	import Textfield from '$lib/components/atoms/Textfield.svelte';
 	import { ArrowRightIcon } from 'svelte-feather-icons';
 </script>
 

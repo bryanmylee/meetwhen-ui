@@ -31,13 +31,13 @@
 
 <script lang="ts">
 	import Head from '$lib/components/Head.svelte';
-	import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
+	import LoadingButton from '$lib/components/loading/atoms/LoadingButton.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { ShallowMeeting } from '$lib/gql/types';
 	import { getProfilePage } from '$lib/gql/getProfilePage';
 	import { logout } from '$lib/gql/logout';
 	import { session } from '$app/stores';
-	import { setLoadingContext, withLoading } from '$lib/components/Loading';
+	import { setLoadingContext, withLoading } from '$lib/components/loading/atoms';
 	import Previous from './_Previous.svelte';
 	import Upcoming from './_Upcoming.svelte';
 	import ComingSoon from './_ComingSoon.svelte';

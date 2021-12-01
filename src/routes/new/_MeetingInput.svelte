@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { receive, send } from '$lib/app-state';
-	import DatePicker from '$lib/components/DatePicker/DatePicker.svelte';
-	import Textfield from '$lib/components/Textfield.svelte';
+	import DatePicker from '$lib/components/date-picker/organisms/DatePicker.svelte';
+	import Textfield from '$lib/components/atoms/Textfield.svelte';
 	import FromToHourPicker from '$lib/components/FromToHourPicker/FromToHourPicker.svelte';
 	import { name } from './_state/meeting';
 	import { selectedDates, from, to } from './_state/intervals';

@@ -10,7 +10,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { pageState, isUserJoined } from './_state/page';
 	import { session } from '$app/stores';
-	import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
+	import LoadingButton from '$lib/components/loading/atoms/LoadingButton.svelte';
 
 	const dispatch = createEventDispatcher<ButtonsEvent>();
 </script>

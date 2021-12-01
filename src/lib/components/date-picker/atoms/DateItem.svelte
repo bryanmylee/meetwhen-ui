@@ -3,8 +3,8 @@
 	import type { Dayjs } from 'dayjs';
 	import { Selecting } from '$lib/components/SelectableProvider/selecting';
 	import { classes } from '$lib/utils/classes';
-	import type { HasNeighbours } from './has-neighbours';
-	import { toId } from './utils';
+	import type { HasNeighbours } from '../has-neighbours';
+	import { toId } from '../utils';
 
 	export let date: Dayjs;
 	$: columnStart = date.date() === 1 ? date.day() || 7 : '';

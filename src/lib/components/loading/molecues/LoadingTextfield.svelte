@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Textfield from '$lib/components/Textfield.svelte';
-	import { getLoadingContext } from './index';
+	import Textfield from '$lib/components/atoms/Textfield.svelte';
+	import { getLoadingContext } from '../atoms';
 
 	export let id: string = undefined;
 	export let password = false;

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { session } from '$app/stores';
-	import AuthModal from '$lib/components/AuthModal/AuthModal.svelte';
+	import AuthModal from '$lib/components/auth/organisms/AuthModal.svelte';
 	import DarkModeButton from './DarkModeButton.svelte';
 	import HomeNavItem from './HomeNavItem.svelte';
 	import Template from './Template.svelte';
