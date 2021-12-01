@@ -2,7 +2,7 @@
 	import { zip } from '$lib/utils/zip';
 	import type { LocalTimeInterval } from '$lib/gql/types';
 	import { getHoursInTimeInterval } from '$lib/utils/intervals';
-	import GridItem from '$lib/components/Grid/GridItem.svelte';
+	import GridItem from '$lib/components/utils/grid/GridItem.svelte';
 	import { getContext } from 'svelte';
 	import type { CalendarState } from './state/core';
 

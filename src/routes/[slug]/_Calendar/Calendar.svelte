@@ -4,10 +4,10 @@
 	import type { Interval, Schedule } from '$lib/gql/types';
 	import { getCoreState } from './state/core';
 	import Column from './Column.svelte';
-	import Grid from '$lib/components/Grid/Grid.svelte';
+	import Grid from '$lib/components/utils/grid/Grid.svelte';
 	import IndexHeader from './IndexHeader.svelte';
 	import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
-	import GridItem from '$lib/components/Grid/GridItem.svelte';
+	import GridItem from '$lib/components/utils/grid/GridItem.svelte';
 	import IndexColumn from './IndexColumn.svelte';
 	import Selected from './Selected.svelte';
 	import Highlight from './Highlight.svelte';
