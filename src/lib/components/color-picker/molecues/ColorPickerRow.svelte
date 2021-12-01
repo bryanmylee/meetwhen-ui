@@ -1,6 +1,6 @@
 <script lang="ts">
 	import chroma from 'chroma-js';
-	import ColorPickerItem from './ColorPickerItem.svelte';
+	import ColorPickerItem from '../atoms/ColorPickerItem.svelte';
 
 	export let hues: number[];
 	export let light: number;

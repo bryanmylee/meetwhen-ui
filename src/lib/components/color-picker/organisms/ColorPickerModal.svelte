@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cssVars } from '$lib/utils/css-vars';
-	import type { ColorItemEvent } from './ColorPickerItem.svelte';
-	import ColorPickerRow from './ColorPickerRow.svelte';
+	import type { ColorItemEvent } from '../atoms/ColorPickerItem.svelte';
+	import ColorPickerRow from '../molecues/ColorPickerRow.svelte';
 
 	export let value: string;
 
