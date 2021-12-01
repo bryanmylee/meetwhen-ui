@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { LocalTimeInterval } from '$lib/gql/types';
-	import type { Dayjs } from 'dayjs';
+	import GridInterval from '../atoms/GridInterval.svelte';
 	import IntervalCells from './IntervalCells.svelte';
-	import { getContext } from 'svelte';
+	import type { CalendarState } from '$lib/components/calendar/state/core';
+	import type { Dayjs } from 'dayjs';
+	import type { LocalTimeInterval } from '$lib/gql/types';
 	import type { Writable } from 'svelte/store';
-	import GridInterval from './GridInterval.svelte';
 	import { classes } from '$lib/utils/classes';
-	import type { CalendarState } from './state/core';
+	import { getContext } from 'svelte';
 
 	const disabled = getContext<Writable<boolean>>('disabled');
 	const state = getContext<CalendarState>('state');

@@ -1,10 +1,10 @@
 import { session } from '$app/stores';
+import type { PageState } from '$lib/components/page-meeting/PageState';
 import type { Meeting } from '$lib/gql/types';
 import { derived, writable } from 'svelte/store';
 
 export const meeting = writable<Meeting>(null);
 
-export type PageState = 'none' | 'joining' | 'editing' | 'leaving';
 export const pageState = writable<PageState>('none');
 
 const EDITING_STATES: PageState[] = ['joining', 'editing'];

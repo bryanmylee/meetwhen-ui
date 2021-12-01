@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Grid from '$lib/components/utils/grid/Grid.svelte';
 	import IndexColumnAvailable from './IndexColumnAvailable.svelte';
+	import type { CalendarState } from '$lib/components/calendar/state/core';
 	import { getContext } from 'svelte';
-	import type { CalendarState } from './state/core';
 
 	const state = getContext<CalendarState>('state');
 	const { numRows, availables } = state;

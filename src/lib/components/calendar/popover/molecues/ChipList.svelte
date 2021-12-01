@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Chip from '../atoms/Chip.svelte';
+
 	export let chips: string[] = [];
 
 	let className = '';
@@ -9,8 +11,8 @@
 
 <ul class="{className} flex flex-wrap gap-2">
 	{#each chips as chip}
-		<li class="px-2 py-1 rounded-lg {isActive ? 'shade-2' : 'shade'}">
+		<Chip {isActive}>
 			{chip}
-		</li>
+		</Chip>
 	{/each}
 </ul>

@@ -1,20 +1,20 @@
 <script lang="ts">
+	import CalendarHint from '../molecues/CalendarHint.svelte';
+	import Column from '../molecues/Column.svelte';
+	import FullscreenButton from '../atoms/FullscreenButton.svelte';
+	import Grid from '$lib/components/utils/grid/Grid.svelte';
+	import GridItem from '$lib/components/utils/grid/GridItem.svelte';
+	import Highlight from '../editor/Highlight.svelte';
+	import IndexColumn from '../molecues/IndexColumn.svelte';
+	import IndexHeader from '../molecues/IndexHeader.svelte';
+	import Schedules from '../molecues/Schedules.svelte';
+	import SelectableProvider from '$lib/components/utils/selectable/SelectableProvider.svelte';
+	import Selected from '../editor/Selected.svelte';
+	import type { Interval, Schedule } from '$lib/gql/types';
+	import { classes } from '$lib/utils/classes';
+	import { getCoreState } from '$lib/components/calendar/state/core';
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
-	import type { Interval, Schedule } from '$lib/gql/types';
-	import { getCoreState } from './state/core';
-	import Column from './Column.svelte';
-	import Grid from '$lib/components/utils/grid/Grid.svelte';
-	import IndexHeader from './IndexHeader.svelte';
-	import SelectableProvider from '$lib/components/utils/selectable/SelectableProvider.svelte';
-	import GridItem from '$lib/components/utils/grid/GridItem.svelte';
-	import IndexColumn from './IndexColumn.svelte';
-	import Selected from './Selected.svelte';
-	import Highlight from './Highlight.svelte';
-	import Schedules from './Schedules.svelte';
-	import FullscreenButton from './FullscreenButton.svelte';
-	import { classes } from '$lib/utils/classes';
-	import CalendarHint from './CalendarHint.svelte';
 
 	const state = getCoreState();
 	const {

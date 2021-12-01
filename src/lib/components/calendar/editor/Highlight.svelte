@@ -1,6 +1,6 @@
 <script lang="ts">
-	import GridInterval from './GridInterval.svelte';
-	import type { CalendarState } from './state/core';
+	import GridInterval from '../atoms/GridInterval.svelte';
+	import type { CalendarState } from '$lib/components/calendar/state/core';
 	import type { Writable } from 'svelte/store';
 	import { Selecting } from '$lib/components/utils/selectable/selecting';
 	import { classes } from '$lib/utils/classes';

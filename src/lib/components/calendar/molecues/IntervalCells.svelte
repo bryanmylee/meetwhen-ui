@@ -1,13 +1,13 @@
 <script lang="ts">
 	import GridItem from '$lib/components/utils/grid/GridItem.svelte';
+	import type { CalendarState } from '../state/core';
+	import type { Dayjs } from 'dayjs';
 	import type { Interval } from '$lib/gql/types';
 	import type { Writable } from 'svelte/store';
 	import { classes } from '$lib/utils/classes';
-	import { zip } from '$lib/utils/zip';
-	import type { Dayjs } from 'dayjs';
 	import { getContext } from 'svelte';
 	import { getHoursInInterval, toId } from '$lib/utils/intervals';
-	import type { CalendarState } from './state/core';
+	import { zip } from '$lib/utils/zip';
 
 	const state = getContext<CalendarState>('state');
 	const { getColIndexByDay, hourStepSize, getRowIndexByTime, numRows } = state;

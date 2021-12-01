@@ -3,7 +3,7 @@
 	import { Time } from '$lib/utils/time';
 	import type { Interval } from '$lib/gql/types';
 	import { getContext } from 'svelte';
-	import type { CalendarState } from './state/core';
+	import type { CalendarState } from '../state/core';
 
 	const state = getContext<CalendarState>('state');
 	const { hourStepSize, getColIndexByDay, getRowIndexByTime } = state;

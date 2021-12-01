@@ -1,11 +1,11 @@
 <script lang="ts">
+	import AvailableUsers from '../molecues/AvailableUsers.svelte';
+	import UnavailableUsers from '../molecues/UnavailableUsers.svelte';
+	import type { CalendarState } from '$lib/components/calendar/state/core';
 	import type { Interval, ShallowUser } from '$lib/gql/types';
-	import { createPopperActions } from 'svelte-popperjs';
 	import { classes } from '$lib/utils/classes';
+	import { createPopperActions } from 'svelte-popperjs';
 	import { getContext } from 'svelte';
-	import type { CalendarState } from '../state/core';
-	import AvailableUsers from './AvailableUsers.svelte';
-	import UnavailableUsers from './UnavailableUsers.svelte';
 
 	const state = getContext<CalendarState>('state');
 	const { getComplimentUsers } = state;

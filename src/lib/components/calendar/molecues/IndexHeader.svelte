@@ -1,6 +1,6 @@
 <script lang="ts">
+	import type { CalendarState } from '$lib/components/calendar/state/core';
 	import { getContext } from 'svelte';
-	import type { CalendarState } from './state/core';
 
 	const state = getContext<CalendarState>('state');
 	const { days } = state;

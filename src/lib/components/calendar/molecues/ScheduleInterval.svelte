@@ -4,10 +4,10 @@
 </script>
 
 <script lang="ts">
-	import GridInterval from './GridInterval.svelte';
-	import SchedulePopover from './SchedulePopover/SchedulePopover.svelte';
-	import SchedulePreviewInfo from './SchedulePreviewInfo.svelte';
-	import type { CalendarState } from './state/core';
+	import GridInterval from '../atoms/GridInterval.svelte';
+	import SchedulePopover from '../popover/organisms/SchedulePopover.svelte';
+	import SchedulePreviewInfo from '../atoms/SchedulePreviewInfo.svelte';
+	import type { CalendarState } from '$lib/components/calendar/state/core';
 	import type { Interval, ShallowUser } from '$lib/gql/types';
 	import type { Writable } from 'svelte/store';
 	import { Selecting } from '$lib/components/utils/selectable/selecting';

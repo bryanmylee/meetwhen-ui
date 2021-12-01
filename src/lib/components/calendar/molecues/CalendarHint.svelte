@@ -1,10 +1,10 @@
 <script lang="ts">
 	import DelayedHint from '$lib/components/atoms/DelayedHint.svelte';
-	import GridInterval from './GridInterval.svelte';
-	import { touchEnabled } from '$lib/app-state';
-	import { getContext } from 'svelte';
+	import GridInterval from '../atoms/GridInterval.svelte';
+	import type { CalendarState } from '$lib/components/calendar/state/core';
 	import type { Writable } from 'svelte/store';
-	import type { CalendarState } from './state/core';
+	import { getContext } from 'svelte';
+	import { touchEnabled } from '$lib/app-state';
 
 	const state = getContext<CalendarState>('state');
 	const { allDayHours, hourStepSize } = state;

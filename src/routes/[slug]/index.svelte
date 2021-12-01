@@ -19,29 +19,29 @@
 
 <script lang="ts">
 	import AuthModal from '$lib/components/auth/organisms/AuthModal.svelte';
-	import Buttons from './_Buttons.svelte';
-	import Calendar from './_Calendar/Calendar.svelte';
+	import Buttons from '$lib/components/page-meeting/molecues/Buttons.svelte';
+	import Calendar from '$lib/components/calendar/organisms/Calendar.svelte';
 	import Head from '$lib/components/atoms/Head.svelte';
 	import MeetingCard from '$lib/components/meetings/molecues/MeetingCard.svelte';
-	import Template from './_Template.svelte';
+	import Template from '$lib/components/page-meeting/templates/Template.svelte';
 	import type { APIError } from '$lib/typings/error';
 	import type { AuthModalEvent } from '$lib/components/auth/organisms/AuthModal.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { Meeting, Schedule } from '$lib/gql/types';
 	import { activeMeeting, newMeeting, primaryColorBase } from '$lib/app-state';
 	import { addSchedule } from '$lib/gql/addSchedule';
+	import { browser } from '$app/env';
 	import { deleteSchedule } from '$lib/gql/deleteSchedule';
 	import { editSchedule } from '$lib/gql/editSchedule';
 	import { get } from 'svelte/store';
 	import { getMeetingBySlug } from '$lib/gql/getMeetingBySlug';
 	import { intervals, resetForm, addScheduleVars, editScheduleVars } from './_state/form';
 	import { logout } from '$lib/gql/logout';
-	import { meeting as meetingDep, pageState, isEditing } from './_state/page';
+	import { meeting as meetingDep, pageState, isEditing, isUserJoined } from './_state/page';
 	import { onMount } from 'svelte';
 	import { session } from '$app/stores';
-	import { browser } from '$app/env';
-	import { unionIntervals } from '$lib/utils/intervals';
 	import { setLoadingContext, withLoading } from '$lib/components/loading/atoms';
+	import { unionIntervals } from '$lib/utils/intervals';
 
 	export let meeting: Meeting;
 	$: $meetingDep = meeting;
@@ -199,7 +199,14 @@
 
 <Template>
 	<MeetingCard {meeting} slot="header" />
-	<Buttons on:join={handleJoin} on:edit={handleEdit} on:leave={handleLeave} slot="buttons" />
+	<Buttons
+		bind:pageState={$pageState}
+		isUserJoined={$isUserJoined}
+		on:join={handleJoin}
+		on:edit={handleEdit}
+		on:leave={handleLeave}
+		slot="buttons"
+	/>
 	<Calendar
 		bind:this={calendar}
 		intervals={meeting.intervals}

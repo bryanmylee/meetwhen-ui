@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { ShallowUser } from '$lib/gql/types';
 	import ChipList from './ChipList.svelte';
+	import type { ShallowUser } from '$lib/gql/types';
 
 	export let users: ShallowUser[] = [];
 </script>

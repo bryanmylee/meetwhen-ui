@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { zip } from '$lib/utils/zip';
-	import type { LocalTimeInterval } from '$lib/gql/types';
-	import { getHoursInTimeInterval } from '$lib/utils/intervals';
 	import GridItem from '$lib/components/utils/grid/GridItem.svelte';
+	import type { CalendarState } from '$lib/components/calendar/state/core';
+	import type { LocalTimeInterval } from '$lib/gql/types';
 	import { getContext } from 'svelte';
-	import type { CalendarState } from './state/core';
+	import { getHoursInTimeInterval } from '$lib/utils/intervals';
+	import { zip } from '$lib/utils/zip';
 
 	const state = getContext<CalendarState>('state');
 	const { hourStepSize, getRowIndexByTime, hoursInDay } = state;

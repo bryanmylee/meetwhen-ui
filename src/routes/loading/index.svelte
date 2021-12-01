@@ -11,11 +11,11 @@
 </script>
 
 <script lang="ts">
-	import Buttons from '../[slug]/_Buttons.svelte';
+	import Buttons from '$lib/components/page-meeting/molecues/Buttons.svelte';
 	import Calendar from '../[slug]/_Calendar/Calendar.svelte';
 	import Head from '$lib/components/atoms/Head.svelte';
 	import MeetingCard from '$lib/components/meetings/molecues/MeetingCard.svelte';
-	import Template from '../[slug]/_Template.svelte';
+	import Template from '$lib/components/page-meeting/templates/Template.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { ShallowMeeting } from '$lib/gql/types';
 	import { ScaleOut } from 'svelte-loading-spinners';
