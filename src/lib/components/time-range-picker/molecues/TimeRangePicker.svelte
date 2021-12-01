@@ -1,6 +1,6 @@
 <script lang="ts">
 	import dayjs from 'dayjs';
-	import { EARLIEST_OFFSET, HOURS, toDisplay, toId, UTCToDisplay, UTC_OFFSETS } from './utils';
+	import { EARLIEST_OFFSET, HOURS, toDisplay, toId, UTCToDisplay, UTC_OFFSETS } from '../utils';
 	import type { Dayjs } from 'dayjs';
 	import Select from '$lib/components/Select/Select.svelte';
 
