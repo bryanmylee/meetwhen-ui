@@ -4,11 +4,10 @@
 	import Head from '$lib/components/atoms/Head.svelte';
 	import MeetingInput from '$lib/components/page-new/molecues/MeetingInput.svelte';
 	import { addMeeting } from '$lib/gql/addMeeting';
+	import { color, emoji, meetingInput, name } from './_state/meeting';
 	import { goto } from '$app/navigation';
 	import { loadingMeetingPromise, newMeeting, primaryColorBase } from '$lib/app-state';
-	import { meetingInput } from './_state/meeting';
 	import { page } from '$app/stores';
-	import { name, emoji, color } from './_state/meeting';
 	import { selectedDates, from, to } from './_state/intervals';
 
 	$: $primaryColorBase = $color;

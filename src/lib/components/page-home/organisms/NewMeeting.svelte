@@ -4,7 +4,7 @@
 	import Textfield from '$lib/components/atoms/Textfield.svelte';
 	import { ArrowRightIcon } from 'svelte-feather-icons';
 
-	export let meetingName: string = '';
+	export let meetingName: string;
 </script>
 
 <section class="p-4 space-y-4 card">
