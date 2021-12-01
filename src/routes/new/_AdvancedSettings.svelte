@@ -2,7 +2,7 @@
 	import { emoji, color } from './_state/meeting';
 	import { primaryColorBase } from '$lib/app-state';
 	import ColorPickerButton from '$lib/components/color-picker/organisms/ColorPickerButton.svelte';
-	import EmojiSelect from '$lib/components/EmojiSelect/EmojiSelect.svelte';
+	import EmojiPickerButton from '$lib/components/emoji-picker/organisms/EmojiPickerButton.svelte';
 
 	$color = $primaryColorBase;
 	$: $primaryColorBase = $color;
@@ -16,6 +16,6 @@
 	</div>
 	<div class="flex items-center justify-between">
 		<span>Set a custom emoji</span>
-		<EmojiSelect bind:value={$emoji} />
+		<EmojiPickerButton bind:value={$emoji} />
 	</div>
 </div>
