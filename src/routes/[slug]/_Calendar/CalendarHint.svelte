@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DelayedHint from '$lib/components/DelayedHint.svelte';
+	import DelayedHint from '$lib/components/atoms/DelayedHint.svelte';
 	import GridInterval from './GridInterval.svelte';
 	import { touchEnabled } from '$lib/app-state';
 	import { getContext } from 'svelte';

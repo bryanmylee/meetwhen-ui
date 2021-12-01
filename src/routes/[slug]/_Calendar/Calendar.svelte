@@ -6,7 +6,7 @@
 	import Column from './Column.svelte';
 	import Grid from '$lib/components/utils/grid/Grid.svelte';
 	import IndexHeader from './IndexHeader.svelte';
-	import SelectableProvider from '$lib/components/SelectableProvider/SelectableProvider.svelte';
+	import SelectableProvider from '$lib/components/utils/selectable/SelectableProvider.svelte';
 	import GridItem from '$lib/components/utils/grid/GridItem.svelte';
 	import IndexColumn from './IndexColumn.svelte';
 	import Selected from './Selected.svelte';

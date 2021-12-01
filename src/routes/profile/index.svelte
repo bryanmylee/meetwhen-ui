@@ -30,7 +30,7 @@
 </script>
 
 <script lang="ts">
-	import Head from '$lib/components/Head.svelte';
+	import Head from '$lib/components/atoms/Head.svelte';
 	import LoadingButton from '$lib/components/loading/atoms/LoadingButton.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { ShallowMeeting } from '$lib/gql/types';

@@ -3,7 +3,7 @@
 	import { entriesById } from '$lib/utils/entries-by-id';
 	import type { ShallowMeeting } from '$lib/gql/types';
 	import type { Dayjs } from 'dayjs';
-	import StyledAccordian from '$lib/components/StyledAccordian.svelte';
+	import StyledAccordian from '$lib/components/atoms/StyledAccordian.svelte';
 
 	export let previousMeetings: ShallowMeeting[];
 	$: groupedEntries = entriesById(previousMeetings, {

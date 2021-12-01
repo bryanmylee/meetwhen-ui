@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 	import { ChevronDownIcon, ArrowRightIcon } from 'svelte-feather-icons';
-	import Accordian from '$lib/components/Accordian.svelte';
+	import Accordian from '$lib/components/atoms/Accordian.svelte';
 	import Textfield from '$lib/components/atoms/Textfield.svelte';
 	import { classes } from '$lib/utils/classes';
 

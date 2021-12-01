@@ -16,10 +16,10 @@
 	import { goto } from '$app/navigation';
 	import { loadingMeetingPromise, newMeeting } from '$lib/app-state';
 	import { ScaleOut } from 'svelte-loading-spinners';
-	import Head from '$lib/components/Head.svelte';
+	import Head from '$lib/components/atoms/Head.svelte';
 	import Buttons from '../[slug]/_Buttons.svelte';
 	import Calendar from '../[slug]/_Calendar/Calendar.svelte';
-	import MeetingCard from '$lib/components/Meeting/MeetingCard.svelte';
+	import MeetingCard from '$lib/components/atoms/MeetingCard.svelte';
 	import Template from '../[slug]/_Template.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { ShallowMeeting } from '$lib/gql/types';

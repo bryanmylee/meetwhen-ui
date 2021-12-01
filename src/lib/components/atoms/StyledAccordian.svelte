@@ -10,7 +10,7 @@
 	import { classes } from '$lib/utils/classes';
 	import { ChevronDownIcon } from 'svelte-feather-icons';
 	import { slide } from 'svelte/transition';
-	import Accordian from '$lib/components/Accordian.svelte';
+	import Accordian from '$lib/components/atoms/Accordian.svelte';
 
 	import { createEventDispatcher } from 'svelte';
 

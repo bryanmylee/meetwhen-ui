@@ -16,7 +16,7 @@
 	import { useScreenHeight } from '$lib/utils/screen-height';
 	import { queryClient } from '$lib/gql';
 	import { primaryColorCssVars, activeMeeting, APP_ROOT_ID } from '$lib/app-state';
-	import PageTransition from '$lib/components/PageTransition.svelte';
+	import PageTransition from '$lib/components/utils/PageTransition.svelte';
 	import Nav from '$lib/components/Nav/Nav.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import { onMount } from 'svelte';

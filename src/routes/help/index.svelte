@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Head from '$lib/components/Head.svelte';
-	import Credits from '../../lib/components/Credits.svelte';
+	import Head from '$lib/components/atoms/Head.svelte';
+	import Credits from '../../lib/components/atoms/Credits.svelte';
 	import Help from './_Help.svelte';
 </script>
 

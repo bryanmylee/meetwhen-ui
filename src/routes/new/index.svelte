@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AdvancedSettings from './_AdvancedSettings.svelte';
 	import Buttons from './_Buttons.svelte';
-	import Head from '$lib/components/Head.svelte';
+	import Head from '$lib/components/atoms/Head.svelte';
 	import MeetingInput from './_MeetingInput.svelte';
 	import { addMeeting } from '$lib/gql/addMeeting';
 	import { goto } from '$app/navigation';

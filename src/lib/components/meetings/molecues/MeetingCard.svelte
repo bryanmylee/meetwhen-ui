@@ -2,7 +2,7 @@
 	import type { ShallowMeeting } from '$lib/gql/types';
 	import { onSubmitKey } from '$lib/utils/on-submit-key';
 	import { ShareIcon } from 'svelte-feather-icons';
-	import ShareModal from './ShareModal.svelte';
+	import ShareModal from '../atoms/ShareModal.svelte';
 	import { getCssVars, getColorSet } from '$lib/utils/stores/colors-store';
 	import { isDark } from '$lib/app-state';
 
