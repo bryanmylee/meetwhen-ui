@@ -12,7 +12,7 @@
 
 <script lang="ts">
 	import Buttons from '$lib/components/page-meeting/molecues/Buttons.svelte';
-	import Calendar from '../[slug]/_Calendar/Calendar.svelte';
+	import Calendar from '$lib/components/calendar/organisms/Calendar.svelte';
 	import Head from '$lib/components/atoms/Head.svelte';
 	import MeetingCard from '$lib/components/meetings/molecues/MeetingCard.svelte';
 	import Template from '$lib/components/page-meeting/templates/Template.svelte';
