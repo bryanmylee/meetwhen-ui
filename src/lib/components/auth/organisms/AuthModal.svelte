@@ -8,24 +8,24 @@
 
 <script lang="ts">
 	/* eslint-disable @typescript-eslint/no-non-null-assertion */
-	import { createEventDispatcher, setContext } from 'svelte';
-	import { fade, fly } from 'svelte/transition';
-	import { session } from '$app/stores';
-	import { clickOutside } from '$lib/utils/actions/use-click-outside';
-	import { getAuthModalState } from './state';
-	import { login } from '$lib/gql/login';
-	import { loginGuest } from '$lib/gql/loginGuest';
-	import { signup } from '$lib/gql/signup';
-	import { signupGuest } from '$lib/gql/signupGuest';
+	import Description from '../atoms/Description.svelte';
+	import GuestAccountFields from '../molecues/GuestAccountFields.svelte';
+	import IsFullOrGuestControl from '../atoms/IsFullOrGuestControl.svelte';
+	import IsLogInOrSignUpControl from '../atoms/IsLogInOrSignUpControl.svelte';
+	import LoadingButton from '$lib/components/loading/atoms/LoadingButton.svelte';
+	import PlusAccountFields from '../molecues/PlusAccountFields.svelte';
 	import type { APIError } from '$lib/typings/error';
 	import type { Meeting } from '$lib/gql/types';
-	import PlusAccountFields from './PlusAccountFields.svelte';
-	import GuestAccountFields from './GuestAccountFields.svelte';
-	import TabBar from './TabBar.svelte';
-	import LoginSignupControl from './LoginSignupControl.svelte';
-	import Description from './Description.svelte';
-	import { setLoadingContext, withLoading } from '$lib/components/Loading';
-	import LoadingButton from '$lib/components/Loading/LoadingButton.svelte';
+	import { clickOutside } from '$lib/utils/actions/use-click-outside';
+	import { createEventDispatcher, setContext } from 'svelte';
+	import { fade, fly } from 'svelte/transition';
+	import { getAuthModalState } from '../state';
+	import { login } from '$lib/gql/login';
+	import { loginGuest } from '$lib/gql/loginGuest';
+	import { session } from '$app/stores';
+	import { setLoadingContext, withLoading } from '$lib/components/loading/atoms';
+	import { signup } from '$lib/gql/signup';
+	import { signupGuest } from '$lib/gql/signupGuest';
 
 	export let activeMeeting: Meeting | null = null;
 	export let isLoggingIn = true;
@@ -133,9 +133,9 @@
 		use:clickOutside={() => dismiss(false)}
 		class="m-4 card min-w-96"
 	>
-		<TabBar bind:isGuestAuth enableGuestAuth={activeMeeting !== null} />
+		<IsFullOrGuestControl bind:isGuestAuth enableGuestAuth={activeMeeting !== null} />
 		<div class="p-4 space-y-4">
-			<LoginSignupControl bind:isLoggingIn {isGuestAuth} {enableGuestLogin} />
+			<IsLogInOrSignUpControl bind:isLoggingIn {isGuestAuth} {enableGuestLogin} />
 			<Description {isGuestAuth} />
 			{#if isGuestAuth}
 				<GuestAccountFields />

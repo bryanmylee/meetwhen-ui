@@ -1,7 +1,7 @@
 <script lang="ts">
+	import LoadingTextfield from '$lib/components/loading/molecues/LoadingTextfield.svelte';
+	import type { AuthModalState } from '../state';
 	import { getContext } from 'svelte';
-	import LoadingTextfield from '$lib/components/Loading/LoadingTextfield.svelte';
-	import type { AuthModalState } from './state';
 
 	const state = getContext<AuthModalState>('state');
 	const { name, password } = state;

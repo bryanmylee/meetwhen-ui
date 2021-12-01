@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getLoadingContext } from '$lib/components/Loading';
 	import { classes } from '$lib/utils/classes';
+	import { getLoadingContext } from '$lib/components/loading/atoms';
 
 	export let isLoggingIn = false;
 	export let isGuestAuth = false;

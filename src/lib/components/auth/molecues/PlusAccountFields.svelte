@@ -1,8 +1,8 @@
 <script lang="ts">
+	import LoadingTextfield from '$lib/components/loading/molecues/LoadingTextfield.svelte';
+	import type { AuthModalState } from '../state';
 	import { getContext } from 'svelte';
 	import { slide } from 'svelte/transition';
-	import LoadingTextfield from '$lib/components/Loading/LoadingTextfield.svelte';
-	import type { AuthModalState } from './state';
 
 	export let isLoggingIn = true;
 
