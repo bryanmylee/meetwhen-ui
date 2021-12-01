@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/utils/actions/use-click-outside';
-	import EmojiPickerModal from '../EmojiPickerModal.svelte';
+	import EmojiPickerModal from './EmojiPickerModal.svelte';
 
 	export let value = '📘';
 
