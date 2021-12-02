@@ -7,10 +7,10 @@ const MEDIA_QUERY = '(prefers-color-scheme: dark)';
 
 export const useDarkMode = (): [Readable<boolean>, Writable<DarkModeSetting>] => {
 	const updateDocument = (isDark: boolean): void => {
+		mediaIsDark.set(isDark);
 		if (typeof document === 'undefined') {
 			return;
 		}
-		mediaIsDark.set(isDark);
 		if (isDark) {
 			document.documentElement.classList.add('dark');
 		} else {
@@ -49,7 +49,7 @@ export const useDarkMode = (): [Readable<boolean>, Writable<DarkModeSetting>] =>
 		}
 	});
 
-	const update = (fn: (setting: DarkModeSetting) => DarkModeSetting) => {
+	const updateSetting = (fn: (setting: DarkModeSetting) => DarkModeSetting) => {
 		setting.update(($setting) => {
 			const newSetting = fn($setting);
 			if (newSetting === 'auto') {
@@ -68,8 +68,8 @@ export const useDarkMode = (): [Readable<boolean>, Writable<DarkModeSetting>] =>
 		},
 		{
 			subscribe: setting.subscribe,
-			update,
-			set: (newSetting: DarkModeSetting) => update(() => newSetting),
+			update: updateSetting,
+			set: (newSetting: DarkModeSetting) => updateSetting(() => newSetting),
 		},
 	];
 };

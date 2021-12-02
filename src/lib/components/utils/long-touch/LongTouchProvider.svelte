@@ -33,7 +33,7 @@
 
 <script lang="ts">
 	import Indicator from './Indicator.svelte';
-	import { APP_ROOT_ID } from '$lib/app-state';
+	import { APP_ID } from '$lib/app-state';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { getTouchArray } from '$lib/utils/touch';
 
@@ -141,7 +141,7 @@
 	let appRootElement: HTMLDivElement;
 	let indicator: Indicator;
 	onMount(() => {
-		appRootElement = document.getElementById(APP_ROOT_ID) as HTMLDivElement;
+		appRootElement = document.getElementById(APP_ID) as HTMLDivElement;
 	});
 
 	const indicateLongTouch = (touch: Touch) => {

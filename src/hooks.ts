@@ -11,7 +11,8 @@ export const getSession: GetSession = async (request) => {
 
 	const cookies = parse(request.headers.cookie ?? '');
 	const user = await getUser(cookies['access-token']);
-	return { user };
+	const theme = cookies['theme'] ?? 'auto';
+	return { user, theme };
 };
 
 const getUser = async (accessToken: string | undefined): Promise<ShallowUser | null> => {

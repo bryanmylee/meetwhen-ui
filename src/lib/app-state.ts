@@ -10,15 +10,15 @@ import type { Meeting } from './gql/types';
 
 // stub console.
 if (!dev) {
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	const emptyFunction = () => {};
-	console.log = emptyFunction;
-	console.warn = emptyFunction;
-	console.info = emptyFunction;
-	console.error = emptyFunction;
+	// // eslint-disable-next-line @typescript-eslint/no-empty-function
+	// const emptyFunction = () => {};
+	// console.log = emptyFunction;
+	// console.warn = emptyFunction;
+	// console.info = emptyFunction;
+	// console.error = emptyFunction;
 }
 
-export const APP_ROOT_ID = 'meetwhen';
+export const APP_ID = 'meetwhen';
 
 export const isLoadingApi = writable<boolean>(false);
 export const loadingMeetingPromise = writable<Promise<Meeting>>(null);
