@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { slide } from 'svelte/transition';
+	import type { DarkModeSetting } from '$lib/utils/stores/dark-mode-store';
+	import { DropletIcon, MoonIcon, SunIcon } from 'svelte-feather-icons';
+	import { classes } from '$lib/utils/classes';
+	import { clickOutside } from '$lib/utils/actions/use-click-outside';
 	import { createPopperActions } from 'svelte-popperjs';
 	import { darkModeSetting } from '$lib/app-state';
-	import { clickOutside } from '$lib/utils/actions/use-click-outside';
-	import { classes } from '$lib/utils/classes';
-	import { DropletIcon, MoonIcon, SunIcon } from 'svelte-feather-icons';
+	import { slide } from 'svelte/transition';
 
 	const [ref, content] = createPopperActions({
 		modifiers: [{ name: 'offset', options: { offset: [0, 10] } }],
@@ -12,13 +13,19 @@
 
 	let showDropdown = false;
 
-	const options = [
-		{ title: 'Dark', value: true, icon: MoonIcon },
-		{ title: 'Light', value: false, icon: SunIcon },
-		{ title: 'Auto', value: undefined, icon: DropletIcon },
+	interface Option {
+		title: string;
+		value: DarkModeSetting;
+		icon: any;
+	}
+
+	const options: Option[] = [
+		{ title: 'Dark', value: 'dark', icon: MoonIcon },
+		{ title: 'Light', value: 'light', icon: SunIcon },
+		{ title: 'Auto', value: 'auto', icon: DropletIcon },
 	];
 
-	const handleClick = (value: boolean) => {
+	const handleClick = (value: DarkModeSetting) => {
 		$darkModeSetting = value;
 	};
 

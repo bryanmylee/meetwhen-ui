@@ -1,10 +1,11 @@
-import { BOOLEAN, useLocal } from '$lib/utils/stores/local-storage-store';
 import type { Readable, Writable } from 'svelte/store';
 import { writable } from 'svelte/store';
+import { useCookie } from './cookie-storage-store';
 
+export type DarkModeSetting = 'dark' | 'light' | 'auto';
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';
 
-export const useDarkMode = (): [Readable<boolean>, Writable<boolean | undefined>] => {
+export const useDarkMode = (): [Readable<boolean>, Writable<DarkModeSetting>] => {
 	const updateDocument = (isDark: boolean): void => {
 		if (typeof document === 'undefined') {
 			return;
@@ -36,28 +37,28 @@ export const useDarkMode = (): [Readable<boolean>, Writable<boolean | undefined>
 		window.matchMedia(MEDIA_QUERY).removeEventListener('change', darkChangeHandler);
 	};
 
-	const darkModeSetting = useLocal<boolean | undefined>('dark', { code: BOOLEAN });
+	const setting = useCookie<DarkModeSetting>('theme');
 	const mediaIsDark = writable(false);
 
-	darkModeSetting.subscribe(($darkModeSetting) => {
-		if ($darkModeSetting === undefined) {
+	setting.subscribe(($setting) => {
+		if ($setting === 'auto') {
 			attachDarkMediaListener();
 		} else {
 			detachDarkMediaListener();
-			updateDocument($darkModeSetting);
+			updateDocument($setting === 'dark');
 		}
 	});
 
-	const update = (fn: (setting: boolean | undefined) => boolean | undefined) => {
-		darkModeSetting.update(($darkModeSetting) => {
-			const newDarkModeSetting = fn($darkModeSetting);
-			if (newDarkModeSetting === undefined) {
+	const update = (fn: (setting: DarkModeSetting) => DarkModeSetting) => {
+		setting.update(($setting) => {
+			const newSetting = fn($setting);
+			if (newSetting === 'auto') {
 				attachDarkMediaListener();
 			} else {
 				detachDarkMediaListener();
-				updateDocument(newDarkModeSetting);
+				updateDocument(newSetting === 'dark');
 			}
-			return newDarkModeSetting;
+			return newSetting;
 		});
 	};
 
@@ -66,9 +67,9 @@ export const useDarkMode = (): [Readable<boolean>, Writable<boolean | undefined>
 			subscribe: mediaIsDark.subscribe,
 		},
 		{
-			subscribe: darkModeSetting.subscribe,
+			subscribe: setting.subscribe,
 			update,
-			set: (darkModeSetting: boolean | undefined) => update(() => darkModeSetting),
+			set: (newSetting: DarkModeSetting) => update(() => newSetting),
 		},
 	];
 };

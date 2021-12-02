@@ -1,12 +1,12 @@
 import { dev } from '$app/env';
 import { DEFAULT_PRIMARY_COLOR, useColor } from '$lib/utils/stores/colors-store';
 import { useDarkMode } from '$lib/utils/stores/dark-mode-store';
+import { useTouchEnabled } from '$lib/utils/stores/touch-enabled-store';
 import watchMedia from 'svelte-media';
 import { cubicOut } from 'svelte/easing';
 import { writable } from 'svelte/store';
 import { crossfade, fade } from 'svelte/transition';
 import type { Meeting } from './gql/types';
-import { useTouchEnabled } from './utils/stores/touch-enabled-store';
 
 // stub console.
 if (!dev) {
