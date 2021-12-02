@@ -7,12 +7,13 @@ mutation ($username: String!, $password: String!, $meetingId: String!) {
 		name
 		email
 		guestOf
+		hasPassword
 	}
 }`;
 
 export interface SignupGuestVars {
 	username: string;
-	password: string;
+	password?: string;
 	meetingId: string;
 }
 
@@ -22,6 +23,7 @@ interface SignupGuestResolved {
 		name: string;
 		email: string;
 		guestOf: string | null;
+		hasPassword: boolean;
 	};
 }
 

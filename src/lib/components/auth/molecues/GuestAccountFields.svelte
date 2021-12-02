@@ -18,8 +18,8 @@
 <LoadingTextfield
 	bind:value={$password.value}
 	error={$password.error}
-	placeholder="Password"
-	required
+	placeholder="Password (optional)"
 	password
 	class="block"
 />
+<p class="text-xs italic text-gray-400">A password will be required to edit your schedule.</p>

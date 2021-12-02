@@ -42,6 +42,7 @@
 	import { session } from '$app/stores';
 	import { setLoadingContext, withLoading } from '$lib/components/loading/atoms';
 	import { unionIntervals } from '$lib/utils/intervals';
+	import { addNoPassSchedule } from '$lib/gql/addNoPassSchedule';
 
 	export let meeting: Meeting;
 	$: $meetingDep = meeting;
@@ -115,10 +116,13 @@
 				return;
 			}
 			// api error will be thrown if already-joined event is joined.
-			const schedule = await addSchedule($addScheduleVars);
-			meeting.schedules.push(schedule as Schedule);
+			const schedule = $session.user.hasPassword
+				? await addSchedule($addScheduleVars)
+				: await addNoPassSchedule({ ...$addScheduleVars, userId: $session.user.id });
+			meeting.schedules.push(schedule as unknown as Schedule);
 			meeting = meeting;
-			$session.user = schedule.user;
+			// remove current session user if no password.
+			$session.user = schedule.user.hasPassword ? schedule.user : null;
 			$pageState = 'none';
 		} catch (errors) {
 			console.error(errors);

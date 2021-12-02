@@ -7,6 +7,7 @@ mutation ($email: String!, $password: String!) {
 		name
 		email
 		guestOf
+		hasPassword
 	}
 }`;
 
@@ -21,6 +22,7 @@ interface LoginResolved {
 		name: string;
 		email: string;
 		guestOf: string;
+		hasPassword: boolean;
 	};
 }
 
@@ -29,6 +31,7 @@ interface LoginReturned {
 	name: string;
 	email: string;
 	guestOf: string;
+	hasPassword: boolean;
 }
 
 export const login = async (variables: LoginVars): Promise<LoginReturned> => {
