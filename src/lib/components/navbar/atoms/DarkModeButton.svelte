@@ -30,7 +30,7 @@
 	};
 
 	$: activeIcon =
-		$darkModeSetting === undefined ? DropletIcon : $darkModeSetting ? MoonIcon : SunIcon;
+		$darkModeSetting === 'auto' ? DropletIcon : $darkModeSetting === 'dark' ? MoonIcon : SunIcon;
 
 	const contentClassName = (active: boolean) =>
 		classes([

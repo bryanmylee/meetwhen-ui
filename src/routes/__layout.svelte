@@ -3,9 +3,7 @@
 		queryClient.fetch = fetch;
 		queryClient.endpoint = '/api/graphql';
 		activeMeeting.set(null);
-		console.log(session);
-		darkModeSetting.set('dark');
-		console.log(get(isDark));
+		darkModeSetting.set(session.theme);
 		return {
 			props: {
 				key: page.path,
