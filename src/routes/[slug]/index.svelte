@@ -22,7 +22,7 @@
 	import Buttons from '$lib/components/page/meeting/molecues/Buttons.svelte';
 	import { Calendar } from '$lib/components/calendar';
 	import { Head } from '$lib/components/atoms';
-	import MeetingCard from '$lib/components/meetings/molecues/MeetingCard.svelte';
+	import { MeetingCard } from '$lib/components/meetings';
 	import Template from '$lib/components/page/meeting/templates/Template.svelte';
 	import type { APIError } from '$lib/gql/error';
 	import type { AuthModalEvent } from '$lib/components/auth/organisms/AuthModal.svelte';

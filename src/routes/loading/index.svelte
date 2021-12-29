@@ -14,7 +14,7 @@
 	import Buttons from '$lib/components/page/meeting/molecues/Buttons.svelte';
 	import { Calendar } from '$lib/components/calendar';
 	import { Head } from '$lib/components/atoms';
-	import MeetingCard from '$lib/components/meetings/molecues/MeetingCard.svelte';
+	import { MeetingCard } from '$lib/components/meetings';
 	import Template from '$lib/components/page/meeting/templates/Template.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { ShallowMeeting } from '$lib/gql/types';
