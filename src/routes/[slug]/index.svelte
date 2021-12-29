@@ -20,7 +20,7 @@
 <script lang="ts">
 	import { AuthModal } from '$lib/components/auth';
 	import Buttons from '$lib/components/page/meeting/molecues/Buttons.svelte';
-	import Calendar from '$lib/components/calendar/organisms/Calendar.svelte';
+	import { Calendar } from '$lib/components/calendar';
 	import { Head } from '$lib/components/atoms';
 	import MeetingCard from '$lib/components/meetings/molecues/MeetingCard.svelte';
 	import Template from '$lib/components/page/meeting/templates/Template.svelte';
