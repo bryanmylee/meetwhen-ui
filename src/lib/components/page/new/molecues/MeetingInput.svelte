@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { DatePicker } from '$lib/components/date-picker';
 	import { Textfield } from '$lib/components/atoms';
-	import TimeRangePicker from '$lib/components/time-range-picker/molecues/TimeRangePicker.svelte';
+	import { TimeRangePicker } from '$lib/components/time-range-picker';
 	import type { Dayjs } from 'dayjs';
 	import { receive, send } from '$lib/app-state';
 
