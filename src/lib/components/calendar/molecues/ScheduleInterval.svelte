@@ -10,7 +10,7 @@
 	import type { CalendarState } from '$lib/components/calendar/state/core';
 	import type { Interval, ShallowUser } from '$lib/gql/types';
 	import type { Writable } from 'svelte/store';
-	import { Selecting } from '$lib/components/utils/selectable/selecting';
+	import { Selecting } from '$lib/components/utils/selectable';
 	import { classes } from '$lib/utils/classes';
 	import { clickOutside } from '$lib/utils/actions/use-click-outside';
 	import { cssVars } from '$lib/utils/css-vars';

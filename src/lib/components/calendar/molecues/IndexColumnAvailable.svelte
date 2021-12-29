@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GridItem from '$lib/components/utils/grid/GridItem.svelte';
+	import { GridItem } from '$lib/components/utils/grid';
 	import type { CalendarState } from '$lib/components/calendar/state/core';
 	import type { LocalTimeInterval } from '$lib/gql/types';
 	import { getContext } from 'svelte';

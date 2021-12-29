@@ -2,13 +2,12 @@
 	import CalendarHint from '../molecues/CalendarHint.svelte';
 	import Column from '../molecues/Column.svelte';
 	import FullscreenButton from '../atoms/FullscreenButton.svelte';
-	import Grid from '$lib/components/utils/grid/Grid.svelte';
-	import GridItem from '$lib/components/utils/grid/GridItem.svelte';
 	import Highlight from '../editor/Highlight.svelte';
 	import IndexColumn from '../molecues/IndexColumn.svelte';
 	import IndexHeader from '../molecues/IndexHeader.svelte';
 	import Schedules from '../molecues/Schedules.svelte';
-	import SelectableProvider from '$lib/components/utils/selectable/SelectableProvider.svelte';
+	import { Grid, GridItem } from '$lib/components/utils/grid';
+	import { SelectableProvider } from '$lib/components/utils/selectable';
 	import Selected from '../editor/Selected.svelte';
 	import type { Interval, Schedule } from '$lib/gql/types';
 	import { classes } from '$lib/utils/classes';

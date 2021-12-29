@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Grid from '$lib/components/utils/grid/Grid.svelte';
+	import { Grid } from '$lib/components/utils/grid';
 	import IndexColumnAvailable from './IndexColumnAvailable.svelte';
 	import type { CalendarState } from '$lib/components/calendar/state/core';
 	import { getContext } from 'svelte';

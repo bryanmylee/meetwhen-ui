@@ -12,7 +12,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
 	import { getTouchArray } from '$lib/utils/touch';
-	import LongTouchProvider from '$lib/components/utils/long-touch/LongTouchProvider.svelte';
+	import { LongTouchProvider } from '$lib/components/utils/long-touch';
 	import { Selecting } from './selecting';
 	import { idsWithAddedId, idsWithoutRemovedId } from './utils';
 

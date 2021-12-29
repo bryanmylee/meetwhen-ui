@@ -1,7 +1,7 @@
 <script lang="ts">
 	import DateItem from '../atoms/DateItem.svelte';
 	import MonthPicker from '../molecues/MonthPicker.svelte';
-	import SelectableProvider from '$lib/components/utils/selectable/SelectableProvider.svelte';
+	import { SelectableProvider } from '$lib/components/utils/selectable';
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
 	import { fromId, toId } from '../utils';

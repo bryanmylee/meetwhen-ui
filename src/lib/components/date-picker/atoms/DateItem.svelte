@@ -2,7 +2,7 @@
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
 	import type { HasNeighbours } from '../has-neighbours';
-	import { Selecting } from '$lib/components/utils/selectable/selecting';
+	import { Selecting } from '$lib/components/utils/selectable';
 	import { classes } from '$lib/utils/classes';
 	import { toId } from '../utils';
 

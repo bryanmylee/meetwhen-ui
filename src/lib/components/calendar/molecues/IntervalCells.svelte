@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GridItem from '$lib/components/utils/grid/GridItem.svelte';
+	import { GridItem } from '$lib/components/utils/grid';
 	import type { CalendarState } from '../state/core';
 	import type { Dayjs } from 'dayjs';
 	import type { Interval } from '$lib/gql/types';

@@ -1,4 +1,4 @@
-import { Selecting } from '$lib/components/utils/selectable/selecting';
+import { Selecting } from '$lib/components/utils/selectable';
 import type { Interval, LocalTimeInterval, Schedule } from '$lib/gql/types';
 import { getHoursInTimeInterval, getLocalIntervals } from '$lib/utils/intervals';
 import type { Time } from '$lib/utils/time';
