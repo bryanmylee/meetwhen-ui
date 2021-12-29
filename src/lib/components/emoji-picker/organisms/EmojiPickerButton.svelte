@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/utils/actions/use-click-outside';
-	import EmojiPickerModal from './EmojiPickerModal.svelte';
+	import EmojiPicker from './EmojiPicker.svelte';
 
 	export let value = '📘';
 
@@ -24,7 +24,7 @@
 			use:clickOutside={() => setTimeout(() => (showPicker = false), 17)}
 			class="absolute right-0 bottom-full"
 		>
-			<EmojiPickerModal bind:value />
+			<EmojiPicker bind:value />
 		</div>
 	{/if}
 </div>

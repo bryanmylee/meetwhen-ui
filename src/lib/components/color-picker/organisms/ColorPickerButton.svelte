@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/utils/actions/use-click-outside';
-	import ColorPickerModal from './ColorPickerModal.svelte';
+	import ColorPicker from './ColorPicker.svelte';
 
 	export let value: string;
 
@@ -24,7 +24,7 @@
 			use:clickOutside={() => setTimeout(() => (showPicker = false), 17)}
 			class="absolute right-0 bottom-full"
 		>
-			<ColorPickerModal bind:value />
+			<ColorPicker bind:value />
 		</div>
 	{/if}
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import ColorPickerButton from '$lib/components/color-picker/organisms/ColorPickerButton.svelte';
-	import EmojiPickerButton from '$lib/components/emoji-picker/organisms/EmojiPickerButton.svelte';
+	import { ColorPickerButton } from '$lib/components/color-picker';
+	import { EmojiPickerButton } from '$lib/components/emoji-picker';
 
 	export let emoji: string;
 	export let color: string;
