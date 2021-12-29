@@ -24,7 +24,7 @@
 	import Head from '$lib/components/atoms/Head.svelte';
 	import MeetingCard from '$lib/components/meetings/molecues/MeetingCard.svelte';
 	import Template from '$lib/components/page-meeting/templates/Template.svelte';
-	import type { APIError } from '$lib/typings/error';
+	import type { APIError } from '$lib/gql/error';
 	import type { AuthModalEvent } from '$lib/components/auth/organisms/AuthModal.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { Meeting, Schedule } from '$lib/gql/types';

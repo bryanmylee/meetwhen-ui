@@ -14,7 +14,7 @@
 	import IsLogInOrSignUpControl from '../atoms/IsLogInOrSignUpControl.svelte';
 	import LoadingButton from '$lib/components/loading/atoms/LoadingButton.svelte';
 	import PlusAccountFields from '../molecues/PlusAccountFields.svelte';
-	import type { APIError } from '$lib/typings/error';
+	import type { APIError } from '$lib/gql/error';
 	import type { Meeting } from '$lib/gql/types';
 	import { clickOutside } from '$lib/utils/actions/use-click-outside';
 	import { createEventDispatcher, setContext } from 'svelte';
