@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LoadingTextfield from '$lib/components/loading/molecues/LoadingTextfield.svelte';
+	import { LoadingTextfield } from '$lib/components/loading';
 	import type { AuthModalState } from '../state';
 	import { getContext } from 'svelte';
 

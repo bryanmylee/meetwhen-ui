@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Textfield } from '$lib/components/atoms';
-	import { getLoadingContext } from '../atoms';
+	import { getLoadingContext } from '../context';
 
 	export let id: string = undefined;
 	export let password = false;

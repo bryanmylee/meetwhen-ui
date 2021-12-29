@@ -32,7 +32,6 @@
 <script lang="ts">
 	import ComingSoon from '$lib/components/page/profile/atoms/ComingSoon.svelte';
 	import { Head } from '$lib/components/atoms';
-	import LoadingButton from '$lib/components/loading/atoms/LoadingButton.svelte';
 	import Previous from '$lib/components/page/profile/molecues/Previous.svelte';
 	import Upcoming from '$lib/components/page/profile/molecues/Upcoming.svelte';
 	import type { Load } from '@sveltejs/kit';
@@ -40,7 +39,7 @@
 	import { getProfilePage } from '$lib/gql/getProfilePage';
 	import { logout } from '$lib/gql/logout';
 	import { session } from '$app/stores';
-	import { setLoadingContext, withLoading } from '$lib/components/loading/atoms';
+	import { LoadingButton, setLoadingContext, withLoading } from '$lib/components/loading';
 
 	export let upcomingMeetings: ShallowMeeting[];
 	export let previousMeetings: ShallowMeeting[];

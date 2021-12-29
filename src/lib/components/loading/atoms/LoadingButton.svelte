@@ -5,7 +5,7 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { classes } from '$lib/utils/classes';
-	import { getLoadingContext } from './index';
+	import { getLoadingContext } from '../context';
 
 	export let isPrimary = false;
 	export let type: ButtonType = 'button';

@@ -40,7 +40,7 @@
 	import { meeting as meetingDep, pageState, isEditing, isUserJoined } from './_state/page';
 	import { onMount } from 'svelte';
 	import { session } from '$app/stores';
-	import { setLoadingContext, withLoading } from '$lib/components/loading/atoms';
+	import { setLoadingContext, withLoading } from '$lib/components/loading';
 	import { unionIntervals } from '$lib/utils/intervals';
 	import { addNoPassSchedule } from '$lib/gql/addNoPassSchedule';
 

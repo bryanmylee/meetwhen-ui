@@ -10,7 +10,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { PageState } from '../PageState';
 	import { session } from '$app/stores';
-	import LoadingButton from '$lib/components/loading/atoms/LoadingButton.svelte';
+	import { LoadingButton } from '$lib/components/loading';
 
 	export let pageState: PageState = 'none';
 	export let isUserJoined = false;

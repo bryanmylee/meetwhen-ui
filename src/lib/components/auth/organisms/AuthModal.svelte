@@ -12,7 +12,7 @@
 	import GuestAccountFields from '../molecues/GuestAccountFields.svelte';
 	import IsFullOrGuestControl from '../atoms/IsFullOrGuestControl.svelte';
 	import IsLogInOrSignUpControl from '../atoms/IsLogInOrSignUpControl.svelte';
-	import LoadingButton from '$lib/components/loading/atoms/LoadingButton.svelte';
+	import { LoadingButton, setLoadingContext, withLoading } from '$lib/components/loading';
 	import PlusAccountFields from '../molecues/PlusAccountFields.svelte';
 	import type { APIError } from '$lib/gql/error';
 	import type { Meeting } from '$lib/gql/types';
@@ -23,7 +23,6 @@
 	import { login } from '$lib/gql/login';
 	import { loginGuest } from '$lib/gql/loginGuest';
 	import { session } from '$app/stores';
-	import { setLoadingContext, withLoading } from '$lib/components/loading/atoms';
 	import { signup } from '$lib/gql/signup';
 	import { signupGuest } from '$lib/gql/signupGuest';
 
