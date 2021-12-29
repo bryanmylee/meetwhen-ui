@@ -30,11 +30,11 @@
 </script>
 
 <script lang="ts">
-	import ComingSoon from '$lib/components/page-profile/atoms/ComingSoon.svelte';
+	import ComingSoon from '$lib/components/page/profile/atoms/ComingSoon.svelte';
 	import Head from '$lib/components/atoms/Head.svelte';
 	import LoadingButton from '$lib/components/loading/atoms/LoadingButton.svelte';
-	import Previous from '$lib/components/page-profile/molecues/Previous.svelte';
-	import Upcoming from '$lib/components/page-profile/molecues/Upcoming.svelte';
+	import Previous from '$lib/components/page/profile/molecues/Previous.svelte';
+	import Upcoming from '$lib/components/page/profile/molecues/Upcoming.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { ShallowMeeting } from '$lib/gql/types';
 	import { getProfilePage } from '$lib/gql/getProfilePage';

@@ -1,5 +1,5 @@
 import { session } from '$app/stores';
-import type { PageState } from '$lib/components/page-meeting/PageState';
+import type { PageState } from '$lib/components/page/meeting/PageState';
 import type { Meeting } from '$lib/gql/types';
 import { derived, writable } from 'svelte/store';
 

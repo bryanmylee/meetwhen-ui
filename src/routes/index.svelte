@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Credits from '$lib/components/atoms/Credits.svelte';
 	import Head from '$lib/components/atoms/Head.svelte';
-	import NewMeeting from '$lib/components/page-home/organisms/NewMeeting.svelte';
-	import TitleCard from '$lib/components/page-home/organisms/TitleCard.svelte';
+	import NewMeeting from '$lib/components/page/home/organisms/NewMeeting.svelte';
+	import TitleCard from '$lib/components/page/home/organisms/TitleCard.svelte';
 	import { name } from './new/_state/meeting';
 </script>
 
