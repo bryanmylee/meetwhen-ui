@@ -7,8 +7,11 @@
 </script>
 
 <script lang="ts">
+	import { classes } from '$lib/utils/classes';
+	import { ChevronDownIcon } from 'svelte-feather-icons';
+	import { slide } from 'svelte/transition';
+
 	import { createEventDispatcher } from 'svelte';
-	import type { ReactiveClass } from '$lib/typings/reactive-class';
 
 	const dispatch = createEventDispatcher<AccordianEvent>();
 
@@ -24,16 +27,24 @@
 			toggle();
 		}
 	};
-
-	export let xclass: ReactiveClass<{ expanded: boolean }> = () => '';
-	export let xtitleclass: ReactiveClass<{ expanded: boolean }> = () => '';
 </script>
 
-<div class={xclass({ expanded })}>
-	<div tabindex="0" on:click={toggle} on:keydown={keydown} class={xtitleclass({ expanded })}>
+<div class={classes(expanded && 'card')}>
+	<div
+		tabindex="0"
+		on:click={toggle}
+		on:keydown={keydown}
+		class="{classes(
+			'flex justify-between w-full p-4 card focus:outline-none focus:ring ring-inset ring-primary-lighter',
+			expanded && '!shadow-none rounded-b-none'
+		)}}"
+	>
 		<slot name="title" />
+		<ChevronDownIcon class="p-2 -m-2 w-10 h-10 transition transform {expanded && 'rotate-180'}" />
 	</div>
 	{#if expanded}
-		<slot {expanded} />
+		<div class="p-4 pt-0" transition:slide|local>
+			<slot {expanded} />
+		</div>
 	{/if}
 </div>

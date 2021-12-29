@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MeetingListItem from '$lib/components/meetings/atoms/MeetingListItem.svelte';
-	import StyledAccordian from '$lib/components/atoms/StyledAccordian.svelte';
+	import Accordian from '$lib/components/atoms/Accordian.svelte';
 	import type { Dayjs } from 'dayjs';
 	import type { ShallowMeeting } from '$lib/gql/types';
 	import { entriesById } from '$lib/utils/entries-by-id';
@@ -13,7 +13,7 @@
 </script>
 
 <section>
-	<StyledAccordian expanded={true}>
+	<Accordian expanded={true}>
 		<h2 slot="title" class="text-xl font-medium">Upcoming meetings</h2>
 		<ul class="space-y-4">
 			{#each groupedEntries as [date, meetings]}
@@ -31,5 +31,5 @@
 				No upcoming meetings...
 			{/each}
 		</ul>
-	</StyledAccordian>
+	</Accordian>
 </section>
