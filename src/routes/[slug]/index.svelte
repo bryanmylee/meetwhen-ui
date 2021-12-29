@@ -19,11 +19,10 @@
 
 <script lang="ts">
 	import { AuthModal } from '$lib/components/auth';
-	import Buttons from '$lib/components/page/meeting/molecues/Buttons.svelte';
 	import { Calendar } from '$lib/components/calendar';
 	import { Head } from '$lib/components/atoms';
 	import { MeetingCard } from '$lib/components/meetings';
-	import Template from '$lib/components/page/meeting/templates/Template.svelte';
+	import { MeetingButtons, MeetingPageTemplate } from '$lib/components/page/meeting';
 	import type { APIError } from '$lib/gql/error';
 	import type { AuthModalEvent } from '$lib/components/auth/organisms/AuthModal.svelte';
 	import type { Load } from '@sveltejs/kit';
@@ -201,9 +200,9 @@
 
 <Head emoji={meeting.emoji} subtitle={meeting.name} noRobots />
 
-<Template>
+<MeetingPageTemplate>
 	<MeetingCard {meeting} slot="header" />
-	<Buttons
+	<MeetingButtons
 		bind:pageState={$pageState}
 		isUserJoined={$isUserJoined}
 		on:join={handleJoin}
@@ -220,7 +219,7 @@
 		disabled={!$isEditing}
 		slot="calendar"
 	/>
-</Template>
+</MeetingPageTemplate>
 
 {#if showAuthModal}
 	<AuthModal

@@ -15,7 +15,7 @@
 	import { Calendar } from '$lib/components/calendar';
 	import { Head } from '$lib/components/atoms';
 	import { MeetingCard } from '$lib/components/meetings';
-	import Template from '$lib/components/page/meeting/templates/Template.svelte';
+	import { MeetingPageTemplate } from '$lib/components/page/meeting';
 	import type { Load } from '@sveltejs/kit';
 	import type { ShallowMeeting } from '$lib/gql/types';
 	import { ScaleOut } from 'svelte-loading-spinners';
@@ -35,11 +35,11 @@
 
 <Head emoji="☁️" subtitle="loading..." />
 
-<Template>
+<MeetingPageTemplate>
 	<MeetingCard {meeting} slot="header" />
 	<Buttons slot="buttons" />
 	<Calendar slot="calendar" />
-</Template>
+</MeetingPageTemplate>
 
 <div class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 text-primary">
 	<ScaleOut color="currentColor" duration="1.5s" size="120" />

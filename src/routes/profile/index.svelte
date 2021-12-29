@@ -30,10 +30,12 @@
 </script>
 
 <script lang="ts">
-	import ComingSoon from '$lib/components/page/profile/atoms/ComingSoon.svelte';
+	import {
+		ProfilePageComingSoon,
+		ProfilePagePrevious,
+		ProfilePageUpcoming,
+	} from '$lib/components/page/profile';
 	import { Head } from '$lib/components/atoms';
-	import Previous from '$lib/components/page/profile/molecues/Previous.svelte';
-	import Upcoming from '$lib/components/page/profile/molecues/Upcoming.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import type { ShallowMeeting } from '$lib/gql/types';
 	import { getProfilePage } from '$lib/gql/getProfilePage';
@@ -67,11 +69,11 @@
 		{/if}
 	</section>
 	{#if !isGuest}
-		<Upcoming {upcomingMeetings} />
+		<ProfilePageUpcoming {upcomingMeetings} />
 		{#if previousMeetings.length > 0}
-			<Previous {previousMeetings} />
+			<ProfilePagePrevious {previousMeetings} />
 		{/if}
-		<ComingSoon />
+		<ProfilePageComingSoon />
 	{/if}
 
 	<div class="flex items-center justify-between p-4 card">
