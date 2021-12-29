@@ -18,7 +18,7 @@
 </script>
 
 <script lang="ts">
-	import AuthModal from '$lib/components/auth/organisms/AuthModal.svelte';
+	import { AuthModal } from '$lib/components/auth';
 	import Buttons from '$lib/components/page/meeting/molecues/Buttons.svelte';
 	import Calendar from '$lib/components/calendar/organisms/Calendar.svelte';
 	import Head from '$lib/components/atoms/Head.svelte';
