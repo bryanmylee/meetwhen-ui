@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Textfield from '$lib/components/atoms/Textfield.svelte';
+	import { Textfield } from '$lib/components/atoms';
 	import { getLoadingContext } from '../atoms';
 
 	export let id: string = undefined;

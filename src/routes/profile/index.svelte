@@ -31,7 +31,7 @@
 
 <script lang="ts">
 	import ComingSoon from '$lib/components/page/profile/atoms/ComingSoon.svelte';
-	import Head from '$lib/components/atoms/Head.svelte';
+	import { Head } from '$lib/components/atoms';
 	import LoadingButton from '$lib/components/loading/atoms/LoadingButton.svelte';
 	import Previous from '$lib/components/page/profile/molecues/Previous.svelte';
 	import Upcoming from '$lib/components/page/profile/molecues/Upcoming.svelte';

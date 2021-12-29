@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DelayedHint from '$lib/components/atoms/DelayedHint.svelte';
+	import { DelayedHint } from '$lib/components/atoms';
 	import GridInterval from '../atoms/GridInterval.svelte';
 	import type { CalendarState } from '$lib/components/calendar/state/core';
 	import type { Writable } from 'svelte/store';

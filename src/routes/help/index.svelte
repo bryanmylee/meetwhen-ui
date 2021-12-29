@@ -1,6 +1,5 @@
 <script lang="ts">
-	import Credits from '../../lib/components/atoms/Credits.svelte';
-	import Head from '$lib/components/atoms/Head.svelte';
+	import { Credits, Head } from '../../lib/components/atoms';
 	import { isDark } from '$lib/app-state';
 </script>
 

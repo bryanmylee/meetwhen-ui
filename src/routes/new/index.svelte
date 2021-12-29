@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AdvancedSettings from '$lib/components/page/new/molecues/AdvancedSettings.svelte';
 	import Buttons from '$lib/components/page/new/molecues/Buttons.svelte';
-	import Head from '$lib/components/atoms/Head.svelte';
+	import { Head } from '$lib/components/atoms';
 	import MeetingInput from '$lib/components/page/new/molecues/MeetingInput.svelte';
 	import { addMeeting } from '$lib/gql/addMeeting';
 	import { color, emoji, meetingInput, name } from './_state/meeting';

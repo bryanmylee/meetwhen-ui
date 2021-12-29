@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MeetingListItem from '$lib/components/meetings/atoms/MeetingListItem.svelte';
-	import Accordian from '$lib/components/atoms/Accordian.svelte';
+	import { Accordian } from '$lib/components/atoms';
 	import type { Dayjs } from 'dayjs';
 	import type { ShallowMeeting } from '$lib/gql/types';
 	import { entriesById } from '$lib/utils/entries-by-id';

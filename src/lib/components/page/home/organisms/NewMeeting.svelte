@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { receive, send } from '$lib/app-state';
-	import Textfield from '$lib/components/atoms/Textfield.svelte';
+	import { Textfield } from '$lib/components/atoms';
 	import { ArrowRightIcon } from 'svelte-feather-icons';
 
 	export let meetingName: string;

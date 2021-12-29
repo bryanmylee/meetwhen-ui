@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DatePicker from '$lib/components/date-picker/organisms/DatePicker.svelte';
-	import Textfield from '$lib/components/atoms/Textfield.svelte';
+	import { Textfield } from '$lib/components/atoms';
 	import TimeRangePicker from '$lib/components/time-range-picker/molecues/TimeRangePicker.svelte';
 	import type { Dayjs } from 'dayjs';
 	import { receive, send } from '$lib/app-state';
