@@ -9,10 +9,10 @@
 	const state = getContext<CalendarState>('state');
 	const { getLocalIntervalsFromIds, selectedIds } = state;
 
-	$: className = classes([
+	$: className = classes(
 		'pointer-events-none bg-primary-fifty rounded-xl transition-all',
-		$disabled ? 'ml-0' : 'ml-4',
-	]);
+		$disabled ? 'ml-0' : 'ml-4'
+	);
 </script>
 
 {#each $getLocalIntervalsFromIds($selectedIds) as interval}

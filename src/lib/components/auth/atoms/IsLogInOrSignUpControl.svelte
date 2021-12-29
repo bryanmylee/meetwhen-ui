@@ -16,10 +16,10 @@
 	$: plusHeaderLabel = isLoggingIn ? 'Log In' : 'Sign Up';
 	$: headerLabel = isGuestAuth ? guestHeaderLabel : plusHeaderLabel;
 
-	$: buttonClass = classes([
+	$: buttonClass = classes(
 		'text-sm underline text-focusable',
-		$isLoading ? 'cursor-default' : 'hover:text-primary-lighter ',
-	]);
+		$isLoading ? 'cursor-default' : 'hover:text-primary-lighter '
+	);
 </script>
 
 <div class="flex items-baseline justify-between space-x-4">

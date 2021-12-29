@@ -37,8 +37,8 @@
 	});
 </script>
 
-<div class={classes(['fixed inset-0', $isDark ? 'bg-gray-900' : 'bg-white'])} />
-<div id={APP_ID} class={classes([$isDark && 'dark'])} style={$primaryColorCssVars}>
+<div class={classes('fixed inset-0', $isDark ? 'bg-gray-900' : 'bg-white')} />
+<div id={APP_ID} class={classes($isDark && 'dark')} style={$primaryColorCssVars}>
 	<Nav {key} />
 	<main class="mt-14">
 		<PageTransition {key} isLoading={$navigating !== null}>

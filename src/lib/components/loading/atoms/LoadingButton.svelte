@@ -31,11 +31,11 @@
 
 	let className = '';
 	export { className as class };
-	$: buttonClass = classes([
+	$: buttonClass = classes(
 		className,
 		'relative min-w-28',
-		$isLoading && isPrimary && 'bg-gradient-primary bg-animate-fast opacity-50',
-	]);
+		$isLoading && isPrimary && 'bg-gradient-primary bg-animate-fast opacity-50'
+	);
 </script>
 
 <button {...attrs} on:click class={buttonClass}>

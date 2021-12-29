@@ -33,10 +33,10 @@
 		$darkModeSetting === 'auto' ? DropletIcon : $darkModeSetting === 'dark' ? MoonIcon : SunIcon;
 
 	const contentClassName = (active: boolean) =>
-		classes([
+		classes(
 			'flex flex-col items-center w-16 p-2 space-y-2 rounded-lg button shade',
-			active && '!text-primary-darker dark:!text-primary',
-		]);
+			active && '!text-primary-darker dark:!text-primary'
+		);
 
 	let className = '';
 	export { className as class };
@@ -49,10 +49,7 @@
 	on:click={() => (showDropdown = !showDropdown)}
 	class={className}
 >
-	<svelte:component
-		this={activeIcon}
-		class={classes(['w-5 h-5', showDropdown && 'text-primary'])}
-	/>
+	<svelte:component this={activeIcon} class={classes('w-5 h-5', showDropdown && 'text-primary')} />
 </button>
 
 {#if showDropdown}

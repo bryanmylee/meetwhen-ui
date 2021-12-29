@@ -20,13 +20,13 @@
 	export let disabled = false;
 	export let focused = false;
 
-	$: className = classes([
+	$: className = classes(
 		'p-2 text-center rounded-xl transition border-3 focus:outline-none select-none',
 		!focused && 'border-transparent',
 		disabled ? 'text-gray-400' : 'cursor-pointer',
-		selected ? selectedClass : unselectedClass,
-	]);
-	$: selectedClass = classes([
+		selected ? selectedClass : unselectedClass
+	);
+	$: selectedClass = classes(
 		'bg-primary text-primary-text shadow-primary z-10',
 		isCreating && 'shadow-lg-primary',
 		isDeleting && 'bg-primary-fifty',
@@ -34,14 +34,14 @@
 		neighbours.bottom && 'rounded-b-none',
 		neighbours.left && 'rounded-l-none',
 		neighbours.right && 'rounded-r-none',
-		neighbours.top && 'rounded-t-none',
-	]);
-	$: unselectedClass = classes([
+		neighbours.top && 'rounded-t-none'
+	);
+	$: unselectedClass = classes(
 		'z-0',
 		isToday && 'text-primary',
 		focused && 'border-primary-lighter',
-		!selecting && !disabled && 'hover:shade-2',
-	]);
+		!selecting && !disabled && 'hover:shade-2'
+	);
 </script>
 
 <div data-id={toId(date)} class={className} style="grid-column-start: {columnStart}">

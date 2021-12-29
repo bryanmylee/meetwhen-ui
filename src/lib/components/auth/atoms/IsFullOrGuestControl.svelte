@@ -8,11 +8,11 @@
 	const isLoading = getLoadingContext();
 
 	const getButtonClass = (active: boolean, loading: boolean) =>
-		classes([
+		classes(
 			'w-full p-2 py-4 font-bold focus:ring ring-primary-lighter',
 			active ? 'z-10 underline' : 'bg-gray-200 dark:bg-gray-700',
-			!active && !loading ? 'hover:bg-gray-100 dark:hover:bg-gray-600' : 'cursor-default',
-		]);
+			!active && !loading ? 'hover:bg-gray-100 dark:hover:bg-gray-600' : 'cursor-default'
+		);
 </script>
 
 <div class="flex">

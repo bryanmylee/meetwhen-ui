@@ -62,7 +62,7 @@
 
 	$: showPopover = (isHovered || isActive) && $selecting === Selecting.NONE;
 
-	$: intervalClass = classes([
+	$: intervalClass = classes(
 		'interval relative h-full pointer-events-auto',
 		!$intervalHasBefore(interval) && 'rounded-t-xl',
 		!$intervalHasAfter(interval) ? 'rounded-b-xl' : 'border-b-2 border-white dark:border-gray-900',
@@ -71,8 +71,8 @@
 		isHovered && !isActive && 'ring-offset-gray-400',
 		isActive && 'ring-offset-primary dark:ring-offset-primary-lighter',
 		isMaxUsers && 'bg-gradient-primary bg-animate',
-		$disabled ? 'w-full' : 'w-4 !rounded-r-none',
-	]);
+		$disabled ? 'w-full' : 'w-4 !rounded-r-none'
+	);
 </script>
 
 <GridInterval {interval} class="pointer-events-none">

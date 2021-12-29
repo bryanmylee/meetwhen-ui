@@ -55,15 +55,15 @@
 		getInstance()?.update();
 	};
 
-	$: popperClass = classes([
+	$: popperClass = classes(
 		'popover card pointer-events-none border-3 w-52',
-		fixed ? 'border-primary dark:border-primary-lighter z-20' : 'border-gray-400 z-30',
-	]);
+		fixed ? 'border-primary dark:border-primary-lighter z-20' : 'border-gray-400 z-30'
+	);
 
-	$: popoverArrowClass = classes([
+	$: popoverArrowClass = classes(
 		'popover--arrow w-4 h-4 bg-default transform rotate-45',
-		fixed ? 'border-primary dark:border-primary-lighter' : 'border-gray-400',
-	]);
+		fixed ? 'border-primary dark:border-primary-lighter' : 'border-gray-400'
+	);
 </script>
 
 {#if show}

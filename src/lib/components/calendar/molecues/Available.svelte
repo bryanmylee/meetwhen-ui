@@ -17,12 +17,12 @@
 	$: intervals = $getIntervalsInAvailableByDay(available, day);
 
 	$: getIntervalClass = ({ top, bottom }: { top: boolean; bottom: boolean }) =>
-		classes([
+		classes(
 			'pointer-events-none rounded-xl border-3 border-primary-lighter dark:shadow-md-primary transition-all',
 			$disabled ? 'ml-0 opacity-0' : 'ml-4',
 			top && 'rounded-tl-none',
-			bottom && 'rounded-bl-none',
-		]);
+			bottom && 'rounded-bl-none'
+		);
 </script>
 
 {#each intervals as interval}

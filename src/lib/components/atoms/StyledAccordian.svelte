@@ -27,10 +27,10 @@
 <Accordian
 	xclass={({ expanded }) => expanded && 'card'}
 	xtitleclass={({ expanded }) =>
-		classes([
+		classes(
 			'flex justify-between w-full p-4 card focus:outline-none focus:ring ring-inset ring-primary-lighter',
-			expanded && '!shadow-none rounded-b-none',
-		])}
+			expanded && '!shadow-none rounded-b-none'
+		)}
 	{expanded}
 	let:expanded
 	on:toggle={toggle}

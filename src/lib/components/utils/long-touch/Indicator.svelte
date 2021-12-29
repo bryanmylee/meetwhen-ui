@@ -34,10 +34,10 @@
 
 <div
 	id="indicator"
-	class={classes([
+	class={classes(
 		'fixed w-28 h-28 rounded-full pointer-events-none bg-primary-fifty',
-		triggered && 'border-4 border-primary-darker dark:border-white opacity-0',
-	])}
+		triggered && 'border-4 border-primary-darker dark:border-white opacity-0'
+	)}
 	class:expanding
 	use:cssVars={vars}
 />

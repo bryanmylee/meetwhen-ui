@@ -24,17 +24,15 @@
 	const disabled = getContext<Writable<boolean>>('disabled');
 
 	const getCellClass = (index: number, isDisabled: boolean) => {
-		const firstClass = classes([index === 0 && 'rounded-t-xl']);
-		const midClass = classes([
-			index % 2 === 1 && 'border-gray-200 dark:border-gray-600 border-b-2',
-		]);
-		const lastClass = classes([index === hours.length - 1 ? 'rounded-b-xl' : midClass]);
-		return classes([
+		const firstClass = classes(index === 0 && 'rounded-t-xl');
+		const midClass = classes(index % 2 === 1 && 'border-gray-200 dark:border-gray-600 border-b-2');
+		const lastClass = classes(index === hours.length - 1 ? 'rounded-b-xl' : midClass);
+		return classes(
 			'cell shade min-h-8 select-none',
 			firstClass,
 			lastClass,
-			isDisabled ? 'min-w-20 cursor-default' : 'min-w-16 ml-4 cursor-pointer hover:shade-2',
-		]);
+			isDisabled ? 'min-w-20 cursor-default' : 'min-w-16 ml-4 cursor-pointer hover:shade-2'
+		);
 	};
 </script>
 

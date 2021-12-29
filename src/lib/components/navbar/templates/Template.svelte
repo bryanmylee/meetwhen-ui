@@ -19,10 +19,10 @@
 </script>
 
 <nav
-	class={classes([
+	class={classes(
 		'fixed inset-0 bottom-auto z-50 rounded-t-none transition-shadow duration-300',
-		key !== '/' && 'card',
-	])}
+		key !== '/' && 'card'
+	)}
 >
 	<div class="flex items-center justify-between h-16 mx-auto max-w-7xl dark:text-white">
 		<ul class="flex items-center p-4">
