@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Select from '$lib/components/select/organisms/Select.svelte';
+	import { Select } from '$lib/components/select';
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
 	import { EARLIEST_OFFSET, HOURS, toDisplay, toId, UTCToDisplay, UTC_OFFSETS } from '../utils';
