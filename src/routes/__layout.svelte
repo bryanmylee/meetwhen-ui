@@ -14,7 +14,7 @@
 
 <script lang="ts">
 	import '../app.postcss';
-	import Nav from '$lib/components/navbar/organisms/Nav.svelte';
+	import { Nav } from '$lib/components/navbar';
 	import PageTransition from '$lib/components/utils/PageTransition.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import {
