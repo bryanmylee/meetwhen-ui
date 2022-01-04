@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Textfield from './Textfield.svelte';
+	import { MockJsEnabled } from '$lib/core/utils/useJsEnabled';
 </script>
 
 <Meta
@@ -26,6 +27,9 @@
 		<Textfield label="Error" error="Incorrect password" />
 		<Textfield label="Required" required />
 		<Textfield label="Disabled" disabled />
+		<MockJsEnabled jsEnabled={false}>
+			<Textfield label="No JavaScript" />
+		</MockJsEnabled>
 	</div>
 </Story>
 
