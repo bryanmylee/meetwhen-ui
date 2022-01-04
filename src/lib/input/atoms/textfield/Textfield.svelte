@@ -38,7 +38,12 @@
 		class:error={error !== '' || (required && leftEmpty)}
 		on:blur={() => (leftEmpty = true)}
 	/>
-	<label for={resolvedId}>{label}</label>
+	<label for={resolvedId}>
+		{label}
+		{#if required}
+			<span class="required-dot" />
+		{/if}
+	</label>
 	{#if error !== ''}
 		<span class="error-message" for={resolvedId}>{error}</span>
 	{/if}
@@ -78,6 +83,10 @@
 		& > label {
 			@apply absolute -top-3 left-0 mx-4 mt-7 mb-5 dark:text-white;
 			@apply pointer-events-none transition-transform origin-top-left;
+
+			& > .required-dot {
+				@apply absolute top-2.5 -right-3.5 w-1.5 h-1.5 rounded-full bg-red-400;
+			}
 		}
 
 		& > .error-message {
