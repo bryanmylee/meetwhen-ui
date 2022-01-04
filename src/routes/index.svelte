@@ -1,15 +1,9 @@
 <script lang="ts">
-	import { Credits, Head } from '$lib/components/atoms';
-	import { HomeNewMeetingCard, HomeTitleCard } from '$lib/components/page/home';
-	import { name } from './new/_state/meeting';
+	import Textfield from '$lib/input/atoms/textfield/Textfield.svelte';
 </script>
 
-<Head />
-
-<div class="max-w-lg p-6 mx-auto space-y-4">
-	<HomeTitleCard />
-	<HomeNewMeetingCard bind:meetingName={$name} />
-	<footer>
-		<Credits />
-	</footer>
-</div>
+<h1>Welcome to SvelteKit</h1>
+<p>
+	Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
+</p>
+<Textfield />

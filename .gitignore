@@ -1,15 +1,11 @@
-# Compiled files
+# Dependencies
+node_modules/
+
+# Build artifacts
 .svelte-kit/
-build/
-
-# Artifacts
-.DS_Store
-.eslintcache
 package/
-.vercel_build_output/
-
-# Node.js dependency directory
-node_modules
 
 # Environment files
 .env
+.env.*
+!.env.example
