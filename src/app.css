@@ -2,3 +2,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+	.focus {
+		@apply focus:ring focus:outline-none;
+		@apply ring-blue-400;
+		&.error {
+			@apply ring ring-red-400;
+		}
+	}
+}

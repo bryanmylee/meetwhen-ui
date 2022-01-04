@@ -12,6 +12,7 @@
 <Story
 	name="Text"
 	args={{
+		label: 'Name',
 		password: false,
 	}}
 />
@@ -19,6 +20,7 @@
 <Story
 	name="Password"
 	args={{
+		label: 'Password',
 		password: true,
 	}}
 />
