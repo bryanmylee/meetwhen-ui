@@ -19,6 +19,9 @@
 <Story name="Gallery">
 	<div class="flex flex-col gap-4 w-52">
 		<Textfield label="Default" />
+		<Textfield
+			label="Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure dolorem asperiores adipisci perferendis! Suscipit quisquam possimus illum rem, qui fugiat eveniet, vero ducimus cupiditate repudiandae sit beatae ad voluptatum? A."
+		/>
 		<Textfield label="Password" password />
 		<Textfield label="Error" error="Incorrect password" />
 		<Textfield label="Required" required />
