@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getIdFromLabel } from '$lib/input/utils/getIdFromLabel';
+	import { useJsEnabled } from '$lib/core/utils/useJsEnabled';
 	import type { Maybe } from '$lib/core/types/Maybe';
 
 	export let label: string;
@@ -25,6 +26,8 @@
 	$: if (leftEmpty && value) {
 		leftEmpty = false;
 	}
+
+	const jsEnabled = useJsEnabled();
 </script>
 
 <div class="textfield {className}">
@@ -35,7 +38,7 @@
 		{disabled}
 		class="focus"
 		class:required
-		class:filled={value !== ''}
+		class:filled={value !== '' || !$jsEnabled}
 		class:error={error !== '' || (required && leftEmpty)}
 		on:blur={() => (leftEmpty = true)}
 	/>
