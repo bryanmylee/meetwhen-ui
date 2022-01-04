@@ -18,6 +18,7 @@ module.exports = {
 				},
 			},
 		},
+		'storybook-dark-mode',
 	],
 	framework: '@storybook/svelte',
 	svelteOptions: {

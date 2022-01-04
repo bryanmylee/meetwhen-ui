@@ -21,6 +21,7 @@ specifiers:
   postcss: ^8.4.5
   prettier: ^2.4.1
   prettier-plugin-svelte: ^2.4.0
+  storybook-dark-mode: ^1.0.8
   svelte: ^3.44.3
   svelte-check: ^2.2.6
   svelte-loader: ^3.1.2
@@ -50,6 +51,7 @@ devDependencies:
   postcss: 8.4.5
   prettier: 2.5.1
   prettier-plugin-svelte: 2.5.1_prettier@2.5.1+svelte@3.44.3
+  storybook-dark-mode: 1.0.8
   svelte: 3.44.3
   svelte-check: 2.2.11_74489041688bd00127fc34ba4bb9bb52
   svelte-loader: 3.1.2_svelte@3.44.3
@@ -11230,6 +11232,19 @@ packages:
 
   /store2/2.13.1:
     resolution: {integrity: sha512-iJtHSGmNgAUx0b/MCS6ASGxb//hGrHHRgzvN+K5bvkBTN7A9RTpPSf1WSp+nPGvWCJ1jRnvY7MKnuqfoi3OEqg==}
+    dev: true
+
+  /storybook-dark-mode/1.0.8:
+    resolution: {integrity: sha512-uY6yTSd1vYE0YwlON50u+iIoNF/fmMj59ww1cpd/naUcmOmCjwawViKFG5YjichwdR/yJ5ybWRUF0tnRQfaSiw==}
+    peerDependencies:
+      '@storybook/addons': ^6.0.0
+      '@storybook/api': ^6.0.0
+      '@storybook/components': ^6.0.0
+      '@storybook/core-events': ^6.0.0
+      '@storybook/theming': ^6.0.0
+    dependencies:
+      fast-deep-equal: 3.1.3
+      memoizerific: 1.11.3
     dev: true
 
   /stream-browserify/2.0.2:
