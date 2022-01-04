@@ -10,10 +10,17 @@
 </Template>
 
 <Story
-	name="Text"
+	name="Empty"
 	args={{
 		label: 'Name',
-		password: false,
+	}}
+/>
+
+<Story
+	name="Filled"
+	args={{
+		label: 'Name',
+		value: 'Adam Smith',
 	}}
 />
 
@@ -21,6 +28,33 @@
 	name="Password"
 	args={{
 		label: 'Password',
+		value: 'password',
 		password: true,
+	}}
+/>
+
+<Story
+	name="Error"
+	args={{
+		label: 'Username',
+		value: 'adam',
+		error: 'Username already taken',
+	}}
+/>
+
+<Story
+	name="Required"
+	args={{
+		label: 'Date of birth',
+		required: true,
+	}}
+/>
+
+<Story
+	name="Disabled"
+	args={{
+		label: 'Promo code',
+		value: '1234',
+		disabled: true,
 	}}
 />
