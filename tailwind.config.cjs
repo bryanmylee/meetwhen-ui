@@ -1,11 +1,10 @@
 const config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
-
+	darkMode: 'class',
 	theme: {
-		extend: {}
+		extend: {},
 	},
-
-	plugins: []
+	plugins: [],
 };
 
 module.exports = config;

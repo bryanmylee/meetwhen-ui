@@ -22,7 +22,7 @@
 	export { className as class };
 </script>
 
-<div class={className}>
+<div class="textfield {className}">
 	<input
 		bind:value
 		{...attrs}
@@ -38,8 +38,8 @@
 	{/if}
 </div>
 
-<style lang="postcss">
-	div {
+<style lang="postcss" global>
+	.textfield {
 		@apply relative inline-block;
 
 		& > input[type='text'],
