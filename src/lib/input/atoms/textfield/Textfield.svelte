@@ -34,6 +34,7 @@
 		{required}
 		{disabled}
 		class="focus"
+		class:required
 		class:filled={value !== ''}
 		class:error={error !== '' || (required && leftEmpty)}
 		on:blur={() => (leftEmpty = true)}
@@ -76,6 +77,15 @@
 				@apply ring ring-red-400;
 				& + label {
 					@apply !text-red-400;
+				}
+			}
+
+			&.required:hover:not(.filled):not(:focus) {
+				& + label {
+					&::after {
+						content: 'Required';
+						@apply absolute top-1.5 right-0 text-xs text-neutral-400;
+					}
 				}
 			}
 		}
