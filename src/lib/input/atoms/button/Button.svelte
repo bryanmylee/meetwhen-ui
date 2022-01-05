@@ -2,6 +2,7 @@
 	export let type: 'button' | 'menu' | 'reset' | 'submit' = 'button';
 	export let disabled = false;
 	export let variant: 'filled' | 'outlined' = 'filled';
+	export let color: 'primary' | 'gray' = 'primary';
 
 	let className = '';
 	export { className as class };
@@ -18,6 +19,8 @@
 	class="button focus {className}"
 	class:filled={variant === 'filled'}
 	class:outlined={variant === 'outlined'}
+	class:primary={color === 'primary'}
+	class:gray={color === 'gray'}
 >
 	<slot />
 </button>
@@ -33,31 +36,74 @@
 		}
 
 		&.filled {
-			@apply bg-primary-400 text-white;
+			&.primary {
+				@apply bg-primary-400 text-white;
+			}
+			&.gray {
+				@apply bg-neutral-100 text-black;
+				@apply dark:bg-neutral-700 dark:text-white;
+			}
+
 			&:disabled {
 				@apply opacity-50;
+				&.gray {
+					@apply text-neutral-400;
+				}
 			}
+
 			&:not(:disabled) {
-				&:hover {
-					@apply bg-primary-300 shadow-sm shadow-primary-300;
+				&:not(:active):hover {
+					&.primary {
+						@apply bg-primary-300 shadow-sm shadow-primary-300;
+					}
+					&.gray {
+						@apply bg-neutral-50 dark:bg-neutral-600 shadow;
+					}
 				}
 				&:active {
-					@apply bg-primary-500 shadow shadow-primary-300;
+					&.primary {
+						@apply bg-primary-500 shadow shadow-primary-300;
+					}
+					&.gray {
+						@apply bg-neutral-200 dark:bg-neutral-500 shadow-sm;
+					}
 				}
 			}
 		}
 
 		&.outlined {
-			@apply p-3.5 border-2 border-primary-400 text-primary-400;
+			@apply p-3.5 border-2;
+			&.primary {
+				@apply border-primary-400 text-primary-400;
+			}
+			&.gray {
+				@apply border-neutral-500 text-neutral-500;
+				@apply dark:border-neutral-300 dark:text-neutral-300;
+			}
+
 			&:disabled {
 				@apply opacity-50;
+				&.gray {
+					@apply border-neutral-400 text-neutral-400;
+				}
 			}
+
 			&:not(:disabled) {
-				&:hover {
-					@apply text-primary-300 border-primary-300 shadow-sm shadow-primary-300;
+				&:not(:active):hover {
+					&.primary {
+						@apply text-primary-300 border-primary-300 shadow-sm shadow-primary-300;
+					}
+					&.gray {
+						@apply border-neutral-400 text-neutral-400 shadow;
+					}
 				}
 				&:active {
-					@apply text-primary-500 border-primary-500 shadow shadow-primary-300;
+					&.primary {
+						@apply text-primary-500 border-primary-500 shadow shadow-primary-300;
+					}
+					&.gray {
+						@apply border-neutral-500 text-neutral-500;
+					}
 				}
 			}
 		}
