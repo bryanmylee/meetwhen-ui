@@ -36,7 +36,8 @@
 </Template>
 
 <Story name="Gallery">
-	<div class="flex flex-col gap-4 w-52">
+	<h1 class="text-xl font-bold">Textfields</h1>
+	<div class="flex flex-col gap-4 mt-4 w-52">
 		<Textfield label="Default" />
 		<Textfield
 			label="Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure dolorem asperiores adipisci perferendis! Suscipit quisquam possimus illum rem, qui fugiat eveniet, vero ducimus cupiditate repudiandae sit beatae ad voluptatum? A."

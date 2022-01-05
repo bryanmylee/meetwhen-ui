@@ -39,13 +39,13 @@
 <Story name="Gallery">
 	<h1 class="text-xl font-bold">Text Buttons</h1>
 	<div class="flex gap-4 mt-4">
-		<div class="flex flex-col items-center gap-4">
+		<div class="flex flex-col items-start gap-4">
 			<Button>Primary Filled</Button>
 			<Button disabled>Primary Filled Disabled</Button>
 			<Button variant="outlined">Primary Outline</Button>
 			<Button variant="outlined" disabled>Primary Disabled Outline</Button>
 		</div>
-		<div class="flex flex-col items-center gap-4">
+		<div class="flex flex-col items-start gap-4">
 			<Button color="gray">Gray Filled</Button>
 			<Button color="gray" disabled>Gray Filled Disabled</Button>
 			<Button color="gray" variant="outlined">Gray Outline</Button>
