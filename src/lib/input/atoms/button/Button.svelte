@@ -45,9 +45,11 @@
 			}
 
 			&:disabled {
-				@apply opacity-50;
+				&.primary {
+					@apply opacity-50;
+				}
 				&.gray {
-					@apply text-neutral-400;
+					@apply text-neutral-300;
 				}
 			}
 
@@ -82,9 +84,11 @@
 			}
 
 			&:disabled {
-				@apply opacity-50;
+				&.primary {
+					@apply opacity-50;
+				}
 				&.gray {
-					@apply border-neutral-400 text-neutral-400;
+					@apply border-neutral-300 text-neutral-300;
 				}
 			}
 

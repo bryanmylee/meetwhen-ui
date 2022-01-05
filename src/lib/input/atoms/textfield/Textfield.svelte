@@ -41,7 +41,8 @@
 		class="focus"
 		class:required
 		class:filled={value !== '' || !$jsEnabled}
-		class:error={error !== '' || (required && leftEmpty)}
+		class:error={error !== ''}
+		class:leftEmpty
 		on:blur={() => (leftEmpty = true)}
 	/>
 	<label for={resolvedId}>
@@ -64,10 +65,9 @@
 			@apply relative w-full px-4 pt-5 pb-3 rounded-xl;
 			@apply bg-neutral-100 dark:bg-neutral-700 dark:text-white;
 			&:disabled {
-				@apply text-neutral-400;
-				@apply bg-neutral-200 dark:bg-neutral-600;
+				@apply text-neutral-300;
 				& + label {
-					@apply !text-neutral-400;
+					@apply !text-neutral-300;
 				}
 			}
 
@@ -78,7 +78,8 @@
 				}
 			}
 
-			&.error {
+			&.error,
+			&.required.leftEmpty {
 				@apply pt-4 pb-4;
 				@apply ring ring-red-400;
 				& + label {
@@ -86,7 +87,7 @@
 				}
 			}
 
-			&.required:hover:not(.filled):not(:focus) {
+			&.required:not(.filled):not(:focus) {
 				& + label {
 					&::after {
 						content: 'Required';

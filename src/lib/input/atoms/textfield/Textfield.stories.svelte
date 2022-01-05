@@ -35,7 +35,7 @@
 	</MockJsEnabled>
 </Template>
 
-<Story name="Gallery">
+<Story name="Sample textfields">
 	<h1 class="text-xl font-bold dark:text-white">Textfields</h1>
 	<div class="flex flex-col gap-4 mt-4 w-52">
 		<Textfield label="Default" />
@@ -61,7 +61,7 @@
 />
 
 <Story
-	name="Custom No JavaScript"
+	name="Custom no JavaScript"
 	template="js-disabled"
 	source
 	args={{
@@ -69,6 +69,6 @@
 	}}
 />
 
-<Story name="ARIA Status Live Update">
+<Story name="ARIA status live update">
 	<Textfield label="Type quickly" bind:value={ariaValue} error={ariaError} />
 </Story>
