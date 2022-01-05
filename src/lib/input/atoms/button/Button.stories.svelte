@@ -7,6 +7,14 @@
 	title="Input/Button"
 	component={Button}
 	argTypes={{
+		type: {
+			control: { type: 'select' },
+			options: ['button', 'menu', 'reset', 'submit'],
+		},
+		variant: {
+			control: { type: 'select' },
+			options: ['primary', 'outlined'],
+		},
 		onClick: { action: 'onClick' },
 		onDoubleClick: { action: 'onDoubleClick' },
 		onContextMenu: { action: 'onContextMenu' },
