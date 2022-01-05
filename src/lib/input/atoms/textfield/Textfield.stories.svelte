@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Textfield from './Textfield.svelte';
-	import { MockJsEnabled } from '$lib/core/utils/useJsEnabled';
+	import { MockJsEnabled, useJsEnabled } from '$lib/core/utils/useJsEnabled';
 </script>
 
 <Meta
@@ -15,6 +15,12 @@
 
 <Template let:args>
 	<Textfield {...args} />
+</Template>
+
+<Template id="js-disabled" let:args>
+	<MockJsEnabled jsEnabled={false}>
+		<Textfield {...args} />
+	</MockJsEnabled>
 </Template>
 
 <Story name="Gallery">
@@ -38,5 +44,14 @@
 	source
 	args={{
 		label: 'Custom',
+	}}
+/>
+
+<Story
+	name="Custom No JavaScript"
+	template="js-disabled"
+	source
+	args={{
+		label: 'No JavaScript',
 	}}
 />
