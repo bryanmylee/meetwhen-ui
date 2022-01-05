@@ -33,31 +33,31 @@
 		}
 
 		&.primary {
-			@apply bg-blue-400 text-white;
+			@apply bg-primary-400 text-white;
 			&:disabled {
-				@apply bg-opacity-50;
+				@apply opacity-50;
 			}
 			&:not(:disabled) {
 				&:hover {
-					@apply bg-blue-300 shadow-sm shadow-blue-300;
+					@apply bg-primary-300 shadow-sm shadow-primary-300;
 				}
 				&:active {
-					@apply bg-blue-500 shadow shadow-blue-300;
+					@apply bg-primary-500 shadow shadow-primary-300;
 				}
 			}
 		}
 
 		&.outlined {
-			@apply p-3.5 border-2 border-blue-400 text-blue-400;
+			@apply p-3.5 border-2 border-primary-400 text-primary-400;
 			&:disabled {
-				@apply text-opacity-50 border-opacity-50;
+				@apply opacity-50;
 			}
 			&:not(:disabled) {
 				&:hover {
-					@apply text-blue-300 border-blue-300 shadow-sm shadow-blue-300;
+					@apply text-primary-300 border-primary-300 shadow-sm shadow-primary-300;
 				}
 				&:active {
-					@apply text-blue-500 border-blue-500 shadow shadow-blue-300;
+					@apply text-primary-500 border-primary-500 shadow shadow-primary-300;
 				}
 			}
 		}

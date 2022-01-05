@@ -74,7 +74,7 @@
 			&:focus,
 			&.filled {
 				& + label {
-					@apply transform -translate-y-3 scale-75 text-blue-400;
+					@apply transform -translate-y-3 scale-75 text-primary-400;
 				}
 			}
 

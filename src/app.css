@@ -6,7 +6,7 @@
 @layer utilities {
 	.focus {
 		@apply focus:ring focus:outline-none;
-		@apply ring-blue-400;
+		@apply ring-primary-400;
 		&.error {
 			@apply ring ring-red-400;
 		}
