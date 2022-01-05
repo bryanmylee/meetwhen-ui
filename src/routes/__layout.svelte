@@ -1,5 +1,8 @@
-<script>
+<script lang="ts">
 	import '../app.css';
+	import { primaryVars } from '$lib/core/state';
 </script>
 
-<slot />
+<div style={$primaryVars}>
+	<slot />
+</div>

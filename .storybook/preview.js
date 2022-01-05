@@ -1,4 +1,7 @@
 import '../src/app.css';
+import ColorDecorator from './ColorDecorator.svelte';
+
+export const decorators = [() => ColorDecorator];
 
 export const parameters = {
 	actions: { argTypesRegex: '^on[A-Z].*' },
