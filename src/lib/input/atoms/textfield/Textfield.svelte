@@ -6,6 +6,7 @@
 	export let label: string;
 	export let id: Maybe<string> = undefined;
 	$: resolvedId = id ?? getIdFromLabel(label);
+	$: errorId = `${resolvedId}-error`;
 
 	export let value = '';
 	export let error = '';
@@ -15,7 +16,6 @@
 	export let disabled = false;
 
 	$: attrs = {
-		id: resolvedId,
 		type: password ? 'password' : 'text',
 	};
 
@@ -32,6 +32,8 @@
 
 <div class="textfield {className}">
 	<input
+		id={resolvedId}
+		aria-describedby={errorId}
 		bind:value
 		{...attrs}
 		{required}
@@ -48,9 +50,9 @@
 			<span class="required-dot">•</span>
 		{/if}
 	</label>
-	{#if error !== ''}
-		<span class="error-message" for={resolvedId}>{error}</span>
-	{/if}
+	<span id={errorId} class="error-message" for={resolvedId}>
+		{error}
+	</span>
 </div>
 
 <style lang="postcss" global>
@@ -105,7 +107,8 @@
 		}
 
 		& > .error-message {
-			@apply absolute bottom-1 left-0 mx-4 text-red-400 transform text-xs italic select-none;
+			@apply absolute bottom-1 left-0 mx-4 text-red-400 transform text-xs italic;
+			@apply select-none pointer-events-none;
 		}
 	}
 </style>
