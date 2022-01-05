@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let type: 'button' | 'menu' | 'reset' | 'submit' = 'button';
 	export let disabled = false;
-	export let variant: 'primary' | 'outlined' = 'primary';
+	export let variant: 'filled' | 'outlined' = 'filled';
 
 	let className = '';
 	export { className as class };
@@ -16,7 +16,7 @@
 	on:focus
 	on:blur
 	class="button focus {className}"
-	class:primary={variant === 'primary'}
+	class:filled={variant === 'filled'}
 	class:outlined={variant === 'outlined'}
 >
 	<slot />
@@ -32,7 +32,7 @@
 			@apply text-neutral-400 cursor-default;
 		}
 
-		&.primary {
+		&.filled {
 			@apply bg-primary-400 text-white;
 			&:disabled {
 				@apply opacity-50;

@@ -13,7 +13,7 @@
 		},
 		variant: {
 			control: { type: 'select' },
-			options: ['primary', 'outlined'],
+			options: ['filled', 'outlined'],
 		},
 		onClick: { action: 'onClick' },
 		onDoubleClick: { action: 'onDoubleClick' },
@@ -38,8 +38,8 @@
 
 <Story name="Gallery">
 	<div class="flex flex-col items-center gap-4">
-		<Button>Primary</Button>
-		<Button disabled>Disabled</Button>
+		<Button>Filled</Button>
+		<Button disabled>Filled Disabled</Button>
 		<Button variant="outlined">Outline</Button>
 		<Button variant="outlined" disabled>Disabled Outline</Button>
 	</div>
