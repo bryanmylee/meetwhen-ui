@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Textfield from './Textfield.svelte';
-	import { MockJsEnabled, useJsEnabled } from '$lib/core/utils/useJsEnabled';
+	import { MockJsEnabled } from '$lib/core/utils/useJsEnabled';
 </script>
 
 <Meta
