@@ -48,7 +48,7 @@
 		}
 
 		&.outlined {
-			@apply border-2 border-blue-400 text-blue-400;
+			@apply p-3.5 border-2 border-blue-400 text-blue-400;
 			&:disabled {
 				@apply text-opacity-50 border-opacity-50;
 			}
