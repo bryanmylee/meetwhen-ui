@@ -47,10 +47,10 @@
 	<label for={resolvedId}>
 		{label}
 		{#if required}
-			<span class="required-dot">•</span>
+			<span class="required-dot" aria-label="required">•</span>
 		{/if}
 	</label>
-	<span id={errorId} class="error-message" for={resolvedId}>
+	<span id={errorId} class="error-message" for={resolvedId} role="status">
 		{error}
 	</span>
 </div>

@@ -1,7 +1,19 @@
-<script lang="ts">
+<script>
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Textfield from './Textfield.svelte';
 	import { MockJsEnabled } from '$lib/core/utils/useJsEnabled';
+
+	let ariaValue = '';
+	let ariaError = '';
+	let timeoutId = 0;
+	$: if (ariaValue) {
+		window.clearTimeout(timeoutId);
+		timeoutId = window.setTimeout(() => {
+			ariaError = 'You took too long';
+		}, 2000);
+	} else {
+		ariaError = '';
+	}
 </script>
 
 <Meta
@@ -55,3 +67,7 @@
 		label: 'No JavaScript',
 	}}
 />
+
+<Story name="ARIA Status Live Update">
+	<Textfield label="Type quickly" bind:value={ariaValue} error={ariaError} />
+</Story>
