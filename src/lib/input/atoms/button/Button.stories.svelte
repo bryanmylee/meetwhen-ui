@@ -15,6 +15,10 @@
 			control: { type: 'select' },
 			options: ['filled', 'outlined'],
 		},
+		color: {
+			control: { type: 'select' },
+			options: ['primary', 'gray'],
+		},
 		onClick: { action: 'onClick' },
 		onDoubleClick: { action: 'onDoubleClick' },
 		onContextMenu: { action: 'onContextMenu' },
