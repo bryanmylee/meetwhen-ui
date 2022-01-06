@@ -7,6 +7,23 @@
 	}
 </script>
 
+<!-- 
+	@component
+	`SelectionProvider` creates a context to manage drag-and-release selection
+	logic of child elements. 
+	
+	Selectable elements must have a data attribute that represents its unique ID
+	for selection.
+
+	```
+	<SelectableProvider bind:selectedIds>
+		<div data-select-id="1" />
+		<div data-select-id="2" />
+	</SelectableProvider>
+	```
+	
+	The data attribute key can be configured with the `attributeKey` prop.
+ -->
 <script lang="ts">
 	import { Set } from 'immutable';
 	import { createEventDispatcher } from 'svelte';
