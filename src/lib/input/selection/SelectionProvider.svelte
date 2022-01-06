@@ -153,13 +153,11 @@
 			if (selectMode === undefined) {
 				selectMode = 'add';
 			}
-			dispatch('toggle', { id, selected: true });
 		} else {
 			effectiveIdSet = previousIdSet.subtract(activeIdSet);
 			if (selectMode === undefined) {
 				selectMode = 'remove';
 			}
-			dispatch('toggle', { id, selected: true });
 		}
 		selectedIds = effectiveIdSet.toArray();
 	};
@@ -201,10 +199,8 @@
 		}
 		if (selectMode === 'add') {
 			effectiveIdSet = previousIdSet?.union(activeIdSet);
-			dispatch('toggle', { id, selected: true });
 		} else {
 			effectiveIdSet = previousIdSet?.subtract(activeIdSet);
-			dispatch('toggle', { id, selected: false });
 		}
 		selectedIds = effectiveIdSet?.toArray() ?? [];
 	};
@@ -237,6 +233,11 @@
 			return;
 		}
 		selectedIds = effectiveIdSet?.toArray() ?? selectedIds;
+		if (activeIdSet !== undefined) {
+			for (const id of activeIdSet) {
+				dispatch('toggle', { id, selected: selectMode === 'add' });
+			}
+		}
 		startingId = undefined;
 		previousIdSet = undefined;
 		activeIdSet = undefined;
