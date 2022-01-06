@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
+	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import LongTouchProvider from './LongTouchProvider.svelte';
 	import { Button } from '$lib/input';
 </script>
@@ -17,7 +17,8 @@
 	}}
 />
 
-<Template let:args>
+<Story name="Sample button" source let:args>
+	<h1 class="mb-4 text-xl font-bold">Long touch sample</h1>
 	<LongTouchProvider
 		{...args}
 		on:touchstart={args.onTouchStart}
@@ -29,6 +30,4 @@
 	>
 		<Button class="select-none">Touch me on a touchscreen</Button>
 	</LongTouchProvider>
-</Template>
-
-<Story name="Sample button" source />
+</Story>
