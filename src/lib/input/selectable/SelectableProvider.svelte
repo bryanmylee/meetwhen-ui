@@ -19,20 +19,49 @@
 	const dispatch = createEventDispatcher<SelectableProviderEvent>();
 
 	/**
-	 * The main selectable interface.
-	 * Selectable elements must have a `data-id` attribute.
+	 * The main selection interface of selected IDs.
+	 *
+	 * Bind to this value for reactive state.
 	 */
 	export let selectedIds: string[] = [];
 	$: selectedIdSet = Set(selectedIds);
 	$: isIdSelected = (id: string) => selectedIdSet.includes(id);
 
+	/**
+	 * The data attribute to read for the selected IDs of child elements.
+	 *
+	 * Defaults to `selectId`, which translates to `data-select-id`.
+	 */
+	export let attributeKey = 'selectId';
+
+	/**
+	 * The disabled state for the entire selection provider.
+	 */
 	export let disabled = false;
+
+	/**
+	 * IDs to ignore during selection.
+	 */
 	export let disabledIds: string[] = [];
 	$: disabledIdSet = Set(disabledIds);
 	$: isIdDisabled = (id: string) => disabledIdSet.includes(id);
 
+	/**
+	 * An interpolation function that returns a list of IDs given a start and end
+	 * ID.
+	 *
+	 * If `undefined`, no interpolation between the start and end ID occurs.
+	 *
+	 * Defaults to `undefined`.
+	 */
 	export let interpolate: Maybe<SelectableInterpolateFn> = undefined;
 
+	/**
+	 * Programmatically select an ID. This is most useful when integrating
+	 * additional selection inputs.
+	 *
+	 * @param id The ID to select.
+	 */
 	export const select = (id: string): void => {
 		if (isIdDisabled(id)) {
 			return;
@@ -41,6 +70,12 @@
 		dispatch('toggle', { id, selected: true });
 	};
 
+	/**
+	 * Programmatically deselect an ID. This is most useful when integrating
+	 * additional selection inputs.
+	 *
+	 * @param id The ID to deselect.
+	 */
 	export const deselect = (id: string): void => {
 		if (isIdDisabled(id)) {
 			return;
@@ -49,6 +84,12 @@
 		dispatch('toggle', { id, selected: false });
 	};
 
+	/**
+	 * Programmatically toggle the selection of an ID. This is most useful when
+	 * integrating additional selection inputs.
+
+	 * @param id The ID to toggle.
+	 */
 	export const toggle = (id: string): void => {
 		if (isIdSelected(id)) {
 			deselect(id);
@@ -62,7 +103,18 @@
 	let activeIdSet: Maybe<Set<string>>;
 	let effectiveIdSet: Maybe<Set<string>>;
 
+	/**
+	 * Selections starting on unselected elements will add IDs to the selection,
+	 * whereas selections starting on selected elements will remove IDs from the
+	 * selection.
+	 *
+	 * Bind to this value for reactive state.
+	 */
 	export let selectMode: Maybe<SelectMode> = undefined;
+
+	/**
+	 * The IDs in the active selection.
+	 */
 	export let activeIds: string[] = [];
 	$: activeIds = activeIdSet?.toArray() ?? [];
 	$: isIdActive = (id: string) => activeIdSet?.includes(id) ?? false;
@@ -72,7 +124,7 @@
 		if (disabled) {
 			return;
 		}
-		const { id } = target.dataset;
+		const id = target.dataset[attributeKey];
 		if (id === undefined || isIdDisabled(id)) {
 			return;
 		}
@@ -118,7 +170,7 @@
 		if (disabled) {
 			return;
 		}
-		const { id } = target.dataset;
+		const id = target.dataset[attributeKey];
 		if (id === undefined || isIdDisabled(id)) {
 			return;
 		}

@@ -39,7 +39,7 @@
 		<div class="flex flex-wrap gap-4">
 			{#each [...Array(20)] as _, id}
 				<div
-					data-id={id}
+					data-select-id={id}
 					class="item"
 					class:selected={isIdSelected(`${id}`)}
 					aria-disabled={isIdDisabled(`${id}`)}
@@ -67,7 +67,7 @@
 		<div class="flex flex-wrap gap-4">
 			{#each [...Array(20)] as _, id}
 				<div
-					data-id={id}
+					data-select-id={id}
 					class="item"
 					class:selected={isIdSelected(`${id}`)}
 					aria-disabled={isIdDisabled(`${id}`)}
