@@ -13,7 +13,7 @@
 	import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
 	import { getTouchArray, LongTouchProvider } from '$lib/core/utils/touch';
 	import type { SelectMode } from './SelectMode';
-	import type { SelectableInterpolateFn } from './SelectableInterpolateFn';
+	import type { SelectionInterpolateFn } from './SelectionInterpolateFn';
 	import type { Maybe } from '$lib/core/types/Maybe';
 
 	const dispatch = createEventDispatcher<SelectableProviderEvent>();
@@ -54,7 +54,7 @@
 	 *
 	 * Defaults to `undefined`.
 	 */
-	export let interpolate: Maybe<SelectableInterpolateFn> = undefined;
+	export let interpolate: Maybe<SelectionInterpolateFn> = undefined;
 
 	/**
 	 * Programmatically select an ID. This is most useful when integrating

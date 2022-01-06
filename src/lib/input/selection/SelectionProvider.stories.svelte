@@ -1,7 +1,7 @@
 <script>
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import { range } from '$lib/core/utils/range';
-	import SelectableProvider from './SelectableProvider.svelte';
+	import SelectionProvider from './SelectionProvider.svelte';
 
 	/**
 	 * @type {string[]}
@@ -18,16 +18,16 @@
 </script>
 
 <Meta
-	title="Utility/SelectableProvider"
-	component={SelectableProvider}
+	title="Utility/SelectionProvider"
+	component={SelectionProvider}
 	argTypes={{
 		onToggle: { action: 'onToggle' },
 	}}
 />
 
-<Story name="Sample selectable items" source let:args>
-	<h1 class="mb-4 text-xl font-bold">Selectable sample</h1>
-	<SelectableProvider
+<Story name="Sample selection items" source let:args>
+	<h1 class="mb-4 text-xl font-bold">Selection sample</h1>
+	<SelectionProvider
 		bind:selectedIds
 		{...args}
 		disabledIds={['0', '1']}
@@ -49,12 +49,12 @@
 				</div>
 			{/each}
 		</div>
-	</SelectableProvider>
+	</SelectionProvider>
 </Story>
 
 <Story name="Interpolate betweens" source let:args>
 	<h1 class="mb-4 text-xl font-bold">Interpolate between start and end</h1>
-	<SelectableProvider
+	<SelectionProvider
 		bind:selectedIds
 		{...args}
 		disabledIds={['0', '1']}
@@ -77,7 +77,7 @@
 				</div>
 			{/each}
 		</div>
-	</SelectableProvider>
+	</SelectionProvider>
 </Story>
 
 <style lang="postcss">
