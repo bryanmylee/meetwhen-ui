@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+.svelte-kit/
+package/
+pnpm-lock.yaml
+
+# Environment files
+.env
+.env.*
+!.env.example

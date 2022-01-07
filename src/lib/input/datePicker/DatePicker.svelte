@@ -4,10 +4,10 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { dateFromId, dateToId } from './utils/dateIds';
 	import { getDatePickerState } from './utils/getDatePickerState';
+	import { getHasSelectedNeighbors } from './utils/getHasSelectedNeighbors';
 	import { SelectionProvider, SelectionProviderEvent } from '..';
 	import MonthPicker from './atoms/MonthPicker.svelte';
 	import DateGridItem from './atoms/DateGridItem.svelte';
-	import { getHasSelectedNeighbors } from './utils/getHasSelectedNeighbors';
 
 	const { month, weekDays, monthDates, disabledDates } = getDatePickerState();
 

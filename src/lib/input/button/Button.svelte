@@ -1,6 +1,4 @@
 <script lang="ts">
-	import type { Maybe } from '$lib/core/types/Maybe';
-
 	export let type: 'button' | 'menu' | 'reset' | 'submit' = 'button';
 	export let disabled = false;
 	export let variant: 'filled' | 'outlined' | 'text-only' = 'filled';
