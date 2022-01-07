@@ -90,6 +90,7 @@
 				}
 				&.gray {
 					@apply border-neutral-300 text-neutral-300;
+					@apply dark:border-neutral-500 text-neutral-500;
 				}
 			}
 
