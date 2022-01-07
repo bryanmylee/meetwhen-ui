@@ -7,13 +7,17 @@
 	import { SelectionProvider, SelectionProviderEvent } from '..';
 	import MonthPicker from './atoms/MonthPicker.svelte';
 	import DateGridItem from './atoms/DateGridItem.svelte';
+	import { getHasSelectedNeighbors } from './utils/getHasSelectedNeighbors';
 
 	const { month, weekDays, monthDates, disabledDates } = getDatePickerState();
 
-	export let value: Dayjs[] = [];
-	// SelectionProvider binding.
-	let selectedIds: string[] = value.map(dateToId);
-	$: value = selectedIds.map(dateFromId);
+	let selectedDates: Dayjs[] = [];
+	export { selectedDates as value };
+	/**
+	 * SelectionProvider binding.
+	 */
+	let selectedIds: string[] = selectedDates.map(dateToId);
+	$: selectedDates = selectedIds.map(dateFromId);
 
 	export let focusedDate = dayjs();
 
@@ -52,6 +56,7 @@
 					disabled={isIdDisabled(dateToId(date))}
 					focused={date.isSame(focusedDate, 'day')}
 					{selectMode}
+					neighbours={getHasSelectedNeighbors(date, selectedDates)}
 				/>
 			{/each}
 		</div>

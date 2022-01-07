@@ -1,4 +1,4 @@
-export interface HasNeighbours {
+export interface HasNeighbors {
 	top: boolean;
 	bottom: boolean;
 	left: boolean;

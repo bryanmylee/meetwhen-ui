@@ -1,7 +1,7 @@
 <script lang="ts">
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
-	import type { HasNeighbours } from '$lib/core/types/HasNeighbours';
+	import type { HasNeighbors } from '$lib/core/types/HasNeighbors';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from '$lib/input/selection';
 	import { dateToId } from '../utils/dateIds';
@@ -14,13 +14,7 @@
 	export let disabled = false;
 	export let focused = false;
 	export let selectMode: Maybe<SelectMode> = undefined;
-
-	export let neighbours: HasNeighbours = {
-		top: false,
-		bottom: false,
-		left: false,
-		right: false,
-	};
+	export let neighbours: HasNeighbors;
 </script>
 
 <button
@@ -32,6 +26,10 @@
 	class:add={selectMode === 'add'}
 	class:remove={selectMode === 'remove'}
 	class:today={isToday}
+	class:!rounded-t-none={neighbours.top}
+	class:!rounded-b-none={neighbours.bottom}
+	class:!rounded-l-none={neighbours.left}
+	class:!rounded-r-none={neighbours.right}
 	class="date-item"
 	style="grid-column-start: {gridColumnStart};"
 >
