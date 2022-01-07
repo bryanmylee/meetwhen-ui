@@ -19,6 +19,9 @@ const config = {
 					900: 'var(--primary-900)',
 				},
 			},
+			borderWidth: {
+				3: '3px',
+			},
 		},
 	},
 	plugins: [],

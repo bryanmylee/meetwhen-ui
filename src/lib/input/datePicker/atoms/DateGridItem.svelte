@@ -3,7 +3,7 @@
 	import type { Dayjs } from 'dayjs';
 	import type { HasNeighbors } from '$lib/core/types/HasNeighbors';
 	import type { Maybe } from '$lib/core/types/Maybe';
-	import type { SelectMode } from '$lib/input/selection';
+	import type { SelectMode } from '$lib/input';
 	import { dateToId } from '../utils/dateIds';
 
 	export let date: Dayjs;
@@ -39,7 +39,7 @@
 <style lang="postcss" global>
 	.date-item {
 		@apply p-2 text-center rounded-xl select-none focus:outline-none;
-		@apply border-[3px] border-transparent;
+		@apply border-3 border-transparent;
 		@apply transition;
 
 		&[aria-selected='true'] {

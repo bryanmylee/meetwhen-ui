@@ -5,8 +5,10 @@
 
 @layer utilities {
 	.focus {
-		@apply focus:ring focus:outline-none;
 		@apply ring-primary-400;
+		&:focus {
+			@apply ring outline-none;
+		}
 		&.error {
 			@apply ring ring-red-400;
 		}
