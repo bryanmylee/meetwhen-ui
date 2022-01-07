@@ -27,7 +27,7 @@
 <div class="flex items-center justify-between">
 	<Button
 		type="button"
-		color="gray"
+		variant="text-only"
 		disabled={isCurrentMonth}
 		on:click={prevMonth}
 		class="w-10 h-10 !p-2"
@@ -35,12 +35,12 @@
 	>
 		<ChevronLeftIcon />
 	</Button>
-	<span role="status" class="text-lg font-bold">
+	<span role="status" class="font-bold">
 		{monthLabel}
 	</span>
 	<Button
 		type="button"
-		color="gray"
+		variant="text-only"
 		aria-label="next month"
 		class="w-10 h-10 !p-2"
 		on:click={nextMonth}
