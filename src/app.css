@@ -11,8 +11,8 @@
 			@apply ring ring-red-400;
 		}
 	}
+}
 
-	.text-default {
-		@apply text-black dark:text-white;
-	}
+* {
+	@apply text-black dark:text-white;
 }

@@ -36,7 +36,7 @@
 </Template>
 
 <Story name="Sample textfields">
-	<h1 class="text-xl font-bold dark:text-white">Textfields</h1>
+	<h1 class="text-xl font-bold">Textfields</h1>
 	<div class="flex flex-col gap-4 mt-4 w-52">
 		<Textfield label="Default" />
 		<Textfield

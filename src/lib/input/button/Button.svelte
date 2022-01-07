@@ -42,8 +42,8 @@
 				@apply bg-primary-400 text-white;
 			}
 			&.gray {
-				@apply bg-neutral-100 text-black;
-				@apply dark:bg-neutral-700 dark:text-white;
+				@apply bg-neutral-100;
+				@apply dark:bg-neutral-700;
 			}
 
 			&:disabled {
@@ -116,7 +116,6 @@
 		}
 
 		&.textOnly {
-			@apply text-black dark:text-white;
 			&:disabled {
 				@apply opacity-50;
 			}

@@ -26,7 +26,7 @@
 />
 
 <Story name="Sample selection items" source let:args>
-	<h1 class="mb-4 text-xl font-bold dark:text-white">Selection sample</h1>
+	<h1 class="mb-4 text-xl font-bold">Selection sample</h1>
 	<SelectionProvider
 		bind:selectedIds
 		{...args}
@@ -53,9 +53,7 @@
 </Story>
 
 <Story name="Interpolate betweens" source let:args>
-	<h1 class="mb-4 text-xl font-bold dark:text-white">
-		Interpolate between start and end
-	</h1>
+	<h1 class="mb-4 text-xl font-bold">Interpolate between start and end</h1>
 	<SelectionProvider
 		bind:selectedIds
 		{...args}

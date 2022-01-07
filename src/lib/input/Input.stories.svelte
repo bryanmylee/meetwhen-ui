@@ -6,7 +6,7 @@
 <Meta title="Input" />
 
 <Story name="Sample form">
-	<h1 class="text-xl font-bold dark:text-white">Sample form</h1>
+	<h1 class="text-xl font-bold">Sample form</h1>
 	<form class="flex flex-col gap-4 mt-4 w-80">
 		<Textfield label="Username" required />
 		<Textfield label="Password" password />

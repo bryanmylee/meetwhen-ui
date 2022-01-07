@@ -18,7 +18,7 @@
 />
 
 <Story name="Sample button" source let:args>
-	<h1 class="mb-4 text-xl font-bold dark:text-white">Long touch sample</h1>
+	<h1 class="mb-4 text-xl font-bold">Long touch sample</h1>
 	<LongTouchProvider
 		{...args}
 		on:touchstart={args.onTouchStart}

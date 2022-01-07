@@ -41,7 +41,7 @@
 </Template>
 
 <Story name="Sample text buttons">
-	<h1 class="text-xl font-bold dark:text-white">Text Buttons</h1>
+	<h1 class="text-xl font-bold">Text Buttons</h1>
 	<div class="flex gap-4 mt-4">
 		<div class="flex flex-col items-start gap-4">
 			<Button>Primary Filled</Button>

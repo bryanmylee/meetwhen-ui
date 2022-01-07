@@ -63,7 +63,7 @@
 		& > input[type='text'],
 		& > input[type='password'] {
 			@apply relative w-full px-4 pt-5 pb-3 rounded-xl;
-			@apply bg-neutral-100 dark:bg-neutral-700 dark:text-white;
+			@apply bg-neutral-100 dark:bg-neutral-700;
 			&:disabled {
 				@apply text-neutral-300;
 				& + label {
@@ -98,7 +98,7 @@
 		}
 
 		& > label {
-			@apply absolute inset-0 bottom-auto m-4 dark:text-white;
+			@apply absolute inset-0 bottom-auto m-4;
 			@apply overflow-hidden whitespace-nowrap text-ellipsis;
 			@apply pointer-events-none transition-transform origin-top-left;
 
