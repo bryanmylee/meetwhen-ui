@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { Maybe } from '$lib/core/types/Maybe';
+
 	export let type: 'button' | 'menu' | 'reset' | 'submit' = 'button';
 	export let disabled = false;
 	export let variant: 'filled' | 'outlined' | 'text-only' = 'filled';
@@ -34,7 +36,7 @@
 		@apply transition-colors;
 
 		&:disabled {
-			@apply text-neutral-400 cursor-default;
+			@apply text-neutral-400 opacity-50;
 		}
 
 		&.filled {
@@ -42,17 +44,7 @@
 				@apply bg-primary-400 text-white;
 			}
 			&.gray {
-				@apply bg-neutral-100;
-				@apply dark:bg-neutral-700;
-			}
-
-			&:disabled {
-				&.primary {
-					@apply opacity-50;
-				}
-				&.gray {
-					@apply text-neutral-300 dark:text-neutral-500;
-				}
+				@apply bg-neutral-100 dark:bg-neutral-700;
 			}
 
 			&:not(:disabled) {
@@ -86,9 +78,6 @@
 			}
 
 			&:disabled {
-				&.primary {
-					@apply opacity-50;
-				}
 				&.gray {
 					@apply border-neutral-300 text-neutral-300;
 					@apply dark:border-neutral-500 text-neutral-500;
@@ -116,10 +105,6 @@
 		}
 
 		&.textOnly {
-			&:disabled {
-				@apply opacity-50;
-			}
-
 			&:not(:disabled) {
 				&:not(:active):hover {
 					@apply text-neutral-500 dark:text-neutral-300;
