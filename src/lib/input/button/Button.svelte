@@ -50,7 +50,7 @@
 					@apply opacity-50;
 				}
 				&.gray {
-					@apply text-neutral-300;
+					@apply text-neutral-300 dark:text-neutral-500;
 				}
 			}
 
