@@ -46,6 +46,9 @@
 
 		&[aria-selected='true'] {
 			@apply bg-primary-400 text-white shadow-sm shadow-primary-400 z-10;
+			&.today {
+				@apply font-bold;
+			}
 			&.add {
 				@apply shadow-md shadow-primary-400;
 			}
