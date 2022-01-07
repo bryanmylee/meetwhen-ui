@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
-	import { Button, Textfield } from '.';
+	import { Button, DatePicker, Textfield } from '.';
 </script>
 
 <Meta title="Input" />
@@ -21,5 +21,6 @@
 			<Button variant="outlined" color="gray">Cancel</Button>
 			<Button variant="outlined" color="gray" disabled>Revoke</Button>
 		</div>
+		<DatePicker />
 	</form>
 </Story>
