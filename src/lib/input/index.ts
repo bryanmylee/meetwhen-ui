@@ -1,2 +1,2 @@
-export { default as Textfield } from './atoms/textfield/Textfield.svelte';
+export { default as Textfield } from './textfield/Textfield.svelte';
 export { default as Button } from './button/Button.svelte';
