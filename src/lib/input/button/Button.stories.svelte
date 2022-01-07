@@ -13,7 +13,7 @@
 		},
 		variant: {
 			control: { type: 'select' },
-			options: ['filled', 'outlined'],
+			options: ['filled', 'outlined', 'text-only'],
 		},
 		color: {
 			control: { type: 'select' },
@@ -53,9 +53,13 @@
 			<Button color="gray">Gray Filled</Button>
 			<Button color="gray" disabled>Gray Filled Disabled</Button>
 			<Button color="gray" variant="outlined">Gray Outline</Button>
-			<Button color="gray" variant="outlined" disabled
-				>Gray Disabled Outline</Button
-			>
+			<Button color="gray" variant="outlined" disabled>
+				Gray Disabled Outline
+			</Button>
+		</div>
+		<div class="flex flex-col items-start gap-4">
+			<Button variant="text-only">Text-only</Button>
+			<Button variant="text-only" disabled>Text-only Disabled</Button>
 		</div>
 	</div>
 </Story>

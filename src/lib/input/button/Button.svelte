@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let type: 'button' | 'menu' | 'reset' | 'submit' = 'button';
 	export let disabled = false;
-	export let variant: 'filled' | 'outlined' = 'filled';
+	export let variant: 'filled' | 'outlined' | 'text-only' = 'filled';
 	export let color: 'primary' | 'gray' = 'primary';
 
 	let className = '';
@@ -19,6 +19,7 @@
 	class="button focus {className}"
 	class:filled={variant === 'filled'}
 	class:outlined={variant === 'outlined'}
+	class:textOnly={variant === 'text-only'}
 	class:primary={color === 'primary'}
 	class:gray={color === 'gray'}
 >
@@ -108,6 +109,22 @@
 					&.gray {
 						@apply border-neutral-500 text-neutral-500;
 					}
+				}
+			}
+		}
+
+		&.textOnly {
+			@apply text-black dark:text-white;
+			&:disabled {
+				@apply opacity-50;
+			}
+
+			&:not(:disabled) {
+				&:not(:active):hover {
+					@apply text-neutral-500 dark:text-neutral-300;
+				}
+				&:active {
+					@apply text-neutral-600 dark:text-neutral-400;
 				}
 			}
 		}
