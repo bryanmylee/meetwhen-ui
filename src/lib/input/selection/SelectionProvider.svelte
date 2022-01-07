@@ -1,7 +1,8 @@
 <script lang="ts" context="module">
 	export interface SelectionProviderEvent {
 		toggle: {
-			id: string;
+			ids: string[];
+			lastId: string;
 			selected: boolean;
 		};
 	}
@@ -84,7 +85,7 @@
 			return;
 		}
 		selectedIds = Set(selectedIds).add(id).toArray();
-		dispatch('toggle', { id, selected: true });
+		dispatch('toggle', { ids: [id], lastId: id, selected: true });
 	};
 
 	/**
@@ -98,7 +99,7 @@
 			return;
 		}
 		selectedIds = Set(selectedIds).remove(id).toArray();
-		dispatch('toggle', { id, selected: false });
+		dispatch('toggle', { ids: [id], lastId: id, selected: false });
 	};
 
 	/**
@@ -117,6 +118,7 @@
 
 	let startingId: Maybe<string>;
 	let previousIdSet: Maybe<Set<string>>;
+	let lastId: Maybe<string>;
 	let activeIdSet: Maybe<Set<string>>;
 	let effectiveIdSet: Maybe<Set<string>>;
 
@@ -189,6 +191,7 @@
 		if (id === undefined || isIdDisabled(id)) {
 			return;
 		}
+		lastId = id;
 		if (interpolate !== undefined && startingId !== undefined) {
 			activeIdSet = Set(interpolate(startingId, id));
 		} else {
@@ -233,10 +236,12 @@
 			return;
 		}
 		selectedIds = effectiveIdSet?.toArray() ?? selectedIds;
-		if (activeIdSet !== undefined) {
-			for (const id of activeIdSet) {
-				dispatch('toggle', { id, selected: selectMode === 'add' });
-			}
+		if (activeIdSet !== undefined && lastId !== undefined) {
+			dispatch('toggle', {
+				ids: activeIdSet.toArray(),
+				lastId,
+				selected: selectMode === 'add',
+			});
 		}
 		startingId = undefined;
 		previousIdSet = undefined;

@@ -26,7 +26,7 @@
 	const handleToggle = ({
 		detail,
 	}: CustomEvent<SelectionProviderEvent['toggle']>) => {
-		focusedDate = dateFromId(detail.id);
+		focusedDate = dateFromId(detail.lastId);
 	};
 </script>
 
