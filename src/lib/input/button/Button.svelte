@@ -9,6 +9,7 @@
 </script>
 
 <button
+	{...$$props}
 	{type}
 	{disabled}
 	on:click
