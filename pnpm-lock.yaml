@@ -30,6 +30,7 @@ specifiers:
   storybook-dark-mode: ^1.0.8
   svelte: ^3.44.3
   svelte-check: ^2.2.6
+  svelte-feather-icons: ^3.5.0
   svelte-loader: ^3.1.2
   svelte-preprocess: ^4.10.1
   tailwindcss: ^3.0.7
@@ -66,6 +67,7 @@ devDependencies:
   storybook-dark-mode: 1.0.8
   svelte: 3.44.3
   svelte-check: 2.2.11_74489041688bd00127fc34ba4bb9bb52
+  svelte-feather-icons: 3.5.0
   svelte-loader: 3.1.2_svelte@3.44.3
   svelte-preprocess: 4.10.1_533617e1950b25369b99e3ecf3a349c2
   tailwindcss: 3.0.9_cefe482e8d38053bbf3d5815e0c551b3
@@ -11523,6 +11525,12 @@ packages:
 
   /svelte-dev-helper/1.1.9:
     resolution: {integrity: sha1-fRh9tcbNu9ZNdaMvkbiZi94yc8M=}
+    dev: true
+
+  /svelte-feather-icons/3.5.0:
+    resolution: {integrity: sha512-AO6vwbI+WH8xouZRIxyenUV2olSAjp0QFgBa4esyS9ZxvBmKkRu9VTfgbMW0F1N7QTOWbMpgaForsnOcFGfXeg==}
+    dependencies:
+      svelte: 3.44.3
     dev: true
 
   /svelte-hmr/0.14.9_svelte@3.44.3:
