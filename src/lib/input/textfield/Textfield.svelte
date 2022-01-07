@@ -65,9 +65,9 @@
 			@apply relative w-full px-4 pt-5 pb-3 rounded-xl;
 			@apply bg-neutral-100 dark:bg-neutral-700;
 			&:disabled {
-				@apply text-neutral-300;
+				@apply text-neutral-400 opacity-50;
 				& + label {
-					@apply !text-neutral-300;
+					@apply !text-neutral-400 opacity-50;
 				}
 			}
 
