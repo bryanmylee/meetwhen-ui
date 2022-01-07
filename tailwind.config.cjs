@@ -10,6 +10,8 @@ const config = {
 					200: 'var(--primary-200)',
 					300: 'var(--primary-300)',
 					400: 'var(--primary-400)',
+					'400/30': 'var(--primary-400\\/30)',
+					'400/50': 'var(--primary-400\\/50)',
 					500: 'var(--primary-500)',
 					600: 'var(--primary-600)',
 					700: 'var(--primary-700)',

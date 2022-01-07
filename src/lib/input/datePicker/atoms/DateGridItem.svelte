@@ -43,15 +43,15 @@
 		@apply transition;
 
 		&[aria-selected='true'] {
-			@apply bg-primary-400 text-white shadow-sm shadow-primary-400 z-10;
+			@apply bg-primary-400 text-white shadow shadow-primary-400/30 z-10;
 			&.today {
 				@apply font-bold;
 			}
 			&.add {
-				@apply shadow-md shadow-primary-400;
+				@apply shadow-lg shadow-primary-400/30;
 			}
 			&.remove {
-				@apply opacity-50;
+				@apply bg-primary-400/50;
 			}
 			&:hover {
 				@apply bg-primary-300;
