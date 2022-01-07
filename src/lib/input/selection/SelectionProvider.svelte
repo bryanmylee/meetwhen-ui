@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	export interface SelectableProviderEvent {
+	export interface SelectionProviderEvent {
 		toggle: {
 			id: string;
 			selected: boolean;
@@ -33,7 +33,7 @@
 	import type { SelectionInterpolateFn } from './SelectionInterpolateFn';
 	import type { Maybe } from '$lib/core/types/Maybe';
 
-	const dispatch = createEventDispatcher<SelectableProviderEvent>();
+	const dispatch = createEventDispatcher<SelectionProviderEvent>();
 
 	/**
 	 * The main selection interface of selected IDs.

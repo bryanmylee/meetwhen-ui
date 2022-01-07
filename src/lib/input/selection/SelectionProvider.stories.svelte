@@ -83,7 +83,7 @@
 <style lang="postcss">
 	.item {
 		@apply w-12 h-12 flex justify-center items-center;
-		@apply rounded-xl bg-white shadow font-bold;
+		@apply rounded-xl bg-white text-black shadow font-bold;
 		@apply select-none;
 	}
 	.item.selected {
