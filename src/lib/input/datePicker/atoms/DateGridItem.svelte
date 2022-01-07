@@ -24,6 +24,7 @@
 </script>
 
 <button
+	type="button"
 	data-select-id={dateToId(date)}
 	aria-selected={selected}
 	{disabled}
