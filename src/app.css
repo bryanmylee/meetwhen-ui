@@ -16,3 +16,8 @@
 * {
 	@apply text-black dark:text-white;
 }
+
+svg,
+svg * {
+	@apply text-current dark:text-current;
+}
