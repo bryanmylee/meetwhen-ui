@@ -1,3 +1,5 @@
+const { size } = require('./tailwindcss/size.cjs');
+
 /** @type {import('tailwindcss/tailwind-config').TailwindConfig} */
 const config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
@@ -25,7 +27,7 @@ const config = {
 			},
 		},
 	},
-	plugins: [],
+	plugins: [size],
 };
 
 module.exports = config;

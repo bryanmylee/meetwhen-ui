@@ -30,7 +30,7 @@
 		variant="text-only"
 		disabled={isCurrentMonth}
 		on:click={prevMonth}
-		class="w-10 h-10 !p-2"
+		class="wh-10 !p-2"
 		aria-label="previous month"
 	>
 		<ChevronLeftIcon />
@@ -42,7 +42,7 @@
 		type="button"
 		variant="text-only"
 		aria-label="next month"
-		class="w-10 h-10 !p-2"
+		class="wh-10 !p-2"
 		on:click={nextMonth}
 	>
 		<ChevronRightIcon />

@@ -35,7 +35,7 @@
 <div
 	id="indicator"
 	class={classes(
-		'fixed w-28 h-28 rounded-full pointer-events-none bg-white/50',
+		'fixed wh-28 rounded-full pointer-events-none bg-white/50',
 		triggered && 'border-4 border-white shadow-lg opacity-0',
 	)}
 	class:expanding
