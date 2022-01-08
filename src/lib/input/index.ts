@@ -1,5 +1,6 @@
 export { default as Button } from './button/Button.svelte';
 export { default as DatePicker } from './datePicker/DatePicker.svelte';
+export type { KeyboardReducer } from './keyboard/types/KeyboardReducer';
 export { default as SelectionProvider } from './selection/SelectionProvider.svelte';
 export type { SelectionProviderEvent } from './selection/SelectionProvider.svelte';
 export type { SelectionInterpolateFn } from './selection/SelectionInterpolateFn';
