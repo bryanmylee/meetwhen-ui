@@ -30,9 +30,9 @@
 	import { createEventDispatcher } from 'svelte';
 	import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
 	import { getTouchArray, LongTouchProvider } from '$lib/input';
+	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from './SelectMode';
 	import type { SelectionInterpolateFn } from './SelectionInterpolateFn';
-	import type { Maybe } from '$lib/core/types/Maybe';
 
 	const dispatch = createEventDispatcher<SelectionProviderEvent>();
 
@@ -139,11 +139,39 @@
 	$: isIdActive = (id: string) => activeIdSet?.includes(id) ?? false;
 
 	// STARTING SELECTIONS
+	const mousestart = ({ target }: MouseEvent) => {
+		startSelectionFrom(target as HTMLElement);
+	};
+
+	let trackedTouches: Record<number, Touch> = {};
+
+	const longtouchstart = ({ detail }: CustomEvent) => {
+		const touchEvent = detail.event as TouchEvent;
+		const changedTouches = getTouchArray(touchEvent.changedTouches);
+		changedTouches.forEach((touch) => trackTouch(touch, touchEvent));
+	};
+
+	const trackTouch = (touch: Touch, { target }: TouchEvent) => {
+		trackedTouches[touch.identifier] = touch;
+		disableBodyScroll(target as HTMLElement);
+		startSelectionFrom(target as HTMLElement);
+	};
+
 	const startSelectionFrom = (target: HTMLElement) => {
 		if (disabled) {
 			return;
 		}
 		const id = target.dataset[attributeKey];
+		selectFrom(id);
+	};
+
+	/**
+	 * Programmatically start a selection. This is most useful when integrating
+	 * additional selection inputs.
+	 *
+	 * @param id The ID to start from.
+	 */
+	export const selectFrom = (id: Maybe<string>) => {
 		if (id === undefined || isIdDisabled(id)) {
 			return;
 		}
@@ -164,50 +192,7 @@
 		selectedIds = effectiveIdSet.toArray();
 	};
 
-	const mousestart = ({ target }: MouseEvent) => {
-		startSelectionFrom(target as HTMLElement);
-	};
-
-	let trackedTouches: Record<number, Touch> = {};
-
-	const longtouchstart = ({ detail }: CustomEvent) => {
-		const touchEvent = detail.event as TouchEvent;
-		const changedTouches = getTouchArray(touchEvent.changedTouches);
-		changedTouches.forEach((touch) => trackTouch(touch, touchEvent));
-	};
-
-	const trackTouch = (touch: Touch, { target }: TouchEvent) => {
-		trackedTouches[touch.identifier] = touch;
-		disableBodyScroll(target as HTMLElement);
-		startSelectionFrom(target as HTMLElement);
-	};
-
 	// UPDATING SELECTIONS
-	const updateSelectionOn = (target: HTMLElement) => {
-		if (disabled) {
-			return;
-		}
-		const id = target.dataset[attributeKey];
-		if (id === undefined || isIdDisabled(id)) {
-			return;
-		}
-		lastId = id;
-		if (interpolate !== undefined && startingId !== undefined) {
-			activeIdSet = Set(interpolate(startingId, id));
-		} else {
-			activeIdSet = activeIdSet?.add(id);
-		}
-		if (activeIdSet === undefined) {
-			return;
-		}
-		if (selectMode === 'add') {
-			effectiveIdSet = previousIdSet?.union(activeIdSet);
-		} else {
-			effectiveIdSet = previousIdSet?.subtract(activeIdSet);
-		}
-		selectedIds = effectiveIdSet?.toArray() ?? [];
-	};
-
 	const mousemoveinto = ({ target }: MouseEvent) => {
 		if (selectMode === undefined) {
 			return;
@@ -230,17 +215,56 @@
 		updateSelectionOn(target as HTMLElement);
 	};
 
+	const updateSelectionOn = (target: HTMLElement) => {
+		if (disabled) {
+			return;
+		}
+		const id = target.dataset[attributeKey];
+		selectThrough(id);
+	};
+
+	/**
+	 * Programmatically continue a selection. This is most useful when integrating
+	 * additional selection inputs.
+	 *
+	 * @param id The ID to select through.
+	 */
+	export const selectThrough = (id: Maybe<string>) => {
+		if (id === undefined || isIdDisabled(id)) {
+			return;
+		}
+		lastId = id;
+		if (interpolate !== undefined && startingId !== undefined) {
+			activeIdSet = Set(interpolate(startingId, id));
+		} else {
+			activeIdSet = activeIdSet?.add(id);
+		}
+		if (activeIdSet === undefined) {
+			return;
+		}
+		if (selectMode === 'add') {
+			effectiveIdSet = previousIdSet?.union(activeIdSet);
+		} else {
+			effectiveIdSet = previousIdSet?.subtract(activeIdSet);
+		}
+		selectedIds = effectiveIdSet?.toArray() ?? [];
+	};
+
 	// ENDING SELECTIONS
 	const endSelectionOn = (target?: HTMLElement) => {
 		if (disabled) {
 			return;
 		}
 		lastId = target?.dataset[attributeKey] ?? lastId;
+		selectEnd(lastId);
+	};
+
+	const selectEnd = (id: Maybe<string>) => {
 		selectedIds = effectiveIdSet?.toArray() ?? selectedIds;
-		if (activeIdSet !== undefined && lastId !== undefined) {
+		if (activeIdSet !== undefined && id !== undefined) {
 			dispatch('toggle', {
 				ids: activeIdSet.toArray(),
-				lastId,
+				lastId: id,
 				selected: selectMode === 'add',
 			});
 		}
@@ -250,6 +274,7 @@
 		effectiveIdSet = undefined;
 		selectMode = undefined;
 		trackedTouches = {};
+		lastId = undefined;
 	};
 
 	const mouseup = ({ target }: MouseEvent) => {
