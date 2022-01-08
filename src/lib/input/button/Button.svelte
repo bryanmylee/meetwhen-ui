@@ -11,6 +11,7 @@
 <button
 	{...$$props}
 	{type}
+	role="button"
 	{disabled}
 	on:click
 	on:dblclick

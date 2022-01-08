@@ -15,6 +15,7 @@
 	import { setCurrentDateElement } from './utils/datePickerContext';
 	import MonthPicker from './atoms/MonthPicker.svelte';
 	import DateGridItem from './atoms/DateGridItem.svelte';
+	import WeekDaysHeader from './atoms/WeekDaysHeader.svelte';
 
 	export let id: string = nanoid(8);
 	$: helpId = `${id}-help`;
@@ -48,37 +49,34 @@
 
 <div
 	{id}
-	aria-labelledby={helpId}
+	aria-label="date picker, {$currentDate.format('MMMM YYYY')}"
 	class="date-picker"
 	class:error={error !== ''}
 >
 	<MonthPicker bind:month={$currentDate} />
-	<SelectionProvider
-		bind:selectedIds
-		bind:currentId={$currentId}
-		disabledIds={$disabledDates.map(dateToId)}
-		keyboardReducer={datePickerKeyboardReducer}
-		on:focusupdate={handleFocusUpdate}
-		let:isIdSelected
-		let:isIdDisabled
-		let:isIdCurrent
-		let:selectMode
+	<WeekDaysHeader weekDays={$weekDays} />
+	<div
+		role="grid"
+		aria-describedby={errorId}
+		aria-multiselectable={true}
+		class="relative grid grid-cols-7"
 	>
-		<div
-			role="grid"
-			aria-describedby={errorId}
-			aria-multiselectable={true}
-			class="grid grid-cols-7"
+		<ul id={helpId} tabindex={0} class="help-message focus">
+			<li><strong>Cursor keys</strong> to navigate dates.</li>
+			<li><strong>Space</strong> to toggle date.</li>
+			<li>Hold <strong>Shift</strong> to select multiple dates.</li>
+		</ul>
+		<SelectionProvider
+			bind:selectedIds
+			bind:currentId={$currentId}
+			disabledIds={$disabledDates.map(dateToId)}
+			keyboardReducer={datePickerKeyboardReducer}
+			on:focusupdate={handleFocusUpdate}
+			let:isIdSelected
+			let:isIdDisabled
+			let:isIdCurrent
+			let:selectMode
 		>
-			{#each $weekDays as day}
-				<div
-					role="columnheader"
-					aria-label={day.format('dddd')}
-					class="p-2 text-center"
-				>
-					{day.format('ddd')}
-				</div>
-			{/each}
 			{#each $monthDates as date (dateToId(date))}
 				<DateGridItem
 					{date}
@@ -89,13 +87,8 @@
 					neighbours={datePickerHasNeighbours(date, selectedIdSet)}
 				/>
 			{/each}
-		</div>
-	</SelectionProvider>
-	<p
-		id={helpId}
-		aria-label="Cursor keys can navigate dates. Space to toggle date. Shift to
-		select multiple dates."
-	/>
+		</SelectionProvider>
+	</div>
 	<p id={errorId} class="error-message" for={id} role="status">
 		{error}&nbsp;
 	</p>
@@ -104,10 +97,22 @@
 <style lang="postcss">
 	.date-picker {
 		@apply bg-neutral-100 gdark:bg-neutral-700;
-		@apply relative p-4 pb-1 rounded-xl;
+		@apply p-4 pb-1 rounded-xl;
 
 		&.error {
 			@apply ring ring-red-400;
+		}
+
+		& .help-message {
+			&:not(:focus) {
+				@apply aria-only;
+			}
+			&:focus {
+				@apply outline-none;
+			}
+			@apply absolute left-0 top-0 w-fit z-10;
+			@apply p-4 rounded-xl shadow-lg;
+			@apply bg-white gdark:bg-neutral-600;
 		}
 
 		& > .error-message {

@@ -27,6 +27,7 @@ const config = {
 	},
 	plugins: [
 		require('./tailwindcss/size.cjs'),
+		require('./tailwindcss/ariaOnly.cjs'),
 		require('tailwindcss-global-dark'),
 	],
 };
