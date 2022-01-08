@@ -35,6 +35,7 @@ specifiers:
   svelte-loader: ^3.1.2
   svelte-preprocess: ^4.10.1
   tailwindcss: ^3.0.7
+  tailwindcss-global-dark: ^1.0.1
   tslib: ^2.3.1
   typescript: ^4.4.3
 
@@ -73,6 +74,7 @@ devDependencies:
   svelte-loader: 3.1.2_svelte@3.44.3
   svelte-preprocess: 4.10.1_533617e1950b25369b99e3ecf3a349c2
   tailwindcss: 3.0.9_cefe482e8d38053bbf3d5815e0c551b3
+  tailwindcss-global-dark: 1.0.1_tailwindcss@3.0.9
   tslib: 2.3.1
   typescript: 4.5.4
 
@@ -11664,6 +11666,14 @@ packages:
       slice-ansi: 4.0.0
       string-width: 4.2.3
       strip-ansi: 6.0.1
+    dev: true
+
+  /tailwindcss-global-dark/1.0.1_tailwindcss@3.0.9:
+    resolution: {integrity: sha512-AeldGktCAOjdVnZI5Fm1anf/TQzzN03ER1UcRVfnfjDstMV32OJjR6MGB+CEkwavSzPBDWtgBCP/d8xO+fsGJQ==}
+    peerDependencies:
+      tailwindcss: x
+    dependencies:
+      tailwindcss: 3.0.9_cefe482e8d38053bbf3d5815e0c551b3
     dev: true
 
   /tailwindcss/3.0.9_cefe482e8d38053bbf3d5815e0c551b3:

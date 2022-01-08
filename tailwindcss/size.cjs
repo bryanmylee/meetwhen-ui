@@ -11,6 +11,4 @@ const sizePlugin = plugin(({ addUtilities, theme, e }) => {
 	addUtilities(Object.fromEntries(utilityEntries));
 });
 
-module.exports = {
-	size: sizePlugin,
-};
+module.exports = sizePlugin;
