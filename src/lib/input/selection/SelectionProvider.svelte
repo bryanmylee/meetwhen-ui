@@ -231,10 +231,11 @@
 	};
 
 	// ENDING SELECTIONS
-	const endSelection = () => {
+	const endSelectionOn = (target?: HTMLElement) => {
 		if (disabled) {
 			return;
 		}
+		lastId = target?.dataset[attributeKey] ?? lastId;
 		selectedIds = effectiveIdSet?.toArray() ?? selectedIds;
 		if (activeIdSet !== undefined && lastId !== undefined) {
 			dispatch('toggle', {
@@ -251,6 +252,10 @@
 		trackedTouches = {};
 	};
 
+	const mouseup = ({ target }: MouseEvent) => {
+		endSelectionOn(target as HTMLElement);
+	};
+
 	const longtouchend = ({ detail }: CustomEvent) => {
 		const touchEvent = detail.event as TouchEvent;
 		const changedTouches = getTouchArray(touchEvent.changedTouches);
@@ -260,7 +265,8 @@
 	const untrack = (touch: Touch) => {
 		delete trackedTouches[touch.identifier];
 		clearAllBodyScrollLocks();
-		endSelection();
+		const target = document.elementFromPoint(touch.clientX, touch.clientY);
+		endSelectionOn(target as HTMLElement);
 	};
 </script>
 
@@ -273,8 +279,10 @@
 	<div
 		on:mousedown={mousestart}
 		on:mousemove={mousemoveinto}
-		on:mouseleave={endSelection}
-		on:mouseup={endSelection}
+		on:mouseup={mouseup}
+		on:mouseleave={() => endSelectionOn()}
+		on:keydown
+		on:keyup
 		class="contents"
 	>
 		<slot
