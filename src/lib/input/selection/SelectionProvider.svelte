@@ -29,7 +29,7 @@
 	import { Set } from 'immutable';
 	import { createEventDispatcher } from 'svelte';
 	import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
-	import { getTouchArray, LongTouchProvider } from '$lib/core/utils/touch';
+	import { getTouchArray, LongTouchProvider } from '$lib/input';
 	import type { SelectMode } from './SelectMode';
 	import type { SelectionInterpolateFn } from './SelectionInterpolateFn';
 	import type { Maybe } from '$lib/core/types/Maybe';
