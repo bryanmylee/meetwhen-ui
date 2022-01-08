@@ -5,6 +5,7 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from '$lib/input';
 	import { dateToId } from '../utils/dateIds';
+	import { getCurrentDateElement } from '../utils/context';
 
 	export let date: Dayjs;
 	$: gridColumnStart = date.date() === 1 ? date.day() || 7 : '';
@@ -12,17 +13,24 @@
 
 	export let selected = false;
 	export let disabled = false;
-	export let focused = false;
+	export let current = false;
 	export let selectMode: Maybe<SelectMode> = undefined;
 	export let neighbours: HasNeighbors;
+
+	let buttonElement: Maybe<HTMLButtonElement>;
+	const currentDateElement = getCurrentDateElement();
+	$: if (current) {
+		$currentDateElement = buttonElement;
+	}
 </script>
 
 <button
+	bind:this={buttonElement}
 	type="button"
 	data-select-id={dateToId(date)}
 	aria-selected={selected}
 	{disabled}
-	tabindex={focused ? 0 : -1}
+	tabindex={current ? 0 : -1}
 	class:add={selectMode === 'add'}
 	class:remove={selectMode === 'remove'}
 	class:today={isToday}

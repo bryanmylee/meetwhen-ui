@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import { writable } from 'svelte/store';
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
@@ -7,14 +8,15 @@
 	import { getDatePickerState } from './utils/getDatePickerState';
 	import { getHasSelectedNeighbors } from './utils/getHasSelectedNeighbors';
 	import { datePickerKeyboardReducer } from './utils/datePickerKeyboardReducer';
+	import { setCurrentDateElement } from './utils/context';
 	import { SelectionProvider, SelectionProviderEvent } from '..';
 	import MonthPicker from './atoms/MonthPicker.svelte';
 	import DateGridItem from './atoms/DateGridItem.svelte';
 
 	export let initDate = dayjs();
-	const focusedDate = writable(initDate);
+	const currentDate = writable<Dayjs>(initDate);
 	const { weekDays, monthDates, disabledDates } =
-		getDatePickerState(focusedDate);
+		getDatePickerState(currentDate);
 
 	let selectedDates: Dayjs[] = [];
 	export { selectedDates as value };
@@ -25,20 +27,24 @@
 	$: selectedDates = selectedIds.map(dateFromId);
 
 	let selector: Maybe<SelectionProvider>;
+	const currentDateElement = writable<Maybe<HTMLButtonElement>>();
+	setCurrentDateElement(currentDateElement);
 
 	const handleToggle = ({
 		detail,
 	}: CustomEvent<SelectionProviderEvent['toggle']>) => {
-		$focusedDate = dateFromId(detail.lastId);
+		$currentDate = dateFromId(detail.lastId);
 	};
 
 	const handleKeydown = async (event: KeyboardEvent) => {
-		$focusedDate = datePickerKeyboardReducer(event, $focusedDate);
+		$currentDate = datePickerKeyboardReducer(event, $currentDate);
+		await tick();
+		$currentDateElement?.focus();
 	};
 </script>
 
 <div class="date-picker">
-	<MonthPicker bind:month={$focusedDate} />
+	<MonthPicker bind:month={$currentDate} />
 	<div class="grid grid-cols-7">
 		{#each $weekDays as day}
 			<div class="p-2 text-center">
@@ -57,12 +63,12 @@
 		let:selectMode
 	>
 		<div class="grid grid-cols-7">
-			{#each $monthDates as date}
+			{#each $monthDates as date (dateToId(date))}
 				<DateGridItem
 					{date}
 					selected={isIdSelected(dateToId(date))}
 					disabled={isIdDisabled(dateToId(date))}
-					focused={date.isSame($focusedDate, 'day')}
+					current={date.isSame($currentDate, 'day')}
 					{selectMode}
 					neighbours={getHasSelectedNeighbors(date, selectedDates)}
 				/>
