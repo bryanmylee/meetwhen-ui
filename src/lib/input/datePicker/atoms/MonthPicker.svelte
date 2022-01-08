@@ -35,7 +35,7 @@
 	>
 		<ChevronLeftIcon />
 	</Button>
-	<span class="font-bold">
+	<span role="status" class="font-bold">
 		{monthLabel}
 	</span>
 	<Button
