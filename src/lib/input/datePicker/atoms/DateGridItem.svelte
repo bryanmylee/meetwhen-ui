@@ -5,7 +5,7 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from '$lib/input';
 	import { dateToId } from '../utils/dateIds';
-	import { getCurrentDateElement } from '../utils/context';
+	import { getCurrentDateElement } from '../utils/datePickerContext';
 
 	export let date: Dayjs;
 	$: gridColumnStart = date.date() === 1 ? date.day() || 7 : '';
