@@ -5,6 +5,6 @@
 
 <Meta title="Input/DatePicker" component={DatePicker} argTypes={{}} />
 
-<Story name="Sample date picker" let:args>
+<Story name="Custom" let:args>
 	<DatePicker {...args} />
 </Story>

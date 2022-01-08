@@ -8,7 +8,6 @@
 
 <Meta title="Input/DatePicker/MonthPicker" component={MonthPicker} />
 
-<Story name="Sample month picker" let:args>
-	<h1 class="mb-4 text-xl font-bold">Sample month picker</h1>
+<Story name="Custom" let:args>
 	<MonthPicker bind:month {...args} />
 </Story>
