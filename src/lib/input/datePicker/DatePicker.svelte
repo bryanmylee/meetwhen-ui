@@ -104,8 +104,8 @@
 		}
 
 		& .help-message {
-			@apply focus-only absolute left-0 top-0 w-fit z-20;
-			@apply p-4 rounded-xl shadow-lg;
+			@apply focus-only absolute left-2 top-2 w-fit z-20;
+			@apply p-2 rounded-lg shadow-lg text-xs;
 			@apply bg-white gdark:bg-neutral-600;
 		}
 
