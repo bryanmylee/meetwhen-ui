@@ -4,7 +4,10 @@ const focusOnlyPlugin = plugin(({ addUtilities }) => {
 	addUtilities({
 		'.focus-only': {
 			'&:not(:focus)': {
-				position: 'absolute !important' /* Outside the DOM flow */,
+				position: 'absolute' /* Outside the DOM flow */,
+				border: '0',
+				margin: '-1px',
+				padding: '0',
 				height: '1px',
 				width: '1px' /* Nearly collapsed */,
 				overflow: 'hidden',
