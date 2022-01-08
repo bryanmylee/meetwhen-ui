@@ -73,7 +73,7 @@
 		}
 	}
 
-	:focus-within > [tabindex='0'] {
+	:global(:focus-within) > [tabindex='0'] {
 		&[aria-selected='true'] {
 			@apply border-white;
 		}
