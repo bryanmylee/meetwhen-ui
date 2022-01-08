@@ -17,6 +17,7 @@
 	import DateGridItem from './atoms/DateGridItem.svelte';
 
 	export let id: string = nanoid(8);
+	$: helpId = `${id}-help`;
 	$: errorId = `${id}-error`;
 
 	export let initDate = dayjs();
@@ -45,15 +46,13 @@
 	};
 </script>
 
-<div {id} class="date-picker" class:error={error !== ''}>
+<div
+	{id}
+	aria-labelledby={helpId}
+	class="date-picker"
+	class:error={error !== ''}
+>
 	<MonthPicker bind:month={$currentDate} />
-	<div class="grid grid-cols-7">
-		{#each $weekDays as day}
-			<div class="p-2 text-center">
-				{day.format('ddd')}
-			</div>
-		{/each}
-	</div>
 	<SelectionProvider
 		bind:selectedIds
 		bind:currentId={$currentId}
@@ -65,7 +64,21 @@
 		let:isIdCurrent
 		let:selectMode
 	>
-		<div class="grid grid-cols-7" role="grid" aria-describedby={errorId}>
+		<div
+			role="grid"
+			aria-describedby={errorId}
+			aria-multiselectable={true}
+			class="grid grid-cols-7"
+		>
+			{#each $weekDays as day}
+				<div
+					role="columnheader"
+					aria-label={day.format('dddd')}
+					class="p-2 text-center"
+				>
+					{day.format('ddd')}
+				</div>
+			{/each}
 			{#each $monthDates as date (dateToId(date))}
 				<DateGridItem
 					{date}
@@ -78,6 +91,11 @@
 			{/each}
 		</div>
 	</SelectionProvider>
+	<p
+		id={helpId}
+		aria-label="Cursor keys can navigate dates. Space to toggle date. Shift to
+		select multiple dates."
+	/>
 	<p id={errorId} class="error-message" for={id} role="status">
 		{error}&nbsp;
 	</p>

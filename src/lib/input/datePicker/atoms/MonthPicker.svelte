@@ -27,21 +27,21 @@
 <div class="flex items-center justify-between">
 	<Button
 		type="button"
+		aria-label="previous month"
 		variant="text-only"
 		disabled={isCurrentMonth}
-		on:click={prevMonth}
 		class="wh-10 !p-2"
-		aria-label="previous month"
+		on:click={prevMonth}
 	>
 		<ChevronLeftIcon />
 	</Button>
-	<span role="status" class="font-bold">
+	<span class="font-bold">
 		{monthLabel}
 	</span>
 	<Button
 		type="button"
-		variant="text-only"
 		aria-label="next month"
+		variant="text-only"
 		class="wh-10 !p-2"
 		on:click={nextMonth}
 	>

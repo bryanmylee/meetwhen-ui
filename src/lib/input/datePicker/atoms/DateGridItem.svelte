@@ -27,6 +27,8 @@
 <button
 	bind:this={buttonElement}
 	type="button"
+	role="gridcell"
+	aria-label={date.format('D MMMM YYYY')}
 	data-select-id={dateToId(date)}
 	aria-selected={selected}
 	{disabled}
