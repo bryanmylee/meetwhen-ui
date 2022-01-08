@@ -74,7 +74,7 @@
 			&:focus,
 			&.filled {
 				& + label {
-					@apply transform -translate-y-3 scale-75 text-primary-400;
+					@apply -translate-y-3 scale-75 text-primary-400;
 				}
 			}
 
@@ -108,7 +108,7 @@
 		}
 
 		& > .error-message {
-			@apply absolute bottom-1 left-0 mx-4 text-red-400 transform text-xs italic;
+			@apply absolute bottom-1 left-0 mx-4 text-red-400 text-xs italic;
 			@apply select-none pointer-events-none;
 		}
 	}
