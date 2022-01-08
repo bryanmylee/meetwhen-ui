@@ -36,7 +36,7 @@
 	{date.date()}
 </button>
 
-<style lang="postcss" global>
+<style lang="postcss">
 	.date-item {
 		@apply p-2 text-center rounded-xl select-none focus:outline-none;
 		@apply border-3 border-transparent;
@@ -64,12 +64,12 @@
 				@apply font-bold text-primary-400;
 			}
 			&:hover:not(:disabled) {
-				@apply bg-neutral-200 dark:bg-neutral-600;
+				@apply bg-neutral-200 gdark:bg-neutral-600;
 			}
 		}
 
 		&:disabled {
-			@apply text-neutral-300 dark:text-neutral-600;
+			@apply text-neutral-300 gdark:text-neutral-600;
 		}
 	}
 

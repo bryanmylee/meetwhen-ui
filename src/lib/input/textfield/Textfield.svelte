@@ -56,14 +56,14 @@
 	</span>
 </div>
 
-<style lang="postcss" global>
+<style lang="postcss">
 	.textfield {
 		@apply relative inline-block;
 
 		& > input[type='text'],
 		& > input[type='password'] {
 			@apply relative w-full px-4 pt-5 pb-3 rounded-xl;
-			@apply bg-neutral-100 dark:bg-neutral-700;
+			@apply bg-neutral-100 gdark:bg-neutral-700;
 			&:disabled {
 				@apply text-neutral-400 opacity-50;
 				& + label {

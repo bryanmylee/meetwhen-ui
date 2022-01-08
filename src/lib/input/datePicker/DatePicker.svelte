@@ -63,9 +63,9 @@
 	</SelectionProvider>
 </div>
 
-<style lang="postcss" global>
+<style lang="postcss">
 	.date-picker {
-		@apply bg-neutral-100 dark:bg-neutral-700;
+		@apply bg-neutral-100 gdark:bg-neutral-700;
 		@apply p-2 rounded-xl;
 	}
 </style>

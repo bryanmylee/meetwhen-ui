@@ -27,10 +27,10 @@
 	<slot />
 </button>
 
-<style lang="postcss" global>
+<style lang="postcss">
 	.button {
 		@apply p-4 rounded-full font-bold;
-		@apply ring-offset-2 ring-offset-white dark:ring-offset-neutral-700;
+		@apply ring-offset-2 ring-offset-white gdark:ring-offset-neutral-700;
 		@apply transition-colors;
 
 		&:disabled {
@@ -42,7 +42,7 @@
 				@apply bg-primary-400 text-white;
 			}
 			&.gray {
-				@apply bg-neutral-100 dark:bg-neutral-700;
+				@apply bg-neutral-100 gdark:bg-neutral-700;
 			}
 
 			&:not(:disabled) {
@@ -51,7 +51,7 @@
 						@apply bg-primary-300 shadow-sm shadow-primary-300;
 					}
 					&.gray {
-						@apply bg-neutral-50 dark:bg-neutral-600 shadow;
+						@apply bg-neutral-50 gdark:bg-neutral-600 shadow;
 					}
 				}
 				&:active {
@@ -59,7 +59,7 @@
 						@apply bg-primary-500 shadow shadow-primary-300;
 					}
 					&.gray {
-						@apply bg-neutral-200 dark:bg-neutral-500 shadow-sm;
+						@apply bg-neutral-200 gdark:bg-neutral-500 shadow-sm;
 					}
 				}
 			}
@@ -72,13 +72,13 @@
 			}
 			&.gray {
 				@apply border-neutral-500 text-neutral-500;
-				@apply dark:border-neutral-300 dark:text-neutral-300;
+				@apply gdark:border-neutral-300 gdark:text-neutral-300;
 			}
 
 			&:disabled {
 				&.gray {
 					@apply border-neutral-300 text-neutral-300;
-					@apply dark:border-neutral-500 text-neutral-500;
+					@apply gdark:border-neutral-500 text-neutral-500;
 				}
 			}
 
@@ -105,10 +105,10 @@
 		&.textOnly {
 			&:not(:disabled) {
 				&:not(:active):hover {
-					@apply text-neutral-500 dark:text-neutral-300;
+					@apply text-neutral-500 gdark:text-neutral-300;
 				}
 				&:active {
-					@apply text-neutral-600 dark:text-neutral-400;
+					@apply text-neutral-600 gdark:text-neutral-400;
 				}
 			}
 		}
