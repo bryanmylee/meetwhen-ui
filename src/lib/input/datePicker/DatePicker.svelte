@@ -4,15 +4,15 @@
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
 	import type { Maybe } from '$lib/core/types/Maybe';
+	import { bound } from '$lib/core/utils/bound';
+	import { SelectionProvider } from '$lib/input';
 	import { dateFromId, dateToId } from './utils/dateIds';
 	import { getDatePickerState } from './utils/getDatePickerState';
 	import { getHasSelectedNeighbors } from './utils/getHasSelectedNeighbors';
 	import { datePickerKeyboardReducer } from './utils/datePickerKeyboardReducer';
 	import { setCurrentDateElement } from './utils/context';
-	import { SelectionProvider } from '..';
 	import MonthPicker from './atoms/MonthPicker.svelte';
 	import DateGridItem from './atoms/DateGridItem.svelte';
-	import { bound } from '$lib/core/utils/bound';
 
 	export let initDate = dayjs();
 	const currentDate = writable<Dayjs>(initDate);
