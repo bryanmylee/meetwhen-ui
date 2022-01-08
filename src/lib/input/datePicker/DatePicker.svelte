@@ -9,7 +9,7 @@
 	import { getHasSelectedNeighbors } from './utils/getHasSelectedNeighbors';
 	import { datePickerKeyboardReducer } from './utils/datePickerKeyboardReducer';
 	import { setCurrentDateElement } from './utils/context';
-	import { SelectionProvider, SelectionProviderEvent } from '..';
+	import { SelectionProvider } from '..';
 	import MonthPicker from './atoms/MonthPicker.svelte';
 	import DateGridItem from './atoms/DateGridItem.svelte';
 	import { bound } from '$lib/core/utils/bound';
@@ -28,9 +28,13 @@
 	let selectedIds: string[] = selectedDates.map(dateToId);
 	$: selectedDates = selectedIds.map(dateFromId);
 
-	let selector: Maybe<SelectionProvider>;
 	const currentDateElement = writable<Maybe<HTMLButtonElement>>();
 	setCurrentDateElement(currentDateElement);
+
+	const handleFocusUpdate = async () => {
+		await tick();
+		$currentDateElement?.focus();
+	};
 </script>
 
 <div class="date-picker">
@@ -43,11 +47,11 @@
 		{/each}
 	</div>
 	<SelectionProvider
-		bind:this={selector}
 		bind:selectedIds
 		bind:currentId={$currentId}
 		disabledIds={$disabledDates.map(dateToId)}
 		keyboardReducer={datePickerKeyboardReducer}
+		on:focusupdate={handleFocusUpdate}
 		let:isIdSelected
 		let:isIdDisabled
 		let:isIdCurrent

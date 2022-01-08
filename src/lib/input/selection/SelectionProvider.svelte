@@ -5,6 +5,9 @@
 			lastId: string;
 			selected: boolean;
 		};
+		focusupdate: {
+			id: string;
+		};
 	}
 </script>
 
@@ -206,6 +209,7 @@
 			selectThrough(nextId);
 		}
 		currentId = nextId;
+		dispatch('focusupdate', { id: nextId });
 	};
 
 	const startSelectionFrom = (target: HTMLElement) => {
