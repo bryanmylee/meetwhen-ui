@@ -4,6 +4,7 @@
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
 	import { Set } from 'immutable';
+	import { nanoid } from 'nanoid';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { bound } from '$lib/core/utils/bound';
 	import { SelectionProvider } from '$lib/input';
@@ -14,6 +15,9 @@
 	import { setCurrentDateElement } from './utils/datePickerContext';
 	import MonthPicker from './atoms/MonthPicker.svelte';
 	import DateGridItem from './atoms/DateGridItem.svelte';
+
+	export let id: string = nanoid(8);
+	$: errorId = `${id}-error`;
 
 	export let initDate = dayjs();
 	const currentDate = writable<Dayjs>(initDate);
@@ -41,7 +45,7 @@
 	};
 </script>
 
-<div class="date-picker">
+<div {id} class="date-picker" class:error={error !== ''}>
 	<MonthPicker bind:month={$currentDate} />
 	<div class="grid grid-cols-7">
 		{#each $weekDays as day}
@@ -61,7 +65,7 @@
 		let:isIdCurrent
 		let:selectMode
 	>
-		<div class="grid grid-cols-7" role="grid">
+		<div class="grid grid-cols-7" role="grid" aria-describedby={errorId}>
 			{#each $monthDates as date (dateToId(date))}
 				<DateGridItem
 					{date}
@@ -74,11 +78,23 @@
 			{/each}
 		</div>
 	</SelectionProvider>
+	<p id={errorId} class="error-message" for={id} role="status">
+		{error}&nbsp;
+	</p>
 </div>
 
 <style lang="postcss">
 	.date-picker {
 		@apply bg-neutral-100 gdark:bg-neutral-700;
-		@apply p-2 rounded-xl;
+		@apply relative p-4 pb-1 rounded-xl;
+
+		&.error {
+			@apply ring ring-red-400;
+		}
+
+		& > .error-message {
+			@apply text-center text-red-400 text-xs italic;
+			@apply select-none pointer-events-none;
+		}
 	}
 </style>
