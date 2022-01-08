@@ -18,7 +18,6 @@
 	import WeekDaysHeader from './atoms/WeekDaysHeader.svelte';
 
 	export let id: string = nanoid(8);
-	$: helpId = `${id}-help`;
 	$: errorId = `${id}-error`;
 
 	export let initDate = dayjs();
@@ -49,8 +48,9 @@
 
 <div
 	{id}
-	aria-label="date picker, {$currentDate.format('MMMM YYYY')}"
-	class="date-picker"
+	tabindex={0}
+	aria-label={$currentDate.format('MMMM YYYY')}
+	class="date-picker focus"
 	class:error={error !== ''}
 >
 	<MonthPicker bind:month={$currentDate} />
@@ -61,11 +61,11 @@
 		aria-multiselectable={true}
 		class="relative grid grid-cols-7"
 	>
-		<ul id={helpId} tabindex={0} class="help-message focus">
-			<li><strong>Cursor keys</strong> to navigate dates.</li>
-			<li><strong>Space</strong> to toggle date.</li>
-			<li>Hold <strong>Shift</strong> to select multiple dates.</li>
-		</ul>
+		<div tabindex={0} class="help-message focus">
+			<p><strong>Cursor keys</strong> to navigate dates.</p>
+			<p><strong>Space</strong> to toggle date.</p>
+			<p>Hold <strong>Shift</strong> to toggle multiple dates.</p>
+		</div>
 		<SelectionProvider
 			bind:selectedIds
 			bind:currentId={$currentId}
@@ -89,7 +89,7 @@
 			{/each}
 		</SelectionProvider>
 	</div>
-	<p id={errorId} class="error-message" for={id} role="status">
+	<p id={errorId} role="status" class="error-message">
 		{error}&nbsp;
 	</p>
 </div>
