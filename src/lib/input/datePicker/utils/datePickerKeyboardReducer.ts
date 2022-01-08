@@ -1,25 +1,41 @@
-import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import type { KeyboardReducer } from '$lib/input';
+import { dateFromId, dateToId } from './dateIds';
 
-export const datePickerKeyboardReducer: KeyboardReducer<Dayjs> = (
+export const datePickerKeyboardReducer: KeyboardReducer<string> = (
 	event,
-	current,
+	currentId,
 ) => {
 	switch (event.key) {
 		case 'ArrowLeft':
-			return goLeft(current);
+			return goLeft(currentId);
 		case 'ArrowRight':
-			return goRight(current);
+			return goRight(currentId);
 		case 'ArrowUp':
-			return goUp(current);
+			return goUp(currentId);
 		case 'ArrowDown':
-			return goDown(current);
+			return goDown(currentId);
 		default:
-			return current;
+			return currentId;
 	}
 };
 
-const goLeft = (current: Dayjs): Dayjs => current.subtract(1, 'day');
-const goRight = (current: Dayjs): Dayjs => current.add(1, 'day');
-const goUp = (current: Dayjs): Dayjs => current.subtract(7, 'days');
-const goDown = (current: Dayjs): Dayjs => current.add(7, 'days');
+const goLeft = (currentId: string): string => {
+	const today = dayjs().startOf('day');
+	const next = dateFromId(currentId).subtract(1, 'day');
+	return dateToId(next.isBefore(today) ? today : next);
+};
+
+const goRight = (currentId: string): string => {
+	return dateToId(dateFromId(currentId).add(1, 'day'));
+};
+
+const goUp = (currentId: string): string => {
+	const today = dayjs().startOf('day');
+	const next = dateFromId(currentId).subtract(7, 'day');
+	return dateToId(next.isBefore(today) ? today : next);
+};
+
+const goDown = (currentId: string): string => {
+	return dateToId(dateFromId(currentId).add(7, 'day'));
+};

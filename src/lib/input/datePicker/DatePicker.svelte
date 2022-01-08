@@ -12,9 +12,11 @@
 	import { SelectionProvider, SelectionProviderEvent } from '..';
 	import MonthPicker from './atoms/MonthPicker.svelte';
 	import DateGridItem from './atoms/DateGridItem.svelte';
+	import { bound } from '$lib/core/utils/bound';
 
 	export let initDate = dayjs();
 	const currentDate = writable<Dayjs>(initDate);
+	const currentId = bound(currentDate, dateToId, dateFromId);
 	const { weekDays, monthDates, disabledDates } =
 		getDatePickerState(currentDate);
 
@@ -29,18 +31,6 @@
 	let selector: Maybe<SelectionProvider>;
 	const currentDateElement = writable<Maybe<HTMLButtonElement>>();
 	setCurrentDateElement(currentDateElement);
-
-	const handleToggle = ({
-		detail,
-	}: CustomEvent<SelectionProviderEvent['toggle']>) => {
-		$currentDate = dateFromId(detail.lastId);
-	};
-
-	const handleKeydown = async (event: KeyboardEvent) => {
-		$currentDate = datePickerKeyboardReducer(event, $currentDate);
-		await tick();
-		$currentDateElement?.focus();
-	};
 </script>
 
 <div class="date-picker">
@@ -55,11 +45,12 @@
 	<SelectionProvider
 		bind:this={selector}
 		bind:selectedIds
+		bind:currentId={$currentId}
 		disabledIds={$disabledDates.map(dateToId)}
-		on:toggle={handleToggle}
-		on:keydown={handleKeydown}
+		keyboardReducer={datePickerKeyboardReducer}
 		let:isIdSelected
 		let:isIdDisabled
+		let:isIdCurrent
 		let:selectMode
 	>
 		<div class="grid grid-cols-7">
@@ -68,7 +59,7 @@
 					{date}
 					selected={isIdSelected(dateToId(date))}
 					disabled={isIdDisabled(dateToId(date))}
-					current={date.isSame($currentDate, 'day')}
+					current={isIdCurrent(dateToId(date))}
 					{selectMode}
 					neighbours={getHasSelectedNeighbors(date, selectedDates)}
 				/>
