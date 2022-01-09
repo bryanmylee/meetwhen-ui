@@ -205,7 +205,9 @@
 		}
 		// -- update
 		if (event.shiftKey && currentId !== nextId) {
-			selectFrom(currentId);
+			if (selectMode === undefined) {
+				selectFrom(currentId, event.ctrlKey ? 'remove' : 'add');
+			}
 			selectThrough(nextId);
 		}
 		currentId = nextId;
@@ -226,23 +228,22 @@
 	 *
 	 * @param id The ID to start from.
 	 */
-	export const selectFrom = (id: Maybe<string>) => {
+	export const selectFrom = (
+		id: Maybe<string>,
+		forceSelectMode?: SelectMode,
+	) => {
 		if (id === undefined || isIdDisabled(id)) {
 			return;
 		}
 		startingId = id;
 		previousIdSet = Set(selectedIds);
 		activeIdSet = Set([id]);
-		if (!isIdSelected(id)) {
+
+		selectMode = forceSelectMode ?? (isIdSelected(id) ? 'remove' : 'add');
+		if (selectMode === 'add') {
 			effectiveIdSet = previousIdSet.union(activeIdSet);
-			if (selectMode === undefined) {
-				selectMode = 'add';
-			}
 		} else {
 			effectiveIdSet = previousIdSet.subtract(activeIdSet);
-			if (selectMode === undefined) {
-				selectMode = 'remove';
-			}
 		}
 		selectedIds = effectiveIdSet.toArray();
 	};

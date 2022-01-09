@@ -64,7 +64,8 @@
 		<div tabindex={0} class="help-message focus">
 			<p><strong>Cursor keys</strong> to navigate dates.</p>
 			<p><strong>Space</strong> to toggle date.</p>
-			<p>Hold <strong>Shift</strong> to toggle multiple dates.</p>
+			<p>Hold <strong>Shift</strong> to select multiple dates.</p>
+			<p>Hold <strong>Ctrl + Shift</strong> to select multiple dates.</p>
 			<p><strong>Tab</strong> to continue.</p>
 		</div>
 		<SelectionProvider
