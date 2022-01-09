@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import type { KeyboardReducer } from '$lib/input';
 import { dateFromId, dateToId } from './dateIds';
 
@@ -21,9 +20,7 @@ export const datePickerKeyboardReducer: KeyboardReducer<string> = (
 };
 
 const goLeft = (currentId: string): string => {
-	const today = dayjs().startOf('day');
-	const next = dateFromId(currentId).subtract(1, 'day');
-	return dateToId(next.isBefore(today) ? today : next);
+	return dateToId(dateFromId(currentId).subtract(1, 'day'));
 };
 
 const goRight = (currentId: string): string => {
@@ -31,9 +28,7 @@ const goRight = (currentId: string): string => {
 };
 
 const goUp = (currentId: string): string => {
-	const today = dayjs().startOf('day');
-	const next = dateFromId(currentId).subtract(7, 'day');
-	return dateToId(next.isBefore(today) ? today : next);
+	return dateToId(dateFromId(currentId).subtract(7, 'day'));
 };
 
 const goDown = (currentId: string): string => {
