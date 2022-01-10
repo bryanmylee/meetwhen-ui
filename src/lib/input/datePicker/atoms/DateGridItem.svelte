@@ -79,7 +79,7 @@
 		}
 
 		&:disabled {
-			@apply text-neutral-300 gdark:text-neutral-600;
+			@apply text-neutral-400 opacity-50;
 		}
 	}
 
