@@ -98,7 +98,7 @@
 
 <style lang="postcss">
 	.date-picker {
-		@apply bg-neutral-100 gdark:bg-neutral-700;
+		@apply bg-shade-100;
 		@apply p-4 pb-1 rounded-xl;
 
 		&.error {
@@ -108,7 +108,7 @@
 		& .help-message {
 			@apply focus-only absolute left-2 top-2 w-fit z-20;
 			@apply p-2 rounded-lg shadow-lg text-xs;
-			@apply bg-white gdark:bg-neutral-600;
+			@apply bg-shade-50;
 		}
 
 		& > .error-message {

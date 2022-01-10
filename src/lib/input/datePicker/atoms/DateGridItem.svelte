@@ -74,7 +74,7 @@
 				@apply font-bold text-primary-400;
 			}
 			&:hover:not(:disabled) {
-				@apply bg-neutral-200 gdark:bg-neutral-600;
+				@apply bg-shade-200;
 			}
 		}
 

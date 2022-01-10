@@ -28,6 +28,7 @@ const config = {
 	plugins: [
 		require('./tailwindcss/size.cjs'),
 		require('./tailwindcss/focusOnly.cjs'),
+		require('./tailwindcss/bgShade.cjs'),
 		require('tailwindcss-global-dark'),
 	],
 };

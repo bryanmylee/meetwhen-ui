@@ -43,7 +43,7 @@
 				@apply bg-primary-400 text-white;
 			}
 			&.gray {
-				@apply bg-neutral-100 gdark:bg-neutral-700;
+				@apply bg-shade-100;
 			}
 
 			&:not(:disabled) {
@@ -52,7 +52,7 @@
 						@apply bg-primary-300 shadow-sm shadow-primary-300;
 					}
 					&.gray {
-						@apply bg-neutral-50 gdark:bg-neutral-600 shadow;
+						@apply bg-shade-50 shadow;
 					}
 				}
 				&:active {
@@ -60,7 +60,7 @@
 						@apply bg-primary-500 shadow shadow-primary-300;
 					}
 					&.gray {
-						@apply bg-neutral-200 gdark:bg-neutral-500 shadow-sm;
+						@apply bg-shade-200 shadow-sm;
 					}
 				}
 			}
