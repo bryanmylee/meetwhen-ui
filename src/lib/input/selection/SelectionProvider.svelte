@@ -274,10 +274,12 @@
 		updateSelectionOn(target as HTMLElement);
 	};
 
+	let previousTarget: Maybe<HTMLElement>;
 	const updateSelectionOn = (target: HTMLElement) => {
-		if (disabled) {
+		if (disabled || previousTarget === target) {
 			return;
 		}
+		previousTarget = target;
 		const id = target.dataset[attributeKey];
 		selectThrough(id);
 	};
@@ -341,6 +343,7 @@
 		if (disabled) {
 			return;
 		}
+		previousTarget = undefined;
 		currentId = target?.dataset[attributeKey] ?? currentId;
 		selectEnd(currentId);
 	};
