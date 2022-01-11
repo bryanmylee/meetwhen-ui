@@ -3,15 +3,20 @@
 	import { writable } from 'svelte/store';
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
+	import { Set } from 'immutable';
 	import { gridStyle, gridItemStyle } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
+	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 	import {
 		dateTimeFromId,
 		dateTimeToId,
 		dateTimeComposeId,
 	} from '$lib/core/utils/dayjs/dateTimeIds';
 	import { bound } from '$lib/core/utils/bound';
-	import { getLocalIntervalsFromDiscretes } from '$lib/core/utils/intervals';
+	import {
+		getIntervalDiscretes,
+		getLocalIntervalsFromDiscretes,
+	} from '$lib/core/utils/intervals';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { SelectionProvider } from '$lib/input';
@@ -22,6 +27,7 @@
 	import TimePickerGridItem from './atoms/TimePickerGridItem.svelte';
 	import { createTimePickerState } from './utils/createTimePickerState';
 	import { timePickerIntervalStyle } from './atoms/timePickerIntervalStyle';
+	import { getTimePickerInterpolate } from './utils/getTimePickerInterpolate';
 
 	export let validIntervals: Interval[] = [];
 	const _validIntervals = writable(validIntervals);
@@ -30,6 +36,11 @@
 	export let resolution = 30;
 	const _resolution = writable(resolution);
 	$: $_resolution = resolution;
+
+	$: validIds = $_validIntervals
+		.flatMap((interval) => getIntervalDiscretes(interval, $_resolution))
+		.map(dateTimeToId);
+	$: validIdSet = Set(validIds);
 
 	/**
 	 * SelectionProvider selectedIds binding.
@@ -73,6 +84,13 @@
 		activeIds.map(dateTimeFromId),
 		$_resolution,
 	);
+
+	$: dates = $dateIds.map(dateFromId);
+	$: timePickerInterpolate = getTimePickerInterpolate(
+		dates,
+		validIdSet,
+		$_resolution,
+	);
 </script>
 
 <div tabindex={0} class="timepicker focus">
@@ -80,6 +98,7 @@
 		bind:selectedIds
 		bind:currentId={$currentId}
 		bind:activeIds
+		interpolate={timePickerInterpolate}
 		on:focusupdate={handleFocusUpdate}
 		let:isIdSelected
 		let:isIdCurrent
