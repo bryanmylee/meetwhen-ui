@@ -1,27 +1,33 @@
 import type { Interval } from '$lib/core/types/Interval';
+import { onDay } from '$lib/core/utils/dayjs/onDay';
 import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 import { getIntervalDiscretes } from '$lib/core/utils/intervals';
+import dayjs from 'dayjs';
 import { Set } from 'immutable';
 import type { TimeCell } from '../types/TimeCell';
-import { getTimeBlocks } from './getTimeBlocks';
+import { getLocalTimeBlocks } from './getLocalTimeBlocks';
 
-export const getTimeCells = (
-	intervals: Interval[],
+export const getLocalTimeCells = (
+	localIntervals: Interval[],
 	resolution: number,
 ): TimeCell[] => {
-	const timeBlocks = getTimeBlocks(intervals);
-	const endOfBlockTimeIds = Set(timeBlocks.map(({ end }) => timeToId(end)));
+	const today = dayjs();
+	const localTimeBlocks = getLocalTimeBlocks(localIntervals);
+	const endOfBlockTimeIds = Set(
+		localTimeBlocks.map(({ end }) => timeToId(end)),
+	);
 	const timeCells: TimeCell[] = [];
-	intervals.forEach((interval) => {
+	localIntervals.forEach((interval) => {
 		const discretes = getIntervalDiscretes(interval, resolution);
 		const intervalTimeCells: TimeCell[] = discretes.map((discrete) => ({
 			isEndOfBlock: false,
-			time: discrete,
+			time: onDay(discrete, today),
 		}));
 		if (endOfBlockTimeIds.includes(timeToId(interval.end))) {
 			intervalTimeCells[intervalTimeCells.length - 1].isEndOfBlock = true;
 		}
 		timeCells.push(...intervalTimeCells);
 	});
+	timeCells.sort((a, b) => a.time.diff(b.time));
 	return timeCells;
 };

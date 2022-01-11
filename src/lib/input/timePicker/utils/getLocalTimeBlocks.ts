@@ -3,7 +3,7 @@ import type { Interval } from '$lib/core/types/Interval';
 import { onDay } from '$lib/core/utils/dayjs/onDay';
 import { unionIntervals } from '$lib/core/utils/intervals';
 
-export const getTimeBlocks = (localIntervals: Interval[]): Interval[] => {
+export const getLocalTimeBlocks = (localIntervals: Interval[]): Interval[] => {
 	const today = dayjs().startOf('day');
 	const timeIntervals = localIntervals.map(({ start, end }) => ({
 		start: onDay(start, today),
