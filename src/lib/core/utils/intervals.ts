@@ -13,8 +13,8 @@ export const serialize = (interval: Interval): UnixInterval => ({
 });
 
 export const deserialize = (interval: UnixInterval): Interval => ({
-	start: dayjs(interval.start),
-	end: dayjs(interval.end),
+	start: dayjs.unix(interval.start),
+	end: dayjs.unix(interval.end),
 });
 
 /**
