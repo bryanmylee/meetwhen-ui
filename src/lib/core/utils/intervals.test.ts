@@ -8,6 +8,7 @@ import {
 	serialize,
 	unionIntervals,
 } from './intervals';
+import { dateToId } from './dayjs/dateIds';
 
 const today = dayjs().startOf('day');
 
@@ -48,7 +49,7 @@ describe('groupIntervalsByDay', () => {
 		];
 		const result = groupIntervalsByDay(intervals);
 		const expected = {
-			[today.startOf('day').unix()]: [
+			[dateToId(today)]: [
 				{
 					start: today.hour(8),
 					end: today.hour(10),
@@ -60,7 +61,7 @@ describe('groupIntervalsByDay', () => {
 			],
 		};
 		expect(Object.keys(result)).toEqual(Object.keys(expected));
-		const todayKey = today.startOf('day').unix();
+		const todayKey = dateToId(today);
 		expect(result[todayKey].map(serialize)).toEqual(
 			expected[todayKey].map(serialize),
 		);
@@ -79,13 +80,13 @@ describe('groupIntervalsByDay', () => {
 		];
 		const result = groupIntervalsByDay(intervals);
 		const expected = {
-			[today.startOf('day').unix()]: [
+			[dateToId(today)]: [
 				{
 					start: today.hour(8),
 					end: today.hour(10),
 				},
 			],
-			[today.startOf('day').add(1, 'day').unix()]: [
+			[dateToId(today.add(1, 'day'))]: [
 				{
 					start: today.add(1, 'day').hour(12),
 					end: today.add(1, 'day').hour(15),
@@ -93,8 +94,8 @@ describe('groupIntervalsByDay', () => {
 			],
 		};
 		expect(Object.keys(result)).toEqual(Object.keys(expected));
-		const todayKey = today.startOf('day').unix();
-		const tomorrowKey = today.startOf('day').add(1, 'day').unix();
+		const todayKey = dateToId(today);
+		const tomorrowKey = dateToId(today.add(1, 'day'));
 		expect(result[todayKey].map(serialize)).toEqual(
 			expected[todayKey].map(serialize),
 		);
