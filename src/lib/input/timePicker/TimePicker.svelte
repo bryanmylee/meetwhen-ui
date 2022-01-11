@@ -3,7 +3,6 @@
 	import { writable } from 'svelte/store';
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
-	import { Set } from 'immutable';
 	import { gridStyle, gridItemStyle } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import {
@@ -12,7 +11,7 @@
 		dateTimeComposeId,
 	} from '$lib/core/utils/dayjs/dateTimeIds';
 	import { bound } from '$lib/core/utils/bound';
-	import { getIntervalsFromDiscretes } from '$lib/core/utils/intervals';
+	import { getLocalIntervalsFromDiscretes } from '$lib/core/utils/intervals';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { SelectionProvider } from '$lib/input';
@@ -36,7 +35,10 @@
 	 * SelectionProvider selectedIds binding.
 	 */
 	let selectedIds: string[] = [];
-	$: selectedIdSet = Set(selectedIds);
+	$: selectedIntervals = getLocalIntervalsFromDiscretes(
+		selectedIds.map(dateTimeFromId),
+		$_resolution,
+	);
 
 	const state = createTimePickerState(_validIntervals, _resolution);
 	const {
@@ -67,11 +69,10 @@
 	 * SelectionProvider activeIds binding.
 	 */
 	let activeIds: string[] = [];
-	$: activeIntervals = getIntervalsFromDiscretes(
+	$: activeIntervals = getLocalIntervalsFromDiscretes(
 		activeIds.map(dateTimeFromId),
 		$_resolution,
 	);
-	$: console.log(activeIntervals);
 </script>
 
 <div tabindex={0} class="timepicker focus">
@@ -116,6 +117,19 @@
 					{/if}
 				{/each}
 			{/each}
+			{#each selectedIntervals as interval}
+				<div
+					class="timepicker-selected"
+					class:add={selectMode === 'add'}
+					class:remove={selectMode === 'remove'}
+					style={timePickerIntervalStyle({
+						dateIdToColumnNumber: $dateIdToColumnNumber,
+						timeIdToRowNumber: $timeIdToRowNumber,
+						resolution: $_resolution,
+						interval,
+					})}
+				/>
+			{/each}
 			{#each activeIntervals as interval}
 				<div
 					class="timepicker-active"
@@ -136,6 +150,11 @@
 <style lang="postcss">
 	.timepicker {
 		@apply rounded-xl;
+	}
+
+	.timepicker-selected {
+		@apply rounded-xl pointer-events-none z-10;
+		@apply bg-primary-400/50;
 	}
 
 	.timepicker-active {
