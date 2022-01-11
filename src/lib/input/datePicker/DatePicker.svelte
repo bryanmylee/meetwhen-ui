@@ -10,7 +10,7 @@
 	import { SelectionProvider } from '$lib/input';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { getDatePickerState } from './utils/getDatePickerState';
-	import { datePickerHasNeighbours } from './utils/datePickerHasNeighbours';
+	import { datePickerHasNeighbors } from './utils/datePickerHasNeighbors';
 	import { datePickerKeyboardReducer } from './utils/datePickerKeyboardReducer';
 	import { setCurrentDateElement } from './utils/datePickerContext';
 	import MonthPicker from './atoms/MonthPicker.svelte';
@@ -89,7 +89,7 @@
 					disabled={isIdDisabled(dateToId(date))}
 					current={isIdCurrent(dateToId(date))}
 					{selectMode}
-					neighbours={datePickerHasNeighbours(date, selectedIdSet)}
+					neighbours={datePickerHasNeighbors(date, selectedIdSet)}
 				/>
 			{/each}
 		</SelectionProvider>

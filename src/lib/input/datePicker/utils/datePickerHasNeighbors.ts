@@ -3,7 +3,7 @@ import type { Set } from 'immutable';
 import type { HasNeighbors } from '$lib/core/types/HasNeighbors';
 import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 
-export const datePickerHasNeighbours = (
+export const datePickerHasNeighbors = (
 	center: Dayjs,
 	selectedIdSet: Set<string>,
 ): HasNeighbors => {
