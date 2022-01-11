@@ -4,7 +4,7 @@
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
 	import { Set } from 'immutable';
-	import { Grid, GridItem } from '$lib/core/components/grid';
+	import { gridStyle, gridItemStyle } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import {
 		dateTimeFromId,
@@ -73,7 +73,9 @@
 		let:isIdDisabled
 		let:selectMode
 	>
-		<Grid rows={$localTimeCells.length} cols={$dateIds.length}>
+		<div
+			style={gridStyle({ rows: $localTimeCells.length, cols: $dateIds.length })}
+		>
 			{#each Object.entries($timeCellsByDate) as [dateId, dateTimeCells]}
 				{#each dateTimeCells as timeCell}
 					<TimePickerGridItem
@@ -98,16 +100,18 @@
 						)}
 					/>
 					{#if timeCell.isEndOfBlock}
-						<GridItem
-							x={$dateIdToColumnNumber[dateId]}
-							y={$timeIdToRowNumber[timeToId(timeCell.time)] + 1}
+						<div
+							style={gridItemStyle({
+								x: $dateIdToColumnNumber[dateId],
+								y: $timeIdToRowNumber[timeToId(timeCell.time)] + 1,
+							})}
 						>
 							padding
-						</GridItem>
+						</div>
 					{/if}
 				{/each}
 			{/each}
-		</Grid>
+		</div>
 	</SelectionProvider>
 </div>
 

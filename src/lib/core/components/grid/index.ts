@@ -1,2 +1,2 @@
-export { default as Grid } from './Grid.svelte';
-export { default as GridItem } from './GridItem.svelte';
+export { gridStyle } from './gridStyle';
+export { gridItemStyle } from './gridItemStyle';

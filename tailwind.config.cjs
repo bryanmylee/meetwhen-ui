@@ -4,6 +4,9 @@ const config = {
 	darkMode: 'class',
 	theme: {
 		extend: {
+			borderWidth: {
+				3: '3px',
+			},
 			colors: {
 				primary: {
 					50: 'var(--primary-50)',
@@ -20,9 +23,10 @@ const config = {
 					900: 'var(--primary-900)',
 				},
 			},
-			borderWidth: {
-				3: '3px',
-			},
+			minHeight: (theme) => theme('height'),
+			minWidth: (theme) => theme('width'),
+			maxHeight: (theme) => theme('height'),
+			maxWidth: (theme) => theme('width'),
 		},
 	},
 	plugins: [

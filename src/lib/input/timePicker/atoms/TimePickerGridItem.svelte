@@ -3,7 +3,7 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from '$lib/input';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
-	import { GridItem } from '$lib/core/components/grid';
+	import { gridItemStyle } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import { dateTimeComposeId } from '$lib/core/utils/dayjs/dateTimeIds';
 	import {
@@ -35,39 +35,41 @@
 	}
 </script>
 
-<GridItem x={$dateIdToColumnNumber[dateId]} y={$timeIdToRowNumber[timeId]}>
-	<button
-		bind:this={buttonElement}
-		type="button"
-		role="gridcell"
-		aria-label={label}
-		data-select-id={dateTimeComposeId([dateId, timeId])}
-		aria-selected={selected}
-		{disabled}
-		tabindex={current ? 0 : -1}
-		class="datetime-item"
-		class:add={selectMode === 'add'}
-		class:remove={selectMode === 'remove'}
-	>
-		<div
-			class="bg"
-			class:border-b-2={timeCell.time.minute() === 0 && !timeCell.isEndOfBlock}
-			class:rounded-t-xl={timeCell.isStartOfBlock}
-			class:rounded-b-xl={timeCell.isEndOfBlock}
-		/>
-		<div
-			class="select"
-			class:!rounded-t-none={neighbors.top}
-			class:!rounded-b-none={neighbors.bottom}
-			class:!rounded-l-none={neighbors.left}
-			class:!rounded-r-none={neighbors.right}
-		/>
-	</button>
-</GridItem>
+<button
+	bind:this={buttonElement}
+	type="button"
+	role="gridcell"
+	aria-label={label}
+	data-select-id={dateTimeComposeId([dateId, timeId])}
+	aria-selected={selected}
+	{disabled}
+	tabindex={current ? 0 : -1}
+	class="datetime-item"
+	class:add={selectMode === 'add'}
+	class:remove={selectMode === 'remove'}
+	style={gridItemStyle({
+		x: $dateIdToColumnNumber[dateId],
+		y: $timeIdToRowNumber[timeId],
+	})}
+>
+	<div
+		class="bg"
+		class:border-b-2={timeCell.time.minute() === 0 && !timeCell.isEndOfBlock}
+		class:rounded-t-xl={timeCell.isStartOfBlock}
+		class:rounded-b-xl={timeCell.isEndOfBlock}
+	/>
+	<div
+		class="select"
+		class:!rounded-t-none={neighbors.top}
+		class:!rounded-b-none={neighbors.bottom}
+		class:!rounded-l-none={neighbors.left}
+		class:!rounded-r-none={neighbors.right}
+	/>
+</button>
 
 <style lang="postcss">
 	.datetime-item {
-		@apply relative wh-full select-none focus:outline-none;
+		@apply relative wh-full select-none focus:outline-none min-h-6;
 
 		& > .bg {
 			@apply wh-full select-none;
@@ -80,7 +82,7 @@
 			@apply pointer-events-none transition;
 		}
 
-		:global(:focus-within > div) > &[tabindex='0'] {
+		:global(:focus-within) > &[tabindex='0'] {
 			&[aria-selected='false'] > .select {
 				@apply ring ring-inset ring-primary-400;
 			}
