@@ -12,16 +12,17 @@
 		dateTimeComposeId,
 	} from '$lib/core/utils/dayjs/dateTimeIds';
 	import { bound } from '$lib/core/utils/bound';
+	import { getIntervalsFromDiscretes } from '$lib/core/utils/intervals';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { SelectionProvider } from '$lib/input';
-	import { createTimePickerState } from './utils/createTimePickerState';
 	import {
 		setCurrentDateTimeElement,
 		setTimePickerState,
 	} from './utils/timePickerContext';
 	import TimePickerGridItem from './atoms/TimePickerGridItem.svelte';
-	import { timePickerHasNeighbors } from './utils/timePickerHasNeighbors';
+	import { createTimePickerState } from './utils/createTimePickerState';
+	import { timePickerIntervalStyle } from './atoms/timePickerIntervalStyle';
 
 	export let validIntervals: Interval[] = [];
 	const _validIntervals = writable(validIntervals);
@@ -61,12 +62,23 @@
 		await tick();
 		$currentDateTimeElement?.focus();
 	};
+
+	/**
+	 * SelectionProvider activeIds binding.
+	 */
+	let activeIds: string[] = [];
+	$: activeIntervals = getIntervalsFromDiscretes(
+		activeIds.map(dateTimeFromId),
+		$_resolution,
+	);
+	$: console.log(activeIntervals);
 </script>
 
-<div tabindex={0} class="time-picker focus">
+<div tabindex={0} class="timepicker focus">
 	<SelectionProvider
 		bind:selectedIds
 		bind:currentId={$currentId}
+		bind:activeIds
 		on:focusupdate={handleFocusUpdate}
 		let:isIdSelected
 		let:isIdCurrent
@@ -91,13 +103,6 @@
 							dateTimeComposeId([dateId, timeToId(timeCell.time)]),
 						)}
 						{selectMode}
-						neighbors={timePickerHasNeighbors(
-							dateTimeFromId(
-								dateTimeComposeId([dateId, timeToId(timeCell.time)]),
-							),
-							$_resolution,
-							selectedIdSet,
-						)}
 					/>
 					{#if timeCell.isEndOfBlock}
 						<div
@@ -111,12 +116,36 @@
 					{/if}
 				{/each}
 			{/each}
+			{#each activeIntervals as interval}
+				<div
+					class="timepicker-active"
+					class:add={selectMode === 'add'}
+					class:remove={selectMode === 'remove'}
+					style={timePickerIntervalStyle({
+						dateIdToColumnNumber: $dateIdToColumnNumber,
+						timeIdToRowNumber: $timeIdToRowNumber,
+						resolution: $_resolution,
+						interval,
+					})}
+				/>
+			{/each}
 		</div>
 	</SelectionProvider>
 </div>
 
 <style lang="postcss">
-	.time-picker {
+	.timepicker {
 		@apply rounded-xl;
+	}
+
+	.timepicker-active {
+		@apply rounded-xl pointer-events-none z-20;
+		@apply ring ring-inset;
+		&.add {
+			@apply bg-primary-300 ring-primary-500 gdark:ring-white;
+		}
+		&.remove {
+			@apply ring-red-400;
+		}
 	}
 </style>

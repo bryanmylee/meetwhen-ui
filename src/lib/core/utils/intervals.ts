@@ -81,7 +81,7 @@ export const groupIntervalsByDay = (
  */
 export const getIntervalDiscretes = (
 	{ start, end }: Interval,
-	resolution = 1,
+	resolution = 30,
 ): Dayjs[] => {
 	const result: Dayjs[] = [];
 	let current = start;
@@ -90,6 +90,17 @@ export const getIntervalDiscretes = (
 		current = current.add(resolution, 'minutes');
 	}
 	return result;
+};
+
+export const getIntervalsFromDiscretes = (
+	discretes: Dayjs[],
+	resolution = 30,
+): Interval[] => {
+	const intervals: Interval[] = discretes.map((d) => ({
+		start: d,
+		end: d.add(resolution, 'minutes'),
+	}));
+	return unionIntervals(intervals);
 };
 
 /**

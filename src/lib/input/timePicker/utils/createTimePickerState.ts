@@ -61,6 +61,7 @@ export const createTimePickerState = (
 	);
 
 	return {
+		resolution,
 		localIntervals,
 		localTimeCells,
 		timeIdToRowNumber,
