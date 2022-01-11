@@ -89,7 +89,7 @@
 					disabled={isIdDisabled(dateToId(date))}
 					current={isIdCurrent(dateToId(date))}
 					{selectMode}
-					neighbours={datePickerHasNeighbors(date, selectedIdSet)}
+					neighbors={datePickerHasNeighbors(date, selectedIdSet)}
 				/>
 			{/each}
 		</SelectionProvider>

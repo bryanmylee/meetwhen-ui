@@ -21,7 +21,7 @@
 		setTimePickerState,
 	} from './utils/timePickerContext';
 	import TimePickerGridItem from './atoms/TimePickerGridItem.svelte';
-	import { timePickerHasNeighbours } from './utils/timePickerHasNeighbours';
+	import { timePickerHasNeighbors } from './utils/timePickerHasNeighbors';
 
 	export let validIntervals: Interval[] = [];
 	const _validIntervals = writable(validIntervals);
@@ -89,7 +89,7 @@
 							dateTimeComposeId([dateId, timeToId(timeCell.time)]),
 						)}
 						{selectMode}
-						neighbours={timePickerHasNeighbours(
+						neighbors={timePickerHasNeighbors(
 							dateTimeFromId(
 								dateTimeComposeId([dateId, timeToId(timeCell.time)]),
 							),

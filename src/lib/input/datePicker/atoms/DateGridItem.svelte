@@ -15,7 +15,7 @@
 	export let disabled = false;
 	export let current = false;
 	export let selectMode: Maybe<SelectMode> = undefined;
-	export let neighbours: HasNeighbors;
+	export let neighbors: HasNeighbors;
 
 	let buttonElement: Maybe<HTMLButtonElement>;
 	const currentDateElement = getCurrentDateElement();
@@ -36,10 +36,10 @@
 	class:add={selectMode === 'add'}
 	class:remove={selectMode === 'remove'}
 	class:today={isToday}
-	class:!rounded-t-none={neighbours.top}
-	class:!rounded-b-none={neighbours.bottom}
-	class:!rounded-l-none={neighbours.left}
-	class:!rounded-r-none={neighbours.right}
+	class:!rounded-t-none={neighbors.top}
+	class:!rounded-b-none={neighbors.bottom}
+	class:!rounded-l-none={neighbors.left}
+	class:!rounded-r-none={neighbors.right}
 	class="date-item"
 	style="grid-column-start: {gridColumnStart};"
 >

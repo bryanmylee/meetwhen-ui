@@ -23,7 +23,7 @@
 	export let current = false;
 	export let disabled = false;
 	export let selectMode: Maybe<SelectMode> = undefined;
-	export let neighbours: HasNeighbors;
+	export let neighbors: HasNeighbors;
 
 	const state = getTimePickerState();
 	const { dateIdToColumnNumber, timeIdToRowNumber } = state;
@@ -57,10 +57,10 @@
 		/>
 		<div
 			class="select"
-			class:!rounded-t-none={neighbours.top}
-			class:!rounded-b-none={neighbours.bottom}
-			class:!rounded-l-none={neighbours.left}
-			class:!rounded-r-none={neighbours.right}
+			class:!rounded-t-none={neighbors.top}
+			class:!rounded-b-none={neighbors.bottom}
+			class:!rounded-l-none={neighbors.left}
+			class:!rounded-r-none={neighbors.right}
 		/>
 	</button>
 </GridItem>
