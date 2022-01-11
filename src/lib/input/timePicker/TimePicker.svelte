@@ -1,8 +1,15 @@
 <script lang="ts">
 	import { tick } from 'svelte';
 	import { writable } from 'svelte/store';
+	import dayjs from 'dayjs';
+	import type { Dayjs } from 'dayjs';
 	import { Grid, GridItem } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
+	import {
+		dateTimeFromId,
+		dateTimeToId,
+		dateTimeComposeId,
+	} from '$lib/core/utils/dayjs/dateTimeIds';
 	import { bound } from '$lib/core/utils/bound';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
@@ -13,7 +20,6 @@
 		setTimePickerState,
 	} from './utils/timePickerContext';
 	import TimePickerGridItem from './atoms/TimePickerGridItem.svelte';
-	import { timePickerFromId, timePickerToId } from './utils/timePickerId';
 
 	export let validIntervals: Interval[] = [];
 	const _validIntervals = writable(validIntervals);
@@ -38,11 +44,12 @@
 	} = state;
 	setTimePickerState(state);
 
-	const currentDateTime = writable<[string, string]>(['', '']);
+	export let initDateTime = dayjs();
+	const currentDateTime = writable<Dayjs>(initDateTime);
 	/**
 	 * SelectionProvider currentId binding.
 	 */
-	const currentId = bound(currentDateTime, timePickerToId, timePickerFromId);
+	const currentId = bound(currentDateTime, dateTimeToId, dateTimeFromId);
 
 	const currentDateTimeElement = writable<Maybe<HTMLButtonElement>>();
 	setCurrentDateTimeElement(currentDateTimeElement);
@@ -68,15 +75,15 @@
 				{#each dateTimeCells as timeCell}
 					<TimePickerGridItem
 						{dateId}
-						timeId={timeToId(timeCell.time)}
+						{timeCell}
 						selected={isIdSelected(
-							timePickerToId([dateId, timeToId(timeCell.time)]),
+							dateTimeComposeId([dateId, timeToId(timeCell.time)]),
 						)}
 						current={isIdCurrent(
-							timePickerToId([dateId, timeToId(timeCell.time)]),
+							dateTimeComposeId([dateId, timeToId(timeCell.time)]),
 						)}
 						disabled={isIdDisabled(
-							timePickerToId([dateId, timeToId(timeCell.time)]),
+							dateTimeComposeId([dateId, timeToId(timeCell.time)]),
 						)}
 						{selectMode}
 						neighbours={{

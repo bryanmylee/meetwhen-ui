@@ -4,17 +4,19 @@
 	import type { SelectMode } from '$lib/input';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 	import { GridItem } from '$lib/core/components/grid';
-	import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
+	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
+	import { dateTimeComposeId } from '$lib/core/utils/dayjs/dateTimeIds';
 	import {
 		getTimePickerState,
 		getCurrentDateTimeElement,
 	} from '../utils/timePickerContext';
-	import { timePickerToId } from '../utils/timePickerId';
+	import type { TimeCell } from '../types/TimeCell';
 
 	export let dateId: string;
-	export let timeId: string;
+	export let timeCell: TimeCell;
+	$: timeId = timeToId(timeCell.time);
 	$: label =
-		`${timeFromId(timeId).format('HH:mm')}` +
+		`${timeCell.time.format('HH:mm')}` +
 		` ${dateFromId(dateId).format('D MMM YYYY')}`;
 
 	export let selected = false;
@@ -39,55 +41,64 @@
 		type="button"
 		role="gridcell"
 		aria-label={label}
-		data-select-id={timePickerToId([dateId, timeId])}
+		data-select-id={dateTimeComposeId([dateId, timeId])}
 		aria-selected={selected}
 		{disabled}
 		tabindex={current ? 0 : -1}
+		class="datetime-item"
 		class:add={selectMode === 'add'}
 		class:remove={selectMode === 'remove'}
-		class:!rounded-t-none={neighbours.top}
-		class:!rounded-b-none={neighbours.bottom}
-		class:!rounded-l-none={neighbours.left}
-		class:!rounded-r-none={neighbours.right}
-		class="datetime-item"
-	/>
+	>
+		<div
+			class="bg"
+			class:border-b-2={timeCell.time.minute() === 0 && !timeCell.isEndOfBlock}
+			class:rounded-t-xl={timeCell.isStartOfBlock}
+			class:rounded-b-xl={timeCell.isEndOfBlock}
+		/>
+		<div
+			class="select"
+			class:rounded-t-xl={neighbours.top}
+			class:rounded-b-xl={neighbours.bottom}
+			class:rounded-l-xl={neighbours.left}
+			class:rounded-r-xl={neighbours.right}
+		/>
+	</button>
 </GridItem>
 
 <style lang="postcss">
 	.datetime-item {
-		@apply rounded-xl w-full h-full bg-shade-100;
-		@apply select-none focus:outline-none;
-		@apply border-3 border-transparent;
-		@apply transition;
+		@apply relative wh-full;
 
-		&[aria-selected='true'] {
-			@apply bg-primary-400 shadow shadow-primary-400/30 z-10;
-			&.add {
-				@apply shadow-lg shadow-primary-400/30;
-			}
-			&.remove {
-				@apply bg-primary-400/50;
-			}
-			&:hover {
-				@apply bg-primary-300;
-			}
+		& > .bg {
+			@apply wh-full select-none;
+			@apply bg-shade-100 border-gray-200 gdark:border-neutral-500;
+			@apply pointer-events-none transition;
 		}
 
-		&[aria-selected='false'] {
-			@apply z-0;
-			&:hover:not(:disabled) {
+		& > .select {
+			@apply absolute inset-0 select-none rounded-xl;
+			@apply pointer-events-none transition;
+		}
+
+		&:hover {
+			& > .bg {
 				@apply bg-shade-200;
 			}
 		}
-	}
 
-	/** div required for GridItem element */
-	:global(:focus-within > div) > [tabindex='0'] {
 		&[aria-selected='true'] {
-			@apply border-white;
-		}
-		&[aria-selected='false'] {
-			@apply border-primary-400;
+			& > .select {
+				@apply bg-primary-400 shadow shadow-primary-400/30 z-10;
+			}
+			&.add > .select {
+				@apply shadow-lg shadow-primary-400/30;
+			}
+			&.remove > .select {
+				@apply bg-primary-400/50;
+			}
+			&:hover > .select {
+				@apply bg-primary-300;
+			}
 		}
 	}
 </style>
