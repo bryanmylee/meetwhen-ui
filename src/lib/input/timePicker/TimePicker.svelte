@@ -46,10 +46,13 @@
 	 * SelectionProvider selectedIds binding.
 	 */
 	let selectedIds: string[] = [];
-	$: selectedIntervals = getLocalIntervalsFromDiscretes(
-		selectedIds.map(dateTimeFromId),
-		$_resolution,
-	);
+	let selectedIntervals: Interval[] = [];
+	$: tick().then(() => {
+		selectedIntervals = getLocalIntervalsFromDiscretes(
+			selectedIds.map(dateTimeFromId),
+			$_resolution,
+		);
+	});
 
 	const state = createTimePickerState(_validIntervals, _resolution);
 	const {
