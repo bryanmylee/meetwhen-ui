@@ -1,7 +1,7 @@
 import type { Dayjs } from 'dayjs';
 import type { Set } from 'immutable';
 import type { HasNeighbors } from '$lib/core/types/HasNeighbors';
-import { dateToId } from './dateIds';
+import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 
 export const datePickerHasNeighbours = (
 	center: Dayjs,

@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { endOf } from '$lib/core/utils/dayjs/endOf';
 import { onDay } from '$lib/core/utils/dayjs/onDay';
+import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 import type { Interval } from '$lib/core/types/Interval';
 import type { UnixInterval } from '$lib/core/types/UnixInterval';
 import type { Moment } from '$lib/core/types/Moment';
@@ -63,7 +64,7 @@ export const groupIntervalsByDay = (
 ): Record<string, Interval[]> => {
 	const result: Record<string, Interval[]> = {};
 	intervals.forEach((interval) => {
-		const key = interval.start.startOf('day').unix().toString();
+		const key = dateToId(interval.start);
 		if (!Object.keys(result).includes(key)) {
 			result[key] = [];
 		}

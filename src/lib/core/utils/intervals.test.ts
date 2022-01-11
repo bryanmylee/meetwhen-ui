@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
 import {
 	getIntervalDiscretes,
 	getLocalIntervals,
@@ -7,7 +8,6 @@ import {
 	serialize,
 	unionIntervals,
 } from './intervals';
-import { parseTime } from './parseTime';
 
 const today = dayjs().startOf('day');
 
@@ -198,8 +198,8 @@ describe('isIntervalInTimeInterval', () => {
 			end: today.hour(10),
 		};
 		const timeInterval = {
-			start: parseTime('07:30'),
-			end: parseTime('10:30'),
+			start: timeFromId('07:30'),
+			end: timeFromId('10:30'),
 		};
 		const result = isIntervalInTimeInterval(interval, timeInterval);
 		expect(result).toBe(true);
@@ -211,8 +211,8 @@ describe('isIntervalInTimeInterval', () => {
 			end: today.hour(10),
 		};
 		const timeInterval = {
-			start: parseTime('08:00'),
-			end: parseTime('10:00'),
+			start: timeFromId('08:00'),
+			end: timeFromId('10:00'),
 		};
 		const result = isIntervalInTimeInterval(interval, timeInterval);
 		expect(result).toBe(true);
@@ -224,8 +224,8 @@ describe('isIntervalInTimeInterval', () => {
 			end: today.hour(10),
 		};
 		const timeInterval = {
-			start: parseTime('08:00'),
-			end: parseTime('09:30'),
+			start: timeFromId('08:00'),
+			end: timeFromId('09:30'),
 		};
 		const result = isIntervalInTimeInterval(interval, timeInterval);
 		expect(result).toBe(false);

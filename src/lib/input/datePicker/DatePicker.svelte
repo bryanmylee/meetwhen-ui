@@ -8,7 +8,7 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { bound } from '$lib/core/utils/bound';
 	import { SelectionProvider } from '$lib/input';
-	import { dateFromId, dateToId } from './utils/dateIds';
+	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { getDatePickerState } from './utils/getDatePickerState';
 	import { datePickerHasNeighbours } from './utils/datePickerHasNeighbours';
 	import { datePickerKeyboardReducer } from './utils/datePickerKeyboardReducer';

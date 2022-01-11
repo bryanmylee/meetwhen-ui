@@ -4,7 +4,7 @@
 	import type { HasNeighbors } from '$lib/core/types/HasNeighbors';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from '$lib/input';
-	import { dateToId } from '../utils/dateIds';
+	import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { getCurrentDateElement } from '../utils/datePickerContext';
 
 	export let date: Dayjs;
