@@ -10,7 +10,7 @@ import type { TimePickerState } from '../types/TimePickerState';
 import type { TimeCell } from '../types/TimeCell';
 import { getLocalTimeCells } from './getLocalTimeCells';
 
-export const getTimePickerState = (
+export const createTimePickerState = (
 	validIntervals: Readable<Interval[]>,
 	resolution: Readable<number>,
 ): TimePickerState => {

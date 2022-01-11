@@ -22,6 +22,9 @@
 
 	export let initDate = dayjs();
 	const currentDate = writable<Dayjs>(initDate);
+	/**
+	 * SelectionProvider currentId binding.
+	 */
 	const currentId = bound(currentDate, dateToId, dateFromId);
 	const { weekDays, monthDates, disabledDates } =
 		getDatePickerState(currentDate);
@@ -29,7 +32,7 @@
 	let selectedDates: Dayjs[] = [];
 	export { selectedDates as value };
 	/**
-	 * SelectionProvider binding.
+	 * SelectionProvider selectedIds binding.
 	 */
 	let selectedIds: string[] = selectedDates.map(dateToId);
 	$: selectedDates = selectedIds.map(dateFromId);
