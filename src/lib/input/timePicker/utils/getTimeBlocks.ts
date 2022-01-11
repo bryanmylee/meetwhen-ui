@@ -7,7 +7,9 @@ export const getTimeBlocks = (localIntervals: Interval[]): Interval[] => {
 	const today = dayjs().startOf('day');
 	const timeIntervals = localIntervals.map(({ start, end }) => ({
 		start: onDay(start, today),
-		end: onDay(end, today),
+		end: end.hour() === 0 ? onDay(end, today).add(1, 'day') : onDay(end, today),
 	}));
-	return unionIntervals(timeIntervals);
+	const blocks = unionIntervals(timeIntervals);
+	blocks.sort((a, b) => a.start.diff(b.start));
+	return blocks;
 };
