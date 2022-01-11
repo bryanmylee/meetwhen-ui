@@ -24,7 +24,7 @@
 		setCurrentDateTimeElement,
 		setTimePickerState,
 	} from './utils/timePickerContext';
-	import TimePickerGridItem from './atoms/TimePickerGridItem.svelte';
+	import TimePickerGridCell from './atoms/TimePickerGridCell.svelte';
 	import { createTimePickerState } from './utils/createTimePickerState';
 	import { timePickerIntervalStyle } from './atoms/timePickerIntervalStyle';
 	import { getTimePickerInterpolate } from './utils/getTimePickerInterpolate';
@@ -93,7 +93,7 @@
 	);
 </script>
 
-<div tabindex={0} class="timepicker focus">
+<div tabindex={0} class="timepicker">
 	<SelectionProvider
 		bind:selectedIds
 		bind:currentId={$currentId}
@@ -110,7 +110,7 @@
 		>
 			{#each Object.entries($timeCellsByDate) as [dateId, dateTimeCells]}
 				{#each dateTimeCells as timeCell}
-					<TimePickerGridItem
+					<TimePickerGridCell
 						{dateId}
 						{timeCell}
 						selected={isIdSelected(
@@ -126,13 +126,12 @@
 					/>
 					{#if timeCell.isEndOfBlock}
 						<div
+							class="timepicker-padding"
 							style={gridItemStyle({
 								x: $dateIdToColumnNumber[dateId],
 								y: $timeIdToRowNumber[timeToId(timeCell.time)] + 1,
 							})}
-						>
-							padding
-						</div>
+						/>
 					{/if}
 				{/each}
 			{/each}
@@ -168,7 +167,11 @@
 
 <style lang="postcss">
 	.timepicker {
-		@apply rounded-xl;
+		@apply rounded-xl focus:outline-none;
+	}
+
+	.timepicker-padding {
+		@apply min-h-4;
 	}
 
 	.timepicker-selected {
