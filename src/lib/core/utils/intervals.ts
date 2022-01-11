@@ -92,7 +92,7 @@ export const getIntervalDiscretes = (
 	return result;
 };
 
-export const getIntervalsFromDiscretes = (
+export const getLocalIntervalsFromDiscretes = (
 	discretes: Dayjs[],
 	resolution = 30,
 ): Interval[] => {
@@ -100,7 +100,7 @@ export const getIntervalsFromDiscretes = (
 		start: d,
 		end: d.add(resolution, 'minutes'),
 	}));
-	return unionIntervals(intervals);
+	return getLocalIntervals(unionIntervals(intervals));
 };
 
 /**
