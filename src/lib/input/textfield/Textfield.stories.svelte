@@ -2,7 +2,7 @@
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Textfield from './Textfield.svelte';
 	import { MockJsEnabled } from '$lib/core/utils/useJsEnabled';
-	import { timeoutError } from '$lib/doc/timeoutError';
+	import { timeoutError } from '$lib/test/timeoutError';
 
 	const [ariaValue, ariaError] = timeoutError('');
 </script>

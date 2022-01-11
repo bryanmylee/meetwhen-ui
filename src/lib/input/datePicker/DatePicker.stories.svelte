@@ -1,7 +1,7 @@
 <script>
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import DatePicker from './DatePicker.svelte';
-	import { timeoutError } from '$lib/doc/timeoutError';
+	import { timeoutError } from '$lib/test/timeoutError';
 
 	const [ariaValue, ariaError] = timeoutError([]);
 </script>
