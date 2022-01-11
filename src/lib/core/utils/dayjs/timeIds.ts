@@ -3,5 +3,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import type { Dayjs } from 'dayjs';
 dayjs.extend(customParseFormat);
 
-export const timeToId = (time: Dayjs): string => time.format('HH:mm');
-export const timeFromId = (id: string): Dayjs => dayjs(id, 'HH:mm');
+export const TIME_FORMAT = 'HH:mm';
+
+export const timeToId = (time: Dayjs): string => time.format(TIME_FORMAT);
+export const timeFromId = (id: string): Dayjs => dayjs(id, TIME_FORMAT);
