@@ -67,7 +67,7 @@
 
 <style lang="postcss">
 	.datetime-item {
-		@apply relative wh-full;
+		@apply relative wh-full select-none focus:outline-none;
 
 		& > .bg {
 			@apply wh-full select-none;
@@ -78,6 +78,15 @@
 		& > .select {
 			@apply absolute inset-0 select-none rounded-xl;
 			@apply pointer-events-none transition;
+		}
+
+		:global(:focus-within > div) > &[tabindex='0'] {
+			&[aria-selected='false'] > .select {
+				@apply ring ring-inset ring-primary-400;
+			}
+			&[aria-selected='true'] > .select {
+				@apply ring ring-inset ring-white;
+			}
 		}
 
 		&:hover {
