@@ -64,3 +64,30 @@ it('gets blocks in multiple days', () => {
 
 	expect(blocks.map(serialize)).toEqual(expected);
 });
+
+it('gets blocks with adjacent intervals over midnight', () => {
+	const intervals: Interval[] = [
+		{
+			start: timeFromId('22:00'),
+			end: timeFromId('00:00').add(1, 'day'),
+		},
+		{
+			start: timeFromId('00:00').add(1, 'day'),
+			end: timeFromId('02:00').add(1, 'day'),
+		},
+	];
+
+	const blocks = getTimeBlocks(intervals);
+	const expected = [
+		{
+			start: timeFromId('00:00'),
+			end: timeFromId('02:00'),
+		},
+		{
+			start: timeFromId('22:00'),
+			end: timeFromId('00:00').add(1, 'day'),
+		},
+	].map(serialize);
+
+	expect(blocks.map(serialize)).toEqual(expected);
+});
