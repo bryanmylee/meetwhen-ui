@@ -1,13 +1,14 @@
 import type { Dayjs } from 'dayjs';
 import type { Set } from 'immutable';
 import type { HasNeighbors } from '$lib/core/types/HasNeighbors';
-import { dateToId } from '$lib/core/utils/dayjs/dateIds';
+import { dateTimeToId } from '$lib/core/utils/dayjs/dateTimeIds';
 
 export const timePickerHasNeighbours = (
 	center: Dayjs,
+	resolution: number,
 	selectedIdSet: Set<string>,
 ): HasNeighbors => {
-	if (!selectedIdSet.has(dateToId(center))) {
+	if (!selectedIdSet.has(dateTimeToId(center))) {
 		return {
 			top: false,
 			bottom: false,
@@ -16,31 +17,29 @@ export const timePickerHasNeighbours = (
 		};
 	}
 	return {
-		top: hasTop(center, selectedIdSet),
-		bottom: hasBottom(center, selectedIdSet),
-		left: hasLeft(center, selectedIdSet),
-		right: hasRight(center, selectedIdSet),
+		top: hasTop(center, resolution, selectedIdSet),
+		bottom: hasBottom(center, resolution, selectedIdSet),
+		left: false,
+		right: false,
 	};
 };
 
-const hasTop = (center: Dayjs, selectedIdSet: Set<string>) => {
-	const top = center.subtract(7, 'days');
-	return selectedIdSet.has(dateToId(top)) && center.isSame(top, 'month');
+const hasTop = (
+	center: Dayjs,
+	resolution: number,
+	selectedIdSet: Set<string>,
+) => {
+	const top = center.subtract(resolution, 'minutes');
+	return selectedIdSet.has(dateTimeToId(top)) && center.isSame(top, 'day');
 };
 
-const hasBottom = (center: Dayjs, selectedIdSet: Set<string>) => {
-	const bottom = center.add(7, 'days');
-	return selectedIdSet.has(dateToId(bottom)) && center.isSame(bottom, 'month');
-};
-
-const hasLeft = (center: Dayjs, selectedIdSet: Set<string>) => {
-	if (center.day() % 7 === 1) return false;
-	const left = center.subtract(1, 'day');
-	return selectedIdSet.has(dateToId(left)) && center.isSame(left, 'month');
-};
-
-const hasRight = (center: Dayjs, selectedIdSet: Set<string>) => {
-	if (center.day() % 7 === 0) return false;
-	const right = center.add(1, 'day');
-	return selectedIdSet.has(dateToId(right)) && center.isSame(right, 'month');
+const hasBottom = (
+	center: Dayjs,
+	resolution: number,
+	selectedIdSet: Set<string>,
+) => {
+	const bottom = center.add(resolution, 'minutes');
+	return (
+		selectedIdSet.has(dateTimeToId(bottom)) && center.isSame(bottom, 'day')
+	);
 };

@@ -57,10 +57,10 @@
 		/>
 		<div
 			class="select"
-			class:rounded-t-xl={neighbours.top}
-			class:rounded-b-xl={neighbours.bottom}
-			class:rounded-l-xl={neighbours.left}
-			class:rounded-r-xl={neighbours.right}
+			class:!rounded-t-none={neighbours.top}
+			class:!rounded-b-none={neighbours.bottom}
+			class:!rounded-l-none={neighbours.left}
+			class:!rounded-r-none={neighbours.right}
 		/>
 	</button>
 </GridItem>

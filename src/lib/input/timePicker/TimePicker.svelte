@@ -3,6 +3,7 @@
 	import { writable } from 'svelte/store';
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
+	import { Set } from 'immutable';
 	import { Grid, GridItem } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import {
@@ -20,6 +21,7 @@
 		setTimePickerState,
 	} from './utils/timePickerContext';
 	import TimePickerGridItem from './atoms/TimePickerGridItem.svelte';
+	import { timePickerHasNeighbours } from './utils/timePickerHasNeighbours';
 
 	export let validIntervals: Interval[] = [];
 	const _validIntervals = writable(validIntervals);
@@ -33,6 +35,7 @@
 	 * SelectionProvider selectedIds binding.
 	 */
 	let selectedIds: string[] = [];
+	$: selectedIdSet = Set(selectedIds);
 
 	const state = createTimePickerState(_validIntervals, _resolution);
 	const {
@@ -86,12 +89,13 @@
 							dateTimeComposeId([dateId, timeToId(timeCell.time)]),
 						)}
 						{selectMode}
-						neighbours={{
-							top: false,
-							bottom: false,
-							left: false,
-							right: false,
-						}}
+						neighbours={timePickerHasNeighbours(
+							dateTimeFromId(
+								dateTimeComposeId([dateId, timeToId(timeCell.time)]),
+							),
+							$_resolution,
+							selectedIdSet,
+						)}
 					/>
 					{#if timeCell.isEndOfBlock}
 						<GridItem
