@@ -1,5 +1,9 @@
+import { onDestroy } from 'svelte';
 import { derived, writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
+import dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
+import { withPrevious } from 'svelte-previous';
 import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 import type { Interval } from '$lib/core/types/Interval';
 import {
@@ -8,8 +12,6 @@ import {
 } from '$lib/core/utils/intervals';
 import type { TimeCell } from '../types/TimeCell';
 import { getLocalTimeCells } from './getLocalTimeCells';
-import type { Dayjs } from 'dayjs';
-import dayjs from 'dayjs';
 
 export interface TimePickerProps {
 	initValidIntervals: Interval[];
@@ -35,9 +37,24 @@ export const createTimePickerState = ({
 	initValidIntervals,
 	initResolution,
 }: TimePickerProps): [TimePickerControls, TimePickerState] => {
-	const validIntervals = writable(initValidIntervals);
+	const [validIntervals, previousValidIntervals] = withPrevious(
+		initValidIntervals,
+		{ requireChange: true, isEqual: (a, b) => a.length === b.length },
+	);
 	const resolution = writable(initResolution);
-	const currentDateTime = writable(initValidIntervals[0]?.start ?? dayjs());
+	const currentDateTime = writable<Dayjs>(dayjs());
+
+	// If valid intervals are created, set the current date time to the first element.
+	onDestroy(
+		derived(
+			[validIntervals, previousValidIntervals],
+			(values) => values,
+		).subscribe(([$valid, $prevValid]) => {
+			if ($prevValid != null && $prevValid.length === 0 && $valid.length > 0) {
+				currentDateTime.set($valid[0].start);
+			}
+		}),
+	);
 
 	const localIntervals = derived(validIntervals, getLocalIntervals);
 

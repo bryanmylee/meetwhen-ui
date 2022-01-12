@@ -37,6 +37,7 @@ specifiers:
   svelte-feather-icons: ^3.5.0
   svelte-loader: ^3.1.2
   svelte-preprocess: ^4.10.1
+  svelte-previous: ^2.0.1
   tailwindcss: ^3.0.7
   tailwindcss-global-dark: ^1.0.1
   ts-jest: ^27.1.2
@@ -80,6 +81,7 @@ devDependencies:
   svelte-feather-icons: 3.5.0
   svelte-loader: 3.1.2_svelte@3.46.0
   svelte-preprocess: 4.10.1_2c4ced56926ce313281b13b810366213
+  svelte-previous: 2.0.1
   tailwindcss: 3.0.9_cefe482e8d38053bbf3d5815e0c551b3
   tailwindcss-global-dark: 1.0.1_tailwindcss@3.0.9
   ts-jest: 27.1.2_dd7c91bd6ff034fee50a8c495c77e31c
@@ -12835,6 +12837,10 @@ packages:
       strip-indent: 3.0.0
       svelte: 3.46.0
       typescript: 4.5.4
+    dev: true
+
+  /svelte-previous/2.0.1:
+    resolution: {integrity: sha512-SoYr4OeEKfcdwhs5uNEGLNcD6lNp/bVt1TYjymgH2TzJ4U0oDMjW+4dQpgOWIZnYmmSM+h3H0XXlAuAYwI35KQ==}
     dev: true
 
   /svelte/3.44.3:
