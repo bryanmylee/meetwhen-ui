@@ -4,12 +4,10 @@
 	import { Set } from 'immutable';
 	import { nanoid } from 'nanoid';
 	import { gridItemStyle, gridStyle } from '$lib/core/components/grid';
-	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 	import {
 		dateTimeFromId,
 		dateTimeToId,
-		dateTimeComposeId,
 	} from '$lib/core/utils/dayjs/dateTimeIds';
 	import { bound } from '$lib/core/utils/bound';
 	import {
@@ -27,14 +25,13 @@
 	import { createTimePickerState } from './utils/createTimePickerState';
 	import { getTimePickerInterpolate } from './utils/getTimePickerInterpolate';
 	import { getTimePickerKeyboardReducer } from './utils/getTimePickerKeyboardReducer';
-	import TimePickerBlockCell from './atoms/TimePickerBlockCell.svelte';
 	import TimePickerFocusCell from './atoms/TimePickerFocusCell.svelte';
 	import TimePickerActiveInterval from './atoms/TimePickerActiveInterval.svelte';
 	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
-	import TimePickerBlockGap from './atoms/TimePickerBlockGap.svelte';
 	import TimePickerBlockOverlay from './atoms/TimePickerBlockOverlay.svelte';
 	import TimePickerLayoutHeader from './atoms/TimePickerLayoutHeader.svelte';
 	import TimePickerLayoutIndex from './atoms/TimePickerLayoutIndex.svelte';
+	import TimePickerColumn from './atoms/TimePickerColumn.svelte';
 
 	export let id: string = nanoid(8);
 	$: errorId = `${id}-error`;
@@ -81,7 +78,6 @@
 	setTimePickerState(state);
 	const { flattenedTimeCells, dateIds, timeCellsByDateId, blocksByDateId } =
 		state;
-	$: console.log($flattenedTimeCells);
 
 	$: dates = $dateIds.map(dateFromId);
 
@@ -144,20 +140,14 @@
 				>
 					{#each Object.entries($timeCellsByDateId) as [dateId, dateTimeCells]}
 						{#each dateTimeCells as timeCell}
-							<!-- @const -->
-							{#each [dateTimeComposeId( [dateId, timeToId(timeCell.time)], )] as id}
-								<TimePickerBlockCell
-									{dateId}
-									{timeCell}
-									selected={isIdSelected(id)}
-									current={isIdCurrent(id)}
-									disabled={isIdDisabled(id)}
-									{selectMode}
-								/>
-							{/each}
-							{#if timeCell.isEndOfBlock && !timeCell.isEndOfDate}
-								<TimePickerBlockGap {timeCell} />
-							{/if}
+							<TimePickerColumn
+								{dateId}
+								{timeCell}
+								{isIdSelected}
+								{isIdCurrent}
+								{isIdDisabled}
+								{selectMode}
+							/>
 						{/each}
 					{/each}
 					{#each Object.entries($blocksByDateId) as [_, blocks]}
