@@ -84,11 +84,12 @@
 	}
 
 	:global(:focus-within) > [tabindex='0'] {
-		&[aria-selected='true'] {
-			@apply border-white;
+		@apply border-primary-400;
+		&.remove {
+			@apply border-red-400;
 		}
-		&[aria-selected='false'] {
-			@apply border-primary-400;
+		&[aria-selected='true'] {
+			@apply border-primary-500 gdark:border-white;
 		}
 	}
 </style>
