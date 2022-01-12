@@ -43,8 +43,8 @@
 
 <style lang="postcss">
 	.timepicker-grid-index {
-		@apply sticky left-0 z-40 grid-flow-col rounded-lg;
-		@apply ring-8 ring-white gdark:ring-neutral-800;
+		@apply sticky left-0 z-40 grid-flow-col;
+		@apply bg-white gdark:bg-neutral-800 ring-8 ring-white gdark:ring-neutral-800;
 	}
 
 	.timepicker-grid-index-cell {
@@ -56,7 +56,7 @@
 			@apply p-1 -translate-y-1/2;
 			@apply text-xs text-gray-400 text-center whitespace-nowrap;
 			&.start {
-				@apply -translate-y-1/4;
+				@apply -translate-y-[15%];
 			}
 			&.end {
 				@apply absolute left-0 right-0 -bottom-2/3;

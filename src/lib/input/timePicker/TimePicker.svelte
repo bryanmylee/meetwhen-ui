@@ -115,9 +115,9 @@
 </script>
 
 <div {id} tabindex={0} aria-label="time picker" class="timepicker">
-	<KeyboardHelp />
 	<div class="timepicker-clip-content">
 		<div class="timepicker-scroll-grid">
+			<KeyboardHelp />
 			<TimePickerLayoutHeader />
 			<TimePickerLayoutIndex />
 			<SelectionProvider
@@ -189,7 +189,7 @@
 	}
 
 	.timepicker-scroll-grid {
-		@apply grid h-full overflow-auto gap-3 pb-1;
+		@apply relative grid h-full overflow-auto gap-3 pb-1;
 		grid-template: min-content auto / min-content auto;
 	}
 

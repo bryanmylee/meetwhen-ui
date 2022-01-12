@@ -8,7 +8,7 @@
 
 <style lang="postcss">
 	.help-message {
-		@apply focus-only absolute left-2 top-2 w-fit z-20;
+		@apply focus-only absolute left-2 top-2 w-fit z-[100];
 		@apply p-2 rounded-lg shadow-lg text-xs;
 		@apply bg-shade-50;
 	}
