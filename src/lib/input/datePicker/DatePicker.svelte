@@ -9,7 +9,7 @@
 	import { bound } from '$lib/core/utils/bound';
 	import { SelectionProvider } from '$lib/input';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
-	import { getDatePickerState } from './utils/getDatePickerState';
+	import { createDatePickerState } from './utils/createDatePickerState';
 	import { datePickerHasNeighbors } from './utils/datePickerHasNeighbors';
 	import { datePickerKeyboardReducer } from './utils/datePickerKeyboardReducer';
 	import { setCurrentDateElement } from './utils/datePickerContext';
@@ -20,14 +20,16 @@
 	export let id: string = nanoid(8);
 	$: errorId = `${id}-error`;
 
-	export let initDate = dayjs();
-	const currentDate = writable<Dayjs>(initDate);
+	let initDate = dayjs();
+	export { initDate as focusedDate };
+	const [controls, state] = createDatePickerState({ initDate });
+	const { focusedDate } = controls;
+	$: $focusedDate = initDate;
 	/**
 	 * SelectionProvider currentId binding.
 	 */
-	const currentId = bound(currentDate, dateToId, dateFromId);
-	const { weekDays, monthDates, disabledDates } =
-		getDatePickerState(currentDate);
+	const currentId = bound(focusedDate, dateToId, dateFromId);
+	const { weekDays, monthDates, disabledDates } = state;
 
 	let selectedDates: Dayjs[] = [];
 	export { selectedDates as value };
@@ -52,11 +54,11 @@
 <div
 	{id}
 	tabindex={0}
-	aria-label={$currentDate.format('MMMM YYYY')}
+	aria-label={$focusedDate.format('MMMM YYYY')}
 	class="date-picker focus"
 	class:error={error !== ''}
 >
-	<MonthPicker bind:month={$currentDate} />
+	<MonthPicker bind:month={$focusedDate} />
 	<WeekDaysHeader weekDays={$weekDays} />
 	<div
 		role="grid"
