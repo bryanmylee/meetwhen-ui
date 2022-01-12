@@ -61,3 +61,13 @@
 		]}
 	/>
 </Story>
+
+<Story name="Scrolling time picker" let:args>
+	<TimePicker
+		{...args}
+		validIntervals={[...Array(20)].map((_, day) => ({
+			start: today.add(day, 'days').hour(1),
+			end: today.add(day, 'days').hour(23),
+		}))}
+	/>
+</Story>

@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import type { TimeCell } from '../types/TimeCell';
 import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 
-export const getLocalTimeCells = (
+export const getFlattenedTimeCells = (
 	localIntervals: Interval[],
 	localTimeBlocks: Interval[],
 	resolution: number,

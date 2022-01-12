@@ -12,8 +12,8 @@ import {
 	groupIntervalsByDateId,
 } from '$lib/core/utils/intervals';
 import type { TimeCell } from '../types/TimeCell';
-import { getLocalTimeCells } from './getLocalTimeCells';
-import { getLocalTimeBlocks } from './getLocalTimeBlocks';
+import { getFlattenedTimeCells } from './getFlattenedTimeCells';
+import { getFlattenedTimeBlocks } from './getFlattenedTimeBlocks';
 import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 
 export interface TimePickerProps {
@@ -29,7 +29,7 @@ export interface TimePickerControls {
 
 export interface TimePickerState {
 	localIntervals: Readable<Interval[]>;
-	localTimeCells: Readable<TimeCell[]>;
+	flattenedTimeCells: Readable<TimeCell[]>;
 	timeIdToRowNumber: Readable<Record<string, number>>;
 	dateIds: Readable<string[]>;
 	dateIdToColumnNumber: Readable<Record<string, number>>;
@@ -62,36 +62,39 @@ export const createTimePickerState = ({
 
 	const localIntervals = derived(validIntervals, getLocalIntervals);
 
-	const localTimeBlocks = derived(localIntervals, ($localIntervals) =>
-		getLocalTimeBlocks($localIntervals),
+	const flattenedTimeBlocks = derived(localIntervals, ($localIntervals) =>
+		getFlattenedTimeBlocks($localIntervals),
 	);
 
-	const localTimeCells = derived(
-		[localIntervals, localTimeBlocks, resolution],
-		([$localIntervals, $localTimeBlocks, $resolution]) =>
-			getLocalTimeCells($localIntervals, $localTimeBlocks, $resolution),
+	const flattenedTimeCells = derived(
+		[localIntervals, flattenedTimeBlocks, resolution],
+		([$localIntervals, $flattenedTimeBlocks, $resolution]) =>
+			getFlattenedTimeCells($localIntervals, $flattenedTimeBlocks, $resolution),
 	);
 
-	const timeIdToRowNumber = derived(localTimeCells, ($timeCells) => {
-		let rowNumber = 1;
-		const $timeIdToRowNumber: Record<string, number> = {};
-		$timeCells.forEach((timeCell) => {
-			$timeIdToRowNumber[timeToId(timeCell.time)] = rowNumber++;
-			if (timeCell.isEndOfBlock) {
-				rowNumber++;
-			}
-		});
-		return $timeIdToRowNumber;
-	});
+	const timeIdToRowNumber = derived(
+		flattenedTimeCells,
+		($flattenedTimeCells) => {
+			let rowNumber = 0;
+			const $timeIdToRowNumber: Record<string, number> = {};
+			$flattenedTimeCells.forEach((timeCell) => {
+				$timeIdToRowNumber[timeToId(timeCell.time)] = rowNumber++;
+				if (timeCell.isEndOfBlock) {
+					rowNumber++;
+				}
+			});
+			return $timeIdToRowNumber;
+		},
+	);
 
 	const timeCellsByDateId = derived(
-		[localIntervals, localTimeBlocks, resolution],
+		[localIntervals, flattenedTimeBlocks, resolution],
 		([$localIntervals, $localTimeBlocks, $resolution]) => {
 			const intervalsByDateId = groupIntervalsByDateId($localIntervals);
 			const $timeCellsByDateId: Record<string, TimeCell[]> = {};
 			Object.entries(intervalsByDateId).forEach(([dateId, intervals]) => {
 				const date = dateFromId(dateId);
-				$timeCellsByDateId[dateId] = getLocalTimeCells(
+				$timeCellsByDateId[dateId] = getFlattenedTimeCells(
 					intervals,
 					$localTimeBlocks,
 					$resolution,
@@ -107,7 +110,7 @@ export const createTimePickerState = ({
 	);
 
 	const dateIdToColumnNumber = derived(dateIds, ($dateIds) => {
-		let columnNumber = 1;
+		let columnNumber = 0;
 		const $dateIdToColumnNumber: Record<string, number> = {};
 		$dateIds.forEach((dateId) => {
 			$dateIdToColumnNumber[dateId] = columnNumber++;
@@ -134,7 +137,7 @@ export const createTimePickerState = ({
 		},
 		{
 			localIntervals,
-			localTimeCells,
+			flattenedTimeCells,
 			timeIdToRowNumber,
 			dateIds,
 			dateIdToColumnNumber,

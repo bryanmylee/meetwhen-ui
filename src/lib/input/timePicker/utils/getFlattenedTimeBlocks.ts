@@ -8,7 +8,7 @@ import { unionIntervals } from '$lib/core/utils/intervals';
  * @param localIntervals The local intervals to block together.
  * @returns The time blocks sorted in ascending order.
  */
-export const getLocalTimeBlocks = (
+export const getFlattenedTimeBlocks = (
 	localIntervals: Interval[],
 	day = dayjs().startOf('day'),
 ): Interval[] => {

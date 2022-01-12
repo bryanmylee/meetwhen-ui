@@ -58,7 +58,7 @@
 
 <style lang="postcss">
 	.timepicker-cell {
-		@apply wh-full select-none focus:outline-none min-h-6;
+		@apply wh-full min-w-24 select-none focus:outline-none min-h-6;
 		@apply bg-shade-100 border-gray-200 gdark:border-neutral-500;
 		@apply transition;
 

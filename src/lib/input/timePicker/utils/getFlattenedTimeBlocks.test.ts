@@ -1,5 +1,5 @@
 import type { Interval } from '$lib/core/types/Interval';
-import { getLocalTimeBlocks } from './getLocalTimeBlocks';
+import { getFlattenedTimeBlocks } from './getFlattenedTimeBlocks';
 import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
 import { serialize } from '$lib/core/utils/intervals';
 
@@ -19,7 +19,7 @@ it('gets blocks in a day', () => {
 		},
 	];
 
-	const blocks = getLocalTimeBlocks(intervals);
+	const blocks = getFlattenedTimeBlocks(intervals);
 	const expected = [
 		{
 			start: timeFromId('08:00'),
@@ -50,7 +50,7 @@ it('gets blocks in multiple days', () => {
 		},
 	];
 
-	const blocks = getLocalTimeBlocks(intervals);
+	const blocks = getFlattenedTimeBlocks(intervals);
 	const expected = [
 		{
 			start: timeFromId('08:00'),
@@ -77,7 +77,7 @@ it('gets blocks with adjacent intervals over midnight', () => {
 		},
 	];
 
-	const blocks = getLocalTimeBlocks(intervals);
+	const blocks = getFlattenedTimeBlocks(intervals);
 	const expected = [
 		{
 			start: timeFromId('00:00'),

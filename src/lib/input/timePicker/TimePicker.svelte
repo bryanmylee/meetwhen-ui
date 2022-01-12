@@ -3,7 +3,7 @@
 	import { writable } from 'svelte/store';
 	import { Set } from 'immutable';
 	import { nanoid } from 'nanoid';
-	import { gridStyle } from '$lib/core/components/grid';
+	import { gridItemStyle, gridStyle } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 	import {
@@ -33,8 +33,8 @@
 	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
 	import TimePickerBlockGap from './atoms/TimePickerBlockGap.svelte';
 	import TimePickerBlockOverlay from './atoms/TimePickerBlockOverlay.svelte';
-	import TimePickerGridHeaderCells from './atoms/TimePickerGridHeaderCells.svelte';
-	import TimePickerGridIndexCells from './atoms/TimePickerGridIndexCells.svelte';
+	import TimePickerLayoutHeader from './atoms/TimePickerLayoutHeader.svelte';
+	import TimePickerLayoutIndex from './atoms/TimePickerLayoutIndex.svelte';
 
 	export let id: string = nanoid(8);
 	$: errorId = `${id}-error`;
@@ -79,7 +79,9 @@
 	});
 
 	setTimePickerState(state);
-	const { localTimeCells, dateIds, timeCellsByDateId, blocksByDateId } = state;
+	const { flattenedTimeCells, dateIds, timeCellsByDateId, blocksByDateId } =
+		state;
+	$: console.log($flattenedTimeCells);
 
 	$: dates = $dateIds.map(dateFromId);
 
@@ -126,49 +128,52 @@
 		let:isIdDisabled
 		let:selectMode
 	>
-		<div
-			role="grid"
-			aria-describedby={errorId}
-			class="timepicker-grid"
-			style={gridStyle({
-				rows: $localTimeCells.length,
-				cols: $dateIds.length,
-				headerRow: true,
-				indexCol: true,
-			})}
-		>
-			<TimePickerGridHeaderCells />
-			<TimePickerGridIndexCells />
-			{#each Object.entries($timeCellsByDateId) as [dateId, dateTimeCells]}
-				{#each dateTimeCells as timeCell}
-					<!-- memoize computation of id -->
-					{#each [dateTimeComposeId([dateId, timeToId(timeCell.time)])] as id}
-						<TimePickerBlockCell
-							{dateId}
-							{timeCell}
-							selected={isIdSelected(id)}
-							current={isIdCurrent(id)}
-							disabled={isIdDisabled(id)}
-							{selectMode}
-						/>
+		<div class="relative h-full min-h-0 overflow-hidden">
+			<div class="grid h-full overflow-auto timepicker-layout-grid">
+				<TimePickerLayoutHeader />
+				<TimePickerLayoutIndex />
+				<div
+					role="grid"
+					aria-describedby={errorId}
+					class="timepicker-grid"
+					style={gridItemStyle({ x: 1, y: 1 }) +
+						gridStyle({
+							rows: $flattenedTimeCells.length,
+							cols: $dateIds.length,
+						})}
+				>
+					{#each Object.entries($timeCellsByDateId) as [dateId, dateTimeCells]}
+						{#each dateTimeCells as timeCell}
+							<!-- @const -->
+							{#each [dateTimeComposeId( [dateId, timeToId(timeCell.time)], )] as id}
+								<TimePickerBlockCell
+									{dateId}
+									{timeCell}
+									selected={isIdSelected(id)}
+									current={isIdCurrent(id)}
+									disabled={isIdDisabled(id)}
+									{selectMode}
+								/>
+							{/each}
+							{#if timeCell.isEndOfBlock && !timeCell.isEndOfDate}
+								<TimePickerBlockGap {timeCell} />
+							{/if}
+						{/each}
 					{/each}
-					{#if timeCell.isEndOfBlock && !timeCell.isEndOfDate}
-						<TimePickerBlockGap {dateId} {timeCell} />
-					{/if}
-				{/each}
-			{/each}
-			{#each Object.entries($blocksByDateId) as [_, blocks]}
-				{#each blocks as block}
-					<TimePickerBlockOverlay {block} />
-				{/each}
-			{/each}
-			{#each selectedIntervals as interval}
-				<TimePickerSelectedInterval {interval} {selectMode} />
-			{/each}
-			{#each activeIntervals as interval}
-				<TimePickerActiveInterval {interval} {selectMode} />
-			{/each}
-			<TimePickerFocusCell {selectMode} />
+					{#each Object.entries($blocksByDateId) as [_, blocks]}
+						{#each blocks as block}
+							<TimePickerBlockOverlay {block} />
+						{/each}
+					{/each}
+					{#each selectedIntervals as interval}
+						<TimePickerSelectedInterval {interval} {selectMode} />
+					{/each}
+					{#each activeIntervals as interval}
+						<TimePickerActiveInterval {interval} {selectMode} />
+					{/each}
+					<TimePickerFocusCell {selectMode} />
+				</div>
+			</div>
 		</div>
 	</SelectionProvider>
 	<span>{error}</span>
@@ -177,6 +182,10 @@
 <style lang="postcss">
 	.timepicker {
 		@apply relative rounded-xl focus:outline-none;
+	}
+
+	.timepicker-layout-grid {
+		grid-template: min-content auto / min-content auto;
 	}
 
 	.timepicker-grid {
