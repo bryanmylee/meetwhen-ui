@@ -28,4 +28,16 @@
 			{ start: today.hour(22), end: today.add(1, 'day').hour(2) },
 		]}
 	/>
+
+	<h1 class="text-xl font-bold">Multiple days</h1>
+	<TimePicker
+		validIntervals={[
+			{ start: today.hour(8), end: today.hour(10) },
+			{ start: today.add(1, 'day').hour(8), end: today.add(1, 'day').hour(10) },
+			{
+				start: today.add(2, 'days').hour(8),
+				end: today.add(2, 'days').hour(10),
+			},
+		]}
+	/>
 </Story>

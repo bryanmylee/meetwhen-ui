@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { tick } from 'svelte';
 	import { writable } from 'svelte/store';
-	import dayjs from 'dayjs';
 	import { Set } from 'immutable';
 	import { gridStyle } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
@@ -31,6 +30,7 @@
 	import TimePickerActiveInterval from './atoms/TimePickerActiveInterval.svelte';
 	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
 	import TimePickerBlockPadding from './atoms/TimePickerBlockPadding.svelte';
+	import { getTimePickerKeyboardReducer } from './utils/getTimePickerKeyboardReducer';
 
 	let initValidIntervals: Interval[] = [];
 	export { initValidIntervals as validIntervals };
@@ -96,6 +96,11 @@
 		validIdSet,
 		$resolution,
 	);
+
+	$: timePickerKeyboardReducer = getTimePickerKeyboardReducer(
+		dates,
+		validIdSet,
+	);
 </script>
 
 <div class="timepicker">
@@ -104,6 +109,7 @@
 		bind:currentId={$currentId}
 		bind:activeIds
 		interpolate={timePickerInterpolate}
+		keyboardReducer={timePickerKeyboardReducer}
 		on:focusupdate={handleFocusUpdate}
 		let:isIdSelected
 		let:isIdCurrent
@@ -111,6 +117,7 @@
 		let:selectMode
 	>
 		<div
+			class="timepicker-grid"
 			style={gridStyle({ rows: $localTimeCells.length, cols: $dateIds.length })}
 		>
 			{#each Object.entries($timeCellsByDate) as [dateId, dateTimeCells]}
@@ -145,5 +152,9 @@
 <style lang="postcss">
 	.timepicker {
 		@apply rounded-xl focus:outline-none;
+	}
+
+	.timepicker-grid {
+		@apply gap-x-2;
 	}
 </style>
