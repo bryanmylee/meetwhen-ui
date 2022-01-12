@@ -2,10 +2,7 @@
 	import { gridItemStyle } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import type { TimeCell } from '../types/TimeCell';
-	import {
-		getTimePickerControls,
-		getTimePickerState,
-	} from '../utils/timePickerContext';
+	import { getTimePickerState } from '../utils/timePickerContext';
 
 	export let dateId: string;
 	export let timeCell: TimeCell;

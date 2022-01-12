@@ -144,7 +144,7 @@
 			{#each activeIntervals as interval}
 				<TimePickerActiveInterval {interval} {selectMode} />
 			{/each}
-			<TimePickerFocusCell />
+			<TimePickerFocusCell {selectMode} />
 		</div>
 	</SelectionProvider>
 </div>
