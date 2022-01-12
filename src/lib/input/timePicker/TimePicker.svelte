@@ -24,21 +24,26 @@
 		setCurrentDateTimeElement,
 		setTimePickerState,
 	} from './utils/timePickerContext';
-	import TimePickerGridCell from './atoms/TimePickerGridCell.svelte';
+	import TimePickerBlockCell from './atoms/TimePickerBlockCell.svelte';
 	import { createTimePickerState } from './utils/createTimePickerState';
 	import { timePickerIntervalStyle } from './atoms/timePickerIntervalStyle';
 	import { getTimePickerInterpolate } from './utils/getTimePickerInterpolate';
 
-	export let validIntervals: Interval[] = [];
-	const _validIntervals = writable(validIntervals);
-	$: $_validIntervals = validIntervals;
+	let initValidIntervals: Interval[] = [];
+	export { initValidIntervals as validIntervals };
+	let initResolution = 30;
+	export { initResolution as resolution };
 
-	export let resolution = 30;
-	const _resolution = writable(resolution);
-	$: $_resolution = resolution;
+	const [controls, state] = createTimePickerState({
+		initValidIntervals,
+		initResolution,
+	});
 
-	$: validIds = $_validIntervals
-		.flatMap((interval) => getIntervalDiscretes(interval, $_resolution))
+	const { validIntervals, resolution } = controls;
+	$: $validIntervals = initValidIntervals;
+
+	$: validIds = $validIntervals
+		.flatMap((interval) => getIntervalDiscretes(interval, $resolution))
 		.map(dateTimeToId);
 	$: validIdSet = Set(validIds);
 
@@ -50,11 +55,10 @@
 	$: tick().then(() => {
 		selectedIntervals = getLocalIntervalsFromDiscretes(
 			selectedIds.map(dateTimeFromId),
-			$_resolution,
+			$resolution,
 		);
 	});
 
-	const state = createTimePickerState(_validIntervals, _resolution);
 	const {
 		localTimeCells,
 		timeIdToRowNumber,
@@ -85,14 +89,14 @@
 	let activeIds: string[] = [];
 	$: activeIntervals = getLocalIntervalsFromDiscretes(
 		activeIds.map(dateTimeFromId),
-		$_resolution,
+		$resolution,
 	);
 
 	$: dates = $dateIds.map(dateFromId);
 	$: timePickerInterpolate = getTimePickerInterpolate(
 		dates,
 		validIdSet,
-		$_resolution,
+		$resolution,
 	);
 </script>
 
@@ -113,20 +117,17 @@
 		>
 			{#each Object.entries($timeCellsByDate) as [dateId, dateTimeCells]}
 				{#each dateTimeCells as timeCell}
-					<TimePickerGridCell
-						{dateId}
-						{timeCell}
-						selected={isIdSelected(
-							dateTimeComposeId([dateId, timeToId(timeCell.time)]),
-						)}
-						current={isIdCurrent(
-							dateTimeComposeId([dateId, timeToId(timeCell.time)]),
-						)}
-						disabled={isIdDisabled(
-							dateTimeComposeId([dateId, timeToId(timeCell.time)]),
-						)}
-						{selectMode}
-					/>
+					<!-- memoize computation of id -->
+					{#each [dateTimeComposeId([dateId, timeToId(timeCell.time)])] as id}
+						<TimePickerBlockCell
+							{dateId}
+							{timeCell}
+							selected={isIdSelected(id)}
+							current={isIdCurrent(id)}
+							disabled={isIdDisabled(id)}
+							{selectMode}
+						/>
+					{/each}
 					{#if timeCell.isEndOfBlock}
 						<div
 							class="timepicker-padding"
@@ -146,7 +147,7 @@
 					style={timePickerIntervalStyle({
 						dateIdToColumnNumber: $dateIdToColumnNumber,
 						timeIdToRowNumber: $timeIdToRowNumber,
-						resolution: $_resolution,
+						resolution: $resolution,
 						interval,
 					})}
 				/>
@@ -159,7 +160,7 @@
 					style={timePickerIntervalStyle({
 						dateIdToColumnNumber: $dateIdToColumnNumber,
 						timeIdToRowNumber: $timeIdToRowNumber,
-						resolution: $_resolution,
+						resolution: $resolution,
 						interval,
 					})}
 				/>

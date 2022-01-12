@@ -1,19 +1,39 @@
-import { derived } from 'svelte/store';
-import type { Readable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
+import type { Readable, Writable } from 'svelte/store';
 import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 import type { Interval } from '$lib/core/types/Interval';
 import {
 	getLocalIntervals,
 	groupIntervalsByDay,
 } from '$lib/core/utils/intervals';
-import type { TimePickerState } from '../types/TimePickerState';
 import type { TimeCell } from '../types/TimeCell';
 import { getLocalTimeCells } from './getLocalTimeCells';
 
-export const createTimePickerState = (
-	validIntervals: Readable<Interval[]>,
-	resolution: Readable<number>,
-): TimePickerState => {
+export interface TimePickerProps {
+	initValidIntervals: Interval[];
+	initResolution: number;
+}
+
+export interface TimePickerControls {
+	validIntervals: Writable<Interval[]>;
+	resolution: Writable<number>;
+}
+
+export interface TimePickerState {
+	localIntervals: Readable<Interval[]>;
+	localTimeCells: Readable<TimeCell[]>;
+	timeIdToRowNumber: Readable<Record<string, number>>;
+	dateIds: Readable<string[]>;
+	dateIdToColumnNumber: Readable<Record<string, number>>;
+	timeCellsByDate: Readable<Record<string, TimeCell[]>>;
+}
+
+export const createTimePickerState = ({
+	initValidIntervals,
+	initResolution,
+}: TimePickerProps): [TimePickerControls, TimePickerState] => {
+	const validIntervals = writable(initValidIntervals);
+	const resolution = writable(initResolution);
 	const localIntervals = derived(validIntervals, getLocalIntervals);
 
 	const localTimeCells = derived(
@@ -60,13 +80,18 @@ export const createTimePickerState = (
 		},
 	);
 
-	return {
-		resolution,
-		localIntervals,
-		localTimeCells,
-		timeIdToRowNumber,
-		dateIds,
-		dateIdToColumnNumber,
-		timeCellsByDate,
-	};
+	return [
+		{
+			validIntervals,
+			resolution,
+		},
+		{
+			localIntervals,
+			localTimeCells,
+			timeIdToRowNumber,
+			dateIds,
+			dateIdToColumnNumber,
+			timeCellsByDate,
+		},
+	];
 };
