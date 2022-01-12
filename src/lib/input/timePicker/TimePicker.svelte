@@ -33,6 +33,8 @@
 	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
 	import TimePickerBlockGap from './atoms/TimePickerBlockGap.svelte';
 	import TimePickerBlockOverlay from './atoms/TimePickerBlockOverlay.svelte';
+	import TimePickerGridHeaderCells from './atoms/TimePickerGridHeaderCells.svelte';
+	import TimePickerGridIndexCells from './atoms/TimePickerGridIndexCells.svelte';
 
 	export let id: string = nanoid(8);
 	$: errorId = `${id}-error`;
@@ -128,8 +130,15 @@
 			role="grid"
 			aria-describedby={errorId}
 			class="timepicker-grid"
-			style={gridStyle({ rows: $localTimeCells.length, cols: $dateIds.length })}
+			style={gridStyle({
+				rows: $localTimeCells.length,
+				cols: $dateIds.length,
+				headerRow: true,
+				indexCol: true,
+			})}
 		>
+			<TimePickerGridHeaderCells />
+			<TimePickerGridIndexCells />
 			{#each Object.entries($timeCellsByDateId) as [dateId, dateTimeCells]}
 				{#each dateTimeCells as timeCell}
 					<!-- memoize computation of id -->

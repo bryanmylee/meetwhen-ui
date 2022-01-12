@@ -1,11 +1,12 @@
 <script>
+	import { Meta, Story } from '@storybook/addon-svelte-csf';
+	import dayjs from 'dayjs';
 	import { onDay } from '$lib/core/utils/dayjs/onDay';
 	import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
-	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import { Button, DatePicker, Textfield, TimePicker } from '.';
 
 	/** @type import('dayjs').Dayjs[] */
-	let selectedDates = [];
+	let selectedDates = [dayjs(), dayjs().add(1, 'day')];
 	$: validIntervals = selectedDates.map((date) => ({
 		start: onDay(timeFromId('08:00'), date),
 		end: onDay(timeFromId('17:00'), date),
@@ -34,6 +35,6 @@
 			<Button color="gray" disabled>Revoke</Button>
 		</div>
 		<DatePicker bind:value={selectedDates} error={args.error} />
-		<TimePicker {validIntervals} />
+		<TimePicker {validIntervals} error={args.error} />
 	</form>
 </Story>

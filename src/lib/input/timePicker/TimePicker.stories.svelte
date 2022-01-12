@@ -12,7 +12,9 @@
 	<h1 class="my-4 text-xl font-bold">Single interval</h1>
 	<TimePicker
 		{...args}
-		validIntervals={[{ start: today.hour(8), end: today.hour(10) }]}
+		validIntervals={[
+			{ start: today.hour(8).minute(30), end: today.hour(10).minute(30) },
+		]}
 	/>
 
 	<h1 class="my-4 text-xl font-bold">Multiple intervals</h1>

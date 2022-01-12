@@ -26,9 +26,9 @@
 		interval,
 	})}
 >
-	<span class="top-1">{interval.start.format('HH:mm a')}</span>
+	<span class="top-1">{interval.start.format('h:mm a')}</span>
 	{#if !interval.end.subtract($resolution, 'minutes').isSame(interval.start)}
-		<span class="bottom-1">{interval.end.format('HH:mm a')}</span>
+		<span class="bottom-1">{interval.end.format('h:mm a')}</span>
 	{/if}
 </div>
 

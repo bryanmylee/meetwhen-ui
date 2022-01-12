@@ -73,7 +73,7 @@ export const createTimePickerState = ({
 	);
 
 	const timeIdToRowNumber = derived(localTimeCells, ($timeCells) => {
-		let rowNumber = 0;
+		let rowNumber = 1;
 		const $timeIdToRowNumber: Record<string, number> = {};
 		$timeCells.forEach((timeCell) => {
 			$timeIdToRowNumber[timeToId(timeCell.time)] = rowNumber++;
@@ -107,7 +107,7 @@ export const createTimePickerState = ({
 	);
 
 	const dateIdToColumnNumber = derived(dateIds, ($dateIds) => {
-		let columnNumber = 0;
+		let columnNumber = 1;
 		const $dateIdToColumnNumber: Record<string, number> = {};
 		$dateIds.forEach((dateId) => {
 			$dateIdToColumnNumber[dateId] = columnNumber++;
