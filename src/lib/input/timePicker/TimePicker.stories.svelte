@@ -9,13 +9,13 @@
 <Meta title="Input/TimePicker" component={TimePicker} />
 
 <Story name="Sample time pickers" let:args>
-	<h1 class="mb-4 text-xl font-bold">Single interval</h1>
+	<h1 class="my-4 text-xl font-bold">Single interval</h1>
 	<TimePicker
 		{...args}
 		validIntervals={[{ start: today.hour(8), end: today.hour(10) }]}
 	/>
 
-	<h1 class="mb-4 text-xl font-bold">Multiple intervals</h1>
+	<h1 class="my-4 text-xl font-bold">Multiple intervals</h1>
 	<TimePicker
 		{...args}
 		validIntervals={[
@@ -24,7 +24,7 @@
 		]}
 	/>
 
-	<h1 class="mb-4 text-xl font-bold">Single interval past midnight</h1>
+	<h1 class="my-4 text-xl font-bold">Single interval past midnight</h1>
 	<TimePicker
 		{...args}
 		validIntervals={[
@@ -32,7 +32,7 @@
 		]}
 	/>
 
-	<h1 class="mb-4 text-xl font-bold">Multiple days</h1>
+	<h1 class="my-4 text-xl font-bold">Multiple days</h1>
 	<TimePicker
 		{...args}
 		validIntervals={[
@@ -45,7 +45,7 @@
 		]}
 	/>
 
-	<h1 class="mb-4 text-xl font-bold">Multiple days with gaps</h1>
+	<h1 class="my-4 text-xl font-bold">Multiple days with gaps</h1>
 	<TimePicker
 		{...args}
 		validIntervals={[
