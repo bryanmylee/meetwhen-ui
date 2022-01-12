@@ -116,22 +116,22 @@
 
 <div {id} tabindex={0} aria-label="time picker" class="timepicker">
 	<KeyboardHelp />
-	<SelectionProvider
-		bind:selectedIds
-		bind:currentId={$currentId}
-		bind:activeIds
-		interpolate={timePickerInterpolate}
-		keyboardReducer={timePickerKeyboardReducer}
-		on:focusupdate={handleFocusUpdate}
-		let:isIdSelected
-		let:isIdCurrent
-		let:isIdDisabled
-		let:selectMode
-	>
-		<div class="relative h-full min-h-0 overflow-hidden">
-			<div class="grid h-full overflow-auto timepicker-layout-grid">
-				<TimePickerLayoutHeader />
-				<TimePickerLayoutIndex />
+	<div class="timepicker-clip-content">
+		<div class="timepicker-scroll-grid">
+			<TimePickerLayoutHeader />
+			<TimePickerLayoutIndex />
+			<SelectionProvider
+				bind:selectedIds
+				bind:currentId={$currentId}
+				bind:activeIds
+				interpolate={timePickerInterpolate}
+				keyboardReducer={timePickerKeyboardReducer}
+				on:focusupdate={handleFocusUpdate}
+				let:isIdSelected
+				let:isIdCurrent
+				let:isIdDisabled
+				let:selectMode
+			>
 				<div
 					role="grid"
 					aria-describedby={errorId}
@@ -173,22 +173,27 @@
 					{/each}
 					<TimePickerFocusCell {selectMode} />
 				</div>
-			</div>
+			</SelectionProvider>
 		</div>
-	</SelectionProvider>
+	</div>
 	<span>{error}</span>
 </div>
 
 <style lang="postcss">
 	.timepicker {
-		@apply relative rounded-xl focus:outline-none;
+		@apply relative focus:outline-none wh-full;
 	}
 
-	.timepicker-layout-grid {
+	.timepicker-clip-content {
+		@apply relative h-full min-h-0 overflow-hidden;
+	}
+
+	.timepicker-scroll-grid {
+		@apply grid h-full overflow-auto gap-3 pb-1;
 		grid-template: min-content auto / min-content auto;
 	}
 
 	.timepicker-grid {
-		@apply gap-x-2;
+		@apply gap-x-3;
 	}
 </style>

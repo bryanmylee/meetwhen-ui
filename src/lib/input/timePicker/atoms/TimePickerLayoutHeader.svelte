@@ -28,11 +28,11 @@
 
 <style lang="postcss">
 	.timepicker-grid-header {
-		@apply sticky top-0 z-50 gap-x-2;
+		@apply sticky top-0 z-50 gap-x-3;
 	}
 
 	.timepicker-grid-header-cell {
-		@apply wh-full min-w-24 p-1 mb-2 bg-shade-100 rounded-lg;
+		@apply wh-full min-w-24 p-1 bg-shade-100 rounded-lg;
 		@apply text-sm text-center;
 		& > strong {
 			@apply font-semibold;

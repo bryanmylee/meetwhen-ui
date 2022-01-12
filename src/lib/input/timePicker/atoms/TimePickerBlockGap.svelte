@@ -18,6 +18,6 @@
 
 <style lang="postcss">
 	.timepicker-padding {
-		@apply min-h-4;
+		@apply h-4;
 	}
 </style>

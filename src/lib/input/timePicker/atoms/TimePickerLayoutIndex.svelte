@@ -25,7 +25,7 @@
 			style={gridItemStyle({ y: $timeIdToRowNumber[timeToId(timeCell.time)] })}
 		>
 			{#if timeCell.time.minute() === 0 || timeCell.isStartOfInterval}
-				<div class="label" class:first={timeCell.isStartOfInterval}>
+				<div class="label" class:start={timeCell.isStartOfInterval}>
 					{timeCell.time.format('h:mm')}
 				</div>
 			{/if}
@@ -43,18 +43,22 @@
 
 <style lang="postcss">
 	.timepicker-grid-index {
-		@apply sticky left-0 z-50 grid-flow-col;
+		@apply sticky left-0 z-40 grid-flow-col;
 	}
 
 	.timepicker-grid-index-cell {
+		@apply relative wh-full min-h-6;
+		@apply bg-shade-100;
+
 		& .label {
-			@apply wh-full p-1 bg-shade-100 rounded-lg whitespace-nowrap;
-			@apply text-xs text-neutral-400 text-center -translate-y-1/2;
-			&.first {
+			@apply bg-shade-100 rounded-lg;
+			@apply p-1 -translate-y-1/2;
+			@apply text-xs text-gray-400 text-center whitespace-nowrap;
+			&.start {
 				@apply -translate-y-1/4;
 			}
 			&.end {
-				@apply translate-y-0 absolute left-0 right-0 -bottom-1/4;
+				@apply absolute left-0 right-0 -bottom-2/3;
 			}
 		}
 	}
