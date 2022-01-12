@@ -8,15 +8,18 @@ import {
 } from '$lib/core/utils/intervals';
 import type { TimeCell } from '../types/TimeCell';
 import { getLocalTimeCells } from './getLocalTimeCells';
+import type { Dayjs } from 'dayjs';
 
 export interface TimePickerProps {
 	initValidIntervals: Interval[];
 	initResolution: number;
+	initDateTime: Dayjs;
 }
 
 export interface TimePickerControls {
 	validIntervals: Writable<Interval[]>;
 	resolution: Writable<number>;
+	currentDateTime: Writable<Dayjs>;
 }
 
 export interface TimePickerState {
@@ -31,9 +34,12 @@ export interface TimePickerState {
 export const createTimePickerState = ({
 	initValidIntervals,
 	initResolution,
+	initDateTime,
 }: TimePickerProps): [TimePickerControls, TimePickerState] => {
 	const validIntervals = writable(initValidIntervals);
 	const resolution = writable(initResolution);
+	const currentDateTime = writable(initDateTime);
+
 	const localIntervals = derived(validIntervals, getLocalIntervals);
 
 	const localTimeCells = derived(
@@ -84,6 +90,7 @@ export const createTimePickerState = ({
 		{
 			validIntervals,
 			resolution,
+			currentDateTime,
 		},
 		{
 			localIntervals,

@@ -9,7 +9,7 @@ export interface DatePickerProps {
 }
 
 export interface DatePickerControls {
-	focusedDate: Writable<Dayjs>;
+	currentDate: Writable<Dayjs>;
 }
 
 export interface DatePickerState {
@@ -21,20 +21,20 @@ export interface DatePickerState {
 export const createDatePickerState = ({
 	initDate,
 }: DatePickerProps): [DatePickerControls, DatePickerState] => {
-	const focusedDate = writable(initDate);
-	const weekDays = derived(focusedDate, ($focusedDate) =>
-		range(1, 8).map((day) => $focusedDate.day(day)),
+	const currentDate = writable(initDate);
+	const weekDays = derived(currentDate, ($currentDate) =>
+		range(1, 8).map((day) => $currentDate.day(day)),
 	);
-	const monthDates = derived(focusedDate, ($focusedDate) =>
-		range(1, $focusedDate.daysInMonth() + 1).map((date) =>
-			$focusedDate.date(date),
+	const monthDates = derived(currentDate, ($currentDate) =>
+		range(1, $currentDate.daysInMonth() + 1).map((date) =>
+			$currentDate.date(date),
 		),
 	);
 	const disabledDates = derived(monthDates, ($monthDates) =>
 		$monthDates.filter((date) => date.isBefore(dayjs(), 'date')),
 	);
 	return [
-		{ focusedDate },
+		{ currentDate },
 		{
 			weekDays,
 			monthDates,

@@ -33,19 +33,29 @@
 	export { initValidIntervals as validIntervals };
 	let initResolution = 30;
 	export { initResolution as resolution };
+	let initDateTime = dayjs();
+	export { initDateTime as focusedDateTime };
 
 	const [controls, state] = createTimePickerState({
 		initValidIntervals,
 		initResolution,
+		initDateTime,
 	});
 
-	const { validIntervals, resolution } = controls;
+	const { validIntervals, resolution, currentDateTime } = controls;
 	$: $validIntervals = initValidIntervals;
+	$: $resolution = initResolution;
+	$: $currentDateTime = initDateTime;
 
 	$: validIds = $validIntervals
 		.flatMap((interval) => getIntervalDiscretes(interval, $resolution))
 		.map(dateTimeToId);
 	$: validIdSet = Set(validIds);
+
+	/**
+	 * SelectionProvider currentId binding.
+	 */
+	const currentId = bound(currentDateTime, dateTimeToId, dateTimeFromId);
 
 	/**
 	 * SelectionProvider selectedIds binding.
@@ -68,12 +78,7 @@
 	} = state;
 	setTimePickerState(state);
 
-	export let initDateTime = dayjs();
-	const currentDateTime = writable<Dayjs>(initDateTime);
-	/**
-	 * SelectionProvider currentId binding.
-	 */
-	const currentId = bound(currentDateTime, dateTimeToId, dateTimeFromId);
+	$: dates = $dateIds.map(dateFromId);
 
 	const currentDateTimeElement = writable<Maybe<HTMLButtonElement>>();
 	setCurrentDateTimeElement(currentDateTimeElement);
@@ -92,7 +97,6 @@
 		$resolution,
 	);
 
-	$: dates = $dateIds.map(dateFromId);
 	$: timePickerInterpolate = getTimePickerInterpolate(
 		dates,
 		validIdSet,

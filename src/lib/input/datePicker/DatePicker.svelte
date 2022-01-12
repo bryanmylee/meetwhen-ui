@@ -23,12 +23,12 @@
 	let initDate = dayjs();
 	export { initDate as focusedDate };
 	const [controls, state] = createDatePickerState({ initDate });
-	const { focusedDate } = controls;
-	$: $focusedDate = initDate;
+	const { currentDate } = controls;
+	$: $currentDate = initDate;
 	/**
 	 * SelectionProvider currentId binding.
 	 */
-	const currentId = bound(focusedDate, dateToId, dateFromId);
+	const currentId = bound(currentDate, dateToId, dateFromId);
 	const { weekDays, monthDates, disabledDates } = state;
 
 	let selectedDates: Dayjs[] = [];
@@ -54,11 +54,11 @@
 <div
 	{id}
 	tabindex={0}
-	aria-label={$focusedDate.format('MMMM YYYY')}
+	aria-label={$currentDate.format('MMMM YYYY')}
 	class="date-picker focus"
 	class:error={error !== ''}
 >
-	<MonthPicker bind:month={$focusedDate} />
+	<MonthPicker bind:month={$currentDate} />
 	<WeekDaysHeader weekDays={$weekDays} />
 	<div
 		role="grid"
