@@ -199,6 +199,9 @@
 		if (isIdDisabled(nextId)) {
 			return;
 		}
+		if (nextId !== currentId) {
+			event.preventDefault();
+		}
 		// -- start
 		if (event.key === ' ' || event.key === 'Enter') {
 			toggle(currentId);
