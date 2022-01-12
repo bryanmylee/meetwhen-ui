@@ -231,7 +231,7 @@
 	export const selectFrom = (
 		id: Maybe<string>,
 		forceSelectMode?: SelectMode,
-	) => {
+	): void => {
 		if (id === undefined || isIdDisabled(id)) {
 			return;
 		}
@@ -291,7 +291,7 @@
 	 *
 	 * @param id The ID to select through.
 	 */
-	export const selectThrough = (id: Maybe<string>) => {
+	export const selectThrough = (id: Maybe<string>): void => {
 		if (id === undefined || isIdDisabled(id)) {
 			return;
 		}
