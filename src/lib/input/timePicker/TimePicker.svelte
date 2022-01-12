@@ -135,13 +135,13 @@
 					{/if}
 				{/each}
 			{/each}
-			<TimePickerFocusCell />
 			{#each selectedIntervals as interval}
 				<TimePickerSelectedInterval {interval} {selectMode} />
 			{/each}
 			{#each activeIntervals as interval}
 				<TimePickerActiveInterval {interval} {selectMode} />
 			{/each}
+			<TimePickerFocusCell />
 		</div>
 	</SelectionProvider>
 </div>

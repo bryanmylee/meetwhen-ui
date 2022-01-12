@@ -25,17 +25,31 @@
 		resolution: $resolution,
 		interval,
 	})}
-/>
+>
+	<span class="top-1">{interval.start.format('HH:mm a')}</span>
+	{#if !interval.end.subtract($resolution, 'minutes').isSame(interval.start)}
+		<span class="bottom-1">{interval.end.format('HH:mm a')}</span>
+	{/if}
+</div>
 
 <style lang="postcss">
 	.timepicker-active {
-		@apply rounded-xl pointer-events-none z-20;
+		@apply relative rounded-xl pointer-events-none z-20;
 		@apply ring ring-inset;
+		& > span {
+			@apply absolute left-2 text-xs font-semibold;
+		}
 		&.add {
 			@apply bg-primary-300 ring-primary-500 gdark:ring-white;
+			& > span {
+				@apply text-white;
+			}
 		}
 		&.remove {
 			@apply ring-red-400;
+			& > span {
+				@apply text-red-400;
+			}
 		}
 	}
 </style>
