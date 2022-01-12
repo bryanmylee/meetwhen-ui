@@ -1,6 +1,15 @@
-<script lang="ts">
+<script>
+	import { onDay } from '$lib/core/utils/dayjs/onDay';
+	import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
-	import { Button, DatePicker, Textfield } from '.';
+	import { Button, DatePicker, Textfield, TimePicker } from '.';
+
+	/** @type import('dayjs').Dayjs[] */
+	let selectedDates = [];
+	$: validIntervals = selectedDates.map((date) => ({
+		start: onDay(timeFromId('08:00'), date),
+		end: onDay(timeFromId('17:00'), date),
+	}));
 </script>
 
 <Meta
@@ -24,11 +33,7 @@
 			<Button color="gray">Cancel</Button>
 			<Button color="gray" disabled>Revoke</Button>
 		</div>
-		<div class="flex gap-4">
-			<Button variant="outlined">Log In</Button>
-			<Button variant="outlined" color="gray">Cancel</Button>
-			<Button variant="outlined" color="gray" disabled>Revoke</Button>
-		</div>
-		<DatePicker error={args.error} />
+		<DatePicker bind:value={selectedDates} error={args.error} />
+		<TimePicker {validIntervals} />
 	</form>
 </Story>
