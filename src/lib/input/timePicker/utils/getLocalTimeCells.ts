@@ -12,7 +12,7 @@ export const getLocalTimeCells = (
 	resolution: number,
 	day = dayjs().startOf('day'),
 ): TimeCell[] => {
-	if (localIntervals.length === 0) {
+	if (localIntervals.length === 0 || localTimeBlocks.length === 0) {
 		return [];
 	}
 	const blockEndTimeIds = Set(
