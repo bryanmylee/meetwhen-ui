@@ -3,11 +3,18 @@ import type { Interval } from '$lib/core/types/Interval';
 import { onDay } from '$lib/core/utils/dayjs/onDay';
 import { unionIntervals } from '$lib/core/utils/intervals';
 
-export const getLocalTimeBlocks = (localIntervals: Interval[]): Interval[] => {
-	const today = dayjs().startOf('day');
+/**
+ * Get time blocks for a set of intervals across all dates.
+ * @param localIntervals The local intervals to block together.
+ * @returns The time blocks sorted in ascending order.
+ */
+export const getLocalTimeBlocks = (
+	localIntervals: Interval[],
+	day = dayjs().startOf('day'),
+): Interval[] => {
 	const timeIntervals = localIntervals.map(({ start, end }) => ({
-		start: onDay(start, today),
-		end: end.hour() === 0 ? onDay(end, today).add(1, 'day') : onDay(end, today),
+		start: onDay(start, day),
+		end: end.hour() === 0 ? onDay(end, day).add(1, 'day') : onDay(end, day),
 	}));
 	const blocks = unionIntervals(timeIntervals);
 	blocks.sort((a, b) => a.start.diff(b.start));

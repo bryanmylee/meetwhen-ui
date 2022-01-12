@@ -4,4 +4,5 @@ export interface TimeCell {
 	time: Dayjs;
 	isStartOfBlock: boolean;
 	isEndOfBlock: boolean;
+	isEndOfDate: boolean;
 }
