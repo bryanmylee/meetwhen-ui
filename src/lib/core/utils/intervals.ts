@@ -55,11 +55,11 @@ export const getLocalIntervals = <T extends Interval>(intervals: T[]): T[] => {
 /**
  * Group intervals by the day they start in.
  * Dayjs objects do not work as keys in Map or Set, therefore we key the groups
- * by the unix timestamp at the start of the day.
+ * by the dateId of the day.
  * @param intervals The intervals to group.
- * @returns The intervals grouped by day (unix timestamp at the start of the day)
+ * @returns The intervals grouped by dateId.
  */
-export const groupIntervalsByDay = (
+export const groupIntervalsByDateId = (
 	intervals: Interval[],
 ): Record<string, Interval[]> => {
 	const result: Record<string, Interval[]> = {};

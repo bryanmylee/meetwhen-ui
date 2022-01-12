@@ -3,7 +3,7 @@ import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
 import {
 	getIntervalDiscretes,
 	getLocalIntervals,
-	groupIntervalsByDay,
+	groupIntervalsByDateId,
 	isIntervalInTimeInterval,
 	serialize,
 	unionIntervals,
@@ -35,7 +35,7 @@ describe('getLocalIntervals', () => {
 	});
 });
 
-describe('groupIntervalsByDay', () => {
+describe('groupIntervalsByDateId', () => {
 	it('groups intervals in a day', () => {
 		const intervals = [
 			{
@@ -47,7 +47,7 @@ describe('groupIntervalsByDay', () => {
 				end: today.hour(15),
 			},
 		];
-		const result = groupIntervalsByDay(intervals);
+		const result = groupIntervalsByDateId(intervals);
 		const expected = {
 			[dateToId(today)]: [
 				{
@@ -78,7 +78,7 @@ describe('groupIntervalsByDay', () => {
 				end: today.add(1, 'day').hour(15),
 			},
 		];
-		const result = groupIntervalsByDay(intervals);
+		const result = groupIntervalsByDateId(intervals);
 		const expected = {
 			[dateToId(today)]: [
 				{

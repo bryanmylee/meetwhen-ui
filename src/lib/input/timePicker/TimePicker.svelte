@@ -29,8 +29,9 @@
 	import TimePickerFocusCell from './atoms/TimePickerFocusCell.svelte';
 	import TimePickerActiveInterval from './atoms/TimePickerActiveInterval.svelte';
 	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
-	import TimePickerBlockPadding from './atoms/TimePickerBlockPadding.svelte';
+	import TimePickerBlockGap from './atoms/TimePickerBlockGap.svelte';
 	import { getTimePickerKeyboardReducer } from './utils/getTimePickerKeyboardReducer';
+	import TimePickerBlockOverlay from './atoms/TimePickerBlockOverlay.svelte';
 
 	let initValidIntervals: Interval[] = [];
 	export { initValidIntervals as validIntervals };
@@ -70,7 +71,7 @@
 	});
 
 	setTimePickerState(state);
-	const { localTimeCells, dateIds, timeCellsByDate } = state;
+	const { localTimeCells, dateIds, timeCellsByDateId, blocksByDateId } = state;
 
 	$: dates = $dateIds.map(dateFromId);
 
@@ -120,7 +121,7 @@
 			class="timepicker-grid"
 			style={gridStyle({ rows: $localTimeCells.length, cols: $dateIds.length })}
 		>
-			{#each Object.entries($timeCellsByDate) as [dateId, dateTimeCells]}
+			{#each Object.entries($timeCellsByDateId) as [dateId, dateTimeCells]}
 				{#each dateTimeCells as timeCell}
 					<!-- memoize computation of id -->
 					{#each [dateTimeComposeId([dateId, timeToId(timeCell.time)])] as id}
@@ -134,8 +135,13 @@
 						/>
 					{/each}
 					{#if timeCell.isEndOfBlock}
-						<TimePickerBlockPadding {dateId} {timeCell} />
+						<TimePickerBlockGap {dateId} {timeCell} />
 					{/if}
+				{/each}
+			{/each}
+			{#each Object.entries($blocksByDateId) as [_, blocks]}
+				{#each blocks as block}
+					<TimePickerBlockOverlay {block} />
 				{/each}
 			{/each}
 			{#each selectedIntervals as interval}

@@ -7,15 +7,15 @@ import type { TimeCell } from '../types/TimeCell';
 export const getLocalTimeCells = (
 	localIntervals: Interval[],
 	resolution: number,
+	day = dayjs(),
 ): TimeCell[] => {
-	const today = dayjs();
 	const timeCells: TimeCell[] = [];
 	localIntervals.forEach((interval) => {
 		const discretes = getIntervalDiscretes(interval, resolution);
 		const intervalTimeCells: TimeCell[] = discretes.map((discrete) => ({
 			isStartOfBlock: false,
 			isEndOfBlock: false,
-			time: onDay(discrete, today),
+			time: onDay(discrete, day),
 		}));
 		intervalTimeCells[0].isStartOfBlock = true;
 		intervalTimeCells[intervalTimeCells.length - 1].isEndOfBlock = true;
