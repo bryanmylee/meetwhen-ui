@@ -13,7 +13,6 @@ import type { Dayjs } from 'dayjs';
 export interface TimePickerProps {
 	initValidIntervals: Interval[];
 	initResolution: number;
-	initDateTime: Dayjs;
 }
 
 export interface TimePickerControls {
@@ -34,11 +33,10 @@ export interface TimePickerState {
 export const createTimePickerState = ({
 	initValidIntervals,
 	initResolution,
-	initDateTime,
 }: TimePickerProps): [TimePickerControls, TimePickerState] => {
 	const validIntervals = writable(initValidIntervals);
 	const resolution = writable(initResolution);
-	const currentDateTime = writable(initDateTime);
+	const currentDateTime = writable(initValidIntervals[0].start);
 
 	const localIntervals = derived(validIntervals, getLocalIntervals);
 

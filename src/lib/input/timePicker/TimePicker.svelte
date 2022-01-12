@@ -36,20 +36,16 @@
 	export { initValidIntervals as validIntervals };
 	let initResolution = 30;
 	export { initResolution as resolution };
-	let initDateTime = dayjs();
-	export { initDateTime as focusedDateTime };
 
 	const [controls, state] = createTimePickerState({
 		initValidIntervals,
 		initResolution,
-		initDateTime,
 	});
 
 	setTimePickerControls(controls);
 	const { validIntervals, resolution, currentDateTime } = controls;
 	$: $validIntervals = initValidIntervals;
 	$: $resolution = initResolution;
-	$: $currentDateTime = initDateTime;
 
 	$: validIds = $validIntervals
 		.flatMap((interval) => getIntervalDiscretes(interval, $resolution))
@@ -102,7 +98,7 @@
 	);
 </script>
 
-<div tabindex={0} class="timepicker">
+<div class="timepicker">
 	<SelectionProvider
 		bind:selectedIds
 		bind:currentId={$currentId}
