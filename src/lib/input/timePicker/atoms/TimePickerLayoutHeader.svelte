@@ -28,7 +28,8 @@
 
 <style lang="postcss">
 	.timepicker-grid-header {
-		@apply sticky top-0 z-50 gap-x-3;
+		@apply sticky top-0 z-50 gap-x-3 rounded-lg;
+		@apply bg-white gdark:bg-neutral-800 ring-8 ring-white gdark:ring-neutral-800;
 	}
 
 	.timepicker-grid-header-cell {
