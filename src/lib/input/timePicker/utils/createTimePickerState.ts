@@ -14,6 +14,7 @@ import {
 import type { TimeCell } from '../types/TimeCell';
 import { getLocalTimeCells } from './getLocalTimeCells';
 import { getLocalTimeBlocks } from './getLocalTimeBlocks';
+import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 
 export interface TimePickerProps {
 	initValidIntervals: Interval[];
@@ -89,10 +90,12 @@ export const createTimePickerState = ({
 			const intervalsByDateId = groupIntervalsByDateId($localIntervals);
 			const $timeCellsByDateId: Record<string, TimeCell[]> = {};
 			Object.entries(intervalsByDateId).forEach(([dateId, intervals]) => {
+				const date = dateFromId(dateId);
 				$timeCellsByDateId[dateId] = getLocalTimeCells(
 					intervals,
 					$localTimeBlocks,
 					$resolution,
+					date,
 				);
 			});
 			return $timeCellsByDateId;
