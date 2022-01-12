@@ -24,7 +24,11 @@
 
 <style lang="postcss">
 	.timepicker-block {
-		@apply ring ring-primary-400 rounded-xl;
+		@apply ring-primary-400 rounded-xl;
 		@apply pointer-events-none;
+
+		:global(.timepicker:focus) & {
+			@apply ring;
+		}
 	}
 </style>
