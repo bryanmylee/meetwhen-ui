@@ -235,6 +235,7 @@
 		if (id === undefined || isIdDisabled(id)) {
 			return;
 		}
+		currentId = id;
 		startingId = id;
 		previousIdSet = Set(selectedIds);
 		activeIdSet = Set([id]);
