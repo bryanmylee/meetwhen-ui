@@ -7,6 +7,7 @@
 	import { dateTimeComposeId } from '$lib/core/utils/dayjs/dateTimeIds';
 	import {
 		getTimePickerState,
+		getTimePickerControls,
 		getCurrentDateTimeElement,
 	} from '../utils/timePickerContext';
 	import type { TimeCell } from '../types/TimeCell';
@@ -23,8 +24,8 @@
 	export let disabled = false;
 	export let selectMode: Maybe<SelectMode> = undefined;
 
-	const state = getTimePickerState();
-	const { dateIdToColumnNumber, timeIdToRowNumber } = state;
+	const { resolution } = getTimePickerControls();
+	const { dateIdToColumnNumber, timeIdToRowNumber } = getTimePickerState();
 
 	let buttonElement: Maybe<HTMLButtonElement>;
 	const currentDateTimeElement = getCurrentDateTimeElement();
@@ -49,7 +50,8 @@
 		x: $dateIdToColumnNumber[dateId],
 		y: $timeIdToRowNumber[timeId],
 	})}
-	class:border-b-2={timeCell.time.minute() === 0 && !timeCell.isEndOfBlock}
+	class:border-b-2={timeCell.time.add($resolution, 'minutes').minute() === 0 &&
+		!timeCell.isEndOfBlock}
 	class:rounded-t-xl={timeCell.isStartOfBlock}
 	class:rounded-b-xl={timeCell.isEndOfBlock}
 />
