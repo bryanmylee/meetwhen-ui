@@ -5,30 +5,37 @@ import { getIntervalDiscretes } from '$lib/core/utils/intervals';
 import dayjs from 'dayjs';
 import type { TimeCell } from '../types/TimeCell';
 import { timeToId } from '$lib/core/utils/dayjs/timeIds';
+import { getFlattenedTimeBlocks } from './getFlattenedTimeBlocks';
 
 export const getFlattenedTimeCells = (
 	localIntervals: Interval[],
-	localTimeBlocks: Interval[],
+	flattenedTimeBlocks: Interval[],
 	resolution: number,
 	day = dayjs().startOf('day'),
 ): TimeCell[] => {
-	if (localIntervals.length === 0 || localTimeBlocks.length === 0) {
+	if (localIntervals.length === 0 || flattenedTimeBlocks.length === 0) {
 		return [];
 	}
 	const blockEndTimeIds = Set(
-		localTimeBlocks
+		flattenedTimeBlocks
 			.map((block) => block.end.subtract(resolution, 'minutes'))
 			.map(timeToId),
 	);
 	const latestTime = onDay(
-		localTimeBlocks[localTimeBlocks.length - 1].end.subtract(
+		flattenedTimeBlocks[flattenedTimeBlocks.length - 1].end.subtract(
 			resolution,
 			'minutes',
 		),
 		day,
 	);
 	const timeCells: TimeCell[] = [];
-	localIntervals.forEach((interval) => {
+
+	/**
+	 * Handle differences between intervals and time blocks by considering the
+	 * flattened intervals against the time blocks.
+	 */
+	const flattenedIntervals = getFlattenedTimeBlocks(localIntervals, day);
+	flattenedIntervals.forEach((interval) => {
 		const discretes = getIntervalDiscretes(interval, resolution);
 		const intervalTimeCells: TimeCell[] = discretes.map((discrete) => ({
 			isStartOfInterval: false,
