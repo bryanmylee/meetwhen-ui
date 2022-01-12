@@ -20,7 +20,6 @@ export const getLocalTimeCells = (
 			.map((block) => block.end.subtract(resolution, 'minutes'))
 			.map(timeToId),
 	);
-	console.log(blockEndTimeIds.toArray());
 	const latestTime = onDay(
 		localTimeBlocks[localTimeBlocks.length - 1].end.subtract(
 			resolution,
@@ -45,9 +44,6 @@ export const getLocalTimeCells = (
 		lastIntervalTimeCell.isEndOfBlock = blockEndTimeIds.some(
 			(id) => timeToId(lastIntervalTimeCell.time) === id,
 		);
-		if (lastIntervalTimeCell.isEndOfBlock) {
-			console.log(lastIntervalTimeCell);
-		}
 		lastIntervalTimeCell.isEndOfDate = latestTime.isSame(
 			onDay(lastIntervalTimeCell.time, day),
 		);
