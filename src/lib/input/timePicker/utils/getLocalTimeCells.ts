@@ -1,19 +1,26 @@
+import { Set } from 'immutable';
 import type { Interval } from '$lib/core/types/Interval';
 import { onDay } from '$lib/core/utils/dayjs/onDay';
 import { getIntervalDiscretes } from '$lib/core/utils/intervals';
 import dayjs from 'dayjs';
 import type { TimeCell } from '../types/TimeCell';
-import { getLocalTimeBlocks } from './getLocalTimeBlocks';
+import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 
 export const getLocalTimeCells = (
 	localIntervals: Interval[],
+	localTimeBlocks: Interval[],
 	resolution: number,
 	day = dayjs().startOf('day'),
 ): TimeCell[] => {
 	if (localIntervals.length === 0) {
 		return [];
 	}
-	const localTimeBlocks = getLocalTimeBlocks(localIntervals);
+	const blockEndTimeIds = Set(
+		localTimeBlocks
+			.map((block) => block.end.subtract(resolution, 'minutes'))
+			.map(timeToId),
+	);
+	console.log(blockEndTimeIds.toArray());
 	const latestTime = onDay(
 		localTimeBlocks[localTimeBlocks.length - 1].end.subtract(
 			resolution,
@@ -25,15 +32,22 @@ export const getLocalTimeCells = (
 	localIntervals.forEach((interval) => {
 		const discretes = getIntervalDiscretes(interval, resolution);
 		const intervalTimeCells: TimeCell[] = discretes.map((discrete) => ({
-			isStartOfBlock: false,
+			isStartOfInterval: false,
+			isEndOfInterval: false,
 			isEndOfBlock: false,
 			isEndOfDate: false,
 			time: onDay(discrete, day),
 		}));
-		intervalTimeCells[0].isStartOfBlock = true;
+		intervalTimeCells[0].isStartOfInterval = true;
 		const lastIntervalTimeCell =
 			intervalTimeCells[intervalTimeCells.length - 1];
-		lastIntervalTimeCell.isEndOfBlock = true;
+		lastIntervalTimeCell.isEndOfInterval = true;
+		lastIntervalTimeCell.isEndOfBlock = blockEndTimeIds.some(
+			(id) => timeToId(lastIntervalTimeCell.time) === id,
+		);
+		if (lastIntervalTimeCell.isEndOfBlock) {
+			console.log(lastIntervalTimeCell);
+		}
 		lastIntervalTimeCell.isEndOfDate = latestTime.isSame(
 			onDay(lastIntervalTimeCell.time, day),
 		);

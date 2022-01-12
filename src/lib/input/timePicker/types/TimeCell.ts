@@ -2,7 +2,8 @@ import type { Dayjs } from 'dayjs';
 
 export interface TimeCell {
 	time: Dayjs;
-	isStartOfBlock: boolean;
+	isStartOfInterval: boolean;
+	isEndOfInterval: boolean;
 	isEndOfBlock: boolean;
 	isEndOfDate: boolean;
 }

@@ -13,7 +13,7 @@ import {
 } from '$lib/core/utils/intervals';
 import type { TimeCell } from '../types/TimeCell';
 import { getLocalTimeCells } from './getLocalTimeCells';
-import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
+import { getLocalTimeBlocks } from './getLocalTimeBlocks';
 
 export interface TimePickerProps {
 	initValidIntervals: Interval[];
@@ -61,10 +61,14 @@ export const createTimePickerState = ({
 
 	const localIntervals = derived(validIntervals, getLocalIntervals);
 
+	const localTimeBlocks = derived(localIntervals, ($localIntervals) =>
+		getLocalTimeBlocks($localIntervals),
+	);
+
 	const localTimeCells = derived(
-		[localIntervals, resolution],
-		([$localIntervals, $resolution]) =>
-			getLocalTimeCells($localIntervals, $resolution),
+		[localIntervals, localTimeBlocks, resolution],
+		([$localIntervals, $localTimeBlocks, $resolution]) =>
+			getLocalTimeCells($localIntervals, $localTimeBlocks, $resolution),
 	);
 
 	const timeIdToRowNumber = derived(localTimeCells, ($timeCells) => {
@@ -79,10 +83,24 @@ export const createTimePickerState = ({
 		return $timeIdToRowNumber;
 	});
 
-	const intervalsByDateId = derived(localIntervals, groupIntervalsByDateId);
+	const timeCellsByDateId = derived(
+		[localIntervals, localTimeBlocks, resolution],
+		([$localIntervals, $localTimeBlocks, $resolution]) => {
+			const intervalsByDateId = groupIntervalsByDateId($localIntervals);
+			const $timeCellsByDateId: Record<string, TimeCell[]> = {};
+			Object.entries(intervalsByDateId).forEach(([dateId, intervals]) => {
+				$timeCellsByDateId[dateId] = getLocalTimeCells(
+					intervals,
+					$localTimeBlocks,
+					$resolution,
+				);
+			});
+			return $timeCellsByDateId;
+		},
+	);
 
-	const dateIds = derived(intervalsByDateId, ($intervalsByDateId) =>
-		Object.keys($intervalsByDateId),
+	const dateIds = derived(timeCellsByDateId, ($timeCellsByDateId) =>
+		Object.keys($timeCellsByDateId),
 	);
 
 	const dateIdToColumnNumber = derived(dateIds, ($dateIds) => {
@@ -93,21 +111,6 @@ export const createTimePickerState = ({
 		});
 		return $dateIdToColumnNumber;
 	});
-
-	const timeCellsByDateId = derived(
-		[intervalsByDateId, resolution],
-		([$intervalsByDay, $resolution]) => {
-			const $timeCellsByDate: Record<string, TimeCell[]> = {};
-			Object.entries($intervalsByDay).forEach(([dateId, intervals]) => {
-				$timeCellsByDate[dateId] = getLocalTimeCells(
-					intervals,
-					$resolution,
-					dateFromId(dateId),
-				);
-			});
-			return $timeCellsByDate;
-		},
-	);
 
 	const blocksByDateId = derived(timeCellsByDateId, ($timeCellsByDateId) => {
 		return Object.fromEntries(

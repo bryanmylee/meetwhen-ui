@@ -51,9 +51,9 @@
 		y: $timeIdToRowNumber[timeId],
 	})}
 	class:border-b-2={timeCell.time.add($resolution, 'minutes').minute() === 0 &&
-		!timeCell.isEndOfBlock}
-	class:rounded-t-xl={timeCell.isStartOfBlock}
-	class:rounded-b-xl={timeCell.isEndOfBlock}
+		!timeCell.isEndOfInterval}
+	class:rounded-t-xl={timeCell.isStartOfInterval}
+	class:rounded-b-xl={timeCell.isEndOfInterval}
 />
 
 <style lang="postcss">
