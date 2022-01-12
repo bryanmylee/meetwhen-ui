@@ -2,9 +2,8 @@
 	import { tick } from 'svelte';
 	import { writable } from 'svelte/store';
 	import dayjs from 'dayjs';
-	import type { Dayjs } from 'dayjs';
 	import { Set } from 'immutable';
-	import { gridStyle, gridItemStyle } from '$lib/core/components/grid';
+	import { gridStyle } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 	import {
@@ -22,12 +21,16 @@
 	import { SelectionProvider } from '$lib/input';
 	import {
 		setCurrentDateTimeElement,
+		setTimePickerControls,
 		setTimePickerState,
 	} from './utils/timePickerContext';
 	import TimePickerBlockCell from './atoms/TimePickerBlockCell.svelte';
 	import { createTimePickerState } from './utils/createTimePickerState';
-	import { timePickerIntervalStyle } from './atoms/timePickerIntervalStyle';
 	import { getTimePickerInterpolate } from './utils/getTimePickerInterpolate';
+	import TimePickerFocusCell from './atoms/TimePickerFocusCell.svelte';
+	import TimePickerActiveInterval from './atoms/TimePickerActiveInterval.svelte';
+	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
+	import TimePickerBlockPadding from './atoms/TimePickerBlockPadding.svelte';
 
 	let initValidIntervals: Interval[] = [];
 	export { initValidIntervals as validIntervals };
@@ -42,6 +45,7 @@
 		initDateTime,
 	});
 
+	setTimePickerControls(controls);
 	const { validIntervals, resolution, currentDateTime } = controls;
 	$: $validIntervals = initValidIntervals;
 	$: $resolution = initResolution;
@@ -69,14 +73,8 @@
 		);
 	});
 
-	const {
-		localTimeCells,
-		timeIdToRowNumber,
-		dateIds,
-		dateIdToColumnNumber,
-		timeCellsByDate,
-	} = state;
 	setTimePickerState(state);
+	const { localTimeCells, dateIds, timeCellsByDate } = state;
 
 	$: dates = $dateIds.map(dateFromId);
 
@@ -133,41 +131,16 @@
 						/>
 					{/each}
 					{#if timeCell.isEndOfBlock}
-						<div
-							class="timepicker-padding"
-							style={gridItemStyle({
-								x: $dateIdToColumnNumber[dateId],
-								y: $timeIdToRowNumber[timeToId(timeCell.time)] + 1,
-							})}
-						/>
+						<TimePickerBlockPadding {dateId} {timeCell} />
 					{/if}
 				{/each}
 			{/each}
+			<TimePickerFocusCell />
 			{#each selectedIntervals as interval}
-				<div
-					class="timepicker-selected"
-					class:add={selectMode === 'add'}
-					class:remove={selectMode === 'remove'}
-					style={timePickerIntervalStyle({
-						dateIdToColumnNumber: $dateIdToColumnNumber,
-						timeIdToRowNumber: $timeIdToRowNumber,
-						resolution: $resolution,
-						interval,
-					})}
-				/>
+				<TimePickerSelectedInterval {interval} {selectMode} />
 			{/each}
 			{#each activeIntervals as interval}
-				<div
-					class="timepicker-active"
-					class:add={selectMode === 'add'}
-					class:remove={selectMode === 'remove'}
-					style={timePickerIntervalStyle({
-						dateIdToColumnNumber: $dateIdToColumnNumber,
-						timeIdToRowNumber: $timeIdToRowNumber,
-						resolution: $resolution,
-						interval,
-					})}
-				/>
+				<TimePickerActiveInterval {interval} {selectMode} />
 			{/each}
 		</div>
 	</SelectionProvider>
@@ -176,25 +149,5 @@
 <style lang="postcss">
 	.timepicker {
 		@apply rounded-xl focus:outline-none;
-	}
-
-	.timepicker-padding {
-		@apply min-h-4;
-	}
-
-	.timepicker-selected {
-		@apply rounded-xl pointer-events-none z-10;
-		@apply bg-primary-400/50;
-	}
-
-	.timepicker-active {
-		@apply rounded-xl pointer-events-none z-20;
-		@apply ring ring-inset;
-		&.add {
-			@apply bg-primary-300 ring-primary-500 gdark:ring-white;
-		}
-		&.remove {
-			@apply ring-red-400;
-		}
 	}
 </style>

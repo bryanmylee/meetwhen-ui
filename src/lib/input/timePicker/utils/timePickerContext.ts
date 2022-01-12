@@ -1,10 +1,16 @@
 import { pairedContext } from '$lib/core/utils/pairedContext';
 import type { Maybe } from '$lib/core/types/Maybe';
 import type { Writable } from 'svelte/store';
-import type { TimePickerState } from './createTimePickerState';
+import type {
+	TimePickerControls,
+	TimePickerState,
+} from './createTimePickerState';
 
 export const { get: getTimePickerState, set: setTimePickerState } =
 	pairedContext<TimePickerState>();
+
+export const { get: getTimePickerControls, set: setTimePickerControls } =
+	pairedContext<TimePickerControls>();
 
 export const {
 	get: getCurrentDateTimeElement,

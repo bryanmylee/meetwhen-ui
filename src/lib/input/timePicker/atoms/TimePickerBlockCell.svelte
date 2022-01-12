@@ -42,7 +42,7 @@
 	aria-selected={selected}
 	{disabled}
 	tabindex={current ? 0 : -1}
-	class="timepicker-bg"
+	class="timepicker-cell"
 	class:add={selectMode === 'add'}
 	class:remove={selectMode === 'remove'}
 	style={gridItemStyle({
@@ -55,17 +55,13 @@
 />
 
 <style lang="postcss">
-	.timepicker-bg {
+	.timepicker-cell {
 		@apply wh-full select-none focus:outline-none min-h-6;
 		@apply bg-shade-100 border-gray-200 gdark:border-neutral-500;
 		@apply transition;
 
 		&:hover:not(:disabled) {
 			@apply bg-shade-200;
-		}
-
-		:global(:focus-within) > &[tabindex='0']:not(.add):not(.remove) {
-			@apply ring ring-inset ring-primary-400;
 		}
 	}
 </style>
