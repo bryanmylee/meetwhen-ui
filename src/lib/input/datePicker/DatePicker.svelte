@@ -7,7 +7,7 @@
 	import { nanoid } from 'nanoid';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { bound } from '$lib/core/utils/bound';
-	import { SelectionProvider } from '$lib/input';
+	import { SelectionProvider, KeyboardHelp } from '$lib/input';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { createDatePickerState } from './utils/createDatePickerState';
 	import { datePickerHasNeighbors } from './utils/datePickerHasNeighbors';
@@ -66,13 +66,7 @@
 		aria-multiselectable={true}
 		class="relative grid grid-cols-7"
 	>
-		<div tabindex={0} class="help-message focus">
-			<p><strong>Cursor keys</strong> to navigate dates.</p>
-			<p><strong>Space</strong> to toggle date.</p>
-			<p>Hold <strong>Shift</strong> to select multiple dates.</p>
-			<p>Hold <strong>Ctrl + Shift</strong> to unselect multiple dates.</p>
-			<p><strong>Tab</strong> to continue.</p>
-		</div>
+		<KeyboardHelp />
 		<SelectionProvider
 			bind:selectedIds
 			bind:currentId={$currentId}
@@ -108,12 +102,6 @@
 
 		&.error {
 			@apply ring ring-red-400;
-		}
-
-		& .help-message {
-			@apply focus-only absolute left-2 top-2 w-fit z-20;
-			@apply p-2 rounded-lg shadow-lg text-xs;
-			@apply bg-shade-50;
 		}
 
 		& > .error-message {

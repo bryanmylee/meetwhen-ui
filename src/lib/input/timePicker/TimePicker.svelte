@@ -2,6 +2,7 @@
 	import { tick } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { Set } from 'immutable';
+	import { nanoid } from 'nanoid';
 	import { gridStyle } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
@@ -17,21 +18,26 @@
 	} from '$lib/core/utils/intervals';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
-	import { SelectionProvider } from '$lib/input';
+	import { SelectionProvider, KeyboardHelp } from '$lib/input';
 	import {
 		setCurrentDateTimeElement,
 		setTimePickerControls,
 		setTimePickerState,
 	} from './utils/timePickerContext';
-	import TimePickerBlockCell from './atoms/TimePickerBlockCell.svelte';
 	import { createTimePickerState } from './utils/createTimePickerState';
 	import { getTimePickerInterpolate } from './utils/getTimePickerInterpolate';
+	import { getTimePickerKeyboardReducer } from './utils/getTimePickerKeyboardReducer';
+	import TimePickerBlockCell from './atoms/TimePickerBlockCell.svelte';
 	import TimePickerFocusCell from './atoms/TimePickerFocusCell.svelte';
 	import TimePickerActiveInterval from './atoms/TimePickerActiveInterval.svelte';
 	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
 	import TimePickerBlockGap from './atoms/TimePickerBlockGap.svelte';
-	import { getTimePickerKeyboardReducer } from './utils/getTimePickerKeyboardReducer';
 	import TimePickerBlockOverlay from './atoms/TimePickerBlockOverlay.svelte';
+
+	export let id: string = nanoid(8);
+	$: errorId = `${id}-error`;
+
+	export let error = '';
 
 	let initValidIntervals: Interval[] = [];
 	export { initValidIntervals as validIntervals };
@@ -104,7 +110,8 @@
 	);
 </script>
 
-<div class="timepicker">
+<div {id} tabindex={0} aria-label="time picker" class="timepicker">
+	<KeyboardHelp />
 	<SelectionProvider
 		bind:selectedIds
 		bind:currentId={$currentId}
@@ -118,6 +125,8 @@
 		let:selectMode
 	>
 		<div
+			role="grid"
+			aria-describedby={errorId}
 			class="timepicker-grid"
 			style={gridStyle({ rows: $localTimeCells.length, cols: $dateIds.length })}
 		>
@@ -134,7 +143,7 @@
 							{selectMode}
 						/>
 					{/each}
-					{#if timeCell.isEndOfBlock}
+					{#if timeCell.isEndOfBlock && !timeCell.isEndOfDate}
 						<TimePickerBlockGap {dateId} {timeCell} />
 					{/if}
 				{/each}
@@ -153,11 +162,12 @@
 			<TimePickerFocusCell {selectMode} />
 		</div>
 	</SelectionProvider>
+	<span>{error}</span>
 </div>
 
 <style lang="postcss">
 	.timepicker {
-		@apply rounded-xl focus:outline-none;
+		@apply relative rounded-xl focus:outline-none;
 	}
 
 	.timepicker-grid {
