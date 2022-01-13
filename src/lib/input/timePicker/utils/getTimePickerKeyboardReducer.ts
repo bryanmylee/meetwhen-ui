@@ -45,14 +45,11 @@ const getClosestTimeId = (
 		.min((a, b) => a[1] - b[1])?.[0];
 };
 
-let getReducerCalls = 0;
-
 const getTimeDiff = (
 	dateTimeId: string,
 	currDateTimeId: string,
 ): [dateTimeId: string, diff: number] => {
 	const [, timeId] = dateTimeDecomposeId(dateTimeId);
-	console.log('getReducer:', ++getReducerCalls);
 	const currDateTime = dateTimeFromId(currDateTimeId);
 	const diff = onDay(timeFromId(timeId), currDateTime).diff(currDateTime);
 	return [dateTimeId, diff];

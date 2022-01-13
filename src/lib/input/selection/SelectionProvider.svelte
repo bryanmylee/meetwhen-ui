@@ -1,9 +1,18 @@
 <script lang="ts" context="module">
 	export interface SelectionProviderEvent {
-		toggle: {
+		selectstart: {
+			selectMode: SelectMode;
+			id: string;
+		};
+		selectthrough: {
+			selectMode: SelectMode;
+			startingId?: string;
+			id: string;
+		};
+		selectend: {
+			selectMode: SelectMode;
 			ids: string[];
-			lastId: string;
-			selected: boolean;
+			id: string;
 		};
 		focusupdate: {
 			id: string;
@@ -120,7 +129,8 @@
 		}
 		selectedIds = selectedIds.add(id);
 		currentId = id;
-		dispatch('toggle', { ids: [id], lastId: currentId, selected: true });
+		dispatch('selectstart', { id: currentId, selectMode: 'add' });
+		dispatch('selectend', { ids: [id], id: currentId, selectMode: 'add' });
 	};
 
 	/**
@@ -135,7 +145,8 @@
 		}
 		selectedIds = selectedIds.remove(id);
 		currentId = id;
-		dispatch('toggle', { ids: [id], lastId: currentId, selected: false });
+		dispatch('selectstart', { id: currentId, selectMode: 'remove' });
+		dispatch('selectend', { ids: [id], id: currentId, selectMode: 'remove' });
 	};
 
 	/**
@@ -252,6 +263,7 @@
 		} else {
 			effectiveIds = previousIds.subtract(activeIds);
 		}
+		dispatch('selectstart', { selectMode, id });
 		if (!lazy) {
 			selectedIds = effectiveIds;
 		}
@@ -300,7 +312,7 @@
 	 * @param id The ID to select through.
 	 */
 	export const selectThrough = (id: Maybe<string>): void => {
-		if (id === undefined || isIdDisabled(id)) {
+		if (id === undefined || isIdDisabled(id) || selectMode === undefined) {
 			return;
 		}
 		currentId = id;
@@ -317,6 +329,7 @@
 		} else {
 			effectiveIds = previousIds?.subtract(activeIds);
 		}
+		dispatch('selectthrough', { selectMode, startingId, id });
 		if (!lazy) {
 			selectedIds = effectiveIds ?? Set();
 		}
@@ -361,11 +374,11 @@
 
 	const selectEnd = (id: Maybe<string>) => {
 		selectedIds = effectiveIds ?? selectedIds;
-		if (id !== undefined) {
-			dispatch('toggle', {
+		if (id !== undefined && selectMode !== undefined) {
+			dispatch('selectend', {
 				ids: activeIds.toArray(),
-				lastId: id,
-				selected: selectMode === 'add',
+				id,
+				selectMode,
 			});
 		}
 		startingId = undefined;

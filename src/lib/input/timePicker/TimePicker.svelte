@@ -12,8 +12,9 @@
 	import { bound } from '$lib/core/utils/bound';
 	import {
 		getIntervalDiscretes,
-		getIntervalsFromDiscretes,
-		getLocalIntervals,
+		intersectIntervals,
+		subtractIntervals,
+		unionIntervals,
 	} from '$lib/core/utils/intervals';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
@@ -26,6 +27,7 @@
 	} from './utils/timePickerContext';
 	import { createTimePickerState } from './utils/createTimePickerState';
 	import { getTimePickerInterpolate } from './utils/getTimePickerInterpolate';
+	import { getIntervalsBetween } from './utils/getIntervalsBetween';
 	import { getTimePickerKeyboardReducer } from './utils/getTimePickerKeyboardReducer';
 	import TimePickerFocusCell from './atoms/TimePickerFocusCell.svelte';
 	import TimePickerActiveInterval from './atoms/TimePickerActiveInterval.svelte';
@@ -66,23 +68,11 @@
 	 */
 	const currentId = bound(currentDateTime, dateTimeToId, dateTimeFromId);
 
-	/**
-	 * SelectionProvider selectedIds binding.
-	 */
-	let selectedIds = Set<string>();
 	let selectedIntervals: Interval[] = [];
 	export { selectedIntervals as value };
-	$: tick().then(() => {
-		selectedIntervals = getLocalIntervals(
-			getIntervalsFromDiscretes(
-				selectedIds.toArray().map(dateTimeFromId),
-				$resolution,
-			),
-		);
-	});
 
 	setTimePickerState(state);
-	const { flattenedTimeCells, dateIds, timeCellsByDateId, blocksByDateId } =
+	const { flattenedTimeCells, dateIds, timeCellsByDateId, intervalsByDateId } =
 		state;
 
 	$: dates = $dateIds.map(dateFromId);
@@ -108,9 +98,32 @@
 		event: CustomEvent<SelectionProviderEvent['selectthrough']>,
 	) => {
 		const { id, startingId } = event.detail;
+		if (startingId === undefined) {
+			return;
+		}
+		activeIntervals = intersectIntervals(
+			$validIntervals,
+			getIntervalsBetween({
+				fromId: startingId,
+				toId: id,
+				dateIds: $dateIds,
+				resolution: $resolution,
+			}),
+		);
 	};
 
-	const handleSelectEnd = () => {
+	const handleSelectEnd = (
+		event: CustomEvent<SelectionProviderEvent['selectthrough']>,
+	) => {
+		const { selectMode } = event.detail;
+		if (selectMode === 'add') {
+			selectedIntervals = unionIntervals([
+				...selectedIntervals,
+				...activeIntervals,
+			]);
+		} else {
+			selectedIntervals = subtractIntervals(selectedIntervals, activeIntervals);
+		}
 		activeIntervals = [];
 	};
 
@@ -130,9 +143,8 @@
 			<TimePickerLayoutHeader />
 			<TimePickerLayoutIndex />
 			<SelectionProvider
-				bind:selectedIds
-				bind:currentId={$currentId}
 				lazy
+				bind:currentId={$currentId}
 				interpolate={timePickerInterpolate}
 				keyboardReducer={timePickerKeyboardReducer}
 				on:focusupdate={handleFocusUpdate}
@@ -166,7 +178,7 @@
 							/>
 						{/each}
 					{/each}
-					{#each Object.entries($blocksByDateId) as [_, blocks]}
+					{#each Object.entries($intervalsByDateId) as [_, blocks]}
 						{#each blocks as block}
 							<TimePickerBlockOverlay {block} />
 						{/each}

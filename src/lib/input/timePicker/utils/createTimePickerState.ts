@@ -31,10 +31,10 @@ export interface TimePickerState {
 	localIntervals: Readable<Interval[]>;
 	flattenedTimeCells: Readable<TimeCell[]>;
 	timeIdToRowNumber: Readable<Record<string, number>>;
+	intervalsByDateId: Readable<Record<string, Interval[]>>;
 	dateIds: Readable<string[]>;
-	dateIdToColumnNumber: Readable<Record<string, number>>;
 	timeCellsByDateId: Readable<Record<string, TimeCell[]>>;
-	blocksByDateId: Readable<Record<string, Interval[]>>;
+	dateIdToColumnNumber: Readable<Record<string, number>>;
 }
 
 export const createTimePickerState = ({
@@ -87,12 +87,15 @@ export const createTimePickerState = ({
 		},
 	);
 
+	const intervalsByDateId = derived(localIntervals, ($localIntervals) => {
+		return groupIntervalsByDateId($localIntervals);
+	});
+
 	const timeCellsByDateId = derived(
-		[localIntervals, flattenedTimeBlocks, resolution],
-		([$localIntervals, $localTimeBlocks, $resolution]) => {
-			const intervalsByDateId = groupIntervalsByDateId($localIntervals);
+		[intervalsByDateId, flattenedTimeBlocks, resolution],
+		([$intervalsByDateId, $localTimeBlocks, $resolution]) => {
 			const $timeCellsByDateId: Record<string, TimeCell[]> = {};
-			Object.entries(intervalsByDateId).forEach(([dateId, intervals]) => {
+			Object.entries($intervalsByDateId).forEach(([dateId, intervals]) => {
 				const date = dateFromId(dateId);
 				$timeCellsByDateId[dateId] = getFlattenedTimeCells(
 					intervals,
@@ -118,19 +121,6 @@ export const createTimePickerState = ({
 		return $dateIdToColumnNumber;
 	});
 
-	const blocksByDateId = derived(timeCellsByDateId, ($timeCellsByDateId) => {
-		return Object.fromEntries(
-			Object.entries($timeCellsByDateId).map(([dateId, timeCells]) => {
-				return [
-					dateId,
-					getLocalIntervals(
-						getIntervalsFromDiscretes(timeCells.map((cell) => cell.time)),
-					),
-				];
-			}),
-		);
-	});
-
 	return [
 		{
 			validIntervals,
@@ -140,11 +130,11 @@ export const createTimePickerState = ({
 		{
 			localIntervals,
 			flattenedTimeCells,
+			intervalsByDateId,
 			timeIdToRowNumber,
 			dateIds,
 			dateIdToColumnNumber,
 			timeCellsByDateId,
-			blocksByDateId,
 		},
 	];
 };
