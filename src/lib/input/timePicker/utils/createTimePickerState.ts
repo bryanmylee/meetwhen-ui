@@ -8,7 +8,7 @@ import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 import type { Interval } from '$lib/core/types/Interval';
 import {
 	getLocalIntervals,
-	getLocalIntervalsFromDiscretes,
+	getIntervalsFromDiscretes,
 	groupIntervalsByDateId,
 } from '$lib/core/utils/intervals';
 import type { TimeCell } from '../types/TimeCell';
@@ -123,7 +123,9 @@ export const createTimePickerState = ({
 			Object.entries($timeCellsByDateId).map(([dateId, timeCells]) => {
 				return [
 					dateId,
-					getLocalIntervalsFromDiscretes(timeCells.map((cell) => cell.time)),
+					getLocalIntervals(
+						getIntervalsFromDiscretes(timeCells.map((cell) => cell.time)),
+					),
 				];
 			}),
 		);

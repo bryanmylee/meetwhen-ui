@@ -3,7 +3,7 @@ import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
 import {
 	getIntervalDiscretes,
 	getLocalIntervals,
-	getLocalIntervalsFromDiscretes,
+	getIntervalsFromDiscretes,
 	groupIntervalsByDateId,
 	isIntervalInTimeInterval,
 	serialize,
@@ -134,7 +134,7 @@ describe('getIntervalDiscretes', () => {
 	});
 });
 
-describe('getLocalIntervalsFromDiscretes', () => {
+describe('getIntervalsFromDiscretes', () => {
 	it('converts consecutive discrete values', () => {
 		const discretes = [
 			timeFromId('08:00'),
@@ -142,7 +142,7 @@ describe('getLocalIntervalsFromDiscretes', () => {
 			timeFromId('09:00'),
 			timeFromId('09:30'),
 		];
-		const result = getLocalIntervalsFromDiscretes(discretes, 30);
+		const result = getIntervalsFromDiscretes(discretes, 30);
 		const expected: Interval[] = [
 			{ start: timeFromId('08:00'), end: timeFromId('10:00') },
 		];
@@ -151,23 +151,10 @@ describe('getLocalIntervalsFromDiscretes', () => {
 
 	it('converts gapped discrete values', () => {
 		const discretes = [timeFromId('08:00'), timeFromId('09:00')];
-		const result = getLocalIntervalsFromDiscretes(discretes, 30);
+		const result = getIntervalsFromDiscretes(discretes, 30);
 		const expected: Interval[] = [
 			{ start: timeFromId('08:00'), end: timeFromId('08:30') },
 			{ start: timeFromId('09:00'), end: timeFromId('09:30') },
-		];
-		expect(result.map(serialize)).toEqual(expected.map(serialize));
-	});
-
-	it('converts to local intervals', () => {
-		const discretes = [timeFromId('23:30'), timeFromId('00:00').add(1, 'day')];
-		const result = getLocalIntervalsFromDiscretes(discretes, 30);
-		const expected: Interval[] = [
-			{ start: timeFromId('23:30'), end: timeFromId('00:00').add(1, 'day') },
-			{
-				start: timeFromId('00:00').add(1, 'day'),
-				end: timeFromId('00:30').add(1, 'day'),
-			},
 		];
 		expect(result.map(serialize)).toEqual(expected.map(serialize));
 	});

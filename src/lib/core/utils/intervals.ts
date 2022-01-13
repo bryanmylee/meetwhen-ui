@@ -92,7 +92,13 @@ export const getIntervalDiscretes = (
 	return result;
 };
 
-export const getLocalIntervalsFromDiscretes = (
+/**
+ * Convert discrete values into a list of intervals.
+ * @param discretes A list of discrete Dayjs values.
+ * @param resolution The duration of each discrete value.
+ * @returns The intervals represented by the discrete values.
+ */
+export const getIntervalsFromDiscretes = (
 	discretes: Dayjs[],
 	resolution = 30,
 ): Interval[] => {
@@ -100,7 +106,7 @@ export const getLocalIntervalsFromDiscretes = (
 		start: d,
 		end: d.add(resolution, 'minutes'),
 	}));
-	return getLocalIntervals(unionIntervals(intervals));
+	return unionIntervals(intervals);
 };
 
 /**

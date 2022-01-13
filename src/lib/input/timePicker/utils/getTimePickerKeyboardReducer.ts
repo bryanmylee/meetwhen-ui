@@ -12,20 +12,20 @@ import type { Maybe } from '$lib/core/types/Maybe';
 
 export type GetTimePickerKeyboardReducer = (
 	dates: Dayjs[],
-	validIdSet: Set<string>,
+	validIds: Set<string>,
 ) => KeyboardReducer<string>;
 
 export const getTimePickerKeyboardReducer: GetTimePickerKeyboardReducer =
-	(dates, validIdSet) => (event, currentId) => {
+	(dates, validIds) => (event, currentId) => {
 		switch (event.key) {
 			case 'ArrowLeft':
-				return goLeft(currentId, validIdSet, dates);
+				return goLeft(currentId, validIds, dates);
 			case 'ArrowRight':
-				return goRight(currentId, validIdSet, dates);
+				return goRight(currentId, validIds, dates);
 			case 'ArrowUp':
-				return goUp(currentId, validIdSet);
+				return goUp(currentId, validIds);
 			case 'ArrowDown':
-				return goDown(currentId, validIdSet);
+				return goDown(currentId, validIds);
 			default:
 				return currentId;
 		}
@@ -34,10 +34,10 @@ export const getTimePickerKeyboardReducer: GetTimePickerKeyboardReducer =
 const getClosestTimeId = (
 	fromId: string,
 	onDateId: string,
-	validIdSet: Set<string>,
+	validIds: Set<string>,
 	allowedDiff?: (diff: number) => boolean,
 ): Maybe<string> => {
-	return validIdSet
+	return validIds
 		.filter((id) => dateTimeDecomposeId(id)[0] === onDateId)
 		.map((id) => getTimeDiff(id, fromId))
 		.filter(([, diff]) => allowedDiff === undefined || allowedDiff(diff))
@@ -45,11 +45,14 @@ const getClosestTimeId = (
 		.min((a, b) => a[1] - b[1])?.[0];
 };
 
+let getReducerCalls = 0;
+
 const getTimeDiff = (
 	dateTimeId: string,
 	currDateTimeId: string,
 ): [dateTimeId: string, diff: number] => {
 	const [, timeId] = dateTimeDecomposeId(dateTimeId);
+	console.log('getReducer:', ++getReducerCalls);
 	const currDateTime = dateTimeFromId(currDateTimeId);
 	const diff = onDay(timeFromId(timeId), currDateTime).diff(currDateTime);
 	return [dateTimeId, diff];
@@ -57,7 +60,7 @@ const getTimeDiff = (
 
 const goLeft = (
 	currentId: string,
-	validIdSet: Set<string>,
+	validIds: Set<string>,
 	dates: Dayjs[],
 ): string => {
 	const [currentDateId] = dateTimeDecomposeId(currentId);
@@ -68,13 +71,13 @@ const goLeft = (
 		return currentId;
 	}
 	const nextDateId = dateToId(dates[currDateIndex - 1]);
-	const nextId = getClosestTimeId(currentId, nextDateId, validIdSet);
+	const nextId = getClosestTimeId(currentId, nextDateId, validIds);
 	return nextId ?? currentId;
 };
 
 const goRight = (
 	currentId: string,
-	validIdSet: Set<string>,
+	validIds: Set<string>,
 	dates: Dayjs[],
 ): string => {
 	const [currentDateId] = dateTimeDecomposeId(currentId);
@@ -85,27 +88,27 @@ const goRight = (
 		return currentId;
 	}
 	const nextDateId = dateToId(dates[currDateIndex + 1]);
-	const nextId = getClosestTimeId(currentId, nextDateId, validIdSet);
+	const nextId = getClosestTimeId(currentId, nextDateId, validIds);
 	return nextId ?? currentId;
 };
 
-const goUp = (currentId: string, validIdSet: Set<string>): string => {
+const goUp = (currentId: string, validIds: Set<string>): string => {
 	const [currentDateId] = dateTimeDecomposeId(currentId);
 	const nextId = getClosestTimeId(
 		currentId,
 		currentDateId,
-		validIdSet,
+		validIds,
 		(diff) => diff < 0,
 	);
 	return nextId ?? currentId;
 };
 
-const goDown = (currentId: string, validIdSet: Set<string>): string => {
+const goDown = (currentId: string, validIds: Set<string>): string => {
 	const [currentDateId] = dateTimeDecomposeId(currentId);
 	const nextId = getClosestTimeId(
 		currentId,
 		currentDateId,
-		validIdSet,
+		validIds,
 		(diff) => diff > 0,
 	);
 	return nextId ?? currentId;

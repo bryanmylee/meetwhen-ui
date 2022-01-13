@@ -12,11 +12,13 @@
 	import { bound } from '$lib/core/utils/bound';
 	import {
 		getIntervalDiscretes,
-		getLocalIntervalsFromDiscretes,
+		getIntervalsFromDiscretes,
+		getLocalIntervals,
 	} from '$lib/core/utils/intervals';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
-	import { SelectionProvider, KeyboardHelp } from '$lib/input';
+	import { KeyboardHelp, SelectionProvider } from '$lib/input';
+	import type { SelectionProviderEvent } from '$lib/input';
 	import {
 		setCurrentDateTimeElement,
 		setTimePickerControls,
@@ -71,9 +73,11 @@
 	let selectedIntervals: Interval[] = [];
 	export { selectedIntervals as value };
 	$: tick().then(() => {
-		selectedIntervals = getLocalIntervalsFromDiscretes(
-			selectedIds.toArray().map(dateTimeFromId),
-			$resolution,
+		selectedIntervals = getLocalIntervals(
+			getIntervalsFromDiscretes(
+				selectedIds.toArray().map(dateTimeFromId),
+				$resolution,
+			),
 		);
 	});
 
@@ -91,15 +95,24 @@
 		$currentDateTimeElement?.focus();
 	};
 
-	/**
-	 * SelectionProvider activeIds binding.
-	 */
-	let activeIds = Set<string>();
 	let activeIntervals: Interval[] = [];
-	$: activeIntervals = getLocalIntervalsFromDiscretes(
-		activeIds.toArray().map(dateTimeFromId),
-		$resolution,
-	);
+	const handleSelectStart = (
+		event: CustomEvent<SelectionProviderEvent['selectstart']>,
+	) => {
+		const { id } = event.detail;
+		const start = dateTimeFromId(id);
+		activeIntervals = [{ start, end: start.add($resolution, 'minutes') }];
+	};
+
+	const handleSelectThrough = (
+		event: CustomEvent<SelectionProviderEvent['selectthrough']>,
+	) => {
+		const { id, startingId } = event.detail;
+	};
+
+	const handleSelectEnd = () => {
+		activeIntervals = [];
+	};
 
 	$: timePickerInterpolate = getTimePickerInterpolate(
 		dates,
@@ -119,11 +132,13 @@
 			<SelectionProvider
 				bind:selectedIds
 				bind:currentId={$currentId}
-				bind:activeIds
 				lazy
 				interpolate={timePickerInterpolate}
 				keyboardReducer={timePickerKeyboardReducer}
 				on:focusupdate={handleFocusUpdate}
+				on:selectstart={handleSelectStart}
+				on:selectthrough={handleSelectThrough}
+				on:selectend={handleSelectEnd}
 				let:isIdSelected
 				let:isIdCurrent
 				let:isIdDisabled
