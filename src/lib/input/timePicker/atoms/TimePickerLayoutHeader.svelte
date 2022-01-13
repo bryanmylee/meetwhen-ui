@@ -4,6 +4,8 @@
 	import { getTimePickerState } from '../utils/timePickerContext';
 
 	const { dateIds, dateIdToColumnNumber } = getTimePickerState();
+
+	export let shadow = false;
 </script>
 
 <div
@@ -26,10 +28,16 @@
 	{/each}
 </div>
 
+<div
+	class="timepicker-grid-header-bg"
+	class:shadow
+	style={gridItemStyle({ endX: 2 })}
+/>
+
 <style lang="postcss">
 	.timepicker-grid-header {
 		@apply sticky top-0 z-50 gap-x-3 rounded-lg;
-		@apply bg-white gdark:bg-neutral-800 ring-8 ring-white gdark:ring-neutral-800;
+		@apply m-[-8px] border-8 border-white gdark:border-neutral-800;
 	}
 
 	.timepicker-grid-header-cell {
@@ -37,6 +45,15 @@
 		@apply text-sm text-center;
 		& > strong {
 			@apply font-semibold;
+		}
+	}
+
+	.timepicker-grid-header-bg {
+		@apply sticky top-0 z-[49] m-[-8px];
+		@apply bg-white gdark:bg-neutral-800;
+		@apply transition-shadow;
+		&.shadow {
+			@apply shadow-md;
 		}
 	}
 </style>

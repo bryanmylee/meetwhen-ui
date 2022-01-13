@@ -17,6 +17,7 @@
 		subtractIntervals,
 		unionIntervals,
 	} from '$lib/core/utils/intervals';
+	import { scrollOffset } from '$lib/core/utils/useScrollOffset';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { KeyboardHelp, SelectionProvider } from '$lib/input';
@@ -136,14 +137,16 @@
 	);
 
 	$: timePickerKeyboardReducer = getTimePickerKeyboardReducer(dates, validIds);
+
+	const scrollGridOffset = writable({ x: 0, y: 0 });
 </script>
 
 <div {id} tabindex={0} aria-label="time picker" class="timepicker">
 	<div class="timepicker-clip-content">
-		<div class="timepicker-scroll-grid">
+		<div class="timepicker-scroll-grid" use:scrollOffset={scrollGridOffset}>
 			<KeyboardHelp />
-			<TimePickerLayoutHeader />
-			<TimePickerLayoutIndex />
+			<TimePickerLayoutHeader shadow={$scrollGridOffset.y > 0} />
+			<TimePickerLayoutIndex shadow={$scrollGridOffset.x > 0} />
 			<SelectionProvider
 				lazy
 				bind:currentId={$currentId}
@@ -209,7 +212,7 @@
 	}
 
 	.timepicker-scroll-grid {
-		@apply relative grid h-full overflow-auto gap-3 pb-1;
+		@apply relative grid h-full overflow-auto gap-5 pb-1;
 		grid-template: min-content auto / min-content auto;
 	}
 

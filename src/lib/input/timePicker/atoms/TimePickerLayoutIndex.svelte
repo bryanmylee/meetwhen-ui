@@ -9,10 +9,13 @@
 
 	const { resolution } = getTimePickerControls();
 	const { flattenedTimeCells, timeIdToRowNumber } = getTimePickerState();
+
+	export let shadow = false;
 </script>
 
 <div
 	class="timepicker-grid-index"
+	class:shadow
 	style={gridItemStyle({ y: 1 }) +
 		gridStyle({ rows: $flattenedTimeCells.length })}
 >
@@ -42,8 +45,13 @@
 
 <style lang="postcss">
 	.timepicker-grid-index {
-		@apply sticky left-0 z-40 grid-flow-col;
-		@apply bg-white gdark:bg-neutral-800 ring-8 ring-white gdark:ring-neutral-800;
+		@apply sticky left-0 z-40 grid-flow-col m-[-8px];
+		@apply bg-white gdark:bg-neutral-800;
+		@apply border-8 border-white gdark:border-neutral-800;
+		@apply transition-shadow;
+		&.shadow {
+			@apply shadow-md;
+		}
 	}
 
 	.timepicker-grid-index-cell {
