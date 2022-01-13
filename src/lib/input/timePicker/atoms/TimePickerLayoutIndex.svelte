@@ -9,7 +9,6 @@
 
 	const { resolution } = getTimePickerControls();
 	const { flattenedTimeCells, timeIdToRowNumber } = getTimePickerState();
-	$: console.log($flattenedTimeCells.length);
 </script>
 
 <div
