@@ -212,7 +212,7 @@
 	}
 
 	.timepicker-scroll-grid {
-		@apply relative grid h-full overflow-auto gap-5 pb-1;
+		@apply relative grid h-full overflow-auto gap-5 pb-2;
 		grid-template: min-content auto / min-content auto;
 	}
 
