@@ -66,11 +66,12 @@
 	/**
 	 * SelectionProvider selectedIds binding.
 	 */
-	let selectedIds: string[] = [];
+	let selectedIds = Set<string>();
 	let selectedIntervals: Interval[] = [];
+	export { selectedIntervals as value };
 	$: tick().then(() => {
 		selectedIntervals = getLocalIntervalsFromDiscretes(
-			selectedIds.map(dateTimeFromId),
+			selectedIds.toArray().map(dateTimeFromId),
 			$resolution,
 		);
 	});
@@ -92,9 +93,9 @@
 	/**
 	 * SelectionProvider activeIds binding.
 	 */
-	let activeIds: string[] = [];
+	let activeIds = Set<string>();
 	$: activeIntervals = getLocalIntervalsFromDiscretes(
-		activeIds.map(dateTimeFromId),
+		activeIds.toArray().map(dateTimeFromId),
 		$resolution,
 	);
 

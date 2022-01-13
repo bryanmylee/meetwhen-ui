@@ -30,15 +30,15 @@
 	 */
 	const currentId = bound(currentDate, dateToId, dateFromId);
 	const { weekDays, monthDates, disabledDates } = state;
+	$: disabledIds = Set($disabledDates.map(dateToId));
 
 	let selectedDates: Dayjs[] = [];
 	export { selectedDates as value };
 	/**
 	 * SelectionProvider selectedIds binding.
 	 */
-	let selectedIds: string[] = selectedDates.map(dateToId);
-	$: selectedDates = selectedIds.map(dateFromId);
-	$: selectedIdSet = Set(selectedIds);
+	let selectedIds = Set(selectedDates.map(dateToId));
+	$: selectedDates = selectedIds.toArray().map(dateFromId);
 
 	export let error = '';
 
@@ -70,7 +70,7 @@
 		<SelectionProvider
 			bind:selectedIds
 			bind:currentId={$currentId}
-			disabledIds={$disabledDates.map(dateToId)}
+			{disabledIds}
 			keyboardReducer={datePickerKeyboardReducer}
 			on:focusupdate={handleFocusUpdate}
 			let:isIdSelected
@@ -85,7 +85,7 @@
 					disabled={isIdDisabled(dateToId(date))}
 					current={isIdCurrent(dateToId(date))}
 					{selectMode}
-					neighbors={datePickerHasNeighbors(date, selectedIdSet)}
+					neighbors={datePickerHasNeighbors(date, selectedIds)}
 				/>
 			{/each}
 		</SelectionProvider>

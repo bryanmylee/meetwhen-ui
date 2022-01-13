@@ -48,9 +48,8 @@
 	 *
 	 * Bind to this value for reactive state.
 	 */
-	export let selectedIds: string[] = [];
-	$: selectedIdSet = Set(selectedIds);
-	$: isIdSelected = (id: string) => selectedIdSet.includes(id);
+	export let selectedIds = Set<string>();
+	$: isIdSelected = (id: string) => selectedIds.includes(id);
 
 	/**
 	 * The data attribute to read for the selected IDs of child elements.
@@ -67,9 +66,8 @@
 	/**
 	 * IDs to ignore during selection.
 	 */
-	export let disabledIds: string[] = [];
-	$: disabledIdSet = Set(disabledIds);
-	$: isIdDisabled = (id: string) => disabledIdSet.includes(id);
+	export let disabledIds = Set<string>();
+	$: isIdDisabled = (id: string) => disabledIds.includes(id);
 
 	/**
 	 * An interpolation function that returns a list of IDs given a start and end
@@ -113,7 +111,7 @@
 		if (isIdDisabled(id)) {
 			return;
 		}
-		selectedIds = Set(selectedIds).add(id).toArray();
+		selectedIds = selectedIds.add(id);
 		currentId = id;
 		dispatch('toggle', { ids: [id], lastId: currentId, selected: true });
 	};
@@ -128,7 +126,7 @@
 		if (isIdDisabled(id)) {
 			return;
 		}
-		selectedIds = Set(selectedIds).remove(id).toArray();
+		selectedIds = selectedIds.remove(id);
 		currentId = id;
 		dispatch('toggle', { ids: [id], lastId: currentId, selected: false });
 	};
@@ -148,9 +146,8 @@
 	};
 
 	let startingId: Maybe<string>;
-	let previousIdSet: Maybe<Set<string>>;
-	let activeIdSet: Maybe<Set<string>>;
-	let effectiveIdSet: Maybe<Set<string>>;
+	let previousIds: Maybe<Set<string>>;
+	let effectiveIds: Maybe<Set<string>>;
 
 	/**
 	 * Selections starting on unselected elements will add IDs to the selection,
@@ -164,9 +161,8 @@
 	/**
 	 * The IDs in the active selection.
 	 */
-	export let activeIds: string[] = [];
-	$: activeIds = activeIdSet?.toArray() ?? [];
-	$: isIdActive = (id: string) => activeIdSet?.includes(id) ?? false;
+	export let activeIds = Set<string>();
+	$: isIdActive = (id: string) => activeIds.includes(id);
 
 	// START SELECTION
 	// ===============
@@ -240,16 +236,16 @@
 		}
 		currentId = id;
 		startingId = id;
-		previousIdSet = Set(selectedIds);
-		activeIdSet = Set([id]);
+		previousIds = selectedIds;
+		activeIds = Set([id]);
 
 		selectMode = forceSelectMode ?? (isIdSelected(id) ? 'remove' : 'add');
 		if (selectMode === 'add') {
-			effectiveIdSet = previousIdSet.union(activeIdSet);
+			effectiveIds = previousIds.union(activeIds);
 		} else {
-			effectiveIdSet = previousIdSet.subtract(activeIdSet);
+			effectiveIds = previousIds.subtract(activeIds);
 		}
-		selectedIds = effectiveIdSet.toArray();
+		selectedIds = effectiveIds;
 	};
 
 	// UPDATE SELECTION
@@ -300,19 +296,19 @@
 		}
 		currentId = id;
 		if (interpolate !== undefined && startingId !== undefined) {
-			activeIdSet = Set(interpolate(startingId, id));
+			activeIds = Set(interpolate(startingId, id));
 		} else {
-			activeIdSet = activeIdSet?.add(id);
+			activeIds = activeIds.add(id);
 		}
-		if (activeIdSet === undefined) {
+		if (activeIds === undefined) {
 			return;
 		}
 		if (selectMode === 'add') {
-			effectiveIdSet = previousIdSet?.union(activeIdSet);
+			effectiveIds = previousIds?.union(activeIds);
 		} else {
-			effectiveIdSet = previousIdSet?.subtract(activeIdSet);
+			effectiveIds = previousIds?.subtract(activeIds);
 		}
-		selectedIds = effectiveIdSet?.toArray() ?? [];
+		selectedIds = effectiveIds ?? Set();
 	};
 
 	// END SELECTION
@@ -353,18 +349,18 @@
 	};
 
 	const selectEnd = (id: Maybe<string>) => {
-		selectedIds = effectiveIdSet?.toArray() ?? selectedIds;
-		if (activeIdSet !== undefined && id !== undefined) {
+		selectedIds = effectiveIds ?? selectedIds;
+		if (id !== undefined) {
 			dispatch('toggle', {
-				ids: activeIdSet.toArray(),
+				ids: activeIds.toArray(),
 				lastId: id,
 				selected: selectMode === 'add',
 			});
 		}
 		startingId = undefined;
-		previousIdSet = undefined;
-		activeIdSet = undefined;
-		effectiveIdSet = undefined;
+		previousIds = undefined;
+		activeIds = Set();
+		effectiveIds = undefined;
 		selectMode = undefined;
 		trackedTouches = {};
 	};

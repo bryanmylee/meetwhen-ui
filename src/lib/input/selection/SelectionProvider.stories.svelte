@@ -1,12 +1,15 @@
 <script>
+	import { Set } from 'immutable';
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import { range } from '$lib/core/utils/range';
 	import SelectionProvider from './SelectionProvider.svelte';
 
 	/**
-	 * @type {string[]}
+	 * @type {Set<string>}
 	 */
-	let selectedIds = [];
+	let selectedIds = Set();
+
+	let disabledIds = Set(['0', '1']);
 
 	const idsBetween = (/** @type {string} */ a, /** @type {string} */ b) => {
 		const _a = parseInt(a);
@@ -30,7 +33,7 @@
 	<SelectionProvider
 		bind:selectedIds
 		{...args}
-		disabledIds={['0', '1']}
+		{disabledIds}
 		on:toggle={args.onToggle}
 		let:isIdSelected
 		let:isIdDisabled
@@ -57,7 +60,7 @@
 	<SelectionProvider
 		bind:selectedIds
 		{...args}
-		disabledIds={['0', '1']}
+		{disabledIds}
 		on:toggle={args.onToggle}
 		let:isIdSelected
 		let:isIdDisabled
