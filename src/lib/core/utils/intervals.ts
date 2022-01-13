@@ -109,6 +109,37 @@ export const getIntervalsFromDiscretes = (
 	return unionIntervals(intervals);
 };
 
+const momentsToIntervals = (moments: Moment[]): Interval[] => {
+	moments.sort((a, b) => {
+		if (a.value.isSame(b.value)) {
+			// order beginning moments first.
+			return a.isEnd ? 1 : -1;
+		}
+		return a.value.diff(b.value);
+	});
+	const intervals: Interval[] = [];
+	let currStart: Maybe<Dayjs> = undefined;
+	let depth = 0;
+	moments.forEach((moment) => {
+		if (moment.isEnd) {
+			depth--;
+			if (
+				depth === 0 &&
+				currStart !== undefined &&
+				currStart.isBefore(moment.value)
+			) {
+				intervals.push({ start: currStart, end: moment.value });
+			}
+		} else {
+			depth++;
+			if (depth === 1) {
+				currStart = moment.value;
+			}
+		}
+	});
+	return intervals;
+};
+
 /**
  * Unions a list of intervals together such that no overlapping intervals exist.
  * @param intervals The intervals to union.
@@ -119,30 +150,27 @@ export const unionIntervals = (intervals: Interval[]): Interval[] => {
 	intervals.forEach(({ start, end }) => {
 		moments.push({ value: start, isEnd: false }, { value: end, isEnd: true });
 	});
-	moments.sort((a, b) => {
-		if (a.value.isSame(b.value)) {
-			// order beginning moments first.
-			return a.isEnd ? 1 : -1;
-		}
-		return a.value.diff(b.value);
+	return momentsToIntervals(moments);
+};
+
+/**
+ * Subtracts a list of intervals from another.
+ * @param intervals The intervals to subtract from.
+ * @param toSub The intervals to subtract.
+ * @returns The subtracted list of intervals.
+ */
+export const subtractIntervals = (
+	intervals: Interval[],
+	toSub: Interval[],
+): Interval[] => {
+	const moments: Moment[] = [];
+	intervals.forEach(({ start, end }) => {
+		moments.push({ value: start, isEnd: false }, { value: end, isEnd: true });
 	});
-	const result: Interval[] = [];
-	let currStart: Maybe<Dayjs> = undefined;
-	let depth = 0;
-	moments.forEach((moment) => {
-		if (moment.isEnd) {
-			depth--;
-			if (depth === 0 && currStart !== undefined) {
-				result.push({ start: currStart, end: moment.value });
-			}
-		} else {
-			depth++;
-			if (depth === 1) {
-				currStart = moment.value;
-			}
-		}
+	toSub.forEach(({ start, end }) => {
+		moments.push({ value: start, isEnd: true }, { value: end, isEnd: false });
 	});
-	return result;
+	return momentsToIntervals(moments);
 };
 
 /**

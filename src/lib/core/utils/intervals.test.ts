@@ -8,6 +8,7 @@ import {
 	isIntervalInTimeInterval,
 	serialize,
 	unionIntervals,
+	subtractIntervals,
 } from './intervals';
 import { dateToId } from './dayjs/dateIds';
 import type { Interval } from '../types/Interval';
@@ -214,6 +215,146 @@ describe('unionIntervals', () => {
 			{
 				start: today.hour(8),
 				end: today.hour(11),
+			},
+		];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+});
+
+describe('subtractIntervals', () => {
+	it('subtracts non-overlapping intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(10),
+			},
+		];
+		const toSub = [
+			{
+				start: today.hour(12),
+				end: today.hour(15),
+			},
+		];
+		const result = subtractIntervals(intervals, toSub);
+		const expected = intervals;
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+
+	it('subtracts adjacent intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(10),
+			},
+		];
+		const toSub = [
+			{
+				start: today.hour(10),
+				end: today.hour(12),
+			},
+		];
+		const result = subtractIntervals(intervals, toSub);
+		const expected = [
+			{
+				start: today.hour(8),
+				end: today.hour(10),
+			},
+		];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+
+	it('subtracts overlapping intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(10),
+			},
+		];
+		const toSub = [
+			{
+				start: today.hour(9),
+				end: today.hour(11),
+			},
+		];
+		const result = subtractIntervals(intervals, toSub);
+		const expected = [
+			{
+				start: today.hour(8),
+				end: today.hour(9),
+			},
+		];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+
+	it('subtracts contained intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(12),
+			},
+		];
+		const toSub = [
+			{
+				start: today.hour(9),
+				end: today.hour(10),
+			},
+		];
+		const result = subtractIntervals(intervals, toSub);
+		const expected = [
+			{
+				start: today.hour(8),
+				end: today.hour(9),
+			},
+			{
+				start: today.hour(10),
+				end: today.hour(12),
+			},
+		];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+
+	it('subtracts equal intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(12),
+			},
+		];
+		const result = subtractIntervals(intervals, intervals);
+		const expected: Interval[] = [];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+
+	it('subtracts multiple intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(13),
+			},
+		];
+		const toSub = [
+			{
+				start: today.hour(9),
+				end: today.hour(10),
+			},
+			{
+				start: today.hour(11),
+				end: today.hour(12),
+			},
+		];
+		const result = subtractIntervals(intervals, toSub);
+		const expected = [
+			{
+				start: today.hour(8),
+				end: today.hour(9),
+			},
+			{
+				start: today.hour(10),
+				end: today.hour(11),
+			},
+			{
+				start: today.hour(12),
+				end: today.hour(13),
 			},
 		];
 		expect(result.map(serialize)).toEqual(expected.map(serialize));
