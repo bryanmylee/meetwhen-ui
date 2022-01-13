@@ -46,7 +46,7 @@
 			}
 		}
 		&.remove {
-			@apply ring-red-400;
+			@apply bg-red-200 ring-red-400;
 			& > span {
 				@apply text-red-400;
 			}
