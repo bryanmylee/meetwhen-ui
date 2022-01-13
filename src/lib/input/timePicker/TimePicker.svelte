@@ -53,10 +53,11 @@
 	$: $validIntervals = initValidIntervals;
 	$: $resolution = initResolution;
 
-	$: validIds = $validIntervals
-		.flatMap((interval) => getIntervalDiscretes(interval, $resolution))
-		.map(dateTimeToId);
-	$: validIdSet = Set(validIds);
+	$: validIds = Set(
+		$validIntervals
+			.flatMap((interval) => getIntervalDiscretes(interval, $resolution))
+			.map(dateTimeToId),
+	);
 
 	/**
 	 * SelectionProvider currentId binding.
@@ -94,6 +95,7 @@
 	 * SelectionProvider activeIds binding.
 	 */
 	let activeIds = Set<string>();
+	let activeIntervals: Interval[] = [];
 	$: activeIntervals = getLocalIntervalsFromDiscretes(
 		activeIds.toArray().map(dateTimeFromId),
 		$resolution,
@@ -101,14 +103,11 @@
 
 	$: timePickerInterpolate = getTimePickerInterpolate(
 		dates,
-		validIdSet,
+		validIds,
 		$resolution,
 	);
 
-	$: timePickerKeyboardReducer = getTimePickerKeyboardReducer(
-		dates,
-		validIdSet,
-	);
+	$: timePickerKeyboardReducer = getTimePickerKeyboardReducer(dates, validIds);
 </script>
 
 <div {id} tabindex={0} aria-label="time picker" class="timepicker">
@@ -121,6 +120,7 @@
 				bind:selectedIds
 				bind:currentId={$currentId}
 				bind:activeIds
+				lazy
 				interpolate={timePickerInterpolate}
 				keyboardReducer={timePickerKeyboardReducer}
 				on:focusupdate={handleFocusUpdate}

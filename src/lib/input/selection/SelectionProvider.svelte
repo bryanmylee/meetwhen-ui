@@ -52,6 +52,13 @@
 	$: isIdSelected = (id: string) => selectedIds.includes(id);
 
 	/**
+	 * If lazy is enabled, selectedIds will only be updated on selectEnd.
+	 *
+	 * This is useful if updating selectedIds is computationally expensive.
+	 */
+	export let lazy = false;
+
+	/**
 	 * The data attribute to read for the selected IDs of child elements.
 	 *
 	 * Defaults to `selectId`, which translates to `data-select-id`.
@@ -245,7 +252,9 @@
 		} else {
 			effectiveIds = previousIds.subtract(activeIds);
 		}
-		selectedIds = effectiveIds;
+		if (!lazy) {
+			selectedIds = effectiveIds;
+		}
 	};
 
 	// UPDATE SELECTION
@@ -308,7 +317,9 @@
 		} else {
 			effectiveIds = previousIds?.subtract(activeIds);
 		}
-		selectedIds = effectiveIds ?? Set();
+		if (!lazy) {
+			selectedIds = effectiveIds ?? Set();
+		}
 	};
 
 	// END SELECTION
