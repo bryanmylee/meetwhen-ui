@@ -9,6 +9,7 @@ import {
 	serialize,
 	unionIntervals,
 	subtractIntervals,
+	intersectIntervals,
 } from './intervals';
 import { dateToId } from './dayjs/dateIds';
 import type { Interval } from '../types/Interval';
@@ -355,6 +356,138 @@ describe('subtractIntervals', () => {
 			{
 				start: today.hour(12),
 				end: today.hour(13),
+			},
+		];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+});
+
+describe('intersectIntervals', () => {
+	it('intersects non-overlapping intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(10),
+			},
+		];
+		const toIntersect = [
+			{
+				start: today.hour(12),
+				end: today.hour(15),
+			},
+		];
+		const result = intersectIntervals(intervals, toIntersect);
+		const expected: Interval[] = [];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+
+	it('intersects adjacent intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(10),
+			},
+		];
+		const toIntersect = [
+			{
+				start: today.hour(10),
+				end: today.hour(12),
+			},
+		];
+		const result = intersectIntervals(intervals, toIntersect);
+		const expected: Interval[] = [];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+
+	it('intersects overlapping intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(10),
+			},
+		];
+		const toIntersect = [
+			{
+				start: today.hour(9),
+				end: today.hour(11),
+			},
+		];
+		const result = intersectIntervals(intervals, toIntersect);
+		const expected = [
+			{
+				start: today.hour(9),
+				end: today.hour(10),
+			},
+		];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+
+	it('intersects contained intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(12),
+			},
+		];
+		const toIntersect = [
+			{
+				start: today.hour(9),
+				end: today.hour(10),
+			},
+		];
+		const result = intersectIntervals(intervals, toIntersect);
+		const expected = [
+			{
+				start: today.hour(9),
+				end: today.hour(10),
+			},
+		];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+
+	it('intersects equal intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(12),
+			},
+		];
+		const result = intersectIntervals(intervals, intervals);
+		const expected: Interval[] = [
+			{
+				start: today.hour(8),
+				end: today.hour(12),
+			},
+		];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
+
+	it('intersects multiple intervals', () => {
+		const intervals = [
+			{
+				start: today.hour(8),
+				end: today.hour(13),
+			},
+		];
+		const toIntersect = [
+			{
+				start: today.hour(9),
+				end: today.hour(10),
+			},
+			{
+				start: today.hour(11),
+				end: today.hour(12),
+			},
+		];
+		const result = intersectIntervals(intervals, toIntersect);
+		const expected = [
+			{
+				start: today.hour(9),
+				end: today.hour(10),
+			},
+			{
+				start: today.hour(11),
+				end: today.hour(12),
 			},
 		];
 		expect(result.map(serialize)).toEqual(expected.map(serialize));

@@ -109,7 +109,14 @@ export const getIntervalsFromDiscretes = (
 	return unionIntervals(intervals);
 };
 
-const momentsToIntervals = (moments: Moment[]): Interval[] => {
+interface MomentsToIntervalsProps {
+	requiredDepth?: number;
+}
+
+const momentsToIntervals = (
+	moments: Moment[],
+	{ requiredDepth = 1 }: MomentsToIntervalsProps = {},
+): Interval[] => {
 	moments.sort((a, b) => {
 		if (a.value.isSame(b.value)) {
 			// order beginning moments first.
@@ -124,7 +131,7 @@ const momentsToIntervals = (moments: Moment[]): Interval[] => {
 		if (moment.isEnd) {
 			depth--;
 			if (
-				depth === 0 &&
+				depth === requiredDepth - 1 &&
 				currStart !== undefined &&
 				currStart.isBefore(moment.value)
 			) {
@@ -132,7 +139,7 @@ const momentsToIntervals = (moments: Moment[]): Interval[] => {
 			}
 		} else {
 			depth++;
-			if (depth === 1) {
+			if (depth === requiredDepth) {
 				currStart = moment.value;
 			}
 		}
@@ -171,6 +178,20 @@ export const subtractIntervals = (
 		moments.push({ value: start, isEnd: true }, { value: end, isEnd: false });
 	});
 	return momentsToIntervals(moments);
+};
+
+export const intersectIntervals = (
+	intervals: Interval[],
+	toIntersect: Interval[],
+): Interval[] => {
+	const moments: Moment[] = [];
+	intervals.forEach(({ start, end }) => {
+		moments.push({ value: start, isEnd: false }, { value: end, isEnd: true });
+	});
+	toIntersect.forEach(({ start, end }) => {
+		moments.push({ value: start, isEnd: false }, { value: end, isEnd: true });
+	});
+	return momentsToIntervals(moments, { requiredDepth: 2 });
 };
 
 /**
