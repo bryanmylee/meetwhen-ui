@@ -12,6 +12,7 @@
 	import { bound } from '$lib/core/utils/bound';
 	import {
 		getIntervalDiscretes,
+		getLocalIntervals,
 		intersectIntervals,
 		subtractIntervals,
 		unionIntervals,
@@ -101,14 +102,16 @@
 		if (startingId === undefined) {
 			return;
 		}
-		activeIntervals = intersectIntervals(
-			$validIntervals,
-			getIntervalsBetween({
-				fromId: startingId,
-				toId: id,
-				dateIds: $dateIds,
-				resolution: $resolution,
-			}),
+		activeIntervals = getLocalIntervals(
+			intersectIntervals(
+				$validIntervals,
+				getIntervalsBetween({
+					fromId: startingId,
+					toId: id,
+					dateIds: $dateIds,
+					resolution: $resolution,
+				}),
+			),
 		);
 	};
 
@@ -117,10 +120,9 @@
 	) => {
 		const { selectMode } = event.detail;
 		if (selectMode === 'add') {
-			selectedIntervals = unionIntervals([
-				...selectedIntervals,
-				...activeIntervals,
-			]);
+			selectedIntervals = getLocalIntervals(
+				unionIntervals([...selectedIntervals, ...activeIntervals]),
+			);
 		} else {
 			selectedIntervals = subtractIntervals(selectedIntervals, activeIntervals);
 		}
