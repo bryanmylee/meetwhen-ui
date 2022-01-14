@@ -13,18 +13,16 @@
 	style={gridItemStyle({ x: 1 }) + gridStyle({ cols: $dateIds.length })}
 >
 	{#each $dateIds as dateId}
-		<!-- @const -->
-		{#each [dateFromId(dateId)] as date}
-			<div
-				class="timepicker-grid-header-cell"
-				style={gridItemStyle({ x: $dateIdToColumnNumber[dateId] })}
-			>
-				{date.format('ddd')}
-				<strong>
-					{date.format('D MMM')}
-				</strong>
-			</div>
-		{/each}
+		{@const date = dateFromId(dateId)}
+		<div
+			class="timepicker-grid-header-cell"
+			style={gridItemStyle({ x: $dateIdToColumnNumber[dateId] })}
+		>
+			{date.format('ddd')}
+			<strong>
+				{date.format('D MMM')}
+			</strong>
+		</div>
 	{/each}
 </div>
 

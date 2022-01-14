@@ -18,7 +18,6 @@
 	export let selectMode: Maybe<SelectMode>;
 </script>
 
-<!-- @const -->
 <TimePickerBlockCell
 	{dateId}
 	{timeCell}
