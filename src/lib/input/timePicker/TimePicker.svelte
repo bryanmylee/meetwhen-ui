@@ -204,7 +204,7 @@
 
 <style lang="postcss">
 	.timepicker {
-		@apply relative focus:outline-none wh-full;
+		@apply relative focus:outline-none wh-full z-0;
 	}
 
 	.timepicker-clip-content {
