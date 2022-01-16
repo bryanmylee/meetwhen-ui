@@ -1,4 +1,4 @@
-const path = require('path');
+const postcss = require('postcss');
 const preprocess = require('svelte-preprocess');
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
 			name: '@storybook/addon-postcss',
 			options: {
 				postcssLoaderOptions: {
-					implementation: require('postcss'),
+					implementation: postcss,
 				},
 			},
 		},
@@ -29,15 +29,27 @@ module.exports = {
 					target: 'es2018',
 				},
 			},
+			babel: {
+				presets: [
+					[
+						'@babel/preset-env',
+						{
+							loose: true,
+							modules: false,
+							targets: { esmodules: true },
+						},
+					],
+				],
+			},
 		}),
 	},
-	webpackFinal: async (config) => ({
-		...config,
-		resolve: {
+	webpackFinal: async (config) => {
+		config.resolve = {
 			alias: {
-				$lib: path.resolve(__dirname, '..', 'src', 'lib'),
+				$lib: `${__dirname}/../src/lib`,
 			},
 			extensions: ['.js', '.ts'],
-		},
-	}),
+		};
+		return config;
+	},
 };
