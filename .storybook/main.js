@@ -30,15 +30,9 @@ module.exports = {
 				},
 			},
 			babel: {
-				presets: [
-					[
-						'@babel/preset-env',
-						{
-							loose: true,
-							modules: false,
-							targets: { esmodules: true },
-						},
-					],
+				plugins: [
+					'@babel/plugin-proposal-optional-chaining',
+					'@babel/plugin-proposal-nullish-coalescing-operator',
 				],
 			},
 		}),

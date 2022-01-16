@@ -5,6 +5,9 @@ overrides:
 
 specifiers:
   '@babel/core': ^7.16.7
+  '@babel/plugin-proposal-nullish-coalescing-operator': ^7.16.7
+  '@babel/plugin-proposal-optional-chaining': ^7.16.7
+  '@rgossiaux/svelte-headlessui': ^1.0.0-beta.7
   '@storybook/addon-actions': ^6.5.0-alpha.6
   '@storybook/addon-essentials': ^6.5.0-alpha.6
   '@storybook/addon-links': ^6.5.0-alpha.6
@@ -29,8 +32,10 @@ specifiers:
   eslint-config-prettier: ^8.3.0
   eslint-plugin-svelte3: ^3.2.1
   immutable: ^4.0.0
+  install: ^0.13.0
   jest: ^27.4.7
   nanoid: ^3.1.30
+  npm: ^8.3.1
   postcss: ^8.4.5
   prettier: ^2.4.1
   prettier-plugin-svelte: ^2.4.0
@@ -49,6 +54,9 @@ specifiers:
 
 devDependencies:
   '@babel/core': 7.16.7
+  '@babel/plugin-proposal-nullish-coalescing-operator': 7.16.7_@babel+core@7.16.7
+  '@babel/plugin-proposal-optional-chaining': 7.16.7_@babel+core@7.16.7
+  '@rgossiaux/svelte-headlessui': 1.0.0-beta.7_svelte@3.46.2
   '@storybook/addon-actions': 6.5.0-alpha.17
   '@storybook/addon-essentials': 6.5.0-alpha.17_7a0d05be4995a6b9dc848dc0f8368e34
   '@storybook/addon-links': 6.5.0-alpha.17
@@ -73,8 +81,10 @@ devDependencies:
   eslint-config-prettier: 8.3.0_eslint@7.32.0
   eslint-plugin-svelte3: 3.4.0_eslint@7.32.0+svelte@3.46.2
   immutable: 4.0.0
+  install: 0.13.0
   jest: 27.4.7
   nanoid: 3.1.32
+  npm: 8.3.1
   postcss: 8.4.5
   prettier: 2.5.1
   prettier-plugin-svelte: 2.6.0_prettier@2.5.1+svelte@3.46.2
@@ -2062,6 +2072,14 @@ packages:
 
   /@popperjs/core/2.11.2:
     resolution: {integrity: sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==}
+    dev: true
+
+  /@rgossiaux/svelte-headlessui/1.0.0-beta.7_svelte@3.46.2:
+    resolution: {integrity: sha512-0flvhKNwtFx4CoI9WmEbjmLiHWlKcbPfE8g7ANDySge2XnCynOqeaGMP/+nkm7JERG5lvhJG9xuftuLipyxIFw==}
+    peerDependencies:
+      svelte: ^3.44.0
+    dependencies:
+      svelte: 3.46.2
     dev: true
 
   /@rollup/pluginutils/4.1.2:
@@ -8328,6 +8346,11 @@ packages:
     resolution: {integrity: sha512-7NXolsK4CAS5+xvdj5OMMbI962hU/wvwoxk+LWR9Ek9bVtyuuYScDN6eS0rUm6TxApFpw7CX1o4uJzcd4AyD3Q==}
     dev: true
 
+  /install/0.13.0:
+    resolution: {integrity: sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==}
+    engines: {node: '>= 0.10'}
+    dev: true
+
   /internal-slot/1.0.3:
     resolution: {integrity: sha512-O0DB1JC/sPyZl7cIo78n5dR7eUSwwpYPiXRhTzNxZVAMUuB8vlnRFyLxdrVToks6XPLVnFfbzaVd5WLjhgg+vA==}
     engines: {node: '>= 0.4'}
@@ -10189,6 +10212,84 @@ packages:
     dependencies:
       path-key: 3.1.1
     dev: true
+
+  /npm/8.3.1:
+    resolution: {integrity: sha512-f552vKhT3r+PpCRnH7UferrrbcnvcFnGusN2T1mQqq/0UQd3pF1+ok4n0WahT0ZKxj10YU3b2VdhGrf39djHAA==}
+    engines: {node: ^12.13.0 || ^14.15.0 || >=16}
+    hasBin: true
+    dev: true
+    bundledDependencies:
+      - '@isaacs/string-locale-compare'
+      - '@npmcli/arborist'
+      - '@npmcli/ci-detect'
+      - '@npmcli/config'
+      - '@npmcli/map-workspaces'
+      - '@npmcli/package-json'
+      - '@npmcli/run-script'
+      - abbrev
+      - ansicolors
+      - ansistyles
+      - archy
+      - cacache
+      - chalk
+      - chownr
+      - cli-columns
+      - cli-table3
+      - columnify
+      - fastest-levenshtein
+      - glob
+      - graceful-fs
+      - hosted-git-info
+      - ini
+      - init-package-json
+      - is-cidr
+      - json-parse-even-better-errors
+      - libnpmaccess
+      - libnpmdiff
+      - libnpmexec
+      - libnpmfund
+      - libnpmhook
+      - libnpmorg
+      - libnpmpack
+      - libnpmpublish
+      - libnpmsearch
+      - libnpmteam
+      - libnpmversion
+      - make-fetch-happen
+      - minipass
+      - minipass-pipeline
+      - mkdirp
+      - mkdirp-infer-owner
+      - ms
+      - node-gyp
+      - nopt
+      - npm-audit-report
+      - npm-install-checks
+      - npm-package-arg
+      - npm-pick-manifest
+      - npm-profile
+      - npm-registry-fetch
+      - npm-user-validate
+      - npmlog
+      - opener
+      - pacote
+      - parse-conflict-json
+      - proc-log
+      - qrcode-terminal
+      - read
+      - read-package-json
+      - read-package-json-fast
+      - readdir-scoped-modules
+      - rimraf
+      - semver
+      - ssri
+      - tar
+      - text-table
+      - tiny-relative-date
+      - treeverse
+      - validate-npm-package-name
+      - which
+      - write-file-atomic
 
   /npmlog/5.0.1:
     resolution: {integrity: sha512-AqZtDUWOMKs1G/8lwylVjrdYgqA4d9nu8hc+0gzRxlDb1I10+FHBGMXs6aiQHFdCUUlqH99MUMuLfzWDNDtfxw==}
