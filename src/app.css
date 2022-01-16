@@ -13,6 +13,16 @@
 			@apply ring ring-red-400;
 		}
 	}
+
+	.focus-inset {
+		@apply ring-primary-400 ring-inset;
+		&:focus {
+			@apply ring outline-none;
+		}
+		&.error {
+			@apply ring ring-red-400;
+		}
+	}
 }
 
 * {
