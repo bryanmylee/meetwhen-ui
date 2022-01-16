@@ -212,11 +212,11 @@
 	}
 
 	.timepicker-scroll-grid {
-		@apply relative grid h-full overflow-auto gap-5 pb-2;
+		@apply relative grid h-full overflow-auto;
 		grid-template: min-content auto / min-content auto;
 	}
 
 	.timepicker-grid {
-		@apply gap-x-3;
+		@apply gap-x-3 p-1;
 	}
 </style>

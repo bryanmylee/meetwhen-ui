@@ -45,7 +45,7 @@
 
 <style lang="postcss">
 	.timepicker-grid-index {
-		@apply sticky left-0 z-40 grid-flow-col m-[-8px];
+		@apply sticky left-0 z-40 grid-flow-col;
 		@apply bg-white gdark:bg-neutral-800;
 		@apply border-8 border-white gdark:border-neutral-800;
 		@apply transition-shadow;

@@ -53,7 +53,7 @@ devDependencies:
   '@storybook/addon-svelte-csf': 1.1.0_f42141a6aa1fc125b770618844f0a5dd
   '@storybook/svelte': 6.5.0-alpha.6_d326ba7cf436421157648d9428c79bcf
   '@sveltejs/adapter-auto': 1.0.0-next.10
-  '@sveltejs/kit': 1.0.0-next.225_svelte@3.46.0
+  '@sveltejs/kit': 1.0.0-next.231_svelte@3.46.0
   '@types/body-scroll-lock': 3.1.0
   '@types/chroma-js': 2.1.3
   '@types/jest': 27.4.0
@@ -3977,8 +3977,8 @@ packages:
       esbuild: 0.13.15
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.225_svelte@3.46.0:
-    resolution: {integrity: sha512-J/f+FZVdvpTmn7nCeRKRC1L9gbcI7g1bJRaw+jMdq/MYtGqcRw/fjYrx9/xO3+1YH0wgNG1b26GwmQZE64PFIQ==}
+  /@sveltejs/kit/1.0.0-next.231_svelte@3.46.0:
+    resolution: {integrity: sha512-utG2cfgweIIwFA1IcDDzDTa7cz+UiJX03ELG9cvpwkGIlHypzbGr0AnUzRAX60HUsBQLNhtjNCU2BUUy8IQLPw==}
     engines: {node: '>=14.13'}
     hasBin: true
     peerDependencies:

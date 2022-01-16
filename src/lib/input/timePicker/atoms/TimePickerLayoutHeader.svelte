@@ -34,8 +34,8 @@
 
 <style lang="postcss">
 	.timepicker-grid-header {
-		@apply sticky top-0 z-50 gap-x-3 rounded-lg;
-		@apply m-[-8px] border-8 border-white gdark:border-neutral-800;
+		@apply sticky top-0 z-50 rounded-lg;
+		@apply px-1 py-2 gap-x-3;
 	}
 
 	.timepicker-grid-header-cell {
@@ -47,7 +47,7 @@
 	}
 
 	.timepicker-grid-header-bg {
-		@apply sticky top-0 z-[49] m-[-8px];
+		@apply sticky top-0 z-[49];
 		@apply bg-white gdark:bg-neutral-800;
 		@apply transition-shadow;
 		&.shadow {
