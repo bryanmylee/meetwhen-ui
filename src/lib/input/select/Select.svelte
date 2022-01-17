@@ -115,7 +115,7 @@
 
 	.listbox-options-scroll {
 		@apply rounded-lg;
-		@apply max-h-96 overflow-auto no-scrollbar;
+		@apply max-h-80 overflow-auto no-scrollbar;
 	}
 
 	.listbox-options-scroll-indicator {
