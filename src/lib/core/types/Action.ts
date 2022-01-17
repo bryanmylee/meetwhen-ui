@@ -1,6 +1,6 @@
-export type Action<Params> = (
+export type Action<Params = undefined> = (
 	node: HTMLElement,
-	params: Params,
+	params?: Params,
 ) => {
 	update?: (newParams: Params) => void;
 	destroy?: () => void;
