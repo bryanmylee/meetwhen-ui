@@ -10,6 +10,7 @@
 	import { ChevronDownIcon, ChevronsDownIcon } from 'svelte-feather-icons';
 	import { classes } from '$lib/core/utils/classes';
 	import { scrollIndicator } from '$lib/core/utils/useScrollIndicator';
+	import { scrollToSelected } from '$lib/core/utils/useScrollToSelected';
 
 	type T = $$Generic;
 
@@ -44,10 +45,11 @@
 		<div class="listbox-options-scrollbox">
 			<div
 				use:scrollIndicator={optionsIndicator}
+				use:scrollToSelected
 				class="listbox-options-scroll"
 			>
 				{#each values as value (id(value))}
-					<ListboxOption {value} let:active let:selected class="contents">
+					<ListboxOption {value} let:active let:selected>
 						<div class="listbox-option" class:active class:selected>
 							{label(value)}
 						</div>
