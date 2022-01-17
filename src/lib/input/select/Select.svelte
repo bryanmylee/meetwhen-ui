@@ -45,7 +45,7 @@
 		<div class="listbox-options-scrollbox">
 			<div
 				use:scrollIndicator={optionsIndicator}
-				use:scrollToSelected
+				use:scrollToSelected={{ alignTop: !top }}
 				class="listbox-options-scroll"
 			>
 				{#each values as value (id(value))}
