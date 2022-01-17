@@ -1,12 +1,15 @@
 <script lang="ts">
+	import { writable } from 'svelte/store';
+	import { fade } from 'svelte/transition';
 	import {
 		Listbox,
 		ListboxButton,
 		ListboxOption,
 		ListboxOptions,
 	} from '@rgossiaux/svelte-headlessui';
-	import { ChevronDownIcon } from 'svelte-feather-icons';
+	import { ChevronDownIcon, ChevronsDownIcon } from 'svelte-feather-icons';
 	import { classes } from '$lib/core/utils/classes';
+	import { scrollIndicator } from '$lib/core/utils/useScrollIndicator';
 
 	type T = $$Generic;
 
@@ -21,6 +24,8 @@
 	export let disabled = false;
 	export let top = false;
 	export let sm = false;
+
+	const optionsIndicator = writable({ showX: false, showY: false });
 </script>
 
 <Listbox
@@ -29,20 +34,35 @@
 	class={classes('listbox', top && 'top', sm && 'sm')}
 	{disabled}
 >
-	<ListboxButton class="listbox-button focus-inset" let:open>
+	<ListboxButton class="listbox-button" let:open>
 		<span>
 			{label(selectedValue)}
 		</span>
 		<ChevronDownIcon class={classes('wh-6', open && 'rotate-180')} />
 	</ListboxButton>
-	<ListboxOptions class="listbox-options focus-inset">
-		{#each values as value (id(value))}
-			<ListboxOption {value} let:active let:selected class="contents">
-				<div class="listbox-option" class:active class:selected>
-					{label(value)}
+	<ListboxOptions class="listbox-options">
+		<div class="listbox-options-scrollbox">
+			<div
+				use:scrollIndicator={optionsIndicator}
+				class="listbox-options-scroll"
+			>
+				{#each values as value (id(value))}
+					<ListboxOption {value} let:active let:selected class="contents">
+						<div class="listbox-option" class:active class:selected>
+							{label(value)}
+						</div>
+					</ListboxOption>
+				{/each}
+			</div>
+			{#if $optionsIndicator.showY}
+				<div
+					transition:fade|local={{ duration: 150 }}
+					class="listbox-options-scroll-indicator"
+				>
+					<ChevronsDownIcon class="wh-4" />
 				</div>
-			</ListboxOption>
-		{/each}
+			{/if}
+		</div>
 	</ListboxOptions>
 </Listbox>
 
@@ -52,7 +72,7 @@
 	}
 
 	.listbox-button {
-		@apply p-4 bg-shade-100 rounded-xl w-full;
+		@apply p-4 bg-shade-100 rounded-xl w-full focus-inset;
 		.sm & {
 			@apply py-2;
 		}
@@ -78,21 +98,27 @@
 	}
 
 	.listbox-options {
-		@apply absolute left-0 right-0 z-10;
-		@apply p-3 bg-shade-0 rounded-xl shadow-lg;
-		@apply max-h-96 overflow-auto;
-		@apply top-14 rounded-t-none;
+		@apply absolute left-0 right-0 z-10 focus-inset;
+		@apply bg-shade-0 rounded-xl shadow-lg;
+		@apply top-full rounded-t-none;
 		.top & {
 			@apply top-auto rounded-t-xl;
-			@apply bottom-14 rounded-b-none;
+			@apply bottom-full rounded-b-none;
 		}
-		.sm & {
-			@apply top-10;
-		}
-		.sm.top & {
-			@apply top-auto rounded-t-xl;
-			@apply bottom-10;
-		}
+	}
+
+	.listbox-options-scrollbox {
+		@apply relative p-3;
+	}
+
+	.listbox-options-scroll {
+		@apply rounded-lg;
+		@apply max-h-96 overflow-auto no-scrollbar;
+	}
+
+	.listbox-options-scroll-indicator {
+		@apply absolute bottom-4 left-0 right-0;
+		@apply flex justify-center;
 	}
 
 	.listbox-option {
