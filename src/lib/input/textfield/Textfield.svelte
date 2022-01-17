@@ -38,7 +38,6 @@
 		{...attrs}
 		{required}
 		{disabled}
-		class="focus"
 		class:required
 		class:filled={value !== '' || !$jsEnabled}
 		class:error={error !== ''}
@@ -62,7 +61,7 @@
 
 		& > input[type='text'],
 		& > input[type='password'] {
-			@apply relative w-full px-4 pt-5 pb-3 rounded-xl;
+			@apply relative w-full px-4 pt-5 pb-3 rounded-xl focus;
 			@apply bg-shade-100;
 			&:disabled {
 				@apply text-neutral-400 opacity-50;

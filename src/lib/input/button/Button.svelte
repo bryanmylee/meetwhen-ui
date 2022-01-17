@@ -17,7 +17,7 @@
 	on:contextmenu
 	on:focus
 	on:blur
-	class="button focus {className}"
+	class="button {className}"
 	class:filled={variant === 'filled'}
 	class:outlined={variant === 'outlined'}
 	class:textOnly={variant === 'text-only'}
@@ -29,7 +29,7 @@
 
 <style lang="postcss">
 	.button {
-		@apply p-4 rounded-full font-bold;
+		@apply p-4 rounded-full font-bold focus;
 		@apply ring-offset-2 ring-offset-white gdark:ring-offset-neutral-700;
 		@apply transition-colors;
 

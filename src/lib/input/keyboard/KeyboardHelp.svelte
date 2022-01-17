@@ -1,4 +1,4 @@
-<div tabindex={0} class="help-message focus">
+<div tabindex={0} class="help-message">
 	<p><strong>Cursor keys</strong> to navigate.</p>
 	<p><strong>Space</strong> to toggle.</p>
 	<p>Hold <strong>Shift</strong> to select multiple.</p>
@@ -8,7 +8,7 @@
 
 <style lang="postcss">
 	.help-message {
-		@apply focus-only absolute left-2 top-2 w-fit z-[100];
+		@apply focus focus-only absolute left-2 top-2 w-fit z-[100];
 		@apply p-2 rounded-lg shadow-lg text-xs;
 		@apply bg-shade-50;
 	}

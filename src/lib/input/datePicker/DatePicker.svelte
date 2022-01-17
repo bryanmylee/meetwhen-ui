@@ -55,7 +55,7 @@
 	{id}
 	tabindex={0}
 	aria-label={$currentDate.format('MMMM YYYY')}
-	class="date-picker focus"
+	class="date-picker"
 	class:error={error !== ''}
 >
 	<MonthPicker bind:month={$currentDate} />
@@ -97,7 +97,7 @@
 
 <style lang="postcss">
 	.date-picker {
-		@apply bg-shade-100;
+		@apply bg-shade-100 focus;
 		@apply p-4 pb-1 rounded-xl;
 
 		&.error {

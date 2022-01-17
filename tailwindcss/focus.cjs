@@ -7,7 +7,7 @@ const focusPlugin = plugin(({ addUtilities }) => {
 			'&:focus': {
 				'@apply ring outline-none': {},
 			},
-			'&.error': {
+			'&:global(.error)': {
 				'@apply ring ring-red-400': {},
 			},
 		},
@@ -16,7 +16,7 @@ const focusPlugin = plugin(({ addUtilities }) => {
 			'&:focus': {
 				'@apply ring outline-none': {},
 			},
-			'&.error': {
+			'&:global(.error)': {
 				'@apply ring ring-red-400': {},
 			},
 		},
