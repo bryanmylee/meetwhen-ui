@@ -19,6 +19,10 @@
 		<Select value="Default" values={names} />
 		<Select value="Disabled" values={names} disabled />
 		<Select value="Many items" values={range(50).map((i) => `${i}`)} />
-		<Select value="Alt position" values={names} top />
+		<Select value="Top position" values={names} top />
+		<Select value="Default small" values={names} sm />
+		<Select value="Disabled small" values={names} disabled sm />
+		<Select value="Many items small" values={range(50).map((i) => `${i}`)} sm />
+		<Select value="Top position small" values={names} top sm />
 	</div>
 </Story>

@@ -20,14 +20,13 @@
 
 	export let disabled = false;
 	export let top = false;
-
-	export let size: 'sm' | 'lg' = 'sm';
+	export let sm = false;
 </script>
 
 <Listbox
 	value={selectedValue}
 	on:change={(event) => (selectedValue = event.detail)}
-	class={classes('listbox', top && 'top', size)}
+	class={classes('listbox', top && 'top', sm && 'sm')}
 	{disabled}
 >
 	<ListboxButton class="listbox-button focus-inset" let:open>
@@ -53,7 +52,10 @@
 	}
 
 	.listbox-button {
-		@apply px-4 py-2 bg-shade-100 rounded-xl w-full;
+		@apply p-4 bg-shade-100 rounded-xl w-full;
+		.sm & {
+			@apply py-2;
+		}
 		@apply text-left flex justify-between items-center;
 		@apply transition-colors;
 		&[aria-expanded='true'] {
@@ -79,10 +81,17 @@
 		@apply absolute left-0 right-0 z-10;
 		@apply p-3 bg-shade-0 rounded-xl shadow-lg;
 		@apply max-h-96 overflow-auto;
-		@apply top-10 rounded-t-none;
+		@apply top-14 rounded-t-none;
 		.top & {
 			@apply top-auto rounded-t-xl;
-			@apply bottom-10 rounded-b-none;
+			@apply bottom-14 rounded-b-none;
+		}
+		.sm & {
+			@apply top-10;
+		}
+		.sm.top & {
+			@apply top-auto rounded-t-xl;
+			@apply bottom-10;
 		}
 	}
 
