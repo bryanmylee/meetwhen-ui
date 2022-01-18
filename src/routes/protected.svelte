@@ -1,7 +1,6 @@
 <script lang="ts" context="module">
-	export const load: Load = ({ session }) => {
-		const _session = session as Session;
-		if (_session.user === undefined) {
+	export const load: Load<{ session: Session }> = ({ session }) => {
+		if (session.user === undefined) {
 			return {
 				status: 302,
 				redirect: '/',
