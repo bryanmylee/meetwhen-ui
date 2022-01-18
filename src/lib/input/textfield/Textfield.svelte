@@ -79,7 +79,6 @@
 
 			&.error,
 			&.required.leftEmpty {
-				@apply pt-4 pb-4;
 				@apply ring ring-red-400;
 				& + label {
 					@apply !text-red-400;
@@ -107,7 +106,7 @@
 		}
 
 		& > .error-message {
-			@apply absolute bottom-1 left-0 mx-4 text-red-400 text-xs italic;
+			@apply absolute bottom-0.5 left-0 mx-4 text-red-400 text-xs italic;
 			@apply select-none pointer-events-none;
 		}
 	}
