@@ -4,5 +4,5 @@ export const range = (start: number, stop?: number, step = 1): number[] => {
 	}
 	const interval = stop - start;
 	const count = Math.ceil(interval / step);
-	return [...Array(count)].map((_, i) => i * step + start);
+	return Array.from(Array(count)).map((_, i) => i * step + start);
 };
