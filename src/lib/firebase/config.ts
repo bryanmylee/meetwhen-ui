@@ -1,16 +1,9 @@
-import { onMount } from 'svelte';
-import { readable, writable } from 'svelte/store';
-import type { Analytics } from 'firebase/analytics';
+import { readable } from 'svelte/store';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import type { Maybe } from '$lib/core/types/Maybe';
-import {
-	setFirebaseAnalytics,
-	setFirebaseApp,
-	setFirebaseAuth,
-	setFirebaseUser,
-} from './context';
+import { setFirebaseApp, setFirebaseAuth, setFirebaseUser } from './context';
 
 export const firebaseConfig = {
 	apiKey: 'AIzaSyBCU9eFkutJr4lcatVLgwGvMtzaMO1usBo',
@@ -22,7 +15,6 @@ export const firebaseConfig = {
 	measurementId: 'G-8JXB4HG49T',
 };
 
-const analytics = writable<Maybe<Analytics>>();
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const user = readable<Maybe<User>>(undefined, (set) => {
@@ -32,16 +24,7 @@ const user = readable<Maybe<User>>(undefined, (set) => {
 });
 
 export const initFirebase = (): void => {
-	setFirebaseAnalytics(analytics);
 	setFirebaseApp(app);
 	setFirebaseAuth(auth);
 	setFirebaseUser(user);
-	onMount(async () => {
-		try {
-			const { getAnalytics } = await import('firebase/analytics');
-			analytics.set(getAnalytics(app));
-		} catch (error) {
-			console.error(error);
-		}
-	});
 };
