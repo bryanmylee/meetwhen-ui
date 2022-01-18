@@ -1,18 +1,22 @@
 <script lang="ts">
 	import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-	import { getFirebaseAuth, getFirebaseUser } from '$lib/firebase';
+	import { getFirebaseAuth, getUser } from '$lib/firebase';
 	import { Button, Textfield } from '$lib/input';
 
 	const auth = getFirebaseAuth();
-	const user = getFirebaseUser();
+	const user = getUser();
 
-	$: console.log($user);
+	$: if ($user?.ssr) {
+		console.log('SSR-ed User:', $user);
+	} else {
+		console.log('Hydrated User:', $user);
+	}
 
 	let email = '';
 	let password = '';
 	const handleLogin = async () => {
 		const credential = await signInWithEmailAndPassword(auth, email, password);
-		console.log(credential);
+		console.log('Cred:', credential);
 	};
 
 	const handleLogout = async () => {

@@ -1,9 +1,10 @@
 <script lang="ts">
 	import '../app.css';
+	import { session } from '$app/stores';
 	import { primaryVars } from '$lib/core/state';
 	import { initFirebaseContext } from '$lib/firebase';
 
-	initFirebaseContext();
+	initFirebaseContext($session);
 </script>
 
 <div style={$primaryVars}>

@@ -1,17 +1,18 @@
-import { readable } from 'svelte/store';
 import type { Readable } from 'svelte/store';
 import { initializeApp } from 'firebase/app';
 import type { FirebaseApp } from 'firebase/app';
 import {
 	browserSessionPersistence,
 	getAuth,
-	onAuthStateChanged,
 	setPersistence,
 } from 'firebase/auth';
-import type { Auth, User } from 'firebase/auth';
+import type { Auth } from 'firebase/auth';
 import { pairedContext } from '$lib/core/utils/pairedContext';
 import type { Maybe } from '$lib/core/types/Maybe';
+import type { Session } from '$lib/core/types/Session';
 import { firebaseConfig } from './firebaseConfig';
+import { configureUser } from './configureUser';
+import type { SafeUser } from './configureUser';
 
 export const { get: getFirebaseApp, set: setFirebaseApp } =
 	pairedContext<FirebaseApp>();
@@ -19,10 +20,10 @@ export const { get: getFirebaseApp, set: setFirebaseApp } =
 export const { get: getFirebaseAuth, set: setFirebaseAuth } =
 	pairedContext<Auth>();
 
-export const { get: getFirebaseUser, set: setFirebaseUser } =
-	pairedContext<Readable<Maybe<User>>>();
+export const { get: getUser, set: setUser } =
+	pairedContext<Readable<Maybe<SafeUser>>>();
 
-export const initFirebaseContext = (): void => {
+export const initFirebaseContext = (session: Session): void => {
 	// Prevent re-initializing the Firebase SDK during hot reloading.
 	if (getFirebaseApp()) {
 		return;
@@ -33,13 +34,7 @@ export const initFirebaseContext = (): void => {
 	const auth = getAuth(app);
 	setPersistence(auth, browserSessionPersistence);
 
-	const user = readable<Maybe<User>>(undefined, (set) => {
-		return onAuthStateChanged(auth, ($user) => {
-			set($user ?? undefined);
-		});
-	});
-
 	setFirebaseApp(app);
 	setFirebaseAuth(auth);
-	setFirebaseUser(user);
+	setUser(configureUser(auth, session));
 };
