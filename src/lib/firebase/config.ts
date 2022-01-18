@@ -1,5 +1,5 @@
 import { onMount } from 'svelte';
-import { writable } from 'svelte/store';
+import { readable, writable } from 'svelte/store';
 import type { Analytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -25,8 +25,8 @@ export const firebaseConfig = {
 const analytics = writable<Maybe<Analytics>>();
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const user = writable<Maybe<User>>(undefined, (set) => {
-	onAuthStateChanged(auth, ($user) => {
+const user = readable<Maybe<User>>(undefined, (set) => {
+	return onAuthStateChanged(auth, ($user) => {
 		set($user ?? undefined);
 	});
 });

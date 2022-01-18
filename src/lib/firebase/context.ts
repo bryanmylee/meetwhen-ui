@@ -1,4 +1,4 @@
-import type { Writable } from 'svelte/store';
+import type { Readable, Writable } from 'svelte/store';
 import type { FirebaseApp } from 'firebase/app';
 import type { Analytics } from 'firebase/analytics';
 import type { Auth, User } from 'firebase/auth';
@@ -15,4 +15,4 @@ export const { get: getFirebaseAuth, set: setFirebaseAuth } =
 	pairedContext<Auth>();
 
 export const { get: getFirebaseUser, set: setFirebaseUser } =
-	pairedContext<Writable<Maybe<User>>>();
+	pairedContext<Readable<Maybe<User>>>();
