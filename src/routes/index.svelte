@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-	import { getFirebaseAuth, getFirebaseUser } from '$lib/firebase/context';
+	import { getFirebaseAuth, getFirebaseUser } from '$lib/firebase';
 	import { Button, Textfield } from '$lib/input';
 
 	const auth = getFirebaseAuth();

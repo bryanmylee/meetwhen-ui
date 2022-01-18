@@ -1,9 +1,9 @@
 <script lang="ts">
 	import '../app.css';
 	import { primaryVars } from '$lib/core/state';
-	import { initFirebase } from '$lib/firebase/config';
+	import { initFirebaseContext } from '$lib/firebase';
 
-	initFirebase();
+	initFirebaseContext();
 </script>
 
 <div style={$primaryVars}>
