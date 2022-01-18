@@ -3,7 +3,7 @@ import type { Readable } from 'svelte/store';
 import { onIdTokenChanged, onAuthStateChanged } from 'firebase/auth';
 import type { Auth, User } from 'firebase/auth';
 import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
-import { setCookie } from '$lib/core/utils/cookies';
+import { destroyCookie, setCookie } from '$lib/core/utils/cookies';
 import type { Maybe } from '$lib/core/types/Maybe';
 import type { Session } from '$lib/core/types/Session';
 
@@ -25,7 +25,7 @@ export const configureUser = (
 		const handleUser = async ($user: User | null) => {
 			if ($user === null) {
 				set(undefined);
-				setCookie(undefined, 'token', '', { path: '/' });
+				destroyCookie(undefined, 'token', { path: '/' });
 				return;
 			}
 			const token = await $user.getIdToken();

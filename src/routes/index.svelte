@@ -36,3 +36,10 @@
 		<Button color="gray" on:click={handleLogout}>Logout</Button>
 	</div>
 </form>
+
+<div class="flex flex-col gap-4 p-4">
+	{#if $user}
+		Logged in as {$user.email}
+	{/if}
+	<a href="/protected">Go to protected</a>
+</div>
