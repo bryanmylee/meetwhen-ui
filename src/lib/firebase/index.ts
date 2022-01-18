@@ -9,10 +9,10 @@ import {
 import type { Auth } from 'firebase/auth';
 import { pairedContext } from '$lib/core/utils/pairedContext';
 import type { Maybe } from '$lib/core/types/Maybe';
+import type { SafeUser } from '$lib/core/types/SafeUser';
 import type { Session } from '$lib/core/types/Session';
 import { firebaseConfig } from './firebaseConfig';
 import { configureUser } from './configureUser';
-import type { SafeUser } from './configureUser';
 
 export const { get: getFirebaseApp, set: setFirebaseApp } =
 	pairedContext<FirebaseApp>();

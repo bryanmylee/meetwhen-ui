@@ -2,8 +2,9 @@ import type { Request, Response } from '@sveltejs/kit';
 import * as cookie from 'cookie';
 import type { CookieParseOptions, CookieSerializeOptions } from 'cookie';
 import * as setCookieParser from 'set-cookie-parser';
+import { browser } from '$app/env';
 import type { Maybe } from '$lib/core/types/Maybe';
-import { areCookiesEqual, createCookie, isBrowser } from './helpers';
+import { areCookiesEqual, createCookie } from './helpers';
 
 /**
  * Parses cookies.
@@ -19,7 +20,7 @@ export const parseCookies = (
 		return cookie.parse(req.headers.cookie, options);
 	}
 
-	if (isBrowser()) {
+	if (browser) {
 		return cookie.parse(document.cookie, options);
 	}
 
@@ -86,7 +87,7 @@ export const setCookie = (
 	}
 
 	// Browser
-	if (isBrowser()) {
+	if (browser) {
 		if (options && options.httpOnly) {
 			throw new Error('Cannot set a httpOnly cookie in the browser');
 		}

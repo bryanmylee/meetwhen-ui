@@ -1,5 +1,4 @@
-import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
-
+import type { SafeUser } from '$lib/core/types/SafeUser';
 export interface Session {
-	idToken?: DecodedIdToken;
+	user?: SafeUser;
 }

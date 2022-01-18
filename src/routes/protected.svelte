@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	export const load: Load = ({ session }) => {
 		const _session = session as Session;
-		if (_session.idToken === undefined) {
+		if (_session.user === undefined) {
 			return {
 				status: 302,
 				redirect: '/',
@@ -23,5 +23,5 @@
 </script>
 
 <div class="flex flex-col gap-4 p-4">
-	<h1>On protected route</h1>
+	<h1>On protected route as {session.user?.email}</h1>
 </div>

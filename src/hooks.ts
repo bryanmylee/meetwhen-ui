@@ -14,7 +14,10 @@ export const getSession: GetSession<
 	try {
 		const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
 		return {
-			idToken: token,
+			user: {
+				...token,
+				ssr: true,
+			},
 		};
 	} catch {
 		return {};

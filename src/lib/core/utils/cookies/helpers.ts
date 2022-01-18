@@ -2,13 +2,6 @@ import type { CookieSerializeOptions } from 'cookie';
 import type { Cookie } from 'set-cookie-parser';
 
 /**
- * Tells whether we are in a browser or server.
- */
-export function isBrowser(): boolean {
-	return typeof window !== 'undefined';
-}
-
-/**
  * Create an instance of the Cookie interface
  */
 export const createCookie = (
