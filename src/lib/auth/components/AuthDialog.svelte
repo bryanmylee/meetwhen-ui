@@ -69,13 +69,31 @@
 			<DialogTitle as="h1" class="text-xl font-semibold">
 				meetwhen.io
 			</DialogTitle>
-			<DialogDescription as="p">
-				{#if isCreating}
-					Create an account.
-				{:else}
-					Sign in for a personalized experience.
-				{/if}
-			</DialogDescription>
+			<div class="flex items-center justify-between">
+				<DialogDescription as="h2" class="text-lg font-semibold">
+					{#if isCreating}
+						Create an account
+					{:else}
+						Sign in
+					{/if}
+				</DialogDescription>
+				<span>
+					or
+					<Switch
+						checked={isCreating}
+						on:change={(event) => {
+							isCreating = event.detail;
+						}}
+						class="dialog-creating-toggle"
+					>
+						{#if isCreating}
+							sign in
+						{:else}
+							create an account
+						{/if}
+					</Switch>
+				</span>
+			</div>
 			{#if isCreating}
 				<PasswordCreateForm
 					{name}
@@ -97,20 +115,6 @@
 				on:click={(event) =>
 					dispatch('oauth-signin', { providerType: event.detail.providerType })}
 			/>
-			<Switch
-				checked={isCreating}
-				on:change={(event) => {
-					isCreating = event.detail;
-				}}
-				class="dialog-creating-toggle"
-			>
-				{#if isCreating}
-					Already have an account?
-				{:else}
-					Don't have an account?
-				{/if}
-			</Switch>
-
 			<Button
 				on:click={() => (open = false)}
 				variant="text-only"
@@ -139,7 +143,7 @@
 	}
 
 	.dialog :global(.dialog-creating-toggle) {
-		@apply text-sm text-center !text-neutral-400 underline underline-offset-2;
+		@apply !text-neutral-400 underline underline-offset-2;
 		@apply focus p-1 rounded hover:!text-primary-400;
 	}
 

@@ -25,6 +25,7 @@
 		error={$email.error}
 		label="Email"
 		required
+		focusOnMount
 	/>
 	<Textfield
 		bind:value={$password.value}
