@@ -10,8 +10,9 @@
 	title="Auth/Dialog"
 	component={AuthDialog}
 	argTypes={{
-		onPasswordLogin: { action: 'onPasswordLogin' },
-		onOAuthLogin: { action: 'onOAuthLogin' },
+		onPasswordSignIn: { action: 'onPasswordSignIn' },
+		onPasswordCreate: { action: 'onPasswordCreate' },
+		onOAuthSignIn: { action: 'onOAuthSignIn' },
 	}}
 />
 
@@ -20,7 +21,8 @@
 	<AuthDialog
 		bind:open={showDialog}
 		{...args}
-		on:password-login={args.onPasswordLogin}
-		on:oauth-login={args.onOAuthLogin}
+		on:password-signin={args.onPasswordSignIn}
+		on:password-create={args.onPasswordCreate}
+		on:oauth-signin={args.onOAuthSignIn}
 	/>
 </Story>

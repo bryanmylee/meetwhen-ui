@@ -1,10 +1,15 @@
 <script lang="ts" context="module">
 	export interface AuthDialogEvent {
-		'password-login': {
+		'password-signin': {
 			email: string;
 			password: string;
 		};
-		'oauth-login': {
+		'password-create': {
+			name: string;
+			email: string;
+			password: string;
+		};
+		'oauth-signin': {
 			providerType: string;
 		};
 	}
@@ -19,22 +24,35 @@
 		DialogDescription,
 		DialogOverlay,
 		DialogTitle,
+		Switch,
 	} from '@rgossiaux/svelte-headlessui';
 	import { XIcon } from 'svelte-feather-icons';
 	import { primaryVars } from '$lib/core/state';
 	import { withError } from '$lib/core/utils/withError';
 	import { Button } from '$lib/input';
-	import PasswordLoginForm from './PasswordLoginForm.svelte';
+	import PasswordSignInForm from './PasswordSignInForm.svelte';
+	import PasswordCreateForm from './PasswordCreateForm.svelte';
 	import OAuthLoginButtons from './OAuthLoginButtons.svelte';
 
 	const dispatch = createEventDispatcher<AuthDialogEvent>();
 
 	export let open = false;
+	export let isCreating = false;
 
+	let name = withError('');
 	let email = withError('');
 	let password = withError('');
-	export const handlePasswordLoginSubmit = () => {
-		dispatch('password-login', {
+
+	export const handlePasswordSignInSubmit = () => {
+		dispatch('password-signin', {
+			email: $email.value,
+			password: $password.value,
+		});
+	};
+
+	export const handlePasswordCreateSubmit = () => {
+		dispatch('password-create', {
+			name: $name.value,
 			email: $email.value,
 			password: $password.value,
 		});
@@ -48,22 +66,54 @@
 			class="dialog-card"
 			in:fly={{ duration: 500, y: 50, easing: cubicOut }}
 		>
-			<DialogTitle as="h1" class="text-xl font-semibold"
-				>meetwhen.io</DialogTitle
-			>
+			<DialogTitle as="h1" class="text-xl font-semibold">
+				meetwhen.io
+			</DialogTitle>
 			<DialogDescription as="p">
-				Track all your meetings in one place.
+				{#if isCreating}
+					Create an account.
+				{:else}
+					Sign in for a personalized experience.
+				{/if}
 			</DialogDescription>
-			<PasswordLoginForm
-				{email}
-				{password}
-				on:submit={handlePasswordLoginSubmit}
-				on:cancel={() => (open = false)}
-			/>
+			{#if isCreating}
+				<PasswordCreateForm
+					{name}
+					{email}
+					{password}
+					on:submit={handlePasswordCreateSubmit}
+					on:cancel={() => (open = false)}
+				/>
+			{:else}
+				<PasswordSignInForm
+					{email}
+					{password}
+					on:submit={handlePasswordSignInSubmit}
+					on:cancel={() => (open = false)}
+				/>
+			{/if}
+			<h2 class="text-sm text-center !text-neutral-400">Or sign in with</h2>
 			<OAuthLoginButtons
 				on:click={(event) =>
-					dispatch('oauth-login', { providerType: event.detail.providerType })}
+					dispatch('oauth-signin', { providerType: event.detail.providerType })}
 			/>
+			<Switch
+				checked={isCreating}
+				on:change={(event) => {
+					isCreating = event.detail;
+				}}
+			>
+				<span
+					class="text-sm text-center !text-neutral-400 underline underline-offset-2"
+				>
+					{#if isCreating}
+						Already have an account?
+					{:else}
+						Don't have an account?
+					{/if}
+				</span>
+			</Switch>
+
 			<Button
 				on:click={() => (open = false)}
 				variant="text-only"
