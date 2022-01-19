@@ -17,17 +17,21 @@
 		DialogOverlay,
 		DialogTitle,
 	} from '@rgossiaux/svelte-headlessui';
-	import { Button, Textfield } from '$lib/input';
 	import { primaryVars } from '$lib/core/state';
+	import { withError } from '$lib/core/utils/withError';
+	import PasswordLoginForm from './PasswordLoginForm.svelte';
 
 	const dispatch = createEventDispatcher<AuthDialogEvent>();
 
 	export let open = false;
 
-	let email = '';
-	let password = '';
-	export const handleSubmit = () => {
-		dispatch('password-login', { email, password });
+	let email = withError('');
+	let password = withError('');
+	export const handlePasswordLoginSubmit = () => {
+		dispatch('password-login', {
+			email: $email.value,
+			password: $password.value,
+		});
 	};
 </script>
 
@@ -43,13 +47,11 @@
 			<DialogDescription as="p">
 				Track all your meetings in one place.
 			</DialogDescription>
-			<form on:submit|preventDefault={handleSubmit} class="dialog-form">
-				<Textfield bind:value={email} label="Email" required />
-				<Textfield bind:value={password} label="Password" required password />
-				<div class="dialog-buttons">
-					<Button type="submit">Log In</Button>
-				</div>
-			</form>
+			<PasswordLoginForm
+				{email}
+				{password}
+				onSubmit={handlePasswordLoginSubmit}
+			/>
 		</div>
 	</div>
 </Dialog>
@@ -66,13 +68,5 @@
 	.dialog-card {
 		@apply z-10 p-4 shadow-lg rounded-xl bg-shade-0;
 		@apply flex flex-col gap-4;
-	}
-
-	.dialog-form {
-		@apply flex flex-col gap-4;
-	}
-
-	.dialog-buttons {
-		@apply flex gap-4;
 	}
 </style>
