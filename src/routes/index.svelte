@@ -3,7 +3,7 @@
 		createUserWithEmailAndPassword,
 		signInAnonymously,
 		signInWithEmailAndPassword,
-		signInWithPopup,
+		signInWithRedirect,
 		signOut,
 	} from 'firebase/auth';
 	import { getFirebaseAuth, getUser } from '$lib/firebase';
@@ -42,28 +42,38 @@
 	};
 
 	const handleAnonLogin = async () => {
-		const credential = await signInAnonymously(auth);
-		console.log('Guest Cred:', credential);
+		if ($user === undefined) {
+			const credential = await signInAnonymously(auth);
+			console.log('Guest Cred:', credential);
+		}
 	};
 
 	const handleGoogleLogin = async () => {
-		const credential = await signInWithPopup(auth, googleProvider);
-		console.log('Google Cred:', credential);
+		if ($user === undefined) {
+			const credential = await signInWithRedirect(auth, googleProvider);
+			console.log('Google Cred:', credential);
+		}
 	};
 
 	const handleAppleLogin = async () => {
-		const credential = await signInWithPopup(auth, appleProvider);
-		console.log('Apple Cred:', credential);
+		if ($user === undefined) {
+			const credential = await signInWithRedirect(auth, appleProvider);
+			console.log('Apple Cred:', credential);
+		}
 	};
 
 	const handleTwitterLogin = async () => {
-		const credential = await signInWithPopup(auth, twitterProvider);
-		console.log('Twitter Cred:', credential);
+		if ($user === undefined) {
+			const credential = await signInWithRedirect(auth, twitterProvider);
+			console.log('Twitter Cred:', credential);
+		}
 	};
 
 	const handleGithubLogin = async () => {
-		const credential = await signInWithPopup(auth, githubProvider);
-		console.log('Github Cred:', credential);
+		if ($user === undefined) {
+			const credential = await signInWithRedirect(auth, githubProvider);
+			console.log('Github Cred:', credential);
+		}
 	};
 </script>
 
