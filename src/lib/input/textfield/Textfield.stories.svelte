@@ -1,7 +1,6 @@
 <script>
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Textfield from './Textfield.svelte';
-	import { MockJsEnabled } from '$lib/core/utils/useJsEnabled';
 	import { timeoutError } from '$lib/test/timeoutError';
 
 	const [ariaValue, ariaError] = timeoutError('');
@@ -20,12 +19,6 @@
 	<Textfield {...args} />
 </Template>
 
-<Template id="js-disabled" let:args>
-	<MockJsEnabled jsEnabled={false}>
-		<Textfield {...args} />
-	</MockJsEnabled>
-</Template>
-
 <Story name="Sample textfields">
 	<h1 class="text-xl font-bold">Textfields</h1>
 	<div class="flex flex-col gap-4 mt-4 w-52">
@@ -37,9 +30,6 @@
 		<Textfield label="Error" error="Incorrect password" />
 		<Textfield label="Required" required />
 		<Textfield label="Disabled" disabled />
-		<MockJsEnabled jsEnabled={false}>
-			<Textfield label="No JavaScript" />
-		</MockJsEnabled>
 	</div>
 </Story>
 
@@ -48,15 +38,6 @@
 	source
 	args={{
 		label: 'Custom',
-	}}
-/>
-
-<Story
-	name="Custom no JavaScript"
-	template="js-disabled"
-	source
-	args={{
-		label: 'No JavaScript',
 	}}
 />
 
