@@ -1,5 +1,7 @@
 <script lang="ts">
 	import {
+		createUserWithEmailAndPassword,
+		signInAnonymously,
 		signInWithEmailAndPassword,
 		signInWithPopup,
 		signOut,
@@ -24,6 +26,12 @@
 
 	let email = '';
 	let password = '';
+
+	const handleSignup = async () => {
+		const credential = createUserWithEmailAndPassword(auth, email, password);
+		console.log('New Cred:', credential);
+	};
+
 	const handleLogin = async () => {
 		const credential = await signInWithEmailAndPassword(auth, email, password);
 		console.log('Cred:', credential);
@@ -31,6 +39,11 @@
 
 	const handleLogout = async () => {
 		await signOut(auth);
+	};
+
+	const handleAnonLogin = async () => {
+		const credential = await signInAnonymously(auth);
+		console.log('Guest Cred:', credential);
 	};
 
 	const handleGoogleLogin = async () => {
@@ -63,10 +76,12 @@
 		<Textfield bind:value={email} label="Email" required />
 		<Textfield bind:value={password} label="Password" required password />
 		<div class="flex gap-4">
+			<Button on:click={handleSignup}>Signup</Button>
 			<Button type="submit">Login</Button>
 			<Button color="gray" on:click={handleLogout}>Logout</Button>
 		</div>
 	</form>
+	<Button on:click={handleAnonLogin}>Guest Login</Button>
 	<Button on:click={handleGoogleLogin}>Google Login</Button>
 	<Button on:click={handleAppleLogin}>Apple Login</Button>
 	<Button on:click={handleTwitterLogin}>Twitter Login</Button>
