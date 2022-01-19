@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { getIdFromLabel } from '$lib/input/utils/getIdFromLabel';
 	import type { Maybe } from '$lib/core/types/Maybe';
 
@@ -13,6 +14,14 @@
 	export let password = false;
 	export let required = false;
 	export let disabled = false;
+
+	export let focusOnMount = false;
+	let inputElement: HTMLInputElement;
+	onMount(() => {
+		if (focusOnMount) {
+			inputElement.focus();
+		}
+	});
 
 	$: attrs = {
 		type: password ? 'password' : 'text',
@@ -29,6 +38,7 @@
 
 <div class="textfield {className}">
 	<input
+		bind:this={inputElement}
 		id={resolvedId}
 		aria-describedby={errorId}
 		bind:value
