@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
+	import { useActions } from '$lib/core/utils/useActions';
 	import { getIdFromLabel } from '$lib/input/utils/getIdFromLabel';
 	import type { Maybe } from '$lib/core/types/Maybe';
 
@@ -15,13 +16,7 @@
 	export let required = false;
 	export let disabled = false;
 
-	export let focusOnMount = false;
-	let inputElement: HTMLInputElement;
-	onMount(() => {
-		if (focusOnMount) {
-			inputElement.focus();
-		}
-	});
+	export let use: HTMLActionArray = [];
 
 	$: attrs = {
 		type: password ? 'password' : 'text',
@@ -38,7 +33,7 @@
 
 <div class="textfield {className}">
 	<input
-		bind:this={inputElement}
+		use:useActions={use}
 		id={resolvedId}
 		aria-describedby={errorId}
 		bind:value

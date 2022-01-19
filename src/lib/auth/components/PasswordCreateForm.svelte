@@ -6,9 +6,10 @@
 </script>
 
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
+	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
 	import type { WithErrorable } from '$lib/core/utils/withError';
 	import { Button, Textfield } from '$lib/input';
-	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher<PasswordCreateFormEvent>();
 
@@ -26,7 +27,7 @@
 		error={$name.error}
 		label="Name"
 		required
-		focusOnMount
+		use={[focusOnMount]}
 	/>
 	<Textfield
 		bind:value={$email.value}
