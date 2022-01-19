@@ -10,6 +10,7 @@
 		googleProvider,
 		appleProvider,
 		twitterProvider,
+		githubProvider,
 	} from '$lib/auth/providers';
 
 	const auth = getFirebaseAuth();
@@ -46,6 +47,11 @@
 		const credential = await signInWithPopup(auth, twitterProvider);
 		console.log('Twitter Cred:', credential);
 	};
+
+	const handleGithubLogin = async () => {
+		const credential = await signInWithPopup(auth, githubProvider);
+		console.log('Github Cred:', credential);
+	};
 </script>
 
 <div class="flex flex-col items-start gap-4 p-4">
@@ -64,6 +70,7 @@
 	<Button on:click={handleGoogleLogin}>Google Login</Button>
 	<Button on:click={handleAppleLogin}>Apple Login</Button>
 	<Button on:click={handleTwitterLogin}>Twitter Login</Button>
+	<Button on:click={handleGithubLogin}>Github Login</Button>
 </div>
 
 <div class="flex flex-col gap-4 p-4">
