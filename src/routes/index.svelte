@@ -6,7 +6,7 @@
 	} from 'firebase/auth';
 	import { getFirebaseAuth, getUser } from '$lib/firebase';
 	import { Button, Textfield } from '$lib/input';
-	import { googleProvider } from '$lib/auth/providers';
+	import { googleProvider, appleProvider } from '$lib/auth/providers';
 
 	const auth = getFirebaseAuth();
 	const user = getUser();
@@ -32,6 +32,11 @@
 		const credential = await signInWithPopup(auth, googleProvider);
 		console.log('Google Cred:', credential);
 	};
+
+	const handleAppleLogin = async () => {
+		const credential = await signInWithPopup(auth, appleProvider);
+		console.log('Apple Cred:', credential);
+	};
 </script>
 
 <div class="flex flex-col items-start gap-4 p-4">
@@ -48,6 +53,7 @@
 		</div>
 	</form>
 	<Button on:click={handleGoogleLogin}>Google Login</Button>
+	<Button on:click={handleAppleLogin}>Apple Login</Button>
 </div>
 
 <div class="flex flex-col gap-4 p-4">
