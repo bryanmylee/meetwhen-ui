@@ -65,76 +65,80 @@
 </script>
 
 <Dialog {open} on:close={() => (open = false)}>
-	<div class="dialog" transition:fade={{ duration: 300 }} style={$primaryVars}>
-		<DialogOverlay class="dialog-overlay" />
-		<div
-			class="dialog-card"
-			in:fly={{ duration: 500, y: 50, easing: cubicOut }}
-		>
-			<DialogTitle
-				as="h1"
-				class="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-primary-600"
+	<div class="dialog" style={$primaryVars}>
+		<div transition:fade={{ duration: 300 }}>
+			<DialogOverlay class="dialog-overlay" />
+			<div
+				class="dialog-card"
+				in:fly={{ duration: 500, y: 50, easing: cubicOut }}
 			>
-				meetwhen.io
-			</DialogTitle>
-			<div class="flex items-baseline justify-between">
-				<DialogDescription as="h2" class="text-2xl font-medium">
-					{#if isCreating}
-						Create an account
-					{:else}
-						Sign in
-					{/if}
-				</DialogDescription>
-				<span>
-					or
-					<Switch
-						checked={isCreating}
-						on:change={(event) => {
-							isCreating = event.detail;
-						}}
-						class="dialog-creating-toggle"
-					>
+				<DialogTitle
+					as="h1"
+					class="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-primary-600"
+				>
+					meetwhen.io
+				</DialogTitle>
+				<div class="flex items-baseline justify-between">
+					<DialogDescription as="h2" class="text-2xl font-medium">
 						{#if isCreating}
-							sign in
+							Create an account
 						{:else}
-							create an account
+							Sign in
 						{/if}
-					</Switch>
-				</span>
+					</DialogDescription>
+					<span>
+						or
+						<Switch
+							checked={isCreating}
+							on:change={(event) => {
+								isCreating = event.detail;
+							}}
+							class="dialog-creating-toggle"
+						>
+							{#if isCreating}
+								sign in
+							{:else}
+								create an account
+							{/if}
+						</Switch>
+					</span>
+				</div>
+				{#if isCreating}
+					<PasswordCreateForm
+						{name}
+						{email}
+						{password}
+						on:submit={handlePasswordCreateSubmit}
+						on:cancel={() => (open = false)}
+					/>
+				{:else}
+					<PasswordSignInForm
+						{email}
+						{password}
+						on:submit={handlePasswordSignInSubmit}
+						on:cancel={() => (open = false)}
+					/>
+				{/if}
+				<h2
+					class="text-sm text-center !text-neutral-400 pt-4 border-t border-neutral-200 dark:border-neutral-600"
+				>
+					or sign in with
+				</h2>
+				<OAuthLoginButtons
+					on:click={(event) =>
+						dispatch('oauth-signin', {
+							providerType: event.detail.providerType,
+						})}
+				/>
+				<Button
+					on:click={() => (open = false)}
+					variant="text-only"
+					icon
+					class="dialog-dismiss-button"
+				>
+					<XIcon />
+				</Button>
 			</div>
-			{#if isCreating}
-				<PasswordCreateForm
-					{name}
-					{email}
-					{password}
-					on:submit={handlePasswordCreateSubmit}
-					on:cancel={() => (open = false)}
-				/>
-			{:else}
-				<PasswordSignInForm
-					{email}
-					{password}
-					on:submit={handlePasswordSignInSubmit}
-					on:cancel={() => (open = false)}
-				/>
-			{/if}
-			<h2
-				class="text-sm text-center !text-neutral-400 pt-4 border-t border-neutral-200 dark:border-neutral-600"
-			>
-				or sign in with
-			</h2>
-			<OAuthLoginButtons
-				on:click={(event) =>
-					dispatch('oauth-signin', { providerType: event.detail.providerType })}
-			/>
-			<Button
-				on:click={() => (open = false)}
-				variant="text-only"
-				icon
-				class="dialog-dismiss-button"
-			>
-				<XIcon />
-			</Button>
 		</div>
 	</div>
 </Dialog>
