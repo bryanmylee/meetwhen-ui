@@ -66,11 +66,14 @@
 			class="dialog-card"
 			in:fly={{ duration: 500, y: 50, easing: cubicOut }}
 		>
-			<DialogTitle as="h1" class="text-xl font-semibold">
+			<DialogTitle
+				as="h1"
+				class="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-primary-600"
+			>
 				meetwhen.io
 			</DialogTitle>
-			<div class="flex items-center justify-between">
-				<DialogDescription as="h2" class="text-lg font-semibold">
+			<div class="flex items-baseline justify-between">
+				<DialogDescription as="h2" class="text-2xl font-medium">
 					{#if isCreating}
 						Create an account
 					{:else}
@@ -110,7 +113,11 @@
 					on:cancel={() => (open = false)}
 				/>
 			{/if}
-			<h2 class="text-sm text-center !text-neutral-400">or sign in with</h2>
+			<h2
+				class="text-sm text-center !text-neutral-400 pt-4 border-t border-neutral-200 dark:border-neutral-600"
+			>
+				or sign in with
+			</h2>
 			<OAuthLoginButtons
 				on:click={(event) =>
 					dispatch('oauth-signin', { providerType: event.detail.providerType })}
