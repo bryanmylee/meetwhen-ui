@@ -42,6 +42,11 @@
 	let name = withError('');
 	let email = withError('');
 	let password = withError('');
+	$: if (!open) {
+		name.reset();
+		email.reset();
+		password.reset();
+	}
 
 	export const handlePasswordSignInSubmit = () => {
 		dispatch('password-signin', {
