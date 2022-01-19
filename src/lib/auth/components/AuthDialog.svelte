@@ -110,7 +110,7 @@
 					on:cancel={() => (open = false)}
 				/>
 			{/if}
-			<h2 class="text-sm text-center !text-neutral-400">Or sign in with</h2>
+			<h2 class="text-sm text-center !text-neutral-400">or sign in with</h2>
 			<OAuthLoginButtons
 				on:click={(event) =>
 					dispatch('oauth-signin', { providerType: event.detail.providerType })}
