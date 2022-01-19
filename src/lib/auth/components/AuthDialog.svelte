@@ -102,16 +102,13 @@
 				on:change={(event) => {
 					isCreating = event.detail;
 				}}
+				class="dialog-creating-toggle"
 			>
-				<span
-					class="text-sm text-center !text-neutral-400 underline underline-offset-2"
-				>
-					{#if isCreating}
-						Already have an account?
-					{:else}
-						Don't have an account?
-					{/if}
-				</span>
+				{#if isCreating}
+					Already have an account?
+				{:else}
+					Don't have an account?
+				{/if}
 			</Switch>
 
 			<Button
@@ -138,7 +135,12 @@
 	.dialog-card {
 		@apply relative z-10 p-4 shadow-lg rounded-xl bg-shade-0;
 		@apply flex flex-col gap-4;
-		@apply w-80;
+		@apply w-96;
+	}
+
+	.dialog :global(.dialog-creating-toggle) {
+		@apply text-sm text-center !text-neutral-400 underline underline-offset-2;
+		@apply focus p-1 rounded hover:!text-primary-400;
 	}
 
 	.dialog :global(.dialog-dismiss-button) {
