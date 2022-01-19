@@ -1,6 +1,9 @@
 <script lang="ts">
 	import {
 		createUserWithEmailAndPassword,
+		EmailAuthProvider,
+		linkWithCredential,
+		linkWithRedirect,
 		signInAnonymously,
 		signInWithEmailAndPassword,
 		signInWithRedirect,
@@ -28,8 +31,13 @@
 	let password = '';
 
 	const handleSignup = async () => {
-		const credential = createUserWithEmailAndPassword(auth, email, password);
-		console.log('New Cred:', credential);
+		if ($user === undefined) {
+			const credential = createUserWithEmailAndPassword(auth, email, password);
+			console.log('New Cred:', credential);
+		} else if (!$user.ssr) {
+			const credential = EmailAuthProvider.credential(email, password);
+			linkWithCredential($user, credential);
+		}
 	};
 
 	const handleLogin = async () => {
@@ -52,6 +60,9 @@
 		if ($user === undefined) {
 			const credential = await signInWithRedirect(auth, googleProvider);
 			console.log('Google Cred:', credential);
+		} else if (!$user.ssr) {
+			const credential = await linkWithRedirect($user, googleProvider);
+			console.log('Linked Google Cred:', credential);
 		}
 	};
 
@@ -59,6 +70,9 @@
 		if ($user === undefined) {
 			const credential = await signInWithRedirect(auth, appleProvider);
 			console.log('Apple Cred:', credential);
+		} else if (!$user.ssr) {
+			const credential = await linkWithRedirect($user, appleProvider);
+			console.log('Linked Apple Cred:', credential);
 		}
 	};
 
@@ -66,6 +80,9 @@
 		if ($user === undefined) {
 			const credential = await signInWithRedirect(auth, twitterProvider);
 			console.log('Twitter Cred:', credential);
+		} else if (!$user.ssr) {
+			const credential = await linkWithRedirect($user, twitterProvider);
+			console.log('Linked Twitter Cred:', credential);
 		}
 	};
 
@@ -73,6 +90,9 @@
 		if ($user === undefined) {
 			const credential = await signInWithRedirect(auth, githubProvider);
 			console.log('Github Cred:', credential);
+		} else if (!$user.ssr) {
+			const credential = await linkWithRedirect($user, githubProvider);
+			console.log('Linked Github Cred:', credential);
 		}
 	};
 </script>

@@ -34,7 +34,7 @@
 <style lang="postcss">
 	.button {
 		@apply p-4 rounded-full font-bold focus;
-		@apply ring-offset-2 ring-offset-white gdark:ring-offset-neutral-700;
+		@apply ring-offset-2 ring-offset-white gdark:ring-offset-neutral-800;
 		@apply transition-colors;
 
 		&:disabled {

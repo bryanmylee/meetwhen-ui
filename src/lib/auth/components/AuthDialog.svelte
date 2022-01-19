@@ -4,6 +4,9 @@
 			email: string;
 			password: string;
 		};
+		'oauth-login': {
+			providerType: string;
+		};
 	}
 </script>
 
@@ -22,6 +25,7 @@
 	import { withError } from '$lib/core/utils/withError';
 	import { Button } from '$lib/input';
 	import PasswordLoginForm from './PasswordLoginForm.svelte';
+	import OAuthLoginButtons from './OAuthLoginButtons.svelte';
 
 	const dispatch = createEventDispatcher<AuthDialogEvent>();
 
@@ -42,20 +46,28 @@
 		<DialogOverlay class="dialog-overlay" />
 		<div
 			class="dialog-card"
-			in:fly={{ duration: 300, delay: 150, y: 50, easing: cubicOut }}
+			in:fly={{ duration: 500, y: 50, easing: cubicOut }}
 		>
-			<DialogTitle as="h1" class="text-xl">Log In</DialogTitle>
+			<DialogTitle as="h1" class="text-xl font-semibold"
+				>meetwhen.io</DialogTitle
+			>
 			<DialogDescription as="p">
 				Track all your meetings in one place.
 			</DialogDescription>
 			<PasswordLoginForm
 				{email}
 				{password}
-				onSubmit={handlePasswordLoginSubmit}
+				on:submit={handlePasswordLoginSubmit}
+				on:cancel={() => (open = false)}
+			/>
+			<OAuthLoginButtons
+				on:click={(event) =>
+					dispatch('oauth-login', { providerType: event.detail.providerType })}
 			/>
 			<Button
 				on:click={() => (open = false)}
 				variant="text-only"
+				icon
 				class="dialog-dismiss-button"
 			>
 				<XIcon />
@@ -76,10 +88,11 @@
 	.dialog-card {
 		@apply relative z-10 p-4 shadow-lg rounded-xl bg-shade-0;
 		@apply flex flex-col gap-4;
+		@apply w-80;
 	}
 
 	.dialog :global(.dialog-dismiss-button) {
 		@apply absolute top-4 right-4;
-		@apply wh-6;
+		@apply wh-7;
 	}
 </style>
