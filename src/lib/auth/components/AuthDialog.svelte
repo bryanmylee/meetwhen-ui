@@ -17,8 +17,10 @@
 		DialogOverlay,
 		DialogTitle,
 	} from '@rgossiaux/svelte-headlessui';
+	import { XIcon } from 'svelte-feather-icons';
 	import { primaryVars } from '$lib/core/state';
 	import { withError } from '$lib/core/utils/withError';
+	import { Button } from '$lib/input';
 	import PasswordLoginForm from './PasswordLoginForm.svelte';
 
 	const dispatch = createEventDispatcher<AuthDialogEvent>();
@@ -38,7 +40,6 @@
 <Dialog {open} on:close={() => (open = false)}>
 	<div class="dialog" transition:fade={{ duration: 300 }} style={$primaryVars}>
 		<DialogOverlay class="dialog-overlay" />
-
 		<div
 			class="dialog-card"
 			in:fly={{ duration: 300, delay: 150, y: 50, easing: cubicOut }}
@@ -52,6 +53,13 @@
 				{password}
 				onSubmit={handlePasswordLoginSubmit}
 			/>
+			<Button
+				on:click={() => (open = false)}
+				variant="text-only"
+				class="dialog-dismiss-button"
+			>
+				<XIcon />
+			</Button>
 		</div>
 	</div>
 </Dialog>
@@ -61,12 +69,17 @@
 		@apply fixed inset-0 z-10 flex items-center justify-center;
 	}
 
-	:global(.dialog-overlay) {
+	.dialog :global(.dialog-overlay) {
 		@apply fixed inset-0 bg-neutral-600/50;
 	}
 
 	.dialog-card {
-		@apply z-10 p-4 shadow-lg rounded-xl bg-shade-0;
+		@apply relative z-10 p-4 shadow-lg rounded-xl bg-shade-0;
 		@apply flex flex-col gap-4;
+	}
+
+	.dialog :global(.dialog-dismiss-button) {
+		@apply absolute top-4 right-4;
+		@apply wh-6;
 	}
 </style>
