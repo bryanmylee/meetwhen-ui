@@ -34,8 +34,13 @@
 		password
 	/>
 	<div class="flex gap-4 justify-stretch">
-		<Button type="submit" class="flex-1">Sign In</Button>
-		<Button color="gray" on:click={() => dispatch('cancel')} class="flex-1">
+		<Button type="submit" size="md" class="flex-1">Sign In</Button>
+		<Button
+			color="gray"
+			size="md"
+			class="flex-1"
+			on:click={() => dispatch('cancel')}
+		>
 			Cancel
 		</Button>
 	</div>

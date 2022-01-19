@@ -3,7 +3,7 @@
 	export let disabled = false;
 	export let variant: 'filled' | 'outlined' | 'text-only' = 'filled';
 	export let color: 'primary' | 'gray' = 'primary';
-	export let size: 'sm' | 'lg' = 'lg';
+	export let size: 'sm' | 'md' | 'lg' = 'lg';
 	export let icon = false;
 
 	let className = '';
@@ -26,6 +26,7 @@
 	class:primary={color === 'primary'}
 	class:gray={color === 'gray'}
 	class:sm={size === 'sm'}
+	class:md={size === 'md'}
 	class:icon
 >
 	<slot />
@@ -119,6 +120,10 @@
 
 		&.sm {
 			@apply py-1;
+		}
+
+		&.md {
+			@apply py-3;
 		}
 
 		&.icon {

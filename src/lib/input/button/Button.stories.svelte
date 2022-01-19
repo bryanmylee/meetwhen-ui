@@ -73,6 +73,7 @@
 	<div class="flex gap-4 mt-4">
 		<div class="flex flex-col items-start gap-4">
 			<Button size="sm">Small</Button>
+			<Button size="md">Medium</Button>
 			<Button>Large</Button>
 		</div>
 	</div>
