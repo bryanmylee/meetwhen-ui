@@ -5,6 +5,7 @@ import {
 	browserSessionPersistence,
 	getAuth,
 	setPersistence,
+	useDeviceLanguage,
 } from 'firebase/auth';
 import type { Auth } from 'firebase/auth';
 import { pairedContext } from '$lib/core/utils/pairedContext';
@@ -33,6 +34,7 @@ export const initFirebaseContext = (session: Session): void => {
 
 	const auth = getAuth(app);
 	setPersistence(auth, browserSessionPersistence);
+	useDeviceLanguage(auth);
 
 	setFirebaseApp(app);
 	setFirebaseAuth(auth);
