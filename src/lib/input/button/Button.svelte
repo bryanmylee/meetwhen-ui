@@ -3,6 +3,8 @@
 	export let disabled = false;
 	export let variant: 'filled' | 'outlined' | 'text-only' = 'filled';
 	export let color: 'primary' | 'gray' = 'primary';
+	export let size: 'sm' | 'lg' = 'lg';
+	export let icon = false;
 
 	let className = '';
 	export { className as class };
@@ -23,6 +25,8 @@
 	class:textOnly={variant === 'text-only'}
 	class:primary={color === 'primary'}
 	class:gray={color === 'gray'}
+	class:sm={size === 'sm'}
+	class:icon
 >
 	<slot />
 </button>
@@ -103,7 +107,6 @@
 		}
 
 		&.textOnly {
-			@apply p-1;
 			&:not(:disabled) {
 				&:not(:active):hover {
 					@apply text-neutral-500 gdark:text-neutral-300;
@@ -112,6 +115,14 @@
 					@apply text-neutral-600 gdark:text-neutral-400;
 				}
 			}
+		}
+
+		&.sm {
+			@apply py-1;
+		}
+
+		&.icon {
+			@apply p-1;
 		}
 	}
 </style>

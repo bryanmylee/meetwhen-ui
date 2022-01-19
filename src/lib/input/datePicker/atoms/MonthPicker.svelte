@@ -30,7 +30,8 @@
 		aria-label="previous month"
 		variant="text-only"
 		disabled={isCurrentMonth}
-		class="wh-10 !p-2"
+		class="wh-7"
+		icon
 		on:click={prevMonth}
 	>
 		<ChevronLeftIcon />
@@ -42,7 +43,8 @@
 		type="button"
 		aria-label="next month"
 		variant="text-only"
-		class="wh-10 !p-2"
+		class="wh-7"
+		icon
 		on:click={nextMonth}
 	>
 		<ChevronRightIcon />

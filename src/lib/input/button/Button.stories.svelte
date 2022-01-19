@@ -19,6 +19,10 @@
 			control: { type: 'select' },
 			options: ['primary', 'gray'],
 		},
+		size: {
+			control: { type: 'select' },
+			options: ['lg', 'sm'],
+		},
 		onClick: { action: 'onClick' },
 		onDoubleClick: { action: 'onDoubleClick' },
 		onContextMenu: { action: 'onContextMenu' },
@@ -40,7 +44,7 @@
 	</Button>
 </Template>
 
-<Story name="Sample text buttons">
+<Story name="Sample text button variants">
 	<h1 class="text-xl font-bold">Text Buttons</h1>
 	<div class="flex gap-4 mt-4">
 		<div class="flex flex-col items-start gap-4">
@@ -63,5 +67,17 @@
 		</div>
 	</div>
 </Story>
+
+<Story name="Sample text button sizes">
+	<h1 class="text-xl font-bold">Text Buttons</h1>
+	<div class="flex gap-4 mt-4">
+		<div class="flex flex-col items-start gap-4">
+			<Button size="sm">Small</Button>
+			<Button>Large</Button>
+		</div>
+	</div>
+</Story>
+
+<Story name="Custom" source />
 
 <Story name="Custom" source />
