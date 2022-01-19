@@ -103,6 +103,7 @@
 		}
 
 		&.textOnly {
+			@apply p-1;
 			&:not(:disabled) {
 				&:not(:active):hover {
 					@apply text-neutral-500 gdark:text-neutral-300;
