@@ -29,7 +29,11 @@ export const usePopulatedDocuments = <Data>(
 			path,
 			...pathSegments,
 		) as CollectionReference<Data>;
-		ids.subscribe(async ($ids) => {
+		return ids.subscribe(async ($ids) => {
+			if ($ids.length === 0) {
+				store.set([]);
+				return;
+			}
 			const collectionQuery = query(
 				collectionRef,
 				where('__name__', 'in', $ids),

@@ -21,14 +21,11 @@
 	import type { SafeUser } from '$lib/core/types/SafeUser';
 	import { useLiveDocument } from '$lib/firebase/useLiveDocument';
 	import { usePopulatedDocuments } from '$lib/firebase/usePopulatedDocuments';
-	import { getRepo } from '$lib/firebase';
 	import type { UserMeetingData } from '$lib/models/UserMeeting';
 	import { MeetingConverter } from '$lib/models/Meeting';
 	import type { MeetingData } from '$lib/models/Meeting';
 
 	export let currentUser: SafeUser;
-
-	const repo = getRepo();
 
 	const meetingIdDoc = useLiveDocument<UserMeetingData>(
 		'user-meeting',
