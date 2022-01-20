@@ -1,9 +1,9 @@
 import { readable } from 'svelte/store';
-import type { Readable, Writable } from 'svelte/store';
+import type { Readable } from 'svelte/store';
 import { onIdTokenChanged, onAuthStateChanged } from 'firebase/auth';
 import type { Auth, User } from 'firebase/auth';
 import { browser } from '$app/env';
-import { session } from '$app/stores';
+import { session } from '$lib/stores';
 import { destroyCookie, setCookie } from '$lib/core/utils/cookies';
 import type { Maybe } from '$lib/core/types/Maybe';
 import type { Session } from '$lib/core/types/Session';
@@ -21,7 +21,7 @@ export const configureUser = (
 				set(undefined);
 				destroyCookie(undefined, 'token', { path: '/' });
 				if (browser) {
-					(session as Writable<Session>).update(($session) => ({
+					session.update(($session) => ({
 						...$session,
 						user: undefined,
 					}));
@@ -35,7 +35,7 @@ export const configureUser = (
 			const token = await safeUser.getIdToken();
 			setCookie(undefined, 'token', token, { path: '/' });
 			if (browser) {
-				(session as Writable<Session>).update(($session) => ({
+				session.update(($session) => ({
 					...$session,
 					user: safeUser,
 				}));

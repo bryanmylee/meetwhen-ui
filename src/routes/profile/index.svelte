@@ -3,24 +3,19 @@
 		if (session.user === undefined) {
 			return {
 				status: 302,
-				redirect: '/',
+				redirect: '/profile/login',
 			};
 		}
-		return {
-			props: {
-				session,
-			},
-		};
+		return {};
 	};
 </script>
 
 <script lang="ts">
 	import type { Load } from '@sveltejs/kit';
+	import { session } from '$lib/stores';
 	import type { Session } from '$lib/core/types/Session';
-
-	export let session: Session;
 </script>
 
 <div class="flex flex-col gap-4 p-4">
-	<h1>On protected route as {session.user?.email}</h1>
+	<h1>On protected route as {$session.user?.email}</h1>
 </div>

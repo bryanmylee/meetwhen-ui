@@ -122,5 +122,5 @@
 	{#if $user}
 		Logged in as {$user.email}
 	{/if}
-	<a href="/protected">Go to protected</a>
+	<a href="/profile">Go to profile</a>
 </div>
