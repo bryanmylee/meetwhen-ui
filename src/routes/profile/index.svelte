@@ -15,13 +15,16 @@
 </script>
 
 <script lang="ts">
+	import { derived } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import type { Session } from '$lib/core/types/Session';
 	import type { SafeUser } from '$lib/core/types/SafeUser';
 	import { useLiveDocument } from '$lib/firebase/useLiveDocument';
+	import { usePopulatedDocuments } from '$lib/firebase/usePopulatedDocuments';
 	import { getRepo } from '$lib/firebase';
 	import type { UserMeetingData } from '$lib/models/UserMeeting';
-	import { getMeetingsFromIds } from './_queries';
+	import { MeetingConverter } from '$lib/models/Meeting';
+	import type { MeetingData } from '$lib/models/Meeting';
 
 	export let currentUser: SafeUser;
 
@@ -31,15 +34,22 @@
 		'user-meeting',
 		currentUser.uid,
 	);
-	$: meetingIds = $meetingIdDoc?.data()?.meetingIds ?? [];
-	$: meetings = (repo && getMeetingsFromIds(repo, meetingIds)) ?? [];
+	const meetingIds = derived(
+		meetingIdDoc,
+		($meetingIdDoc) => $meetingIdDoc?.data()?.meetingIds ?? [],
+	);
+	const meetingDocs = usePopulatedDocuments<MeetingData>(meetingIds, 'meeting');
+	const meetings = derived(meetingDocs, ($meetingDocs) =>
+		$meetingDocs.map((doc) => doc.data()).map(MeetingConverter.parse),
+	);
 </script>
 
 <div class="flex flex-col gap-4 p-4">
 	<h1>Welcome back, {currentUser.email}</h1>
-	{#await meetings then meetingsData}
-		{#each meetingsData as meeting}
-			{JSON.stringify(meeting)}
-		{/each}
-	{/await}
+	{#each $meetings as meeting}
+		<div>
+			<h2>{meeting.name}</h2>
+			<p>{meeting.color}</p>
+		</div>
+	{/each}
 </div>

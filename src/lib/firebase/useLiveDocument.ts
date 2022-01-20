@@ -1,10 +1,10 @@
-import { doc, onSnapshot } from 'firebase/firestore';
-import type { DocumentSnapshot } from 'firebase/firestore';
 import { onMount } from 'svelte';
 import { writable } from 'svelte/store';
 import type { Readable } from 'svelte/store';
-import { getRepo } from '.';
+import { doc, onSnapshot } from 'firebase/firestore';
+import type { DocumentSnapshot } from 'firebase/firestore';
 import type { Maybe } from '$lib/core/types/Maybe';
+import { getRepo } from '.';
 
 /**
  * Listens to a document on Firestore. This must be called during component initialization.
