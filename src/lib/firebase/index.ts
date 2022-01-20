@@ -8,6 +8,8 @@ import {
 	useDeviceLanguage,
 } from 'firebase/auth';
 import type { Auth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import type { Firestore } from 'firebase/firestore';
 import { pairedContext } from '$lib/core/utils/pairedContext';
 import type { Maybe } from '$lib/core/types/Maybe';
 import type { SafeUser } from '$lib/core/types/SafeUser';
@@ -21,6 +23,8 @@ export const { get: getFirebaseApp, set: setFirebaseApp } =
 export const { get: getFirebaseAuth, set: setFirebaseAuth } =
 	pairedContext<Auth>();
 
+export const { get: getRepo, set: setRepo } = pairedContext<Firestore>();
+
 export const { get: getUser, set: setUser } =
 	pairedContext<Readable<Maybe<SafeUser>>>();
 
@@ -31,12 +35,15 @@ export const initFirebaseContext = (session: Session): void => {
 	}
 
 	const app = initializeApp(firebaseConfig);
+	setFirebaseApp(app);
 
 	const auth = getAuth(app);
 	setPersistence(auth, browserSessionPersistence);
 	useDeviceLanguage(auth);
-
-	setFirebaseApp(app);
 	setFirebaseAuth(auth);
+
+	const repo = getFirestore();
+	setRepo(repo);
+
 	setUser(configureUser(auth, session));
 };
