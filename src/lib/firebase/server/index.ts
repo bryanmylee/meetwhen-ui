@@ -1,11 +1,11 @@
-import * as firebaseAdmin from 'firebase-admin';
+import * as admin from 'firebase-admin';
 import serviceKey from '../../../../firebase.service.key.json';
 
-export const initFirebaseAdmin = (): typeof firebaseAdmin => {
-	if (firebaseAdmin.apps.length > 0) {
-		return firebaseAdmin;
+export const initFirebaseAdmin = (): typeof admin => {
+	if (admin.apps.length > 0) {
+		return admin;
 	}
-	firebaseAdmin.initializeApp({
+	admin.initializeApp({
 		credential: firebaseAdmin.credential.cert({
 			privateKey: serviceKey.private_key,
 			clientEmail: serviceKey.client_email,
@@ -15,3 +15,5 @@ export const initFirebaseAdmin = (): typeof firebaseAdmin => {
 	});
 	return firebaseAdmin;
 };
+
+export const firebaseAdmin = initFirebaseAdmin();
