@@ -5,3 +5,7 @@ export type Action<Params = undefined> = (
 	update?: (newParams: Params) => void;
 	destroy?: () => void;
 } | void;
+
+export type NoParamAction = (node: HTMLElement) => {
+	destroy?: () => void;
+} | void;
