@@ -120,6 +120,9 @@
 		}
 		&.checked {
 			@apply text-primary-400;
+			& > label {
+				@apply text-primary-400;
+			}
 		}
 
 		& > label {

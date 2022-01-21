@@ -88,10 +88,11 @@
 	.menu-item {
 		@apply flex items-center p-2 rounded-lg;
 		@apply text-center whitespace-nowrap;
-		&:hover {
+		&:hover,
+		&.active {
 			@apply bg-shade-100;
 		}
-		&.active {
+		&:active {
 			@apply bg-shade-200;
 		}
 	}

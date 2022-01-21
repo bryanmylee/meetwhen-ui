@@ -127,10 +127,11 @@
 	.listbox-option {
 		@apply p-2 rounded-lg cursor-pointer;
 		@apply whitespace-nowrap;
-		&:not(:active):hover {
+		&:not(:active):hover,
+		&:not(:active).active {
 			@apply bg-shade-100;
 		}
-		&.active {
+		&:active {
 			@apply bg-shade-200;
 		}
 		&.selected {
