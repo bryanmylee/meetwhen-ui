@@ -16,7 +16,7 @@
 	import { browser } from '$app/env';
 	import { getClientEnv, getServerEnv } from '$lib/env';
 	import { session } from '$lib/stores';
-	import { primaryVars } from '$lib/core/state';
+	import { isAuthOpen, primaryVars } from '$lib/core/state';
 	import { initFirebaseClient } from '$lib/firebase/client';
 	import {
 		setFirebaseApp,
@@ -28,6 +28,7 @@
 	import { configureUser } from '$lib/auth/configureUser';
 	import { firebaseClient } from '$lib/firebase/client';
 	import Nav from '$lib/core/components/nav/Nav.svelte';
+	import AuthDialog from '$lib/auth/components/AuthDialog.svelte';
 
 	setFirebaseApp(firebaseClient.app);
 	setFirebaseAuth(firebaseClient.auth);
@@ -38,8 +39,9 @@
 </script>
 
 <div style={$primaryVars}>
-	<Nav />
+	<Nav user={$user} on:open-auth={() => ($isAuthOpen = true)} />
 	<main>
 		<slot />
 	</main>
+	<AuthDialog open={$isAuthOpen} />
 </div>
