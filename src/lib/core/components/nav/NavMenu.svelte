@@ -12,10 +12,13 @@
 	import type { NavEvent } from './Nav.svelte';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SafeUser } from '$lib/core/types/SafeUser';
+	import type { ThemeType } from '$lib/core/types/ThemeType';
+	import ThemeMenu from './ThemeMenu.svelte';
 
 	const dispatch = createEventDispatcher<NavEvent>();
 
 	export let user: Maybe<SafeUser> = undefined;
+	export let theme: ThemeType = 'auto';
 </script>
 
 <Menu class="menu" let:open>
@@ -23,7 +26,7 @@
 		<MenuIcon class="wh-6" />
 	</MenuButton>
 	<div class="menu-items-container">
-		{#if open}
+		{#if open || true}
 			<div
 				transition:slide|local={{ duration: 300, easing: cubicOut }}
 				class="menu-items-reveal"
@@ -43,18 +46,23 @@
 						</MenuItem>
 					{/if}
 					<span class="menu-divider" />
+					<MenuItem as="div" let:active>
+						<div class="menu-item" class:active>
+							<ThemeMenu open={active} selected={theme} on:select-theme />
+						</div>
+					</MenuItem>
 				</MenuItems>
 			</div>
 		{/if}
 	</div>
 </Menu>
 
-<style lang="postcss">
-	:global(.menu) {
+<style lang="postcss" global>
+	.menu {
 		@apply relative;
 	}
 
-	:global(.menu-button) {
+	.menu-button {
 		@apply p-2 flex items-center rounded-xl;
 		@apply bg-shade-100 focus transition-colors;
 		&:not(:active):hover {
@@ -67,7 +75,7 @@
 
 	.menu-items-container {
 		@apply absolute top-full right-0 pt-2;
-		@apply rounded-b-xl shadow-xl;
+		@apply rounded-b-xl shadow-lg;
 	}
 
 	.menu-items-reveal {
@@ -78,7 +86,7 @@
 	}
 
 	.menu-item {
-		@apply block p-2 rounded-lg;
+		@apply flex items-center p-2 rounded-lg;
 		@apply text-center whitespace-nowrap;
 		&:hover {
 			@apply bg-shade-100;

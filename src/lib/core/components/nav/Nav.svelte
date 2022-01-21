@@ -11,9 +11,11 @@
 	import { Button } from '$lib/input';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SafeUser } from '$lib/core/types/SafeUser';
-	import MenuItems from './MenuItems.svelte';
+	import NavMenu from './NavMenu.svelte';
+	import type { ThemeType } from '$lib/core/types/ThemeType';
 
 	export let user: Maybe<SafeUser> = undefined;
+	export let theme: ThemeType = 'auto';
 </script>
 
 <nav>
@@ -25,7 +27,7 @@
 			<Button href="/new" size="sm">New</Button>
 		</li>
 		<li>
-			<MenuItems {user} on:open_auth />
+			<NavMenu {user} {theme} on:open_auth on:select-theme />
 		</li>
 	</ul>
 </nav>

@@ -1,11 +1,9 @@
-<script lang="ts">
-	import { readable } from 'svelte/store';
+<script>
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
-	import { setUser } from '$lib/firebase/context';
 	import { mockHydratedUser } from '$lib/test/mockUser';
 	import Nav from './Nav.svelte';
 
-	setUser(readable(mockHydratedUser));
+	let theme = 'auto';
 </script>
 
 <Meta
@@ -21,11 +19,17 @@
 	<Nav
 		{...args}
 		user={mockHydratedUser}
+		{theme}
 		on:open-auth={args.onOpenAuth}
-		on:select-theme={args.onSelectTheme}
+		on:select-theme={(e) => (theme = e.detail.theme)}
 	/>
 </Story>
 
 <Story name="Without user" let:args>
-	<Nav {...args} on:open_auth={args.onOpenAuth} />
+	<Nav
+		{...args}
+		{theme}
+		on:open_auth={args.onOpenAuth}
+		on:select-theme={(e) => (theme = e.detail.theme)}
+	/>
 </Story>
