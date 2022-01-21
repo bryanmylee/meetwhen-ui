@@ -37,12 +37,13 @@
 		'meeting',
 		meetingData.id,
 	);
-	$: liveMeetingData = $liveMeetingDocument?.data();
-	$: if (liveMeetingData !== undefined) {
-		meetingData = {
-			id: meetingData.id,
-			...liveMeetingData,
-		};
+	$: {
+		const data = $liveMeetingDocument?.data();
+		if (data !== undefined)
+			meetingData = {
+				id: meetingData.id,
+				...data,
+			};
 	}
 	$: meeting = MeetingConverter.parse(meetingData);
 
