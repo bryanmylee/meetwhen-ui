@@ -147,7 +147,7 @@
 		}
 
 		&.sm {
-			@apply py-1;
+			@apply py-2;
 		}
 
 		&.md {
