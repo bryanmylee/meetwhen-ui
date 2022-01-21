@@ -27,7 +27,7 @@
 			<Button href="/new" size="sm">New</Button>
 		</li>
 		<li>
-			<NavMenu {user} {theme} on:open_auth on:select-theme />
+			<NavMenu {user} {theme} on:open-auth on:select-theme />
 		</li>
 	</ul>
 </nav>
