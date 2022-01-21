@@ -121,6 +121,7 @@
 	.listbox-options-scroll-indicator {
 		@apply absolute bottom-4 left-0 right-0;
 		@apply flex justify-center;
+		@apply pointer-events-none;
 	}
 
 	.listbox-option {
