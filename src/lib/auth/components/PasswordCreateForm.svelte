@@ -43,7 +43,6 @@
 		password
 	/>
 	<div class="flex gap-4 justify-stretch">
-		<Button type="submit" size="md" class="flex-1">Create Account</Button>
 		<Button
 			color="gray"
 			size="md"
@@ -52,5 +51,6 @@
 		>
 			Cancel
 		</Button>
+		<Button type="submit" size="md" class="flex-1">Create Account</Button>
 	</div>
 </form>
