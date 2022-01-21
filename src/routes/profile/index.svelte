@@ -19,42 +19,32 @@
 	import type { Session } from '$lib/core/types/Session';
 	import type { SafeUser } from '$lib/core/types/SafeUser';
 	import { useRepo } from '$lib/firebase/context';
-	import { useLiveDocument } from '$lib/firebase/useLiveDocument';
-	import { populateIds } from '$lib/firebase/populateIds';
-	import type { UserMeetingData } from '$lib/models/UserMeeting';
+	import { useLiveDocuments } from '$lib/firebase/utils/useLiveDocuments';
 	import { MeetingConverter } from '$lib/models/Meeting';
 	import type { MeetingData } from '$lib/models/Meeting';
 
 	export let currentUser: SafeUser;
 
 	const repo = useRepo();
-
-	const meetingIdDoc = useLiveDocument<UserMeetingData>(
-		repo,
-		'user-meeting',
-		currentUser.uid,
-	);
-	$: meetingIds = $meetingIdDoc?.data()?.meetingIds ?? [];
-	$: meetingsPromise = populateIds<MeetingData>(
-		repo,
-		meetingIds,
-		'meeting',
-	).then((documents) =>
-		documents.map((doc) => doc.data()).map(MeetingConverter.parse),
-	);
+	const meetings = useLiveDocuments<MeetingData>(repo, {
+		idsDocPath: ['user-meeting', currentUser.uid],
+		idsKey: 'meetingIds',
+		collectionPath: ['meeting'],
+	});
 </script>
 
 <div class="flex flex-col gap-4 p-4">
 	<h1>Welcome back, {currentUser.email}</h1>
-	{#await meetingsPromise}
+	{#if $meetings === undefined}
 		<div>loading...</div>
-	{:then meetings}
-		{#each meetings as meeting}
+	{:else}
+		{#each $meetings as meetingDoc}
+			{@const meeting = MeetingConverter.parse(meetingDoc.data())}
 			<div>
 				<h2>{meeting.name}</h2>
 				<p>{meeting.color}</p>
 				<a href="/{meeting.slug}">{meeting.slug}</a>
 			</div>
 		{/each}
-	{/await}
+	{/if}
 </div>
