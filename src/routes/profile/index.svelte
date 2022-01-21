@@ -53,6 +53,7 @@
 			<div>
 				<h2>{meeting.name}</h2>
 				<p>{meeting.color}</p>
+				<a href="/{meeting.slug}">{meeting.slug}</a>
 			</div>
 		{/each}
 	{/await}

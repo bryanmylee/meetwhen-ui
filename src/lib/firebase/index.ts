@@ -13,9 +13,7 @@ import type { Firestore } from 'firebase/firestore';
 import { pairedContext } from '$lib/core/utils/pairedContext';
 import type { Maybe } from '$lib/core/types/Maybe';
 import type { SafeUser } from '$lib/core/types/SafeUser';
-import type { Session } from '$lib/core/types/Session';
-import { firebaseConfig } from './firebaseConfig';
-import { configureUser } from '$lib/auth/configureUser';
+import type { FirebaseConfig } from '$lib/env';
 
 export const { get: getFirebaseApp, set: setFirebaseApp } =
 	pairedContext<FirebaseApp>();
@@ -28,22 +26,25 @@ export const { get: getRepo, set: setRepo } = pairedContext<Firestore>();
 export const { get: getUser, set: setUser } =
 	pairedContext<Readable<Maybe<SafeUser>>>();
 
-export const initFirebaseContext = (session: Session): void => {
-	// Prevent re-initializing the Firebase SDK during hot reloading.
-	if (getFirebaseApp()) {
-		return;
-	}
+export interface FirebaseClient {
+	app: FirebaseApp;
+	auth: Auth;
+	repo: Firestore;
+}
 
+export let firebaseClient: FirebaseClient;
+
+export const initFirebaseClient = (
+	firebaseConfig: FirebaseConfig,
+): FirebaseClient => {
 	const app = initializeApp(firebaseConfig);
-	setFirebaseApp(app);
 
 	const auth = getAuth(app);
 	setPersistence(auth, browserSessionPersistence);
 	useDeviceLanguage(auth);
-	setFirebaseAuth(auth);
 
 	const repo = getFirestore();
-	setRepo(repo);
 
-	setUser(configureUser(auth, session));
+	firebaseClient = { app, auth, repo };
+	return firebaseClient;
 };
