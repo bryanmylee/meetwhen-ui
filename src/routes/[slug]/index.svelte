@@ -26,7 +26,7 @@
 	import type { SafeUser } from '$lib/core/types/SafeUser';
 	import { firebaseClient } from '$lib/firebase/client';
 	import { useRepo } from '$lib/firebase/context';
-	import { useLiveDocument } from '$lib/firebase/useLiveDocument';
+	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';
 	import { findMeetingDataWithSlug } from '$lib/firebase/queries/findMeetingDataWithSlug';
 
 	const repo = useRepo();
