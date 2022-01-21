@@ -1,36 +1,64 @@
 <script lang="ts">
+	import type { Maybe } from '$lib/core/types/Maybe';
+
 	export let type: 'button' | 'menu' | 'reset' | 'submit' = 'button';
 	export let disabled = false;
 	export let variant: 'filled' | 'outlined' | 'text-only' = 'filled';
 	export let color: 'primary' | 'gray' = 'primary';
 	export let size: 'sm' | 'md' | 'lg' = 'lg';
 	export let icon = false;
+	export let href: Maybe<string> = undefined;
 
 	let className = '';
 	export { className as class };
 </script>
 
-<button
-	{...$$restProps}
-	{type}
-	{disabled}
-	on:click
-	on:dblclick
-	on:contextmenu
-	on:focus
-	on:blur
-	class="button {className}"
-	class:filled={variant === 'filled'}
-	class:outlined={variant === 'outlined'}
-	class:textOnly={variant === 'text-only'}
-	class:primary={color === 'primary'}
-	class:gray={color === 'gray'}
-	class:sm={size === 'sm'}
-	class:md={size === 'md'}
-	class:icon
->
-	<slot />
-</button>
+{#if href !== undefined}
+	<a
+		{href}
+		{...$$restProps}
+		{type}
+		{disabled}
+		on:click
+		on:dblclick
+		on:contextmenu
+		on:focus
+		on:blur
+		class="button {className}"
+		class:filled={variant === 'filled'}
+		class:outlined={variant === 'outlined'}
+		class:textOnly={variant === 'text-only'}
+		class:primary={color === 'primary'}
+		class:gray={color === 'gray'}
+		class:sm={size === 'sm'}
+		class:md={size === 'md'}
+		class:icon
+	>
+		<slot />
+	</a>
+{:else}
+	<button
+		{...$$restProps}
+		{type}
+		{disabled}
+		on:click
+		on:dblclick
+		on:contextmenu
+		on:focus
+		on:blur
+		class="button {className}"
+		class:filled={variant === 'filled'}
+		class:outlined={variant === 'outlined'}
+		class:textOnly={variant === 'text-only'}
+		class:primary={color === 'primary'}
+		class:gray={color === 'gray'}
+		class:sm={size === 'sm'}
+		class:md={size === 'md'}
+		class:icon
+	>
+		<slot />
+	</button>
+{/if}
 
 <style lang="postcss">
 	.button {
