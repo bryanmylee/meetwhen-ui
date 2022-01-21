@@ -27,6 +27,7 @@
 	import { initFirebaseAdmin } from '$lib/firebase/server';
 	import { configureUser } from '$lib/auth/configureUser';
 	import { firebaseClient } from '$lib/firebase/client';
+	import Nav from '$lib/core/components/nav/Nav.svelte';
 
 	setFirebaseApp(firebaseClient.app);
 	setFirebaseAuth(firebaseClient.auth);
@@ -37,5 +38,8 @@
 </script>
 
 <div style={$primaryVars}>
-	<slot />
+	<Nav />
+	<main>
+		<slot />
+	</main>
 </div>
