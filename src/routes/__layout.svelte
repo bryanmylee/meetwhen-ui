@@ -17,16 +17,16 @@
 	import { getClientEnv, getServerEnv } from '$lib/env';
 	import { session } from '$lib/stores';
 	import { primaryVars } from '$lib/core/state';
+	import { initFirebaseClient } from '$lib/firebase/client';
 	import {
-		initFirebaseClient,
 		setFirebaseApp,
 		setFirebaseAuth,
 		setRepo,
 		setUser,
-	} from '$lib/firebase';
+	} from '$lib/firebase/context';
 	import { initFirebaseAdmin } from '$lib/firebase/server';
 	import { configureUser } from '$lib/auth/configureUser';
-	import { firebaseClient } from '$lib/firebase';
+	import { firebaseClient } from '$lib/firebase/client';
 
 	setFirebaseApp(firebaseClient.app);
 	setFirebaseAuth(firebaseClient.auth);

@@ -18,7 +18,7 @@
 	import type { Load } from '@sveltejs/kit';
 	import type { Session } from '$lib/core/types/Session';
 	import type { SafeUser } from '$lib/core/types/SafeUser';
-	import { getRepo } from '$lib/firebase';
+	import { getRepo } from '$lib/firebase/context';
 	import { useLiveDocument } from '$lib/firebase/useLiveDocument';
 	import { populateIds } from '$lib/firebase/populateIds';
 	import type { UserMeetingData } from '$lib/models/UserMeeting';

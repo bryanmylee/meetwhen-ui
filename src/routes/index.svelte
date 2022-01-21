@@ -9,7 +9,7 @@
 		signInWithRedirect,
 		signOut,
 	} from 'firebase/auth';
-	import { getFirebaseAuth, getUser } from '$lib/firebase';
+	import { getFirebaseAuth, getUser } from '$lib/firebase/context';
 	import { Button, Textfield } from '$lib/input';
 	import {
 		googleProvider,
