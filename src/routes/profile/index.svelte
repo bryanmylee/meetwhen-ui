@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	export const load: Load<{ session: Session }> = ({ session }) => {
+	export const load: Load<{ session: Session }> = async ({ session }) => {
 		if (session.user === undefined) {
 			return {
 				status: 302,
@@ -23,10 +23,11 @@
 	import { MeetingConverter } from '$lib/models/Meeting';
 	import type { MeetingData } from '$lib/models/Meeting';
 
+	const repo = useRepo();
+
 	export let currentUser: SafeUser;
 
-	const repo = useRepo();
-	const meetings = useLiveDocuments<MeetingData>(repo, {
+	const meetingDocs = useLiveDocuments<MeetingData>(repo, {
 		idsDocPath: ['user-meeting', currentUser.uid],
 		idsKey: 'meetingIds',
 		collectionPath: ['meeting'],
@@ -35,10 +36,10 @@
 
 <div class="flex flex-col gap-4 p-4">
 	<h1>Welcome back, {currentUser.email}</h1>
-	{#if $meetings === undefined}
+	{#if $meetingDocs === undefined}
 		<div>loading...</div>
 	{:else}
-		{#each $meetings as meetingDoc}
+		{#each $meetingDocs as meetingDoc}
 			{@const meeting = MeetingConverter.parse(meetingDoc.data())}
 			<div>
 				<h2>{meeting.name}</h2>

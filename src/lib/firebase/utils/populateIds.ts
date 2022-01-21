@@ -13,16 +13,16 @@ import type { Firestore, QueryDocumentSnapshot } from 'firebase/firestore';
 export const populateIds = async <Data>(
 	repo: Firestore,
 	ids: string[],
-	path: string,
-	...pathSegments: string[]
+	collectionPath: string,
+	...collectionPathSegments: string[]
 ): Promise<QueryDocumentSnapshot<Data>[]> => {
 	if (ids.length === 0) {
 		return [];
 	}
 	const collectionRef = collection(
 		repo,
-		path,
-		...pathSegments,
+		collectionPath,
+		...collectionPathSegments,
 	) as CollectionReference<Data>;
 	const collectionQuery = query(collectionRef, where('__name__', 'in', ids));
 	const collectionSnapshot = await getDocs(collectionQuery);
