@@ -20,6 +20,16 @@ const focusPlugin = plugin(({ addUtilities }) => {
 				'@apply ring ring-red-400': {},
 			},
 		},
+		'.focus-text': {
+			'@apply ring-primary-400 rounded ring-offset-2 gdark:ring-offset-neutral-800':
+				{},
+			'&:focus': {
+				'@apply ring outline-none': {},
+			},
+			'&:global(.error)': {
+				'@apply ring ring-red-400': {},
+			},
+		},
 	});
 });
 
