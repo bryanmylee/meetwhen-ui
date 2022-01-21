@@ -9,7 +9,7 @@
 		signInWithRedirect,
 		signOut,
 	} from 'firebase/auth';
-	import { getFirebaseAuth, getUser } from '$lib/firebase/context';
+	import { useAuth, useUser } from '$lib/firebase/context';
 	import { Button, Textfield } from '$lib/input';
 	import {
 		googleProvider,
@@ -18,8 +18,8 @@
 		githubProvider,
 	} from '$lib/auth/providers';
 
-	const auth = getFirebaseAuth();
-	const user = getUser();
+	const auth = useAuth();
+	const user = useUser();
 
 	$: if ($user?.ssr) {
 		console.log('SSR-ed User:', $user);

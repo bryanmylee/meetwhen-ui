@@ -6,13 +6,12 @@ import { pairedContext } from '$lib/core/utils/pairedContext';
 import type { Maybe } from '$lib/core/types/Maybe';
 import type { SafeUser } from '$lib/core/types/SafeUser';
 
-export const { get: getFirebaseApp, set: setFirebaseApp } =
+export const { get: useFirebaseApp, set: setFirebaseApp } =
 	pairedContext<FirebaseApp>();
 
-export const { get: getFirebaseAuth, set: setFirebaseAuth } =
-	pairedContext<Auth>();
+export const { get: useAuth, set: setFirebaseAuth } = pairedContext<Auth>();
 
-export const { get: getRepo, set: setRepo } = pairedContext<Firestore>();
+export const { get: useRepo, set: setRepo } = pairedContext<Firestore>();
 
-export const { get: getUser, set: setUser } =
+export const { get: useUser, set: setUser } =
 	pairedContext<Readable<Maybe<SafeUser>>>();

@@ -25,11 +25,11 @@
 	import type { Id } from '$lib/core/types/Id';
 	import type { SafeUser } from '$lib/core/types/SafeUser';
 	import { firebaseClient } from '$lib/firebase/client';
-	import { getRepo } from '$lib/firebase/context';
+	import { useRepo } from '$lib/firebase/context';
 	import { useLiveDocument } from '$lib/firebase/useLiveDocument';
 	import { findMeetingDataWithSlug } from '$lib/firebase/queries/findMeetingDataWithSlug';
 
-	const repo = getRepo();
+	const repo = useRepo();
 
 	export let meetingData: Id<MeetingData>;
 	const liveMeetingDocument = useLiveDocument<MeetingData>(
