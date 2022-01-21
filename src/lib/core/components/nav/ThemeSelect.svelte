@@ -27,10 +27,12 @@
 	import { SunIcon, MoonIcon, DropletIcon } from 'svelte-feather-icons';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
 	import {
-		Menu,
-		MenuButton,
-		MenuItems,
-		MenuItem,
+		Popover,
+		PopoverButton,
+		PopoverPanel,
+		RadioGroup,
+		RadioGroupLabel,
+		RadioGroupOption,
 	} from '@rgossiaux/svelte-headlessui';
 	import type { NavEvent } from './Nav.svelte';
 
@@ -42,42 +44,50 @@
 	$: selectedOption = options.find((o) => o.value === selected);
 </script>
 
-<Menu class="themeselect">
-	<MenuButton class="themeselect-button">
+<Popover class="themeselect">
+	<PopoverButton class="themeselect-anchor">
 		<svelte:component this={selectedOption?.icon} class="wh-6" />
-	</MenuButton>
+	</PopoverButton>
 	<div class="themeselect-items-container">
 		{#if open}
 			<div
 				transition:fade|local={{ duration: 300, easing: cubicOut }}
 				class="themeselect-items-reveal"
 			>
-				<MenuItems static class="themeselect-items">
-					{#each options as { value, icon }}
-						<MenuItem as="div" id="select-{value}" let:active>
-							<button
-								class="themeselect-item"
-								class:active
-								class:selected={value === selected}
-								on:click={() => dispatch('select-theme', { theme: value })}
+				<PopoverPanel static>
+					<RadioGroup value={selected} class="themeselect-items">
+						{#each options as { value, icon }}
+							<RadioGroupOption
+								as="div"
+								{value}
+								id="select-{value}"
+								let:active
+								let:checked
 							>
-								<svelte:component this={icon} class="wh-6" />
-								<label for="select-{value}">{value}</label>
-							</button>
-						</MenuItem>
-					{/each}
-				</MenuItems>
+								<button
+									class="themeselect-item"
+									class:active
+									class:checked
+									on:click={() => dispatch('select-theme', { theme: value })}
+								>
+									<svelte:component this={icon} class="wh-6" />
+									<label for="select-{value}">{value}</label>
+								</button>
+							</RadioGroupOption>
+						{/each}
+					</RadioGroup>
+				</PopoverPanel>
 			</div>
 		{/if}
 	</div>
-</Menu>
+</Popover>
 
 <style lang="postcss" global>
 	.themeselect {
 		@apply relative w-full;
 	}
 
-	.themeselect-button {
+	.themeselect-anchor {
 		@apply w-full flex justify-center;
 	}
 
@@ -108,7 +118,7 @@
 		&:active {
 			@apply bg-shade-200 shadow-sm;
 		}
-		&.selected {
+		&.checked {
 			@apply text-primary-400;
 		}
 

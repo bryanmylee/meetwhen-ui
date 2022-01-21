@@ -13,7 +13,7 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SafeUser } from '$lib/core/types/SafeUser';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
-	import ThemeMenu from './ThemeMenu.svelte';
+	import ThemeSelect from './ThemeSelect.svelte';
 
 	const dispatch = createEventDispatcher<NavEvent>();
 
@@ -26,7 +26,7 @@
 		<MenuIcon class="wh-6" />
 	</MenuButton>
 	<div class="menu-items-container">
-		{#if open || true}
+		{#if open}
 			<div
 				transition:slide|local={{ duration: 300, easing: cubicOut }}
 				class="menu-items-reveal"
@@ -48,7 +48,7 @@
 					<span class="menu-divider" />
 					<MenuItem as="div" let:active>
 						<div class="menu-item" class:active>
-							<ThemeMenu open={active} selected={theme} on:select-theme />
+							<ThemeSelect open={active} selected={theme} on:select-theme />
 						</div>
 					</MenuItem>
 				</MenuItems>
