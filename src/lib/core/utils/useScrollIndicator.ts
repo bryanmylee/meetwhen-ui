@@ -17,11 +17,14 @@ export const scrollIndicator: Action<Writable<ScrollIndicator>> = (
 		return {};
 	}
 
+	const threshold = 10;
+
 	const offset = writable({ x: 0, y: 0 });
 	scrollOffset(node, offset);
 	const unsubOffset = offset.subscribe(($offset) => {
-		const showX = $offset.x + clientWidth < scrollWidth;
-		const showY = $offset.y + clientHeight < scrollHeight;
+		// TODO provide customization options for threshold
+		const showX = $offset.x + clientWidth + threshold < scrollWidth;
+		const showY = $offset.y + clientHeight + threshold < scrollHeight;
 		indicator.set({ showX, showY });
 	});
 
