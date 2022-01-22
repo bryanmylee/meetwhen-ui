@@ -1,5 +1,5 @@
-import type { NoParamAction } from '$lib/core/types/Action';
+import type { NoPropAction } from '$lib/core/types/Action';
 
-export const focusOnMount: NoParamAction = (node) => {
+export const focusOnMount: NoPropAction = (node) => {
 	node.focus();
 };

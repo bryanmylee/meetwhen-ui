@@ -1,11 +1,11 @@
-export type Action<Params = undefined> = (
+export type Action<Props = undefined> = (
 	node: HTMLElement,
-	params: Params,
+	props: Props,
 ) => {
-	update?: (newParams: Params) => void;
+	update?: (newProps: Props) => void;
 	destroy?: () => void;
 } | void;
 
-export type NoParamAction = (node: HTMLElement) => {
+export type NoPropAction = (node: HTMLElement) => {
 	destroy?: () => void;
 } | void;
