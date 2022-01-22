@@ -29,18 +29,21 @@
 	export let sm = false;
 
 	const optionsIndicator = writable({ showX: false, showY: false });
+
+	let className = '';
+	export { className as class };
 </script>
 
 <Listbox
 	{id}
 	value={selectedValue}
 	on:change={(event) => (selectedValue = event.detail)}
-	class={classes('listbox', top && 'top', sm && 'sm')}
+	class={classes('listbox', top && 'top', sm && 'sm', className)}
 	{disabled}
 >
 	<ListboxButton class="listbox-button" let:open>
 		<span>
-			{itemLabel(selectedValue)}
+			{@html itemLabel(selectedValue)}
 		</span>
 		<ChevronDownIcon class={classes('wh-6', open && 'rotate-180')} />
 	</ListboxButton>
@@ -54,7 +57,7 @@
 				{#each values as value (itemId(value))}
 					<ListboxOption {value} let:active let:selected>
 						<div class="listbox-option" class:active class:selected>
-							{itemLabel(value)}
+							{@html itemLabel(value)}
 						</div>
 					</ListboxOption>
 				{/each}
