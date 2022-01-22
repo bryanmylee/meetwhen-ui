@@ -36,10 +36,12 @@
 	import { useCookie } from '$lib/core/utils/cookies/useCookie';
 	import Nav from '$lib/core/components/nav/Nav.svelte';
 	import AuthDialog from '$lib/auth/components/AuthDialog.svelte';
+	import { useDarkMode } from '$lib/colors/utils/useDarkMode';
 
 	export let initTheme: ThemeType;
 	const theme = useCookie('theme', initTheme);
-	$: console.log($theme);
+	const isDark = useDarkMode(theme);
+	$: console.log($isDark);
 
 	setFirebaseApp(firebaseClient.app);
 	setFirebaseAuth(firebaseClient.auth);
