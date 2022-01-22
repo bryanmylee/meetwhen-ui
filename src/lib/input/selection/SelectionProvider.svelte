@@ -364,7 +364,7 @@
 	};
 
 	const endSelectionOn = (target?: HTMLElement) => {
-		if (disabled) {
+		if (disabled || selectMode === undefined) {
 			return;
 		}
 		previousTarget = undefined;
@@ -385,8 +385,8 @@
 		previousIds = undefined;
 		activeIds = Set();
 		effectiveIds = undefined;
-		selectMode = undefined;
 		trackedTouches = {};
+		selectMode = undefined;
 	};
 </script>
 
