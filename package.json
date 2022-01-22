@@ -55,6 +55,7 @@
 		"nanoid": "^3.1.30",
 		"npm": "^8.3.1",
 		"postcss": "^8.4.5",
+		"postcss-load-config": "^3.1.1",
 		"prettier": "^2.4.1",
 		"prettier-plugin-svelte": "^2.4.0",
 		"set-cookie-parser": "^2.4.8",

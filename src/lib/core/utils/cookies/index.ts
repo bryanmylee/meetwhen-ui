@@ -1,4 +1,3 @@
-import type { Request, Response } from '@sveltejs/kit';
 import * as cookie from 'cookie';
 import type { CookieParseOptions, CookieSerializeOptions } from 'cookie';
 import * as setCookieParser from 'set-cookie-parser';
@@ -9,15 +8,16 @@ import { areCookiesEqual, createCookie } from './helpers';
 /**
  * Parses cookies.
  *
- * @param req SvelteKit Request.
+ * @param req Request object.
  * @param options Options that we pass down to `cookie` library.
  */
 export const parseCookies = (
 	req: Maybe<Request>,
 	options?: CookieParseOptions,
 ): Record<string, string> => {
-	if (req?.headers.cookie) {
-		return cookie.parse(req.headers.cookie, options);
+	const cookies = req?.headers.get('Cookie');
+	if (cookies != null) {
+		return cookie.parse(cookies, options);
 	}
 
 	if (browser) {
@@ -30,7 +30,7 @@ export const parseCookies = (
 /**
  * Sets a cookie.
  *
- * @param res SvelteKit Response.
+ * @param res Response object.
  * @param name The name of your cookie.
  * @param value The value of your cookie.
  * @param options Options that we pass down to `cookie` library.
@@ -41,19 +41,16 @@ export const setCookie = (
 	value: string,
 	options: CookieSerializeOptions = {},
 ): void => {
+	/**
+	 * Load existing cookies from the header.
+	 */
+	const setCookie = res?.headers.get('Set-Cookie');
 	// SSR
-	if (res?.headers !== undefined) {
-		/**
-		 * Load existing cookies from the header.
-		 */
-		let cookies = res.headers['Set-Cookie'] ?? [];
-		if (typeof cookies === 'string') cookies = [cookies];
-		if (typeof cookies === 'number') cookies = [];
-
+	if (res !== undefined && setCookie != null) {
 		/**
 		 * Parse cookies but ignore values.
 		 */
-		const parsedCookies = setCookieParser.parse(cookies, {
+		const parsedCookies = setCookieParser.parse(setCookie, {
 			decodeValues: false,
 		});
 
@@ -83,7 +80,7 @@ export const setCookie = (
 		/**
 		 * Update the header.
 		 */
-		res.headers['Set-Cookie'] = cookiesToSet;
+		res.headers.set('Set-Cookie', cookiesToSet.join(';'));
 	}
 
 	// Browser

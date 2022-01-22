@@ -8,11 +8,9 @@ import type { SafeUser } from '$lib/models/SafeUser';
 import type { ThemeType } from '$lib/core/types/ThemeType';
 import { getServerEnv } from '$lib/env';
 
-export const getSession: GetSession<
-	Record<string, unknown>,
-	unknown,
-	Session
-> = async (request) => {
+export const getSession: GetSession<Record<string, unknown>, Session> = async ({
+	request,
+}) => {
 	const { serviceKey } = getServerEnv();
 	initFirebaseAdmin(serviceKey);
 	const cookies = parseCookies(request);
