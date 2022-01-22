@@ -64,11 +64,11 @@
 <style lang="postcss">
 	.timepicker-cell {
 		@apply wh-full min-w-24 select-none focus:outline-none min-h-6;
-		@apply border-neutral-300 gdark:border-neutral-400;
+		@apply border-neutral-200 gdark:border-neutral-500;
 		@apply transition;
 
 		&:hover:not(:disabled) {
-			@apply bg-neutral-100 gdark:bg-neutral-600 bg-opacity-20;
+			@apply bg-neutral-100 gdark:bg-neutral-600 bg-opacity-20 gdark:bg-opacity-20;
 		}
 	}
 </style>

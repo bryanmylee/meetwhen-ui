@@ -24,7 +24,7 @@
 
 <style lang="postcss">
 	.timepicker-block {
-		@apply border-2 border-neutral-300 gdark:border-neutral-400 rounded-xl;
+		@apply border-2 border-neutral-200 gdark:border-neutral-500 rounded-xl;
 		@apply pointer-events-none;
 	}
 </style>

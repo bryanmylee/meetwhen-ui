@@ -40,7 +40,7 @@
 			@apply absolute left-2 text-xs font-semibold text-neutral-400;
 		} */
 		&.add {
-			@apply bg-shade-200;
+			@apply bg-shade-100;
 			@apply ring-primary-400;
 		}
 		&.remove {

@@ -30,6 +30,6 @@
 <style lang="postcss">
 	.timepicker-selected {
 		@apply rounded-xl pointer-events-none z-10;
-		@apply bg-shade-200 z-[-1];
+		@apply bg-shade-100 z-[-1];
 	}
 </style>
