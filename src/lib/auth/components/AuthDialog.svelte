@@ -10,7 +10,7 @@
 			password: string;
 		};
 		'oauth-signin': {
-			providerType: string;
+			providerType: OAuthProviderType;
 		};
 	}
 </script>
@@ -33,6 +33,7 @@
 	import PasswordSignInForm from './PasswordSignInForm.svelte';
 	import PasswordCreateForm from './PasswordCreateForm.svelte';
 	import OAuthLoginButtons from './OAuthLoginButtons.svelte';
+	import type { OAuthProviderType } from '../providers';
 
 	const dispatch = createEventDispatcher<AuthDialogEvent>();
 

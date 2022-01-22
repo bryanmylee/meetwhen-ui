@@ -18,12 +18,16 @@
 	import type { Load } from '@sveltejs/kit';
 	import type { Session } from '$lib/core/types/Session';
 	import type { SafeUser } from '$lib/models/SafeUser';
-	import { useRepo } from '$lib/firebase/context';
+	import { useAuth, useRepo } from '$lib/firebase/context';
 	import { useLiveDocuments } from '$lib/firebase/utils/useLiveDocuments';
+	import { signOut } from 'firebase/auth';
 	import { MeetingConverter } from '$lib/models/Meeting';
 	import type { MeetingData } from '$lib/models/Meeting';
+	import { Button } from '$lib/input';
+	import { goto } from '$app/navigation';
 
 	const repo = useRepo();
+	const auth = useAuth();
 
 	export let currentUser: SafeUser;
 
@@ -32,6 +36,13 @@
 		idsKey: 'meetingIds',
 		collectionPath: ['meeting'],
 	});
+
+	const handleSignOut = async () => {
+		await signOut(auth);
+		goto('/', {
+			replaceState: true,
+		});
+	};
 </script>
 
 <div class="flex flex-col gap-4 p-4">
@@ -48,4 +59,5 @@
 			</div>
 		{/each}
 	{/if}
+	<Button color="gray" on:click={handleSignOut}>Sign Out</Button>
 </div>

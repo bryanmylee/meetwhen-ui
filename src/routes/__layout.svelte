@@ -36,12 +36,13 @@
 	import { useCookie } from '$lib/core/utils/cookies/useCookie';
 	import Nav from '$lib/core/components/nav/Nav.svelte';
 	import AuthDialog from '$lib/auth/components/AuthDialog.svelte';
+	import type { AuthDialogEvent } from '$lib/auth/components/AuthDialog.svelte';
 	import { useDarkMode } from '$lib/colors/utils/useDarkMode';
+	import { oAuthSignIn, passwordSignIn } from '$lib/auth/utils/handleSignIn';
 
 	export let initTheme: ThemeType;
 	const theme = useCookie('theme', initTheme);
 	const isDark = useDarkMode(theme);
-	$: console.log($isDark);
 
 	setFirebaseApp(firebaseClient.app);
 	setFirebaseAuth(firebaseClient.auth);
@@ -49,6 +50,28 @@
 
 	const user = configureUser(firebaseClient.auth, $session);
 	setUser(user);
+	$: currentUser = $user?.ssr ? undefined : $user;
+
+	const handlePasswordSignIn = async ({
+		detail,
+	}: CustomEvent<AuthDialogEvent['password-signin']>) => {
+		await passwordSignIn(firebaseClient.auth, {
+			currentUser,
+			email: detail.email,
+			password: detail.password,
+		});
+		$isAuthOpen = false;
+	};
+
+	const handleOAuthSignIn = async ({
+		detail,
+	}: CustomEvent<AuthDialogEvent['oauth-signin']>) => {
+		await oAuthSignIn(firebaseClient.auth, {
+			currentUser,
+			providerType: detail.providerType,
+		});
+		$isAuthOpen = false;
+	};
 </script>
 
 <div style={$primaryVars} class:dark={$isDark}>
@@ -61,7 +84,11 @@
 	<main>
 		<slot />
 	</main>
-	<AuthDialog open={$isAuthOpen} />
+	<AuthDialog
+		bind:open={$isAuthOpen}
+		on:password-signin={handlePasswordSignIn}
+		on:oauth-signin={handleOAuthSignIn}
+	/>
 	<!-- Themed background during SSR -->
 	<div class="background" />
 </div>
