@@ -1,35 +1,30 @@
 <script lang="ts">
 	import type { Interval } from '$lib/core/types/Interval';
-	import type { Maybe } from '$lib/core/types/Maybe';
-	import type { SelectMode } from '$lib/input';
+	import { timePickerIntervalStyle } from '../atoms/timePickerIntervalStyle';
 	import {
 		getTimePickerControls,
 		getTimePickerState,
 	} from '../utils/timePickerContext';
-	import { timePickerIntervalStyle } from './timePickerIntervalStyle';
+
+	export let block: Interval;
 
 	const { resolution } = getTimePickerControls();
 	const { dateIdToColumnNumber, timeIdToRowNumber } = getTimePickerState();
-
-	export let interval: Interval;
-	export let selectMode: Maybe<SelectMode>;
 </script>
 
 <div
-	class="timepicker-selected"
-	class:add={selectMode === 'add'}
-	class:remove={selectMode === 'remove'}
+	class="timepicker-block"
 	style={timePickerIntervalStyle({
 		dateIdToColumnNumber: $dateIdToColumnNumber,
 		timeIdToRowNumber: $timeIdToRowNumber,
 		resolution: $resolution,
-		interval,
+		interval: block,
 	})}
 />
 
 <style lang="postcss">
-	.timepicker-selected {
-		@apply rounded-xl pointer-events-none z-10;
-		@apply bg-shade-200 z-[-1];
+	.timepicker-block {
+		@apply border-2 border-neutral-300 gdark:border-neutral-400 rounded-xl;
+		@apply pointer-events-none;
 	}
 </style>

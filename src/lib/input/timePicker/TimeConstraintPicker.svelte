@@ -1,9 +1,9 @@
 <script lang="ts">
 	import BaseTimePicker from './BaseTimePicker.svelte';
 	import TimeConstraintPickerActiveInterval from './atoms/TimeConstraintPickerActiveInterval.svelte';
-	import TimeConstraintPickerSelectedInterval from './atoms/TimeConstraintPickerSelectedInterval.svelte';
 	import TimeConstraintPickerBlockCell from './atoms/TimeConstraintPickerBlockCell.svelte';
-	import TimePickerBlockOverlay from './atoms/TimePickerBlockOverlay.svelte';
+	import TimeConstraintPickerBlockOverlay from './atoms/TimeConstraintPickerBlockOverlay.svelte';
+	import TimeConstraintPickerSelectedInterval from './atoms/TimeConstraintPickerSelectedInterval.svelte';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { Interval } from '$lib/core/types/Interval';
 
@@ -36,7 +36,7 @@
 		/>
 	</svelte:fragment>
 	<svelte:fragment slot="block-overlay" let:block>
-		<TimePickerBlockOverlay {block} />
+		<TimeConstraintPickerBlockOverlay {block} />
 	</svelte:fragment>
 	<svelte:fragment slot="selected-interval" let:interval>
 		<TimeConstraintPickerSelectedInterval {interval} {selectMode} />
