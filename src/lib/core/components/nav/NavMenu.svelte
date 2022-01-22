@@ -79,7 +79,7 @@
 	}
 
 	.menu-items-reveal {
-		@apply p-2 rounded-b-xl bg-shade-100;
+		@apply p-2 rounded-b-xl bg-shade-0;
 		&:focus-within {
 			@apply ring ring-inset ring-primary-400;
 		}

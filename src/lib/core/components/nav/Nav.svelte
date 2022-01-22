@@ -36,7 +36,7 @@
 	nav {
 		@apply sticky inset-0 bottom-auto;
 		@apply flex justify-between items-center gap-2;
-		@apply bg-shade-50 shadow-md;
+		@apply bg-shade-0 shadow-md;
 		@apply px-4 py-2;
 		@apply z-50;
 	}

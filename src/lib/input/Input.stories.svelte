@@ -48,15 +48,15 @@
 			<Select
 				bind:value={selectedPerson}
 				values={people}
-				id={(p) => p.id}
-				label={(p) => p.name}
+				itemId={(p) => p.id}
+				itemLabel={(p) => p.name}
 			/>
 			<Select
 				bind:value={selectedPerson}
 				disabled
 				values={people}
-				id={(p) => p.id}
-				label={(p) => p.name}
+				itemId={(p) => p.id}
+				itemLabel={(p) => p.name}
 			/>
 		</div>
 		<TimePicker {validIntervals} error={args.error} />
