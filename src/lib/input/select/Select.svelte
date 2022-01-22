@@ -42,9 +42,9 @@
 	{disabled}
 >
 	<ListboxButton class="listbox-button" let:open>
-		<span>
+		<div>
 			{@html itemLabel(selectedValue)}
-		</span>
+		</div>
 		<ChevronDownIcon class={classes('wh-6', open && 'rotate-180')} />
 	</ListboxButton>
 	<ListboxOptions class="listbox-options">

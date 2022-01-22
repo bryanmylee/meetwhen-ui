@@ -19,7 +19,7 @@
 	<div class="header-content">
 		<h1 class="text-brand text-4xl md:text-6xl font-bold w-fit">meetwhen.io</h1>
 		<p class="text-base md:text-xl ml-1">Find the perfect time together</p>
-		<Button class="w-fit">Get started for free</Button>
+		<Button href="/new" class="w-fit">Get started for free</Button>
 	</div>
 	<div class="header-bg" style={gridStyle({ rows: 5, cols: 5 })}>
 		{#each cells as { x, y, opacity }}
