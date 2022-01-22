@@ -14,11 +14,13 @@
 
 	type T = $$Generic;
 
+	export let id = '';
+
 	let selectedValue: T;
 	export { selectedValue as value };
 
-	export let id: (item: T) => string | number = (item) => `${item}`;
-	export let label: (item: T) => string = (item) => `${item}`;
+	export let itemId: (item: T) => string | number = (item) => `${item}`;
+	export let itemLabel: (item: T) => string = (item) => `${item}`;
 
 	export let values: T[];
 
@@ -30,6 +32,7 @@
 </script>
 
 <Listbox
+	{id}
 	value={selectedValue}
 	on:change={(event) => (selectedValue = event.detail)}
 	class={classes('listbox', top && 'top', sm && 'sm')}
@@ -37,7 +40,7 @@
 >
 	<ListboxButton class="listbox-button" let:open>
 		<span>
-			{label(selectedValue)}
+			{itemLabel(selectedValue)}
 		</span>
 		<ChevronDownIcon class={classes('wh-6', open && 'rotate-180')} />
 	</ListboxButton>
@@ -48,10 +51,10 @@
 				use:scrollToSelected={{ alignTop: !top }}
 				class="listbox-options-scroll"
 			>
-				{#each values as value (id(value))}
+				{#each values as value (itemId(value))}
 					<ListboxOption {value} let:active let:selected>
 						<div class="listbox-option" class:active class:selected>
-							{label(value)}
+							{itemLabel(value)}
 						</div>
 					</ListboxOption>
 				{/each}
@@ -90,9 +93,6 @@
 			@apply text-neutral-400 opacity-50;
 		}
 		&:not(:disabled)[aria-expanded='false'] {
-			&:not(:active):hover {
-				@apply bg-shade-50 shadow;
-			}
 			&:active {
 				@apply bg-shade-200 shadow-sm;
 			}
@@ -136,7 +136,8 @@
 		}
 		&.selected {
 			@apply bg-primary-400 text-white;
-			&:not(:active):hover {
+			&:not(:active):hover,
+			&:not(:active).active {
 				@apply bg-primary-500;
 			}
 		}
