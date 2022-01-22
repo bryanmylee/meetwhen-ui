@@ -2,7 +2,7 @@
 	export interface NavEvent {
 		'open-auth': never;
 		'select-theme': {
-			theme: 'dark' | 'light' | 'auto';
+			theme: ThemeType;
 		};
 	}
 </script>

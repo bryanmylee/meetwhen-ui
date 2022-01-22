@@ -1,8 +1,11 @@
-import * as firebaseAdmin from 'firebase-admin';
 import type { GetSession } from '@sveltejs/kit';
+import * as firebaseAdmin from 'firebase-admin';
+import { initFirebaseAdmin } from '$lib/firebase/server';
 import { parseCookies } from '$lib/core/utils/cookies';
 import type { Session } from '$lib/core/types/Session';
-import { initFirebaseAdmin } from '$lib/firebase/server';
+import type { Maybe } from '$lib/core/types/Maybe';
+import type { SafeUser } from '$lib/core/types/SafeUser';
+import type { ThemeType } from '$lib/core/types/ThemeType';
 import { getServerEnv } from '$lib/env';
 
 export const getSession: GetSession<
@@ -13,15 +16,22 @@ export const getSession: GetSession<
 	const { serviceKey } = getServerEnv();
 	initFirebaseAdmin(serviceKey);
 	const cookies = parseCookies(request);
+	const user = await getSSRUser(cookies.token);
+	const theme = cookies.theme as Maybe<ThemeType>;
+	return {
+		user,
+		theme,
+	};
+};
+
+const getSSRUser = async (token: Maybe<string>): Promise<Maybe<SafeUser>> => {
 	try {
-		const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+		const idToken = await firebaseAdmin.auth().verifyIdToken(token ?? '');
 		return {
-			user: {
-				...token,
-				ssr: true,
-			},
+			...idToken,
+			ssr: true,
 		};
 	} catch {
-		return {};
+		return undefined;
 	}
 };

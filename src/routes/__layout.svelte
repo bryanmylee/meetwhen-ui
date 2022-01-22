@@ -1,12 +1,16 @@
 <script lang="ts" context="module">
-	export const load: Load = async () => {
+	export const load: Load<{ session: Session }> = async ({ session }) => {
 		if (!browser) {
 			const { serviceKey } = getServerEnv();
 			initFirebaseAdmin(serviceKey);
 		}
 		const { firebaseConfig } = getClientEnv();
 		initFirebaseClient(firebaseConfig);
-		return {};
+		return {
+			props: {
+				initTheme: session.theme ?? 'auto',
+			},
+		};
 	};
 </script>
 
@@ -27,8 +31,15 @@
 	import { initFirebaseAdmin } from '$lib/firebase/server';
 	import { configureUser } from '$lib/auth/configureUser';
 	import { firebaseClient } from '$lib/firebase/client';
+	import type { Session } from '$lib/core/types/Session';
+	import type { ThemeType } from '$lib/core/types/ThemeType';
+	import { useCookie } from '$lib/core/utils/cookies/useCookie';
 	import Nav from '$lib/core/components/nav/Nav.svelte';
 	import AuthDialog from '$lib/auth/components/AuthDialog.svelte';
+
+	export let initTheme: ThemeType;
+	const theme = useCookie('theme', initTheme);
+	$: console.log($theme);
 
 	setFirebaseApp(firebaseClient.app);
 	setFirebaseAuth(firebaseClient.auth);
@@ -39,7 +50,12 @@
 </script>
 
 <div style={$primaryVars}>
-	<Nav user={$user} on:open-auth={() => ($isAuthOpen = true)} />
+	<Nav
+		user={$user}
+		theme={$theme}
+		on:open-auth={() => ($isAuthOpen = true)}
+		on:select-theme={(e) => ($theme = e.detail.theme)}
+	/>
 	<main>
 		<slot />
 	</main>
