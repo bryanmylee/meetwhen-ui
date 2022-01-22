@@ -93,8 +93,8 @@
 			@apply text-neutral-400 opacity-50;
 		}
 		&:not(:disabled)[aria-expanded='false'] {
-			&:active {
-				@apply bg-shade-200 shadow-sm;
+			&:hover {
+				@apply bg-shade-50 shadow;
 			}
 		}
 	}
