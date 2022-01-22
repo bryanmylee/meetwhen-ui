@@ -18,6 +18,8 @@
 	import '../app.css';
 	import type { Load } from '@sveltejs/kit';
 	import { browser } from '$app/env';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { getClientEnv, getServerEnv } from '$lib/env';
 	import { session } from '$lib/stores';
 	import { isAuthOpen, primaryVars } from '$lib/core/state';
@@ -60,7 +62,7 @@
 			email: detail.email,
 			password: detail.password,
 		});
-		$isAuthOpen = false;
+		onSignIn();
 	};
 
 	const handleOAuthSignIn = async ({
@@ -70,7 +72,14 @@
 			currentUser,
 			providerType: detail.providerType,
 		});
+		onSignIn();
+	};
+
+	const onSignIn = () => {
 		$isAuthOpen = false;
+		if ($page.url.pathname === '/') {
+			goto('/profile');
+		}
 	};
 </script>
 
