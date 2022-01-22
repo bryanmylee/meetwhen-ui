@@ -34,6 +34,7 @@
 	import TimePickerFocusCell from './atoms/TimePickerFocusCell.svelte';
 	import TimePickerLayoutHeader from './atoms/TimePickerLayoutHeader.svelte';
 	import TimePickerLayoutIndex from './atoms/TimePickerLayoutIndex.svelte';
+	import TimePickerBlockGap from './atoms/TimePickerBlockGap.svelte';
 
 	export let id: string = nanoid(8);
 	$: errorId = `${id}-error`;
@@ -170,7 +171,10 @@
 					<slot {isIdSelected} {isIdCurrent} {isIdDisabled} {selectMode} />
 					{#each Object.entries($timeCellsByDateId) as [dateId, dateTimeCells]}
 						{#each dateTimeCells as timeCell}
-							<slot name="column" {dateId} {timeCell} />
+							<slot name="time-cell" {dateId} {timeCell} />
+							{#if timeCell.isEndOfBlock && !timeCell.isEndOfDate}
+								<TimePickerBlockGap {timeCell} />
+							{/if}
 						{/each}
 					{/each}
 					{#each Object.entries($intervalsByDateId) as [_, blocks]}
