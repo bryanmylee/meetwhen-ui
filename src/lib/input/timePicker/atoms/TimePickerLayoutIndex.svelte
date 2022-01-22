@@ -61,7 +61,7 @@
 		& .label {
 			@apply bg-shade-100 rounded-lg;
 			@apply p-1 -translate-y-1/2;
-			@apply text-xs text-gray-400 text-center whitespace-nowrap;
+			@apply text-xs text-neutral-400 text-center whitespace-nowrap;
 			&.start {
 				@apply -translate-y-[15%];
 			}

@@ -51,7 +51,7 @@
 	setUser(user);
 </script>
 
-<div style={$primaryVars}>
+<div style={$primaryVars} class:dark={$isDark}>
 	<Nav
 		user={$user}
 		theme={$theme}
@@ -62,4 +62,12 @@
 		<slot />
 	</main>
 	<AuthDialog open={$isAuthOpen} />
+	<!-- Themed background during SSR -->
+	<div class="background" />
 </div>
+
+<style lang="postcss">
+	.background {
+		@apply fixed inset-0 z-[-1] bg-shade-0 transition-colors;
+	}
+</style>

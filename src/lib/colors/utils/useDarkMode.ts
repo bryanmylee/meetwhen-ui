@@ -11,7 +11,7 @@ export const useDarkMode = (theme: Writable<ThemeType>): Readable<boolean> => {
 		if (typeof window === 'undefined') {
 			return;
 		}
-		updateDocument(window.matchMedia(IS_DARK_MEDIA_QUERY).matches);
+		update(window.matchMedia(IS_DARK_MEDIA_QUERY).matches);
 		window
 			.matchMedia(IS_DARK_MEDIA_QUERY)
 			.addEventListener('change', changeHandler);
@@ -27,10 +27,11 @@ export const useDarkMode = (theme: Writable<ThemeType>): Readable<boolean> => {
 	};
 
 	const changeHandler = (event: MediaQueryListEvent) => {
-		updateDocument(event.matches);
+		update(event.matches);
 	};
 
-	const updateDocument = (isDark: boolean) => {
+	const update = (isDark: boolean) => {
+		isDarkStore.set(isDark);
 		if (typeof document === 'undefined') {
 			return;
 		}
@@ -46,7 +47,7 @@ export const useDarkMode = (theme: Writable<ThemeType>): Readable<boolean> => {
 			attachMediaListener();
 		} else {
 			detachMediaListener();
-			updateDocument($theme === 'dark');
+			update($theme === 'dark');
 		}
 	});
 
