@@ -17,7 +17,7 @@
 <script lang="ts">
 	import type { Load } from '@sveltejs/kit';
 	import type { Session } from '$lib/core/types/Session';
-	import type { SafeUser } from '$lib/core/types/SafeUser';
+	import type { SafeUser } from '$lib/models/SafeUser';
 	import { useRepo } from '$lib/firebase/context';
 	import { useLiveDocuments } from '$lib/firebase/utils/useLiveDocuments';
 	import { MeetingConverter } from '$lib/models/Meeting';

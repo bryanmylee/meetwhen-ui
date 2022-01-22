@@ -7,7 +7,7 @@ import { session } from '$lib/stores';
 import { destroyCookie, setCookie } from '$lib/core/utils/cookies';
 import type { Maybe } from '$lib/core/types/Maybe';
 import type { Session } from '$lib/core/types/Session';
-import type { SafeUser } from '$lib/core/types/SafeUser';
+import type { SafeUser } from '$lib/models/SafeUser';
 
 const TEN_MINUTE_MS = 10 * 60 * 1000;
 

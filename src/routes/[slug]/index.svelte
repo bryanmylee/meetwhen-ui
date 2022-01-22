@@ -23,7 +23,7 @@
 	import { MeetingConverter } from '$lib/models/Meeting';
 	import type { MeetingData } from '$lib/models/Meeting';
 	import type { Id } from '$lib/core/types/Id';
-	import type { SafeUser } from '$lib/core/types/SafeUser';
+	import type { SafeUser } from '$lib/models/SafeUser';
 	import { firebaseClient } from '$lib/firebase/client';
 	import { useRepo } from '$lib/firebase/context';
 	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';

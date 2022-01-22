@@ -10,7 +10,7 @@
 <script lang="ts">
 	import { Button } from '$lib/input';
 	import type { Maybe } from '$lib/core/types/Maybe';
-	import type { SafeUser } from '$lib/core/types/SafeUser';
+	import type { SafeUser } from '$lib/models/SafeUser';
 	import NavMenu from './NavMenu.svelte';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
 

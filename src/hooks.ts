@@ -4,7 +4,7 @@ import { initFirebaseAdmin } from '$lib/firebase/server';
 import { parseCookies } from '$lib/core/utils/cookies';
 import type { Session } from '$lib/core/types/Session';
 import type { Maybe } from '$lib/core/types/Maybe';
-import type { SafeUser } from '$lib/core/types/SafeUser';
+import type { SafeUser } from '$lib/models/SafeUser';
 import type { ThemeType } from '$lib/core/types/ThemeType';
 import { getServerEnv } from '$lib/env';
 

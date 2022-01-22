@@ -11,7 +11,7 @@
 	import { MenuIcon } from 'svelte-feather-icons';
 	import type { NavEvent } from './Nav.svelte';
 	import type { Maybe } from '$lib/core/types/Maybe';
-	import type { SafeUser } from '$lib/core/types/SafeUser';
+	import type { SafeUser } from '$lib/models/SafeUser';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
 	import ThemeSelect from './ThemeSelect.svelte';
 
