@@ -8,6 +8,7 @@ export type { SelectionProviderEvent } from './selection/SelectionProvider.svelt
 export type { SelectionInterpolateFn } from './selection/SelectionInterpolateFn';
 export type { SelectMode } from './selection/SelectMode';
 export { default as Textfield } from './textfield/Textfield.svelte';
+export { default as TimeConstraintPicker } from './timePicker/TimeConstraintPicker.svelte';
 export { default as TimePicker } from './timePicker/TimePicker.svelte';
 export { default as LongTouchProvider } from './touch/LongTouchProvider.svelte';
 export { getTouchArray } from './touch/getTouchArray';

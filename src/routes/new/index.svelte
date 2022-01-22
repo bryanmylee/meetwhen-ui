@@ -32,20 +32,29 @@
 	import timezones from 'timezones-list';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
+	import { onDay } from '$lib/core/utils/dayjs/onDay';
 	import { range } from '$lib/core/utils/range';
 	import {
 		Textfield,
-		Button,
 		DatePicker,
 		Select,
-		TimePicker,
+		TimeConstraintPicker,
 	} from '$lib/input';
+	import type { Interval } from '$lib/core/types/Interval';
 
+	export let selectedDates: Dayjs[] = [];
 	export let fromTime = timeOptions[8];
 	export let duration = 9;
 	export let timezoneId = getCurrentTimezone();
 	$: timezone =
 		timezones.find((tz) => tz.tzCode === timezoneId) ?? timezones[0];
+
+	$: totalValidIntervals = selectedDates.map((date) => ({
+		start: onDay(fromTime, date),
+		end: onDay(fromTime, date).add(duration, 'hours'),
+	}));
+	let validIntervals: Interval[] = [];
+	$: validIntervals = totalValidIntervals;
 </script>
 
 <section>
@@ -53,7 +62,7 @@
 		<form class="flex flex-col gap-4">
 			<h1 class="text-xl font-bold">Start a new meet</h1>
 			<Textfield label="Name of your meet" />
-			<DatePicker />
+			<DatePicker bind:value={selectedDates} />
 			<div class="time-select-grid">
 				<label for="select-from-time">From</label>
 				<Select
@@ -83,6 +92,10 @@
 					top
 				/>
 			</div>
+			<TimeConstraintPicker
+				bind:value={validIntervals}
+				validIntervals={totalValidIntervals}
+			/>
 		</form>
 	</div>
 </section>
