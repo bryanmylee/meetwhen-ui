@@ -19,7 +19,7 @@
 	{error}
 	{validIntervals}
 	{resolution}
-	{value}
+	bind:value
 	let:isIdSelected
 	let:isIdCurrent
 	let:isIdDisabled
