@@ -109,6 +109,12 @@
 
 	:global(.accordian-button) {
 		@apply mx-auto text-xs font-medium focus-text wh-fit;
+		&:hover {
+			@apply text-primary-400;
+		}
+		&:active {
+			@apply opacity-50;
+		}
 	}
 
 	:global(.accordian-panel) {
