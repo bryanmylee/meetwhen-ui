@@ -2,7 +2,6 @@
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import dayjs from 'dayjs';
 	import TimePicker from './TimePicker.svelte';
-	import TimeConstraintPicker from './TimeConstraintPicker.svelte';
 
 	const today = dayjs().startOf('day');
 </script>
@@ -73,18 +72,4 @@
 			}))}
 		/>
 	</div>
-</Story>
-
-<Story name="Sample time constraint picker" let:args>
-	<h1 class="my-4 text-xl font-bold">Constraint picker</h1>
-	<TimeConstraintPicker
-		{...args}
-		validIntervals={[
-			{ start: today.hour(8), end: today.hour(17) },
-			{ start: today.hour(8).add(1, 'day'), end: today.hour(17).add(1, 'day') },
-			{ start: today.hour(8).add(2, 'day'), end: today.hour(17).add(2, 'day') },
-			{ start: today.hour(8).add(3, 'day'), end: today.hour(17).add(3, 'day') },
-			{ start: today.hour(8).add(4, 'day'), end: today.hour(17).add(4, 'day') },
-		]}
-	/>
 </Story>

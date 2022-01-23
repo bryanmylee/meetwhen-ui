@@ -34,12 +34,7 @@
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
 	import { onDay } from '$lib/core/utils/dayjs/onDay';
 	import { range } from '$lib/core/utils/range';
-	import {
-		Textfield,
-		DatePicker,
-		Select,
-		TimeConstraintPicker,
-	} from '$lib/input';
+	import { Textfield, DatePicker, Select, TimePicker } from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
 	import { withPrevious } from 'svelte-previous';
 	import { subtractIntervals } from '$lib/core/utils/intervals';
@@ -112,7 +107,7 @@
 					top
 				/>
 			</div>
-			<TimeConstraintPicker
+			<TimePicker
 				bind:value={validIntervals}
 				validIntervals={$totalValidIntervals}
 			/>
