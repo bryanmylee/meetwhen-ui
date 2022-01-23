@@ -8,8 +8,8 @@ import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 import type { Interval } from '$lib/core/types/Interval';
 import {
 	getLocalIntervals,
-	getIntervalsFromDiscretes,
 	groupIntervalsByDateId,
+	isIntervalEqual,
 } from '$lib/core/utils/intervals';
 import type { TimeCell } from '../types/TimeCell';
 import { getFlattenedTimeCells } from './getFlattenedTimeCells';
@@ -43,8 +43,24 @@ export const createTimePickerState = ({
 }: TimePickerProps): [TimePickerControls, TimePickerState] => {
 	const [validIntervals, previousValidIntervals] = withPrevious(
 		initValidIntervals,
-		{ requireChange: true, isEqual: (a, b) => a.length === b.length },
+		{
+			requireChange: true,
+			isEqual: (a, b) => {
+				if (a.length !== b.length) {
+					return false;
+				}
+				if (a.length === 0) {
+					return true;
+				}
+				if (!isIntervalEqual(a[0], b[0])) {
+					return false;
+				}
+				return true;
+			},
+		},
 	);
+
+	validIntervals.subscribe(console.log);
 	const resolution = writable(initResolution);
 	const currentDateTime = writable<Dayjs>(dayjs());
 

@@ -18,6 +18,9 @@ export const deserialize = (interval: UnixInterval): Interval => ({
 	end: dayjs.unix(interval.end),
 });
 
+export const isIntervalEqual = (a: Interval, b: Interval): boolean =>
+	a.start.isSame(b.start) && a.end.isSame(b.end);
+
 /**
  * Convert a set of intervals into local time by splitting intervals along date boundaries.
  * @param intervals The standard intervals to format in local time.

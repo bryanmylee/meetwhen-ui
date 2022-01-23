@@ -49,12 +49,20 @@
 	$: timezone =
 		timezones.find((tz) => tz.tzCode === timezoneId) ?? timezones[0];
 
-	$: totalValidIntervals = selectedDates.map((date) => ({
-		start: onDay(fromTime, date),
-		end: onDay(fromTime, date).add(duration, 'hours'),
-	}));
+	let totalValidIntervals: Interval[] = [];
+	$: selectedDates, fromTime, duration, updateTotalValidIntervals();
+	const updateTotalValidIntervals = () => {
+		totalValidIntervals = selectedDates.map((date) => ({
+			start: onDay(fromTime, date),
+			end: onDay(fromTime, date).add(duration, 'hours'),
+		}));
+	};
+
 	let validIntervals: Interval[] = [];
-	$: validIntervals = totalValidIntervals;
+	$: totalValidIntervals, updateValidIntervals();
+	const updateValidIntervals = () => {
+		validIntervals = totalValidIntervals;
+	};
 </script>
 
 <section>
@@ -76,7 +84,7 @@
 				<label for="select-to-time">To</label>
 				<Select
 					id="select-to-time"
-					value={duration}
+					bind:value={duration}
 					values={durations}
 					itemId={(d) => timeToId(fromTime.add(d, 'hour'))}
 					itemLabel={(d) => getToItemLabel(fromTime.add(d, 'hour'))}
@@ -85,7 +93,7 @@
 				<label for="select-timezone" class="md:sr-only">Timezone</label>
 				<Select
 					id="select-timezone"
-					value={timezone}
+					bind:value={timezone}
 					values={timezones}
 					itemId={(tz) => tz?.tzCode ?? ''}
 					itemLabel={getTimezoneLabel}
