@@ -60,7 +60,6 @@ export const createTimePickerState = ({
 		},
 	);
 
-	validIntervals.subscribe(console.log);
 	const resolution = writable(initResolution);
 	const currentDateTime = writable<Dayjs>(dayjs());
 

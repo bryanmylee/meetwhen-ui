@@ -69,6 +69,11 @@
 
 	let selectedIntervals: Interval[] = [];
 	export { selectedIntervals as value };
+	$: selectedIds = Set(
+		selectedIntervals
+			.flatMap((interval) => getIntervalDiscretes(interval, $resolution))
+			.map(dateTimeToId),
+	);
 
 	setTimePickerState(state);
 	const { flattenedTimeCells, dateIds, timeCellsByDateId, intervalsByDateId } =
@@ -145,6 +150,7 @@
 			<TimePickerLayoutHeader shadow={$scrollGridOffset.y > 0} />
 			<TimePickerLayoutIndex shadow={$scrollGridOffset.x > 0} />
 			<SelectionProvider
+				{selectedIds}
 				lazy
 				bind:currentId={$currentId}
 				interpolate={timePickerInterpolate}
