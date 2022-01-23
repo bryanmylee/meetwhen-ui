@@ -41,6 +41,8 @@
 		TimeConstraintPicker,
 	} from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
+	import { withPrevious } from 'svelte-previous';
+	import { subtractIntervals } from '$lib/core/utils/intervals';
 
 	export let selectedDates: Dayjs[] = [];
 	export let fromTime = timeOptions[8];
@@ -49,19 +51,29 @@
 	$: timezone =
 		timezones.find((tz) => tz.tzCode === timezoneId) ?? timezones[0];
 
-	let totalValidIntervals: Interval[] = [];
+	let [totalValidIntervals, prevTotalValidIntervals] = withPrevious<Interval[]>(
+		[],
+		{ requireChange: false },
+	);
 	$: selectedDates, fromTime, duration, updateTotalValidIntervals();
 	const updateTotalValidIntervals = () => {
-		totalValidIntervals = selectedDates.map((date) => ({
+		$totalValidIntervals = selectedDates.map((date) => ({
 			start: onDay(fromTime, date),
 			end: onDay(fromTime, date).add(duration, 'hours'),
 		}));
 	};
 
 	let validIntervals: Interval[] = [];
-	$: totalValidIntervals, updateValidIntervals();
+	$: $totalValidIntervals, updateValidIntervals();
 	const updateValidIntervals = () => {
-		validIntervals = totalValidIntervals;
+		if ($prevTotalValidIntervals === null) {
+			return;
+		}
+		const removedIntervals = subtractIntervals(
+			$prevTotalValidIntervals,
+			validIntervals,
+		);
+		validIntervals = subtractIntervals($totalValidIntervals, removedIntervals);
 	};
 </script>
 
@@ -102,7 +114,7 @@
 			</div>
 			<TimeConstraintPicker
 				bind:value={validIntervals}
-				validIntervals={totalValidIntervals}
+				validIntervals={$totalValidIntervals}
 			/>
 		</form>
 	</div>
