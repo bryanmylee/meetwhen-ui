@@ -11,7 +11,8 @@
 </script>
 
 <script lang="ts">
-	import { slide } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
+	import { fade, slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
 	import timezones from 'timezones-list';
@@ -77,7 +78,11 @@
 					>
 						<h3 class="font-semibold">Adjust available times</h3>
 						{#each sortedDates as date (dateToId(date))}
-							<li class="interval-picker-item">
+							<li
+								transition:fade|local={{ duration: 300, easing: cubicOut }}
+								animate:flip={{ duration: 300, easing: cubicOut }}
+								class="interval-picker-item"
+							>
 								<div class="text-sm flex-0">{date.format('DD MMM')}</div>
 								<IntervalPicker
 									startHour={8}
