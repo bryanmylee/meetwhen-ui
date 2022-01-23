@@ -21,11 +21,13 @@
 		DisclosureButton,
 		DisclosurePanel,
 	} from '@rgossiaux/svelte-headlessui';
+	import { ListIcon } from 'svelte-feather-icons';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
 	import { Textfield, DatePicker, Select } from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
 	import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import IntervalPicker from '$lib/input/intervalPicker/IntervalPicker.svelte';
+	import { classes } from '$lib/core/utils/classes';
 
 	export let selectedDates: Dayjs[] = [];
 	$: sortedDates = selectedDates.sort((a, b) =>
@@ -58,18 +60,22 @@
 						sm
 						class="flex-1"
 					/>
-					<Select
-						value={timezone}
-						values={timezones}
-						itemId={(tz) => tz.tzCode}
-						itemLabel={getTimezoneLabel}
-						sm
-						top
-						class="flex-1"
-					/>
-					<DisclosureButton class="accordian-button">
-						Advanced settings
-					</DisclosureButton>
+					<div class="flex items-center flex-1 gap-4">
+						<Select
+							value={timezone}
+							values={timezones}
+							itemId={(tz) => tz.tzCode}
+							itemLabel={getTimezoneLabel}
+							sm
+							top
+							class="flex-1"
+						/>
+						<DisclosureButton
+							class={classes('accordian-button', open && 'open')}
+						>
+							<ListIcon class="wh-6" />
+						</DisclosureButton>
+					</div>
 				</div>
 				<DisclosurePanel class="accordian-panel">
 					<ul
@@ -120,6 +126,10 @@
 		&:active {
 			@apply opacity-50;
 		}
+	}
+
+	:global(.accordian-button.open) {
+		@apply text-primary-400;
 	}
 
 	:global(.accordian-panel) {
