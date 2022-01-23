@@ -28,6 +28,7 @@
 		"@storybook/manager-webpack5": "^6.4.13",
 		"@storybook/svelte": "^6.5.0-alpha.6",
 		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/adapter-vercel": "^1.0.0-next.39",
 		"@sveltejs/kit": "next",
 		"@types/body-scroll-lock": "^3.1.0",
 		"@types/chroma-js": "^2.1.3",
