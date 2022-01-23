@@ -80,7 +80,7 @@
 	}
 
 	.listbox-button {
-		@apply p-4 bg-shade-100 rounded-xl w-full focus-inset;
+		@apply p-4 rounded-xl w-full focus-inset;
 		.sm & {
 			@apply py-2;
 		}
@@ -96,6 +96,7 @@
 			@apply text-neutral-400 opacity-50;
 		}
 		&:not(:disabled)[aria-expanded='false'] {
+			@apply bg-shade-100;
 			&:hover {
 				@apply bg-shade-50 shadow;
 			}
