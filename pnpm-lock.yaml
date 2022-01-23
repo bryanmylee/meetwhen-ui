@@ -4,7 +4,7 @@ specifiers:
   '@babel/core': ^7.16.7
   '@babel/plugin-proposal-nullish-coalescing-operator': ^7.16.7
   '@babel/plugin-proposal-optional-chaining': ^7.16.7
-  '@rgossiaux/svelte-headlessui': ^1.0.0-beta.7
+  '@rgossiaux/svelte-headlessui': ^1.0.0-beta.8
   '@storybook/addon-actions': ^6.5.0-alpha.6
   '@storybook/addon-essentials': ^6.5.0-alpha.6
   '@storybook/addon-links': ^6.5.0-alpha.6
@@ -64,7 +64,7 @@ devDependencies:
   '@babel/core': 7.16.7
   '@babel/plugin-proposal-nullish-coalescing-operator': 7.16.7_@babel+core@7.16.7
   '@babel/plugin-proposal-optional-chaining': 7.16.7_@babel+core@7.16.7
-  '@rgossiaux/svelte-headlessui': 1.0.0-beta.7_svelte@3.46.2
+  '@rgossiaux/svelte-headlessui': 1.0.0-beta.8_svelte@3.46.2
   '@storybook/addon-actions': 6.5.0-alpha.19
   '@storybook/addon-essentials': 6.5.0-alpha.19_4b2966ba071b8db567db5b1a9fffe5d8
   '@storybook/addon-links': 6.5.0-alpha.19
@@ -2734,8 +2734,8 @@ packages:
     resolution: {integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=}
     dev: true
 
-  /@rgossiaux/svelte-headlessui/1.0.0-beta.7_svelte@3.46.2:
-    resolution: {integrity: sha512-0flvhKNwtFx4CoI9WmEbjmLiHWlKcbPfE8g7ANDySge2XnCynOqeaGMP/+nkm7JERG5lvhJG9xuftuLipyxIFw==}
+  /@rgossiaux/svelte-headlessui/1.0.0-beta.8_svelte@3.46.2:
+    resolution: {integrity: sha512-3z7sD4g92PXqY6uiF/m61uEIoc4l1tK9uQZFqIJmmUUtYos3QhloMLLhokxZ3R3do1lRmp+eISj1LlB7TAuneg==}
     peerDependencies:
       svelte: ^3.44.0
     dependencies:
