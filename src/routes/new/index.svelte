@@ -2,8 +2,8 @@
 	const getTimezoneLabel = (tz: typeof timezones[number]) => {
 		const tzName = tz.tzCode.replace(/_/g, ' ');
 		return `
-      <span class="w-full flex justify-between items-center text-current text-xs font-medium">
-        <span class="text-current overflow-hidden overflow-ellipsis">${tzName}&nbsp;</span>
+      <span class="flex items-center justify-between w-full text-xs font-medium text-current">
+        <span class="overflow-hidden text-current overflow-ellipsis">${tzName}&nbsp;</span>
         <span class="text-current">${tz.utc}</span>
       </span>
     `;
@@ -11,10 +11,17 @@
 </script>
 
 <script lang="ts">
+	import { slide } from 'svelte/transition';
+	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
 	import timezones from 'timezones-list';
+	import {
+		Disclosure,
+		DisclosureButton,
+		DisclosurePanel,
+	} from '@rgossiaux/svelte-headlessui';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
-	import { Textfield, DatePicker } from '$lib/input';
+	import { Textfield, DatePicker, Select } from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
 	import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import IntervalPicker from '$lib/input/intervalPicker/IntervalPicker.svelte';
@@ -23,6 +30,10 @@
 	$: sortedDates = selectedDates.sort((a, b) =>
 		a.isSame(b) ? 0 : a.isBefore(b) ? -1 : 1,
 	);
+
+	export let startHourDefault = 8;
+	export let endHourDefault = 17;
+
 	export let timezoneId = getCurrentTimezone();
 	$: timezone =
 		timezones.find((tz) => tz.tzCode === timezoneId) ?? timezones[0];
@@ -31,38 +42,85 @@
 </script>
 
 <section>
-	<div class="container mx-auto p-8">
+	<div class="container p-8 mx-auto">
 		<form class="flex flex-col gap-4">
-			<h1 class="text-xl font-bold">Start a new meet</h1>
+			<h1 class="text-2xl font-bold">Start a new meet</h1>
 			<Textfield label="Name of your meet" />
-			<h2 class="text-lg font-semibold">When can you meet?</h2>
+			<h2 class="font-semibold text">When can you meet?</h2>
 			<DatePicker bind:value={selectedDates} />
-			<ul class="flex flex-col gap-4">
-				{#each sortedDates as date (dateToId(date))}
-					<li class="flex items-center gap-4">
-						<div class="flex-0">{date.format('DD MMM')}</div>
-						<IntervalPicker
-							startHour={8}
-							endHour={17}
-							bind:interval={intervals[dateToId(date)]}
-							top
-							sm
-							class="flex-1"
-						/>
-					</li>
-				{/each}
-			</ul>
+			<Disclosure let:open>
+				<div class="accordian-title" class:open>
+					<IntervalPicker
+						bind:startHour={startHourDefault}
+						bind:endHour={endHourDefault}
+						top
+						sm
+						class="flex-1"
+					/>
+					<Select
+						value={timezone}
+						values={timezones}
+						itemId={(tz) => tz.tzCode}
+						itemLabel={getTimezoneLabel}
+						sm
+						top
+						class="flex-1"
+					/>
+					<DisclosureButton class="accordian-button">
+						Advanced settings
+					</DisclosureButton>
+				</div>
+				<DisclosurePanel class="accordian-panel">
+					<ul
+						class="accordian-panel-content"
+						transition:slide|local={{ duration: 300, easing: cubicOut }}
+					>
+						<h3 class="font-semibold">Adjust available times</h3>
+						{#each sortedDates as date (dateToId(date))}
+							<li class="interval-picker-item">
+								<div class="text-sm flex-0">{date.format('DD MMM')}</div>
+								<IntervalPicker
+									startHour={8}
+									endHour={17}
+									bind:interval={intervals[dateToId(date)]}
+									top
+									sm
+									class="flex-1"
+								/>
+							</li>
+						{:else}
+							<div class="text-sm">Select a date first.</div>
+						{/each}
+					</ul>
+				</DisclosurePanel>
+			</Disclosure>
 		</form>
 	</div>
 </section>
 
 <style lang="postcss">
-	.time-select-grid {
-		@apply grid gap-4 items-center;
-		grid-template-columns: auto 1fr;
-		@apply md:flex;
-		& > label {
-			@apply text-right font-medium;
+	.accordian-title {
+		@apply flex flex-col w-full p-4 gap-4 md:flex-row md:items-center;
+		@apply rounded-xl shadow transition-shadow ring-1 ring-neutral-100 gdark:ring-neutral-600;
+		&.open {
+			@apply shadow-lg z-10;
 		}
+	}
+
+	:global(.accordian-button) {
+		@apply mx-auto text-xs font-medium focus-text wh-fit;
+	}
+
+	:global(.accordian-panel) {
+		@apply mx-4 rounded-b-xl;
+		@apply shadow ring-inset ring-1 ring-neutral-100 gdark:ring-neutral-600;
+	}
+
+	:global(.accordian-panel-content) {
+		@apply p-4 flex flex-col gap-4;
+	}
+
+	.interval-picker-item {
+		@apply flex items-center gap-4;
 	}
 </style>
