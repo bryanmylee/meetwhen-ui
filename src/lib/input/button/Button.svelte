@@ -49,7 +49,7 @@
 		class="button {className}"
 		class:filled={variant === 'filled'}
 		class:outlined={variant === 'outlined'}
-		class:textOnly={variant === 'text-only'}
+		class:text-only={variant === 'text-only'}
 		class:primary={color === 'primary'}
 		class:gray={color === 'gray'}
 		class:sm={size === 'sm'}
@@ -135,7 +135,7 @@
 			}
 		}
 
-		&.textOnly {
+		&.text-only {
 			&:not(:disabled) {
 				&:not(:active):hover {
 					@apply text-neutral-500 gdark:text-neutral-300;
