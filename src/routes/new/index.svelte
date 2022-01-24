@@ -24,10 +24,15 @@
 	import { ListIcon } from 'svelte-feather-icons';
 	import { goto } from '$app/navigation';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
-	import { Textfield, DatePicker, Select, Button } from '$lib/input';
+	import {
+		Button,
+		DatePicker,
+		LocalIntervalPicker,
+		Select,
+		Textfield,
+	} from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
-	import IntervalPicker from '$lib/input/intervalPicker/IntervalPicker.svelte';
 	import { classes } from '$lib/core/utils/classes';
 	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
 	import { useRepo, useUser } from '$lib/firebase/context';
@@ -39,9 +44,7 @@
 		a.isSame(b) ? 0 : a.isBefore(b) ? -1 : 1,
 	);
 
-	export let startHourDefault = 8;
-	export let endHourDefault = 17;
-	let intervalDefault: Interval;
+	let defaultInterval: Interval;
 
 	export let timezoneId = getCurrentTimezone();
 	$: timezone =
@@ -54,7 +57,7 @@
 		selectedDates.forEach((date) => {
 			const dateId = dateToId(date);
 			if (intervalByDate[dateId] === undefined) {
-				intervalByDate[dateId] = intervalDefault;
+				intervalByDate[dateId] = defaultInterval;
 			}
 		});
 		// Remove deselected dates.
@@ -115,10 +118,8 @@
 			<DatePicker bind:value={selectedDates} error={$intervals.error} />
 			<Disclosure let:open>
 				<div class="accordian-title" class:open>
-					<IntervalPicker
-						bind:startHour={startHourDefault}
-						bind:endHour={endHourDefault}
-						bind:interval={intervalDefault}
+					<LocalIntervalPicker
+						bind:value={defaultInterval}
 						top
 						sm
 						class="flex-1"
@@ -154,10 +155,8 @@
 								class="interval-picker-item"
 							>
 								<div class="text-sm flex-0">{date.format('DD MMM')}</div>
-								<IntervalPicker
-									startHour={8}
-									endHour={17}
-									bind:interval={intervalByDate[dateToId(date)]}
+								<LocalIntervalPicker
+									bind:value={intervalByDate[dateToId(date)]}
 									top
 									sm
 									class="flex-1"
