@@ -67,73 +67,75 @@
 
 <Dialog {open} on:close={() => (open = false)}>
 	<div class="dialog" style={$primaryVars}>
-		<div transition:fade={{ duration: 300 }}>
+		<div transition:fade={{ duration: 300, easing: cubicOut }}>
 			<DialogOverlay class="dialog-overlay" />
 			<div
 				class="dialog-card"
 				in:fly={{ duration: 500, y: 50, easing: cubicOut }}
 			>
 				<DialogTitle as="h1" class="text-brand w-fit">meetwhen.io</DialogTitle>
-				<div class="flex items-baseline justify-between">
-					<DialogDescription as="h2" class="text-2xl font-medium">
+				<div class="dialog-card-content">
+					<div class="dialog-password">
+						<div class="flex items-baseline justify-between">
+							<DialogDescription as="h2" class="text-2xl font-medium">
+								{#if isCreating}
+									Create an account
+								{:else}
+									Sign in
+								{/if}
+							</DialogDescription>
+							<span>
+								or
+								<Switch
+									checked={isCreating}
+									on:change={(event) => {
+										isCreating = event.detail;
+									}}
+									class="dialog-creating-toggle"
+								>
+									{#if isCreating}
+										sign in
+									{:else}
+										create an account
+									{/if}
+								</Switch>
+							</span>
+						</div>
 						{#if isCreating}
-							Create an account
+							<PasswordCreateForm
+								{name}
+								{email}
+								{password}
+								on:submit={handlePasswordCreateSubmit}
+								on:cancel={() => (open = false)}
+							/>
 						{:else}
-							Sign in
+							<PasswordSignInForm
+								{email}
+								{password}
+								on:submit={handlePasswordSignInSubmit}
+								on:cancel={() => (open = false)}
+							/>
 						{/if}
-					</DialogDescription>
-					<span>
-						or
-						<Switch
-							checked={isCreating}
-							on:change={(event) => {
-								isCreating = event.detail;
-							}}
-							class="dialog-creating-toggle"
+					</div>
+					<div class="dialog-oauth">
+						<h2 class="text-center !text-neutral-400">or sign in with</h2>
+						<OAuthLoginButtons
+							on:click={(event) =>
+								dispatch('oauth-signin', {
+									providerType: event.detail.providerType,
+								})}
+						/>
+						<Button
+							on:click={() => (open = false)}
+							variant="text-only"
+							icon
+							class="dialog-dismiss-button"
 						>
-							{#if isCreating}
-								sign in
-							{:else}
-								create an account
-							{/if}
-						</Switch>
-					</span>
+							<XIcon />
+						</Button>
+					</div>
 				</div>
-				{#if isCreating}
-					<PasswordCreateForm
-						{name}
-						{email}
-						{password}
-						on:submit={handlePasswordCreateSubmit}
-						on:cancel={() => (open = false)}
-					/>
-				{:else}
-					<PasswordSignInForm
-						{email}
-						{password}
-						on:submit={handlePasswordSignInSubmit}
-						on:cancel={() => (open = false)}
-					/>
-				{/if}
-				<h2
-					class="text-sm text-center !text-neutral-400 pt-4 border-t border-neutral-200 dark:border-neutral-600"
-				>
-					or sign in with
-				</h2>
-				<OAuthLoginButtons
-					on:click={(event) =>
-						dispatch('oauth-signin', {
-							providerType: event.detail.providerType,
-						})}
-				/>
-				<Button
-					on:click={() => (open = false)}
-					variant="text-only"
-					icon
-					class="dialog-dismiss-button"
-				>
-					<XIcon />
-				</Button>
 			</div>
 		</div>
 	</div>
@@ -149,9 +151,33 @@
 	}
 
 	.dialog-card {
-		@apply relative z-10 p-4 shadow-lg rounded-xl bg-shade-0;
+		@apply relative z-10 p-6 shadow-lg rounded-xl bg-shade-0;
 		@apply flex flex-col gap-4;
-		@apply w-96;
+		width: calc(100vw - 4rem);
+		max-width: 30rem;
+		@media (min-width: 768px) {
+			max-width: 48rem;
+		}
+	}
+
+	.dialog-card-content {
+		@apply flex flex-col gap-4;
+		@media (min-width: 768px) {
+			@apply flex-row gap-6;
+		}
+	}
+
+	.dialog-password {
+		@apply flex flex-col gap-4;
+		@apply flex-1;
+	}
+
+	.dialog-oauth {
+		@apply flex flex-col gap-4 pt-4;
+		@apply border-t border-neutral-200 gdark:border-neutral-600;
+		@media (min-width: 768px) {
+			@apply border-t-0 border-l pt-2 pl-6;
+		}
 	}
 
 	.dialog :global(.dialog-creating-toggle) {

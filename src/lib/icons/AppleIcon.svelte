@@ -1,4 +1,15 @@
-<svg viewBox="-100 0 1100 1100" width="100%" height="100%" fill="currentColor">
+<script lang="ts">
+	let className = '';
+	export { className as class };
+</script>
+
+<svg
+	class={className}
+	viewBox="-100 0 1100 1100"
+	width="100%"
+	height="100%"
+	fill="currentColor"
+>
 	<path
 		d="M788.1,340.9c-5.8,4.5-108.2,62.2-108.2,190.5c0,148.4,130.3,200.9,134.2,202.2c-0.6,3.2-20.7,71.9-68.7,141.9
 	c-42.8,61.6-87.5,123.1-155.5,123.1s-85.5-39.5-164-39.5c-76.5,0-103.7,40.8-165.9,40.8s-105.6-57-155.5-127

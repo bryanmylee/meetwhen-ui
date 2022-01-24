@@ -1,4 +1,15 @@
-<svg viewBox="0 0 1024 1024" width="100%" height="100%" fill="currentColor">
+<script lang="ts">
+	let className = '';
+	export { className as class };
+</script>
+
+<svg
+	class={className}
+	viewBox="0 0 1024 1024"
+	width="100%"
+	height="100%"
+	fill="currentColor"
+>
 	<path
 		fill-rule="evenodd"
 		clip-rule="evenodd"
