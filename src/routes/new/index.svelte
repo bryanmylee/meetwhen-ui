@@ -81,7 +81,7 @@
 	);
 
 	const handleSubmit = async () => {
-		if ($user === undefined || $user.ssr) {
+		if ($user?.ssr) {
 			return;
 		}
 		const meeting = await addMeeting(

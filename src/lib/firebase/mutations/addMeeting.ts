@@ -6,6 +6,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
 import { customAlphabet } from 'nanoid';
+import dayjs from 'dayjs';
 
 const generateSlug = customAlphabet(
 	'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
@@ -14,16 +15,25 @@ const generateSlug = customAlphabet(
 
 export const addMeeting = async (
 	repo: Firestore,
-	meeting: Omit<Meeting, 'slug' | 'ownerId'>,
+	meeting: Omit<Meeting, 'slug' | 'created' | 'ownerId'>,
 	currentUser?: User,
 ): Promise<Maybe<Id<Meeting>>> => {
 	const slug = generateSlug();
-	const meetingData = MeetingConverter.serialize({ ...meeting, slug });
+	const created = dayjs();
+	const ownerId = currentUser?.uid;
+	const meetingData = MeetingConverter.serialize({
+		...meeting,
+		slug,
+		created,
+		ownerId,
+	});
+	console.log(meetingData);
 	const doc = await addDoc(collection(repo, 'meetings'), meetingData);
 	return {
 		id: doc.id,
 		slug,
-		...(currentUser ? { ownerId: currentUser.uid } : {}),
+		created,
+		ownerId,
 		...meeting,
 	};
 };
