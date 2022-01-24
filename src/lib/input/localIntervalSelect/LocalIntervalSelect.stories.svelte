@@ -2,7 +2,7 @@
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import dayjs from 'dayjs';
 	import { Button } from '..';
-	import LocalIntervalPicker from './LocalIntervalPicker.svelte';
+	import LocalIntervalSelect from './LocalIntervalSelect.svelte';
 
 	/**
 	 * @type {import("../../core/types/Interval").Interval}
@@ -21,16 +21,16 @@
 	};
 </script>
 
-<Meta title="Input/LocalIntervalPicker" component={LocalIntervalPicker} />
+<Meta title="Input/LocalIntervalSelect" component={LocalIntervalSelect} />
 
-<Story name="Sample local interval picker">
+<Story name="Sample local interval select">
 	<div class="flex flex-col gap-4">
 		<p>
 			{interval?.start.format('ha')}
 			to
 			{interval?.end.format('ha')}
 		</p>
-		<LocalIntervalPicker bind:value={interval} />
+		<LocalIntervalSelect bind:value={interval} />
 		<Button on:click={() => (interval = defaultInterval)}>Reset interval</Button
 		>
 	</div>

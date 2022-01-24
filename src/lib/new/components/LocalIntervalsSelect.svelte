@@ -6,7 +6,7 @@
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import type { Interval } from '$lib/core/types/Interval';
 	import { onDay } from '$lib/core/utils/dayjs/onDay';
-	import { LocalIntervalPicker } from '$lib/input';
+	import { LocalIntervalSelect } from '$lib/input';
 
 	export let selectedDates: Dayjs[] = [];
 	$: sortedDateIds = selectedDates.map(dateToId).sort();
@@ -56,7 +56,7 @@
 		<ul class="flex-1 flex flex-col gap-4">
 			{#each Object.keys(intervalsByDate[dateId]) as keyInDate}
 				<li class="flex-1">
-					<LocalIntervalPicker
+					<LocalIntervalSelect
 						bind:value={intervalsByDate[dateId][keyInDate]}
 						top
 						sm

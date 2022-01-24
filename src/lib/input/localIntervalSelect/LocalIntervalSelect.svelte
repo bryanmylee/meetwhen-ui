@@ -64,7 +64,7 @@
 	export { className as class };
 </script>
 
-<div class="{className} interval-picker">
+<div class="{className} interval-select">
 	<Select
 		bind:value={startHour}
 		values={startOptions}
@@ -83,7 +83,7 @@
 </div>
 
 <style lang="postcss">
-	.interval-picker {
+	.interval-select {
 		@apply flex items-center gap-3;
 		& > span {
 			@apply text-xs font-medium;

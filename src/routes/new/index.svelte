@@ -26,7 +26,7 @@
 	import {
 		Button,
 		DatePicker,
-		LocalIntervalPicker,
+		LocalIntervalSelect,
 		Select,
 		Textfield,
 	} from '$lib/input';
@@ -85,7 +85,7 @@
 			<DatePicker bind:value={selectedDates} error={$intervals.error} />
 			<Disclosure let:open>
 				<div class="accordian-title" class:open>
-					<LocalIntervalPicker
+					<LocalIntervalSelect
 						bind:value={defaultInterval}
 						top
 						sm
