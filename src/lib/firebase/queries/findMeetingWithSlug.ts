@@ -16,7 +16,7 @@ export const findMeetingWithSlug = async (
 	slug: string,
 ): Promise<Maybe<Id<Meeting>>> => {
 	const meetingSnapshot = (await getDocs(
-		query(collection(repo, 'meeting'), where('slug', '==', slug)),
+		query(collection(repo, 'meetings'), where('slug', '==', slug)),
 	)) as QuerySnapshot<MeetingData>;
 	if (meetingSnapshot.docs.length !== 1) {
 		return undefined;

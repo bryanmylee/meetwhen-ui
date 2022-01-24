@@ -1,14 +1,10 @@
 <script lang="ts" context="module">
-	export const load: Load<{ session: Session }> = async ({
-		params,
-		session,
-	}) => {
+	export const load: Load<{ session: Session }> = async ({ params }) => {
 		const { slug } = params;
 		const meeting = await findMeetingWithSlug(firebaseClient.repo, slug);
 		return {
 			props: {
 				meeting,
-				currentUser: session.user,
 			},
 		};
 	};
@@ -20,7 +16,6 @@
 	import { MeetingConverter } from '$lib/models/Meeting';
 	import type { Meeting, MeetingData } from '$lib/models/Meeting';
 	import type { Id } from '$lib/core/types/Id';
-	import type { SafeUser } from '$lib/models/SafeUser';
 	import { firebaseClient } from '$lib/firebase/client';
 	import { useRepo } from '$lib/firebase/context';
 	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';
@@ -29,9 +24,10 @@
 	const repo = useRepo();
 
 	export let meeting: Id<Meeting>;
+	console.log(meeting);
 	const liveMeetingDocument = useLiveDocument<MeetingData>(
 		repo,
-		'meeting',
+		'meetings',
 		meeting.id,
 	);
 	$: {
@@ -42,8 +38,6 @@
 				...MeetingConverter.parse(data),
 			};
 	}
-
-	export let currentUser: SafeUser;
 </script>
 
 <div class="p-4 flex-col gap-4">

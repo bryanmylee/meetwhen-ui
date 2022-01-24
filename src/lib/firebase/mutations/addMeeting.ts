@@ -1,5 +1,4 @@
 import type { Id } from '$lib/core/types/Id';
-import type { Maybe } from '$lib/core/types/Maybe';
 import { MeetingConverter } from '$lib/models/Meeting';
 import type { Meeting } from '$lib/models/Meeting';
 import { addDoc, collection } from 'firebase/firestore';
@@ -17,7 +16,7 @@ export const addMeeting = async (
 	repo: Firestore,
 	meeting: Omit<Meeting, 'slug' | 'created' | 'ownerId'>,
 	currentUser?: User,
-): Promise<Maybe<Id<Meeting>>> => {
+): Promise<Id<Meeting>> => {
 	const slug = generateSlug();
 	const created = dayjs();
 	const ownerId = currentUser?.uid;
@@ -27,7 +26,6 @@ export const addMeeting = async (
 		created,
 		ownerId,
 	});
-	console.log(meetingData);
 	const doc = await addDoc(collection(repo, 'meetings'), meetingData);
 	return {
 		id: doc.id,

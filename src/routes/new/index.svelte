@@ -22,6 +22,7 @@
 		DisclosurePanel,
 	} from '@rgossiaux/svelte-headlessui';
 	import { ListIcon } from 'svelte-feather-icons';
+	import { goto } from '$app/navigation';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
 	import { Textfield, DatePicker, Select, Button } from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
@@ -84,6 +85,10 @@
 		if ($user?.ssr) {
 			return;
 		}
+		if ($intervals.value.length === 0) {
+			$intervals.error = 'Select a date';
+			return;
+		}
 		const meeting = await addMeeting(
 			repo,
 			{
@@ -92,7 +97,7 @@
 			},
 			$user,
 		);
-		console.log(meeting);
+		goto(`/${meeting.slug}`);
 	};
 </script>
 
@@ -100,9 +105,14 @@
 	<div class="container p-8 mx-auto">
 		<form class="flex flex-col gap-4" on:submit|preventDefault={handleSubmit}>
 			<h1 class="text-2xl font-bold">Start a new meet</h1>
-			<Textfield label="Name of your meet" bind:value={$name.value} />
+			<Textfield
+				label="Name of your meet"
+				bind:value={$name.value}
+				error={$name.error}
+				required
+			/>
 			<h2 class="font-semibold text">When can you meet?</h2>
-			<DatePicker bind:value={selectedDates} />
+			<DatePicker bind:value={selectedDates} error={$intervals.error} />
 			<Disclosure let:open>
 				<div class="accordian-title" class:open>
 					<IntervalPicker
