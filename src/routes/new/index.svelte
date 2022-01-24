@@ -31,9 +31,10 @@
 	import { useRepo, useUser } from '$lib/firebase/context';
 	import { withError } from '$lib/core/utils/withError';
 	import LocalIntervalsSelect from '$lib/new/components/LocalIntervalsSelect.svelte';
+	import { onDay } from '$lib/core/utils/dayjs/onDay';
 
 	export let selectedDates: Dayjs[] = [];
-	export let defaultInterval: Interval;
+	export let overallInterval: Interval;
 
 	export let timezoneId = getCurrentTimezone();
 	$: timezone =
@@ -44,8 +45,28 @@
 
 	const name = withError('');
 	const intervals = withError<Interval[]>([]);
-	let useAdjustedIntervals = false;
+	$: $intervals.value = useAdjustedIntervals
+		? adjustedIntervals
+		: overallIntervals;
 	$: console.log($intervals.value);
+
+	let overallIntervals: Interval[] = [];
+	$: overallIntervals = selectedDates.map((date) => ({
+		start: onDay(overallInterval.start, date),
+		end: onDay(overallInterval.end, date),
+	}));
+
+	let adjustedIntervals: Interval[] = [];
+	let useAdjustedIntervals = false;
+
+	const toggleAdjustedIntervals = () => {
+		if (useAdjustedIntervals && adjustedIntervals.length !== 0) {
+			// Show confirmation dialog.
+			console.log('are you sure?');
+			return;
+		}
+		useAdjustedIntervals = !useAdjustedIntervals;
+	};
 
 	const handleSubmit = async () => {
 		if ($user?.ssr) {
@@ -82,7 +103,7 @@
 			<div>
 				<div class="adjust-title" class:open={useAdjustedIntervals}>
 					<LocalIntervalSelect
-						bind:value={defaultInterval}
+						bind:value={overallInterval}
 						top
 						sm
 						class="flex-1"
@@ -101,7 +122,7 @@
 							class={classes('adjust-button', useAdjustedIntervals && 'open')}
 							variant="text-only"
 							icon
-							on:click={() => (useAdjustedIntervals = !useAdjustedIntervals)}
+							on:click={toggleAdjustedIntervals}
 						>
 							<ListIcon class="wh-6" />
 						</Button>
@@ -114,9 +135,9 @@
 					>
 						<h3 class="font-semibold">Adjust available times</h3>
 						<LocalIntervalsSelect
-							bind:intervals={$intervals.value}
+							bind:intervals={adjustedIntervals}
 							{selectedDates}
-							{defaultInterval}
+							defaultInterval={overallInterval}
 						/>
 					</ul>
 				{/if}
