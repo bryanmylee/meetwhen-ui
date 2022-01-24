@@ -8,7 +8,6 @@ export interface Meeting {
 	intervals: Interval[];
 	name: string;
 	slug: string;
-	total: Interval;
 }
 
 export interface MeetingData extends DocumentData {
@@ -17,7 +16,6 @@ export interface MeetingData extends DocumentData {
 	intervals: IntervalData[];
 	name: string;
 	slug: string;
-	total: IntervalData;
 }
 
 export class MeetingConverter {
@@ -25,7 +23,6 @@ export class MeetingConverter {
 		return {
 			...meeting,
 			intervals: meeting.intervals.map(IntervalConverter.serialize),
-			total: IntervalConverter.serialize(meeting.total),
 		};
 	}
 
@@ -33,7 +30,6 @@ export class MeetingConverter {
 		return {
 			...data,
 			intervals: data.intervals.map(IntervalConverter.parse),
-			total: IntervalConverter.parse(data.total),
 		};
 	}
 }
