@@ -39,6 +39,7 @@
 	import LocalIntervalsSelect from '$lib/new/components/LocalIntervalsSelect.svelte';
 	import { onDay } from '$lib/core/utils/dayjs/onDay';
 	import { primaryVars } from '$lib/core/state';
+	import { arrayEquals } from '$lib/core/utils/arrayEquals';
 
 	export let selectedDates: Dayjs[] = [];
 	export let overallInterval: Interval;
@@ -58,17 +59,27 @@
 	$: console.log($intervals.value);
 
 	let overallIntervals: Interval[] = [];
-	$: overallIntervals = selectedDates.map((date) => ({
-		start: onDay(overallInterval.start, date),
-		end: onDay(overallInterval.end, date),
-	}));
+	$: overallIntervals = selectedDates
+		.map((date) => ({
+			start: onDay(overallInterval.start, date),
+			end: onDay(overallInterval.end, date),
+		}))
+		.sort((a, b) =>
+			a.start.isSame(b.start) ? 0 : a.start.isBefore(b.start) ? -1 : 1,
+		);
 
 	let adjustedIntervals: Interval[] = [];
 	let useAdjustedIntervals = false;
 	let showCancelAdjustConfirmation = false;
 
+	$: isAdjusted = !arrayEquals(
+		adjustedIntervals,
+		overallIntervals,
+		(a, b) => a.start.isSame(b.start) && a.end.isSame(b.end),
+	);
+
 	const toggleAdjustedIntervals = () => {
-		if (useAdjustedIntervals && adjustedIntervals.length !== 0) {
+		if (useAdjustedIntervals && adjustedIntervals.length !== 0 && isAdjusted) {
 			showCancelAdjustConfirmation = true;
 			return;
 		}
@@ -168,7 +179,7 @@
 				in:fly={{ duration: 500, y: 50, easing: cubicOut }}
 			>
 				<DialogTitle as="h1" class="font-semibold">
-					Cancel adjusted times?
+					Discard adjusted times?
 				</DialogTitle>
 				<DialogDescription class="text-sm">
 					You will lose your current adjustments.
@@ -179,7 +190,7 @@
 						size="sm"
 						on:click={() => (showCancelAdjustConfirmation = false)}
 					>
-						Continue
+						Cancel
 					</Button>
 					<Button
 						size="sm"
@@ -188,7 +199,7 @@
 							useAdjustedIntervals = false;
 						}}
 					>
-						Cancel
+						Continue
 					</Button>
 				</div>
 			</div>
