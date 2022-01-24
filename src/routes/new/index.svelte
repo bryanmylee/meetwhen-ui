@@ -85,7 +85,8 @@
 						<h3 class="font-semibold">Adjust available times</h3>
 						{#each sortedDates as date (dateToId(date))}
 							<li
-								transition:fade|local={{ duration: 300, easing: cubicOut }}
+								in:fade|local={{ duration: 300, delay: 150, easing: cubicOut }}
+								out:fade|local={{ duration: 300, easing: cubicOut }}
 								animate:flip={{ duration: 300, easing: cubicOut }}
 								class="interval-picker-item"
 							>
