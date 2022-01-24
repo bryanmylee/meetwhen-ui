@@ -11,8 +11,7 @@
 </script>
 
 <script lang="ts">
-	import { flip } from 'svelte/animate';
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
 	import timezones from 'timezones-list';
@@ -32,57 +31,25 @@
 		Textfield,
 	} from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
-	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { classes } from '$lib/core/utils/classes';
 	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
 	import { useRepo, useUser } from '$lib/firebase/context';
 	import { withError } from '$lib/core/utils/withError';
-	import { onDay } from '$lib/core/utils/dayjs/onDay';
+	import LocalIntervalsSelect from '$lib/new/components/LocalIntervalsSelect.svelte';
 
 	export let selectedDates: Dayjs[] = [];
-	$: sortedDates = selectedDates.sort((a, b) =>
-		a.isSame(b) ? 0 : a.isBefore(b) ? -1 : 1,
-	);
-
-	let defaultInterval: Interval;
+	export let defaultInterval: Interval;
 
 	export let timezoneId = getCurrentTimezone();
 	$: timezone =
 		timezones.find((tz) => tz.tzCode === timezoneId) ?? timezones[0];
-
-	export let intervalByDate: Record<string, Interval> = {};
-	$: selectedDates, updateIntervalByDate();
-	const updateIntervalByDate = () => {
-		// Add intervalDefault.
-		selectedDates.forEach((date) => {
-			const dateId = dateToId(date);
-			if (intervalByDate[dateId] === undefined) {
-				intervalByDate[dateId] = defaultInterval;
-			}
-		});
-		// Remove deselected dates.
-		Object.keys(intervalByDate).forEach((key) => {
-			if (!selectedDates.some((date) => dateToId(date) === key)) {
-				delete intervalByDate[key];
-			}
-		});
-		intervalByDate = intervalByDate;
-	};
 
 	const repo = useRepo();
 	const user = useUser();
 
 	const name = withError('');
 	const intervals = withError<Interval[]>([]);
-	$: $intervals.value = Object.entries(intervalByDate).map(
-		([dateId, interval]) => {
-			const date = dateFromId(dateId);
-			return {
-				start: onDay(interval.start, date),
-				end: onDay(interval.end, date),
-			};
-		},
-	);
+	$: console.log($intervals.value);
 
 	const handleSubmit = async () => {
 		if ($user?.ssr) {
@@ -147,24 +114,11 @@
 						transition:slide|local={{ duration: 300, easing: cubicOut }}
 					>
 						<h3 class="font-semibold">Adjust available times</h3>
-						{#each sortedDates as date (dateToId(date))}
-							<li
-								in:fade|local={{ duration: 300, delay: 150, easing: cubicOut }}
-								out:fade|local={{ duration: 300, easing: cubicOut }}
-								animate:flip={{ duration: 300, easing: cubicOut }}
-								class="interval-picker-item"
-							>
-								<div class="text-sm flex-0">{date.format('DD MMM')}</div>
-								<LocalIntervalPicker
-									bind:value={intervalByDate[dateToId(date)]}
-									top
-									sm
-									class="flex-1"
-								/>
-							</li>
-						{:else}
-							<div class="text-sm">Select a date first.</div>
-						{/each}
+						<LocalIntervalsSelect
+							bind:intervals={$intervals.value}
+							{selectedDates}
+							{defaultInterval}
+						/>
 					</ul>
 				</DisclosurePanel>
 			</Disclosure>
@@ -203,9 +157,5 @@
 
 	:global(.accordian-panel-content) {
 		@apply p-4 flex flex-col gap-4;
-	}
-
-	.interval-picker-item {
-		@apply flex items-center gap-4;
 	}
 </style>
