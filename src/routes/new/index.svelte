@@ -15,11 +15,6 @@
 	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
 	import timezones from 'timezones-list';
-	import {
-		Disclosure,
-		DisclosureButton,
-		DisclosurePanel,
-	} from '@rgossiaux/svelte-headlessui';
 	import { ListIcon } from 'svelte-feather-icons';
 	import { goto } from '$app/navigation';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
@@ -49,6 +44,7 @@
 
 	const name = withError('');
 	const intervals = withError<Interval[]>([]);
+	let useAdjustedIntervals = false;
 	$: console.log($intervals.value);
 
 	const handleSubmit = async () => {
@@ -83,8 +79,8 @@
 			/>
 			<h2 class="font-semibold text">When can you meet?</h2>
 			<DatePicker bind:value={selectedDates} error={$intervals.error} />
-			<Disclosure let:open>
-				<div class="accordian-title" class:open>
+			<div>
+				<div class="adjust-title" class:open={useAdjustedIntervals}>
 					<LocalIntervalSelect
 						bind:value={defaultInterval}
 						top
@@ -101,16 +97,19 @@
 							top
 							class="flex-1"
 						/>
-						<DisclosureButton
-							class={classes('accordian-button', open && 'open')}
+						<Button
+							class={classes('adjust-button', useAdjustedIntervals && 'open')}
+							variant="text-only"
+							icon
+							on:click={() => (useAdjustedIntervals = !useAdjustedIntervals)}
 						>
 							<ListIcon class="wh-6" />
-						</DisclosureButton>
+						</Button>
 					</div>
 				</div>
-				<DisclosurePanel class="accordian-panel">
+				{#if useAdjustedIntervals}
 					<ul
-						class="accordian-panel-content"
+						class="adjust-panel"
 						transition:slide|local={{ duration: 300, easing: cubicOut }}
 					>
 						<h3 class="font-semibold">Adjust available times</h3>
@@ -120,15 +119,15 @@
 							{defaultInterval}
 						/>
 					</ul>
-				</DisclosurePanel>
-			</Disclosure>
+				{/if}
+			</div>
 			<Button type="submit">Create meet</Button>
 		</form>
 	</div>
 </section>
 
 <style lang="postcss">
-	.accordian-title {
+	.adjust-title {
 		@apply flex flex-col w-full p-4 gap-4 md:flex-row md:items-center;
 		@apply rounded-xl shadow transition-shadow ring-1 ring-neutral-100 gdark:ring-neutral-600;
 		&.open {
@@ -136,26 +135,13 @@
 		}
 	}
 
-	:global(.accordian-button) {
-		@apply mx-auto text-xs font-medium focus-text wh-fit;
-		&:hover {
-			@apply text-primary-400;
-		}
-		&:active {
-			@apply opacity-50;
-		}
+	:global(.adjust-button.open) {
+		@apply !text-primary-400;
 	}
 
-	:global(.accordian-button.open) {
-		@apply text-primary-400;
-	}
-
-	:global(.accordian-panel) {
+	.adjust-panel {
 		@apply mx-4 rounded-b-xl;
-		@apply shadow ring-inset ring-1 ring-neutral-100 gdark:ring-neutral-600;
-	}
-
-	:global(.accordian-panel-content) {
 		@apply p-4 flex flex-col gap-4;
+		@apply shadow ring-inset ring-1 ring-neutral-100 gdark:ring-neutral-600;
 	}
 </style>
