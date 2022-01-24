@@ -23,11 +23,15 @@
 	} from '@rgossiaux/svelte-headlessui';
 	import { ListIcon } from 'svelte-feather-icons';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
-	import { Textfield, DatePicker, Select } from '$lib/input';
+	import { Textfield, DatePicker, Select, Button } from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
-	import { dateToId } from '$lib/core/utils/dayjs/dateIds';
+	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import IntervalPicker from '$lib/input/intervalPicker/IntervalPicker.svelte';
 	import { classes } from '$lib/core/utils/classes';
+	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
+	import { useRepo, useUser } from '$lib/firebase/context';
+	import { withError } from '$lib/core/utils/withError';
+	import { onDay } from '$lib/core/utils/dayjs/onDay';
 
 	export let selectedDates: Dayjs[] = [];
 	$: sortedDates = selectedDates.sort((a, b) =>
@@ -36,19 +40,67 @@
 
 	export let startHourDefault = 8;
 	export let endHourDefault = 17;
+	let intervalDefault: Interval;
 
 	export let timezoneId = getCurrentTimezone();
 	$: timezone =
 		timezones.find((tz) => tz.tzCode === timezoneId) ?? timezones[0];
 
-	export let intervals: Record<string, Interval> = {};
+	export let intervalByDate: Record<string, Interval> = {};
+	$: selectedDates, updateIntervalByDate();
+	const updateIntervalByDate = () => {
+		// Add intervalDefault.
+		selectedDates.forEach((date) => {
+			const dateId = dateToId(date);
+			if (intervalByDate[dateId] === undefined) {
+				intervalByDate[dateId] = intervalDefault;
+			}
+		});
+		// Remove deselected dates.
+		Object.keys(intervalByDate).forEach((key) => {
+			if (!selectedDates.some((date) => dateToId(date) === key)) {
+				delete intervalByDate[key];
+			}
+		});
+		intervalByDate = intervalByDate;
+	};
+
+	const repo = useRepo();
+	const user = useUser();
+
+	const name = withError('');
+	const intervals = withError<Interval[]>([]);
+	$: $intervals.value = Object.entries(intervalByDate).map(
+		([dateId, interval]) => {
+			const date = dateFromId(dateId);
+			return {
+				start: onDay(interval.start, date),
+				end: onDay(interval.end, date),
+			};
+		},
+	);
+
+	const handleSubmit = async () => {
+		if ($user === undefined || $user.ssr) {
+			return;
+		}
+		const meeting = await addMeeting(
+			repo,
+			{
+				name: $name.value,
+				intervals: $intervals.value,
+			},
+			$user,
+		);
+		console.log(meeting);
+	};
 </script>
 
 <section>
 	<div class="container p-8 mx-auto">
-		<form class="flex flex-col gap-4">
+		<form class="flex flex-col gap-4" on:submit|preventDefault={handleSubmit}>
 			<h1 class="text-2xl font-bold">Start a new meet</h1>
-			<Textfield label="Name of your meet" />
+			<Textfield label="Name of your meet" bind:value={$name.value} />
 			<h2 class="font-semibold text">When can you meet?</h2>
 			<DatePicker bind:value={selectedDates} />
 			<Disclosure let:open>
@@ -56,6 +108,7 @@
 					<IntervalPicker
 						bind:startHour={startHourDefault}
 						bind:endHour={endHourDefault}
+						bind:interval={intervalDefault}
 						top
 						sm
 						class="flex-1"
@@ -94,7 +147,7 @@
 								<IntervalPicker
 									startHour={8}
 									endHour={17}
-									bind:interval={intervals[dateToId(date)]}
+									bind:interval={intervalByDate[dateToId(date)]}
 									top
 									sm
 									class="flex-1"
@@ -106,6 +159,7 @@
 					</ul>
 				</DisclosurePanel>
 			</Disclosure>
+			<Button type="submit">Create meet</Button>
 		</form>
 	</div>
 </section>

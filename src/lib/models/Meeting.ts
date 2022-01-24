@@ -5,6 +5,7 @@ import type { DocumentData } from 'firebase/firestore';
 export interface Meeting {
 	color?: string;
 	emoji?: string;
+	ownerId?: string;
 	intervals: Interval[];
 	name: string;
 	slug: string;
