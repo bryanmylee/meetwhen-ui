@@ -142,7 +142,7 @@
 					</div>
 				</div>
 				{#if useAdjustedIntervals}
-					<ul
+					<div
 						class="adjust-panel"
 						transition:slide|local={{ duration: 300, easing: cubicOut }}
 					>
@@ -152,9 +152,10 @@
 							{selectedDates}
 							defaultInterval={overallInterval}
 						/>
-					</ul>
+					</div>
 				{/if}
 			</div>
+			<h2 class="text-headline">Add a location or link</h2>
 			<Button type="submit">Create meet</Button>
 		</form>
 	</div>
