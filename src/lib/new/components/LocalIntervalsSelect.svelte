@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
 	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
@@ -48,12 +47,12 @@
 </script>
 
 <ul class="interval-picker-list" style={cssVars({ numRows })}>
-	{#each sortedDateIds as dateId (dateId)}
+	{#each sortedDateIds as dateId, index (dateId)}
 		<li
 			in:fade|local={{ duration: 300, delay: 150, easing: cubicOut }}
 			out:fade|local={{ duration: 300, easing: cubicOut }}
-			animate:flip={{ duration: 300, easing: cubicOut }}
 			class="interval-picker-item"
+			style={cssVars({ index })}
 		>
 			<div class="text-label flex-0 py-2.5">
 				{dateFromId(dateId).format('DD MMM')}
@@ -77,13 +76,17 @@
 
 <style lang="postcss">
 	.interval-picker-list {
-		@apply flex flex-col gap-4;
+		@apply relative flex flex-col gap-4;
 		/* Default text, or 2.5rem for each row and 1rem for padding in between. */
 		height: max(1.5rem, calc(2.5rem + (var(--numRows) - 1) * 3.5rem));
-		transition: height 200ms ease-in-out;
+		transition: height 300ms var(--cubicOut);
 	}
 
 	.interval-picker-item {
 		@apply flex items-start gap-4;
+		@apply absolute left-0 right-0;
+		/* 2.5rem + 1rem for each row and padding above */
+		top: calc(var(--index) * 3.5rem);
+		transition: top 300ms var(--cubicOut);
 	}
 </style>
