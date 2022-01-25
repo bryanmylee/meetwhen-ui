@@ -37,9 +37,9 @@
 	import { useRepo, useUser } from '$lib/firebase/context';
 	import { withError } from '$lib/core/utils/withError';
 	import LocalIntervalsSelect from '$lib/new/components/LocalIntervalsSelect.svelte';
-	import { onDay } from '$lib/core/utils/dayjs/onDay';
 	import { primaryVars } from '$lib/core/state';
 	import { arrayEquals } from '$lib/core/utils/arrayEquals';
+	import { localIntervalOnDay } from '$lib/core/utils/intervals';
 
 	export let selectedDates: Dayjs[] = [];
 	export let overallInterval: Interval;
@@ -60,10 +60,7 @@
 
 	let overallIntervals: Interval[] = [];
 	$: overallIntervals = selectedDates
-		.map((date) => ({
-			start: onDay(overallInterval.start, date),
-			end: onDay(overallInterval.end, date),
-		}))
+		.map((date) => localIntervalOnDay(overallInterval, date))
 		.sort((a, b) => a.start.diff(b.start));
 
 	let adjustedIntervals: Interval[] = [];

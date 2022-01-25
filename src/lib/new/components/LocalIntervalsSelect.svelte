@@ -5,8 +5,8 @@
 	import type { Dayjs } from 'dayjs';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import type { Interval } from '$lib/core/types/Interval';
-	import { onDay } from '$lib/core/utils/dayjs/onDay';
 	import { LocalIntervalSelect } from '$lib/input';
+	import { localIntervalOnDay } from '$lib/core/utils/intervals';
 
 	export let selectedDates: Dayjs[] = [];
 	$: sortedDateIds = selectedDates.map(dateToId).sort();
@@ -35,10 +35,9 @@
 	$: intervals = Object.entries(intervalsByDate).flatMap(
 		([dateId, intervals]) => {
 			const date = dateFromId(dateId);
-			return Object.values(intervals).map((interval) => ({
-				start: onDay(interval.start, date),
-				end: onDay(interval.end, date),
-			}));
+			return Object.values(intervals).map((interval) =>
+				localIntervalOnDay(interval, date),
+			);
 		},
 	);
 </script>

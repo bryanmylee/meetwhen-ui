@@ -24,7 +24,6 @@
 	const repo = useRepo();
 
 	export let meeting: Id<Meeting>;
-	console.log(meeting);
 	const liveMeetingDocument = useLiveDocument<MeetingData>(
 		repo,
 		'meetings',
@@ -38,6 +37,7 @@
 				...MeetingConverter.parse(data),
 			};
 	}
+	$: console.log(meeting);
 </script>
 
 <div class="p-4 flex-col gap-4">
