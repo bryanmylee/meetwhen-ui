@@ -130,7 +130,11 @@
 				required
 			/>
 			<h2 class="text-headline">When can you meet?</h2>
-			<DatePicker bind:value={selectedDates} error={$intervals.error} />
+			<DatePicker
+				bind:value={selectedDates}
+				error={$intervals.error}
+				use={[intervals.touch]}
+			/>
 			<div>
 				<div class="adjust-title" class:open={useAdjustedIntervals}>
 					<LocalIntervalSelect

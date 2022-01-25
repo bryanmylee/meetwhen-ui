@@ -5,6 +5,8 @@
 	import type { Dayjs } from 'dayjs';
 	import { Set } from 'immutable';
 	import { nanoid } from 'nanoid';
+	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
+	import { useActions } from '$lib/core/utils/useActions';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { bound } from '$lib/core/utils/bound';
 	import { SelectionProvider, KeyboardHelp } from '$lib/input';
@@ -49,9 +51,12 @@
 		await tick();
 		$currentDateElement?.focus();
 	};
+
+	export let use: HTMLActionArray = [];
 </script>
 
 <div
+	use:useActions={use}
 	{id}
 	tabindex={0}
 	aria-label={$currentDate.format('MMMM YYYY')}
