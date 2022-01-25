@@ -36,6 +36,7 @@ const config = {
 		require('./tailwindcss/focusOnly.cjs'),
 		require('./tailwindcss/noScrollbar.cjs'),
 		require('./tailwindcss/size.cjs'),
+		require('./tailwindcss/textStyles.cjs'),
 		require('tailwindcss-global-dark'),
 	],
 };

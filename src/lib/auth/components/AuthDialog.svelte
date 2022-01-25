@@ -77,7 +77,7 @@
 				<div class="dialog-card-content">
 					<div class="dialog-password">
 						<div class="flex items-baseline justify-between">
-							<DialogDescription as="h2" class="text-2xl font-medium">
+							<DialogDescription as="h2" class="text-title-1">
 								{#if isCreating}
 									Create an account
 								{:else}

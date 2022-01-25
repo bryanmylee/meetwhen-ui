@@ -104,14 +104,14 @@
 <section>
 	<div class="container p-8 mx-auto">
 		<form class="flex flex-col gap-4" on:submit|preventDefault={handleSubmit}>
-			<h1 class="text-2xl font-bold">Start a new meet</h1>
+			<h1 class="text-title-1">Start a new meet</h1>
 			<Textfield
 				label="Name of your meet"
 				bind:value={$name.value}
 				error={$name.error}
 				required
 			/>
-			<h2 class="font-semibold">When can you meet?</h2>
+			<h2 class="text-headline">When can you meet?</h2>
 			<DatePicker bind:value={selectedDates} error={$intervals.error} />
 			<div>
 				<div class="adjust-title" class:open={useAdjustedIntervals}>
@@ -146,7 +146,7 @@
 						class="adjust-panel"
 						transition:slide|local={{ duration: 300, easing: cubicOut }}
 					>
-						<h3 class="font-semibold">Adjust available times</h3>
+						<h3 class="text-headline">Adjust available times</h3>
 						<LocalIntervalsSelect
 							bind:intervals={adjustedIntervals}
 							{selectedDates}
@@ -173,7 +173,7 @@
 				class="adjust-confirm-card"
 				in:fly={{ duration: 500, y: 50, easing: cubicOut }}
 			>
-				<DialogTitle as="h1" class="font-semibold">
+				<DialogTitle as="h1" class="text-title-2">
 					Discard adjusted times?
 				</DialogTitle>
 				<DialogDescription class="text-sm">

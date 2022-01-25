@@ -56,7 +56,7 @@
 	button {
 		@apply h-10 rounded-lg p-4 w-full;
 		@apply flex justify-center items-center gap-2;
-		@apply text-sm font-semibold;
+		@apply text-label;
 		@apply focus ring-offset-2 gdark:ring-offset-neutral-800;
 		& > span {
 			@apply whitespace-nowrap sr-only md:not-sr-only;

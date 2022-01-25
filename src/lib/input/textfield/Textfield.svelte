@@ -101,6 +101,7 @@
 			@apply absolute inset-0 bottom-auto m-4;
 			@apply overflow-hidden whitespace-nowrap text-ellipsis;
 			@apply pointer-events-none transition-transform origin-top-left;
+			@apply font-medium;
 
 			& > .required-dot {
 				@apply text-red-400 font-bold;

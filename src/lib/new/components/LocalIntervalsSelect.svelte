@@ -49,7 +49,7 @@
 		animate:flip={{ duration: 300, easing: cubicOut }}
 		class="interval-picker-item"
 	>
-		<div class="text-sm flex-0 py-2.5">
+		<div class="text-label flex-0 py-2.5">
 			{dateFromId(dateId).format('DD MMM')}
 		</div>
 		<ul class="flex-1 flex flex-col gap-4">
@@ -65,7 +65,7 @@
 		</ul>
 	</li>
 {:else}
-	<div class="text-sm">Select a date first.</div>
+	<div class="text-label">Select a date first.</div>
 {/each}
 
 <style lang="postcss">

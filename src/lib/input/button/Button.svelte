@@ -62,7 +62,7 @@
 
 <style lang="postcss">
 	.button {
-		@apply p-4 rounded-full font-bold focus;
+		@apply p-4 rounded-full font-semibold focus;
 		@apply ring-offset-2 ring-offset-white gdark:ring-offset-neutral-800;
 		@apply transition-colors;
 
