@@ -10,6 +10,7 @@ import {
 	unionIntervals,
 	subtractIntervals,
 	intersectIntervals,
+	localIntervalOnDay,
 } from './intervals';
 import { dateToId } from './dayjs/dateIds';
 import type { Interval } from '../types/Interval';
@@ -532,5 +533,35 @@ describe('isIntervalInTimeInterval', () => {
 		};
 		const result = isIntervalInTimeInterval(interval, timeInterval);
 		expect(result).toBe(false);
+	});
+});
+
+describe('localIntervalOnDay', () => {
+	it('adjusts day correctly', () => {
+		const interval = {
+			start: today.hour(8),
+			end: today.hour(10),
+		};
+		const tomorrow = today.add(1, 'day');
+		const result = localIntervalOnDay(interval, tomorrow);
+		const expected: Interval = {
+			start: tomorrow.hour(8),
+			end: tomorrow.hour(10),
+		};
+		expect(serialize(result)).toEqual(serialize(expected));
+	});
+
+	it('accounts for ending on midnight', () => {
+		const interval = {
+			start: today.hour(11),
+			end: today.hour(0).add(1, 'day'),
+		};
+		const tomorrow = today.add(1, 'day');
+		const result = localIntervalOnDay(interval, tomorrow);
+		const expected: Interval = {
+			start: tomorrow.hour(11),
+			end: tomorrow.hour(0).add(1, 'day'),
+		};
+		expect(serialize(result)).toEqual(serialize(expected));
 	});
 });

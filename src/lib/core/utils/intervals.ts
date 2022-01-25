@@ -218,3 +218,16 @@ export const isIntervalInTimeInterval = (
 		!startOnDay.isAfter(interval.start) && !endOnDay.isBefore(interval.end)
 	);
 };
+
+export const localIntervalOnDay = (
+	localInterval: Interval,
+	day: Dayjs,
+): Interval => {
+	const { start, end } = localInterval;
+	return {
+		start: onDay(start, day),
+		end: end.isAfter(start, 'day')
+			? onDay(end, day.add(1, 'day'))
+			: onDay(end, day),
+	};
+};
