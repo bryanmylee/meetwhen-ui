@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import type { Updater, Writable } from 'svelte/store';
 import type { Validator } from '$lib/input/utils/validation/Validator';
+import type { Action } from '../types/Action';
 
 export interface WithError<T> {
 	value: T;
@@ -11,6 +12,7 @@ export interface WithError<T> {
 export interface WithErrorable<T> extends Writable<WithError<T>> {
 	reset: () => void;
 	resetError: () => void;
+	touch: Action;
 }
 
 export interface WithErrorOptions<T> {
@@ -40,14 +42,8 @@ export const withError = <T>(
 			if (nextStore.value !== previous.value && resetErrorOnChange) {
 				nextStore.error = '';
 				nextStore.errors = [];
+				touched.set(false);
 			}
-			const nextErrors = validators
-				.map((validator) => {
-					return validator(nextStore.value).error;
-				})
-				.filter((error) => error !== '');
-			nextStore.errors = nextErrors;
-			nextStore.error = nextErrors[0] ?? '';
 			previous = { ...nextStore };
 			return nextStore;
 		});
@@ -55,10 +51,69 @@ export const withError = <T>(
 
 	const set = (nextStore: WithError<T>) => update(() => nextStore);
 
+	const touched = writable(false);
+	const unsubTouched = touched.subscribe(($touched) => {
+		if ($touched) {
+			store.update(($store) => {
+				const errors = validators
+					.map((validator) => {
+						return validator($store.value).error;
+					})
+					.filter((error) => error !== '');
+				return {
+					...$store,
+					error: errors[0] ?? '',
+					errors,
+				};
+			});
+		}
+	});
+
+	/*
+	 * in only: entered the parent.
+	 * out, in: entered child.
+	 * out only: exited the parent.
+	 */
+	const touch: Action = (node) => {
+		let focusedIn = false;
+		let focusedOut = false;
+		const handleFocusOut = () => {
+			focusedOut = true;
+			setTimeout(() => {
+				if (focusedOut && !focusedIn) {
+					touched.set(true);
+				}
+				focusedIn = false;
+				focusedOut = false;
+			});
+		};
+		const handleFocusIn = () => {
+			focusedIn = true;
+			setTimeout(() => {
+				focusedIn = false;
+			});
+		};
+		node.addEventListener('focusout', handleFocusOut);
+		node.addEventListener('focusin', handleFocusIn);
+		return {
+			destroy() {
+				node.removeEventListener('focusout', handleFocusOut);
+				node.removeEventListener('focusin', handleFocusIn);
+			},
+		};
+	};
+
 	return {
-		subscribe: store.subscribe,
+		subscribe(run, invalidate) {
+			const unsubStore = store.subscribe(run, invalidate);
+			return () => {
+				unsubStore();
+				unsubTouched();
+			};
+		},
 		update,
 		set,
+		touch,
 		reset: () => set({ value: initialValue, error: '', errors: [] }),
 		resetError: () =>
 			update(($store) => ({ ...$store, error: '', errors: [] })),
