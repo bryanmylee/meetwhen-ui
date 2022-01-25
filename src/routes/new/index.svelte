@@ -64,9 +64,7 @@
 			start: onDay(overallInterval.start, date),
 			end: onDay(overallInterval.end, date),
 		}))
-		.sort((a, b) =>
-			a.start.isSame(b.start) ? 0 : a.start.isBefore(b.start) ? -1 : 1,
-		);
+		.sort((a, b) => a.start.diff(b.start));
 
 	let adjustedIntervals: Interval[] = [];
 	let useAdjustedIntervals = false;
