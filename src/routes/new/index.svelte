@@ -156,8 +156,10 @@
 					</div>
 				{/if}
 			</div>
-			<h2 class="text-headline">Add a location or link</h2>
-			<Links bind:value={$links.value} />
+			<div class="add-links">
+				<h2 class="text-headline">Add a location or link</h2>
+				<Links bind:value={$links.value} />
+			</div>
 			<Button type="submit">Create meet</Button>
 		</form>
 	</div>
@@ -208,7 +210,8 @@
 <style lang="postcss">
 	.adjust-title {
 		@apply flex flex-col w-full p-4 gap-4 md:flex-row md:items-center;
-		@apply rounded-xl shadow transition-shadow ring-1 ring-neutral-100 gdark:ring-neutral-600;
+		@apply rounded-xl shadow transition-shadow;
+		@apply ring-1 ring-neutral-100 gdark:ring-neutral-600;
 		&.open {
 			@apply shadow-lg z-10;
 		}
@@ -220,13 +223,20 @@
 
 	.adjust-panel {
 		@apply mx-4 rounded-b-xl;
-		@apply p-4 flex flex-col gap-4;
-		@apply shadow ring-inset ring-1 ring-neutral-100 gdark:ring-neutral-600;
+		@apply p-4 pt-6 flex flex-col gap-4;
+		@apply shadow ring-inset;
+		@apply ring-1 ring-neutral-100 gdark:ring-neutral-600;
 	}
 
 	.adjust-confirm-card {
 		@apply relative z-10 p-6 shadow-lg rounded-xl bg-shade-0;
 		@apply flex flex-col gap-4;
 		@apply w-96;
+	}
+
+	.add-links {
+		@apply flex flex-col gap-4;
+		@apply p-4 rounded-xl shadow transition-shadow;
+		@apply ring-1 ring-neutral-100 gdark:ring-neutral-600;
 	}
 </style>
