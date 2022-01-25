@@ -27,6 +27,7 @@
 	import {
 		Button,
 		DatePicker,
+		Links,
 		LocalIntervalSelect,
 		Select,
 		Textfield,
@@ -56,7 +57,7 @@
 	$: $intervals.value = useAdjustedIntervals
 		? adjustedIntervals
 		: overallIntervals;
-	$: console.log($intervals.value);
+	const links = withError<string[]>([]);
 
 	let overallIntervals: Interval[] = [];
 	$: overallIntervals = selectedDates
@@ -156,6 +157,7 @@
 				{/if}
 			</div>
 			<h2 class="text-headline">Add a location or link</h2>
+			<Links bind:value={$links.value} />
 			<Button type="submit">Create meet</Button>
 		</form>
 	</div>
