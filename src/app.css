@@ -4,8 +4,11 @@
 @tailwind utilities;
 
 * {
-	@apply text-black dark:text-white;
+	@apply text-black;
 	--cubicOut: cubic-bezier(0.33, 1, 0.68, 1);
+	:where(.dark) & {
+		@apply text-white;
+	}
 }
 
 svg,

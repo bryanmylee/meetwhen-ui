@@ -43,7 +43,7 @@
 		class:required
 		class:filled={value !== ''}
 		class:error={error !== ''}
-		class:leftEmpty
+		class:left-empty={leftEmpty}
 		on:blur={() => (leftEmpty = true)}
 	/>
 	<label for={resolvedId}>
@@ -68,7 +68,7 @@
 			&:disabled {
 				@apply text-neutral-400 opacity-50;
 				& + label {
-					@apply !text-neutral-400 opacity-50;
+					@apply text-neutral-400 opacity-50;
 				}
 			}
 
@@ -80,10 +80,10 @@
 			}
 
 			&.error,
-			&.required.leftEmpty {
+			&.required.left-empty {
 				@apply ring ring-red-400;
 				& + label {
-					@apply !text-red-400;
+					@apply text-red-400;
 				}
 			}
 

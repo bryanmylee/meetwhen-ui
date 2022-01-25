@@ -119,7 +119,7 @@
 						{/if}
 					</div>
 					<div class="dialog-oauth">
-						<h2 class="text-center !text-neutral-400">or sign in with</h2>
+						<h2 class="text-center text-neutral-400">or sign in with</h2>
 						<OAuthLoginButtons
 							on:click={(event) =>
 								dispatch('oauth-signin', {
@@ -181,8 +181,8 @@
 	}
 
 	.dialog :global(.dialog-creating-toggle) {
-		@apply !text-neutral-400 underline underline-offset-2;
-		@apply focus p-1 rounded hover:!text-primary-400;
+		@apply text-neutral-400 underline underline-offset-2;
+		@apply focus p-1 rounded hover:text-primary-400;
 	}
 
 	.dialog :global(.dialog-dismiss-button) {

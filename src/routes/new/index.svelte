@@ -235,7 +235,7 @@
 	}
 
 	:global(.adjust-button.open) {
-		@apply !text-primary-400;
+		@apply text-primary-400;
 	}
 
 	.adjust-panel {

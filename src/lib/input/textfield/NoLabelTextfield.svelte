@@ -81,7 +81,7 @@
 			&:disabled {
 				@apply text-neutral-400 opacity-50;
 				& + label {
-					@apply !text-neutral-400 opacity-50;
+					@apply text-neutral-400 opacity-50;
 				}
 			}
 
@@ -96,7 +96,7 @@
 			&.required.left-empty {
 				@apply ring ring-red-400;
 				& + label {
-					@apply !text-red-400;
+					@apply text-red-400;
 				}
 			}
 
