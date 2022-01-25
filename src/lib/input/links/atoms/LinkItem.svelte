@@ -11,6 +11,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { XIcon } from 'svelte-feather-icons';
 	import { Button, NoLabelTextfield } from '$lib/input';
+	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
 
 	export let index: number;
 	export let link: string;
@@ -26,6 +27,7 @@
 		{error}
 		class="w-full"
 		sm
+		use={[focusOnMount]}
 	/>
 	<Button
 		icon
