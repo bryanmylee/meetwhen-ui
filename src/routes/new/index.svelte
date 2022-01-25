@@ -41,6 +41,8 @@
 	import { primaryVars } from '$lib/core/state';
 	import { arrayEquals } from '$lib/core/utils/arrayEquals';
 	import { localIntervalOnDay } from '$lib/core/utils/intervals';
+	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
+	import { isUrl } from '$lib/input/utils/validation/isUrl';
 
 	export let selectedDates: Dayjs[] = [];
 	export let overallInterval: Interval;
@@ -53,11 +55,13 @@
 	const user = useUser();
 
 	const name = withError('');
-	const intervals = withError<Interval[]>([]);
+
+	const intervals = withError<Interval[]>([], {
+		validators: [arrayNotEmpty({ errorMessage: 'Select one date' })],
+	});
 	$: $intervals.value = useAdjustedIntervals
 		? adjustedIntervals
 		: overallIntervals;
-	const links = withError<string[]>([]);
 
 	let overallIntervals: Interval[] = [];
 	$: overallIntervals = selectedDates
@@ -82,12 +86,25 @@
 		useAdjustedIntervals = !useAdjustedIntervals;
 	};
 
+	/*
+	 * withError expects validators that return one error string for each
+	 * validator. To overcome the interface limitation, we create an array string
+	 * delimited by ';'.
+	 */
+	const links = withError<string[]>([], {
+		validators: [
+			(values) => ({
+				error: values
+					.map(isUrl)
+					.map((result) => result.error)
+					.join(';'),
+			}),
+		],
+	});
+	$: linkErrors = $links.error.split(';');
+
 	const handleSubmit = async () => {
 		if ($user?.ssr) {
-			return;
-		}
-		if ($intervals.value.length === 0) {
-			$intervals.error = 'Select a date';
 			return;
 		}
 		const meeting = await addMeeting(
@@ -158,7 +175,7 @@
 			</div>
 			<div class="add-links">
 				<h2 class="text-headline">Add a location or link</h2>
-				<Links bind:value={$links.value} />
+				<Links bind:values={$links.value} errors={linkErrors} />
 			</div>
 			<Button type="submit">Create meet</Button>
 		</form>

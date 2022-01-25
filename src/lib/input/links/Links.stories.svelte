@@ -20,5 +20,5 @@
 			</p>
 		{/each}
 	</div>
-	<Links bind:value={links} />
+	<Links bind:values={links} />
 </Story>

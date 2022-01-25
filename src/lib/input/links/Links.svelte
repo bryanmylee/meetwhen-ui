@@ -6,20 +6,28 @@
 	let links: string[] = [
 		'https://smu-sg.zoom.us/j/92480930018?pwd=bzhFUDkrOWQyZm1QTDlYS010TkVrdz09',
 	];
-	export { links as value };
+	export { links as values };
+	export let errors: string[] = [];
 
 	const handleAddLink = () => {
 		links = [...links, ''];
+		errors = [...errors, ''];
 	};
 
 	const handleRemove = ({ detail }: CustomEvent<LinkItemEvent['remove']>) => {
-		links = links.filter((value, index) => index !== detail.index);
+		links = links.filter((_, index) => index !== detail.index);
+		errors = errors.filter((_, index) => index !== detail.index);
 	};
 </script>
 
 <ul class="flex flex-col items-start gap-4">
 	{#each links as link, index}
-		<LinkItem {index} bind:link on:remove={handleRemove} />
+		<LinkItem
+			{index}
+			bind:link
+			error={errors[index]}
+			on:remove={handleRemove}
+		/>
 	{/each}
 	<Button
 		size="sm"

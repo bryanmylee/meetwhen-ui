@@ -14,12 +14,19 @@
 
 	export let index: number;
 	export let link: string;
+	export let error = '';
 
 	const dispatch = createEventDispatcher();
 </script>
 
 <li class="link-item">
-	<NoLabelTextfield label="Link input" bind:value={link} class="w-full" sm />
+	<NoLabelTextfield
+		label="Link input"
+		bind:value={link}
+		{error}
+		class="w-full"
+		sm
+	/>
 	<Button
 		icon
 		class="!p-3"
