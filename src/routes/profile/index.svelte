@@ -28,6 +28,8 @@
 	const auth = useAuth();
 
 	export let currentUser: SafeUser;
+	$: name = currentUser.displayName ?? currentUser.email;
+
 	const meetingsPromise = findAllMeetingsOwnedByUser(repo, currentUser.uid);
 
 	const handleSignOut = async () => {
@@ -38,18 +40,24 @@
 	};
 </script>
 
-<div class="flex flex-col gap-4 p-4">
-	<h1>Welcome back, {currentUser.email}</h1>
-	{#await meetingsPromise}
-		<div>loading...</div>
-	{:then meetings}
-		{#each meetings as meeting}
-			<div>
-				<h2>{meeting.name}</h2>
-				<p>{meeting.color}</p>
-				<a href="/{meeting.slug}">{meeting.slug}</a>
-			</div>
-		{/each}
-	{/await}
-	<Button color="gray" on:click={handleSignOut}>Sign Out</Button>
-</div>
+<section>
+	<div class="container p-8 mx-auto flex flex-col gap-4">
+		<h1 class="text-title-1">Welcome back, {name}</h1>
+		{#await meetingsPromise}
+			{#each { length: 3 } as _}
+				<div>
+					<h2 class="skeleton-text">Loading meeting...</h2>
+					<p class="skeleton-text">012345678910</p>
+				</div>
+			{/each}
+		{:then meetings}
+			{#each meetings as meeting}
+				<div>
+					<h2>{meeting.name}</h2>
+					<a href="/{meeting.slug}">{meeting.slug}</a>
+				</div>
+			{/each}
+		{/await}
+		<Button color="gray" on:click={handleSignOut}>Sign Out</Button>
+	</div>
+</section>

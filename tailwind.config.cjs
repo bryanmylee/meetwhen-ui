@@ -37,6 +37,7 @@ const config = {
 		require('./tailwindcss/noScrollbar.cjs'),
 		require('./tailwindcss/size.cjs'),
 		require('./tailwindcss/textStyles.cjs'),
+		require('./tailwindcss/skeleton.cjs'),
 		require('tailwindcss-global-dark'),
 	],
 };
