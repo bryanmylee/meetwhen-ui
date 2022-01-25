@@ -81,6 +81,7 @@
 
 	.listbox-button {
 		@apply p-4 rounded-xl w-full focus-inset;
+		@apply bg-shade-100 font-medium;
 		.sm & {
 			@apply py-2;
 		}
@@ -137,6 +138,9 @@
 		}
 		&:active {
 			@apply bg-shade-200;
+		}
+		&:not(:hover).active {
+			@apply ring ring-inset ring-primary-400;
 		}
 		&.selected {
 			@apply bg-primary-400 text-white;

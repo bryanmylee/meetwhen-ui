@@ -60,13 +60,13 @@
 
 		& .label {
 			@apply bg-shade-100 rounded-lg;
-			@apply p-1 -translate-y-1/2;
+			@apply px-1 -translate-y-1/2;
 			@apply text-xs text-neutral-400 text-center whitespace-nowrap;
 			&.start {
-				@apply -translate-y-[15%];
+				@apply pt-1 -translate-y-[15%];
 			}
 			&.end {
-				@apply absolute left-0 right-0 -bottom-2/3;
+				@apply pb-1 absolute left-0 right-0 -bottom-2/3;
 			}
 		}
 	}

@@ -18,10 +18,7 @@
 			class="timepicker-grid-header-cell"
 			style={gridItemStyle({ x: $dateIdToColumnNumber[dateId] })}
 		>
-			{date.format('ddd')}
-			<strong>
-				{date.format('D MMM')}
-			</strong>
+			{date.format('ddd D MMM')}
 		</div>
 	{/each}
 </div>
@@ -40,10 +37,7 @@
 
 	.timepicker-grid-header-cell {
 		@apply wh-full min-w-24 p-1 bg-shade-100 rounded-lg;
-		@apply text-sm text-center;
-		& > strong {
-			@apply font-semibold;
-		}
+		@apply text-label text-center;
 	}
 
 	.timepicker-grid-header-bg {

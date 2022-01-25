@@ -105,7 +105,7 @@
 		}
 
 		& > .error-message {
-			@apply text-center text-red-400 text-xs italic;
+			@apply text-center text-red-400 text-error;
 			@apply select-none pointer-events-none;
 		}
 	}

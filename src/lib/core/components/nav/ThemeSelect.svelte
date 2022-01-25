@@ -126,7 +126,7 @@
 		}
 
 		& > label {
-			@apply text-sm font-medium;
+			@apply text-label;
 			@apply pointer-events-none;
 		}
 	}

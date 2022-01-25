@@ -37,7 +37,7 @@
 		@apply relative rounded-xl pointer-events-none z-20;
 		@apply ring ring-inset;
 		& > span {
-			@apply absolute left-2 text-xs font-semibold;
+			@apply absolute left-2 text-small-label;
 		}
 		&.add {
 			@apply bg-primary-300 ring-primary-500 gdark:ring-white;

@@ -86,7 +86,7 @@
 	.interval-select {
 		@apply flex items-center gap-3;
 		& > span {
-			@apply text-xs font-medium;
+			@apply text-label;
 		}
 	}
 </style>

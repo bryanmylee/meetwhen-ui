@@ -9,7 +9,7 @@
 		<div
 			role="columnheader"
 			aria-label={day.format('dddd')}
-			class="px-2 py-4 text-sm font-medium text-center"
+			class="px-2 py-4 text-label text-center"
 		>
 			{day.format('ddd')}
 		</div>
