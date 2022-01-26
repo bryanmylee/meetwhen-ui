@@ -12,6 +12,7 @@ export interface Meeting {
 	color?: string;
 	emoji?: string;
 	ownerId?: string;
+	links?: string[];
 	intervals: Interval[];
 }
 
@@ -21,6 +22,8 @@ export interface MeetingData extends DocumentData {
 	created: number;
 	color?: string;
 	emoji?: string;
+	ownerId?: string;
+	links?: string[];
 	intervals: IntervalData[];
 }
 

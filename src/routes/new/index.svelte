@@ -109,6 +109,7 @@
 			{
 				name: $name.value,
 				intervals: $intervals.value,
+				links,
 			},
 			$user,
 		);
