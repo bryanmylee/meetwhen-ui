@@ -17,7 +17,6 @@
 	<a
 		{href}
 		{...$$restProps}
-		{type}
 		{disabled}
 		on:click
 		on:dblclick
