@@ -40,7 +40,6 @@
 <script lang="ts">
 	import { Set } from 'immutable';
 	import { createEventDispatcher } from 'svelte';
-	import { clearAllBodyScrollLocks, disableBodyScroll } from 'body-scroll-lock';
 	import {
 		getTouchArray,
 		LongTouchProvider,
@@ -49,6 +48,7 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from './SelectMode';
 	import type { SelectionInterpolateFn } from './SelectionInterpolateFn';
+	import { scrollLock, scrollUnlock } from '$lib/core/utils/scrollLock';
 
 	const dispatch = createEventDispatcher<SelectionProviderEvent>();
 
@@ -198,9 +198,12 @@
 		changedTouches.forEach((touch) => trackTouch(touch, touchEvent));
 	};
 
+	let prevScrollY = 0;
+
 	const trackTouch = (touch: Touch, { target }: TouchEvent) => {
 		trackedTouches[touch.identifier] = touch;
-		disableBodyScroll(target as HTMLElement);
+		prevScrollY = scrollLock();
+
 		startSelectionFrom(target as HTMLElement);
 	};
 
@@ -351,7 +354,7 @@
 
 	const untrack = (touch: Touch) => {
 		delete trackedTouches[touch.identifier];
-		clearAllBodyScrollLocks();
+		scrollUnlock(prevScrollY);
 		const target = document.elementFromPoint(touch.clientX, touch.clientY);
 		endSelectionOn(target as HTMLElement);
 	};
