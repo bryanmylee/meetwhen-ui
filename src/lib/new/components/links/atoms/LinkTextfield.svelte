@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	export interface LinkItemEvent {
+	export interface LinkTextfieldEvent {
 		remove: {
 			index: number;
 			link: string;

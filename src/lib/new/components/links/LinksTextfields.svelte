@@ -3,7 +3,7 @@
 		uuid: number;
 		value: string;
 		error: string;
-		ref: Maybe<LinkItem>;
+		ref: Maybe<LinkTextfield>;
 	}
 </script>
 
@@ -13,15 +13,17 @@
 	import { PlusIcon } from 'svelte-feather-icons';
 	import { Button } from '$lib/input';
 	import type { Maybe } from '$lib/core/types/Maybe';
-	import LinkItem, { LinkItemEvent } from './atoms/LinkItem.svelte';
+	import LinkTextfield, {
+		LinkTextfieldEvent,
+	} from './atoms/LinkTextfield.svelte';
 	import { cssVars } from '$lib/core/utils/cssVars';
 
 	let items: LinkItemData[] = [];
 	export let values: string[] = [];
 	$: values = items.map((i) => i.value);
 	export let errors: string[] = [];
-	$: errors = items.map((i) => i.error);
-	let linkItemRefs: Maybe<LinkItem>[] = [];
+	$: errors = items.map((i) => i.error).filter((e) => e !== '');
+	let linkItemRefs: Maybe<LinkTextfield>[] = [];
 	$: linkItemRefs = items.map((i) => i.ref);
 
 	export const validate = () => {
@@ -35,7 +37,9 @@
 		items = [...items, { uuid: uuid++, value: '', error: '', ref: undefined }];
 	};
 
-	const handleRemove = ({ detail }: CustomEvent<LinkItemEvent['remove']>) => {
+	const handleRemove = ({
+		detail,
+	}: CustomEvent<LinkTextfieldEvent['remove']>) => {
 		items = items.filter((_, index) => index !== detail.index);
 	};
 </script>
@@ -53,7 +57,7 @@
 				class="links-list-item"
 				style={cssVars({ index })}
 			>
-				<LinkItem
+				<LinkTextfield
 					bind:this={ref}
 					{index}
 					bind:value
