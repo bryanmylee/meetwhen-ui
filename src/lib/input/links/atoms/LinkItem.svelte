@@ -38,17 +38,16 @@
 		use={[focusOnMount, link.touch]}
 	/>
 	<Button
-		icon
-		class="!p-3"
+		class="!p-2"
 		color="gray"
 		on:click={() => dispatch('remove', { index, link })}
 	>
-		<XIcon class="wh-4" />
+		<XIcon class="wh-5" />
 	</Button>
 </li>
 
 <style lang="postcss">
 	.link-item {
-		@apply flex items-center gap-2 w-full;
+		@apply flex items-center gap-4 w-full;
 	}
 </style>

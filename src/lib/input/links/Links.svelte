@@ -40,10 +40,14 @@
 	<Button
 		size="sm"
 		color="gray"
-		class="flex items-center gap-4"
+		class="flex items-center gap-2"
 		on:click={handleAddLink}
 	>
-		<PlusIcon class="wh-4" />
-		Add another link
+		<PlusIcon class="wh-5" />
+		{#if values.length === 0}
+			Add a link
+		{:else}
+			Add another link
+		{/if}
 	</Button>
 </ul>
