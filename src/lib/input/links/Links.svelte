@@ -1,31 +1,39 @@
 <script lang="ts">
 	import { PlusIcon } from 'svelte-feather-icons';
 	import { Button } from '$lib/input';
+	import type { Maybe } from '$lib/core/types/Maybe';
 	import LinkItem, { LinkItemEvent } from './atoms/LinkItem.svelte';
 
-	let links: string[] = [
-		'https://smu-sg.zoom.us/j/92480930018?pwd=bzhFUDkrOWQyZm1QTDlYS010TkVrdz09',
-	];
-	export { links as values };
+	export let values: string[] = [];
 	export let errors: string[] = [];
+	let linkItemRefs: Maybe<LinkItem>[] = [];
+	export const validate = () => {
+		linkItemRefs.forEach((ref) => {
+			ref?.validate();
+		});
+	};
 
 	const handleAddLink = () => {
-		links = [...links, ''];
+		values = [...values, ''];
 		errors = [...errors, ''];
+		linkItemRefs = [...linkItemRefs, undefined];
 	};
 
 	const handleRemove = ({ detail }: CustomEvent<LinkItemEvent['remove']>) => {
-		links = links.filter((_, index) => index !== detail.index);
-		errors = errors.filter((_, index) => index !== detail.index);
+		const findElement = (_: unknown, index: number) => index !== detail.index;
+		values = values.filter(findElement);
+		errors = errors.filter(findElement);
+		linkItemRefs = linkItemRefs.filter(findElement);
 	};
 </script>
 
 <ul class="flex flex-col items-start gap-4">
-	{#each links as link, index}
+	{#each values as value, index}
 		<LinkItem
+			bind:this={linkItemRefs[index]}
 			{index}
-			bind:link
-			error={errors[index]}
+			bind:value
+			bind:error={errors[index]}
 			on:remove={handleRemove}
 		/>
 	{/each}

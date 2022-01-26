@@ -12,10 +12,18 @@
 	import { XIcon } from 'svelte-feather-icons';
 	import { Button, NoLabelTextfield } from '$lib/input';
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
+	import { withError } from '$lib/core/utils/withError';
+	import { isUrl } from '$lib/input/utils/validation/isUrl';
 
 	export let index: number;
-	export let link: string;
+	const link = withError<string>('', {
+		validators: [isUrl],
+	});
+	export let value: string;
+	$: value = $link.value;
 	export let error = '';
+	$: error = $link.error;
+	export const validate = link.validate;
 
 	const dispatch = createEventDispatcher();
 </script>
@@ -23,11 +31,11 @@
 <li class="link-item">
 	<NoLabelTextfield
 		label="Link input"
-		bind:value={link}
+		bind:value={$link.value}
 		{error}
 		class="w-full"
 		sm
-		use={[focusOnMount]}
+		use={[focusOnMount, link.touch]}
 	/>
 	<Button
 		icon

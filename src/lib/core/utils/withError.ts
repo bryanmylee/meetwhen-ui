@@ -12,6 +12,7 @@ export interface WithError<T> {
 export interface WithErrorable<T> extends Writable<WithError<T>> {
 	reset: () => void;
 	resetError: () => void;
+	validate: () => void;
 	touch: Action;
 }
 
@@ -51,21 +52,25 @@ export const withError = <T>(
 
 	const set = (nextStore: WithError<T>) => update(() => nextStore);
 
+	const validate = () => {
+		store.update(($store) => {
+			const errors = validators
+				.map((validator) => {
+					return validator($store.value).error;
+				})
+				.filter((error) => error !== '');
+			return {
+				...$store,
+				error: errors[0] ?? '',
+				errors,
+			};
+		});
+	};
+
 	const touched = writable(false);
 	const unsubTouched = touched.subscribe(($touched) => {
 		if ($touched) {
-			store.update(($store) => {
-				const errors = validators
-					.map((validator) => {
-						return validator($store.value).error;
-					})
-					.filter((error) => error !== '');
-				return {
-					...$store,
-					error: errors[0] ?? '',
-					errors,
-				};
-			});
+			validate();
 		}
 	});
 
@@ -117,5 +122,6 @@ export const withError = <T>(
 		reset: () => set({ value: initialValue, error: '', errors: [] }),
 		resetError: () =>
 			update(($store) => ({ ...$store, error: '', errors: [] })),
+		validate,
 	};
 };

@@ -11,6 +11,7 @@
 </script>
 
 <script lang="ts">
+	import { tick } from 'svelte';
 	import { fade, fly, slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
@@ -33,6 +34,7 @@
 		Textfield,
 	} from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
+	import type { Maybe } from '$lib/core/types/Maybe';
 	import { classes } from '$lib/core/utils/classes';
 	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
 	import { useRepo, useUser } from '$lib/firebase/context';
@@ -42,7 +44,6 @@
 	import { arrayEquals } from '$lib/core/utils/arrayEquals';
 	import { localIntervalOnDay } from '$lib/core/utils/intervals';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
-	import { isUrl } from '$lib/input/utils/validation/isUrl';
 
 	export let selectedDates: Dayjs[] = [];
 	export let overallInterval: Interval;
@@ -57,7 +58,7 @@
 	const name = withError('');
 
 	const intervals = withError<Interval[]>([], {
-		validators: [arrayNotEmpty({ errorMessage: 'Select one date' })],
+		validators: [arrayNotEmpty({ errorMessage: 'Select one or more dates' })],
 	});
 	$: $intervals.value = useAdjustedIntervals
 		? adjustedIntervals
@@ -86,25 +87,21 @@
 		useAdjustedIntervals = !useAdjustedIntervals;
 	};
 
-	/*
-	 * withError expects validators that return one error string for each
-	 * validator. To overcome the interface limitation, we create an array string
-	 * delimited by ';'.
-	 */
-	const links = withError<string[]>([], {
-		validators: [
-			(values) => ({
-				error: values
-					.map(isUrl)
-					.map((result) => result.error)
-					.join(';'),
-			}),
-		],
-	});
-	$: linkErrors = $links.error.split(';');
+	let linksRef: Maybe<Links>;
+	let links: string[] = [];
+	let linkErrors: string[] = [];
+
+	$: errors = [...$intervals.errors, ...linkErrors];
 
 	const handleSubmit = async () => {
 		if ($user?.ssr) {
+			return;
+		}
+		intervals.validate();
+		linksRef?.validate();
+		// Wait on `errors` reactive update.
+		await tick();
+		if (errors.length !== 0) {
 			return;
 		}
 		const meeting = await addMeeting(
@@ -179,7 +176,7 @@
 			</div>
 			<div class="add-links">
 				<h2 class="text-headline">Add a location or link</h2>
-				<Links bind:values={$links.value} errors={linkErrors} />
+				<Links bind:values={links} bind:errors={linkErrors} />
 			</div>
 			<Button type="submit">Create meet</Button>
 		</form>
