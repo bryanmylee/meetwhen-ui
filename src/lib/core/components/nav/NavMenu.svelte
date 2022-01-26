@@ -98,6 +98,6 @@
 	}
 
 	.menu-divider {
-		@apply block my-2 w-full h-0.5 bg-shade-200;
+		@apply block my-2 w-full h-[1px] bg-shade-200;
 	}
 </style>

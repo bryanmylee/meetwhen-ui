@@ -132,7 +132,7 @@
 				error={$intervals.error}
 				use={[intervals.touch]}
 			/>
-			<div>
+			<div class="adjust">
 				<div class="adjust-title" class:open={useAdjustedIntervals}>
 					<LocalIntervalSelect
 						bind:value={overallInterval}
@@ -226,12 +226,16 @@
 </Dialog>
 
 <style lang="postcss">
-	.adjust-title {
-		@apply flex flex-col w-full p-4 gap-4 md:flex-row md:items-center;
-		@apply rounded-xl shadow transition-shadow;
+	.adjust {
+		@apply w-full p-4 rounded-xl shadow;
 		@apply ring-1 ring-neutral-100 gdark:ring-neutral-600;
+	}
+
+	.adjust-title {
+		@apply flex flex-col w-full gap-4 md:flex-row md:items-center;
 		&.open {
-			@apply shadow-lg z-10;
+			@apply pb-4;
+			@apply border-b border-neutral-200 gdark:border-neutral-600;
 		}
 	}
 
@@ -240,10 +244,7 @@
 	}
 
 	.adjust-panel {
-		@apply mx-4 rounded-b-xl;
-		@apply p-4 pt-6 flex flex-col gap-4;
-		@apply shadow ring-inset;
-		@apply ring-1 ring-neutral-100 gdark:ring-neutral-600;
+		@apply pt-4 flex flex-col gap-4;
 	}
 
 	.adjust-confirm-card {
