@@ -144,10 +144,11 @@
 		document.documentElement.classList.remove('select-none');
 	};
 
-	let appRootElement: HTMLBodyElement;
+	let appRootElement: HTMLElement;
 	let indicator: LongTouchIndicator;
 	onMount(() => {
-		appRootElement = document.body as HTMLBodyElement;
+		appRootElement =
+			document.querySelector('#root') ?? (document.body as HTMLBodyElement);
 	});
 
 	const indicateLongTouch = (touch: Touch) => {

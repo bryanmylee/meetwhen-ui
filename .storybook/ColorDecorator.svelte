@@ -4,7 +4,7 @@
 	const { vars: primaryVars } = useColor('primary', PRIMARY_HEX);
 </script>
 
-<div style={$primaryVars}>
+<div id="root" style={$primaryVars}>
 	<slot />
 </div>
 

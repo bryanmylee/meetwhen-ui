@@ -35,7 +35,7 @@
 
 <style lang="postcss">
 	div {
-		@apply fixed wh-28 rounded-full pointer-events-none bg-white/50 z-[9999];
+		@apply fixed wh-28 rounded-full pointer-events-none bg-primary-400/50 z-[9999];
 		transform: translate(-50%, -50%) scale(0.25);
 		left: var(--x);
 		top: var(--y);
@@ -43,7 +43,7 @@
 			opacity var(--outroDuration) ease-out var(--triggerDuration);
 
 		&.triggered {
-			@apply border-4 border-white shadow-lg opacity-0;
+			@apply border-4 border-primary-400 shadow-lg opacity-0;
 		}
 
 		&.expanding {

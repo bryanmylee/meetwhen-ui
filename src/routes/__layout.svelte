@@ -83,7 +83,7 @@
 	};
 </script>
 
-<div style={$primaryVars} class:dark={$isDark}>
+<div id="root" style={$primaryVars} class:dark={$isDark}>
 	<Nav
 		user={$user}
 		theme={$theme}
