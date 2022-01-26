@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
-	import Links from './Links.svelte';
+	import LinksTextfields from './LinksTextfields.svelte';
 
 	let links = [
 		'https://smu-sg.zoom.us/j/92480930018?pwd=bzhFUDkrOWQyZm1QTDlYS010TkVrdz09',
 	];
 </script>
 
-<Meta title="Input/Links" component={Links} />
+<Meta title="Page/New/LinksTextfield" component={LinksTextfields} />
 
 <Story name="Sample links">
 	<h1 class="text-xl font-bold">Links</h1>
@@ -20,5 +20,5 @@
 			</p>
 		{/each}
 	</div>
-	<Links bind:values={links} />
+	<LinksTextfields bind:values={links} />
 </Story>

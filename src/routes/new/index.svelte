@@ -28,7 +28,6 @@
 	import {
 		Button,
 		DatePicker,
-		Links,
 		LocalIntervalSelect,
 		Select,
 		Textfield,
@@ -39,11 +38,11 @@
 	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
 	import { useRepo, useUser } from '$lib/firebase/context';
 	import { withError } from '$lib/core/utils/withError';
-	import LocalIntervalsSelect from '$lib/new/components/LocalIntervalsSelect.svelte';
 	import { primaryVars } from '$lib/core/state';
 	import { arrayEquals } from '$lib/core/utils/arrayEquals';
 	import { localIntervalOnDay } from '$lib/core/utils/intervals';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
+	import { LocalIntervalsSelect, LinksTextfields } from '$lib/new/components';
 
 	export let selectedDates: Dayjs[] = [];
 	export let overallInterval: Interval;
@@ -87,7 +86,7 @@
 		useAdjustedIntervals = !useAdjustedIntervals;
 	};
 
-	let linksRef: Maybe<Links>;
+	let linksRef: Maybe<LinksTextfields>;
 	let links: string[] = [];
 	let linkErrors: string[] = [];
 
@@ -177,7 +176,7 @@
 			</div>
 			<div class="add-links">
 				<h2 class="text-headline">Add a location or link</h2>
-				<Links bind:values={links} bind:errors={linkErrors} />
+				<LinksTextfields bind:values={links} bind:errors={linkErrors} />
 			</div>
 			<Button type="submit">Create meet</Button>
 		</form>
