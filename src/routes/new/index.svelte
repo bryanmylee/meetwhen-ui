@@ -102,6 +102,7 @@
 		// Wait on `errors` reactive update.
 		await tick();
 		if (errors.length !== 0) {
+			console.error(errors);
 			return;
 		}
 		const meeting = await addMeeting(
