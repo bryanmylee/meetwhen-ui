@@ -7,7 +7,7 @@ export const initFirebaseAdmin = async (
 	if (browser) {
 		throw Error('Cannot initialize Firebase Admin on the client');
 	}
-	const firebaseAdmin = await import('firebase-admin');
+	const firebaseAdmin = (await import('firebase-admin')).default;
 	if (firebaseAdmin.apps.length > 0) {
 		return firebaseAdmin;
 	}

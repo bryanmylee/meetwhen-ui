@@ -3,6 +3,7 @@ node_modules/
 
 # Build artifacts
 .svelte-kit/
+.vercel_build_output/
 package/
 
 # Environment files
