@@ -67,7 +67,6 @@
 		"svelte-previous": "^2.0.1",
 		"tailwindcss": "^3.0.7",
 		"tailwindcss-global-dark": "^1.0.1",
-		"timezones-list": "^3.0.1",
 		"ts-jest": "^27.1.2",
 		"tslib": "^2.3.1",
 		"typescript": "^4.4.3",

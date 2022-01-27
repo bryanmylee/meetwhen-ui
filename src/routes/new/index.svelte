@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	const getTimezoneLabel = (tz: typeof timezones[number]) => {
+	const getTimezoneLabel = (tz: Timezone) => {
 		const tzName = tz.tzCode.replace(/_/g, ' ');
 		return `
       <span class="flex items-center justify-between w-full text-xs font-medium text-current">
@@ -15,7 +15,6 @@
 	import { fade, fly, slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
-	import timezones from 'timezones-list';
 	import { ListIcon } from 'svelte-feather-icons';
 	import {
 		Dialog,
@@ -25,6 +24,8 @@
 	} from '@rgossiaux/svelte-headlessui';
 	import { goto } from '$app/navigation';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
+	import { timezones } from '$lib/core/utils/dayjs/timezones';
+	import type { Timezone } from '$lib/core/utils/dayjs/timezones';
 	import {
 		Button,
 		DatePicker,
