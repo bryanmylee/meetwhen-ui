@@ -198,11 +198,9 @@
 		changedTouches.forEach((touch) => trackTouch(touch, touchEvent));
 	};
 
-	let prevScrollY = 0;
-
 	const trackTouch = (touch: Touch, { target }: TouchEvent) => {
 		trackedTouches[touch.identifier] = touch;
-		prevScrollY = scrollLock();
+		scrollLock();
 
 		startSelectionFrom(target as HTMLElement);
 	};
@@ -354,7 +352,7 @@
 
 	const untrack = (touch: Touch) => {
 		delete trackedTouches[touch.identifier];
-		scrollUnlock(prevScrollY);
+		scrollUnlock();
 		const target = document.elementFromPoint(touch.clientX, touch.clientY);
 		endSelectionOn(target as HTMLElement);
 	};

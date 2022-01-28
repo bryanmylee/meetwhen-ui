@@ -1,26 +1,13 @@
-export const scrollLock = (): number => {
-	if (typeof document === 'undefined' || typeof window === 'undefined') {
-		return 0;
-	}
-	const htmlElement = document.querySelector('html');
-	if (htmlElement !== null) {
-		htmlElement.style.scrollBehavior = 'unset';
-	}
-	const scrollY = window.scrollY;
-	document.body.style.position = 'fixed';
-	document.body.style.top = `-${scrollY}px`;
-	return scrollY;
-};
-
-export const scrollUnlock = (prevScrollY: number): void => {
+export const scrollLock = (): void => {
 	if (typeof document === 'undefined' || typeof window === 'undefined') {
 		return;
 	}
-	document.body.style.position = '';
-	document.body.style.top = '';
-	window.scrollTo(0, prevScrollY);
-	const htmlElement = document.querySelector('html');
-	if (htmlElement !== null) {
-		htmlElement.style.scrollBehavior = 'smooth';
+	document.documentElement.style.overflow = 'hidden';
+};
+
+export const scrollUnlock = (): void => {
+	if (typeof document === 'undefined' || typeof window === 'undefined') {
+		return;
 	}
+	document.documentElement.style.overflow = 'auto';
 };
