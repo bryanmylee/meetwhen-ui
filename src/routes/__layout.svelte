@@ -83,9 +83,8 @@
 	};
 </script>
 
-<!-- Workaround for incorrect SSR of \ escape character -->
-{@html `<div style="${$primaryVars}" class="contents">`}
-<div id="root" class:dark={$isDark}>
+<!-- ; forces string interpolation during SSR and prevents incorrect rendering of escape sequences -->
+<div id="root" style="{$primaryVars};" class:dark={$isDark}>
 	<Nav
 		user={$user}
 		theme={$theme}
@@ -103,7 +102,6 @@
 	<!-- Themed background during SSR -->
 	<div class="background" />
 </div>
-{@html '</div>'}
 
 <style lang="postcss">
 	.background {
