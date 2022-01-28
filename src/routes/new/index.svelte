@@ -114,7 +114,7 @@
 				<h2 class="text-headline">Add a location or link</h2>
 				<LinksTextfields bind:values={links} bind:errors={linkErrors} />
 			</div>
-			<Button type="submit">Create meet</Button>
+			<Button type="submit" color="gradient">Create meet</Button>
 		</form>
 	</div>
 </section>

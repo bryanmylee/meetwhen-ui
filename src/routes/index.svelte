@@ -19,7 +19,9 @@
 	<div class="header-content">
 		<h1 class="text-brand text-large-title w-fit">meetwhen.io</h1>
 		<p class="text-subtitle ml-1 mb-2">Find the perfect time together</p>
-		<Button href="/new" class="w-fit">Get started for free</Button>
+		<Button color="gradient" href="/new" class="w-fit">
+			Get started for free
+		</Button>
 	</div>
 	<div class="header-bg" style={gridStyle({ rows: 5, cols: 5 })}>
 		{#each cells as { x, y, opacity }}

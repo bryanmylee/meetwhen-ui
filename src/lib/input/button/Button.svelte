@@ -4,7 +4,7 @@
 	export let type: 'button' | 'menu' | 'reset' | 'submit' = 'button';
 	export let disabled = false;
 	export let variant: 'filled' | 'outlined' | 'text-only' = 'filled';
-	export let color: 'primary' | 'gray' = 'primary';
+	export let color: 'primary' | 'gray' | 'gradient' = 'primary';
 	export let size: 'sm' | 'md' | 'lg' = 'lg';
 	export let icon = false;
 	export let href: Maybe<string> = undefined;
@@ -29,6 +29,7 @@
 		class:textOnly={variant === 'text-only'}
 		class:primary={color === 'primary'}
 		class:gray={color === 'gray'}
+		class:gradient={color === 'gradient'}
 		class:sm={size === 'sm'}
 		class:md={size === 'md'}
 		class:icon
@@ -51,6 +52,7 @@
 		class:text-only={variant === 'text-only'}
 		class:primary={color === 'primary'}
 		class:gray={color === 'gray'}
+		class:gradient={color === 'gradient'}
 		class:sm={size === 'sm'}
 		class:md={size === 'md'}
 		class:icon
@@ -75,6 +77,9 @@
 			}
 			&.gray {
 				@apply bg-shade-100;
+			}
+			&.gradient {
+				@apply bg-gradient-to-tr from-primary-400-2 via-primary-400 to-primary-400+1;
 			}
 
 			&:not(:disabled) {
