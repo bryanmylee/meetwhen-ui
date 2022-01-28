@@ -65,7 +65,7 @@
 	.button {
 		@apply p-4 rounded-full font-semibold focus;
 		@apply ring-offset-2 ring-offset-white gdark:ring-offset-neutral-800;
-		@apply transition-colors;
+		@apply transition-all;
 
 		&:disabled {
 			@apply text-neutral-400 opacity-50;
@@ -79,7 +79,7 @@
 				@apply bg-shade-100;
 			}
 			&.gradient {
-				@apply bg-gradient-to-tr from-primary-400-2 via-primary-400 to-primary-400+1;
+				@apply bg-gradient-to-tr from-primary-400-2 via-primary-400 to-primary-400+1 text-white;
 			}
 
 			&:not(:disabled) {
@@ -90,6 +90,9 @@
 					&.gray {
 						@apply bg-shade-50 shadow;
 					}
+					&.gradient {
+						@apply shadow-lg shadow-primary-400/30;
+					}
 				}
 				&:active {
 					&.primary {
@@ -97,6 +100,9 @@
 					}
 					&.gray {
 						@apply bg-shade-200 shadow-sm;
+					}
+					&.gradient {
+						@apply opacity-50;
 					}
 				}
 			}
