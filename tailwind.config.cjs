@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 /** @type {import('tailwindcss/tailwind-config').TailwindConfig} */
 const config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
@@ -26,6 +28,9 @@ const config = {
 					800: 'var(--primary-800)',
 					900: 'var(--primary-900)',
 				},
+			},
+			fontFamily: {
+				sans: ['Inter', ...defaultTheme.fontFamily.sans],
 			},
 			minHeight: (theme) => theme('height'),
 			minWidth: (theme) => theme('width'),
