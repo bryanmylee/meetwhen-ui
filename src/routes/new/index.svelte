@@ -229,8 +229,7 @@
 
 <style lang="postcss">
 	.when {
-		@apply w-full p-4 rounded-xl shadow;
-		@apply ring-1 ring-neutral-100 gdark:ring-neutral-600;
+		@apply w-full p-4 card;
 	}
 
 	.when-content {
@@ -256,8 +255,6 @@
 	}
 
 	.add-links {
-		@apply flex flex-col gap-4;
-		@apply p-4 rounded-xl shadow transition-shadow;
-		@apply ring-1 ring-neutral-100 gdark:ring-neutral-600;
+		@apply flex flex-col gap-4 p-4 card;
 	}
 </style>
