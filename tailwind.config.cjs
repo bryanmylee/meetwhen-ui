@@ -16,6 +16,8 @@ const config = {
 					400: 'var(--primary-400)',
 					'400+1': 'var(--primary-400\\+1)',
 					'400-1': 'var(--primary-400-1)',
+					'400+2': 'var(--primary-400\\+2)',
+					'400-2': 'var(--primary-400-2)',
 					'400/30': 'var(--primary-400\\/30)',
 					'400/50': 'var(--primary-400\\/50)',
 					500: 'var(--primary-500)',
