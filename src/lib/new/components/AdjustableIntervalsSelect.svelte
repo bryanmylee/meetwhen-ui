@@ -82,19 +82,27 @@
 <TabGroup on:change={({ detail }) => (tabIndex = detail)}>
 	<TabList class="flex items-baseline">
 		<span class="text-label pr-2">What time</span>
-		<Tab let:selected>
-			<span class="tab-item" class:selected>every day</span>
+		<Tab let:selected class="group focus:outline-none">
+			<span class="tab-item group-focus:ring ring-primary-400" class:selected
+				>every day</span
+			>
 		</Tab>
-		<Tab let:selected>
-			<span class="tab-item" class:selected>per day</span>
+		<Tab let:selected class="group focus:outline-none">
+			<span class="tab-item group-focus:ring ring-primary-400" class:selected
+				>per day</span
+			>
 		</Tab>
 		<span class="text-label pl-2">?</span>
 	</TabList>
 	<TabPanels>
-		<TabPanel class="pt-4">
+		<TabPanel
+			class="mt-4 rounded-xl focus:ring ring-primary-400 focus:outline-none"
+		>
 			<LocalIntervalSelect bind:value={overallInterval} top sm />
 		</TabPanel>
-		<TabPanel class="pt-4">
+		<TabPanel
+			class="mt-4 rounded-xl focus:ring ring-primary-400 focus:outline-none"
+		>
 			<ul class="adjusted-intervals-list" style={cssVars({ numRows })}>
 				{#each sortedDateIds as dateId, index (dateId)}
 					<li
