@@ -31,7 +31,6 @@
 		PopoverButton,
 		PopoverPanel,
 		RadioGroup,
-		RadioGroupLabel,
 		RadioGroupOption,
 	} from '@rgossiaux/svelte-headlessui';
 	import type { NavEvent } from './Nav.svelte';
@@ -63,6 +62,7 @@
 								id="select-{value}"
 								let:active
 								let:checked
+								class="focus:outline-none"
 							>
 								<button
 									class="themeselect-item"

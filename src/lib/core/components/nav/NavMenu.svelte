@@ -37,16 +37,22 @@
 							as="button"
 							on:click={() => dispatch('open-auth')}
 							let:active
+							class="focus:outline-none"
 						>
 							<span class="menu-item" class:active> Sign In </span>
 						</MenuItem>
 					{:else}
-						<MenuItem as="a" href="/profile" let:active>
+						<MenuItem
+							as="a"
+							href="/profile"
+							let:active
+							class="focus:outline-none"
+						>
 							<span class="menu-item" class:active> Profile </span>
 						</MenuItem>
 					{/if}
 					<span class="menu-divider" />
-					<MenuItem as="div" let:active>
+					<MenuItem as="div" let:active class="focus:outline-none">
 						<div class="menu-item" class:active>
 							<ThemeSelect open={active} selected={theme} on:select-theme />
 						</div>
