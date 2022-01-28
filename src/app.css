@@ -15,3 +15,10 @@ svg,
 svg * {
 	@apply text-current dark:text-current;
 }
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+	-webkit-appearance: none;
+}

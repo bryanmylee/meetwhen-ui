@@ -80,17 +80,19 @@
 </script>
 
 <TabGroup on:change={({ detail }) => (tabIndex = detail)}>
-	<TabList class="flex items-baseline">
-		<span class="text-label pr-2">What time</span>
-		<Tab let:selected class="group focus:outline-none">
-			<span class="tab-item group-focus:ring ring-primary-400" class:selected>
-				every day
-			</span>
+	<TabList class="text-headline flex items-baseline">
+		<span class="pr-2">What time</span>
+		<Tab
+			let:selected
+			class="focus:outline-none focus:ring ring-primary-400 rounded-lg"
+		>
+			<div class="tab-item" class:selected>every day</div>
 		</Tab>
-		<Tab let:selected class="group focus:outline-none">
-			<span class="tab-item group-focus:ring ring-primary-400" class:selected>
-				per day
-			</span>
+		<Tab
+			let:selected
+			class="focus:outline-none focus:ring ring-primary-400 rounded-lg"
+		>
+			<div class="tab-item" class:selected>per day</div>
 		</Tab>
 		<span class="text-label pl-2">?</span>
 	</TabList>
@@ -178,7 +180,7 @@
 
 <style lang="postcss">
 	.tab-item {
-		@apply text-label p-2 rounded-lg;
+		@apply text-headline p-2 rounded-lg;
 		&:hover {
 			@apply bg-shade-50 shadow;
 		}
