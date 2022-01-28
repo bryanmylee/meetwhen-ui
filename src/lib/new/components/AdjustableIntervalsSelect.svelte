@@ -1,12 +1,17 @@
 <script lang="ts">
-	import { fade, fly, slide } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
 	import {
 		Dialog,
+		DialogDescription,
 		DialogOverlay,
 		DialogTitle,
-		DialogDescription,
+		Tab,
+		TabGroup,
+		TabList,
+		TabPanel,
+		TabPanels,
 	} from '@rgossiaux/svelte-headlessui';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import type { Interval } from '$lib/core/types/Interval';
@@ -62,59 +67,64 @@
 		(a, b) => a.start.isSame(b.start) && a.end.isSame(b.end),
 	);
 
-	export let useAdjusted = false;
+	export let tabIndex = 0;
+	$: useAdjusted = tabIndex === 1;
 	export let intervals: Interval[] = [];
 	$: intervals = useAdjusted ? adjustedIntervals : overallIntervals;
 
 	let showCancelAdjustConfirmation = false;
-
-	const toggleUseAdjusted = () => {
-		if (useAdjusted && adjustedIntervals.length !== 0 && isAdjusted) {
-			showCancelAdjustConfirmation = true;
-		} else {
-			useAdjusted = !useAdjusted;
-		}
-	};
 
 	$: numRows = sortedDateIds.flatMap((dateId) =>
 		Object.keys(intervalsByDate[dateId]),
 	).length;
 </script>
 
-{#if !useAdjusted}
-	<Button on:click={toggleUseAdjusted}>Adjust</Button>
-	<LocalIntervalSelect bind:value={overallInterval} top sm />
-{:else}
-	<Button on:click={toggleUseAdjusted}>Adjust</Button>
-	<ul class="adjusted-intervals-list" style={cssVars({ numRows })}>
-		{#each sortedDateIds as dateId, index (dateId)}
-			<li
-				in:fade|local={{ duration: 300, delay: 150, easing: cubicOut }}
-				out:fade|local={{ duration: 300, easing: cubicOut }}
-				class="adjusted-select-item"
-				style={cssVars({ index })}
-			>
-				<div class="text-label flex-0 py-2.5">
-					{dateFromId(dateId).format('DD MMM')}
-				</div>
-				<ul class="flex-1 flex flex-col gap-4">
-					{#each Object.keys(intervalsByDate[dateId]) as keyInDate}
-						<li class="flex-1">
-							<LocalIntervalSelect
-								bind:value={intervalsByDate[dateId][keyInDate]}
-								top
-								sm
-							/>
-						</li>
-					{/each}
-				</ul>
-			</li>
-		{:else}
-			<div class="text-label">Select a date first.</div>
-		{/each}
-	</ul>
-{/if}
-
+<TabGroup on:change={({ detail }) => (tabIndex = detail)}>
+	<TabList class="flex items-baseline">
+		<span class="text-label pr-2">What time</span>
+		<Tab let:selected>
+			<span class="tab-item" class:selected>every day</span>
+		</Tab>
+		<Tab let:selected>
+			<span class="tab-item" class:selected>per day</span>
+		</Tab>
+		<span class="text-label pl-2">?</span>
+	</TabList>
+	<TabPanels>
+		<TabPanel class="pt-4">
+			<LocalIntervalSelect bind:value={overallInterval} top sm />
+		</TabPanel>
+		<TabPanel class="pt-4">
+			<ul class="adjusted-intervals-list" style={cssVars({ numRows })}>
+				{#each sortedDateIds as dateId, index (dateId)}
+					<li
+						in:fade|local={{ duration: 300, delay: 150, easing: cubicOut }}
+						out:fade|local={{ duration: 300, easing: cubicOut }}
+						class="adjusted-select-item"
+						style={cssVars({ index })}
+					>
+						<div class="text-label flex-0 py-2.5">
+							{dateFromId(dateId).format('DD MMM')}
+						</div>
+						<ul class="flex-1 flex flex-col gap-4">
+							{#each Object.keys(intervalsByDate[dateId]) as keyInDate}
+								<li class="flex-1">
+									<LocalIntervalSelect
+										bind:value={intervalsByDate[dateId][keyInDate]}
+										top
+										sm
+									/>
+								</li>
+							{/each}
+						</ul>
+					</li>
+				{:else}
+					<li class="text-label p-2">Select a date first.</li>
+				{/each}
+			</ul>
+		</TabPanel>
+	</TabPanels>
+</TabGroup>
 <Dialog
 	open={showCancelAdjustConfirmation}
 	on:close={() => (showCancelAdjustConfirmation = false)}
@@ -159,10 +169,22 @@
 </Dialog>
 
 <style lang="postcss">
+	.tab-item {
+		@apply text-label p-2 rounded-lg;
+		&:hover {
+			@apply bg-shade-50 shadow;
+		}
+		&.selected {
+			@apply bg-shade-100 text-primary-400;
+		}
+		&:not(.selected) {
+			@apply text-neutral-300 gdark:text-neutral-500;
+		}
+	}
 	.adjusted-intervals-list {
 		@apply relative flex flex-col gap-4;
 		/* Default text, or 2.5rem for each row and 1rem for padding in between. */
-		height: max(1.5rem, calc(2.5rem + (var(--numRows) - 1) * 3.5rem));
+		height: max(2.5rem, calc(2.5rem + (var(--numRows) - 1) * 3.5rem));
 		transition: height 300ms var(--cubicOut);
 	}
 

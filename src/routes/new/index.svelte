@@ -43,7 +43,6 @@
 	const intervals = withError<Interval[]>([], {
 		validators: [arrayNotEmpty({ errorMessage: 'Select one or more dates' })],
 	});
-	let useAdjusted = false;
 
 	$: console.log($intervals.value);
 
@@ -89,7 +88,7 @@
 				required
 			/>
 			<div class="when">
-				<div class="when-content" class:open={useAdjusted}>
+				<div class="when-content">
 					<h2 class="text-headline">When can you meet?</h2>
 					<DatePicker
 						bind:value={selectedDates}
@@ -99,7 +98,6 @@
 					<AdjustableIntervalsSelect
 						{selectedDates}
 						bind:intervals={$intervals.value}
-						bind:useAdjusted
 					/>
 					<Select
 						value={timezone}
@@ -128,10 +126,6 @@
 
 	.when-content {
 		@apply flex flex-col w-full gap-4 md:flex-row md:items-center;
-		&.open {
-			@apply pb-4;
-			@apply border-b border-neutral-200 gdark:border-neutral-600;
-		}
 	}
 
 	:global(.adjust-button.open) {
