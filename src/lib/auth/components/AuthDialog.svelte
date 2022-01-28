@@ -143,7 +143,7 @@
 
 <style lang="postcss">
 	.dialog {
-		@apply fixed inset-0 z-10 flex items-center justify-center;
+		@apply fixed inset-0 z-50 flex items-center justify-center;
 	}
 
 	.dialog :global(.dialog-overlay) {
