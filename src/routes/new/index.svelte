@@ -125,7 +125,7 @@
 	}
 
 	.when-content {
-		@apply flex flex-col w-full gap-4 md:flex-row md:items-center;
+		@apply flex flex-col w-full gap-4;
 	}
 
 	:global(.adjust-button.open) {
