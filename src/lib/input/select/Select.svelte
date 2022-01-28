@@ -55,7 +55,12 @@
 				class="listbox-options-scroll"
 			>
 				{#each values as value (itemId(value))}
-					<ListboxOption {value} let:active let:selected>
+					<ListboxOption
+						{value}
+						let:active
+						let:selected
+						class="group focus:outline-none"
+					>
 						<div class="listbox-option" class:active class:selected>
 							{@html itemLabel(value)}
 						</div>
@@ -139,7 +144,8 @@
 		&:active {
 			@apply bg-shade-200;
 		}
-		&:not(:hover).active {
+		&:not(:hover).active,
+		.group:focus & {
 			@apply ring ring-inset ring-primary-400;
 		}
 		&.selected {
