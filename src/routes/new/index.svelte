@@ -12,41 +12,24 @@
 
 <script lang="ts">
 	import { tick } from 'svelte';
-	import { fade, fly, slide } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
-	import { ListIcon } from 'svelte-feather-icons';
-	import {
-		Dialog,
-		DialogOverlay,
-		DialogTitle,
-		DialogDescription,
-	} from '@rgossiaux/svelte-headlessui';
 	import { goto } from '$app/navigation';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
 	import { timezones } from '$lib/core/utils/dayjs/timezones';
 	import type { Timezone } from '$lib/core/utils/dayjs/timezones';
-	import {
-		Button,
-		DatePicker,
-		LocalIntervalSelect,
-		Select,
-		Textfield,
-	} from '$lib/input';
+	import { Button, DatePicker, Select, Textfield } from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
-	import { classes } from '$lib/core/utils/classes';
 	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
 	import { useRepo, useUser } from '$lib/firebase/context';
 	import { withError } from '$lib/core/utils/withError';
-	import { primaryVars } from '$lib/core/state';
-	import { arrayEquals } from '$lib/core/utils/arrayEquals';
-	import { localIntervalOnDay } from '$lib/core/utils/intervals';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
-	import { LocalIntervalsSelect, LinksTextfields } from '$lib/new/components';
+	import {
+		AdjustableIntervalsSelect,
+		LinksTextfields,
+	} from '$lib/new/components';
 
 	export let selectedDates: Dayjs[] = [];
-	export let overallInterval: Interval;
 
 	export let timezoneId = getCurrentTimezone();
 	$: timezone =
@@ -60,32 +43,9 @@
 	const intervals = withError<Interval[]>([], {
 		validators: [arrayNotEmpty({ errorMessage: 'Select one or more dates' })],
 	});
-	$: $intervals.value = useAdjustedIntervals
-		? adjustedIntervals
-		: overallIntervals;
+	let useAdjusted = false;
 
-	let overallIntervals: Interval[] = [];
-	$: overallIntervals = selectedDates
-		.map((date) => localIntervalOnDay(overallInterval, date))
-		.sort((a, b) => a.start.diff(b.start));
-
-	let adjustedIntervals: Interval[] = [];
-	let useAdjustedIntervals = false;
-	let showCancelAdjustConfirmation = false;
-
-	$: isAdjusted = !arrayEquals(
-		adjustedIntervals,
-		overallIntervals,
-		(a, b) => a.start.isSame(b.start) && a.end.isSame(b.end),
-	);
-
-	const toggleAdjustedIntervals = () => {
-		if (useAdjustedIntervals && adjustedIntervals.length !== 0 && isAdjusted) {
-			showCancelAdjustConfirmation = true;
-			return;
-		}
-		useAdjustedIntervals = !useAdjustedIntervals;
-	};
+	$: console.log($intervals.value);
 
 	let linksRef: Maybe<LinksTextfields>;
 	let links: string[] = [];
@@ -129,52 +89,28 @@
 				required
 			/>
 			<div class="when">
-				<div class="when-content" class:open={useAdjustedIntervals}>
+				<div class="when-content" class:open={useAdjusted}>
 					<h2 class="text-headline">When can you meet?</h2>
 					<DatePicker
 						bind:value={selectedDates}
 						error={$intervals.error}
 						use={[intervals.touch]}
 					/>
-					<LocalIntervalSelect
-						bind:value={overallInterval}
-						top
+					<AdjustableIntervalsSelect
+						{selectedDates}
+						bind:intervals={$intervals.value}
+						bind:useAdjusted
+					/>
+					<Select
+						value={timezone}
+						values={timezones}
+						itemId={(tz) => tz.tzCode}
+						itemLabel={getTimezoneLabel}
 						sm
+						top
 						class="flex-1"
 					/>
-					<div class="flex items-center flex-1 gap-4">
-						<Select
-							value={timezone}
-							values={timezones}
-							itemId={(tz) => tz.tzCode}
-							itemLabel={getTimezoneLabel}
-							sm
-							top
-							class="flex-1"
-						/>
-						<Button
-							class={classes('adjust-button', useAdjustedIntervals && 'open')}
-							variant="text-only"
-							icon
-							on:click={toggleAdjustedIntervals}
-						>
-							<ListIcon class="wh-6" />
-						</Button>
-					</div>
 				</div>
-				{#if useAdjustedIntervals}
-					<div
-						class="adjust-panel"
-						transition:slide|local={{ duration: 300, easing: cubicOut }}
-					>
-						<h3 class="text-headline">Adjust available times</h3>
-						<LocalIntervalsSelect
-							bind:intervals={adjustedIntervals}
-							{selectedDates}
-							defaultInterval={overallInterval}
-						/>
-					</div>
-				{/if}
 			</div>
 			<div class="add-links">
 				<h2 class="text-headline">Add a location or link</h2>
@@ -184,48 +120,6 @@
 		</form>
 	</div>
 </section>
-<Dialog
-	open={showCancelAdjustConfirmation}
-	on:close={() => (showCancelAdjustConfirmation = false)}
->
-	<div
-		class="fixed inset-0 z-10 flex items-center justify-center"
-		style={$primaryVars}
-	>
-		<div transition:fade={{ duration: 300, easing: cubicOut }}>
-			<DialogOverlay class="fixed inset-0 bg-neutral-600/50" />
-			<div
-				class="adjust-confirm-card"
-				in:fly={{ duration: 500, y: 50, easing: cubicOut }}
-			>
-				<DialogTitle as="h1" class="text-title-2">
-					Discard adjusted times?
-				</DialogTitle>
-				<DialogDescription class="text-sm">
-					You will lose your current adjustments.
-				</DialogDescription>
-				<div class="flex gap-4">
-					<Button
-						color="gray"
-						size="sm"
-						on:click={() => (showCancelAdjustConfirmation = false)}
-					>
-						Cancel
-					</Button>
-					<Button
-						size="sm"
-						on:click={() => {
-							showCancelAdjustConfirmation = false;
-							useAdjustedIntervals = false;
-						}}
-					>
-						Continue
-					</Button>
-				</div>
-			</div>
-		</div>
-	</div>
-</Dialog>
 
 <style lang="postcss">
 	.when {
@@ -242,16 +136,6 @@
 
 	:global(.adjust-button.open) {
 		@apply text-primary-400;
-	}
-
-	.adjust-panel {
-		@apply pt-4 flex flex-col gap-4;
-	}
-
-	.adjust-confirm-card {
-		@apply relative z-10 p-6 shadow-lg rounded-xl bg-shade-0;
-		@apply flex flex-col gap-4;
-		@apply w-96;
 	}
 
 	.add-links {

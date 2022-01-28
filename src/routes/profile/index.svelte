@@ -42,7 +42,9 @@
 
 <section>
 	<div class="container p-8 mx-auto flex flex-col gap-4">
-		<h1 class="text-title-1">Welcome back, {name}</h1>
+		<div class="welcome">
+			<h1 class="text-title-1">Welcome back, {name}</h1>
+		</div>
 		{#await meetingsPromise}
 			{#each { length: 3 } as _}
 				<div>
@@ -61,3 +63,9 @@
 		<Button color="gray" on:click={handleSignOut}>Sign Out</Button>
 	</div>
 </section>
+
+<style lang="postcss">
+	.welcome {
+		@apply card p-4;
+	}
+</style>
