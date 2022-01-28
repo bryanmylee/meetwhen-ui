@@ -4,6 +4,8 @@ export interface ColorScheme {
 	200: string;
 	300: string;
 	400: string;
+	'400+1': string;
+	'400-1': string;
 	'400/30': string;
 	'400/50': string;
 	500: string;

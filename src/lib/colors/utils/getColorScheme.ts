@@ -19,6 +19,11 @@ const getGraded = (color: Color, grade: keyof typeof LUMS) => {
 	return color.luminance(LUMS[grade]);
 };
 
+const getShifted = (color: Color, shift: number) => {
+	const hue = color.get('hsl.h');
+	return color.set('hsl.h', hue + shift);
+};
+
 export const getColorScheme = (hex: string): ColorScheme => {
 	const baseColor = chroma(hex);
 	return {
@@ -27,6 +32,8 @@ export const getColorScheme = (hex: string): ColorScheme => {
 		200: getGraded(baseColor, 200).css(),
 		300: getGraded(baseColor, 300).css(),
 		400: getGraded(baseColor, 400).css(),
+		'400+1': getShifted(getGraded(baseColor, 400), 12).css(),
+		'400-1': getShifted(getGraded(baseColor, 400), -12).css(),
 		'400/30': getGraded(baseColor, 400).alpha(0.3).css(),
 		'400/50': getGraded(baseColor, 400).alpha(0.5).css(),
 		500: getGraded(baseColor, 500).css(),

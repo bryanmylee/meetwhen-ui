@@ -1,4 +1,4 @@
-const escapedKey = (key: string) => key.replace(/[/]/gi, '\\$&');
+const escapedKey = (key: string) => key.replace(/[/+]/gi, '\\$&');
 
 export const cssVars = (vars: Record<string, string | number>): string =>
 	Object.entries(vars)
