@@ -83,14 +83,14 @@
 	<TabList class="flex items-baseline">
 		<span class="text-label pr-2">What time</span>
 		<Tab let:selected class="group focus:outline-none">
-			<span class="tab-item group-focus:ring ring-primary-400" class:selected
-				>every day</span
-			>
+			<span class="tab-item group-focus:ring ring-primary-400" class:selected>
+				every day
+			</span>
 		</Tab>
 		<Tab let:selected class="group focus:outline-none">
-			<span class="tab-item group-focus:ring ring-primary-400" class:selected
-				>per day</span
-			>
+			<span class="tab-item group-focus:ring ring-primary-400" class:selected>
+				per day
+			</span>
 		</Tab>
 		<span class="text-label pl-2">?</span>
 	</TabList>
