@@ -128,14 +128,14 @@
 				error={$name.error}
 				required
 			/>
-			<h2 class="text-headline">When can you meet?</h2>
-			<DatePicker
-				bind:value={selectedDates}
-				error={$intervals.error}
-				use={[intervals.touch]}
-			/>
-			<div class="adjust">
-				<div class="adjust-title" class:open={useAdjustedIntervals}>
+			<div class="when">
+				<div class="when-content" class:open={useAdjustedIntervals}>
+					<h2 class="text-headline">When can you meet?</h2>
+					<DatePicker
+						bind:value={selectedDates}
+						error={$intervals.error}
+						use={[intervals.touch]}
+					/>
 					<LocalIntervalSelect
 						bind:value={overallInterval}
 						top
@@ -228,12 +228,12 @@
 </Dialog>
 
 <style lang="postcss">
-	.adjust {
+	.when {
 		@apply w-full p-4 rounded-xl shadow;
 		@apply ring-1 ring-neutral-100 gdark:ring-neutral-600;
 	}
 
-	.adjust-title {
+	.when-content {
 		@apply flex flex-col w-full gap-4 md:flex-row md:items-center;
 		&.open {
 			@apply pb-4;
