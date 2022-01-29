@@ -5,6 +5,7 @@ import type { Action } from '../types/Action';
 
 export interface WithError<T> {
 	value: T;
+	touched: boolean;
 	error: string;
 	errors: string[];
 }
@@ -27,12 +28,14 @@ export const withError = <T>(
 ): WithErrorable<T> => {
 	const store = writable<WithError<T>>({
 		value: initialValue,
+		touched: false,
 		error: '',
 		errors: [],
 	});
 
 	let previous: WithError<T> = {
 		value: initialValue,
+		touched: false,
 		error: '',
 		errors: [],
 	};
@@ -43,7 +46,10 @@ export const withError = <T>(
 			if (nextStore.value !== previous.value && resetErrorOnChange) {
 				nextStore.error = '';
 				nextStore.errors = [];
-				touched.set(false);
+				nextStore.touched = false;
+			}
+			if (nextStore.touched) {
+				validate();
 			}
 			previous = { ...nextStore };
 			return nextStore;
@@ -67,13 +73,6 @@ export const withError = <T>(
 		});
 	};
 
-	const touched = writable(false);
-	const unsubTouched = touched.subscribe(($touched) => {
-		if ($touched) {
-			validate();
-		}
-	});
-
 	/*
 	 * in only: entered the parent.
 	 * out, in: entered child.
@@ -86,7 +85,10 @@ export const withError = <T>(
 			focusedOut = true;
 			setTimeout(() => {
 				if (focusedOut && !focusedIn) {
-					touched.set(true);
+					store.update(($store) => ({
+						...$store,
+						touched: true,
+					}));
 				}
 				focusedIn = false;
 				focusedOut = false;
@@ -109,17 +111,12 @@ export const withError = <T>(
 	};
 
 	return {
-		subscribe(run, invalidate) {
-			const unsubStore = store.subscribe(run, invalidate);
-			return () => {
-				unsubStore();
-				unsubTouched();
-			};
-		},
+		subscribe: store.subscribe,
 		update,
 		set,
 		touch,
-		reset: () => set({ value: initialValue, error: '', errors: [] }),
+		reset: () =>
+			set({ value: initialValue, touched: false, error: '', errors: [] }),
 		resetError: () =>
 			update(($store) => ({ ...$store, error: '', errors: [] })),
 		validate,
