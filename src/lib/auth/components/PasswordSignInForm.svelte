@@ -26,7 +26,7 @@
 		error={$email.error}
 		label="Email"
 		required
-		use={[focusOnMount]}
+		use={[[focusOnMount, { delay: 17 }]]}
 	/>
 	<Textfield
 		bind:value={$password.value}

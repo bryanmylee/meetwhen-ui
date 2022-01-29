@@ -28,6 +28,7 @@
 		AdjustableIntervalsSelect,
 		LinksTextfields,
 	} from '$lib/new/components';
+	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
 
 	export let selectedDates: Dayjs[] = [];
 
@@ -86,6 +87,7 @@
 				bind:value={$name.value}
 				error={$name.error}
 				required
+				use={[[focusOnMount, { delay: 17 }]]}
 			/>
 			<div class="when">
 				<div class="when-content">

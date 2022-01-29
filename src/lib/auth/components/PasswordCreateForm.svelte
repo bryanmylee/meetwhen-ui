@@ -27,7 +27,7 @@
 		error={$name.error}
 		label="Name"
 		required
-		use={[focusOnMount]}
+		use={[[focusOnMount, { delay: 17 }]]}
 	/>
 	<Textfield
 		bind:value={$email.value}
