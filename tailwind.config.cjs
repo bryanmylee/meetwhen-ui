@@ -9,6 +9,11 @@ const config = {
 			borderWidth: {
 				3: '3px',
 			},
+			boxShadow: {
+				wide: '0 1px 9px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+				'md-wide':
+					'0 4px 18px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+			},
 			colors: {
 				primary: {
 					50: 'var(--primary-50)',

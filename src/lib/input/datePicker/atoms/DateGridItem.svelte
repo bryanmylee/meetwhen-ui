@@ -53,12 +53,12 @@
 		@apply transition;
 
 		&[aria-selected='true'] {
-			@apply bg-primary-400 text-white shadow shadow-primary-400/50 z-10;
+			@apply bg-primary-400 text-white shadow-wide shadow-primary-400/50 z-10;
 			&.today {
 				@apply font-bold;
 			}
 			&.add {
-				@apply shadow-lg shadow-primary-400/50;
+				@apply shadow-md-wide shadow-primary-400/50;
 			}
 			&.remove {
 				@apply bg-primary-400/50;
