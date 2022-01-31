@@ -22,7 +22,7 @@
 	import { signOut } from 'firebase/auth';
 	import { Button } from '$lib/input';
 	import { goto } from '$app/navigation';
-	import { findAllMeetingsOwnedByUser } from '$lib/firebase/queries/findAllMeetingsOwnedByUser';
+	import { useAllUpcomingMeetingsOwnedByUser } from '$lib/firebase/queries/findAllUpcomingMeetingsOwnedByUser';
 
 	const repo = useRepo();
 	const auth = useAuth();
@@ -30,7 +30,9 @@
 	export let currentUser: SafeUser;
 	$: name = currentUser.displayName ?? currentUser.email;
 
-	const meetingsPromise = findAllMeetingsOwnedByUser(repo, currentUser.uid);
+	const upcoming = useAllUpcomingMeetingsOwnedByUser(repo, currentUser.uid);
+	$: upcomingPageIndex = $upcoming.currentPageIndex;
+	$: upcomingPage = $upcoming.page[upcomingPageIndex];
 
 	const handleSignOut = async () => {
 		await signOut(auth);
@@ -45,21 +47,25 @@
 		<div class="welcome">
 			<h1 class="text-title-1">Welcome back, {name}</h1>
 		</div>
-		{#await meetingsPromise}
+		{#if upcomingPage.isLoading}
 			{#each { length: 3 } as _}
 				<div>
 					<h2 class="skeleton-text">Loading meeting...</h2>
 					<p class="skeleton-text">012345678910</p>
 				</div>
 			{/each}
-		{:then meetings}
-			{#each meetings as meeting}
+		{:else}
+			{#each upcomingPage.meetings as meeting}
 				<div>
 					<h2>{meeting.name}</h2>
 					<a href="/{meeting.slug}">{meeting.slug}</a>
 				</div>
 			{/each}
-		{/await}
+		{/if}
+		<div class="flex gap-4">
+			<Button on:click={() => upcoming.previousPage()}>Previous</Button>
+			<Button on:click={() => upcoming.nextPage()}>Next</Button>
+		</div>
 		<Button color="gray" on:click={handleSignOut}>Sign Out</Button>
 	</div>
 </section>
