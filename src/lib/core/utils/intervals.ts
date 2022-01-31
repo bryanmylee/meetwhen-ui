@@ -1,22 +1,15 @@
-import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { endOf } from '$lib/core/utils/dayjs/endOf';
 import { onDay } from '$lib/core/utils/dayjs/onDay';
 import { dateToId } from '$lib/core/utils/dayjs/dateIds';
+import { IntervalConverter } from '$lib/core/types/Interval';
 import type { Interval } from '$lib/core/types/Interval';
-import type { UnixInterval } from '$lib/core/types/UnixInterval';
 import type { Moment } from '$lib/core/types/Moment';
 import type { Maybe } from '$lib/core/types/Maybe';
 
-export const serialize = (interval: Interval): UnixInterval => ({
-	start: interval.start.unix(),
-	end: interval.end.unix(),
-});
+export const serialize = IntervalConverter.serialize;
 
-export const deserialize = (interval: UnixInterval): Interval => ({
-	start: dayjs.unix(interval.start),
-	end: dayjs.unix(interval.end),
-});
+export const deserialize = IntervalConverter.parse;
 
 export const isIntervalEqual = (a: Interval, b: Interval): boolean =>
 	a.start.isSame(b.start) && a.end.isSame(b.end);
@@ -229,5 +222,18 @@ export const localIntervalOnDay = (
 		end: end.isAfter(start, 'day')
 			? onDay(end, day.add(1, 'day'))
 			: onDay(end, day),
+	};
+};
+
+export const getTotalInterval = (intervals: Interval[]): Maybe<Interval> => {
+	if (intervals.length === 0) {
+		return undefined;
+	}
+	const unioned = unionIntervals(intervals).sort((a, b) =>
+		a.start.diff(b.start),
+	);
+	return {
+		start: unioned[0].start,
+		end: unioned[unioned.length - 1].end,
 	};
 };

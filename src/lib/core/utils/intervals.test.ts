@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import dayjs from 'dayjs';
 import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
 import {
@@ -11,6 +12,7 @@ import {
 	subtractIntervals,
 	intersectIntervals,
 	localIntervalOnDay,
+	getTotalInterval,
 } from './intervals';
 import { dateToId } from './dayjs/dateIds';
 import type { Interval } from '../types/Interval';
@@ -563,5 +565,60 @@ describe('localIntervalOnDay', () => {
 			end: tomorrow.hour(0).add(1, 'day'),
 		};
 		expect(serialize(result)).toEqual(serialize(expected));
+	});
+});
+
+describe('getTotalInterval', () => {
+	it('gets the total for one interval', () => {
+		const result = getTotalInterval([
+			{
+				start: today.hour(22),
+				end: today.add(1, 'day').hour(2),
+			},
+		]);
+		const expected: Interval = {
+			start: today.hour(22),
+			end: today.add(1, 'day').hour(2),
+		};
+		expect(result).not.toBeUndefined();
+		expect(serialize(result!)).toEqual(serialize(expected));
+	});
+
+	it('gets the total for unsorted intervals', () => {
+		const result = getTotalInterval([
+			{
+				start: today.hour(22),
+				end: today.hour(23),
+			},
+			{
+				start: today.hour(8),
+				end: today.hour(9),
+			},
+		]);
+		const expected: Interval = {
+			start: today.hour(8),
+			end: today.hour(23),
+		};
+		expect(result).not.toBeUndefined();
+		expect(serialize(result!)).toEqual(serialize(expected));
+	});
+
+	it('gets the total for overlapping intervals', () => {
+		const result = getTotalInterval([
+			{
+				start: today.hour(8),
+				end: today.hour(10),
+			},
+			{
+				start: today.hour(8),
+				end: today.hour(9),
+			},
+		]);
+		const expected: Interval = {
+			start: today.hour(8),
+			end: today.hour(10),
+		};
+		expect(result).not.toBeUndefined();
+		expect(serialize(result!)).toEqual(serialize(expected));
 	});
 });
