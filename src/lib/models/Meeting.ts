@@ -7,6 +7,7 @@ import { definedOnly } from '$lib/core/utils/definedOnly';
 
 export interface Meeting {
 	name: string;
+	description?: string;
 	slug: string;
 	created: Dayjs;
 	color?: string;
@@ -18,6 +19,7 @@ export interface Meeting {
 
 export interface MeetingData extends DocumentData {
 	name: string;
+	description?: string;
 	slug: string;
 	created: number;
 	color?: string;

@@ -12,12 +12,20 @@
 
 <script lang="ts">
 	import { tick } from 'svelte';
+	import { slide } from 'svelte/transition';
+	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
+	import {
+		Disclosure,
+		DisclosureButton,
+		DisclosurePanel,
+	} from '@rgossiaux/svelte-headlessui';
+	import { ChevronDownIcon } from 'svelte-feather-icons';
 	import { goto } from '$app/navigation';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
 	import { timezones } from '$lib/core/utils/dayjs/timezones';
 	import type { Timezone } from '$lib/core/utils/dayjs/timezones';
-	import { Button, DatePicker, Select, Textfield } from '$lib/input';
+	import { Button, DatePicker, Select, Textarea, Textfield } from '$lib/input';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
@@ -29,6 +37,7 @@
 		LinksTextfields,
 	} from '$lib/new/components';
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
+	import { classes } from '$lib/core/utils/classes';
 
 	export let selectedDates: Dayjs[] = [];
 
@@ -40,18 +49,22 @@
 	const user = useUser();
 
 	const name = withError('');
+	const description = withError('');
 
 	const intervals = withError<Interval[]>([], {
 		validators: [arrayNotEmpty({ errorMessage: 'Select one or more dates' })],
 	});
 
-	$: console.log($intervals.value);
-
 	let linksRef: Maybe<LinksTextfields>;
 	let links: string[] = [];
 	let linkErrors: string[] = [];
 
-	$: errors = [...$intervals.errors, ...linkErrors];
+	$: errors = [
+		...$name.errors,
+		...$description.errors,
+		...$intervals.errors,
+		...linkErrors,
+	];
 
 	const handleSubmit = async () => {
 		if ($user?.ssr) {
@@ -69,6 +82,7 @@
 			repo,
 			{
 				name: $name.value,
+				description: $description.value !== '' ? $description.value : undefined,
 				intervals: $intervals.value,
 				links,
 			},
@@ -82,35 +96,56 @@
 	<div class="container p-8 mx-auto">
 		<form class="flex flex-col gap-4" on:submit|preventDefault={handleSubmit}>
 			<h1 class="text-title-1">Start a new meet</h1>
-			<Textfield
-				label="Name of your meet"
-				bind:value={$name.value}
-				error={$name.error}
-				required
-				use={[[focusOnMount, { delay: 17 }]]}
-			/>
-			<div class="when">
-				<div class="when-content">
-					<h2 class="text-headline">When can you meet?</h2>
-					<DatePicker
-						bind:value={selectedDates}
-						error={$intervals.error}
-						use={[intervals.touch]}
+			<Disclosure class="describe" let:open>
+				<div class="flex items-center gap-4 w-full">
+					<Textfield
+						label="Name of your meet"
+						bind:value={$name.value}
+						error={$name.error}
+						required
+						use={[[focusOnMount, { delay: 17 }]]}
+						class="w-full"
 					/>
-					<AdjustableIntervalsSelect
-						{selectedDates}
-						bind:intervals={$intervals.value}
-					/>
-					<Select
-						value={timezone}
-						values={timezones}
-						itemId={(tz) => tz.tzCode}
-						itemLabel={getTimezoneLabel}
-						sm
-						top
-						class="flex-1"
-					/>
+					<DisclosureButton class="focus rounded-full wh-8 p-1">
+						<ChevronDownIcon
+							class={classes('transition-transform', open && 'rotate-180')}
+						/>
+					</DisclosureButton>
 				</div>
+				<DisclosurePanel class="w-full">
+					<div
+						transition:slide={{ duration: 300, easing: cubicOut }}
+						class="w-full mt-4"
+					>
+						<Textarea
+							label="Describe your meet?"
+							bind:value={$description.value}
+							error={$description.error}
+							class="w-full"
+						/>
+					</div>
+				</DisclosurePanel>
+			</Disclosure>
+			<div class="when">
+				<h2 class="text-headline">When can you meet?</h2>
+				<DatePicker
+					bind:value={selectedDates}
+					error={$intervals.error}
+					use={[intervals.touch]}
+				/>
+				<AdjustableIntervalsSelect
+					{selectedDates}
+					bind:intervals={$intervals.value}
+				/>
+				<Select
+					value={timezone}
+					values={timezones}
+					itemId={(tz) => tz.tzCode}
+					itemLabel={getTimezoneLabel}
+					sm
+					top
+					class="flex-1"
+				/>
 			</div>
 			<div class="add-links">
 				<h2 class="text-headline">Add a location or link</h2>
@@ -122,12 +157,14 @@
 </section>
 
 <style lang="postcss">
-	.when {
+	:global(.describe) {
 		@apply w-full p-4 card;
+		@apply flex flex-col;
 	}
 
-	.when-content {
-		@apply flex flex-col w-full gap-4;
+	.when {
+		@apply w-full p-4 card;
+		@apply flex flex-col gap-4;
 	}
 
 	:global(.adjust-button.open) {
