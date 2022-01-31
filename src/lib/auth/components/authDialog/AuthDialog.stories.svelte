@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Button } from '$lib/input';
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
+	import { Button } from '$lib/input';
 	import AuthDialog from './AuthDialog.svelte';
 
 	let showDialog = true;

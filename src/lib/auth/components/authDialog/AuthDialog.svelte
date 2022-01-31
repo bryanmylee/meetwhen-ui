@@ -29,11 +29,11 @@
 	import { XIcon } from 'svelte-feather-icons';
 	import { primaryVars } from '$lib/core/state';
 	import { withError } from '$lib/core/utils/withError';
+	import type { OAuthProviderType } from '$lib/auth/providers';
 	import { Button } from '$lib/input';
-	import PasswordSignInForm from './PasswordSignInForm.svelte';
-	import PasswordCreateForm from './PasswordCreateForm.svelte';
-	import OAuthLoginButtons from './OAuthLoginButtons.svelte';
-	import type { OAuthProviderType } from '../providers';
+	import PasswordSignInForm from './atoms/PasswordSignInForm.svelte';
+	import PasswordCreateForm from './atoms/PasswordCreateForm.svelte';
+	import OAuthLoginButtons from './atoms/OAuthLoginButtons.svelte';
 
 	const dispatch = createEventDispatcher<AuthDialogEvent>();
 

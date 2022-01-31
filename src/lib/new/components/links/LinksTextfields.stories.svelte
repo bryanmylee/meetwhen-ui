@@ -12,7 +12,7 @@
 <Story name="Sample links">
 	<h1 class="text-xl font-bold">Links</h1>
 	<div
-		class="flex flex-col gap-4 p-4 my-4 rounded-xl bg-neutral-100 dark:bg-neutral-600"
+		class="flex flex-col gap-4 p-4 my-4 rounded-xl h-80 overflow-auto bg-neutral-100 dark:bg-neutral-600"
 	>
 		{#each links as link}
 			<p>
