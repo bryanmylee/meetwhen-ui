@@ -58,9 +58,7 @@
 
 <section>
 	<div class="max-w-xl p-4 mx-auto flex flex-col gap-4">
-		<div class="welcome">
-			<h1 class="text-title-1">Welcome back, {name}</h1>
-		</div>
+		<h1 class="text-title-1">Welcome back, {name}</h1>
 		<MeetingPreviews
 			title="Upcoming"
 			isLoading={$upcomingPage.isLoading}
@@ -76,9 +74,3 @@
 		<Button color="gray" on:click={handleSignOut}>Sign Out</Button>
 	</div>
 </section>
-
-<style lang="postcss">
-	.welcome {
-		@apply card p-4;
-	}
-</style>
