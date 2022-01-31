@@ -85,7 +85,7 @@
 </script>
 
 <section>
-	<div class="container p-4 mx-auto">
+	<div class="max-w-xl p-4 mx-auto">
 		<form class="flex flex-col gap-4" on:submit|preventDefault={handleSubmit}>
 			<h1 class="text-title-1">Start a new meet</h1>
 			<Accordian>

@@ -57,7 +57,7 @@
 </script>
 
 <section>
-	<div class="container p-4 mx-auto flex flex-col gap-4">
+	<div class="max-w-xl p-4 mx-auto flex flex-col gap-4">
 		<div class="welcome">
 			<h1 class="text-title-1">Welcome back, {name}</h1>
 		</div>
