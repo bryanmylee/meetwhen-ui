@@ -600,7 +600,7 @@ describe('getTotalInterval', () => {
 			end: today.hour(23),
 		};
 		expect(result).not.toBeUndefined();
-		expect(serialize(result!)).toEqual(serialize(expected));
+		expect(serialize(result)).toEqual(serialize(expected));
 	});
 
 	it('gets the total for overlapping intervals', () => {
@@ -619,6 +619,12 @@ describe('getTotalInterval', () => {
 			end: today.hour(10),
 		};
 		expect(result).not.toBeUndefined();
-		expect(serialize(result!)).toEqual(serialize(expected));
+		expect(serialize(result)).toEqual(serialize(expected));
+	});
+
+	it('throws if no intervals are passed', () => {
+		expect(() => {
+			getTotalInterval([]);
+		}).toThrowError('Cannot get a total from an empty set of intervals');
 	});
 });

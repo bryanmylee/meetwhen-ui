@@ -225,9 +225,9 @@ export const localIntervalOnDay = (
 	};
 };
 
-export const getTotalInterval = (intervals: Interval[]): Maybe<Interval> => {
+export const getTotalInterval = (intervals: Interval[]): Interval => {
 	if (intervals.length === 0) {
-		return undefined;
+		throw new Error('Cannot get a total from an empty set of intervals');
 	}
 	const unioned = unionIntervals(intervals).sort((a, b) =>
 		a.start.diff(b.start),
