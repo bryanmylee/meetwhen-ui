@@ -55,7 +55,7 @@
 	}
 
 	.preview-title {
-		@apply w-full text-title-2;
+		@apply w-full text-title-3;
 	}
 
 	.preview-grid {

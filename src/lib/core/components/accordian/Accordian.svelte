@@ -13,7 +13,7 @@
 	export { className as class };
 </script>
 
-<Disclosure class="describe {className}" let:open>
+<Disclosure class={className} let:open>
 	<div class="flex items-center gap-4 w-full">
 		<slot name="title">
 			<div />
