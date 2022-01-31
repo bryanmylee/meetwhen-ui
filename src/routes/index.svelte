@@ -35,7 +35,7 @@
 
 <style lang="postcss">
 	.header {
-		@apply relative w-full lg:h-[600px];
+		@apply relative w-full lg:h-[600px] p-8;
 		@apply aspect-video lg:aspect-auto;
 		@apply overflow-hidden;
 	}
