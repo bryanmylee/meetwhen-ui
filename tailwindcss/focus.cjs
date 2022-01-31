@@ -11,6 +11,18 @@ const focusPlugin = plugin(({ addUtilities }) => {
 				'@apply ring ring-red-400': {},
 			},
 		},
+		'.focus-within': {
+			'@apply ring-primary-400': {},
+			'&:focus-within': {
+				'@apply ring outline-none': {},
+			},
+			'& :focus': {
+				'@apply outline-none': {},
+			},
+			'&:global(.error)': {
+				'@apply ring ring-red-400': {},
+			},
+		},
 		'.focus-inset': {
 			'@apply ring-primary-400 ring-inset': {},
 			'&:focus': {
