@@ -15,7 +15,7 @@
 
 <Disclosure class="accordian {className}" let:open>
 	<DisclosureButton class="accordian-title">
-		<div on:click|stopPropagation class="w-full">
+		<div on:click|stopPropagation class="contents">
 			<slot name="title">
 				<div />
 			</slot>
