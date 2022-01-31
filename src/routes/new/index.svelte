@@ -88,7 +88,7 @@
 	<div class="max-w-xl p-4 mx-auto">
 		<form class="flex flex-col gap-4" on:submit|preventDefault={handleSubmit}>
 			<h1 class="text-title-1">Start a new meet</h1>
-			<Accordian class="describe">
+			<Accordian>
 				<Textfield
 					slot="title"
 					label="Name of your meet"
@@ -136,11 +136,6 @@
 </section>
 
 <style lang="postcss">
-	:global(.describe) {
-		@apply w-full p-4 card;
-		@apply flex flex-col;
-	}
-
 	.when {
 		@apply w-full p-4 card;
 		@apply flex flex-col gap-4;

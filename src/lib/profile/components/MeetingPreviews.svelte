@@ -13,7 +13,7 @@
 	);
 </script>
 
-<Accordian class="preview">
+<Accordian>
 	<h2 slot="title" class="preview-title">{title}</h2>
 	<div class="preview-grid">
 		{#if isLoading}
@@ -50,10 +50,6 @@
 </Accordian>
 
 <style lang="postcss">
-	:global(.preview) {
-		@apply rounded-xl card p-4;
-	}
-
 	.preview-title {
 		@apply w-full text-title-3;
 	}
