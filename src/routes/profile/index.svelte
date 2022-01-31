@@ -29,6 +29,7 @@
 	import { usePaginated } from '$lib/firebase/queries/paginated';
 	import type { Meeting } from '$lib/models/Meeting';
 	import type { Id } from '$lib/core/types/Id';
+	import MeetingPreviews from '$lib/profile/components/MeetingPreviews.svelte';
 
 	const repo = useRepo();
 	const auth = useAuth();
@@ -36,13 +37,16 @@
 	export let currentUser: SafeUser;
 	$: name = currentUser.displayName ?? currentUser.email;
 
-	const upcomingPage = usePaginated<Id<Meeting>>(async (pageSize, previous) => {
-		return await findAllUpcomingMeetingsOwnedByUser(repo, currentUser.uid, {
-			limit: pageSize,
-			afterEnd:
-				previous === undefined ? undefined : getEndFromMeetings(previous),
-		});
-	});
+	const upcomingPage = usePaginated<Id<Meeting>>(
+		async (pageSize, previous) => {
+			return await findAllUpcomingMeetingsOwnedByUser(repo, currentUser.uid, {
+				limit: pageSize,
+				afterEnd:
+					previous === undefined ? undefined : getEndFromMeetings(previous),
+			});
+		},
+		{ pageSize: 8 },
+	);
 
 	const handleSignOut = async () => {
 		await signOut(auth);
@@ -57,21 +61,11 @@
 		<div class="welcome">
 			<h1 class="text-title-1">Welcome back, {name}</h1>
 		</div>
-		{#if $upcomingPage.isLoading}
-			{#each { length: 3 } as _}
-				<div>
-					<h2 class="skeleton-text">Loading meeting...</h2>
-					<p class="skeleton-text">012345678910</p>
-				</div>
-			{/each}
-		{:else}
-			{#each $upcomingPage.data as meeting}
-				<div>
-					<h2>{meeting.name}</h2>
-					<a href="/{meeting.slug}">{meeting.slug}</a>
-				</div>
-			{/each}
-		{/if}
+		<MeetingPreviews
+			title="Upcoming"
+			isLoading={$upcomingPage.isLoading}
+			meetings={$upcomingPage.isLoading ? [] : $upcomingPage.data}
+		/>
 		<div class="flex items-center gap-4">
 			<Button on:click={() => upcomingPage.previousPage()}>Previous</Button>
 			<Button on:click={() => upcomingPage.nextPage()}>Next</Button>

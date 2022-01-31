@@ -4,7 +4,6 @@ import type { DocumentData } from 'firebase/firestore';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { definedOnly } from '$lib/core/utils/definedOnly';
-import { getTotalInterval } from '$lib/core/utils/intervals';
 
 export interface Meeting {
 	name: string;
@@ -16,6 +15,7 @@ export interface Meeting {
 	ownerId?: string;
 	links?: string[];
 	intervals: Interval[];
+	total: Interval;
 }
 
 export interface MeetingData extends DocumentData {
@@ -37,7 +37,7 @@ export class MeetingConverter {
 			...meeting,
 			created: meeting.created.unix(),
 			intervals: meeting.intervals.map(IntervalConverter.serialize),
-			total: IntervalConverter.serialize(getTotalInterval(meeting.intervals)),
+			total: IntervalConverter.serialize(meeting.total),
 		});
 	}
 
@@ -46,6 +46,7 @@ export class MeetingConverter {
 			...data,
 			created: dayjs.unix(data.created),
 			intervals: data.intervals.map(IntervalConverter.parse),
+			total: IntervalConverter.parse(data.total),
 		};
 	}
 }
