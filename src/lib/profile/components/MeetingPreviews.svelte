@@ -51,7 +51,7 @@
 
 <style lang="postcss">
 	.preview-title {
-		@apply w-full text-title-3;
+		@apply w-fit mr-auto text-title-3;
 	}
 
 	.preview-grid {
@@ -74,12 +74,16 @@
 	.preview-item-box {
 		@apply relative overflow-hidden;
 		@apply rounded-lg bg-neutral-100 gdark:bg-neutral-700;
-		@apply focus transition;
+		@apply transition;
 		&:hover {
 			@apply bg-neutral-50 gdark:bg-neutral-600 shadow;
 		}
 		&:active {
 			@apply bg-neutral-200 gdark:opacity-50 shadow-sm;
+		}
+
+		&:focus-within {
+			@apply ring ring-primary-400;
 		}
 		&.skeleton {
 			@apply skeleton-bg;
@@ -92,6 +96,6 @@
 	}
 
 	.preview-item {
-		@apply block p-2 ml-2 text-sm font-medium;
+		@apply block p-2 ml-2 text-sm font-medium focus:outline-none;
 	}
 </style>
