@@ -8,6 +8,7 @@ export { default as SelectionProvider } from './selection/SelectionProvider.svel
 export type { SelectionProviderEvent } from './selection/SelectionProvider.svelte';
 export type { SelectionInterpolateFn } from './selection/SelectionInterpolateFn';
 export type { SelectMode } from './selection/SelectMode';
+export { default as Textarea } from './textarea/Textarea.svelte';
 export { default as Textfield } from './textfield/Textfield.svelte';
 export { default as NoLabelTextfield } from './textfield/NoLabelTextfield.svelte';
 export { default as TimePicker } from './timePicker/TimePicker.svelte';
