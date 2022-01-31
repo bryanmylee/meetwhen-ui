@@ -35,7 +35,7 @@ const config = {
 				},
 			},
 			fontFamily: {
-				sans: ['Inter', ...defaultTheme.fontFamily.sans],
+				sans: [...defaultTheme.fontFamily.sans],
 			},
 			minHeight: (theme) => theme('height'),
 			minWidth: (theme) => theme('width'),
