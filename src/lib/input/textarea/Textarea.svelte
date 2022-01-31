@@ -56,7 +56,7 @@
 		@apply relative inline-block;
 
 		& > textarea {
-			@apply relative w-full px-4 py-5 rounded-xl focus;
+			@apply relative w-full -mb-1 px-4 py-5 rounded-xl focus;
 			@apply bg-shade-100;
 			&:disabled {
 				@apply text-neutral-400 opacity-50;
@@ -82,7 +82,7 @@
 		}
 
 		& > label {
-			@apply absolute inset-0 bottom-auto mt-2.5 ml-2 px-2 pt-0.5 max-w-fit;
+			@apply absolute inset-0 bottom-auto mt-2.5 ml-2.5 px-2 pt-0.5 max-w-fit;
 			@apply overflow-hidden whitespace-nowrap text-ellipsis;
 			@apply pointer-events-none transition-transform origin-top-left;
 			@apply bg-shade-100 rounded-b-lg;
@@ -94,7 +94,7 @@
 		}
 
 		& > .error-message {
-			@apply absolute bottom-1.5 left-0 ml-2 px-2 pb-1 text-red-400 text-xs italic;
+			@apply absolute bottom-1.5 left-2.5 px-1.5 pb-1 text-red-400 text-xs italic;
 			@apply select-none pointer-events-none;
 			@apply bg-shade-100 rounded-t-lg;
 		}
