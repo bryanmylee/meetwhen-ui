@@ -153,7 +153,7 @@
 	.dialog-card {
 		@apply relative z-10 p-6 shadow-lg rounded-xl bg-shade-0;
 		@apply flex flex-col gap-4;
-		width: calc(100vw - 4rem);
+		width: calc(100vw - 2rem);
 		max-width: 30rem;
 		@media (min-width: 768px) {
 			max-width: 48rem;

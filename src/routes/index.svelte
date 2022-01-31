@@ -41,7 +41,7 @@
 	}
 
 	.header-content {
-		@apply container h-full mx-auto p-8;
+		@apply container h-full mx-auto p-4;
 		@apply flex flex-col justify-center gap-4 md:gap-8;
 	}
 
