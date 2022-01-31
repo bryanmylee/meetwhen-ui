@@ -12,32 +12,24 @@
 
 <script lang="ts">
 	import { tick } from 'svelte';
-	import { slide } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
 	import type { Dayjs } from 'dayjs';
-	import {
-		Disclosure,
-		DisclosureButton,
-		DisclosurePanel,
-	} from '@rgossiaux/svelte-headlessui';
-	import { ChevronDownIcon } from 'svelte-feather-icons';
 	import { goto } from '$app/navigation';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
 	import { timezones } from '$lib/core/utils/dayjs/timezones';
 	import type { Timezone } from '$lib/core/utils/dayjs/timezones';
+	import { withError } from '$lib/core/utils/withError';
+	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
+	import { Accordian } from '$lib/core/components/accordian';
 	import { Button, DatePicker, Select, Textarea, Textfield } from '$lib/input';
+	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
 	import { useRepo, useUser } from '$lib/firebase/context';
-	import { withError } from '$lib/core/utils/withError';
-	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
 	import {
 		AdjustableIntervalsSelect,
 		LinksTextfields,
 	} from '$lib/new/components';
-	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
-	import { classes } from '$lib/core/utils/classes';
 
 	export let selectedDates: Dayjs[] = [];
 
@@ -96,36 +88,23 @@
 	<div class="container p-8 mx-auto">
 		<form class="flex flex-col gap-4" on:submit|preventDefault={handleSubmit}>
 			<h1 class="text-title-1">Start a new meet</h1>
-			<Disclosure class="describe" let:open>
-				<div class="flex items-center gap-4 w-full">
-					<Textfield
-						label="Name of your meet"
-						bind:value={$name.value}
-						error={$name.error}
-						required
-						use={[[focusOnMount, { delay: 17 }]]}
-						class="w-full"
-					/>
-					<DisclosureButton class="focus rounded-full wh-8 p-1">
-						<ChevronDownIcon
-							class={classes('transition-transform', open && 'rotate-180')}
-						/>
-					</DisclosureButton>
-				</div>
-				<DisclosurePanel class="w-full">
-					<div
-						transition:slide={{ duration: 300, easing: cubicOut }}
-						class="w-full mt-4"
-					>
-						<Textarea
-							label="Describe your meet?"
-							bind:value={$description.value}
-							error={$description.error}
-							class="w-full"
-						/>
-					</div>
-				</DisclosurePanel>
-			</Disclosure>
+			<Accordian>
+				<Textfield
+					slot="title"
+					label="Name of your meet"
+					bind:value={$name.value}
+					error={$name.error}
+					required
+					use={[[focusOnMount, { delay: 17 }]]}
+					class="w-full"
+				/>
+				<Textarea
+					label="Describe your meet?"
+					bind:value={$description.value}
+					error={$description.error}
+					class="w-full"
+				/>
+			</Accordian>
 			<div class="when">
 				<h2 class="text-headline">When can you meet?</h2>
 				<DatePicker
