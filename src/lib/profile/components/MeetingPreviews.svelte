@@ -57,6 +57,8 @@
 						</li>
 					{/each}
 				</ul>
+			{:else}
+				<h3 class="text-sm col-span-2">Nothing here...</h3>
 			{/each}
 		{/if}
 	</div>
