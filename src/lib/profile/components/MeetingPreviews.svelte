@@ -22,9 +22,11 @@
 	$: meetingsByStartDateId = groupBy(meetings, (meeting) =>
 		dateToId(meeting.total.start),
 	);
+
+	export let open = false;
 </script>
 
-<AccordianCard open={true}>
+<AccordianCard {open}>
 	<h2 slot="title" class="preview-title">{title}</h2>
 	<div class="preview-grid">
 		{#if $meetingsPage.isLoading}

@@ -23,9 +23,10 @@
 	import { Button } from '$lib/input';
 	import { goto } from '$app/navigation';
 	import {
+		findAllPreviousMeetingsOwnedByUser,
 		findAllUpcomingMeetingsOwnedByUser,
 		getEndFromMeetings,
-	} from '$lib/firebase/queries/findAllUpcomingMeetingsOwnedByUser';
+	} from '$lib/firebase/queries/meetings';
 	import { usePaginated } from '$lib/firebase/queries/paginated';
 	import type { Meeting } from '$lib/models/Meeting';
 	import type { Id } from '$lib/core/types/Id';
@@ -37,9 +38,20 @@
 	export let currentUser: SafeUser;
 	$: name = currentUser.displayName ?? currentUser.email;
 
-	const upcomingPage = usePaginated<Id<Meeting>>(
+	const upcomingMeetingsPage = usePaginated<Id<Meeting>>(
 		async (pageSize, previous) => {
 			return await findAllUpcomingMeetingsOwnedByUser(repo, currentUser.uid, {
+				limit: pageSize,
+				afterEnd:
+					previous === undefined ? undefined : getEndFromMeetings(previous),
+			});
+		},
+		{ pageSize: 8 },
+	);
+
+	const previousMeetingsPage = usePaginated<Id<Meeting>>(
+		async (pageSize, previous) => {
+			return await findAllPreviousMeetingsOwnedByUser(repo, currentUser.uid, {
 				limit: pageSize,
 				afterEnd:
 					previous === undefined ? undefined : getEndFromMeetings(previous),
@@ -59,7 +71,12 @@
 <section>
 	<div class="max-w-xl p-4 mx-auto flex flex-col gap-4">
 		<h1 class="text-title-1">Welcome back, {name}</h1>
-		<MeetingPreviews title="Upcoming" meetingsPage={upcomingPage} />
+		<MeetingPreviews
+			title="Upcoming"
+			open
+			meetingsPage={upcomingMeetingsPage}
+		/>
+		<MeetingPreviews title="Previous" meetingsPage={previousMeetingsPage} />
 		<Button color="gray" on:click={handleSignOut}>Sign Out</Button>
 	</div>
 </section>
