@@ -45,7 +45,7 @@
 
 <Popover class="themeselect">
 	<PopoverButton class="themeselect-anchor">
-		<svelte:component this={selectedOption?.icon} class="wh-6" />
+		<svelte:component this={selectedOption?.icon} class="wh-5" />
 	</PopoverButton>
 	<div class="themeselect-items-container">
 		{#if open}
@@ -70,7 +70,7 @@
 									class:checked
 									on:click={() => dispatch('select-theme', { theme: value })}
 								>
-									<svelte:component this={icon} class="wh-6" />
+									<svelte:component this={icon} class="wh-5" />
 									<label for="select-{value}">{value}</label>
 								</button>
 							</RadioGroupOption>
@@ -107,7 +107,7 @@
 	}
 
 	.themeselect-item {
-		@apply flex flex-col justify-center items-center;
+		@apply flex flex-col justify-center items-center gap-0.5;
 		@apply wh-16 p-2 rounded-lg;
 		@apply text-center whitespace-nowrap;
 		@apply bg-shade-100;
