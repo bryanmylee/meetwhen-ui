@@ -89,7 +89,7 @@
 			<h1 class="text-title-1">Start a new meet</h1>
 			<Name {name} {description} />
 			<div class="when">
-				<h2 class="text-headline">When can you meet?</h2>
+				<h2 class="text-headline required-dot">When can you meet?</h2>
 				<DatePicker
 					bind:value={selectedDates}
 					error={$intervals.error}

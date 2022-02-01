@@ -46,11 +46,8 @@
 		class:left-empty={leftEmpty}
 		on:blur={() => (leftEmpty = true)}
 	/>
-	<label for={resolvedId}>
+	<label for={resolvedId} class:required-dot={required}>
 		{label}
-		{#if required}
-			<span class="required-dot" aria-label="required">•</span>
-		{/if}
 	</label>
 	<span id={errorId} class="error-message" for={resolvedId} role="status">
 		{error}
@@ -89,7 +86,7 @@
 
 			&.required:not(.filled):not(:focus) {
 				& + label {
-					&::after {
+					&::before {
 						content: 'Required';
 						@apply absolute top-1.5 right-0 text-xs text-neutral-400;
 					}
@@ -102,10 +99,6 @@
 			@apply overflow-hidden whitespace-nowrap text-ellipsis;
 			@apply pointer-events-none transition-transform origin-top-left;
 			@apply font-medium;
-
-			& > .required-dot {
-				@apply text-red-400 font-bold;
-			}
 		}
 
 		& > .error-message {

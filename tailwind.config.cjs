@@ -50,6 +50,7 @@ const config = {
 		require('./tailwindcss/focus.cjs'),
 		require('./tailwindcss/focusOnly.cjs'),
 		require('./tailwindcss/noScrollbar.cjs'),
+		require('./tailwindcss/requiredDot.cjs'),
 		require('./tailwindcss/size.cjs'),
 		require('./tailwindcss/skeleton.cjs'),
 		require('./tailwindcss/textStyles.cjs'),
