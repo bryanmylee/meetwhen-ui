@@ -80,7 +80,7 @@
 </script>
 
 <TabGroup on:change={({ detail }) => (tabIndex = detail)}>
-	<TabList class="text-headline flex items-baseline">
+	<TabList class="text-headline flex items-baseline gap-1">
 		<span class="pr-2">What time</span>
 		<Tab
 			let:selected
