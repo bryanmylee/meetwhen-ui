@@ -110,7 +110,7 @@
 				/>
 			</div>
 			<div class="add-links">
-				<h2 class="text-headline">Add a location or link</h2>
+				<h2 class="text-headline">Any related links?</h2>
 				<LinksTextfields bind:values={links} bind:errors={linkErrors} />
 			</div>
 			<Button type="submit" color="gradient">Create meet</Button>
