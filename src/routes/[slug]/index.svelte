@@ -19,7 +19,7 @@
 	import { firebaseClient } from '$lib/firebase/client';
 	import { useRepo } from '$lib/firebase/context';
 	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';
-	import { findMeetingWithSlug } from '$lib/firebase/queries/findMeetingWithSlug';
+	import { findMeetingWithSlug } from '$lib/firebase/queries/meetings';
 
 	const repo = useRepo();
 

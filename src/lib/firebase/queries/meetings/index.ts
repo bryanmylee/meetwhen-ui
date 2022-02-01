@@ -5,3 +5,4 @@ export {
 export type { FindAllMeetingsOwnedByUserProps } from './findAllMeetingsOwnedByUser';
 export { findAllPreviousMeetingsOwnedByUser } from './findAllPreviousMeetingsOwnedByUser';
 export { findAllUpcomingMeetingsOwnedByUser } from './findAllUpcomingMeetingsOwnedByUser';
+export { findMeetingWithSlug } from './findMeetingWithSlug';
