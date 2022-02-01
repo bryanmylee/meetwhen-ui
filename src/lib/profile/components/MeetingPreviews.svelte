@@ -119,6 +119,7 @@
 
 		& > span {
 			@apply block absolute left-0 top-0 bottom-0 w-2;
+			@apply overflow-hidden text-ellipsis;
 			@apply bg-primary-400;
 		}
 	}
