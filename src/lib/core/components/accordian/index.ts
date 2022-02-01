@@ -1,1 +1,1 @@
-export { default as Accordian } from './Accordian.svelte';
+export { default as AccordianCard } from './AccordianCard.svelte';

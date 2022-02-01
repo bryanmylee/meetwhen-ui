@@ -1,18 +1,18 @@
 <script>
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import { Textfield } from '$lib/input';
-	import Accordian from './Accordian.svelte';
+	import AccordianCard from './AccordianCard.svelte';
 
 	let value = '';
 </script>
 
-<Meta title="Core/Accordian" component={Accordian} />
+<Meta title="Core/AccordianCard" component={AccordianCard} />
 
-<Story name="Accordian with textfield title" let:args>
-	<Accordian>
+<Story name="AccordianCard with textfield title" let:args>
+	<AccordianCard>
 		<Textfield slot="title" label="Name" bind:value />
 		<div>
 			Content: {value}
 		</div>
-	</Accordian>
+	</AccordianCard>
 </Story>

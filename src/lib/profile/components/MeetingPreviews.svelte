@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getColorCssVars, getColorScheme, PRIMARY_HEX } from '$lib/colors';
-	import { Accordian } from '$lib/core/components/accordian';
+	import { AccordianCard } from '$lib/core/components/accordian';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { groupBy } from '$lib/core/utils/groupBy';
 	import type { Meeting } from '$lib/models/Meeting';
@@ -13,7 +13,7 @@
 	);
 </script>
 
-<Accordian>
+<AccordianCard>
 	<h2 slot="title" class="preview-title">{title}</h2>
 	<div class="preview-grid">
 		{#if isLoading}
@@ -47,7 +47,7 @@
 			{/each}
 		{/if}
 	</div>
-</Accordian>
+</AccordianCard>
 
 <style lang="postcss">
 	.preview-title {

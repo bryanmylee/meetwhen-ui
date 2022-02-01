@@ -13,9 +13,9 @@
 	export { className as class };
 </script>
 
-<Disclosure class="accordian {className}" let:open>
+<Disclosure class="accordian-card {className}" let:open>
 	<DisclosureButton class="accordian-title">
-		<div on:click|stopPropagation class="contents">
+		<div class="contents">
 			<slot name="title">
 				<div />
 			</slot>
@@ -34,17 +34,24 @@
 	</DisclosurePanel>
 </Disclosure>
 
-<style lang="postcss">
-	:global(.accordian) {
+<style lang="postcss" global>
+	.accordian-card {
 		@apply card rounded-xl;
+		& .accordian-title {
+			@apply p-4 rounded-xl focus-inset;
+		}
+		& .accordian-panel {
+			@apply p-4 pt-1;
+		}
 	}
-	:global(.accordian-title) {
-		@apply p-4 rounded-xl focus-inset w-full;
+
+	.accordian-title {
+		@apply w-full;
 		@apply flex items-center gap-4;
 		@apply text-left;
 	}
 
-	:global(.accordian-panel) {
-		@apply w-full p-4 pt-1;
+	.accordian-panel {
+		@apply w-full;
 	}
 </style>

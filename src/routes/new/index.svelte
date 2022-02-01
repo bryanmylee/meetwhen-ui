@@ -18,9 +18,7 @@
 	import { timezones } from '$lib/core/utils/dayjs/timezones';
 	import type { Timezone } from '$lib/core/utils/dayjs/timezones';
 	import { withError } from '$lib/core/utils/withError';
-	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
-	import { Accordian } from '$lib/core/components/accordian';
-	import { Button, DatePicker, Select, Textarea, Textfield } from '$lib/input';
+	import { Button, DatePicker, Select } from '$lib/input';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
@@ -29,6 +27,7 @@
 	import {
 		AdjustableIntervalsSelect,
 		LinksTextfields,
+		Name,
 	} from '$lib/new/components';
 
 	export let selectedDates: Dayjs[] = [];
@@ -88,23 +87,7 @@
 	<div class="max-w-xl p-4 mx-auto">
 		<form class="flex flex-col gap-4" on:submit|preventDefault={handleSubmit}>
 			<h1 class="text-title-1">Start a new meet</h1>
-			<Accordian>
-				<Textfield
-					slot="title"
-					label="Name of your meet"
-					bind:value={$name.value}
-					error={$name.error}
-					required
-					use={[[focusOnMount, { delay: 17 }]]}
-					class="w-full"
-				/>
-				<Textarea
-					label="Describe your meet?"
-					bind:value={$description.value}
-					error={$description.error}
-					class="w-full"
-				/>
-			</Accordian>
+			<Name {name} {description} />
 			<div class="when">
 				<h2 class="text-headline">When can you meet?</h2>
 				<DatePicker
