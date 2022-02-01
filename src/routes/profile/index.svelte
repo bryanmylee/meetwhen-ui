@@ -59,18 +59,7 @@
 <section>
 	<div class="max-w-xl p-4 mx-auto flex flex-col gap-4">
 		<h1 class="text-title-1">Welcome back, {name}</h1>
-		<MeetingPreviews
-			title="Upcoming"
-			isLoading={$upcomingPage.isLoading}
-			meetings={$upcomingPage.isLoading ? [] : $upcomingPage.data}
-		/>
-		<div class="flex items-center gap-4">
-			<Button on:click={() => upcomingPage.previousPage()}>Previous</Button>
-			<Button on:click={() => upcomingPage.nextPage()}>Next</Button>
-			<div>
-				is last: {!$upcomingPage.isLoading && $upcomingPage.isLast}
-			</div>
-		</div>
+		<MeetingPreviews title="Upcoming" meetingsPage={upcomingPage} />
 		<Button color="gray" on:click={handleSignOut}>Sign Out</Button>
 	</div>
 </section>
