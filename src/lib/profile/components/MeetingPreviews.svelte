@@ -13,7 +13,7 @@
 	);
 </script>
 
-<AccordianCard>
+<AccordianCard open={true}>
 	<h2 slot="title" class="preview-title">{title}</h2>
 	<div class="preview-grid">
 		{#if isLoading}

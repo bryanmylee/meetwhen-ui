@@ -27,6 +27,7 @@
 		<Button
 			variant="text-only"
 			icon
+			aria-expanded={showDescription}
 			on:click={() => (showDescription = !showDescription)}
 		>
 			<ChevronDownIcon

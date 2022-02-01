@@ -1,38 +1,37 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import {
-		Disclosure,
-		DisclosureButton,
-		DisclosurePanel,
-	} from '@rgossiaux/svelte-headlessui';
 	import { ChevronDownIcon } from 'svelte-feather-icons';
 	import { classes } from '$lib/core/utils/classes';
 
 	let className = '';
 	export { className as class };
+
+	export let open = false;
 </script>
 
-<Disclosure class="accordian-card {className}" let:open>
-	<DisclosureButton class="accordian-title">
-		<div class="contents">
-			<slot name="title">
-				<div />
-			</slot>
-		</div>
+<div class="accordian-card {className}">
+	<button
+		on:click={() => (open = !open)}
+		class="accordian-title"
+		aria-expanded={open}
+	>
+		<slot name="title">
+			<div />
+		</slot>
 		<ChevronDownIcon
 			class={classes('wh-6 transition-transform', open && 'rotate-180')}
 		/>
-	</DisclosureButton>
-	<DisclosurePanel class="w-full">
+	</button>
+	{#if open}
 		<div
 			transition:slide|local={{ duration: 300, easing: cubicOut }}
 			class="accordian-panel"
 		>
 			<slot />
 		</div>
-	</DisclosurePanel>
-</Disclosure>
+	{/if}
+</div>
 
 <style lang="postcss" global>
 	.accordian-card {
