@@ -96,7 +96,7 @@
 	}
 
 	.themeselect-items-reveal {
-		@apply p-2 rounded-xl bg-shade-0 shadow-lg;
+		@apply p-2 card;
 		&:focus-within {
 			@apply ring ring-inset ring-primary-400;
 		}

@@ -37,22 +37,16 @@
 							as="button"
 							on:click={() => dispatch('open-auth')}
 							let:active
-							class="focus:outline-none"
 						>
 							<span class="menu-item" class:active> Sign In </span>
 						</MenuItem>
 					{:else}
-						<MenuItem
-							as="a"
-							href="/profile"
-							let:active
-							class="focus:outline-none"
-						>
+						<MenuItem as="a" href="/profile" let:active>
 							<span class="menu-item" class:active> Profile </span>
 						</MenuItem>
 					{/if}
 					<span class="menu-divider" />
-					<MenuItem as="div" let:active class="focus:outline-none">
+					<MenuItem as="div" let:active>
 						<div class="menu-item" class:active>
 							<ThemeSelect open={active} selected={theme} on:select-theme />
 						</div>
@@ -80,26 +74,23 @@
 	}
 
 	.menu-items-container {
-		@apply absolute top-full right-0 pt-2;
-		@apply rounded-b-xl shadow-lg;
+		@apply absolute top-full -right-2 mt-2 pt-2;
+		@apply rounded-xl shadow-lg z-10;
 	}
 
 	.menu-items-reveal {
-		@apply p-2 rounded-b-xl bg-shade-0;
-		&:focus-within {
-			@apply ring ring-inset ring-primary-400;
-		}
+		@apply p-2 card;
 	}
 
 	.menu-item {
 		@apply flex items-center p-2 rounded-lg;
-		@apply text-center whitespace-nowrap;
+		@apply text-center text-label whitespace-nowrap;
 		&:hover,
 		&.active {
-			@apply bg-shade-100;
+			@apply bg-shade-200;
 		}
 		&:active {
-			@apply bg-shade-200;
+			@apply bg-shade-300;
 		}
 	}
 
