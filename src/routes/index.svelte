@@ -46,7 +46,7 @@
 	}
 
 	.header-bg {
-		@apply absolute -inset-8 bottom-0 left-1/2 pointer-events-none;
+		@apply absolute -top-4 bottom-0 left-1/2 -right-4 pointer-events-none;
 	}
 
 	.header-bg-item {

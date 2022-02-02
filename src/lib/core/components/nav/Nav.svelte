@@ -8,6 +8,8 @@
 </script>
 
 <script lang="ts">
+	import { fade, fly } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
 	import { Button } from '$lib/input';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SafeUser } from '$lib/models/SafeUser';
@@ -16,11 +18,20 @@
 
 	export let user: Maybe<SafeUser> = undefined;
 	export let theme: ThemeType = 'auto';
+	export let onHomePage = false;
 </script>
 
-<nav>
+<nav class="nav">
 	<div>
-		<a href="/" class="hero">meetwhen.io</a>
+		{#if !onHomePage}
+			<a
+				href="/"
+				class="hero"
+				transition:fade={{ duration: 300, easing: cubicInOut }}
+			>
+				meetwhen.io
+			</a>
+		{/if}
 	</div>
 	<ul class="menu-links">
 		<li>
@@ -30,13 +41,23 @@
 			<NavMenu {user} {theme} on:open-auth on:select-theme />
 		</li>
 	</ul>
+	{#if !onHomePage}
+		<div
+			class="nav-bg"
+			transition:fly={{ y: -100, easing: cubicInOut, duration: 500 }}
+		/>
+	{/if}
 </nav>
 
 <style lang="postcss">
-	nav {
-		@apply sticky inset-0 bottom-auto;
+	.nav {
+		@apply fixed inset-0 bottom-auto;
 		@apply flex justify-between items-center gap-2;
 		@apply px-4 py-2 z-50;
+	}
+
+	.nav-bg {
+		@apply absolute inset-0 z-[-1];
 		@apply card rounded-t-none;
 	}
 

@@ -19,7 +19,7 @@
 	import type { Load } from '@sveltejs/kit';
 	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { navigating, page } from '$app/stores';
 	import { getClientEnv, getServerEnv } from '$lib/env';
 	import { session } from '$lib/stores';
 	import { isAuthOpen, primaryVars } from '$lib/core/state';
@@ -81,6 +81,8 @@
 			goto('/profile');
 		}
 	};
+
+	$: onHomePage = $page.url.pathname === '/';
 </script>
 
 <!-- ; forces string interpolation during SSR and prevents incorrect rendering of escape sequences -->
@@ -88,10 +90,11 @@
 	<Nav
 		user={$user}
 		theme={$theme}
+		{onHomePage}
 		on:open-auth={() => ($isAuthOpen = true)}
 		on:select-theme={(e) => ($theme = e.detail.theme)}
 	/>
-	<main>
+	<main class:mt-14={!onHomePage}>
 		<slot />
 	</main>
 	<AuthDialog
