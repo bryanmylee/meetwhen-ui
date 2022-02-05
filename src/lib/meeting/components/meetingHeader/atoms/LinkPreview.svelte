@@ -27,21 +27,25 @@
 	let favicon: Maybe<string>;
 	$: loadPreview(link);
 	const loadPreview = async (previewLink: string) => {
-		// TODO dynamically configure this route.
-		const res = await fetch('/api/link-preview', {
-			method: 'post',
-			headers: { 'content-type': 'text/plain' },
-			body: previewLink,
-		});
-		const data = await res.json();
-		if (data.title !== undefined) {
-			title = data.title;
-		}
-		if (data.description !== undefined) {
-			description = data.description;
-		}
-		if (data.favicons?.[0] !== undefined) {
-			favicon = data.favicons[0];
+		try {
+			// TODO dynamically configure this route.
+			const res = await fetch('api/link-preview', {
+				method: 'post',
+				headers: { 'content-type': 'text/plain' },
+				body: previewLink,
+			});
+			const data = await res.json();
+			if (data.title !== undefined) {
+				title = data.title;
+			}
+			if (data.description !== undefined) {
+				description = data.description;
+			}
+			if (data.favicons?.[0] !== undefined) {
+				favicon = data.favicons[0];
+			}
+		} catch {
+			console.error(`Could not fetch preview for ${previewLink}`);
 		}
 	};
 
@@ -60,7 +64,7 @@
 			<img src={favicon} alt="favicon" />
 		</div>
 	{/if}
-	<span class="text-label">
+	<span class="text-label-sm">
 		{title ?? url?.host}
 	</span>
 </Button>
@@ -75,7 +79,7 @@
 				{link}
 			</p>
 			{#if description !== undefined}
-				<p>
+				<p class="mt-1">
 					{description}
 				</p>
 			{/if}
@@ -89,7 +93,7 @@
 	}
 
 	.link-preview-popover-box {
-		@apply absolute w-fit max-w-80 py-2 z-10;
+		@apply absolute w-fit max-w-80 py-2 z-10 pointer-events-none;
 	}
 
 	.link-preview-popover {
