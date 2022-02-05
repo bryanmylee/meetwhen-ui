@@ -12,3 +12,19 @@ export const isUrl: Validator<string> = (value) => {
 		};
 	}
 };
+
+export const isHttpUrl: Validator<string> = (value) => {
+	try {
+		const url = new URL(value);
+		if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+			throw new Error();
+		}
+		return {
+			error: '',
+		};
+	} catch {
+		return {
+			error: 'Please enter a valid link',
+		};
+	}
+};

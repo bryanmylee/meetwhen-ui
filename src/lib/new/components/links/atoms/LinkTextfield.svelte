@@ -13,12 +13,17 @@
 	import { Button, NoLabelTextfield } from '$lib/input';
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
 	import { withError } from '$lib/core/utils/withError';
-	import { isUrl } from '$lib/input/utils/validation/isUrl';
+	import { isHttpUrl } from '$lib/input/utils/validation/isUrl';
 
 	export let index: number;
 	const link = withError<string>('', {
-		validators: [isUrl],
+		validators: [isHttpUrl],
 	});
+	let rawValue = '';
+	$: $link.value = rawValue.match(/^\w+:\/\//)
+		? rawValue
+		: `https://${rawValue}`;
+
 	export let value: string;
 	$: value = $link.value;
 	export let error = '';
@@ -31,7 +36,7 @@
 <li class="link-item">
 	<NoLabelTextfield
 		label="Link input"
-		bind:value={$link.value}
+		bind:value={rawValue}
 		{error}
 		class="w-full"
 		sm

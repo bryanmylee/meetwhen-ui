@@ -111,7 +111,11 @@
 			</div>
 			<div class="add-links">
 				<h2 class="text-headline">Any related links?</h2>
-				<LinksTextfields bind:values={links} bind:errors={linkErrors} />
+				<LinksTextfields
+					bind:this={linksRef}
+					bind:values={links}
+					bind:errors={linkErrors}
+				/>
 			</div>
 			<Button type="submit" color="gradient">Create meet</Button>
 		</form>
