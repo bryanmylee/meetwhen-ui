@@ -1,15 +1,12 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
-	import { fade } from 'svelte/transition';
 	import {
 		Listbox,
 		ListboxButton,
 		ListboxOption,
 		ListboxOptions,
 	} from '@rgossiaux/svelte-headlessui';
-	import { ChevronDownIcon, ChevronsDownIcon } from 'svelte-feather-icons';
+	import { ChevronDownIcon } from 'svelte-feather-icons';
 	import { classes } from '$lib/core/utils/classes';
-	import { scrollIndicator } from '$lib/core/utils/useScrollIndicator';
 	import { scrollToSelected } from '$lib/core/utils/useScrollToSelected';
 
 	type T = $$Generic;
@@ -27,8 +24,6 @@
 	export let disabled = false;
 	export let top = false;
 	export let sm = false;
-
-	const optionsIndicator = writable({ showX: false, showY: false });
 
 	let className = '';
 	export { className as class };
@@ -50,7 +45,6 @@
 	<ListboxOptions class="listbox-options">
 		<div class="listbox-options-scrollbox">
 			<div
-				use:scrollIndicator={optionsIndicator}
 				use:scrollToSelected={{ alignTop: !top }}
 				class="listbox-options-scroll"
 			>
@@ -67,14 +61,6 @@
 					</ListboxOption>
 				{/each}
 			</div>
-			{#if $optionsIndicator.showY}
-				<div
-					transition:fade|local={{ duration: 150 }}
-					class="listbox-options-scroll-indicator"
-				>
-					<ChevronsDownIcon class="wh-4" />
-				</div>
-			{/if}
 		</div>
 	</ListboxOptions>
 </Listbox>
@@ -126,12 +112,6 @@
 	.listbox-options-scroll {
 		@apply rounded-lg;
 		@apply max-h-80 overflow-auto no-scrollbar;
-	}
-
-	.listbox-options-scroll-indicator {
-		@apply absolute bottom-4 left-0 right-0;
-		@apply flex justify-center;
-		@apply pointer-events-none;
 	}
 
 	.listbox-option {
