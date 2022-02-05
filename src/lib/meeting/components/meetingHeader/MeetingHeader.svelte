@@ -7,6 +7,7 @@
 	export let name: string;
 	export let slug: string;
 	export let description: Maybe<string> = undefined;
+	export let links: string[] = [];
 
 	let showShareDialog = false;
 </script>

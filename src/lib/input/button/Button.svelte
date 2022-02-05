@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
+	import { useActions } from '$lib/core/utils/useActions';
 	import type { Maybe } from '$lib/core/types/Maybe';
 
 	export let type: 'button' | 'menu' | 'reset' | 'submit' = 'button';
@@ -8,6 +10,8 @@
 	export let size: 'sm' | 'md' | 'lg' = 'lg';
 	export let icon = false;
 	export let href: Maybe<string> = undefined;
+
+	export let use: HTMLActionArray = [];
 
 	let className = '';
 	export { className as class };
@@ -33,6 +37,7 @@
 		class:sm={size === 'sm'}
 		class:md={size === 'md'}
 		class:icon
+		use:useActions={use}
 	>
 		<slot />
 	</a>
@@ -56,6 +61,7 @@
 		class:sm={size === 'sm'}
 		class:md={size === 'md'}
 		class:icon
+		use:useActions={use}
 	>
 		<slot />
 	</button>

@@ -2,7 +2,7 @@ const plugin = require('tailwindcss/plugin');
 
 const textStylesPlugin = plugin(({ addUtilities }) => {
 	addUtilities({
-		'.text-large-title': {
+		'.text-title-lg': {
 			'@apply text-4xl font-semibold': {},
 		},
 		'.text-title-1': {
@@ -26,7 +26,7 @@ const textStylesPlugin = plugin(({ addUtilities }) => {
 		'.text-label': {
 			'@apply text-sm font-semibold': {},
 		},
-		'.text-small-label': {
+		'.text-label-sm': {
 			'@apply text-xs font-semibold': {},
 		},
 		'.text-error': {
