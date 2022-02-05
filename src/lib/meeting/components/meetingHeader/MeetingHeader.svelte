@@ -15,6 +15,11 @@
 	<span />
 	<div class="meeting-header">
 		<h1 class="text-headline">{name}</h1>
+		{#if description !== undefined}
+			<p>
+				{description}
+			</p>
+		{/if}
 	</div>
 	<Button icon variant="text-only" on:click={() => (showShareDialog = true)}>
 		<ShareIcon class="wh-4" />
@@ -36,5 +41,6 @@
 
 	.meeting-header {
 		@apply block ml-3;
+		@apply flex flex-col gap-2;
 	}
 </style>
