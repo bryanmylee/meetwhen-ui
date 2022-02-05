@@ -28,7 +28,7 @@
 	$: loadPreview(link);
 	const loadPreview = async (previewLink: string) => {
 		// TODO dynamically configure this route.
-		const res = await fetch('http://localhost:3000/api/link-preview', {
+		const res = await fetch('/api/link-preview', {
 			method: 'post',
 			headers: { 'content-type': 'text/plain' },
 			body: previewLink,
@@ -55,9 +55,11 @@
 	use={[ref, [hover, isHovering]]}
 	class="link-preview group"
 >
-	<div class="wh-4">
-		<img src={favicon} alt="favicon" />
-	</div>
+	{#if favicon !== undefined}
+		<div class="wh-4">
+			<img src={favicon} alt="favicon" />
+		</div>
+	{/if}
 	<span class="text-label">
 		{title ?? url?.host}
 	</span>
@@ -72,9 +74,11 @@
 			<p class="text-neutral-400">
 				{link}
 			</p>
-			<p>
-				{description}
-			</p>
+			{#if description !== undefined}
+				<p>
+					{description}
+				</p>
+			{/if}
 		</div>
 	</div>
 {/if}
