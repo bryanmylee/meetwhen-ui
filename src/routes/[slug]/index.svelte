@@ -2,9 +2,14 @@
 	export const load: Load = async ({ params }) => {
 		const { slug } = params;
 		const meeting = await findMeetingWithSlug(firebaseClient.repo, slug);
+		const linkPreviews: LinkPreviewData[] =
+			meeting?.links !== undefined && meeting.links.length !== 0
+				? await fetchLinkPreviews(meeting.links)
+				: meeting?.links?.map((link) => ({ url: link })) ?? [];
 		return {
 			props: {
 				meeting,
+				linkPreviews,
 			},
 		};
 	};
@@ -20,6 +25,8 @@
 	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';
 	import { findMeetingWithSlug } from '$lib/firebase/queries/meetings';
 	import { MeetingHeader } from '$lib/meeting/components';
+	import { fetchLinkPreviews } from '$lib/meeting/utils/fetchLinkPreviews';
+	import type { LinkPreviewData } from '$lib/meeting/types/LinkPreviewData';
 
 	const repo = useRepo();
 
@@ -37,11 +44,18 @@
 				...MeetingConverter.parse(data),
 			};
 	}
+
+	export let linkPreviews: LinkPreviewData[];
+	$: if (meeting.links !== undefined && meeting.links.length !== 0) {
+		fetchLinkPreviews(meeting.links).then(
+			(previews) => (linkPreviews = previews),
+		);
+	}
 	$: console.log(meeting);
 </script>
 
 <section>
 	<div class="max-w-xl p-4 mx-auto flex flex-col gap-4">
-		<MeetingHeader {...meeting} />
+		<MeetingHeader {...meeting} {linkPreviews} />
 	</div>
 </section>

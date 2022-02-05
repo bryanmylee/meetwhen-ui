@@ -3,12 +3,13 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { Button } from '$lib/input';
 	import { ShareDialog } from '$lib/meeting/components';
+	import type { LinkPreviewData } from '$lib/meeting/types/LinkPreviewData';
 	import LinkPreview from './atoms/LinkPreview.svelte';
 
 	export let name: string;
 	export let slug: string;
 	export let description: Maybe<string> = undefined;
-	export let links: string[] = [];
+	export let linkPreviews: LinkPreviewData[];
 
 	let showShareDialog = false;
 </script>
@@ -22,10 +23,15 @@
 				{description}
 			</p>
 		{/if}
-		{#if links.length > 0}
+		{#if linkPreviews.length > 0}
 			<div class="flex flex-wrap gap-2 mt-2">
-				{#each links as link}
-					<LinkPreview {link} />
+				{#each linkPreviews as { url, title, description, favicons }}
+					<LinkPreview
+						link={url}
+						{title}
+						{description}
+						favicon={favicons?.[0]}
+					/>
 				{/each}
 			</div>
 		{/if}

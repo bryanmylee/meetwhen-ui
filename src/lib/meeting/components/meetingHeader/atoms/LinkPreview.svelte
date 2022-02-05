@@ -14,6 +14,9 @@
 	});
 
 	export let link: string;
+	export let title: Maybe<string> = undefined;
+	export let description: Maybe<string> = undefined;
+	export let favicon: Maybe<string> = undefined;
 
 	let url: Maybe<URL>;
 	$: try {
@@ -21,33 +24,6 @@
 	} catch {
 		url = undefined;
 	}
-
-	let title: Maybe<string>;
-	let description: Maybe<string>;
-	let favicon: Maybe<string>;
-	$: loadPreview(link);
-	const loadPreview = async (previewLink: string) => {
-		try {
-			// TODO dynamically configure this route.
-			const res = await fetch('api/link-preview', {
-				method: 'post',
-				headers: { 'content-type': 'text/plain' },
-				body: previewLink,
-			});
-			const data = await res.json();
-			if (data.title !== undefined) {
-				title = data.title;
-			}
-			if (data.description !== undefined) {
-				description = data.description;
-			}
-			if (data.favicons?.[0] !== undefined) {
-				favicon = data.favicons[0];
-			}
-		} catch {
-			console.error(`Could not fetch preview for ${previewLink}`);
-		}
-	};
 
 	const isHovering = writable(false);
 </script>
