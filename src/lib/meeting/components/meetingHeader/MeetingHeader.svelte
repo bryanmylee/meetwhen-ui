@@ -22,11 +22,13 @@
 				{description}
 			</p>
 		{/if}
-		<div class="flex flex-wrap gap-2 mt-2">
-			{#each links as link}
-				<LinkPreview {link} />
-			{/each}
-		</div>
+		{#if links.length > 0}
+			<div class="flex flex-wrap gap-2 mt-2">
+				{#each links as link}
+					<LinkPreview {link} />
+				{/each}
+			</div>
+		{/if}
 	</div>
 	<Button icon variant="text-only" on:click={() => (showShareDialog = true)}>
 		<ShareIcon class="wh-4" />
