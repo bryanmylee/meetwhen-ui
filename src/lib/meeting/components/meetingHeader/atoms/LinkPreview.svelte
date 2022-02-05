@@ -14,12 +14,37 @@
 	});
 
 	export let link: string;
+
 	let url: Maybe<URL>;
 	$: try {
 		url = new URL(link);
 	} catch {
 		url = undefined;
 	}
+
+	let title: Maybe<string>;
+	let description: Maybe<string>;
+	let favicon: Maybe<string>;
+	$: loadPreview(link);
+	const loadPreview = async (previewLink: string) => {
+		// TODO dynamically configure this route.
+		const res = await fetch('http://localhost:3000/api/link-preview', {
+			method: 'post',
+			headers: { 'content-type': 'text/plain' },
+			body: previewLink,
+		});
+		const data = await res.json();
+		if (data.title !== undefined) {
+			title = data.title;
+		}
+		if (data.description !== undefined) {
+			description = data.description;
+		}
+		if (data.favicons?.[0] !== undefined) {
+			favicon = data.favicons[0];
+		}
+	};
+	$: console.log({ title, description, favicon });
 
 	const isHovering = writable(false);
 </script>
