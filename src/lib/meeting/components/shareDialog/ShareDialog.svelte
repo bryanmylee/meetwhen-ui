@@ -42,7 +42,7 @@
 					Share this meet!
 				</DialogTitle>
 				<div class="dialog-card-content">
-					<DialogDescription class="text-brand text-center">
+					<DialogDescription class="text-brand text-center select-text">
 						{shareLink}
 					</DialogDescription>
 					<span class="text-sm italic text-center">{message}</span>
