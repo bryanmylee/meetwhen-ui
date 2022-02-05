@@ -11,6 +11,6 @@
 <style lang="postcss">
 	div {
 		@apply -m-4 p-4 min-h-screen;
-		@apply bg-white gdark:bg-neutral-800;
+		@apply bg-white gdark:bg-neutral-900;
 	}
 </style>
