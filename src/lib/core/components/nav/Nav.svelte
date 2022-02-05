@@ -27,7 +27,7 @@
 			<a
 				href="/"
 				class="hero"
-				transition:fade={{ duration: 300, easing: cubicInOut }}
+				transition:fade|local={{ duration: 300, easing: cubicInOut }}
 			>
 				meetwhen.io
 			</a>
@@ -44,7 +44,7 @@
 	{#if !onHomePage}
 		<div
 			class="nav-bg"
-			transition:fly={{ y: -100, easing: cubicInOut, duration: 500 }}
+			transition:fly|local={{ y: -100, easing: cubicInOut, duration: 500 }}
 		/>
 	{/if}
 </nav>
