@@ -48,8 +48,8 @@
 	<div class="link-preview-popover-box" use:content>
 		<div
 			class="link-preview-popover"
-			in:fade={{ duration: 300, easing: cubicOut }}
-			out:fade={{ duration: 300, delay: 300, easing: cubicOut }}
+			in:fade={{ duration: 300, delay: 600, easing: cubicOut }}
+			out:fade={{ duration: 300, easing: cubicOut }}
 		>
 			<p class="text-neutral-400">
 				{link}
