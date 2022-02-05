@@ -6,6 +6,7 @@
 			meeting?.links !== undefined && meeting.links.length !== 0
 				? await fetchLinkPreviews(meeting.links)
 				: meeting?.links?.map((link) => ({ url: link })) ?? [];
+		console.log('preload', linkPreviews);
 		return {
 			props: {
 				meeting,

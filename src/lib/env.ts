@@ -1,6 +1,7 @@
 import { browser } from '$app/env';
 
 export interface ServerEnv {
+	host: string;
 	serviceKey: ServiceKey;
 }
 
@@ -22,16 +23,23 @@ export const getServerEnv = (): ServerEnv => {
 		throw Error('Cannot load server constants on the client');
 	}
 
+	const host = import.meta.env.VITE_HOST;
+	if (host === undefined || typeof host === 'boolean') {
+		throw new Error('VITE_HOST not set');
+	}
+
 	const serviceKey = JSON.parse(
 		(import.meta.env.VITE_FIREBASE_SERVICE_KEY ?? '').toString(),
 	) as ServiceKey;
 
 	return {
+		host,
 		serviceKey,
 	};
 };
 
 export interface ClientEnv {
+	host: string;
 	firebaseConfig: FirebaseConfig;
 }
 
@@ -46,11 +54,17 @@ export interface FirebaseConfig {
 }
 
 export const getClientEnv = (): ClientEnv => {
+	const host = import.meta.env.VITE_HOST;
+	if (host === undefined || typeof host === 'boolean') {
+		throw new Error('VITE_HOST not set');
+	}
+
 	const firebaseConfig = JSON.parse(
 		(import.meta.env.VITE_FIREBASE_CLIENT_CONFIG ?? '').toString(),
 	) as FirebaseConfig;
 
 	return {
+		host,
 		firebaseConfig,
 	};
 };
