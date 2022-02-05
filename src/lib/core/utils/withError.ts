@@ -73,32 +73,22 @@ export const withError = <T>(
 		});
 	};
 
-	/*
-	 * in only: entered the parent.
-	 * out, in: entered child.
-	 * out only: exited the parent.
-	 */
 	const touch: Action = (node) => {
-		let focusedIn = false;
 		let focusedOut = false;
 		const handleFocusOut = () => {
 			focusedOut = true;
 			setTimeout(() => {
-				if (focusedOut && !focusedIn) {
+				if (focusedOut) {
 					store.update(($store) => ({
 						...$store,
 						touched: true,
 					}));
+					validate();
 				}
-				focusedIn = false;
-				focusedOut = false;
 			});
 		};
 		const handleFocusIn = () => {
-			focusedIn = true;
-			setTimeout(() => {
-				focusedIn = false;
-			});
+			focusedOut = false;
 		};
 		node.addEventListener('focusout', handleFocusOut);
 		node.addEventListener('focusin', handleFocusIn);
