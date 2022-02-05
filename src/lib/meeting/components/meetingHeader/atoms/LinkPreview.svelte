@@ -44,7 +44,6 @@
 			favicon = data.favicons[0];
 		}
 	};
-	$: console.log({ title, description, favicon });
 
 	const isHovering = writable(false);
 </script>
@@ -56,31 +55,41 @@
 	use={[ref, [hover, isHovering]]}
 	class="link-preview group"
 >
-	{url?.host}
-	{#if $isHovering}
-		<div class="link-preview-popover-box" use:content>
-			<div
-				class="link-preview-popover"
-				in:fade={{ duration: 300, easing: cubicOut }}
-				out:fade={{ duration: 300, delay: 300, easing: cubicOut }}
-			>
-				{link}
-			</div>
-		</div>
-	{/if}
+	<div class="wh-4">
+		<img src={favicon} alt="favicon" />
+	</div>
+	<span class="text-label">
+		{title ?? url?.host}
+	</span>
 </Button>
+{#if $isHovering}
+	<div class="link-preview-popover-box" use:content>
+		<div
+			class="link-preview-popover"
+			in:fade={{ duration: 300, easing: cubicOut }}
+			out:fade={{ duration: 300, delay: 300, easing: cubicOut }}
+		>
+			<p class="text-neutral-400">
+				{link}
+			</p>
+			<p>
+				{description}
+			</p>
+		</div>
+	</div>
+{/if}
 
 <style lang="postcss">
 	:global(.link-preview) {
-		@apply relative;
+		@apply relative flex items-center gap-2;
 	}
 
 	.link-preview-popover-box {
-		@apply absolute w-fit max-w-80 py-2;
+		@apply absolute w-fit max-w-80 py-2 z-10;
 	}
 
 	.link-preview-popover {
-		@apply text-label-sm whitespace-nowrap text-ellipsis overflow-hidden;
+		@apply text-label-sm z-10;
 		@apply p-2 bg-shade-50 rounded-xl shadow-wide;
 	}
 </style>
