@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	export const load: Load<{ session: Session }> = async ({ params }) => {
+	export const load: Load = async ({ params }) => {
 		const { slug } = params;
 		const meeting = await findMeetingWithSlug(firebaseClient.repo, slug);
 		return {
@@ -12,7 +12,6 @@
 
 <script lang="ts">
 	import type { Load } from '@sveltejs/kit';
-	import type { Session } from '$lib/core/types/Session';
 	import { MeetingConverter } from '$lib/models/Meeting';
 	import type { Meeting, MeetingData } from '$lib/models/Meeting';
 	import type { Id } from '$lib/core/types/Id';
