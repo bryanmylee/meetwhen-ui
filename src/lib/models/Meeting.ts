@@ -5,6 +5,8 @@ import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { definedOnly } from '$lib/core/utils/definedOnly';
 import type { LinkPreviewData } from '$lib/core/types/LinkPreviewData';
+import { ScheduleConverter } from './Schedule';
+import type { Schedule, ScheduleData } from './Schedule';
 
 export interface Meeting {
 	name: string;
@@ -17,6 +19,7 @@ export interface Meeting {
 	links?: LinkPreviewData[];
 	intervals: Interval[];
 	total: Interval;
+	schedules?: Schedule[];
 }
 
 export interface MeetingData extends DocumentData {
@@ -30,6 +33,7 @@ export interface MeetingData extends DocumentData {
 	links?: LinkPreviewData[];
 	intervals: IntervalData[];
 	total: IntervalData;
+	schedules?: ScheduleData[];
 }
 
 export class MeetingConverter {
@@ -39,6 +43,7 @@ export class MeetingConverter {
 			created: meeting.created.unix(),
 			intervals: meeting.intervals.map(IntervalConverter.serialize),
 			total: IntervalConverter.serialize(meeting.total),
+			schedules: meeting.schedules?.map(ScheduleConverter.serialize),
 		});
 	}
 
@@ -48,6 +53,7 @@ export class MeetingConverter {
 			created: dayjs.unix(data.created),
 			intervals: data.intervals.map(IntervalConverter.parse),
 			total: IntervalConverter.parse(data.total),
+			schedules: data.schedules?.map(ScheduleConverter.parse),
 		};
 	}
 }
