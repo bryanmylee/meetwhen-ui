@@ -32,7 +32,7 @@
 		>
 			<ChevronDownIcon
 				class={classes(
-					'wh-6 transition-transform',
+					'wh-5 transition-transform',
 					showDescription && 'rotate-180',
 				)}
 			/>

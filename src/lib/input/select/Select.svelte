@@ -40,7 +40,7 @@
 		<div>
 			{@html itemLabel(selectedValue)}
 		</div>
-		<ChevronDownIcon class={classes('wh-6', open && 'rotate-180')} />
+		<ChevronDownIcon class={classes('wh-5', open && 'rotate-180')} />
 	</ListboxButton>
 	<ListboxOptions class="listbox-options">
 		<div class="listbox-options-scrollbox">
