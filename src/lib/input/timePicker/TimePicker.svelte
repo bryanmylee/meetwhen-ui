@@ -79,6 +79,8 @@
 			.map(dateTimeToId),
 	);
 
+	export let disabled = false;
+
 	setTimePickerState(state);
 	const { flattenedTimeCells, dateIds, timeCellsByDateId, intervalsByDateId } =
 		state;
@@ -155,6 +157,7 @@
 			<TimePickerLayoutIndex shadow={$scrollGridOffset.x > 0} />
 			<SelectionProvider
 				{selectedIds}
+				{disabled}
 				lazy
 				bind:currentId={$currentId}
 				interpolate={timePickerInterpolate}
@@ -178,13 +181,20 @@
 							cols: $dateIds.length,
 						})}
 				>
-					<slot {isIdSelected} {isIdCurrent} {isIdDisabled} {selectMode} />
+					<slot
+						{disabled}
+						{isIdSelected}
+						{isIdCurrent}
+						{isIdDisabled}
+						{selectMode}
+					/>
 					{#each Object.entries($timeCellsByDateId) as [dateId, dateTimeCells]}
 						{#each dateTimeCells as timeCell}
 							<slot name="time-cell" {dateId} {timeCell}>
 								<TimePickerBlockCell
 									{dateId}
 									{timeCell}
+									{disabled}
 									{isIdSelected}
 									{isIdCurrent}
 									{isIdDisabled}
@@ -196,13 +206,15 @@
 							{/if}
 						{/each}
 					{/each}
-					{#each Object.entries($intervalsByDateId) as [_, blocks]}
-						{#each blocks as block}
-							<slot name="block-overlay" {block}>
-								<TimePickerBlockOverlay {block} />
-							</slot>
+					{#if !disabled}
+						{#each Object.entries($intervalsByDateId) as [_, blocks]}
+							{#each blocks as block}
+								<slot name="block-overlay" {block}>
+									<TimePickerBlockOverlay {block} />
+								</slot>
+							{/each}
 						{/each}
-					{/each}
+					{/if}
 					{#each selectedIntervals as interval}
 						<slot name="selected-interval" {interval}>
 							<TimePickerSelectedInterval {interval} {selectMode} />
@@ -213,7 +225,9 @@
 							<TimePickerActiveInterval {interval} {selectMode} />
 						</slot>
 					{/each}
-					<TimePickerFocusCell {selectMode} />
+					{#if !disabled}
+						<TimePickerFocusCell {selectMode} />
+					{/if}
 				</div>
 			</SelectionProvider>
 		</div>

@@ -20,21 +20,22 @@
 		` ${dateFromId(dateId).format('D MMM YYYY')}`;
 	$: dateTimeId = dateTimeComposeId([dateId, timeId]);
 
+	export let disabled = false;
 	export let isIdSelected: (id: string) => boolean;
 	export let isIdCurrent: (id: string) => boolean;
 	export let isIdDisabled: (id: string) => boolean;
 	export let selectMode: Maybe<SelectMode> = undefined;
 
-	$: selected = isIdSelected(dateTimeId);
-	$: current = isIdCurrent(dateTimeId);
-	$: disabled = isIdDisabled(dateTimeId);
+	$: cellSelected = isIdSelected(dateTimeId);
+	$: cellCurrent = isIdCurrent(dateTimeId);
+	$: cellDisabled = isIdDisabled(dateTimeId);
 
 	const { resolution } = getTimePickerControls();
 	const { dateIdToColumnNumber, timeIdToRowNumber } = getTimePickerState();
 
 	let buttonElement: Maybe<HTMLButtonElement>;
 	const currentDateTimeElement = getCurrentDateTimeElement();
-	$: if (current) {
+	$: if (cellCurrent) {
 		$currentDateTimeElement = buttonElement;
 	}
 </script>
@@ -45,9 +46,9 @@
 	role="gridcell"
 	aria-label={label}
 	data-select-id={dateTimeComposeId([dateId, timeId])}
-	aria-selected={selected}
-	{disabled}
-	tabindex={current ? 0 : -1}
+	aria-selected={cellSelected}
+	disabled={disabled || cellDisabled}
+	tabindex={cellCurrent ? 0 : -1}
 	class="timepicker-cell"
 	class:add={selectMode === 'add'}
 	class:remove={selectMode === 'remove'}
