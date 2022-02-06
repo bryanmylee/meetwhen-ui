@@ -1,1 +1,1 @@
-export type MeetingPageState = 'none' | 'join' | 'edit';
+export type MeetingPageState = 'none' | 'join' | 'edit' | 'leave';
