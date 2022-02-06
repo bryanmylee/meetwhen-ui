@@ -6,7 +6,7 @@
 		getTimePickerControls,
 		getTimePickerState,
 	} from '$lib/input/timePicker/utils/timePickerContext';
-	import { timePickerIntervalStyle } from '$lib/input/timePicker/atoms/timePickerIntervalStyle';
+	import { intervalGridArea } from '$lib/input/timePicker/utils/intervalGridArea';
 
 	const { resolution } = getTimePickerControls();
 	const { dateIdToColumnNumber, timeIdToRowNumber } = getTimePickerState();
@@ -19,7 +19,7 @@
 	class="timepicker-selected"
 	class:add={selectMode === 'add'}
 	class:remove={selectMode === 'remove'}
-	style={timePickerIntervalStyle({
+	style:grid-area={intervalGridArea({
 		dateIdToColumnNumber: $dateIdToColumnNumber,
 		timeIdToRowNumber: $timeIdToRowNumber,
 		resolution: $resolution,

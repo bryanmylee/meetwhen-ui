@@ -1,2 +1,2 @@
-export { gridStyle } from './gridStyle';
-export { gridItemStyle } from './gridItemStyle';
+export { gridTemplate } from './gridTemplate';
+export { gridArea } from './gridArea';

@@ -3,7 +3,7 @@
 	import { writable } from 'svelte/store';
 	import { Set } from 'immutable';
 	import { nanoid } from 'nanoid';
-	import { gridItemStyle, gridStyle } from '$lib/core/components/grid';
+	import { gridArea, gridTemplate } from '$lib/core/components/grid';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 	import {
 		dateTimeFromId,
@@ -175,11 +175,12 @@
 					role="grid"
 					aria-describedby={errorId}
 					class="timepicker-grid"
-					style={gridItemStyle({ x: 1, y: 1 }) +
-						gridStyle({
-							rows: $flattenedTimeCells.length,
-							cols: $dateIds.length,
-						})}
+					style:display="grid"
+					style:grid-template={gridTemplate({
+						rows: $flattenedTimeCells.length,
+						cols: $dateIds.length,
+					})}
+					style:grid-area={gridArea({ x: 1, y: 1 })}
 				>
 					<slot
 						{disabled}

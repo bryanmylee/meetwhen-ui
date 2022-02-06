@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gridItemStyle, gridStyle } from '$lib/core/components/grid';
+	import { gridArea, gridTemplate } from '$lib/core/components/grid';
 	import { cssVars } from '$lib/core/utils/cssVars';
 	import { useUser } from '$lib/firebase/context';
 	import { Button } from '$lib/input';
@@ -23,11 +23,16 @@
 			Get started for free
 		</Button>
 	</div>
-	<div class="header-bg" style={gridStyle({ rows: 5, cols: 5 })}>
+	<div
+		class="header-bg"
+		style:display="grid"
+		style:grid-template={gridTemplate({ rows: 5, cols: 5 })}
+	>
 		{#each cells as { x, y, opacity }}
 			<div
 				class="header-bg-item"
-				style="{gridItemStyle({ x, y })} {cssVars({ opacity })}"
+				style:grid-area={gridArea({ x, y })}
+				style={cssVars({ opacity })}
 			/>
 		{/each}
 	</div>

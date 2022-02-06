@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gridItemStyle, gridStyle } from '$lib/core/components/grid';
+	import { gridArea, gridTemplate } from '$lib/core/components/grid';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 	import { getTimePickerState } from '../utils/timePickerContext';
 
@@ -10,13 +10,15 @@
 
 <div
 	class="timepicker-grid-header"
-	style={gridItemStyle({ x: 1 }) + gridStyle({ cols: $dateIds.length })}
+	style:grid-area={gridArea({ x: 1 })}
+	style:display="grid"
+	style:grid-template={gridTemplate({ cols: $dateIds.length })}
 >
 	{#each $dateIds as dateId}
 		{@const date = dateFromId(dateId)}
 		<div
 			class="timepicker-grid-header-cell"
-			style={gridItemStyle({ x: $dateIdToColumnNumber[dateId] })}
+			style:grid-area={gridArea({ x: $dateIdToColumnNumber[dateId] })}
 		>
 			{date.format('ddd D MMM')}
 		</div>
@@ -26,7 +28,7 @@
 <div
 	class="timepicker-grid-header-bg"
 	class:shadow
-	style={gridItemStyle({ endX: 2 })}
+	style:grid-area={gridArea({ endX: 2 })}
 />
 
 <style lang="postcss">

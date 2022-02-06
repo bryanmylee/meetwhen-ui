@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gridItemStyle } from '$lib/core/components/grid';
+	import { gridArea } from '$lib/core/components/grid';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
@@ -19,7 +19,7 @@
 	class="timepicker-focus"
 	class:add={selectMode === 'add'}
 	class:remove={selectMode === 'remove'}
-	style={gridItemStyle({
+	style:grid-area={gridArea({
 		x: $dateIdToColumnNumber[dateToId($currentDateTime)],
 		y: $timeIdToRowNumber[timeToId($currentDateTime)],
 	})}

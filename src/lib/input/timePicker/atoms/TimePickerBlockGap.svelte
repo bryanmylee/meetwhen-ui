@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gridItemStyle } from '$lib/core/components/grid';
+	import { gridArea } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import type { TimeCell } from '../types/TimeCell';
 	import { getTimePickerState } from '../utils/timePickerContext';
@@ -11,7 +11,7 @@
 
 <div
 	class="timepicker-padding"
-	style={gridItemStyle({
+	style:grid-area={gridArea({
 		y: $timeIdToRowNumber[timeToId(timeCell.time)] + 1,
 	})}
 />

@@ -2,7 +2,7 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from '$lib/input';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
-	import { gridItemStyle } from '$lib/core/components/grid';
+	import { gridArea } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import { dateTimeComposeId } from '$lib/core/utils/dayjs/dateTimeIds';
 	import {
@@ -24,7 +24,6 @@
 	export let isIdSelected: (id: string) => boolean;
 	export let isIdCurrent: (id: string) => boolean;
 	export let isIdDisabled: (id: string) => boolean;
-	export let selectMode: Maybe<SelectMode> = undefined;
 
 	$: cellSelected = isIdSelected(dateTimeId);
 	$: cellCurrent = isIdCurrent(dateTimeId);
@@ -44,7 +43,7 @@
 	role="gridcell"
 	aria-label={label}
 	class="timepicker-cell"
-	style={gridItemStyle({
+	style:grid-area={gridArea({
 		x: $dateIdToColumnNumber[dateId],
 		y: $timeIdToRowNumber[timeId],
 	})}

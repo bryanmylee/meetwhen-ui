@@ -2,7 +2,7 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from '$lib/input';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
-	import { gridItemStyle } from '$lib/core/components/grid';
+	import { gridArea } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import { dateTimeComposeId } from '$lib/core/utils/dayjs/dateTimeIds';
 	import {
@@ -52,14 +52,14 @@
 	class="timepicker-cell"
 	class:add={selectMode === 'add'}
 	class:remove={selectMode === 'remove'}
-	style={gridItemStyle({
-		x: $dateIdToColumnNumber[dateId],
-		y: $timeIdToRowNumber[timeId],
-	})}
 	class:border-b-2={timeCell.time.add($resolution, 'minutes').minute() === 0 &&
 		!timeCell.isEndOfInterval}
 	class:rounded-t-xl={timeCell.isStartOfInterval}
 	class:rounded-b-xl={timeCell.isEndOfInterval}
+	style:grid-area={gridArea({
+		x: $dateIdToColumnNumber[dateId],
+		y: $timeIdToRowNumber[timeId],
+	})}
 />
 
 <style lang="postcss">

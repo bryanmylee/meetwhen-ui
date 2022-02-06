@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Interval } from '$lib/core/types/Interval';
-	import { timePickerIntervalStyle } from '../atoms/timePickerIntervalStyle';
+	import { intervalGridArea } from '../utils/intervalGridArea';
 	import {
 		getTimePickerControls,
 		getTimePickerState,
@@ -14,7 +14,7 @@
 
 <div
 	class="timepicker-block"
-	style={timePickerIntervalStyle({
+	style:grid-area={intervalGridArea({
 		dateIdToColumnNumber: $dateIdToColumnNumber,
 		timeIdToRowNumber: $timeIdToRowNumber,
 		resolution: $resolution,

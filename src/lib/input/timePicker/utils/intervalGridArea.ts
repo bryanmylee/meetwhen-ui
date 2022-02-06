@@ -1,23 +1,23 @@
-import { gridItemStyle } from '$lib/core/components/grid';
+import { gridArea } from '$lib/core/components/grid';
 import type { Interval } from '$lib/core/types/Interval';
 import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 
-export interface TimePickerIntervalProps {
+export interface IntervalGridAreaProps {
 	dateIdToColumnNumber: Record<string, number>;
 	timeIdToRowNumber: Record<string, number>;
 	resolution: number;
 	interval: Interval;
 }
 
-export const timePickerIntervalStyle = ({
+export const intervalGridArea = ({
 	dateIdToColumnNumber,
 	timeIdToRowNumber,
 	resolution,
 	interval: { start, end },
-}: TimePickerIntervalProps): string => {
+}: IntervalGridAreaProps): string => {
 	const adjustedEnd = end.subtract(resolution, 'minutes');
-	return gridItemStyle({
+	return gridArea({
 		x: dateIdToColumnNumber[dateToId(start)],
 		y: timeIdToRowNumber[timeToId(start)],
 		endX: dateIdToColumnNumber[dateToId(adjustedEnd)] + 1,

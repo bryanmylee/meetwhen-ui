@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Interval } from '$lib/core/types/Interval';
 	import { TimePicker } from '$lib/input';
+	import type { Schedule } from '$lib/models/Schedule';
 	import SchedulePickerActiveInterval from './atoms/SchedulePickerActiveInterval.svelte';
 	import SchedulePickerBlockCell from './atoms/SchedulePickerBlockCell.svelte';
 	import SchedulePickerBlockOverlay from './atoms/SchedulePickerBlockOverlay.svelte';
@@ -14,7 +15,9 @@
 	$: if (!editing) {
 		value = [];
 	}
+
 	export let validIntervals: Interval[];
+	export let schedules: Schedule[] = [];
 </script>
 
 <div class="picker-card">

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gridItemStyle, gridStyle } from '$lib/core/components/grid';
+	import { gridArea, gridTemplate } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import {
 		getTimePickerControls,
@@ -16,15 +16,18 @@
 <div
 	class="timepicker-grid-index"
 	class:shadow
-	style={gridItemStyle({ y: 1 }) +
-		gridStyle({ rows: $flattenedTimeCells.length })}
+	style:grid-area={gridArea({ y: 1 })}
+	style:display="grid"
+	style:grid-template={gridTemplate({ rows: $flattenedTimeCells.length })}
 >
 	{#each $flattenedTimeCells as timeCell}
 		<div
 			class="timepicker-grid-index-cell"
 			class:!rounded-t-lg={timeCell.isStartOfInterval}
 			class:!rounded-b-lg={timeCell.isEndOfBlock}
-			style={gridItemStyle({ y: $timeIdToRowNumber[timeToId(timeCell.time)] })}
+			style:grid-area={gridArea({
+				y: $timeIdToRowNumber[timeToId(timeCell.time)],
+			})}
 		>
 			{#if timeCell.time.minute() === 0 || timeCell.isStartOfInterval}
 				<div class="label" class:start={timeCell.isStartOfInterval}>
