@@ -22,23 +22,33 @@
 <header class="meeting-header-box">
 	<span />
 	<div class="meeting-header">
-		<div class="flex items-start gap-2 -ml-1">
-			{#if hasMoreDetails}
-				<Button
-					icon
-					variant="text-only"
-					aria-expanded={showMoreDetails}
-					on:click={() => (showMoreDetails = !showMoreDetails)}
-				>
-					<ChevronDownIcon
-						class={classes(
-							'wh-5 transition-transform',
-							showMoreDetails && 'rotate-180',
-						)}
-					/>
-				</Button>
-			{/if}
-			<h1 class="text-subtitle">{name}</h1>
+		<div class="flex justify-between items-start gap-2 w-full">
+			<div class="flex items-start gap-2">
+				{#if hasMoreDetails}
+					<Button
+						icon
+						variant="text-only"
+						aria-expanded={showMoreDetails}
+						on:click={() => (showMoreDetails = !showMoreDetails)}
+						class="-ml-1"
+					>
+						<ChevronDownIcon
+							class={classes(
+								'wh-5 transition-transform',
+								showMoreDetails && 'rotate-180',
+							)}
+						/>
+					</Button>
+				{/if}
+				<h1 class="text-subtitle">{name}</h1>
+			</div>
+			<Button
+				icon
+				variant="text-only"
+				on:click={() => (showShareDialog = true)}
+			>
+				<ShareIcon class="wh-5" />
+			</Button>
 		</div>
 		{#if hasMoreDetails && showMoreDetails}
 			<div
@@ -65,9 +75,6 @@
 			</div>
 		{/if}
 	</div>
-	<Button icon variant="text-only" on:click={() => (showShareDialog = true)}>
-		<ShareIcon class="wh-5" />
-	</Button>
 </header>
 <ShareDialog bind:open={showShareDialog} {slug} />
 
@@ -84,7 +91,6 @@
 	}
 
 	.meeting-header {
-		@apply block ml-3;
-		@apply flex flex-col;
+		@apply w-full flex flex-col ml-3;
 	}
 </style>
