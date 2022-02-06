@@ -22,8 +22,25 @@
 <header class="meeting-header-box">
 	<span />
 	<div class="meeting-header">
-		<h1 class="text-subtitle">{name}</h1>
-		{#if showMoreDetails}
+		<div class="flex items-start gap-2 -ml-1">
+			{#if hasMoreDetails}
+				<Button
+					icon
+					variant="text-only"
+					aria-expanded={showMoreDetails}
+					on:click={() => (showMoreDetails = !showMoreDetails)}
+				>
+					<ChevronDownIcon
+						class={classes(
+							'wh-5 transition-transform',
+							showMoreDetails && 'rotate-180',
+						)}
+					/>
+				</Button>
+			{/if}
+			<h1 class="text-subtitle">{name}</h1>
+		</div>
+		{#if hasMoreDetails && showMoreDetails}
 			<div
 				transition:slide|local={{ duration: 300, easing: cubicOut }}
 				class="mt-2"
@@ -48,26 +65,9 @@
 			</div>
 		{/if}
 	</div>
-	<div class="flex gap-2">
-		<Button icon variant="text-only" on:click={() => (showShareDialog = true)}>
-			<ShareIcon class="wh-5" />
-		</Button>
-		{#if hasMoreDetails}
-			<Button
-				icon
-				variant="text-only"
-				aria-expanded={showMoreDetails}
-				on:click={() => (showMoreDetails = !showMoreDetails)}
-			>
-				<ChevronDownIcon
-					class={classes(
-						'wh-5 transition-transform',
-						showMoreDetails && 'rotate-180',
-					)}
-				/>
-			</Button>
-		{/if}
-	</div>
+	<Button icon variant="text-only" on:click={() => (showShareDialog = true)}>
+		<ShareIcon class="wh-5" />
+	</Button>
 </header>
 <ShareDialog bind:open={showShareDialog} {slug} />
 
