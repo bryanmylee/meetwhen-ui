@@ -263,6 +263,7 @@
 	.error-message-box {
 		@apply absolute inset-0 top-auto;
 		@apply flex justify-center;
+		@apply z-50 pointer-events-none;
 	}
 
 	.error-message {
