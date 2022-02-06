@@ -4,9 +4,9 @@ import type { DocumentData } from 'firebase/firestore';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { definedOnly } from '$lib/core/utils/definedOnly';
+import type { Id } from '$lib/core/types/Id';
 import type { LinkPreviewData } from '$lib/core/types/LinkPreviewData';
-import { ScheduleConverter } from './Schedule';
-import type { Schedule, ScheduleData } from './Schedule';
+import type { Schedule } from './Schedule';
 
 export interface Meeting {
 	name: string;
@@ -19,7 +19,8 @@ export interface Meeting {
 	links?: LinkPreviewData[];
 	intervals: Interval[];
 	total: Interval;
-	schedules?: Schedule[];
+	// 'schedules' collection reference.
+	schedules?: Id<Schedule>[];
 }
 
 export interface MeetingData extends DocumentData {
@@ -33,7 +34,6 @@ export interface MeetingData extends DocumentData {
 	links?: LinkPreviewData[];
 	intervals: IntervalData[];
 	total: IntervalData;
-	schedules?: ScheduleData[];
 }
 
 export class MeetingConverter {
@@ -43,17 +43,15 @@ export class MeetingConverter {
 			created: meeting.created.unix(),
 			intervals: meeting.intervals.map(IntervalConverter.serialize),
 			total: IntervalConverter.serialize(meeting.total),
-			schedules: meeting.schedules?.map(ScheduleConverter.serialize),
 		});
 	}
 
 	static parse(data: MeetingData): Meeting {
-		return definedOnly({
+		return {
 			...data,
 			created: dayjs.unix(data.created),
 			intervals: data.intervals.map(IntervalConverter.parse),
 			total: IntervalConverter.parse(data.total),
-			schedules: data.schedules?.map(ScheduleConverter.parse),
-		});
+		};
 	}
 }
