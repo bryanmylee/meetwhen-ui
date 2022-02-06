@@ -46,12 +46,12 @@
 				class="mt-2"
 			>
 				{#if description !== undefined}
-					<p>
+					<p class="text-sm">
 						{description}
 					</p>
 				{/if}
 				{#if links !== undefined && links.length > 0}
-					<div class="flex flex-wrap gap-2 mt-3">
+					<div class="flex flex-wrap gap-2 mt-3 only:mt-1">
 						{#each links as { url, title, description, favicons }}
 							<LinkPreview
 								link={url}
