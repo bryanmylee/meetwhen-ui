@@ -11,7 +11,6 @@
 		getCurrentDateTimeElement,
 	} from '$lib/input/timePicker/utils/timePickerContext';
 	import type { TimeCell } from '$lib/input/timePicker/types/TimeCell';
-	import { onMount } from 'svelte';
 
 	export let dateId: string;
 	export let timeCell: TimeCell;
@@ -39,13 +38,6 @@
 	$: if (cellCurrent) {
 		$currentDateTimeElement = buttonElement;
 	}
-
-	onMount(() => {
-		console.log('mounting block cells');
-		return () => {
-			console.log('unmounting block cells');
-		};
-	});
 </script>
 
 <div
