@@ -10,6 +10,7 @@ import {
 	where,
 } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
+import { findAllSchedulesWithMeetingId } from '../schedules/findAllSchedulesWithMeetingId';
 
 export const findMeetingWithSlug = async (
 	repo: Firestore,
@@ -22,6 +23,7 @@ export const findMeetingWithSlug = async (
 		return undefined;
 	}
 	const doc = meetingSnapshot.docs[0];
+	const schedules = await findAllSchedulesWithMeetingId(repo, doc.id);
 	const meeting = MeetingConverter.parse(doc.data());
-	return { ...meeting, id: doc.id } as Id<Meeting>;
+	return { ...meeting, schedules, id: doc.id };
 };

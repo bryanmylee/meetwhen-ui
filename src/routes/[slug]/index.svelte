@@ -57,7 +57,6 @@
 	);
 	$: {
 		const data = $liveSchedulesDocs.map((d) => d.data());
-		meeting.schedules = data.map(ScheduleConverter.parse);
 	}
 
 	let pageState: MeetingPageState = 'none';
