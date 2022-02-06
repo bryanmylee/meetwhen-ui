@@ -16,10 +16,13 @@
 	import { doc } from 'firebase/firestore';
 	import { MeetingConverter } from '$lib/models/Meeting';
 	import type { Meeting, MeetingData } from '$lib/models/Meeting';
+	import { ScheduleConverter } from '$lib/models/Schedule';
+	import type { ScheduleData } from '$lib/models/Schedule';
 	import type { Id } from '$lib/core/types/Id';
 	import { firebaseClient } from '$lib/firebase/client';
 	import { useRepo, useUser } from '$lib/firebase/context';
 	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';
+	import { useLiveQuery } from '$lib/firebase/utils/useLiveQuery';
 	import { findMeetingWithSlug } from '$lib/firebase/queries/meetings';
 	import { MeetingHeader, ScheduleTimePicker } from '$lib/meeting/components';
 	import { withError } from '$lib/core/utils/withError';
@@ -28,23 +31,34 @@
 	import { Button } from '$lib/input';
 	import type { MeetingPageState } from '$lib/meeting/types/MeetingPageState';
 	import { addSchedule } from '$lib/firebase/mutations/addSchedule';
+	import { findAllSchedulesWithMeetingIdQuery } from '$lib/firebase/queries/schedules/findAllSchedulesWithMeetingId';
 
 	const repo = useRepo();
 	const currentUser = useUser();
 
 	export let meeting: Id<Meeting>;
-	const liveMeetingDocument = useLiveDocument<MeetingData>(
+	$: console.log(meeting);
+
+	const liveMeetingDoc = useLiveDocument<MeetingData>(
 		doc(repo, 'meetings', meeting.id),
 	);
 	$: {
-		const data = $liveMeetingDocument?.data();
-		if (data !== undefined)
+		const data = $liveMeetingDoc?.data();
+		if (data !== undefined) {
 			meeting = {
 				id: meeting.id,
 				...MeetingConverter.parse(data),
 			};
+		}
 	}
-	$: console.log(meeting);
+
+	const liveSchedulesDocs = useLiveQuery<ScheduleData>(
+		findAllSchedulesWithMeetingIdQuery(repo, meeting.id),
+	);
+	$: {
+		const data = $liveSchedulesDocs.map((d) => d.data());
+		meeting.schedules = data.map(ScheduleConverter.parse);
+	}
 
 	let pageState: MeetingPageState = 'none';
 	$: isJoined =
