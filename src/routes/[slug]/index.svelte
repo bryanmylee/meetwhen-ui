@@ -19,7 +19,7 @@
 	import { useRepo } from '$lib/firebase/context';
 	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';
 	import { findMeetingWithSlug } from '$lib/firebase/queries/meetings';
-	import { MeetingHeader } from '$lib/meeting/components';
+	import { MeetingHeader, ScheduleTimePicker } from '$lib/meeting/components';
 
 	const repo = useRepo();
 
@@ -43,5 +43,6 @@
 <section>
 	<div class="max-w-xl p-4 mx-auto flex flex-col gap-4">
 		<MeetingHeader {...meeting} />
+		<ScheduleTimePicker intervals={meeting.intervals} />
 	</div>
 </section>

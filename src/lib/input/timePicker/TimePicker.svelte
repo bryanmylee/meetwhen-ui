@@ -39,6 +39,7 @@
 	import TimePickerBlockOverlay from './atoms/TimePickerBlockOverlay.svelte';
 	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
 	import TimePickerActiveInterval from './atoms/TimePickerActiveInterval.svelte';
+	import { unix } from 'dayjs';
 
 	export let id: string = nanoid(8);
 	$: errorId = `${id}-error`;
@@ -189,7 +190,7 @@
 						{selectMode}
 					/>
 					{#each Object.entries($timeCellsByDateId) as [dateId, dateTimeCells]}
-						{#each dateTimeCells as timeCell}
+						{#each dateTimeCells as timeCell (timeCell.time.unix())}
 							<slot name="time-cell" {dateId} {timeCell}>
 								<TimePickerBlockCell
 									{dateId}
@@ -207,8 +208,8 @@
 						{/each}
 					{/each}
 					{#if !disabled}
-						{#each Object.entries($intervalsByDateId) as [_, blocks]}
-							{#each blocks as block}
+						{#each Object.entries($intervalsByDateId) as [_, blocks] (blocks[0]?.start?.unix())}
+							{#each blocks as block (block.start.unix())}
 								<slot name="block-overlay" {block}>
 									<TimePickerBlockOverlay {block} />
 								</slot>
@@ -226,7 +227,9 @@
 						</slot>
 					{/each}
 					{#if !disabled}
-						<TimePickerFocusCell {selectMode} />
+						<slot name="focus-cell">
+							<TimePickerFocusCell {selectMode} />
+						</slot>
 					{/if}
 				</div>
 			</SelectionProvider>
