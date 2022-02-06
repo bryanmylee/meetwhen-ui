@@ -32,6 +32,7 @@
 	import type { MeetingPageState } from '$lib/meeting/types/MeetingPageState';
 	import { addSchedule } from '$lib/firebase/mutations/addSchedule';
 	import { findAllSchedulesWithMeetingIdQuery } from '$lib/firebase/queries/schedules/findAllSchedulesWithMeetingId';
+	import { deleteSchedule } from '$lib/firebase/mutations/deleteSchedule';
 
 	const repo = useRepo();
 	const currentUser = useUser();
@@ -56,11 +57,13 @@
 		findAllSchedulesWithMeetingIdQuery(repo, meeting.id),
 	);
 	$: {
-		const data = $liveSchedulesDocs?.map((d) => d.data());
-		if (data !== undefined) {
+		const schedules = $liveSchedulesDocs
+			?.map((d) => [d.id, d.data()] as const)
+			.map(([id, data]) => ({ ...ScheduleConverter.parse(data), id }));
+		if (schedules !== undefined) {
 			meeting = {
 				...meeting,
-				schedules: data.map(ScheduleConverter.parse),
+				schedules,
 			};
 		}
 	}
@@ -102,6 +105,26 @@
 			},
 			$currentUser,
 		);
+		pageState = 'none';
+	};
+
+	const handleLeave = () => {
+		pageState = 'leave';
+	};
+
+	const confirmLeave = async () => {
+		if ($currentUser === undefined || $currentUser?.ssr) {
+			return;
+		}
+		const userId = $currentUser.uid;
+		const scheduleToDelete = meeting.schedules?.find(
+			(s) => s.userId === userId,
+		);
+		if (scheduleToDelete === undefined) {
+			return;
+		}
+		await deleteSchedule(repo, scheduleToDelete.id);
+		pageState = 'none';
 	};
 </script>
 
@@ -112,11 +135,12 @@
 			bind:value={$intervals.value}
 			error={$intervals.error}
 			validIntervals={meeting.intervals}
+			schedules={meeting.schedules}
 			editing={pageState === 'join' || pageState === 'edit'}
 		/>
 		{#if pageState === 'none'}
 			{#if isJoined}
-				<Button>Leave</Button>
+				<Button on:click={handleLeave}>Leave</Button>
 			{:else}
 				<Button color="gradient" on:click={handleJoin}>Join</Button>
 			{/if}
@@ -130,6 +154,19 @@
 					Cancel
 				</Button>
 				<Button color="gradient" class="w-full" on:click={confirmJoin}>
+					Confirm
+				</Button>
+			</div>
+		{:else if pageState === 'leave'}
+			<div class="w-full flex gap-4">
+				<Button
+					color="gray"
+					class="w-full"
+					on:click={() => (pageState = 'none')}
+				>
+					Cancel
+				</Button>
+				<Button color="gradient" class="w-full" on:click={confirmLeave}>
 					Confirm
 				</Button>
 			</div>
