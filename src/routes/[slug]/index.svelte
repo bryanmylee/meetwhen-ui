@@ -13,6 +13,7 @@
 <script lang="ts">
 	import { tick } from 'svelte';
 	import type { Load } from '@sveltejs/kit';
+	import { doc } from 'firebase/firestore';
 	import { MeetingConverter } from '$lib/models/Meeting';
 	import type { Meeting, MeetingData } from '$lib/models/Meeting';
 	import type { Id } from '$lib/core/types/Id';
@@ -33,9 +34,7 @@
 
 	export let meeting: Id<Meeting>;
 	const liveMeetingDocument = useLiveDocument<MeetingData>(
-		repo,
-		'meetings',
-		meeting.id,
+		doc(repo, 'meetings', meeting.id),
 	);
 	$: {
 		const data = $liveMeetingDocument?.data();
@@ -75,7 +74,7 @@
 			console.error(errors);
 			return;
 		}
-		const schedule = await addSchedule(
+		const newSchedule = await addSchedule(
 			repo,
 			{
 				intervals: $intervals.value,
@@ -83,7 +82,7 @@
 			},
 			$currentUser,
 		);
-		console.log(schedule);
+		meeting.schedules = [...meeting.schedules, newSchedule];
 	};
 </script>
 

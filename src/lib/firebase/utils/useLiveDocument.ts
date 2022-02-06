@@ -1,21 +1,20 @@
 import { onMount } from 'svelte';
 import { writable } from 'svelte/store';
 import type { Readable } from 'svelte/store';
-import { doc, onSnapshot } from 'firebase/firestore';
-import type { DocumentSnapshot, Firestore } from 'firebase/firestore';
+import { onSnapshot } from 'firebase/firestore';
+import type { DocumentData, DocumentReference } from 'firebase/firestore';
+import type { DocumentSnapshot } from 'firebase/firestore';
 import type { Maybe } from '$lib/core/types/Maybe';
 
 /**
  * Listens to a document on Firestore. This must be called during component initialization.
  */
-export const useLiveDocument = <Data>(
-	repo: Firestore,
-	path: string,
-	...pathSegments: string[]
+export const useLiveDocument = <Data extends DocumentData>(
+	doc: DocumentReference,
 ): Readable<Maybe<DocumentSnapshot<Data>>> => {
 	const store = writable<Maybe<DocumentSnapshot<Data>>>(undefined);
 	onMount(() => {
-		return onSnapshot(doc(repo, path, ...pathSegments), (document) => {
+		return onSnapshot(doc, (document) => {
 			store.set(document as DocumentSnapshot<Data>);
 		});
 	});
