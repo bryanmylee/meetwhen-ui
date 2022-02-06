@@ -45,6 +45,6 @@
 		<Button on:click={() => (exampleIsEditing = !exampleIsEditing)}>
 			Toggle editing
 		</Button>
-		<ScheduleTimePicker editing={exampleIsEditing} {intervals} />
+		<ScheduleTimePicker editing={exampleIsEditing} validIntervals={intervals} />
 	</div>
 </Story>

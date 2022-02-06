@@ -39,7 +39,6 @@
 	import TimePickerBlockOverlay from './atoms/TimePickerBlockOverlay.svelte';
 	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
 	import TimePickerActiveInterval from './atoms/TimePickerActiveInterval.svelte';
-	import { unix } from 'dayjs';
 
 	export let id: string = nanoid(8);
 	$: errorId = `${id}-error`;
@@ -235,7 +234,11 @@
 			</SelectionProvider>
 		</div>
 	</div>
-	<span>{error}</span>
+	{#if error !== ''}
+		<div class="error-message-box">
+			<span class="error-message">{error}</span>
+		</div>
+	{/if}
 </div>
 
 <style lang="postcss">
@@ -254,5 +257,15 @@
 
 	.timepicker-grid {
 		@apply gap-x-3 p-1;
+	}
+
+	.error-message-box {
+		@apply absolute inset-0 top-auto;
+		@apply flex justify-center;
+	}
+
+	.error-message {
+		@apply text-sm italic text-red-400 text-center;
+		@apply card !rounded-lg p-2;
 	}
 </style>

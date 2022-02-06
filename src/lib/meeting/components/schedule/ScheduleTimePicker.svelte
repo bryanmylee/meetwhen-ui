@@ -8,18 +8,20 @@
 	import SchedulePickerSelectedInterval from './atoms/SchedulePickerSelectedInterval.svelte';
 
 	export let value: Interval[] = [];
+	export let error = '';
 
 	export let editing = false;
 	$: if (!editing) {
 		value = [];
 	}
-	export let intervals: Interval[];
+	export let validIntervals: Interval[];
 </script>
 
 <div class="picker-card">
 	<TimePicker
 		bind:value
-		validIntervals={intervals}
+		{error}
+		{validIntervals}
 		disabled={!editing}
 		let:isIdCurrent
 		let:isIdDisabled

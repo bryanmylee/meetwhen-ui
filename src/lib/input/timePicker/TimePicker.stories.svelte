@@ -73,3 +73,18 @@
 		/>
 	</div>
 </Story>
+
+<Story name="Time picker with error" let:args>
+	<TimePicker
+		error="Select at least one interval"
+		{...args}
+		validIntervals={[
+			{ start: today.hour(8), end: today.hour(10) },
+			{ start: today.add(1, 'day').hour(8), end: today.add(1, 'day').hour(10) },
+			{
+				start: today.add(2, 'days').hour(8),
+				end: today.add(2, 'days').hour(10),
+			},
+		]}
+	/>
+</Story>
