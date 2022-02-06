@@ -46,7 +46,7 @@
 		const data = $liveMeetingDoc?.data();
 		if (data !== undefined) {
 			meeting = {
-				id: meeting.id,
+				...meeting,
 				...MeetingConverter.parse(data),
 			};
 		}
@@ -56,12 +56,19 @@
 		findAllSchedulesWithMeetingIdQuery(repo, meeting.id),
 	);
 	$: {
-		const data = $liveSchedulesDocs.map((d) => d.data());
+		const data = $liveSchedulesDocs?.map((d) => d.data());
+		if (data !== undefined) {
+			meeting = {
+				...meeting,
+				schedules: data.map(ScheduleConverter.parse),
+			};
+		}
 	}
 
 	let pageState: MeetingPageState = 'none';
 	$: isJoined =
 		$currentUser !== undefined &&
+		meeting.schedules !== undefined &&
 		meeting.schedules.map((s) => s.userId).includes($currentUser?.uid);
 
 	const intervals = withError<Interval[]>([], {
@@ -87,7 +94,7 @@
 			console.error(errors);
 			return;
 		}
-		const newSchedule = await addSchedule(
+		await addSchedule(
 			repo,
 			{
 				intervals: $intervals.value,
@@ -95,7 +102,6 @@
 			},
 			$currentUser,
 		);
-		meeting.schedules = [...meeting.schedules, newSchedule];
 	};
 </script>
 
@@ -130,3 +136,4 @@
 		{/if}
 	</div>
 </section>
+{JSON.stringify(meeting.schedules)}

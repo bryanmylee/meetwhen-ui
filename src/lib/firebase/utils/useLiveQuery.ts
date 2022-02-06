@@ -7,14 +7,15 @@ import type {
 	Query,
 	QueryDocumentSnapshot,
 } from 'firebase/firestore';
+import type { Maybe } from '$lib/core/types/Maybe';
 
 /**
  * Listens to a query on Firestore. This must be called during component initialization.
  */
 export const useLiveQuery = <Data extends DocumentData>(
 	query: Query,
-): Readable<QueryDocumentSnapshot<Data>[]> => {
-	const store = writable<QueryDocumentSnapshot<Data>[]>([]);
+): Readable<Maybe<QueryDocumentSnapshot<Data>[]>> => {
+	const store = writable<Maybe<QueryDocumentSnapshot<Data>[]>>(undefined);
 	onMount(() => {
 		return onSnapshot(query, (querySnapshot) => {
 			store.set(querySnapshot.docs as QueryDocumentSnapshot<Data>[]);
