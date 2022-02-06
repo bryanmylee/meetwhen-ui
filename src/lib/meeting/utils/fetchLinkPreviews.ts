@@ -1,6 +1,6 @@
 import { browser } from '$app/env';
 import { getClientEnv, getServerEnv } from '$lib/env';
-import type { LinkPreviewData } from '../types/LinkPreviewData';
+import type { LinkPreviewData } from '$lib/core/types/LinkPreviewData';
 
 export const fetchLinkPreviews = async (
 	links: string[],

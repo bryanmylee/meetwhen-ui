@@ -4,6 +4,7 @@ import type { DocumentData } from 'firebase/firestore';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { definedOnly } from '$lib/core/utils/definedOnly';
+import type { LinkPreviewData } from '$lib/core/types/LinkPreviewData';
 
 export interface Meeting {
 	name: string;
@@ -13,7 +14,7 @@ export interface Meeting {
 	color?: string;
 	emoji?: string;
 	ownerId?: string;
-	links?: string[];
+	links?: LinkPreviewData[];
 	intervals: Interval[];
 	total: Interval;
 }
@@ -26,7 +27,7 @@ export interface MeetingData extends DocumentData {
 	color?: string;
 	emoji?: string;
 	ownerId?: string;
-	links?: string[];
+	links?: LinkPreviewData[];
 	intervals: IntervalData[];
 	total: IntervalData;
 }
