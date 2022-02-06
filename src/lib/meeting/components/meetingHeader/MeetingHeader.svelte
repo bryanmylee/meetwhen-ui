@@ -26,12 +26,12 @@
 		{#if showMoreDetails}
 			<div transition:slide|local={{ duration: 300, easing: cubicOut }}>
 				{#if description !== undefined}
-					<p class="mt-1">
+					<p>
 						{description}
 					</p>
 				{/if}
 				{#if links !== undefined && links.length > 0}
-					<div class="flex flex-wrap gap-2 mt-2">
+					<div class="flex flex-wrap gap-2 mt-3">
 						{#each links as { url, title, description, favicons }}
 							<LinkPreview
 								link={url}
