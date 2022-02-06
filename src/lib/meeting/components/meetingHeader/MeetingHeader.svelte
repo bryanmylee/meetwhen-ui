@@ -24,7 +24,10 @@
 	<div class="meeting-header">
 		<h1 class="text-subtitle">{name}</h1>
 		{#if showMoreDetails}
-			<div transition:slide|local={{ duration: 300, easing: cubicOut }}>
+			<div
+				transition:slide|local={{ duration: 300, easing: cubicOut }}
+				class="mt-2"
+			>
 				{#if description !== undefined}
 					<p>
 						{description}
@@ -82,6 +85,6 @@
 
 	.meeting-header {
 		@apply block ml-3;
-		@apply flex flex-col gap-2;
+		@apply flex flex-col;
 	}
 </style>
