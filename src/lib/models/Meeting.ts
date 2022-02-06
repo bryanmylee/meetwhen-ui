@@ -19,7 +19,7 @@ export interface Meeting {
 	links?: LinkPreviewData[];
 	intervals: Interval[];
 	total: Interval;
-	schedules?: Schedule[];
+	schedules: Schedule[];
 }
 
 export interface MeetingData extends DocumentData {
@@ -53,7 +53,7 @@ export class MeetingConverter {
 			created: dayjs.unix(data.created),
 			intervals: data.intervals.map(IntervalConverter.parse),
 			total: IntervalConverter.parse(data.total),
-			schedules: data.schedules?.map(ScheduleConverter.parse),
+			schedules: data.schedules?.map(ScheduleConverter.parse) ?? [],
 		};
 	}
 }

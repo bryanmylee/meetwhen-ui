@@ -15,36 +15,41 @@ const generateSlug = customAlphabet(
 );
 
 export interface AddMeeting
-	extends Omit<Meeting, 'slug' | 'created' | 'ownerId' | 'total' | 'links'> {
+	extends Pick<
+		Meeting,
+		'name' | 'description' | 'color' | 'emoji' | 'intervals'
+	> {
 	links: string[];
 }
 
 export const addMeeting = async (
 	repo: Firestore,
-	meeting: AddMeeting,
+	addMeeting: AddMeeting,
 	currentUser?: User,
 ): Promise<Id<Meeting>> => {
 	const slug = generateSlug();
 	const created = dayjs();
 	const ownerId = currentUser?.uid;
-	const total = getTotalInterval(meeting.intervals);
-	const links = await fetchLinkPreviews(meeting.links);
-	const meetingData = MeetingConverter.serialize({
-		...meeting,
+	const total = getTotalInterval(addMeeting.intervals);
+	const links = await fetchLinkPreviews(addMeeting.links);
+	const newMeetingData = MeetingConverter.serialize({
+		...addMeeting,
 		slug,
 		created,
 		ownerId,
 		total,
 		links,
+		schedules: [],
 	});
-	const doc = await addDoc(collection(repo, 'meetings'), meetingData);
+	const doc = await addDoc(collection(repo, 'meetings'), newMeetingData);
 	return {
-		...meeting,
+		...addMeeting,
 		id: doc.id,
 		slug,
 		created,
 		ownerId,
 		total,
 		links,
+		schedules: [],
 	};
 };
