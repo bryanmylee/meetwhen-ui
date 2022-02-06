@@ -7,12 +7,18 @@
 	import SchedulePickerFocusCell from './atoms/SchedulePickerFocusCell.svelte';
 	import SchedulePickerSelectedInterval from './atoms/SchedulePickerSelectedInterval.svelte';
 
+	export let value: Interval[] = [];
+
 	export let editing = false;
+	$: if (!editing) {
+		value = [];
+	}
 	export let intervals: Interval[];
 </script>
 
 <div class="picker-card">
 	<TimePicker
+		bind:value
 		validIntervals={intervals}
 		disabled={!editing}
 		let:isIdCurrent
