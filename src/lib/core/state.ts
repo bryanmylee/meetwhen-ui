@@ -4,6 +4,7 @@ import { writable } from 'svelte/store';
 export const {
 	hex: primaryHex,
 	scheme: primaryScheme,
+	scale: primaryScale,
 	vars: primaryVars,
 } = useColor('primary', PRIMARY_HEX);
 
