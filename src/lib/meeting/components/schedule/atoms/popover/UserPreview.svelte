@@ -19,6 +19,14 @@
 
 	const isHovering = writable(false);
 	const isFocusing = writable(false);
+
+	let imageElement: Maybe<HTMLImageElement>;
+	const handleImageError = () => {
+		if (imageElement === undefined) {
+			return;
+		}
+		imageElement.style.display = 'none';
+	};
 </script>
 
 <div
@@ -40,9 +48,11 @@
 		>
 			{#if photoURL !== undefined}
 				<img
+					bind:this={imageElement}
 					src={photoURL}
 					alt={displayName}
 					class="wh-10 rounded-full object-cover"
+					on:error={handleImageError}
 				/>
 			{/if}
 			<div>
