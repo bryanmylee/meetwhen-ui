@@ -16,7 +16,7 @@
 		.map(([, user]) => user);
 
 	const INDEX_COL_WIDTH = 52;
-	const HEADER_HEIGHT = 40;
+	const HEADER_HEIGHT = 36;
 	const [ref, content, getInstance] = createPopperActions({
 		strategy: 'absolute',
 		placement: 'right',
@@ -29,9 +29,10 @@
 				options: {
 					altAxis: true,
 					padding: {
-						top: HEADER_HEIGHT,
-						right: 12,
-						left: 12 + INDEX_COL_WIDTH,
+						top: HEADER_HEIGHT + 4,
+						bottom: 4,
+						right: 4,
+						left: INDEX_COL_WIDTH + 4,
 					},
 				},
 			},
