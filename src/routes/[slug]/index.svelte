@@ -33,6 +33,7 @@
 	import { addSchedule } from '$lib/firebase/mutations/addSchedule';
 	import { findAllSchedulesWithMeetingIdQuery } from '$lib/firebase/queries/schedules/findAllSchedulesWithMeetingId';
 	import { deleteSchedule } from '$lib/firebase/mutations/deleteSchedule';
+	import { editSchedule } from '$lib/firebase/mutations/editSchedule';
 
 	const repo = useRepo();
 	const currentUser = useUser();
@@ -97,6 +98,7 @@
 			console.error(errors);
 			return;
 		}
+		pageState = 'none';
 		await addSchedule(
 			repo,
 			{
@@ -105,7 +107,6 @@
 			},
 			$currentUser,
 		);
-		pageState = 'none';
 	};
 
 	const handleLeave = () => {
@@ -123,8 +124,51 @@
 		if (scheduleToDelete === undefined) {
 			return;
 		}
-		await deleteSchedule(repo, scheduleToDelete.id);
 		pageState = 'none';
+		await deleteSchedule(repo, scheduleToDelete.id);
+	};
+
+	const handleEdit = () => {
+		if (!isJoined) {
+			return;
+		}
+		const currentSchedule = meeting.schedules?.find(
+			(s) => s.userId === $currentUser?.uid,
+		);
+		if (currentSchedule === undefined) {
+			return;
+		}
+		pageState = 'edit';
+		$intervals.value = currentSchedule.intervals;
+	};
+
+	const confirmEdit = async () => {
+		if ($currentUser === undefined || $currentUser?.ssr) {
+			return;
+		}
+		const currentSchedule = meeting.schedules?.find(
+			(s) => s.userId === $currentUser?.uid,
+		);
+		if (currentSchedule === undefined) {
+			return;
+		}
+		intervals.validate();
+		// Wait on `errors` reactive update.
+		await tick();
+		if (errors.length !== 0) {
+			console.error(errors);
+			return;
+		}
+		pageState = 'none';
+		await editSchedule(
+			repo,
+			{
+				id: currentSchedule.id,
+				intervals: $intervals.value,
+				meetingId: meeting.id,
+			},
+			$currentUser,
+		);
 	};
 </script>
 
@@ -140,7 +184,12 @@
 		/>
 		{#if pageState === 'none'}
 			{#if isJoined}
-				<Button on:click={handleLeave}>Leave</Button>
+				<div class="w-full flex gap-4">
+					<Button color="gray" class="w-full" on:click={handleLeave}>
+						Leave
+					</Button>
+					<Button class="w-full" on:click={handleEdit}>Edit</Button>
+				</div>
 			{:else}
 				<Button color="gradient" on:click={handleJoin}>Join</Button>
 			{/if}
@@ -154,6 +203,19 @@
 					Cancel
 				</Button>
 				<Button color="gradient" class="w-full" on:click={confirmJoin}>
+					Confirm
+				</Button>
+			</div>
+		{:else if pageState === 'edit'}
+			<div class="w-full flex gap-4">
+				<Button
+					color="gray"
+					class="w-full"
+					on:click={() => (pageState = 'none')}
+				>
+					Cancel
+				</Button>
+				<Button color="gradient" class="w-full" on:click={confirmEdit}>
 					Confirm
 				</Button>
 			</div>
