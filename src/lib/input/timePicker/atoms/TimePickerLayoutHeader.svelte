@@ -27,7 +27,7 @@
 
 <div
 	class="timepicker-grid-header-bg"
-	class:shadow
+	class:has-shadow={shadow}
 	style:grid-area={gridArea({ endX: 2 })}
 />
 
@@ -46,7 +46,7 @@
 		@apply sticky top-0 z-[49];
 		@apply bg-white gdark:bg-neutral-800;
 		@apply transition-shadow;
-		&.shadow {
+		&.has-shadow {
 			@apply shadow-md;
 		}
 	}

@@ -15,7 +15,7 @@
 
 <div
 	class="timepicker-grid-index"
-	class:shadow
+	class:has-shadow={shadow}
 	style:grid-area={gridArea({ y: 1 })}
 	style:display="grid"
 	style:grid-template={gridTemplate({ rows: $flattenedTimeCells.length })}
@@ -50,9 +50,9 @@
 	.timepicker-grid-index {
 		@apply sticky left-0 z-40 grid-flow-col;
 		@apply bg-white gdark:bg-neutral-800;
-		@apply border-8 border-white gdark:border-neutral-800;
+		@apply border-x-8 border-white gdark:border-neutral-800;
 		@apply transition-shadow;
-		&.shadow {
+		&.has-shadow {
 			@apply shadow-md;
 		}
 	}
@@ -65,11 +65,9 @@
 			@apply bg-shade-100 rounded-lg;
 			@apply px-1 -translate-y-1/2;
 			@apply text-xs text-neutral-400 text-center whitespace-nowrap;
-			&.start {
-				@apply pt-1 -translate-y-[15%];
-			}
+			&.start,
 			&.end {
-				@apply pb-1 absolute left-0 right-0 -bottom-2/3;
+				@apply translate-y-1/3;
 			}
 		}
 	}

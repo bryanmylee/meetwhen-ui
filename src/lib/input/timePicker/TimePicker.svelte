@@ -257,7 +257,7 @@
 	}
 
 	.timepicker-grid {
-		@apply gap-x-3 p-1;
+		@apply gap-x-3;
 	}
 
 	.error-message-box {
