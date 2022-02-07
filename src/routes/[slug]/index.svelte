@@ -173,4 +173,3 @@
 		{/if}
 	</div>
 </section>
-{JSON.stringify(meeting.schedules)}
