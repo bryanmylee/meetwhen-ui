@@ -4,22 +4,27 @@
 
 	export let users: UserData[];
 
+	export let unavailable = false;
+	$: tag = unavailable ? 'unavailable' : 'available';
+
+	export let maxUserCount: number;
+
 	const getMaxHeaderLabel = (count: number) => {
 		if (count === 2) {
-			return 'Both available!';
+			return `Both ${tag}!`;
 		}
-		return `All ${count} available!`;
+		return `All ${count} ${tag}!`;
 	};
 
-	$: hasMaxUsers = users.length === 1;
+	$: hasMaxUsers = users.length === maxUserCount;
 	$: headerLabel = hasMaxUsers
 		? getMaxHeaderLabel(users.length)
-		: `${users.length} available`;
+		: `${users.length} ${tag}`;
 </script>
 
 <div>
-	{#if users.length > 1}
-		<h2 class="mb-2 text-sm font-bold">
+	{#if users.length > 1 || unavailable}
+		<h2 class="mb-2 text-sm font-semibold">
 			{headerLabel}
 		</h2>
 	{/if}
@@ -27,6 +32,7 @@
 		{#each users as user}
 			<li>
 				<UserPreview
+					{unavailable}
 					displayName={user.displayName}
 					email={user.email}
 					photoURL={user.photoURL}

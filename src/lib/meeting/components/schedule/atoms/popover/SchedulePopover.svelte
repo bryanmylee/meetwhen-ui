@@ -1,15 +1,19 @@
 <script lang="ts">
 	import { createPopperActions } from 'svelte-popperjs';
 	import type { UserIdsInterval } from '$lib/core/types/UserIdsInterval';
-	import AvailableUsers from './AvailableUsers.svelte';
+	import UserList from './UserList.svelte';
 	import { getUsersCache } from '$lib/meeting/utils/usersCacheContext';
 
 	export let interval: UserIdsInterval;
 	const usersCache = getUsersCache();
+	$: maxUserCount = Object.keys($usersCache).length;
 	$: users = interval.userIds
 		.map((uid) => $usersCache[uid])
 		.filter((u) => u !== undefined)
 		.toArray();
+	$: unavailableUsers = Object.entries($usersCache)
+		.filter(([id]) => !interval.userIds.includes(id))
+		.map(([, user]) => user);
 
 	const INDEX_COL_WIDTH = 52;
 	const HEADER_HEIGHT = 40;
@@ -70,8 +74,13 @@
 				{interval.start.format('h:mma')} – {interval.end.format('h:mma')}
 			</h1>
 			<div class="py-3 border-t border-neutral-200 dark:border-neutral-700">
-				<AvailableUsers {users} />
+				<UserList {users} {maxUserCount} />
 			</div>
+			{#if unavailableUsers.length > 0}
+				<div class="py-3 border-t border-neutral-200 dark:border-neutral-700">
+					<UserList unavailable users={unavailableUsers} {maxUserCount} />
+				</div>
+			{/if}
 		</div>
 	</div>
 {/if}
@@ -90,7 +99,7 @@
 	}
 
 	.popover-arrow {
-		@apply wh-4 bg-shade-0 rotate-45;
+		@apply wh-4 bg-white gdark:bg-neutral-800 rotate-45;
 		&.active {
 			@apply border-primary-400 gdark:border-primary-300;
 		}

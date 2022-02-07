@@ -13,6 +13,7 @@
 		modifiers: [{ name: 'flip' }],
 	});
 
+	export let unavailable = false;
 	export let displayName: Maybe<string>;
 	export let email: Maybe<string>;
 	export let photoURL: Maybe<string>;
@@ -42,10 +43,14 @@
 				src={photoURL}
 				alt={displayName}
 				class="wh-5 -ml-0.5 user-photo"
+				class:opacity-50={unavailable}
 				on:error={handleImageError}
 			/>
 		{/if}
-		<span class="text-label-sm whitespace-nowrap">
+		<span
+			class="text-label-sm whitespace-nowrap"
+			class:opacity-50={unavailable}
+		>
 			{displayName ?? email ?? 'Anonymous'}
 		</span>
 	</div>
