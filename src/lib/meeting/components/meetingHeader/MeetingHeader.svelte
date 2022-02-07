@@ -75,8 +75,8 @@
 			</div>
 		{/if}
 	</div>
+	<ShareDialog bind:open={showShareDialog} {slug} />
 </header>
-<ShareDialog bind:open={showShareDialog} {slug} />
 
 <style lang="postcss">
 	.meeting-header-box {
