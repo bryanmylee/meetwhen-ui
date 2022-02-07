@@ -50,7 +50,6 @@
 	const currentUser = useUser();
 
 	export let meeting: Id<Meeting>;
-	$: console.log(meeting);
 
 	const liveMeetingDoc = useLiveDocument<MeetingData>(
 		doc(repo, 'meetings', meeting.id),

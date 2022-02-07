@@ -21,7 +21,6 @@
 	export let validIntervals: Interval[];
 	export let schedules: Schedule[] = [];
 	$: scheduleIntervals = getOverlappedSchedules(schedules);
-	$: allUserIds = schedules.map((schedule) => schedule.userId);
 	$: maxUserCountPerInterval = Math.max(
 		1,
 		...scheduleIntervals.map((i) => i.userIds.size),
