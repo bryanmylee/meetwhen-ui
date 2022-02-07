@@ -78,7 +78,7 @@
 
 <style lang="postcss">
 	.popover {
-		@apply card border-3 w-52;
+		@apply card border-3 w-max max-w-80;
 		@apply pointer-events-none;
 		&.active {
 			@apply pointer-events-auto;

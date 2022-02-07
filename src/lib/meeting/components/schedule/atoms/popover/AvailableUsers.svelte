@@ -23,7 +23,7 @@
 			{headerLabel}
 		</h2>
 	{/if}
-	<ul>
+	<ul class="flex flex-wrap gap-2">
 		{#each users as user}
 			<li>
 				<UserPreview displayName={user.displayName ?? user.email ?? ''} />

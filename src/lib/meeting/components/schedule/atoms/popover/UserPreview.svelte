@@ -42,7 +42,8 @@
 
 <style lang="postcss">
 	.user-preview {
-		@apply relative flex items-center gap-2;
+		@apply relative;
+		@apply px-2 py-1 rounded-full bg-shade-100;
 	}
 
 	.user-preview-popover-box {
