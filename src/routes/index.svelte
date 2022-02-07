@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { gridArea, gridTemplate } from '$lib/core/components/grid';
-	import { cssVars } from '$lib/core/utils/cssVars';
 	import { useUser } from '$lib/firebase/context';
 	import { Button } from '$lib/input';
 
@@ -32,7 +31,7 @@
 			<div
 				class="header-bg-item"
 				style:grid-area={gridArea({ x, y })}
-				style={cssVars({ opacity })}
+				style:--opacity={opacity}
 			/>
 		{/each}
 	</div>

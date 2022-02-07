@@ -16,7 +16,6 @@
 	import LinkTextfield, {
 		LinkTextfieldEvent,
 	} from './atoms/LinkTextfield.svelte';
-	import { cssVars } from '$lib/core/utils/cssVars';
 
 	let items: LinkItemData[] = [];
 	export let values: string[] = [];
@@ -48,14 +47,14 @@
 	<ul
 		class="links-list"
 		class:mb-4={items.length > 0}
-		style={cssVars({ numRows: items.length })}
+		style:--numRows={items.length}
 	>
 		{#each items as { uuid, value, error, ref }, index (uuid)}
 			<div
 				in:fade|local={{ duration: 300, delay: 150, easing: cubicOut }}
 				out:fade|local={{ duration: 300, easing: cubicOut }}
 				class="links-list-item"
-				style={cssVars({ index })}
+				style:--index={index}
 			>
 				<LinkTextfield
 					bind:this={ref}

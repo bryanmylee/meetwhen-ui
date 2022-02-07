@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { cssVars } from '$lib/core/utils/cssVars';
 
 	export let x = 0;
 	export let y = 0;
@@ -21,17 +20,18 @@
 			triggered = true;
 		}, triggerDelay);
 	});
-
-	$: vars = {
-		x: x + 'px',
-		y: y + 'px',
-		triggerDelay: triggerDelay + 'ms',
-		triggerDuration: triggerDuration + 'ms',
-		outroDuration: outroDuration + 'ms',
-	};
 </script>
 
-<div id="indicator" class:triggered class:expanding style={cssVars(vars)} />
+<div
+	id="indicator"
+	class:triggered
+	class:expanding
+	style:--x="{x}px"
+	style:--y="{y}px"
+	style:--triggerDelay="{triggerDelay}ms"
+	style:--triggerDuration="{triggerDuration}ms"
+	style:--outroDuration="{outroDuration}ms"
+/>
 
 <style lang="postcss">
 	div {

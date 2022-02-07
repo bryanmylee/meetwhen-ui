@@ -17,7 +17,6 @@
 	import type { Interval } from '$lib/core/types/Interval';
 	import { Button, LocalIntervalSelect } from '$lib/input';
 	import { localIntervalOnDay } from '$lib/core/utils/intervals';
-	import { cssVars } from '$lib/core/utils/cssVars';
 	import { arrayEquals } from '$lib/core/utils/arrayEquals';
 	import { primaryVars } from '$lib/core/state';
 	import dayjs from 'dayjs';
@@ -105,13 +104,13 @@
 		<TabPanel
 			class="mt-4 rounded-xl focus:ring ring-primary-400 focus:outline-none"
 		>
-			<ul class="adjusted-intervals-list" style={cssVars({ numRows })}>
+			<ul class="adjusted-intervals-list" style:--numRows={numRows}>
 				{#each sortedDateIds as dateId, index (dateId)}
 					<li
 						in:fade|local={{ duration: 300, delay: 150, easing: cubicOut }}
 						out:fade|local={{ duration: 300, easing: cubicOut }}
 						class="adjusted-select-item"
-						style={cssVars({ index })}
+						style:--index={index}
 					>
 						<div class="text-label flex-0 py-2.5">
 							{dateFromId(dateId).format('DD MMM')}
