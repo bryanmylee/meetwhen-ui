@@ -35,9 +35,20 @@
 	use:focus={isFocusing}
 	class="user-preview group"
 >
-	<span class="text-label-sm whitespace-nowrap">
-		{displayName ?? email ?? 'Anonymous'}
-	</span>
+	<div class="flex items-center gap-2 h-5">
+		{#if photoURL !== undefined}
+			<img
+				bind:this={imageElement}
+				src={photoURL}
+				alt={displayName}
+				class="wh-5 -ml-0.5 user-photo"
+				on:error={handleImageError}
+			/>
+		{/if}
+		<span class="text-label-sm whitespace-nowrap">
+			{displayName ?? email ?? 'Anonymous'}
+		</span>
+	</div>
 </div>
 {#if $isHovering || $isFocusing}
 	<div class="user-preview-popover-box" use:content>
@@ -51,7 +62,7 @@
 					bind:this={imageElement}
 					src={photoURL}
 					alt={displayName}
-					class="wh-10 rounded-full object-cover"
+					class="wh-10 user-photo"
 					on:error={handleImageError}
 				/>
 			{/if}
@@ -80,5 +91,9 @@
 		@apply p-2 z-10;
 		@apply flex items-center gap-2;
 		@apply bg-shade-50 rounded-xl shadow-wide;
+	}
+
+	.user-photo {
+		@apply rounded-full object-cover;
 	}
 </style>

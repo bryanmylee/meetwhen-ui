@@ -83,7 +83,7 @@
 				displayName: 'Adam Neely',
 				email: 'adam@neely.com',
 				photoURL:
-					'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+					'https://images.pexels.com/photos/11054160/pexels-photo-11054160.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
 			},
 			'2': {
 				displayName: 'Rebecca Smith',
@@ -94,8 +94,6 @@
 			'3': {
 				displayName: 'Taylor Gates',
 				email: 'taylor@gates.com',
-				photoURL:
-					'https://images.pexels.com/photos/8980686/pexels-photo-8980686.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
 			},
 		}),
 	);
