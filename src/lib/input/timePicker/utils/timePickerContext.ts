@@ -15,4 +15,4 @@ export const { get: getTimePickerControls, set: setTimePickerControls } =
 export const {
 	get: getCurrentDateTimeElement,
 	set: setCurrentDateTimeElement,
-} = pairedContext<Writable<Maybe<HTMLButtonElement>>>();
+} = pairedContext<Writable<Maybe<HTMLElement>>>();

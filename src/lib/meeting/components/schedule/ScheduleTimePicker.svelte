@@ -1,7 +1,9 @@
 <script lang="ts">
 	import type { Interval } from '$lib/core/types/Interval';
+	import { getOverlappedSchedules } from '$lib/core/utils/schedules';
 	import { TimePicker } from '$lib/input';
 	import type { Schedule } from '$lib/models/Schedule';
+	import ScheduleInterval from './atoms/ScheduleInterval.svelte';
 	import SchedulePickerActiveInterval from './atoms/SchedulePickerActiveInterval.svelte';
 	import SchedulePickerBlockCell from './atoms/SchedulePickerBlockCell.svelte';
 	import SchedulePickerBlockOverlay from './atoms/SchedulePickerBlockOverlay.svelte';
@@ -18,6 +20,12 @@
 
 	export let validIntervals: Interval[];
 	export let schedules: Schedule[] = [];
+	$: scheduleIntervals = getOverlappedSchedules(schedules);
+	$: allUserIds = schedules.map((schedule) => schedule.userId);
+	$: maxUserCountPerInterval = Math.max(
+		1,
+		...scheduleIntervals.map((i) => i.userIds.size),
+	);
 </script>
 
 <div class="picker-card">
@@ -53,6 +61,9 @@
 		<svelte:fragment slot="focus-cell">
 			<SchedulePickerFocusCell {selectMode} />
 		</svelte:fragment>
+		{#each scheduleIntervals as interval (interval.start.unix())}
+			<ScheduleInterval {interval} {maxUserCountPerInterval} />
+		{/each}
 	</TimePicker>
 </div>
 
