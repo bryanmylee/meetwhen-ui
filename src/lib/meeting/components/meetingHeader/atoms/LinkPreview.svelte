@@ -4,6 +4,7 @@
 	import { cubicOut } from 'svelte/easing';
 	import { createPopperActions } from 'svelte-popperjs';
 	import type { Maybe } from '$lib/core/types/Maybe';
+	import { focus } from '$lib/core/utils/useFocus';
 	import { hover } from '$lib/core/utils/useHover';
 	import { Button } from '$lib/input';
 
@@ -26,13 +27,14 @@
 	}
 
 	const isHovering = writable(false);
+	const isFocusing = writable(false);
 </script>
 
 <Button
 	href={link}
 	size="sm"
 	color="gray"
-	use={[ref, [hover, isHovering]]}
+	use={[ref, [hover, isHovering], [focus, isFocusing]]}
 	class="link-preview group"
 >
 	{#if favicon !== undefined}
@@ -44,7 +46,7 @@
 		{title ?? url?.host}
 	</span>
 </Button>
-{#if $isHovering}
+{#if $isHovering || $isFocusing}
 	<div class="link-preview-popover-box" use:content>
 		<div
 			class="link-preview-popover"
