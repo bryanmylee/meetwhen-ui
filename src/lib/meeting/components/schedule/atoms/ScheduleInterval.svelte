@@ -16,7 +16,6 @@
 	} from '$lib/input/timePicker/utils/timePickerContext';
 	import SchedulePopover from './popover/SchedulePopover.svelte';
 	import { primaryScale, useIsDark } from '$lib/core/state';
-	import { cssVars } from '$lib/core/utils/cssVars';
 
 	const isDark = useIsDark();
 
@@ -32,6 +31,8 @@
 		$isDark,
 	);
 
+	export let editing = false;
+
 	const { resolution } = getTimePickerControls();
 	const { dateIdToColumnNumber, timeIdToRowNumber } = getTimePickerState();
 
@@ -46,7 +47,6 @@
 
 	const handleClickOutside = () => {
 		if (isActive) {
-			console.log('clicked outside');
 			$activeId = undefined;
 		}
 	};
@@ -65,6 +65,7 @@
 
 <div
 	class="schedule-interval"
+	class:editing
 	class:active={isActive}
 	class:show-popover={showPopover}
 	on:click={handleClick}
@@ -73,13 +74,13 @@
 	on:mouseleave={() => ($hoveredId = undefined)}
 	on:mousemove={handleMouseMove}
 	on:transitionend={() => popover?.updatePopoverPosition()}
+	style:--bgColor={bgColor}
 	style:grid-area={intervalGridArea({
 		dateIdToColumnNumber: $dateIdToColumnNumber,
 		timeIdToRowNumber: $timeIdToRowNumber,
 		resolution: $resolution,
 		interval,
 	})}
-	style={cssVars({ bgColor: bgColor.css() })}
 >
 	<div bind:this={referenceElement} class="w-full" />
 	<SchedulePopover
@@ -94,8 +95,8 @@
 <style lang="postcss">
 	.schedule-interval {
 		background-color: var(--bgColor);
-		transition: width 300ms var(--cubicOut);
-		@apply relative h-full pointer-events-auto;
+		@apply relative wh-full pointer-events-auto;
+		@apply rounded-xl;
 
 		&.show-popover {
 			@apply ring-2 ring-offset-[3px] ring-inset ring-white gdark:ring-neutral-800;
@@ -107,6 +108,12 @@
 
 		&.active {
 			@apply ring-offset-primary-400 gdark:ring-offset-primary-300;
+		}
+
+		transition: width 300ms var(--cubicOut);
+		&.editing {
+			width: var(--scheduleWidth);
+			@apply rounded-r-none;
 		}
 	}
 </style>

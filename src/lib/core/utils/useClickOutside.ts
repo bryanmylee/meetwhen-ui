@@ -5,7 +5,6 @@ export const clickOutside: Action<(event: MouseEvent) => void> = (
 	callback,
 ) => {
 	const handleClick = (event: MouseEvent) => {
-		console.log(event.target);
 		if (!node.contains(event.target as Node) && !event.defaultPrevented) {
 			callback(event);
 		}
