@@ -32,10 +32,10 @@
 	const { resolution } = getTimePickerControls();
 	const { dateIdToColumnNumber, timeIdToRowNumber } = getTimePickerState();
 
-	let buttonElement: Maybe<HTMLButtonElement>;
+	let element: Maybe<HTMLElement>;
 	const currentDateTimeElement = getCurrentDateTimeElement();
 	$: if (cellCurrent) {
-		$currentDateTimeElement = buttonElement;
+		$currentDateTimeElement = element;
 	}
 </script>
 
@@ -48,9 +48,8 @@
 		y: $timeIdToRowNumber[timeId],
 	})}
 >
-	<button
-		bind:this={buttonElement}
-		type="button"
+	<div
+		bind:this={element}
 		data-select-id={dateTimeComposeId([dateId, timeId])}
 		aria-selected={cellSelected}
 		disabled={!editing || cellDisabled}
@@ -67,7 +66,7 @@
 	.timepicker-cell {
 		@apply wh-full min-w-24 select-none min-h-6;
 
-		& > button {
+		& > div {
 			@apply wh-full focus:outline-none;
 			@apply bg-shade-100 border-gray-200 gdark:border-neutral-500;
 

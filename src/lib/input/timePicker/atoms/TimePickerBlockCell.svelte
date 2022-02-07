@@ -33,16 +33,15 @@
 	const { resolution } = getTimePickerControls();
 	const { dateIdToColumnNumber, timeIdToRowNumber } = getTimePickerState();
 
-	let buttonElement: Maybe<HTMLButtonElement>;
+	let element: Maybe<HTMLElement>;
 	const currentDateTimeElement = getCurrentDateTimeElement();
 	$: if (cellCurrent) {
-		$currentDateTimeElement = buttonElement;
+		$currentDateTimeElement = element;
 	}
 </script>
 
-<button
-	bind:this={buttonElement}
-	type="button"
+<div
+	bind:this={element}
 	role="gridcell"
 	aria-label={label}
 	data-select-id={dateTimeComposeId([dateId, timeId])}
