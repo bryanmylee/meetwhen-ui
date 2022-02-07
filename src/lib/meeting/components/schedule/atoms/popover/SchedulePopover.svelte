@@ -1,8 +1,15 @@
 <script lang="ts">
 	import { createPopperActions } from 'svelte-popperjs';
 	import type { UserIdsInterval } from '$lib/core/types/UserIdsInterval';
+	import AvailableUsers from './AvailableUsers.svelte';
+	import { getUsersCache } from '$lib/meeting/utils/usersCacheContext';
 
 	export let interval: UserIdsInterval;
+	const usersCache = getUsersCache();
+	$: users = interval.userIds
+		.map((uid) => $usersCache[uid])
+		.filter((u) => u !== undefined)
+		.toArray();
 
 	const INDEX_COL_WIDTH = 52;
 	const HEADER_HEIGHT = 40;
@@ -59,17 +66,22 @@
 			<div class="popover-arrow" class:active={isActive} />
 		</div>
 		<div class="popover-content">
-			<h1 class="px-4 py-3 text-label">
+			<h1 class="py-3 text-label">
 				{interval.start.format('h:mma')} – {interval.end.format('h:mma')}
 			</h1>
+			<div class="py-3 border-t border-neutral-200 dark:border-neutral-700">
+				<AvailableUsers {users} />
+			</div>
 		</div>
 	</div>
 {/if}
 
 <style lang="postcss">
 	.popover {
-		@apply card pointer-events-none border-3 w-52;
+		@apply card border-3 w-52;
+		@apply pointer-events-none;
 		&.active {
+			@apply pointer-events-auto;
 			@apply border-primary-400 gdark:border-primary-300 z-20;
 		}
 		&:not(.active) {
@@ -105,5 +117,9 @@
 			@apply border-r-3 border-t-3;
 			--tw-translate-x: calc(50% + 2px);
 		}
+	}
+
+	.popover-content {
+		@apply px-3;
 	}
 </style>

@@ -2,9 +2,16 @@
 	export const load: Load = async ({ params }) => {
 		const { slug } = params;
 		const meeting = await findMeetingWithSlug(firebaseClient.repo, slug);
+		if (meeting === undefined) {
+			return {
+				status: 404,
+			};
+		}
+		const users = await fetchMeetingUserData(meeting.id);
 		return {
 			props: {
 				meeting,
+				users,
 			},
 		};
 	};
@@ -12,6 +19,7 @@
 
 <script lang="ts">
 	import { tick } from 'svelte';
+	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import { doc } from 'firebase/firestore';
 	import { MeetingConverter } from '$lib/models/Meeting';
@@ -34,6 +42,9 @@
 	import { findAllSchedulesWithMeetingIdQuery } from '$lib/firebase/queries/schedules/findAllSchedulesWithMeetingId';
 	import { deleteSchedule } from '$lib/firebase/mutations/deleteSchedule';
 	import { editSchedule } from '$lib/firebase/mutations/editSchedule';
+	import { fetchMeetingUserData } from '$lib/api/fetchMeetingUserData';
+	import type { UserData } from '$lib/models/UserData';
+	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
 
 	const repo = useRepo();
 	const currentUser = useUser();
@@ -53,6 +64,16 @@
 			};
 		}
 	}
+
+	export let users: Id<UserData>[];
+	const usersCache = writable<Record<string, UserData>>({});
+	setUsersCache(usersCache);
+	$: $usersCache = users.reduce((cache, { id, ...user }) => {
+		return {
+			...cache,
+			[id]: user,
+		};
+	}, {});
 
 	const liveSchedulesDocs = useLiveQuery<ScheduleData>(
 		findAllSchedulesWithMeetingIdQuery(repo, meeting.id),

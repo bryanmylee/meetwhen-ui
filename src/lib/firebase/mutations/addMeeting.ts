@@ -7,7 +7,7 @@ import type { Id } from '$lib/core/types/Id';
 import { MeetingConverter } from '$lib/models/Meeting';
 import type { Meeting } from '$lib/models/Meeting';
 import { getTotalInterval } from '$lib/core/utils/intervals';
-import { fetchLinkPreviews } from '$lib/meeting/utils/fetchLinkPreviews';
+import { fetchLinkPreviews } from '$lib/api/fetchLinkPreviews';
 
 const generateSlug = customAlphabet(
 	'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
