@@ -4,8 +4,8 @@
 
 	export let interval: UserIdsInterval;
 
-	const INDEX_COL_WIDTH = 40;
-	const HEADER_HEIGHT = 64;
+	const INDEX_COL_WIDTH = 52;
+	const HEADER_HEIGHT = 40;
 	const [ref, content, getInstance] = createPopperActions({
 		strategy: 'absolute',
 		placement: 'right',
@@ -77,13 +77,12 @@
 		}
 	}
 
-	/*
 	.popover-arrow {
 		@apply wh-4 bg-shade-0 rotate-45;
-		&.fixed {
+		&.active {
 			@apply border-primary-400 gdark:border-primary-300;
 		}
-		&:not(.fixed) {
+		&:not(.active) {
 			@apply border-neutral-400;
 		}
 	}
@@ -107,8 +106,4 @@
 			--tw-translate-x: calc(50% + 2px);
 		}
 	}
-
-	.popover-content {
-		@apply divide-y divide-neutral-200 gdark:divide-neutral-600;
-	} */
 </style>
