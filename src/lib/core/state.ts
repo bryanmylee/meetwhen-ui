@@ -1,5 +1,8 @@
 import { useColor, PRIMARY_HEX } from '$lib/colors';
 import { writable } from 'svelte/store';
+import type { Readable, Writable } from 'svelte/store';
+import { pairedContext } from './utils/pairedContext';
+import type { ThemeType } from './types/ThemeType';
 
 export const {
 	hex: primaryHex,
@@ -9,3 +12,9 @@ export const {
 } = useColor('primary', PRIMARY_HEX);
 
 export const isAuthOpen = writable(false);
+
+export const { get: useTheme, set: setTheme } =
+	pairedContext<Writable<ThemeType>>();
+
+export const { get: useIsDark, set: setIsDark } =
+	pairedContext<Readable<boolean>>();

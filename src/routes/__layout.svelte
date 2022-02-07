@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	export const load: Load<{ session: Session }> = async ({ session }) => {
+	export const load: Load = async ({ session }) => {
 		if (!browser) {
 			const { serviceKey } = getServerEnv();
 			initFirebaseAdmin(serviceKey);
@@ -19,10 +19,15 @@
 	import type { Load } from '@sveltejs/kit';
 	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
-	import { navigating, page } from '$app/stores';
+	import { page } from '$app/stores';
 	import { getClientEnv, getServerEnv } from '$lib/env';
 	import { session } from '$lib/stores';
-	import { isAuthOpen, primaryVars } from '$lib/core/state';
+	import {
+		isAuthOpen,
+		primaryVars,
+		setIsDark,
+		setTheme,
+	} from '$lib/core/state';
 	import { initFirebaseClient } from '$lib/firebase/client';
 	import {
 		setFirebaseApp,
@@ -33,7 +38,6 @@
 	import { initFirebaseAdmin } from '$lib/firebase/server';
 	import { configureUser } from '$lib/auth/configureUser';
 	import { firebaseClient } from '$lib/firebase/client';
-	import type { Session } from '$lib/core/types/Session';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
 	import { useCookie } from '$lib/core/utils/cookies/useCookie';
 	import Nav from '$lib/core/components/nav/Nav.svelte';
@@ -44,7 +48,9 @@
 
 	export let initTheme: ThemeType;
 	const theme = useCookie('theme', initTheme);
+	setTheme(theme);
 	const isDark = useDarkMode(theme);
+	setIsDark(isDark);
 
 	setFirebaseApp(firebaseClient.app);
 	setFirebaseAuth(firebaseClient.auth);
