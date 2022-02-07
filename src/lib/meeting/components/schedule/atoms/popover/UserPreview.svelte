@@ -5,14 +5,17 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import { focus } from '$lib/core/utils/useFocus';
 	import { hover } from '$lib/core/utils/useHover';
+	import type { Maybe } from '$lib/core/types/Maybe';
 
 	const [ref, content] = createPopperActions({
-		placement: 'bottom-start',
 		strategy: 'absolute',
+		placement: 'bottom',
 		modifiers: [{ name: 'flip' }],
 	});
 
-	export let displayName: string;
+	export let displayName: Maybe<string>;
+	export let email: Maybe<string>;
+	export let photoURL: Maybe<string>;
 
 	const isHovering = writable(false);
 	const isFocusing = writable(false);
@@ -24,8 +27,8 @@
 	use:focus={isFocusing}
 	class="user-preview group"
 >
-	<span class="text-label-sm">
-		{displayName}
+	<span class="text-label-sm whitespace-nowrap">
+		{displayName ?? email ?? 'Anonymous'}
 	</span>
 </div>
 {#if $isHovering || $isFocusing}
@@ -35,7 +38,17 @@
 			in:fade={{ duration: 300, delay: 600, easing: cubicOut }}
 			out:fade={{ duration: 300, easing: cubicOut }}
 		>
-			<p class="text-neutral-400">{displayName}</p>
+			{#if photoURL !== undefined}
+				<img
+					src={photoURL}
+					alt={displayName}
+					class="wh-10 rounded-full object-cover"
+				/>
+			{/if}
+			<div>
+				<p class="text-label-sm">{displayName}</p>
+				<p class="text-xs text-neutral-400">{email}</p>
+			</div>
 		</div>
 	</div>
 {/if}
@@ -43,15 +56,19 @@
 <style lang="postcss">
 	.user-preview {
 		@apply relative;
-		@apply px-2 py-1 rounded-full bg-shade-100;
+		@apply px-2 py-1 rounded-full bg-shade-100 w-fit;
+		&:hover {
+			@apply shadow bg-shade-50;
+		}
 	}
 
 	.user-preview-popover-box {
-		@apply absolute w-fit max-w-80 py-2 z-10 pointer-events-none;
+		@apply absolute w-max py-2 z-10 pointer-events-none;
 	}
 
 	.user-preview-popover {
-		@apply text-label-sm z-10;
-		@apply p-2 bg-shade-50 rounded-xl shadow-wide;
+		@apply p-2 z-10;
+		@apply flex items-center gap-2;
+		@apply bg-shade-50 rounded-xl shadow-wide;
 	}
 </style>

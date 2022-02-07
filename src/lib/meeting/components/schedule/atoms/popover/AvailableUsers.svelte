@@ -26,7 +26,11 @@
 	<ul class="flex flex-wrap gap-2">
 		{#each users as user}
 			<li>
-				<UserPreview displayName={user.displayName ?? user.email ?? ''} />
+				<UserPreview
+					displayName={user.displayName}
+					email={user.email}
+					photoURL={user.photoURL}
+				/>
 			</li>
 		{/each}
 	</ul>
