@@ -25,11 +25,14 @@
 	$: isHovered = $hoveredId === id;
 
 	export let maxUserCountPerInterval: number;
+
 	$: bgColor = $primaryScale(
 		interval.userIds.size,
 		maxUserCountPerInterval,
 		$isDark,
 	);
+	$: textColor =
+		bgColor.luminance() < 0.3 ? bgColor.brighten(4) : bgColor.darken(4);
 
 	export let editing = false;
 
@@ -74,7 +77,7 @@
 	on:mouseleave={() => ($hoveredId = undefined)}
 	on:mousemove={handleMouseMove}
 	on:transitionend={() => popover?.updatePopoverPosition()}
-	style:--bgColor={bgColor}
+	style:--bg={bgColor.css()}
 	style:grid-area={intervalGridArea({
 		dateIdToColumnNumber: $dateIdToColumnNumber,
 		timeIdToRowNumber: $timeIdToRowNumber,
@@ -90,11 +93,14 @@
 		{referenceElement}
 		{interval}
 	/>
+	<p class="schedule-tag" style:--color={textColor.css()}>
+		{interval.userIds.size}
+	</p>
 </div>
 
 <style lang="postcss">
 	.schedule-interval {
-		background-color: var(--bgColor);
+		background-color: var(--bg);
 		@apply relative wh-full pointer-events-auto;
 		@apply rounded-xl;
 
@@ -115,5 +121,10 @@
 			width: var(--scheduleWidth);
 			@apply rounded-r-none;
 		}
+	}
+
+	.schedule-tag {
+		color: var(--color);
+		@apply text-label-sm absolute right-2 bottom-1;
 	}
 </style>

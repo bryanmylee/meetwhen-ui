@@ -1,10 +1,10 @@
-import chroma from 'chroma-js';
+import chroma, { Color } from 'chroma-js';
 
 export type ColorScale = (
 	numerator: number,
 	denominator: number,
 	isDark?: boolean,
-) => string;
+) => Color;
 
 const ratioWithMin = (ratio: number, min: number) => {
 	return ratio * (1 - min) + min;
@@ -23,6 +23,6 @@ export const getColorScale = (hex: string): ColorScale => {
 		const scale = chroma.scale(scalePoints).mode('lrgb');
 		const mostIndex = ratioWithMin(Math.min(1, denominator / 10), 0.5);
 		const index = ratioWithMax(numerator / denominator, mostIndex);
-		return scale(index).alpha(ratioWithMin(index, 0.2)).css();
+		return scale(index).alpha(ratioWithMin(index, 0.2));
 	};
 };
