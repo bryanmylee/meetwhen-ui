@@ -205,8 +205,8 @@
 	description={meeting.description}
 />
 
-<section class="flex flex-col min-h-screen-nav">
-	<div class="flex flex-col flex-1 w-full max-w-xl gap-4 p-4 mx-auto">
+<section class="flex flex-col h-screen-nav">
+	<div class="flex flex-col flex-1 w-full h-full max-w-xl gap-4 p-4 mx-auto">
 		<MeetingHeader {...meeting} />
 		<ScheduleTimePicker
 			bind:value={$intervals.value}
@@ -214,6 +214,7 @@
 			validIntervals={meeting.intervals}
 			schedules={meeting.schedules}
 			editing={pageState === 'join' || pageState === 'edit'}
+			class="min-h-0 h-full"
 		/>
 		{#if pageState === 'none'}
 			{#if isJoined}

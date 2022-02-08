@@ -87,7 +87,7 @@
 
 <style lang="postcss">
 	.picker-card {
-		@apply card p-4 flex flex-col flex-1;
+		@apply card p-4;
 		--scheduleWidth: 1.5rem;
 	}
 </style>
