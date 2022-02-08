@@ -1,8 +1,9 @@
-import * as firebaseAdmin from 'firebase-admin';
 import type { RequestHandler } from '@sveltejs/kit';
 import type { Id } from '$lib/core/types/Id';
 import type { ScheduleData } from '$lib/models/Schedule';
 import type { UserData } from '$lib/models/UserData';
+import { initFirebaseAdmin } from '$lib/firebase/server';
+import { getServerEnv } from '$lib/env';
 
 /**
  * This limits the amount of user information exposed when viewing a meeting.
@@ -13,6 +14,8 @@ export const get: RequestHandler = async ({ url }) => {
 		if (meetingId === null || meetingId === '') {
 			throw new Error('query parameter `meetingId` is required');
 		}
+		const { serviceKey } = getServerEnv();
+		const firebaseAdmin = await initFirebaseAdmin(serviceKey);
 		const schedulesSnapshot = await firebaseAdmin
 			.firestore()
 			.collection('schedules')
