@@ -14,7 +14,7 @@ export const scrollOffset: Action<Writable<ScrollOffset>> = (node, offset) => {
 		});
 	};
 
-	node.addEventListener('scroll', handleScroll);
+	node.addEventListener('scroll', handleScroll, { passive: true });
 	return {
 		destroy() {
 			node.removeEventListener('scroll', handleScroll);
