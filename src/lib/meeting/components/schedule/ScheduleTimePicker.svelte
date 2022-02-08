@@ -36,9 +36,12 @@
 		1,
 		...scheduleIntervals.map((i) => i.userIds.size),
 	);
+
+	let className = '';
+	export { className as class };
 </script>
 
-<div class="picker-card">
+<div class="picker-card {className}">
 	<TimePicker
 		bind:value
 		{error}
@@ -84,7 +87,7 @@
 
 <style lang="postcss">
 	.picker-card {
-		@apply card p-4;
+		@apply card p-4 flex flex-col flex-1;
 		--scheduleWidth: 1.5rem;
 	}
 </style>

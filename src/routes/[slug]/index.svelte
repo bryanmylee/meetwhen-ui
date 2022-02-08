@@ -197,8 +197,8 @@
 	};
 </script>
 
-<section>
-	<div class="max-w-xl p-4 mx-auto flex flex-col gap-4">
+<section class="min-h-screen-nav flex flex-col">
+	<div class="max-w-xl p-4 mx-auto flex-1 flex flex-col gap-4">
 		<MeetingHeader {...meeting} />
 		<ScheduleTimePicker
 			bind:value={$intervals.value}
@@ -245,6 +245,9 @@
 				</Button>
 			</div>
 		{:else if pageState === 'leave'}
+			<div class="card p-4">
+				<p class="text-center text-label">Are you sure you want to leave?</p>
+			</div>
 			<div class="w-full flex gap-4">
 				<Button
 					color="gray"

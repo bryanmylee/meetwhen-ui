@@ -37,6 +37,10 @@ const config = {
 			fontFamily: {
 				sans: [...defaultTheme.fontFamily.sans],
 			},
+			height: {
+				screen: 'var(--vh, 100vh)',
+				'screen-nav': 'calc(var(--vh, 100vh) - 3.5rem)',
+			},
 			minHeight: (theme) => theme('height'),
 			minWidth: (theme) => theme('width'),
 			maxHeight: (theme) => theme('height'),

@@ -251,14 +251,17 @@
 
 <style lang="postcss">
 	.timepicker {
+		@apply flex flex-col flex-1;
 		@apply relative focus:outline-none wh-full z-0;
 	}
 
 	.timepicker-clip-content {
+		@apply flex flex-col flex-1;
 		@apply relative h-full min-h-0 overflow-hidden;
 	}
 
 	.timepicker-scroll-grid {
+		@apply flex-1;
 		@apply relative grid h-full overflow-auto;
 		grid-template: min-content auto / min-content auto;
 	}

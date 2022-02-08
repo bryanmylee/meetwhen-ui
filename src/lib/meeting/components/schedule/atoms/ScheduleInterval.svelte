@@ -138,7 +138,7 @@
 		}
 
 		&.has-bottom {
-			@apply border-b-2 border-white gdark:border-neutral-900;
+			@apply border-b-2 border-white gdark:border-neutral-800;
 		}
 
 		&:not(.has-bottom) {
