@@ -38,7 +38,7 @@
 	class="link-preview group"
 >
 	{#if favicon !== undefined}
-		<div class="wh-4">
+		<div class="wh-4 -ml-1.5">
 			<img src={favicon} alt="favicon" />
 		</div>
 	{/if}
