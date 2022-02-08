@@ -14,10 +14,14 @@
 		getTimePickerControls,
 		getTimePickerState,
 	} from '$lib/input/timePicker/utils/timePickerContext';
+	import { getScheduleAdjacencySet } from '../utils/schedulePickerContext';
 	import SchedulePopover from './popover/SchedulePopover.svelte';
 	import { primaryScale, useIsDark } from '$lib/core/state';
 
 	const isDark = useIsDark();
+	const scheduleAdjacencySet = getScheduleAdjacencySet();
+	$: hasTopNeighbor = $scheduleAdjacencySet.includes(interval.start);
+	$: hasBottomNeighbor = $scheduleAdjacencySet.includes(interval.end);
 
 	export let interval: UserIdsInterval;
 	$: id = interval.start.unix();
@@ -77,6 +81,8 @@
 	on:mouseleave={() => ($hoveredId = undefined)}
 	on:mousemove={handleMouseMove}
 	on:transitionend={() => popover?.updatePopoverPosition()}
+	class:has-top={hasTopNeighbor}
+	class:has-bottom={hasBottomNeighbor}
 	style:--bg={bgColor.css()}
 	style:grid-area={intervalGridArea({
 		dateIdToColumnNumber: $dateIdToColumnNumber,
@@ -102,7 +108,6 @@
 	.schedule-interval {
 		background-color: var(--bg);
 		@apply relative wh-full pointer-events-auto;
-		@apply rounded-xl;
 
 		&.show-popover {
 			@apply ring-2 ring-offset-[3px] ring-inset ring-white gdark:ring-neutral-800;
@@ -120,6 +125,18 @@
 		&.editing {
 			width: var(--scheduleWidth);
 			@apply rounded-r-none;
+		}
+
+		&:not(.has-top) {
+			@apply rounded-t-xl;
+		}
+
+		&.has-bottom {
+			@apply border-b-2 border-white gdark:border-neutral-900;
+		}
+
+		&:not(.has-bottom) {
+			@apply rounded-b-xl;
 		}
 	}
 

@@ -1,9 +1,16 @@
 <script lang="ts">
+	import type { Dayjs } from 'dayjs';
+	import { Set } from 'immutable';
+	import { writable } from 'svelte/store';
 	import type { Interval } from '$lib/core/types/Interval';
-	import { getLocalIntervals } from '$lib/core/utils/intervals';
+	import {
+		getLocalAdjacencySet,
+		getLocalIntervals,
+	} from '$lib/core/utils/intervals';
 	import { getOverlappedSchedules } from '$lib/core/utils/schedules';
 	import { TimePicker } from '$lib/input';
 	import type { Schedule } from '$lib/models/Schedule';
+	import { setScheduleAdjacencySet } from './utils/schedulePickerContext';
 	import ScheduleInterval from './atoms/ScheduleInterval.svelte';
 	import SchedulePickerActiveInterval from './atoms/SchedulePickerActiveInterval.svelte';
 	import SchedulePickerBlockCell from './atoms/SchedulePickerBlockCell.svelte';
@@ -22,6 +29,9 @@
 	export let validIntervals: Interval[];
 	export let schedules: Schedule[] = [];
 	$: scheduleIntervals = getLocalIntervals(getOverlappedSchedules(schedules));
+	const scheduleAdjacencySet = writable(Set<Dayjs>());
+	setScheduleAdjacencySet(scheduleAdjacencySet);
+	$: $scheduleAdjacencySet = getLocalAdjacencySet(scheduleIntervals);
 	$: maxUserCountPerInterval = Math.max(
 		1,
 		...scheduleIntervals.map((i) => i.userIds.size),
