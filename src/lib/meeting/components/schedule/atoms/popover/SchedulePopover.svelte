@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { createPopperActions } from 'svelte-popperjs';
 	import type { UserIdsInterval } from '$lib/core/types/UserIdsInterval';
-	import UserList from './UserList.svelte';
 	import { getUsersCache } from '$lib/meeting/utils/usersCacheContext';
+	import { getScrollElement } from '$lib/input/timePicker/utils/timePickerContext';
+	import UserList from './UserList.svelte';
 
 	export let interval: UserIdsInterval;
 	const usersCache = getUsersCache();
@@ -15,24 +16,25 @@
 		.filter(([id]) => !interval.userIds.includes(id))
 		.map(([, user]) => user);
 
-	const INDEX_COL_WIDTH = 52;
-	const HEADER_HEIGHT = 36;
+	const scrollElement = getScrollElement();
+
 	const [ref, content, getInstance] = createPopperActions({
 		strategy: 'absolute',
 		placement: 'right',
 		modifiers: [
-			{ name: 'arrow', options: { padding: 16 } },
+			{ name: 'arrow', options: { padding: 8 } },
 			{ name: 'eventListeners', options: { scroll: false, resize: false } },
 			{ name: 'offset', options: { offset: [0, 12] } },
 			{
 				name: 'preventOverflow',
 				options: {
 					altAxis: true,
+					boundary: $scrollElement,
 					padding: {
-						top: HEADER_HEIGHT + 4,
-						bottom: 4,
-						right: 4,
-						left: INDEX_COL_WIDTH + 4,
+						top: 40,
+						left: 48,
+						bottom: 2,
+						right: 1,
 					},
 				},
 			},

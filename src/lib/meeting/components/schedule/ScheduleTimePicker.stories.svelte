@@ -71,7 +71,7 @@
 				},
 				{
 					start: today.add(4, 'days').hour(8),
-					end: today.add(4, 'days').hour(14),
+					end: today.add(4, 'days').hour(17),
 				},
 			],
 			total: { start: today.hour(8), end: today.hour(10) },

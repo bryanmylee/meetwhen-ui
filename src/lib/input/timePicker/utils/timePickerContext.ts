@@ -16,3 +16,6 @@ export const {
 	get: getCurrentDateTimeElement,
 	set: setCurrentDateTimeElement,
 } = pairedContext<Writable<Maybe<HTMLElement>>>();
+
+export const { get: getScrollElement, set: setScrollElement } =
+	pairedContext<Writable<Maybe<HTMLElement>>>();

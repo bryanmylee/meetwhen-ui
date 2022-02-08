@@ -26,6 +26,7 @@
 		setCurrentDateTimeElement,
 		setTimePickerControls,
 		setTimePickerState,
+		setScrollElement,
 	} from './utils/timePickerContext';
 	import { createTimePickerState } from './utils/createTimePickerState';
 	import { getTimePickerInterpolate } from './utils/getTimePickerInterpolate';
@@ -147,11 +148,17 @@
 	$: timePickerKeyboardReducer = getTimePickerKeyboardReducer(dates, validIds);
 
 	const scrollGridOffset = writable({ x: 0, y: 0 });
+	const scrollElement = writable<Maybe<HTMLElement>>();
+	setScrollElement(scrollElement);
 </script>
 
 <div {id} tabindex={0} aria-label="time picker" class="timepicker">
 	<div class="timepicker-clip-content">
-		<div class="timepicker-scroll-grid" use:scrollOffset={scrollGridOffset}>
+		<div
+			bind:this={$scrollElement}
+			class="timepicker-scroll-grid"
+			use:scrollOffset={scrollGridOffset}
+		>
 			<KeyboardHelp />
 			<TimePickerLayoutHeader shadow={$scrollGridOffset.y > 0} />
 			<TimePickerLayoutIndex shadow={$scrollGridOffset.x > 0} />

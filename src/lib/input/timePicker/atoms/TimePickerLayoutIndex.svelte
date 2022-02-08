@@ -50,7 +50,7 @@
 	.timepicker-grid-index {
 		@apply sticky left-0 z-40 grid-flow-col;
 		@apply bg-white gdark:bg-neutral-800;
-		@apply p-1 border-x-4 border-white gdark:border-neutral-800;
+		@apply p-1 border-r-4 border-white gdark:border-neutral-800;
 		@apply transition-shadow;
 		&.has-shadow {
 			@apply shadow-md;
