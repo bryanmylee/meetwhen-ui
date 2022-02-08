@@ -6,14 +6,15 @@ import type { Maybe } from '$lib/core/types/Maybe';
 export const useScreenHeight = (): Readable<Maybe<number>> => {
 	const height = writable<Maybe<number>>(undefined);
 
-	const handleResize = () => {
+	const setHeight = () => {
 		height.set(window.innerHeight);
 	};
 
 	onMount(() => {
-		window.addEventListener('resize', handleResize);
+		setHeight();
+		window.addEventListener('resize', setHeight);
 		return () => {
-			window.removeEventListener('resize', handleResize);
+			window.removeEventListener('resize', setHeight);
 		};
 	});
 
