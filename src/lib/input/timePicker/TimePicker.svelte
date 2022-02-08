@@ -17,7 +17,6 @@
 		subtractIntervals,
 		unionIntervals,
 	} from '$lib/core/utils/intervals';
-	import { scrollOffset } from '$lib/core/utils/useScrollOffset';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { KeyboardHelp, SelectionProvider } from '$lib/input';
@@ -147,7 +146,6 @@
 
 	$: timePickerKeyboardReducer = getTimePickerKeyboardReducer(dates, validIds);
 
-	const scrollGridOffset = writable({ x: 0, y: 0 });
 	const scrollElement = writable<Maybe<HTMLElement>>();
 	setScrollElement(scrollElement);
 </script>
@@ -156,8 +154,8 @@
 	<div class="timepicker-clip-content">
 		<div bind:this={$scrollElement} class="timepicker-scroll-grid">
 			<KeyboardHelp />
-			<TimePickerLayoutHeader shadow={$scrollGridOffset.y > 0} />
-			<TimePickerLayoutIndex shadow={$scrollGridOffset.x > 0} />
+			<TimePickerLayoutHeader />
+			<TimePickerLayoutIndex />
 			<SelectionProvider
 				{selectedIds}
 				{disabled}
