@@ -53,7 +53,7 @@
 	const isDark = useDarkMode(theme);
 	setIsDark(isDark);
 	const screenHeight = useScreenHeight();
-	$: vh = $screenHeight === undefined ? '' : `--vh:${$screenHeight}px;`;
+	// $: vh = $screenHeight === undefined ? '' : `--vh:${$screenHeight}px;`;
 
 	setFirebaseApp(firebaseClient.app);
 	setFirebaseAuth(firebaseClient.auth);
@@ -95,7 +95,7 @@
 </script>
 
 <!-- ; forces string interpolation during SSR and prevents incorrect rendering of escape sequences -->
-<div id="root" style="{$primaryVars};{vh}" class:dark={$isDark}>
+<div id="root" style="{$primaryVars};" class:dark={$isDark}>
 	<Nav
 		user={$user}
 		theme={$theme}
