@@ -42,7 +42,7 @@
 				bind:this={imageElement}
 				src={photoURL}
 				alt={displayName}
-				class="wh-5 -ml-0.5 user-photo"
+				class="wh-5 -ml-1 user-photo"
 				class:opacity-50={unavailable}
 				on:error={handleImageError}
 			/>
