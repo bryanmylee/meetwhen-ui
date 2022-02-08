@@ -31,6 +31,7 @@
 	import type { Meeting } from '$lib/models/Meeting';
 	import type { Id } from '$lib/core/types/Id';
 	import MeetingPreviews from '$lib/profile/components/MeetingPreviews.svelte';
+	import Head from '$lib/core/components/Head.svelte';
 
 	const repo = useRepo();
 	const auth = useAuth();
@@ -68,8 +69,10 @@
 	};
 </script>
 
+<Head subtitle="profile" />
+
 <section>
-	<div class="max-w-xl w-full p-4 mx-auto flex flex-col gap-4">
+	<div class="flex flex-col w-full max-w-xl gap-4 p-4 mx-auto">
 		<h1 class="text-title-1">Welcome back, {name}</h1>
 		<MeetingPreviews
 			title="Upcoming"

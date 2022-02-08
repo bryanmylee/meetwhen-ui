@@ -45,6 +45,7 @@
 	import { fetchMeetingUserData } from '$lib/api/fetchMeetingUserData';
 	import type { UserData } from '$lib/models/UserData';
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
+	import Head from '$lib/core/components/Head.svelte';
 
 	const repo = useRepo();
 	const currentUser = useUser();
@@ -197,8 +198,10 @@
 	};
 </script>
 
-<section class="min-h-screen-nav flex flex-col">
-	<div class="max-w-xl w-full p-4 mx-auto flex-1 flex flex-col gap-4">
+<Head noRobots emoji={meeting.emoji} subtitle={meeting.name} />
+
+<section class="flex flex-col min-h-screen-nav">
+	<div class="flex flex-col flex-1 w-full max-w-xl gap-4 p-4 mx-auto">
 		<MeetingHeader {...meeting} />
 		<ScheduleTimePicker
 			bind:value={$intervals.value}
@@ -209,7 +212,7 @@
 		/>
 		{#if pageState === 'none'}
 			{#if isJoined}
-				<div class="w-full flex gap-4">
+				<div class="flex w-full gap-4">
 					<Button color="gray" class="w-full" on:click={handleLeave}>
 						Leave
 					</Button>
@@ -219,7 +222,7 @@
 				<Button color="gradient" on:click={handleJoin}>Join</Button>
 			{/if}
 		{:else if pageState === 'join'}
-			<div class="w-full flex gap-4">
+			<div class="flex w-full gap-4">
 				<Button
 					color="gray"
 					class="w-full"
@@ -232,7 +235,7 @@
 				</Button>
 			</div>
 		{:else if pageState === 'edit'}
-			<div class="w-full flex gap-4">
+			<div class="flex w-full gap-4">
 				<Button
 					color="gray"
 					class="w-full"
@@ -245,10 +248,10 @@
 				</Button>
 			</div>
 		{:else if pageState === 'leave'}
-			<div class="card p-4">
+			<div class="p-4 card">
 				<p class="text-center text-label">Are you sure you want to leave?</p>
 			</div>
-			<div class="w-full flex gap-4">
+			<div class="flex w-full gap-4">
 				<Button
 					color="gray"
 					class="w-full"

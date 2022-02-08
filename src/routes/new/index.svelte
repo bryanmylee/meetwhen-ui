@@ -24,6 +24,7 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
 	import { useRepo, useUser } from '$lib/firebase/context';
+	import Head from '$lib/core/components/Head.svelte';
 	import {
 		AdjustableIntervalsSelect,
 		LinksTextfields,
@@ -83,8 +84,10 @@
 	};
 </script>
 
+<Head subtitle="new" />
+
 <section>
-	<div class="max-w-xl w-full p-4 mx-auto">
+	<div class="w-full max-w-xl p-4 mx-auto">
 		<form class="flex flex-col gap-4" on:submit|preventDefault={handleSubmit}>
 			<h1 class="text-title-1">Start a new meet</h1>
 			<Name {name} {description} />

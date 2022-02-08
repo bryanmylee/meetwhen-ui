@@ -1,0 +1,19 @@
+<script lang="ts">
+	import type { Maybe } from '../types/Maybe';
+
+	export let emoji: Maybe<string> = undefined;
+	export let subtitle: Maybe<string> = undefined;
+	export let noRobots = false;
+</script>
+
+<svelte:head>
+	<title>
+		{subtitle ?? ''}
+		{emoji ?? subtitle === undefined ? '' : '•'}
+		meetwhen.io
+	</title>
+	<meta name="description" content="Find the perfect time together" />
+	{#if noRobots}
+		<meta name="robots" content="noindex" />
+	{/if}
+</svelte:head>
