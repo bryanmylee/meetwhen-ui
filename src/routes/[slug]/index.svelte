@@ -198,7 +198,7 @@
 </script>
 
 <section class="min-h-screen-nav flex flex-col">
-	<div class="max-w-xl p-4 mx-auto flex-1 flex flex-col gap-4">
+	<div class="max-w-xl w-full p-4 mx-auto flex-1 flex flex-col gap-4">
 		<MeetingHeader {...meeting} />
 		<ScheduleTimePicker
 			bind:value={$intervals.value}

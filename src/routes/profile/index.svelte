@@ -69,7 +69,7 @@
 </script>
 
 <section>
-	<div class="max-w-xl p-4 mx-auto flex flex-col gap-4">
+	<div class="max-w-xl w-full p-4 mx-auto flex flex-col gap-4">
 		<h1 class="text-title-1">Welcome back, {name}</h1>
 		<MeetingPreviews
 			title="Upcoming"
