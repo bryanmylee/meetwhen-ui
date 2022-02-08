@@ -87,7 +87,12 @@
 				schedules,
 			};
 		}
+		updateUserData();
 	}
+
+	const updateUserData = async () => {
+		users = await fetchMeetingUserData(meeting.id);
+	};
 
 	let pageState: MeetingPageState = 'none';
 	$: isJoined =
