@@ -15,8 +15,10 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SafeUser } from '$lib/models/SafeUser';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
+	import { media } from '$lib/core/state';
 	import type { NavItem } from './types/NavItem';
-	import NavMenu from './atoms/NavDropdown.svelte';
+	import NavDropdown from './atoms/NavDropdown.svelte';
+	import NavList from './atoms/NavList.svelte';
 	import ThemeSelect from './atoms/ThemeSelect.svelte';
 
 	export let user: Maybe<SafeUser> = undefined;
@@ -74,7 +76,11 @@
 			<Button href="/new" size="sm">New</Button>
 		</li>
 		<li>
-			<NavMenu {navItems} />
+			{#if $media.sm}
+				<NavList {navItems} />
+			{:else}
+				<NavDropdown {navItems} on:dismiss={() => (showTheme = false)} />
+			{/if}
 		</li>
 	</ul>
 	{#if !onHomePage}
@@ -89,7 +95,7 @@
 	.nav {
 		@apply fixed inset-0 bottom-auto;
 		@apply flex justify-between items-center gap-2;
-		@apply px-4 py-2 z-50;
+		@apply px-4 h-14 z-50;
 	}
 
 	.nav-bg {

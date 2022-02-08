@@ -89,7 +89,7 @@
 	}
 
 	.themeselect-items-container {
-		@apply absolute top-1/2 right-full -translate-y-1/2 pr-6;
+		@apply absolute top-0 right-0 -translate-x-2 translate-y-2;
 	}
 
 	.themeselect-items-reveal {

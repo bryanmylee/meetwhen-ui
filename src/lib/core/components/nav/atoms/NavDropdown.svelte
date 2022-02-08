@@ -44,32 +44,28 @@
 									}
 									navItem.action();
 								}}
-								class="w-full focus:outline-none"
+								class="menu-item focus:outline-none"
 							>
-								<span class="menu-item">
-									{#if navItem.display === 'label'}
-										{navItem.label}
-									{:else}
-										<svelte:component
-											this={navItem.component}
-											{...navItem.props ?? {}}
-											clickOutside
-										/>
-									{/if}
-								</span>
+								{#if navItem.display === 'label'}
+									{navItem.label}
+								{:else}
+									<svelte:component
+										this={navItem.component}
+										{...navItem.props ?? {}}
+										clickOutside
+									/>
+								{/if}
 							</button>
 						{:else}
-							<a href={navItem.href} class="w-full">
-								<span class="menu-item">
-									{#if navItem.display === 'label'}
-										{navItem.label}
-									{:else}
-										<svelte:component
-											this={navItem.component}
-											{...navItem.props ?? {}}
-										/>
-									{/if}
-								</span>
+							<a href={navItem.href} class="menu-item">
+								{#if navItem.display === 'label'}
+									{navItem.label}
+								{:else}
+									<svelte:component
+										this={navItem.component}
+										{...navItem.props ?? {}}
+									/>
+								{/if}
 							</a>
 						{/if}
 					{/each}
@@ -79,20 +75,9 @@
 	</div>
 </div>
 
-<style lang="postcss" global>
+<style lang="postcss">
 	.menu {
 		@apply relative;
-	}
-
-	.menu-button {
-		@apply p-2 flex items-center rounded-xl;
-		@apply bg-shade-100 focus transition-colors;
-		&:not(:active):hover {
-			@apply bg-shade-50 shadow;
-		}
-		&:active {
-			@apply bg-shade-200 shadow-sm;
-		}
 	}
 
 	.menu-items-container {
@@ -107,16 +92,11 @@
 	.menu-item {
 		@apply w-full flex justify-center items-center p-2 rounded-lg;
 		@apply text-center text-label whitespace-nowrap;
-		&:hover,
-		&.active {
+		&:hover {
 			@apply bg-shade-200;
 		}
 		&:active {
 			@apply bg-shade-300;
 		}
-	}
-
-	.menu-divider {
-		@apply block my-2 w-full h-[1px] bg-shade-200;
 	}
 </style>
