@@ -253,7 +253,7 @@
 				</Button>
 			</div>
 		{:else if pageState === 'leave'}
-			<div class="p-4 card">
+			<div class="leave">
 				<p class="text-center text-label">Are you sure you want to leave?</p>
 			</div>
 			<div class="flex w-full gap-4">
@@ -271,3 +271,9 @@
 		{/if}
 	</div>
 </section>
+
+<style lang="postcss">
+	.leave {
+		@apply p-4 card;
+	}
+</style>
