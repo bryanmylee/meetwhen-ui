@@ -34,7 +34,7 @@
 				class="menu-items-reveal"
 				on:click={() => (open = false)}
 			>
-				<div tabindex="0" class="focus:outline-none">
+				<div>
 					{#each navItems as navItem}
 						{#if navItem.type === 'button'}
 							<button
@@ -44,7 +44,7 @@
 									}
 									navItem.action();
 								}}
-								class="menu-item focus:outline-none"
+								class="menu-item"
 							>
 								{#if navItem.display === 'label'}
 									{navItem.label}
@@ -90,6 +90,7 @@
 	}
 
 	.menu-item {
+		@apply focus;
 		@apply w-full flex justify-center items-center p-2 rounded-lg;
 		@apply text-center text-label whitespace-nowrap;
 		&:hover {

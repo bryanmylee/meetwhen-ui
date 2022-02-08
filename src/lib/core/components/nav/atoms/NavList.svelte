@@ -34,7 +34,7 @@
 	}
 
 	.menu-item {
-		@apply w-full flex justify-center items-center p-2 rounded-lg;
+		@apply w-full flex justify-center items-center p-2 rounded-lg focus;
 		@apply text-center text-label whitespace-nowrap;
 		&:hover {
 			@apply bg-shade-200;

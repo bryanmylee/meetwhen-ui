@@ -41,7 +41,7 @@
 </script>
 
 <Popover class="themeselect">
-	<PopoverButton class="themeselect-anchor">
+	<PopoverButton as="div" class="themeselect-anchor">
 		<svelte:component this={selectedOption?.icon} class="wh-5" />
 	</PopoverButton>
 	<div class="themeselect-items-container">
@@ -54,22 +54,14 @@
 					<RadioGroup value={selected} class="themeselect-items">
 						{#each options as { value, icon }}
 							<RadioGroupOption
-								as="div"
+								as="button"
 								{value}
 								id="select-{value}"
-								let:active
-								let:checked
-								class="focus:outline-none"
+								class="themeselect-item"
+								on:click={() => onSelectTheme(value)}
 							>
-								<button
-									class="themeselect-item"
-									class:active
-									class:checked
-									on:click={() => onSelectTheme(value)}
-								>
-									<svelte:component this={icon} class="wh-5" />
-									<label for="select-{value}">{value}</label>
-								</button>
+								<svelte:component this={icon} class="wh-5" />
+								<label for="select-{value}">{value}</label>
 							</RadioGroupOption>
 						{/each}
 					</RadioGroup>
@@ -94,9 +86,6 @@
 
 	.themeselect-items-reveal {
 		@apply p-2 card;
-		&:focus-within {
-			@apply ring ring-inset ring-primary-400;
-		}
 	}
 
 	.themeselect-items {
@@ -104,18 +93,18 @@
 	}
 
 	.themeselect-item {
-		@apply flex flex-col justify-center items-center gap-0.5;
+		@apply flex flex-col justify-center items-center gap-0.5 focus;
 		@apply wh-16 p-2 rounded-lg;
 		@apply text-center whitespace-nowrap;
 		@apply bg-shade-100;
 		&:hover,
-		&.active {
+		&[tabindex='0'] {
 			@apply bg-shade-50 shadow;
 		}
 		&:active {
 			@apply bg-shade-200 shadow-sm;
 		}
-		&.checked {
+		&[aria-checked='true'] {
 			@apply text-primary-400;
 			& > label {
 				@apply text-primary-400;
