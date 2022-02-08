@@ -196,7 +196,7 @@
 						{isIdDisabled}
 						{selectMode}
 					/>
-					{#each Object.entries($timeCellsByDateId) as [dateId, dateTimeCells]}
+					{#each Object.entries($timeCellsByDateId) as [dateId, dateTimeCells] (dateId)}
 						{#each dateTimeCells as timeCell (timeCell.time.unix())}
 							<slot name="time-cell" {dateId} {timeCell}>
 								<TimePickerBlockCell
@@ -215,7 +215,7 @@
 						{/each}
 					{/each}
 					{#if !disabled}
-						{#each Object.entries($intervalsByDateId) as [_, blocks] (blocks[0]?.start?.unix())}
+						{#each Object.entries($intervalsByDateId) as [dateId, blocks] (dateId)}
 							{#each blocks as block (block.start.unix())}
 								<slot name="block-overlay" {block}>
 									<TimePickerBlockOverlay {block} />
