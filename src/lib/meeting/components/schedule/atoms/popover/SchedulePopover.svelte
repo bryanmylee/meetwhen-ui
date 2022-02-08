@@ -22,7 +22,7 @@
 		strategy: 'absolute',
 		placement: 'right',
 		modifiers: [
-			{ name: 'arrow', options: { padding: 8 } },
+			{ name: 'arrow', options: { padding: 10 } },
 			{ name: 'eventListeners', options: { scroll: false, resize: false } },
 			{ name: 'offset', options: { offset: [0, 12] } },
 			{
@@ -31,7 +31,7 @@
 					altAxis: true,
 					boundary: $scrollElement,
 					padding: {
-						top: 40,
+						top: 52,
 						left: 48,
 						bottom: 2,
 						right: 1,
