@@ -198,7 +198,12 @@
 	};
 </script>
 
-<Head noRobots emoji={meeting.emoji} subtitle={meeting.name} />
+<Head
+	noRobots
+	emoji={meeting.emoji}
+	subtitle={meeting.name}
+	description={meeting.description}
+/>
 
 <section class="flex flex-col min-h-screen-nav">
 	<div class="flex flex-col flex-1 w-full max-w-xl gap-4 p-4 mx-auto">
