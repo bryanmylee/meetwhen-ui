@@ -8,17 +8,53 @@
 </script>
 
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 	import { Button } from '$lib/input';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SafeUser } from '$lib/models/SafeUser';
-	import NavMenu from './NavMenu.svelte';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
+	import type { NavItem } from './types/NavItem';
+	import NavMenu from './atoms/NavDropdown.svelte';
+	import ThemeSelect from './atoms/ThemeSelect.svelte';
 
 	export let user: Maybe<SafeUser> = undefined;
 	export let theme: ThemeType = 'auto';
 	export let onHomePage = false;
+
+	const dispatch = createEventDispatcher<NavEvent>();
+
+	let showTheme = false;
+
+	let navItems: NavItem[];
+	$: navItems = [
+		user === undefined
+			? {
+					type: 'button',
+					action: () => dispatch('open-auth'),
+					display: 'label',
+					label: 'Sign In',
+			  }
+			: {
+					type: 'link',
+					href: '/profile',
+					display: 'label',
+					label: 'Profile',
+			  },
+		{
+			type: 'button',
+			action: () => (showTheme = !showTheme),
+			preventDismiss: true,
+			display: 'component',
+			component: ThemeSelect,
+			props: {
+				open: showTheme,
+				selected: theme,
+				onSelectTheme: (t: ThemeType) => dispatch('select-theme', { theme: t }),
+			},
+		},
+	];
 </script>
 
 <nav class="nav">
@@ -38,7 +74,7 @@
 			<Button href="/new" size="sm">New</Button>
 		</li>
 		<li>
-			<NavMenu {user} {theme} on:open-auth on:select-theme />
+			<NavMenu {navItems} />
 		</li>
 	</ul>
 	{#if !onHomePage}

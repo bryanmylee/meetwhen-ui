@@ -64,6 +64,7 @@
 		"svelte-check": "^2.2.6",
 		"svelte-feather-icons": "^3.5.0",
 		"svelte-loader": "^3.1.2",
+		"svelte-media": "^0.1.5",
 		"svelte-popperjs": "^1.2.8",
 		"svelte-preprocess": "^4.10.1",
 		"svelte-previous": "^2.0.1",

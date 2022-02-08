@@ -40,7 +40,7 @@
 	import { firebaseClient } from '$lib/firebase/client';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
 	import { useCookie } from '$lib/core/utils/cookies/useCookie';
-	import Nav from '$lib/core/components/nav/Nav.svelte';
+	import { Nav } from '$lib/core/components/nav';
 	import { AuthDialog } from '$lib/auth/components/authDialog';
 	import type { AuthDialogEvent } from '$lib/auth/components/authDialog';
 	import { useDarkMode } from '$lib/colors/utils/useDarkMode';

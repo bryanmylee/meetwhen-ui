@@ -21,7 +21,6 @@
 </script>
 
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { SunIcon, MoonIcon, DropletIcon } from 'svelte-feather-icons';
@@ -33,14 +32,12 @@
 		RadioGroup,
 		RadioGroupOption,
 	} from '@rgossiaux/svelte-headlessui';
-	import type { NavEvent } from './Nav.svelte';
-
-	const dispatch = createEventDispatcher<NavEvent>();
 
 	export let open = false;
-
 	export let selected: ThemeType = 'auto';
 	$: selectedOption = options.find((o) => o.value === selected);
+
+	export let onSelectTheme: (theme: ThemeType) => void;
 </script>
 
 <Popover class="themeselect">
@@ -68,7 +65,7 @@
 									class="themeselect-item"
 									class:active
 									class:checked
-									on:click={() => dispatch('select-theme', { theme: value })}
+									on:click={() => onSelectTheme(value)}
 								>
 									<svelte:component this={icon} class="wh-5" />
 									<label for="select-{value}">{value}</label>
