@@ -31,10 +31,38 @@
 		},
 	];
 
+	const overMidnightIntervals = [
+		{
+			start: today.hour(20),
+			end: today.add(1, 'day').hour(4),
+		},
+	];
+
+	setUsersCache(
+		writable({
+			'1': {
+				displayName: 'Adam Neely',
+				email: 'adam@neely.com',
+				photoURL:
+					'https://images.pexels.com/photos/11054160/pexels-photo-11054160.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+			},
+			'2': {
+				displayName: 'Rebecca Smith',
+				email: 'rebecca@smith.com',
+				photoURL:
+					'https://images.pexels.com/photos/1987301/pexels-photo-1987301.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+			},
+			'3': {
+				displayName: 'Taylor Gates',
+				email: 'taylor@gates.com',
+			},
+		}),
+	);
+
 	/**
 	 * @type {import("../../../models/Schedule").Schedule[]}
 	 */
-	const schedules = [
+	const fiveDaySchedules = [
 		{
 			userId: '1',
 			meetingId: '',
@@ -77,26 +105,18 @@
 			total: { start: today.hour(8), end: today.hour(10) },
 		},
 	];
-	setUsersCache(
-		writable({
-			'1': {
-				displayName: 'Adam Neely',
-				email: 'adam@neely.com',
-				photoURL:
-					'https://images.pexels.com/photos/11054160/pexels-photo-11054160.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-			},
-			'2': {
-				displayName: 'Rebecca Smith',
-				email: 'rebecca@smith.com',
-				photoURL:
-					'https://images.pexels.com/photos/1987301/pexels-photo-1987301.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-			},
-			'3': {
-				displayName: 'Taylor Gates',
-				email: 'taylor@gates.com',
-			},
-		}),
-	);
+
+	/**
+	 * @type {import("../../../models/Schedule").Schedule[]}
+	 */
+	const overMidnightSchedules = [
+		{
+			userId: '1',
+			meetingId: '',
+			intervals: [{ start: today.hour(21), end: today.add(1, 'day').hour(2) }],
+			total: { start: today.hour(21), end: today.add(1, 'day').hour(2) },
+		},
+	];
 </script>
 
 <Meta
@@ -126,7 +146,12 @@
 		<ScheduleTimePicker
 			editing={false}
 			validIntervals={fiveDayIntervals}
-			{schedules}
+			schedules={fiveDaySchedules}
+		/>
+		<ScheduleTimePicker
+			editing={false}
+			validIntervals={overMidnightIntervals}
+			schedules={overMidnightSchedules}
 		/>
 	</div>
 </Story>

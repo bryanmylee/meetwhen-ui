@@ -40,6 +40,30 @@ describe('getLocalIntervals', () => {
 		];
 		expect(result.map(serialize)).toEqual(expected.map(serialize));
 	});
+
+	it('keeps rest properties', () => {
+		const intervals = [
+			{
+				start: today.hour(22),
+				end: today.add(1, 'day').hour(2),
+				extra: 'metadata',
+			},
+		];
+		const result = getLocalIntervals(intervals);
+		const expected = [
+			{
+				start: today.hour(22),
+				end: today.add(1, 'day'),
+				extra: 'metadata',
+			},
+			{
+				start: today.add(1, 'day'),
+				end: today.add(1, 'day').hour(2),
+				extra: 'metadata',
+			},
+		];
+		expect(result.map(serialize)).toEqual(expected.map(serialize));
+	});
 });
 
 describe('groupIntervalsByDateId', () => {

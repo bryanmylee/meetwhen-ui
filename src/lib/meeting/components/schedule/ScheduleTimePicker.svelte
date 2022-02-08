@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Interval } from '$lib/core/types/Interval';
+	import { getLocalIntervals } from '$lib/core/utils/intervals';
 	import { getOverlappedSchedules } from '$lib/core/utils/schedules';
 	import { TimePicker } from '$lib/input';
 	import type { Schedule } from '$lib/models/Schedule';
@@ -20,7 +21,7 @@
 
 	export let validIntervals: Interval[];
 	export let schedules: Schedule[] = [];
-	$: scheduleIntervals = getOverlappedSchedules(schedules);
+	$: scheduleIntervals = getLocalIntervals(getOverlappedSchedules(schedules));
 	$: maxUserCountPerInterval = Math.max(
 		1,
 		...scheduleIntervals.map((i) => i.userIds.size),
