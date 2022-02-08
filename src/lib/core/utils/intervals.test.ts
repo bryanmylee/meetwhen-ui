@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
 import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
 import {
 	getIntervalDiscretes,
@@ -13,9 +14,11 @@ import {
 	intersectIntervals,
 	localIntervalOnDay,
 	getTotalInterval,
+	getLocalAdjacencySet,
 } from './intervals';
 import { dateToId } from './dayjs/dateIds';
 import type { Interval } from '../types/Interval';
+import { Set } from 'immutable';
 
 const today = dayjs().startOf('day');
 
@@ -650,5 +653,29 @@ describe('getTotalInterval', () => {
 		expect(() => {
 			getTotalInterval([]);
 		}).toThrowError('Cannot get a total from an empty set of intervals');
+	});
+});
+
+describe('getLocalAdjacencySet', () => {
+	it('finds all adjacent moments', () => {
+		const result = getLocalAdjacencySet([
+			{ start: today.hour(8), end: today.hour(9) },
+			{ start: today.hour(9), end: today.hour(10) },
+			{ start: today.hour(10), end: today.hour(11) },
+			{ start: today.hour(13), end: today.hour(14) },
+		]);
+		const expected = Set([today.hour(9), today.hour(10)]);
+		expect(result.map((d) => d.unix())).toEqual(expected.map((d) => d.unix()));
+		expect(result.includes(today.hour(9))).toBe(true);
+		expect(result.includes(today.hour(10))).toBe(true);
+	});
+
+	it('ignores adjacent on midnight', () => {
+		const result = getLocalAdjacencySet([
+			{ start: today.hour(22), end: today.add(1, 'day') },
+			{ start: today.add(1, 'day').hour(0), end: today.add(1, 'day').hour(2) },
+		]);
+		const expected = Set<Dayjs>([]);
+		expect(result.map((d) => d.unix())).toEqual(expected.map((d) => d.unix()));
 	});
 });

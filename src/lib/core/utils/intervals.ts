@@ -1,4 +1,5 @@
 import type { Dayjs } from 'dayjs';
+import { Set } from 'immutable';
 import { endOf } from '$lib/core/utils/dayjs/endOf';
 import { onDay } from '$lib/core/utils/dayjs/onDay';
 import { dateToId } from '$lib/core/utils/dayjs/dateIds';
@@ -6,6 +7,7 @@ import { IntervalConverter } from '$lib/core/types/Interval';
 import type { Interval } from '$lib/core/types/Interval';
 import type { Moment } from '$lib/core/types/Moment';
 import type { Maybe } from '$lib/core/types/Maybe';
+import { groupBy } from './groupBy';
 
 export const serialize = IntervalConverter.serialize;
 
@@ -236,4 +238,25 @@ export const getTotalInterval = (intervals: Interval[]): Interval => {
 		start: unioned[0].start,
 		end: unioned[unioned.length - 1].end,
 	};
+};
+
+export const getLocalAdjacencySet = (
+	localIntervals: Interval[],
+): Set<Dayjs> => {
+	const intervalsByDate = groupBy(localIntervals, (i) => dateToId(i.start));
+	let result = Set<Dayjs>();
+	Object.values(intervalsByDate).forEach((intervals) => {
+		if (intervals.length === 0) {
+			return;
+		}
+		intervals.sort((a, b) => a.start.diff(b.start));
+		let prevEnd: Dayjs = intervals[0].end;
+		intervals.slice(1).forEach(({ start, end }) => {
+			if (prevEnd.isSame(start)) {
+				result = result.add(start);
+			}
+			prevEnd = end;
+		});
+	});
+	return result;
 };
