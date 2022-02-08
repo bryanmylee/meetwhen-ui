@@ -27,7 +27,7 @@
 
 <style lang="postcss">
 	.timepicker-focus {
-		@apply rounded-xl pointer-events-none z-30;
+		@apply rounded-r-xl pointer-events-none z-30;
 		margin-left: var(--scheduleWidth);
 
 		:global(:focus-within) > & {

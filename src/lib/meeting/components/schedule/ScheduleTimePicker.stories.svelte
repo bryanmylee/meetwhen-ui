@@ -143,13 +143,16 @@
 
 <Story name="Example schedule intervals" source>
 	<div class="flex flex-col gap-4">
+		<Button on:click={() => (exampleIsEditing = !exampleIsEditing)}>
+			Toggle editing
+		</Button>
 		<ScheduleTimePicker
-			editing={false}
+			editing={exampleIsEditing}
 			validIntervals={fiveDayIntervals}
 			schedules={fiveDaySchedules}
 		/>
 		<ScheduleTimePicker
-			editing={false}
+			editing={exampleIsEditing}
 			validIntervals={overMidnightIntervals}
 			schedules={overMidnightSchedules}
 		/>

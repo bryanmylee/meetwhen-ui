@@ -34,7 +34,7 @@
 
 <style lang="postcss">
 	.timepicker-active {
-		@apply relative rounded-xl pointer-events-none z-20;
+		@apply relative rounded-r-xl pointer-events-none z-20;
 		@apply ring ring-inset;
 		margin-left: var(--scheduleWidth);
 		& > span {

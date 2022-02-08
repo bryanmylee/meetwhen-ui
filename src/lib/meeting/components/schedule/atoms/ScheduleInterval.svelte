@@ -99,7 +99,11 @@
 		{referenceElement}
 		{interval}
 	/>
-	<p class="schedule-tag" style:--color={textColor.css()}>
+	<p
+		class="schedule-tag"
+		class:hidden={editing}
+		style:--color={textColor.css()}
+	>
 		{interval.userIds.size}
 	</p>
 </div>
@@ -123,8 +127,8 @@
 
 		transition: width 300ms var(--cubicOut);
 		&.editing {
-			width: var(--scheduleWidth);
-			@apply rounded-r-none;
+			width: calc(var(--scheduleWidth) - 2px);
+			@apply !rounded-r-none;
 		}
 
 		&:not(.has-top) {

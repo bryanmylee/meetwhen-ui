@@ -20,16 +20,23 @@
 		resolution: $resolution,
 		interval: block,
 	})}
-/>
+>
+	<div class="timepicker-schedule-border" />
+</div>
 
 <style lang="postcss">
 	.timepicker-block {
 		@apply ring-primary-400 rounded-xl;
-		@apply pointer-events-none;
-		margin-left: var(--scheduleWidth);
+		@apply pointer-events-none z-[-1];
 
 		:global(.timepicker:focus) & {
 			@apply ring;
+		}
+
+		& .timepicker-schedule-border {
+			width: calc(var(--scheduleWidth) - 2px);
+			@apply h-full rounded-l-xl bg-shade-100;
+			@apply pointer-events-none;
 		}
 	}
 </style>

@@ -29,7 +29,7 @@
 
 <style lang="postcss">
 	.timepicker-selected {
-		@apply rounded-xl pointer-events-none z-10;
+		@apply rounded-r-xl pointer-events-none z-10;
 		@apply bg-primary-400/50;
 		margin-left: var(--scheduleWidth);
 	}

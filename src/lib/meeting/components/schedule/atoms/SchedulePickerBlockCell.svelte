@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Maybe } from '$lib/core/types/Maybe';
-	import type { SelectMode } from '$lib/input';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 	import { gridArea } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
@@ -29,6 +28,8 @@
 	$: cellCurrent = isIdCurrent(dateTimeId);
 	$: cellDisabled = isIdDisabled(dateTimeId);
 
+	$: hasLeft = editing;
+
 	const { resolution } = getTimePickerControls();
 	const { dateIdToColumnNumber, timeIdToRowNumber } = getTimePickerState();
 
@@ -52,13 +53,14 @@
 		bind:this={element}
 		data-select-id={dateTimeComposeId([dateId, timeId])}
 		aria-selected={cellSelected}
-		disabled={!editing || cellDisabled}
+		aria-disabled={!editing || cellDisabled}
 		tabindex={cellCurrent ? 0 : -1}
 		class:editing
 		class:border-b-2={timeCell.time.add($resolution, 'minutes').minute() ===
 			0 && !timeCell.isEndOfInterval}
 		class:rounded-t-xl={timeCell.isStartOfInterval}
 		class:rounded-b-xl={timeCell.isEndOfInterval}
+		class:rounded-l-none={hasLeft}
 	/>
 </div>
 
@@ -70,11 +72,15 @@
 			@apply wh-full focus:outline-none;
 			@apply bg-shade-100 border-gray-200 gdark:border-neutral-500;
 
-			&:hover:not(:disabled) {
-				@apply bg-shade-200;
+			&:not([aria-disabled='true']) {
+				@apply cursor-pointer;
+				&:hover {
+					@apply bg-shade-200;
+				}
 			}
 
-			transition: width 300ms var(--cubicOut), margin-left 300ms var(--cubicOut);
+			transition: width 300ms var(--cubicOut), margin-left 300ms var(--cubicOut),
+				border-radius 300ms var(--cubicOut);
 			&.editing {
 				width: calc(100% - var(--scheduleWidth));
 				margin-left: var(--scheduleWidth);
