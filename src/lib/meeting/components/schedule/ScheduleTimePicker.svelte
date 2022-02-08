@@ -72,7 +72,12 @@
 			<SchedulePickerFocusCell {selectMode} />
 		</svelte:fragment>
 		{#each scheduleIntervals as interval (interval.start.unix())}
-			<ScheduleInterval {interval} {maxUserCountPerInterval} {editing} />
+			<ScheduleInterval
+				{interval}
+				{maxUserCountPerInterval}
+				{editing}
+				{selectMode}
+			/>
 		{/each}
 	</TimePicker>
 </div>

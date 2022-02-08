@@ -94,10 +94,10 @@
 		@apply pointer-events-none;
 		&.active {
 			@apply pointer-events-auto;
-			@apply border-primary-400 gdark:border-primary-300 z-20;
+			@apply border-primary-400 gdark:border-primary-300 z-40;
 		}
 		&:not(.active) {
-			@apply border-neutral-400 z-30;
+			@apply border-neutral-400 z-50;
 		}
 	}
 

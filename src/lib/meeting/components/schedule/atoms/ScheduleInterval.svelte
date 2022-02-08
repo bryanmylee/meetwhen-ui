@@ -17,6 +17,7 @@
 	import { getScheduleAdjacencySet } from '../utils/schedulePickerContext';
 	import SchedulePopover from './popover/SchedulePopover.svelte';
 	import { primaryScale, useIsDark } from '$lib/core/state';
+	import type { SelectMode } from '$lib/input';
 
 	const isDark = useIsDark();
 	const scheduleAdjacencySet = getScheduleAdjacencySet();
@@ -39,6 +40,7 @@
 		bgColor.luminance() < 0.3 ? bgColor.brighten(4) : bgColor.darken(4);
 
 	export let editing = false;
+	export let selectMode: Maybe<SelectMode>;
 
 	const { resolution } = getTimePickerControls();
 	const { dateIdToColumnNumber, timeIdToRowNumber } = getTimePickerState();
@@ -67,7 +69,7 @@
 	let popover: Maybe<SchedulePopover> = undefined;
 	let referenceElement: HTMLDivElement;
 
-	$: showPopover = isActive || isHovered;
+	$: showPopover = (isActive || isHovered) && selectMode === undefined;
 </script>
 
 <div
