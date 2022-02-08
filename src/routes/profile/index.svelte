@@ -69,7 +69,7 @@
 	};
 </script>
 
-<Head subtitle="profile" />
+<Head noRobots subtitle="profile" />
 
 <section>
 	<div class="flex flex-col w-full max-w-xl gap-4 p-4 mx-auto">
