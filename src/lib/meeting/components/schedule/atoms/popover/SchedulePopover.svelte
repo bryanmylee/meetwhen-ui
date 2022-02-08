@@ -24,7 +24,7 @@
 		modifiers: [
 			{ name: 'arrow', options: { padding: 10 } },
 			{ name: 'eventListeners', options: { scroll: false, resize: false } },
-			{ name: 'offset', options: { offset: [0, 12] } },
+			{ name: 'offset', options: { offset: [0, 6] } },
 			{
 				name: 'preventOverflow',
 				options: {
@@ -102,7 +102,7 @@
 	}
 
 	.popover-arrow {
-		@apply wh-4 bg-white gdark:bg-neutral-800 rotate-45;
+		@apply wh-3 bg-white gdark:bg-neutral-800 rotate-45;
 		&.active {
 			@apply border-primary-400 gdark:border-primary-300;
 		}

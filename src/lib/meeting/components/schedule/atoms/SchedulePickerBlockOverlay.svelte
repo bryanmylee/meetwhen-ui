@@ -26,12 +26,7 @@
 
 <style lang="postcss">
 	.timepicker-block {
-		@apply ring-primary-400 rounded-xl;
-		@apply pointer-events-none z-[-1];
-
-		:global(.timepicker:focus) & {
-			@apply ring;
-		}
+		@apply rounded-xl pointer-events-none z-[-1];
 
 		& .timepicker-schedule-border {
 			width: calc(var(--scheduleWidth) - 2px);
