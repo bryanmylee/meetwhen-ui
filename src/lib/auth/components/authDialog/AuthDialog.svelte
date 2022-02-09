@@ -7,7 +7,7 @@
 	import AuthCard from './AuthCard.svelte';
 	import { Dialog, DialogOverlay } from '@rgossiaux/svelte-headlessui';
 
-	export let open = false;
+	export let open = true;
 	export let isCreating = false;
 </script>
 
@@ -15,32 +15,30 @@
 	<div class="dialog" style={$primaryVars}>
 		<div transition:fade={{ duration: 300, easing: cubicOut }}>
 			<DialogOverlay class="dialog-overlay" />
-			{#if open}
-				<div in:fly={{ duration: 500, y: 50, easing: cubicOut }}>
-					<AuthCard
-						on:password-signin
-						on:password-create
-						on:oauth-signin
-						bind:isCreating
-						on:cancel={() => (open = false)}
-						class="dialog-card"
-					>
-						<svelte:fragment slot="header">
-							<h1 class="text-brand w-fit">meetwhen.io</h1>
-						</svelte:fragment>
-						<svelte:fragment slot="footer">
-							<Button
-								on:click={() => (open = false)}
-								variant="text-only"
-								icon
-								class="dialog-dismiss-button"
-							>
-								<XIcon />
-							</Button>
-						</svelte:fragment>
-					</AuthCard>
-				</div>
-			{/if}
+			<div in:fly={{ duration: 500, y: 50, easing: cubicOut }}>
+				<AuthCard
+					on:password-signin
+					on:password-create
+					on:oauth-signin
+					bind:isCreating
+					on:cancel={() => (open = false)}
+					class="dialog-card"
+				>
+					<svelte:fragment slot="header">
+						<h1 class="text-brand w-fit">meetwhen.io</h1>
+					</svelte:fragment>
+					<svelte:fragment slot="footer">
+						<Button
+							on:click={() => (open = false)}
+							variant="text-only"
+							icon
+							class="dialog-dismiss-button"
+						>
+							<XIcon />
+						</Button>
+					</svelte:fragment>
+				</AuthCard>
+			</div>
 		</div>
 	</div>
 </Dialog>
