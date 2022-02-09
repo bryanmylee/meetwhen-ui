@@ -10,18 +10,19 @@ import {
 import type { Auth, User, UserCredential } from 'firebase/auth';
 import { providers } from '../providers';
 import type { OAuthProviderType } from '../providers';
+import type { Nullable } from '$lib/core/types/Nullable';
 
 export interface PasswordSignInProps {
 	email: string;
 	password: string;
-	currentUser: Maybe<User>;
+	currentUser: Maybe<Nullable<User>>;
 }
 
 export const passwordSignIn = async (
 	auth: Auth,
 	{ email, password, currentUser }: PasswordSignInProps,
 ): Promise<UserCredential> => {
-	if (currentUser === undefined) {
+	if (currentUser == null) {
 		return await signInWithEmailAndPassword(auth, email, password);
 	}
 	const credential = EmailAuthProvider.credential(email, password);
@@ -36,7 +37,7 @@ export const anonymousSignIn = async (
 	auth: Auth,
 	{ currentUser }: AnonymousSignInProps,
 ): Promise<UserCredential> => {
-	if (currentUser !== undefined) {
+	if (currentUser != null) {
 		throw new Error('Cannot sign in anonymously when already signed in.');
 	}
 	return signInAnonymously(auth);
@@ -44,7 +45,7 @@ export const anonymousSignIn = async (
 
 export interface OAuthSignInProps {
 	providerType: OAuthProviderType;
-	currentUser: Maybe<User>;
+	currentUser: Maybe<Nullable<User>>;
 }
 
 export const oAuthSignIn = async (
@@ -52,7 +53,7 @@ export const oAuthSignIn = async (
 	{ providerType, currentUser }: OAuthSignInProps,
 ): Promise<UserCredential> => {
 	const provider = providers[providerType];
-	if (currentUser === undefined) {
+	if (currentUser == null) {
 		return await signInWithRedirect(auth, provider);
 	}
 	return await linkWithRedirect(currentUser, provider);

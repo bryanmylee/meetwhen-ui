@@ -47,7 +47,9 @@
 								class="menu-item"
 							>
 								{#if navItem.display === 'label'}
-									{navItem.label}
+									<span {...navItem.attributes}>
+										{navItem.label}
+									</span>
 								{:else}
 									<svelte:component
 										this={navItem.component}
@@ -59,7 +61,9 @@
 						{:else}
 							<a href={navItem.href} class="menu-item">
 								{#if navItem.display === 'label'}
-									{navItem.label}
+									<span {...navItem.attributes}>
+										{navItem.label}
+									</span>
 								{:else}
 									<svelte:component
 										this={navItem.component}

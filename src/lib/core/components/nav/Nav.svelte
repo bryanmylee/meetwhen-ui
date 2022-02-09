@@ -13,6 +13,7 @@
 	import { cubicInOut } from 'svelte/easing';
 	import { Button } from '$lib/input';
 	import type { Maybe } from '$lib/core/types/Maybe';
+	import type { Nullable } from '$lib/core/types/Nullable';
 	import type { SafeUser } from '$lib/models/SafeUser';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
 	import { media } from '$lib/core/state';
@@ -21,7 +22,7 @@
 	import NavList from './atoms/NavList.svelte';
 	import ThemeSelect from './atoms/ThemeSelect.svelte';
 
-	export let user: Maybe<SafeUser> = undefined;
+	export let user: Maybe<Nullable<SafeUser>> = undefined;
 	export let theme: ThemeType = 'auto';
 	export let onHomePage = false;
 
@@ -31,10 +32,16 @@
 
 	let navItems: NavItem[];
 	$: navItems = [
-		user === undefined
+		user == null
 			? {
 					type: 'button',
-					action: () => dispatch('open-auth'),
+					action: user === null ? () => dispatch('open-auth') : () => {},
+					attributes:
+						user === null
+							? {}
+							: {
+									class: 'opacity-30 pointer-events-none',
+							  },
 					display: 'label',
 					label: 'Sign In',
 			  }

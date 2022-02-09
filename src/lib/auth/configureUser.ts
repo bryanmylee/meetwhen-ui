@@ -6,19 +6,27 @@ import { browser } from '$app/env';
 import { session } from '$lib/stores';
 import { destroyCookie, setCookie } from '$lib/core/utils/cookies';
 import type { Maybe } from '$lib/core/types/Maybe';
+import type { Nullable } from '$lib/core/types/Nullable';
 import type { Session } from '$lib/core/types/Session';
 import type { SafeUser } from '$lib/models/SafeUser';
 
 const TEN_MINUTE_MS = 10 * 60 * 1000;
 
+/**
+ * Get information on the current user.
+ * @param auth Firebase Auth
+ * @param initSession The initial session information for SSR
+ * @returns A readable store with undefined if the user state is still loading,
+ * null if the user is signed out, or a User object if the user is signed in.
+ */
 export const configureUser = (
 	auth: Auth,
 	initSession: Session,
-): Readable<Maybe<SafeUser>> => {
-	return readable<Maybe<SafeUser>>(initSession.user, (set) => {
+): Readable<Maybe<Nullable<SafeUser>>> => {
+	return readable<Maybe<Nullable<SafeUser>>>(initSession.user, (set) => {
 		const handleUser = async ($user: User | null) => {
 			if ($user === null) {
-				set(undefined);
+				set($user);
 				destroyCookie(undefined, 'token', { path: '/' });
 				if (browser) {
 					session.update(($session) => ({

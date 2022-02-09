@@ -9,6 +9,7 @@ type NavItemLabel =
 	| {
 			display: 'label';
 			label: string;
+			attributes?: Record<string, unknown>;
 	  }
 	| {
 			display: 'component';

@@ -59,7 +59,7 @@
 	];
 
 	const handleSubmit = async () => {
-		if ($user?.ssr) {
+		if ($user == null || $user?.ssr) {
 			return;
 		}
 		intervals.validate();

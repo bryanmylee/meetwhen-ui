@@ -10,7 +10,9 @@
 			{#if navItem.type === 'link'}
 				<a href={navItem.href} class="menu-item">
 					{#if navItem.display === 'label'}
-						{navItem.label}
+						<span {...navItem.attributes}>
+							{navItem.label}
+						</span>
 					{:else}
 						<svelte:component this={navItem.component} {...navItem.props} />
 					{/if}
@@ -18,7 +20,9 @@
 			{:else}
 				<button on:click={navItem.action} class="menu-item">
 					{#if navItem.display === 'label'}
-						{navItem.label}
+						<span {...navItem.attributes}>
+							{navItem.label}
+						</span>
 					{:else}
 						<svelte:component this={navItem.component} {...navItem.props} />
 					{/if}

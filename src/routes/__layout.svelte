@@ -61,13 +61,15 @@
 
 	const user = configureUser(firebaseClient.auth, $session);
 	setUser(user);
-	$: currentUser = $user?.ssr ? undefined : $user;
 
 	const handlePasswordSignIn = async ({
 		detail,
 	}: CustomEvent<AuthDialogEvent['password-signin']>) => {
+		if ($user?.ssr) {
+			return;
+		}
 		await passwordSignIn(firebaseClient.auth, {
-			currentUser,
+			currentUser: $user,
 			email: detail.email,
 			password: detail.password,
 		});
@@ -77,8 +79,11 @@
 	const handleOAuthSignIn = async ({
 		detail,
 	}: CustomEvent<AuthDialogEvent['oauth-signin']>) => {
+		if ($user?.ssr) {
+			return;
+		}
 		await oAuthSignIn(firebaseClient.auth, {
-			currentUser,
+			currentUser: $user,
 			providerType: detail.providerType,
 		});
 		onSignIn();

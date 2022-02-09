@@ -97,7 +97,7 @@
 
 	let pageState: MeetingPageState = 'none';
 	$: isJoined =
-		$currentUser !== undefined &&
+		$currentUser != null &&
 		meeting.schedules !== undefined &&
 		meeting.schedules.map((s) => s.userId).includes($currentUser?.uid);
 
@@ -114,7 +114,7 @@
 	};
 
 	const confirmJoin = async () => {
-		if ($currentUser === undefined || $currentUser?.ssr) {
+		if ($currentUser == null || $currentUser?.ssr) {
 			return;
 		}
 		intervals.validate();
@@ -140,7 +140,7 @@
 	};
 
 	const confirmLeave = async () => {
-		if ($currentUser === undefined || $currentUser?.ssr) {
+		if ($currentUser  == null || $currentUser?.ssr) {
 			return;
 		}
 		const userId = $currentUser.uid;
@@ -169,7 +169,7 @@
 	};
 
 	const confirmEdit = async () => {
-		if ($currentUser === undefined || $currentUser?.ssr) {
+		if ($currentUser == null || $currentUser?.ssr) {
 			return;
 		}
 		const currentSchedule = meeting.schedules?.find(
