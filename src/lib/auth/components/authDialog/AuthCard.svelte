@@ -1,3 +1,21 @@
+<script lang="ts" context="module">
+	export interface AuthEvent {
+		'password-signin': {
+			email: string;
+			password: string;
+		};
+		'password-create': {
+			name: string;
+			email: string;
+			password: string;
+		};
+		'oauth-signin': {
+			providerType: OAuthProviderType;
+		};
+		cancel: never;
+	}
+</script>
+
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { Switch } from '@rgossiaux/svelte-headlessui';
@@ -5,9 +23,9 @@
 	import PasswordSignInForm from './atoms/PasswordSignInForm.svelte';
 	import PasswordCreateForm from './atoms/PasswordCreateForm.svelte';
 	import OAuthLoginButtons from './atoms/OAuthLoginButtons.svelte';
-	import type { AuthDialogEvent } from './AuthDialog.svelte';
+	import type { OAuthProviderType } from '$lib/auth/providers';
 
-	const dispatch = createEventDispatcher<AuthDialogEvent>();
+	const dispatch = createEventDispatcher<AuthEvent>();
 
 	export let isCreating = false;
 

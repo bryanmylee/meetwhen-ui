@@ -1,21 +1,3 @@
-<script lang="ts" context="module">
-	export interface AuthDialogEvent {
-		'password-signin': {
-			email: string;
-			password: string;
-		};
-		'password-create': {
-			name: string;
-			email: string;
-			password: string;
-		};
-		'oauth-signin': {
-			providerType: OAuthProviderType;
-		};
-		cancel: never;
-	}
-</script>
-
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
@@ -24,7 +6,6 @@
 	import { Button } from '$lib/input';
 	import AuthCard from './AuthCard.svelte';
 	import { Dialog, DialogOverlay } from '@rgossiaux/svelte-headlessui';
-	import type { OAuthProviderType } from '$lib/auth/providers';
 
 	export let open = false;
 	export let isCreating = false;
@@ -37,6 +18,9 @@
 			{#if open}
 				<div in:fly={{ duration: 500, y: 50, easing: cubicOut }}>
 					<AuthCard
+						on:password-signin
+						on:password-create
+						on:oauth-signin
 						bind:isCreating
 						on:cancel={() => (open = false)}
 						class="dialog-card"

@@ -42,7 +42,7 @@
 	import { useCookie } from '$lib/core/utils/cookies/useCookie';
 	import { Nav } from '$lib/core/components/nav';
 	import { AuthDialog } from '$lib/auth/components/authDialog';
-	import type { AuthDialogEvent } from '$lib/auth/components/authDialog';
+	import type { AuthEvent } from '$lib/auth/components/authDialog';
 	import { useDarkMode } from '$lib/colors/utils/useDarkMode';
 	import { oAuthSignIn, passwordSignIn } from '$lib/auth/utils/handleSignIn';
 	import { useScreenHeight } from '$lib/core/utils/useScreenHeight';
@@ -64,7 +64,7 @@
 
 	const handlePasswordSignIn = async ({
 		detail,
-	}: CustomEvent<AuthDialogEvent['password-signin']>) => {
+	}: CustomEvent<AuthEvent['password-signin']>) => {
 		if ($user?.ssr) {
 			return;
 		}
@@ -78,7 +78,7 @@
 
 	const handleOAuthSignIn = async ({
 		detail,
-	}: CustomEvent<AuthDialogEvent['oauth-signin']>) => {
+	}: CustomEvent<AuthEvent['oauth-signin']>) => {
 		if ($user?.ssr) {
 			return;
 		}
