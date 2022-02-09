@@ -9,7 +9,6 @@
 	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { MenuIcon } from 'svelte-feather-icons';
-	import type { NavItem } from '../types/NavItem';
 	import { Button } from '$lib/input';
 	import { clickOutside } from '$lib/core/utils/useClickOutside';
 
@@ -20,12 +19,11 @@
 	}
 
 	let open = false;
-	export let navItems: NavItem[];
 </script>
 
 <div class="menu" use:clickOutside={() => (open = false)}>
 	<Button color="gray" size="sm" on:click={() => (open = !open)}>
-		<MenuIcon class="wh-6" />
+		<MenuIcon class="wh-5" />
 	</Button>
 	<div class="menu-items-container">
 		{#if open}
@@ -35,53 +33,7 @@
 				on:click={() => (open = false)}
 			>
 				<div>
-					{#each navItems as navItem}
-						{#if navItem.type === 'button'}
-							<button
-								on:click={(event) => {
-									if (navItem.preventDismiss) {
-										event.stopPropagation();
-									}
-									navItem.action();
-								}}
-								class="w-full block focus rounded-lg"
-							>
-								{#if navItem.display === 'label'}
-									<span
-										{...navItem.attributes}
-										class="menu-item {navItem.attributes?.class ?? ''}"
-									>
-										{navItem.label}
-									</span>
-								{:else}
-									<span class="menu-item">
-										<svelte:component
-											this={navItem.component}
-											{...navItem.props ?? {}}
-										/>
-									</span>
-								{/if}
-							</button>
-						{:else}
-							<a href={navItem.href} class="w-full block focus rounded-lg">
-								{#if navItem.display === 'label'}
-									<span
-										{...navItem.attributes}
-										class="menu-item {navItem.attributes?.class ?? ''}"
-									>
-										{navItem.label}
-									</span>
-								{:else}
-									<span class="menu-item">
-										<svelte:component
-											this={navItem.component}
-											{...navItem.props ?? {}}
-										/>
-									</span>
-								{/if}
-							</a>
-						{/if}
-					{/each}
+					<slot />
 				</div>
 			</div>
 		{/if}
@@ -100,16 +52,5 @@
 
 	.menu-items-reveal {
 		@apply p-2 card;
-	}
-
-	.menu-item {
-		@apply w-full flex justify-center items-center p-2 rounded-lg;
-		@apply text-center text-label whitespace-nowrap;
-		&:hover {
-			@apply bg-shade-200;
-		}
-		&:active {
-			@apply bg-shade-300;
-		}
 	}
 </style>

@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
 	export interface NavEvent {
 		'open-auth': never;
+		'toggle-open-theme': never;
 		'select-theme': {
 			theme: ThemeType;
 		};
@@ -8,7 +9,6 @@
 </script>
 
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 	import { Button } from '$lib/input';
@@ -17,53 +17,15 @@
 	import type { SafeUser } from '$lib/models/SafeUser';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
 	import { media } from '$lib/core/state';
-	import type { NavItem } from './types/NavItem';
 	import NavDropdown from './atoms/NavDropdown.svelte';
 	import NavList from './atoms/NavList.svelte';
-	import ThemeSelect from './atoms/ThemeSelect.svelte';
+	import NavItems from './atoms/NavItems.svelte';
 
 	export let user: Maybe<Nullable<SafeUser>> = undefined;
 	export let theme: ThemeType = 'auto';
 	export let onHomePage = false;
 
-	const dispatch = createEventDispatcher<NavEvent>();
-
 	let showTheme = false;
-
-	let navItems: NavItem[];
-	$: navItems = [
-		user == null
-			? {
-					type: 'button',
-					action: user === null ? () => dispatch('open-auth') : () => {},
-					attributes:
-						user === null
-							? {}
-							: {
-									class: 'opacity-30 cursor-wait',
-							  },
-					display: 'label',
-					label: 'Sign In',
-			  }
-			: {
-					type: 'link',
-					href: '/profile',
-					display: 'label',
-					label: 'Profile',
-			  },
-		{
-			type: 'button',
-			action: () => (showTheme = !showTheme),
-			preventDismiss: true,
-			display: 'component',
-			component: ThemeSelect,
-			props: {
-				open: showTheme,
-				selected: theme,
-				onSelectTheme: (t: ThemeType) => dispatch('select-theme', { theme: t }),
-			},
-		},
-	];
 </script>
 
 <nav class="nav">
@@ -84,9 +46,27 @@
 		</li>
 		<li>
 			{#if $media.sm}
-				<NavList {navItems} />
+				<NavList>
+					<NavItems
+						{user}
+						{showTheme}
+						selectedTheme={theme}
+						on:toggle-open-theme={() => (showTheme = !showTheme)}
+						on:select-theme
+						on:open-auth
+					/>
+				</NavList>
 			{:else}
-				<NavDropdown {navItems} on:dismiss={() => (showTheme = false)} />
+				<NavDropdown on:dismiss={() => (showTheme = false)}>
+					<NavItems
+						{user}
+						{showTheme}
+						selectedTheme={theme}
+						on:toggle-open-theme={() => (showTheme = !showTheme)}
+						on:select-theme
+						on:open-auth
+					/>
+				</NavDropdown>
 			{/if}
 		</li>
 	</ul>
