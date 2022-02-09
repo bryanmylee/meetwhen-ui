@@ -43,7 +43,7 @@
 </script>
 
 <Popover class="themeselect">
-	<PopoverButton as="div" class="themeselect-anchor">
+	<PopoverButton as="button" tabindex="-1" class="themeselect-anchor">
 		<svelte:component this={selectedOption?.icon} class="wh-5" />
 	</PopoverButton>
 	<div class="themeselect-items-container">
