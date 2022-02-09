@@ -30,10 +30,15 @@
 		class="menu-item"
 		on:click={(event) => {
 			event.stopPropagation();
-			dispatch('toggle-open-theme');
+			dispatch('toggle-show-theme');
 		}}
 	>
-		<ThemeSelect open={showTheme} selected={selectedTheme} on:select-theme />
+		<ThemeSelect
+			open={showTheme}
+			selected={selectedTheme}
+			on:dismiss-theme
+			on:select-theme
+		/>
 	</button>
 </li>
 

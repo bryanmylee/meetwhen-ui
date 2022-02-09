@@ -1,7 +1,8 @@
 <script lang="ts" context="module">
 	export interface NavEvent {
 		'open-auth': never;
-		'toggle-open-theme': never;
+		'toggle-show-theme': never;
+		'dismiss-theme': never;
 		'select-theme': {
 			theme: ThemeType;
 		};
@@ -49,7 +50,8 @@
 					{user}
 					{showTheme}
 					selectedTheme={theme}
-					on:toggle-open-theme={() => (showTheme = !showTheme)}
+					on:dismiss-theme={() => (showTheme = false)}
+					on:toggle-show-theme={() => (showTheme = !showTheme)}
 					on:select-theme
 					on:open-auth
 				/>
@@ -61,7 +63,8 @@
 					{user}
 					{showTheme}
 					selectedTheme={theme}
-					on:toggle-open-theme={() => (showTheme = !showTheme)}
+					on:dismiss-theme={() => (showTheme = false)}
+					on:toggle-show-theme={() => (showTheme = !showTheme)}
 					on:select-theme
 					on:open-auth
 				/>

@@ -24,9 +24,6 @@
 	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import { SunIcon, MoonIcon, DropletIcon } from 'svelte-feather-icons';
-	import type { ThemeType } from '$lib/core/types/ThemeType';
-	import type { NavEvent } from '../Nav.svelte';
 	import {
 		Popover,
 		PopoverButton,
@@ -34,6 +31,10 @@
 		RadioGroup,
 		RadioGroupOption,
 	} from '@rgossiaux/svelte-headlessui';
+	import { SunIcon, MoonIcon, DropletIcon } from 'svelte-feather-icons';
+	import type { ThemeType } from '$lib/core/types/ThemeType';
+	import { clickOutside } from '$lib/core/utils/useClickOutside';
+	import type { NavEvent } from '../Nav.svelte';
 
 	const dispatch = createEventDispatcher<NavEvent>();
 
@@ -42,8 +43,11 @@
 	$: selectedOption = options.find((o) => o.value === selected);
 </script>
 
-<Popover class="themeselect">
-	<PopoverButton as="button" tabindex="-1" class="themeselect-anchor">
+<Popover
+	class="themeselect"
+	use={[[clickOutside, () => dispatch('dismiss-theme')]]}
+>
+	<PopoverButton tabindex="-1" class="themeselect-anchor">
 		<svelte:component this={selectedOption?.icon} class="wh-5" />
 	</PopoverButton>
 	<div class="themeselect-items-container">
