@@ -5,7 +5,6 @@
 	import { Button } from '$lib/input';
 
 	const user = useUser();
-	$: console.log($user);
 
 	const cells = [
 		{ x: 0, y: 0, opacity: 0.3 },
