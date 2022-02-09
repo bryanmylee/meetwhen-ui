@@ -12,131 +12,51 @@
 		'oauth-signin': {
 			providerType: OAuthProviderType;
 		};
+		cancel: never;
 	}
 </script>
 
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import {
-		Dialog,
-		DialogDescription,
-		DialogOverlay,
-		DialogTitle,
-		Switch,
-	} from '@rgossiaux/svelte-headlessui';
 	import { XIcon } from 'svelte-feather-icons';
 	import { primaryVars } from '$lib/core/state';
-	import { withError } from '$lib/core/utils/withError';
-	import type { OAuthProviderType } from '$lib/auth/providers';
 	import { Button } from '$lib/input';
-	import PasswordSignInForm from './atoms/PasswordSignInForm.svelte';
-	import PasswordCreateForm from './atoms/PasswordCreateForm.svelte';
-	import OAuthLoginButtons from './atoms/OAuthLoginButtons.svelte';
-
-	const dispatch = createEventDispatcher<AuthDialogEvent>();
+	import AuthCard from './AuthCard.svelte';
+	import { Dialog, DialogOverlay } from '@rgossiaux/svelte-headlessui';
+	import type { OAuthProviderType } from '$lib/auth/providers';
 
 	export let open = false;
 	export let isCreating = false;
-
-	let name = withError('');
-	let email = withError('');
-	let password = withError('');
-	$: if (!open) {
-		name.reset();
-		email.reset();
-		password.reset();
-	}
-
-	export const handlePasswordSignInSubmit = () => {
-		dispatch('password-signin', {
-			email: $email.value,
-			password: $password.value,
-		});
-	};
-
-	export const handlePasswordCreateSubmit = () => {
-		dispatch('password-create', {
-			name: $name.value,
-			email: $email.value,
-			password: $password.value,
-		});
-	};
 </script>
 
 <Dialog {open} on:close={() => (open = false)}>
 	<div class="dialog" style={$primaryVars}>
 		<div transition:fade={{ duration: 300, easing: cubicOut }}>
 			<DialogOverlay class="dialog-overlay" />
-			<div
-				class="dialog-card"
-				in:fly={{ duration: 500, y: 50, easing: cubicOut }}
-			>
-				<DialogTitle as="h1" class="text-brand w-fit">meetwhen.io</DialogTitle>
-				<div class="dialog-card-content">
-					<div class="dialog-password">
-						<div class="flex items-baseline justify-between">
-							<DialogDescription as="h2" class="text-title-1">
-								{#if isCreating}
-									Create an account
-								{:else}
-									Sign in
-								{/if}
-							</DialogDescription>
-							<span>
-								or
-								<Switch
-									checked={isCreating}
-									on:change={(event) => {
-										isCreating = event.detail;
-									}}
-									class="dialog-creating-toggle"
-								>
-									{#if isCreating}
-										sign in
-									{:else}
-										create an account
-									{/if}
-								</Switch>
-							</span>
-						</div>
-						{#if isCreating}
-							<PasswordCreateForm
-								{name}
-								{email}
-								{password}
-								on:submit={handlePasswordCreateSubmit}
-								on:cancel={() => (open = false)}
-							/>
-						{:else}
-							<PasswordSignInForm
-								{email}
-								{password}
-								on:submit={handlePasswordSignInSubmit}
-								on:cancel={() => (open = false)}
-							/>
-						{/if}
-					</div>
-					<div class="dialog-oauth">
-						<h2 class="text-center text-neutral-400">or sign in with</h2>
-						<OAuthLoginButtons
-							on:click={(event) =>
-								dispatch('oauth-signin', {
-									providerType: event.detail.providerType,
-								})}
-						/>
-						<Button
-							on:click={() => (open = false)}
-							variant="text-only"
-							icon
-							class="dialog-dismiss-button"
-						>
-							<XIcon />
-						</Button>
-					</div>
+			{#if open}
+				<div in:fly={{ duration: 500, y: 50, easing: cubicOut }}>
+					<AuthCard
+						bind:isCreating
+						on:cancel={() => (open = false)}
+						class="dialog-card"
+					>
+						<svelte:fragment slot="header">
+							<h1 class="text-brand w-fit">meetwhen.io</h1>
+						</svelte:fragment>
+						<svelte:fragment slot="footer">
+							<Button
+								on:click={() => (open = false)}
+								variant="text-only"
+								icon
+								class="dialog-dismiss-button"
+							>
+								<XIcon />
+							</Button>
+						</svelte:fragment>
+					</AuthCard>
 				</div>
-			</div>
+			{/if}
 		</div>
 	</div>
 </Dialog>
@@ -150,39 +70,12 @@
 		@apply fixed inset-0 bg-neutral-600/50;
 	}
 
-	.dialog-card {
-		@apply relative z-10 p-6 shadow-lg rounded-xl bg-shade-0;
-		@apply flex flex-col gap-4;
+	.dialog :global(.dialog-card) {
 		width: calc(100vw - 2rem);
 		max-width: 30rem;
 		@media (min-width: 768px) {
 			max-width: 48rem;
 		}
-	}
-
-	.dialog-card-content {
-		@apply flex flex-col gap-4;
-		@media (min-width: 768px) {
-			@apply flex-row gap-6;
-		}
-	}
-
-	.dialog-password {
-		@apply flex flex-col gap-4;
-		@apply flex-1;
-	}
-
-	.dialog-oauth {
-		@apply flex flex-col gap-4 pt-4;
-		@apply border-t border-neutral-200 gdark:border-neutral-600;
-		@media (min-width: 768px) {
-			@apply border-t-0 border-l pt-2 pl-6;
-		}
-	}
-
-	.dialog :global(.dialog-creating-toggle) {
-		@apply text-neutral-400 underline underline-offset-2;
-		@apply focus p-1 rounded hover:text-primary-400;
 	}
 
 	.dialog :global(.dialog-dismiss-button) {

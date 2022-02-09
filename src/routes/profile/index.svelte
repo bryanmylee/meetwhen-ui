@@ -1,9 +1,9 @@
 <script lang="ts" context="module">
-	export const load: Load<{ session: Session }> = async ({ session }) => {
+	export const load: Load = async ({ session }) => {
 		if (session.user === undefined) {
 			return {
 				status: 302,
-				redirect: '/profile/login',
+				redirect: '/login?back=/profile',
 			};
 		}
 		return {
@@ -16,7 +16,6 @@
 
 <script lang="ts">
 	import type { Load } from '@sveltejs/kit';
-	import type { Session } from '$lib/core/types/Session';
 	import type { SafeUser } from '$lib/models/SafeUser';
 	import { useAuth, useRepo } from '$lib/firebase/context';
 	import { signOut } from 'firebase/auth';
