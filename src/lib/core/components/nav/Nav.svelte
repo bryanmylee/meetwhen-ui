@@ -17,6 +17,7 @@
 	import type { Nullable } from '$lib/core/types/Nullable';
 	import type { SafeUser } from '$lib/models/SafeUser';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
+	import { media } from '$lib/core/state';
 	import NavDropdown from './atoms/NavDropdown.svelte';
 	import NavList from './atoms/NavList.svelte';
 	import NavItems from './atoms/NavItems.svelte';
@@ -44,31 +45,32 @@
 		<li>
 			<Button href="/new" size="sm">New</Button>
 		</li>
-		<li class="hidden sm:block">
-			<NavList>
-				<NavItems
-					{user}
-					{showTheme}
-					selectedTheme={theme}
-					on:dismiss-theme={() => (showTheme = false)}
-					on:toggle-show-theme={() => (showTheme = !showTheme)}
-					on:select-theme
-					on:open-auth
-				/>
-			</NavList>
-		</li>
-		<li class="sm:hidden">
-			<NavDropdown on:dismiss={() => (showTheme = false)}>
-				<NavItems
-					{user}
-					{showTheme}
-					selectedTheme={theme}
-					on:dismiss-theme={() => (showTheme = false)}
-					on:toggle-show-theme={() => (showTheme = !showTheme)}
-					on:select-theme
-					on:open-auth
-				/>
-			</NavDropdown>
+		<li>
+			{#if $media.sm}
+				<NavList>
+					<NavItems
+						{user}
+						{showTheme}
+						selectedTheme={theme}
+						on:dismiss-theme={() => (showTheme = false)}
+						on:toggle-show-theme={() => (showTheme = !showTheme)}
+						on:select-theme
+						on:open-auth
+					/>
+				</NavList>
+			{:else}
+				<NavDropdown on:dismiss={() => (showTheme = false)}>
+					<NavItems
+						{user}
+						{showTheme}
+						selectedTheme={theme}
+						on:dismiss-theme={() => (showTheme = false)}
+						on:toggle-show-theme={() => (showTheme = !showTheme)}
+						on:select-theme
+						on:open-auth
+					/>
+				</NavDropdown>
+			{/if}
 		</li>
 	</ul>
 	{#if !onHomePage}

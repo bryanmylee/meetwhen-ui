@@ -5,7 +5,11 @@
 	import { primaryVars } from '$lib/core/state';
 	import { Button } from '$lib/input';
 	import AuthCard from './AuthCard.svelte';
-	import { Dialog, DialogOverlay } from '@rgossiaux/svelte-headlessui';
+	import {
+		Dialog,
+		DialogOverlay,
+		DialogTitle,
+	} from '@rgossiaux/svelte-headlessui';
 
 	export let open = true;
 	export let isCreating = false;
@@ -25,7 +29,9 @@
 					class="dialog-card"
 				>
 					<svelte:fragment slot="header">
-						<h1 class="text-brand w-fit">meetwhen.io</h1>
+						<DialogTitle as="h2" class="text-brand w-fit">
+							meetwhen.io
+						</DialogTitle>
 					</svelte:fragment>
 					<svelte:fragment slot="footer">
 						<Button
