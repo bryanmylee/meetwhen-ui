@@ -153,7 +153,7 @@
 <div {id} tabindex={0} aria-label="time picker" class="timepicker">
 	<div class="timepicker-clip-content">
 		<div bind:this={$scrollElement} class="timepicker-scroll-grid">
-			<KeyboardHelp />
+			<KeyboardHelp {disabled} />
 			<TimePickerLayoutHeader />
 			<TimePickerLayoutIndex />
 			<SelectionProvider
