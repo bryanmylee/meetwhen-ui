@@ -8,23 +8,33 @@
 	{#each navItems as navItem}
 		<li class="contents">
 			{#if navItem.type === 'link'}
-				<a href={navItem.href} class="menu-item">
+				<a href={navItem.href} class="w-full block focus rounded-lg">
 					{#if navItem.display === 'label'}
-						<span {...navItem.attributes}>
+						<span
+							{...navItem.attributes}
+							class="menu-item {navItem.attributes?.class ?? ''}"
+						>
 							{navItem.label}
 						</span>
 					{:else}
-						<svelte:component this={navItem.component} {...navItem.props} />
+						<span class="menu-item">
+							<svelte:component this={navItem.component} {...navItem.props} />
+						</span>
 					{/if}
 				</a>
 			{:else}
-				<button on:click={navItem.action} class="menu-item">
+				<button on:click={navItem.action} class="w-full block focus rounded-lg">
 					{#if navItem.display === 'label'}
-						<span {...navItem.attributes}>
+						<span
+							{...navItem.attributes}
+							class="menu-item {navItem.attributes?.class ?? ''}"
+						>
 							{navItem.label}
 						</span>
 					{:else}
-						<svelte:component this={navItem.component} {...navItem.props} />
+						<span class="menu-item">
+							<svelte:component this={navItem.component} {...navItem.props} />
+						</span>
 					{/if}
 				</button>
 			{/if}
@@ -38,7 +48,7 @@
 	}
 
 	.menu-item {
-		@apply w-full flex justify-center items-center p-2 rounded-lg focus;
+		@apply w-full flex justify-center items-center p-2 rounded-lg;
 		@apply text-center text-label whitespace-nowrap;
 		&:hover {
 			@apply bg-shade-200;

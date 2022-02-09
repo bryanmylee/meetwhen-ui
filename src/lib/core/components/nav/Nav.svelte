@@ -40,7 +40,7 @@
 						user === null
 							? {}
 							: {
-									class: 'opacity-30 pointer-events-none',
+									class: 'opacity-30 cursor-wait',
 							  },
 					display: 'label',
 					label: 'Sign In',
