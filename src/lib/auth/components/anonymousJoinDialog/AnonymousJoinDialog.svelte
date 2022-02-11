@@ -1,9 +1,10 @@
 <script lang="ts" context="module">
 	export interface AnonymousJoinDialogEvent {
 		'show-returning': never;
-		'anonymous-create': {
+		'anonymous-join': {
 			username: string;
 		};
+		cancel: never;
 	}
 </script>
 
@@ -20,26 +21,25 @@
 	} from '@rgossiaux/svelte-headlessui';
 	import { primaryVars } from '$lib/core/state';
 	import { Button } from '$lib/input';
-	import type { WithErrorable } from '$lib/core/utils/withError';
+	import { withError } from '$lib/core/utils/withError';
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
 	import Textfield from '$lib/input/textfield/Textfield.svelte';
 
 	const dispatch = createEventDispatcher<AnonymousJoinDialogEvent>();
 
 	export let open = true;
-
-	export let username: WithErrorable<string>;
-
 	export let meetingSlug: string;
 
-	export const handleConfirmJoin = () => {
-		dispatch('anonymous-create', {
+	const username = withError('');
+
+	const handleConfirmJoin = () => {
+		dispatch('anonymous-join', {
 			username: $username.value,
 		});
 	};
 </script>
 
-<Dialog {open} on:close={() => (open = false)}>
+<Dialog {open} on:close={() => dispatch('cancel')}>
 	<div class="dialog" style={$primaryVars}>
 		<div transition:fade={{ duration: 300, easing: cubicOut }}>
 			<DialogOverlay class="dialog-overlay" />
@@ -62,28 +62,31 @@
 						</button>
 					</span>
 				</DialogTitle>
-				<Textfield
-					label="Name"
-					required
-					value={$username.value}
-					error={$username.error}
-					use={[focusOnMount]}
-				/>
-				<div class="flex gap-4">
-					<Button
-						color="gray"
-						size="md"
-						class="w-full"
-						on:click={() => (open = false)}
-					>
-						Cancel
-					</Button>
-					<Button size="md" class="w-full" on:click={handleConfirmJoin}>
-						Join
-					</Button>
-				</div>
+				<form
+					on:submit|preventDefault={handleConfirmJoin}
+					class="flex flex-col gap-4"
+				>
+					<Textfield
+						label="Name"
+						required
+						value={$username.value}
+						error={$username.error}
+						use={[focusOnMount]}
+					/>
+					<div class="flex gap-4">
+						<Button
+							color="gray"
+							size="md"
+							class="w-full"
+							on:click={() => dispatch('cancel')}
+						>
+							Cancel
+						</Button>
+						<Button type="submit" size="md" class="w-full">Join</Button>
+					</div>
+				</form>
 				<Button
-					on:click={() => (open = false)}
+					on:click={() => dispatch('cancel')}
 					variant="text-only"
 					icon
 					class="dialog-dismiss-button"

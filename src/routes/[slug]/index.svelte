@@ -46,6 +46,7 @@
 	import type { UserData } from '$lib/models/UserData';
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
 	import Head from '$lib/core/components/Head.svelte';
+	import { AnonymousJoinDialog } from '$lib/auth';
 
 	const repo = useRepo();
 	const currentUser = useUser();
@@ -115,6 +116,7 @@
 
 	const confirmJoin = async () => {
 		if ($currentUser == null || $currentUser?.ssr) {
+			handleAnonymousJoin();
 			return;
 		}
 		intervals.validate();
@@ -134,6 +136,13 @@
 			$currentUser,
 		);
 	};
+
+	let showAnonymousJoinDialog = false;
+	const handleAnonymousJoin = () => {
+		showAnonymousJoinDialog = true;
+	};
+
+	const confirmAnonymousJoin = async (username: string) => {};
 
 	const handleLeave = () => {
 		pageState = 'leave';
@@ -272,6 +281,13 @@
 		{/if}
 	</div>
 </section>
+
+<AnonymousJoinDialog
+	open={showAnonymousJoinDialog}
+	on:cancel={() => (showAnonymousJoinDialog = false)}
+	on:anonymous-join={({ detail }) => confirmAnonymousJoin(detail.username)}
+	meetingSlug={meeting.slug}
+/>
 
 <style lang="postcss">
 	.leave {

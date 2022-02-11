@@ -14,7 +14,7 @@
 	component={AnonymousJoinDialog}
 	argTypes={{
 		onShowReturning: { action: 'onShowReturning' },
-		onAnonymousCreate: { action: 'onAnonymousCreate' },
+		onAnonymousJoin: { action: 'onAnonymousJoin' },
 	}}
 />
 
@@ -25,7 +25,7 @@
 		{...args}
 		{username}
 		on:show-returning={args.onShowReturning}
-		on:anonymous-create={args.onAnonymousCreate}
+		on:anonymous-join={args.onAnonymousJoin}
 		meetingSlug="test_slug"
 	/>
 </Story>
