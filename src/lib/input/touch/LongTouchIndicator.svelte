@@ -35,18 +35,20 @@
 
 <style lang="postcss">
 	div {
-		@apply fixed wh-40 rounded-full bg-primary-400/50;
+		@apply fixed wh-40 rounded-full bg-primary-400/30;
 		@apply pointer-events-none z-[9999];
-		@apply backdrop-blur-sm;
+		@apply blur-md backdrop-blur-sm;
 		transform: translate(-50%, -50%) scale(0.25);
 		left: var(--x);
 		top: var(--y);
-		transition: transform var(--triggerDelay)
-				cubic-bezier(0.94, 0.29, 0.72, 0.91),
+		transition: transform var(--triggerDelay) ease-out,
 			opacity var(--outroDuration) ease-out var(--triggerDuration);
 
 		&.triggered {
-			@apply border-4 border-primary-600 gdark:border-white shadow-lg opacity-0;
+			@apply border-4 border-primary-600 gdark:border-white;
+			@apply bg-primary-400/50;
+			@apply shadow-lg opacity-0;
+			@apply blur-none;
 		}
 
 		&.expanding {
