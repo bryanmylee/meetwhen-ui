@@ -140,7 +140,7 @@
 	};
 
 	const confirmLeave = async () => {
-		if ($currentUser  == null || $currentUser?.ssr) {
+		if ($currentUser == null || $currentUser?.ssr) {
 			return;
 		}
 		const userId = $currentUser.uid;
