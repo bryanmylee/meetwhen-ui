@@ -9,7 +9,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { AppleIcon, GoogleIcon, GithubIcon, TwitterIcon } from '$lib/icons';
-	import type { OAuthProviderType } from '$lib/auth/providers';
+	import type { OAuthProviderType } from '$lib/auth';
 
 	const dispatch = createEventDispatcher<OAuthLoginButtonsEvent>();
 </script>

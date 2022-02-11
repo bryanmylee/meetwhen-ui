@@ -23,7 +23,7 @@
 	import PasswordSignInForm from './atoms/PasswordSignInForm.svelte';
 	import PasswordCreateForm from './atoms/PasswordCreateForm.svelte';
 	import OAuthLoginButtons from './atoms/OAuthLoginButtons.svelte';
-	import type { OAuthProviderType } from '$lib/auth/providers';
+	import type { OAuthProviderType } from '$lib/auth';
 
 	const dispatch = createEventDispatcher<AuthEvent>();
 

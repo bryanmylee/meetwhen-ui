@@ -13,13 +13,16 @@
 	import { onMount } from 'svelte';
 	import type { Load } from '@sveltejs/kit';
 	import { goto } from '$app/navigation';
-	import { AuthCard } from '$lib/auth/components/authDialog';
-	import type { AuthEvent } from '$lib/auth/components/authDialog';
+	import {
+		AuthCard,
+		handlePasswordError,
+		oAuthSignIn,
+		passwordSignIn,
+	} from '$lib/auth';
+	import type { AuthEvent } from '$lib/auth';
 	import Head from '$lib/core/components/Head.svelte';
-	import { oAuthSignIn, passwordSignIn } from '$lib/auth/utils/handleSignIn';
 	import { useAuth, useUser } from '$lib/firebase/context';
 	import { withError } from '$lib/core/utils/withError';
-	import { handlePasswordError } from '$lib/auth/components/authDialog/utils/handlePasswordError';
 
 	const auth = useAuth();
 	const user = useUser();

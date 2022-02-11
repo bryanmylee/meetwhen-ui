@@ -36,18 +36,21 @@
 		setUser,
 	} from '$lib/firebase/context';
 	import { initFirebaseAdmin } from '$lib/firebase/server';
-	import { configureUser } from '$lib/auth/configureUser';
 	import { firebaseClient } from '$lib/firebase/client';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
 	import { useCookie } from '$lib/core/utils/cookies/useCookie';
 	import { Nav } from '$lib/core/components/nav';
-	import { AuthDialog } from '$lib/auth/components/authDialog';
-	import type { AuthEvent } from '$lib/auth/components/authDialog';
+	import {
+		AuthDialog,
+		configureUser,
+		oAuthSignIn,
+		passwordSignIn,
+		handlePasswordError,
+	} from '$lib/auth';
+	import type { AuthEvent } from '$lib/auth';
 	import { useDarkMode } from '$lib/colors/utils/useDarkMode';
-	import { oAuthSignIn, passwordSignIn } from '$lib/auth/utils/handleSignIn';
 	import { useScreenHeight } from '$lib/core/utils/useScreenHeight';
 	import { withError } from '$lib/core/utils/withError';
-	import { handlePasswordError } from '$lib/auth/components/authDialog/utils/handlePasswordError';
 
 	export let initTheme: ThemeType;
 	const theme = useCookie('theme', initTheme);

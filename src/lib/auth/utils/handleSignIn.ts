@@ -1,6 +1,5 @@
 import type { Maybe } from '$lib/core/types/Maybe';
 import {
-	signInAnonymously,
 	linkWithRedirect,
 	signInWithRedirect,
 	EmailAuthProvider,
@@ -27,20 +26,6 @@ export const passwordSignIn = async (
 	}
 	const credential = EmailAuthProvider.credential(email, password);
 	return linkWithCredential(currentUser, credential);
-};
-
-export interface AnonymousSignInProps {
-	currentUser: Maybe<User>;
-}
-
-export const anonymousSignIn = async (
-	auth: Auth,
-	{ currentUser }: AnonymousSignInProps,
-): Promise<UserCredential> => {
-	if (currentUser != null) {
-		throw new Error('Cannot sign in anonymously when already signed in.');
-	}
-	return signInAnonymously(auth);
 };
 
 export interface OAuthSignInProps {
