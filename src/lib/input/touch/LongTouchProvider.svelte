@@ -47,7 +47,6 @@
 		if (disabled) {
 			return;
 		}
-		disableSelect();
 		dispatch('touchstart', { event });
 		const changedTouches = getTouchArray(event.changedTouches);
 		changedTouches.forEach((touch) => track(touch, event));
@@ -110,7 +109,6 @@
 	};
 
 	const touchend = (event: TouchEvent) => {
-		enableSelect();
 		const changedTouches = getTouchArray(event.changedTouches);
 		changedTouches.forEach((touch) => untrack(touch, event));
 		removeIndicator();
@@ -128,20 +126,6 @@
 		}
 		clearTimeout(longTouch.timeoutId);
 		delete tracked[identifier];
-	};
-
-	const disableSelect = () => {
-		if (typeof document === 'undefined') {
-			return;
-		}
-		document.documentElement.style.userSelect = 'none';
-	};
-
-	const enableSelect = () => {
-		if (typeof document === 'undefined') {
-			return;
-		}
-		document.documentElement.style.userSelect = '';
 	};
 
 	let appRootElement: HTMLElement;
