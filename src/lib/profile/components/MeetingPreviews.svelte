@@ -30,7 +30,7 @@
 	<h2 slot="title" class="preview-title">{title}</h2>
 	<div class="preview-grid">
 		{#if $meetingsPage.isLoading}
-			{#each { length: 3 } as _}
+			{#each { length: 5 } as _}
 				<p class="preview-date-label skeleton">D MMM</p>
 				<p class="preview-item-box skeleton">loading...</p>
 			{/each}
@@ -95,7 +95,7 @@
 
 	.preview-date-label {
 		@apply text-label p-2 pr-0;
-		@apply overflow-hidden text-ellipsis;
+		@apply overflow-hidden text-ellipsis whitespace-nowrap;
 		&.skeleton {
 			@apply skeleton-bg rounded-lg;
 		}
