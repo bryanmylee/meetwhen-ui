@@ -134,14 +134,14 @@
 		if (typeof document === 'undefined') {
 			return;
 		}
-		document.documentElement.classList.add('select-none');
+		document.documentElement.style.userSelect = 'none';
 	};
 
 	const enableSelect = () => {
 		if (typeof document === 'undefined') {
 			return;
 		}
-		document.documentElement.classList.remove('select-none');
+		document.documentElement.style.userSelect = '';
 	};
 
 	let appRootElement: HTMLElement;
@@ -170,8 +170,9 @@
 <div
 	on:touchstart={touchstart}
 	on:touchmove={touchmove}
-	on:touchcancel
+	on:touchcancel={touchend}
 	on:touchend={touchend}
+	on:contextmenu
 	class="contents"
 >
 	<slot />

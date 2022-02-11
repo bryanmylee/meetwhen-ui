@@ -13,7 +13,6 @@ export const scrollLock = (fromElement: HTMLElement): LockedElement[] => {
 	let currElement: Nullable<HTMLElement> = fromElement;
 	while (currElement !== null && currElement !== document.documentElement) {
 		const computedOverflow = getComputedStyle(currElement).overflow;
-		console.log({ currElement, computedOverflow });
 		if (computedOverflow === 'auto' || computedOverflow === 'scroll') {
 			lockedElements.push({
 				element: currElement,

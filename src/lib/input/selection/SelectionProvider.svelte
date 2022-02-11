@@ -202,7 +202,9 @@
 
 	const trackTouch = (touch: Touch, { target }: TouchEvent) => {
 		trackedTouches[touch.identifier] = touch;
-		lockedElements = scrollLock(target as HTMLElement);
+		if (lockedElements.length === 0) {
+			lockedElements = scrollLock(target as HTMLElement);
+		}
 		startSelectionFrom(target as HTMLElement);
 	};
 
@@ -354,8 +356,14 @@
 	const untrack = (touch: Touch) => {
 		delete trackedTouches[touch.identifier];
 		scrollUnlock(lockedElements);
+		lockedElements = [];
 		const target = document.elementFromPoint(touch.clientX, touch.clientY);
 		endSelectionOn(target as HTMLElement);
+	};
+
+	const contextmenu = () => {
+		scrollUnlock(lockedElements);
+		lockedElements = [];
 	};
 
 	// -- keyboard
@@ -397,6 +405,7 @@
 	on:longtouchstart={longtouchstart}
 	on:longtouchmove={longtouchmove}
 	on:longtouchend={longtouchend}
+	on:contextmenu={contextmenu}
 >
 	<div
 		on:mousedown={mousestart}
