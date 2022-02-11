@@ -49,6 +49,7 @@
 	import type { SelectMode } from './SelectMode';
 	import type { SelectionInterpolateFn } from './SelectionInterpolateFn';
 	import { scrollLock, scrollUnlock } from '$lib/core/utils/scrollLock';
+	import type { LockedElement } from '$lib/core/utils/scrollLock';
 
 	const dispatch = createEventDispatcher<SelectionProviderEvent>();
 
@@ -191,6 +192,7 @@
 
 	// -- touch
 	let trackedTouches: Record<number, Touch> = {};
+	let lockedElements: LockedElement[] = [];
 
 	const longtouchstart = ({ detail }: CustomEvent) => {
 		const touchEvent = detail.event as TouchEvent;
@@ -200,8 +202,7 @@
 
 	const trackTouch = (touch: Touch, { target }: TouchEvent) => {
 		trackedTouches[touch.identifier] = touch;
-		scrollLock();
-
+		lockedElements = scrollLock(target as HTMLElement);
 		startSelectionFrom(target as HTMLElement);
 	};
 
@@ -352,7 +353,7 @@
 
 	const untrack = (touch: Touch) => {
 		delete trackedTouches[touch.identifier];
-		scrollUnlock();
+		scrollUnlock(lockedElements);
 		const target = document.elementFromPoint(touch.clientX, touch.clientY);
 		endSelectionOn(target as HTMLElement);
 	};
