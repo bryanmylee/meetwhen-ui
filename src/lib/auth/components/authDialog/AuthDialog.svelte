@@ -2,14 +2,19 @@
 	import { fade, fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { XIcon } from 'svelte-feather-icons';
-	import { primaryVars } from '$lib/core/state';
-	import { Button } from '$lib/input';
-	import AuthCard from './AuthCard.svelte';
 	import {
 		Dialog,
 		DialogOverlay,
 		DialogTitle,
 	} from '@rgossiaux/svelte-headlessui';
+	import { primaryVars } from '$lib/core/state';
+	import { Button } from '$lib/input';
+	import AuthCard from './AuthCard.svelte';
+	import type { WithErrorable } from '$lib/core/utils/withError';
+
+	export let name: WithErrorable<string>;
+	export let email: WithErrorable<string>;
+	export let password: WithErrorable<string>;
 
 	export let open = true;
 	export let isCreating = false;
@@ -21,10 +26,13 @@
 			<DialogOverlay class="dialog-overlay" />
 			<div in:fly={{ duration: 500, y: 50, easing: cubicOut }}>
 				<AuthCard
+					{name}
+					{email}
+					{password}
+					bind:isCreating
 					on:password-signin
 					on:password-create
 					on:oauth-signin
-					bind:isCreating
 					on:cancel={() => (open = false)}
 					class="dialog-card"
 				>

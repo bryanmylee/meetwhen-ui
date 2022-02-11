@@ -19,7 +19,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { Switch } from '@rgossiaux/svelte-headlessui';
-	import { withError } from '$lib/core/utils/withError';
+	import type { WithErrorable } from '$lib/core/utils/withError';
 	import PasswordSignInForm from './atoms/PasswordSignInForm.svelte';
 	import PasswordCreateForm from './atoms/PasswordCreateForm.svelte';
 	import OAuthLoginButtons from './atoms/OAuthLoginButtons.svelte';
@@ -29,9 +29,9 @@
 
 	export let isCreating = false;
 
-	let name = withError('');
-	let email = withError('');
-	let password = withError('');
+	export let name: WithErrorable<string>;
+	export let email: WithErrorable<string>;
+	export let password: WithErrorable<string>;
 
 	export const handlePasswordSignInSubmit = () => {
 		dispatch('password-signin', {

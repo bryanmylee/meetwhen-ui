@@ -18,11 +18,17 @@
 	import Head from '$lib/core/components/Head.svelte';
 	import { oAuthSignIn, passwordSignIn } from '$lib/auth/utils/handleSignIn';
 	import { useAuth, useUser } from '$lib/firebase/context';
+	import { withError } from '$lib/core/utils/withError';
+	import { handlePasswordError } from '$lib/auth/components/authDialog/utils/handlePasswordError';
 
 	const auth = useAuth();
 	const user = useUser();
 
 	export let backRoute: string;
+
+	const name = withError('');
+	const email = withError('');
+	const password = withError('');
 
 	const handlePasswordSignIn = async ({
 		detail,
@@ -30,11 +36,21 @@
 		if ($user?.ssr) {
 			return;
 		}
-		await passwordSignIn(auth, {
-			currentUser: $user,
-			email: detail.email,
-			password: detail.password,
-		});
+		try {
+			await passwordSignIn(auth, {
+				currentUser: $user,
+				email: detail.email,
+				password: detail.password,
+			});
+		} catch (error: any) {
+			console.error(error);
+			handlePasswordError({
+				code: error.code,
+				name,
+				email,
+				password,
+			});
+		}
 	};
 
 	const handleOAuthSignIn = async ({
@@ -63,6 +79,9 @@
 <section class:loading={$user === undefined}>
 	<div class="w-full max-w-xl md:max-w-3xl p-4 mx-auto">
 		<AuthCard
+			{name}
+			{email}
+			{password}
 			on:password-signin={handlePasswordSignIn}
 			on:oauth-signin={handleOAuthSignIn}
 		/>

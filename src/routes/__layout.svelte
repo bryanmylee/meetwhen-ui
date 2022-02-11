@@ -46,6 +46,8 @@
 	import { useDarkMode } from '$lib/colors/utils/useDarkMode';
 	import { oAuthSignIn, passwordSignIn } from '$lib/auth/utils/handleSignIn';
 	import { useScreenHeight } from '$lib/core/utils/useScreenHeight';
+	import { withError } from '$lib/core/utils/withError';
+	import { handlePasswordError } from '$lib/auth/components/authDialog/utils/handlePasswordError';
 
 	export let initTheme: ThemeType;
 	const theme = useCookie('theme', initTheme);
@@ -62,18 +64,32 @@
 	const user = configureUser(firebaseClient.auth, $session);
 	setUser(user);
 
+	const name = withError('');
+	const email = withError('');
+	const password = withError('');
+
 	const handlePasswordSignIn = async ({
 		detail,
 	}: CustomEvent<AuthEvent['password-signin']>) => {
 		if ($user?.ssr) {
 			return;
 		}
-		await passwordSignIn(firebaseClient.auth, {
-			currentUser: $user,
-			email: detail.email,
-			password: detail.password,
-		});
-		onSignIn();
+		try {
+			await passwordSignIn(firebaseClient.auth, {
+				currentUser: $user,
+				email: detail.email,
+				password: detail.password,
+			});
+			onSignIn();
+		} catch (error: any) {
+			console.error(error);
+			handlePasswordError({
+				code: error.code,
+				name,
+				email,
+				password,
+			});
+		}
 	};
 
 	const handleOAuthSignIn = async ({
@@ -112,6 +128,9 @@
 		<slot />
 	</main>
 	<AuthDialog
+		{name}
+		{email}
+		{password}
 		bind:open={$isAuthOpen}
 		on:password-signin={handlePasswordSignIn}
 		on:oauth-signin={handleOAuthSignIn}
