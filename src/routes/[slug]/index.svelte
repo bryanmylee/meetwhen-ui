@@ -174,14 +174,11 @@
 		pageState = 'leave';
 	};
 
-	$: console.log($currentUser);
-	$: console.log(meeting.schedules);
 	const confirmLeave = async () => {
 		if ($currentUser == null || $currentUser.ssr) {
 			return;
 		}
 		const userId = $currentUser.uid;
-		console.log(userId);
 		const scheduleToDelete = meeting.schedules?.find(
 			(s) => s.userId === userId,
 		);
