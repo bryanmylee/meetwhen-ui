@@ -16,7 +16,7 @@
 	});
 </script>
 
-<div class="flex gap-4 items-center">
+<div class="flex gap-2 items-center">
 	<span>Guest of</span>
 	{#await meetingPromise}
 		<MeetingPreview name="loading" slug="loading" isLoading />
