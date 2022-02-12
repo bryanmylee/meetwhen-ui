@@ -46,8 +46,7 @@
 	import type { UserData } from '$lib/models/UserData';
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
 	import Head from '$lib/core/components/Head.svelte';
-	import { AnonymousJoinDialog, anonymousJoin } from '$lib/auth';
-	import { anonymousLeave } from '$lib/auth/utils/handleAnonymous';
+	import { GuestJoinDialog, guestJoin, guestLeave } from '$lib/auth';
 
 	const auth = useAuth();
 	const repo = useRepo();
@@ -118,7 +117,7 @@
 
 	const confirmJoin = async () => {
 		if ($currentUser == null || $currentUser.ssr) {
-			return handleAnonymousJoin();
+			return handleGuestJoin();
 		}
 		addScheduleToMeeting();
 	};
@@ -145,20 +144,20 @@
 		);
 	};
 
-	let showAnonymousJoinDialog = false;
-	const handleAnonymousJoin = () => {
-		showAnonymousJoinDialog = true;
+	let showGuestJoinDialog = false;
+	const handleGuestJoin = () => {
+		showGuestJoinDialog = true;
 	};
 
-	const confirmAnonymousJoin = async (username: string) => {
+	const confirmGuestJoin = async (username: string) => {
 		if ($currentUser != null) {
 			return;
 		}
-		await anonymousJoin(auth, repo, {
+		await guestJoin(auth, repo, {
 			username,
 			meetingId: meeting.id,
 		});
-		showAnonymousJoinDialog = false;
+		showGuestJoinDialog = false;
 		addScheduleToMeeting();
 	};
 
@@ -171,7 +170,7 @@
 			return;
 		}
 		if ($currentUser.email?.endsWith('.guest')) {
-			await confirmAnonymousLeave();
+			await confirmGuestLeave();
 		}
 		const userId = $currentUser.uid;
 		const scheduleToDelete = meeting.schedules?.find(
@@ -184,11 +183,11 @@
 		await deleteSchedule(repo, scheduleToDelete.id);
 	};
 
-	const confirmAnonymousLeave = async () => {
+	const confirmGuestLeave = async () => {
 		if ($currentUser == null || $currentUser.ssr) {
 			return;
 		}
-		anonymousLeave(auth, repo, {
+		guestLeave(auth, repo, {
 			user: $currentUser,
 		});
 	};
@@ -312,10 +311,10 @@
 	</div>
 </section>
 
-<AnonymousJoinDialog
-	open={showAnonymousJoinDialog}
-	on:cancel={() => (showAnonymousJoinDialog = false)}
-	on:anonymous-join={({ detail }) => confirmAnonymousJoin(detail.username)}
+<GuestJoinDialog
+	open={showGuestJoinDialog}
+	on:cancel={() => (showGuestJoinDialog = false)}
+	on:guest-join={({ detail }) => confirmGuestJoin(detail.username)}
 	meetingSlug={meeting.slug}
 />
 

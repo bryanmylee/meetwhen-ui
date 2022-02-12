@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import { Button } from '$lib/input';
-	import AnonymousJoinDialog from './AnonymousJoinDialog.svelte';
+	import GuestJoinDialog from './GuestJoinDialog.svelte';
 	import { withError } from '$lib/core/utils/withError';
 
 	const username = withError('');
@@ -10,22 +10,22 @@
 </script>
 
 <Meta
-	title="Auth/AnonymousJoinDialog"
-	component={AnonymousJoinDialog}
+	title="Auth/GuestJoinDialog"
+	component={GuestJoinDialog}
 	argTypes={{
 		onShowReturning: { action: 'onShowReturning' },
-		onAnonymousJoin: { action: 'onAnonymousJoin' },
+		onGuestJoin: { action: 'onGuestJoin' },
 	}}
 />
 
 <Story name="Example join dialog" let:args>
-	<Button on:click={() => (showDialog = !showDialog)}>Join Anonymous</Button>
-	<AnonymousJoinDialog
+	<Button on:click={() => (showDialog = !showDialog)}>Join Guest</Button>
+	<GuestJoinDialog
 		bind:open={showDialog}
 		{...args}
 		{username}
 		on:show-returning={args.onShowReturning}
-		on:anonymous-join={args.onAnonymousJoin}
+		on:guest-join={args.onGuestJoin}
 		meetingSlug="test_slug"
 	/>
 </Story>

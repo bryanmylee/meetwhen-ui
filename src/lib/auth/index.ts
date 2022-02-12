@@ -2,9 +2,9 @@ export { default as AuthDialog } from './components/authDialog/AuthDialog.svelte
 export { default as AuthCard } from './components/authDialog/AuthCard.svelte';
 export type { AuthEvent } from './components/authDialog/AuthCard.svelte';
 export { handlePasswordError } from './components/authDialog/utils/handlePasswordError';
-export { default as AnonymousJoinDialog } from './components/anonymousJoinDialog/AnonymousJoinDialog.svelte';
+export { default as GuestJoinDialog } from './components/guestJoinDialog/GuestJoinDialog.svelte';
 export { oAuthSignIn, passwordSignIn } from './utils/handleSignIn';
-export { anonymousJoin } from './utils/handleAnonymous';
+export { guestJoin, guestLeave } from './utils/handleGuest';
 export { configureUser } from './configureUser';
 export type {
 	OAuthSignInProps,

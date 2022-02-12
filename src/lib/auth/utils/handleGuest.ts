@@ -1,4 +1,4 @@
-import { addAnonymousUser } from '$lib/firebase/mutations/addAnonymousUser';
+import { addGuestUser } from '$lib/firebase/mutations/addGuestUser';
 import {
 	updateProfile,
 	createUserWithEmailAndPassword,
@@ -8,17 +8,17 @@ import type { Auth, UserCredential, User } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 import { generateSignInCode } from './generateSignInCode';
 import { getGuestEmail } from './getGuestEmail';
-import { deleteAnonymousUser } from '$lib/firebase/mutations/deleteAnonymousUser';
+import { deleteGuestUser } from '$lib/firebase/mutations/deleteGuestUser';
 
-export interface AnonymousJoinProps {
+export interface GuestJoinProps {
 	username: string;
 	meetingId: string;
 }
 
-export const anonymousJoin = async (
+export const guestJoin = async (
 	auth: Auth,
 	repo: Firestore,
-	{ username, meetingId }: AnonymousJoinProps,
+	{ username, meetingId }: GuestJoinProps,
 ): Promise<UserCredential> => {
 	const email = getGuestEmail(username, meetingId);
 	const password = generateSignInCode();
@@ -31,24 +31,24 @@ export const anonymousJoin = async (
 	await updateProfile(userCredential.user, {
 		displayName: username,
 	});
-	await addAnonymousUser(repo, {
+	await addGuestUser(repo, {
 		userId: userCredential.user.uid,
 		meetingId,
 	});
 	return userCredential;
 };
 
-export interface AnonymousLeaveProps {
+export interface GuestLeaveProps {
 	user: User;
 }
 
-export const anonymousLeave = async (
+export const guestLeave = async (
 	auth: Auth,
 	repo: Firestore,
-	{ user }: AnonymousLeaveProps,
+	{ user }: GuestLeaveProps,
 ): Promise<void> => {
 	await deleteUser(user);
-	await deleteAnonymousUser(repo, {
+	await deleteGuestUser(repo, {
 		userId: user.uid,
 	});
 };

@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
-	export interface AnonymousJoinDialogEvent {
+	export interface GuestJoinDialogEvent {
 		'show-returning': never;
-		'anonymous-join': {
+		'guest-join': {
 			username: string;
 		};
 		cancel: never;
@@ -25,15 +25,18 @@
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
 	import Textfield from '$lib/input/textfield/Textfield.svelte';
 
-	const dispatch = createEventDispatcher<AnonymousJoinDialogEvent>();
+	const dispatch = createEventDispatcher<GuestJoinDialogEvent>();
 
 	export let open = true;
+	$: if (!open) {
+		$username.value = '';
+	}
 	export let meetingSlug: string;
 
 	const username = withError('');
 
 	const handleConfirmJoin = () => {
-		dispatch('anonymous-join', {
+		dispatch('guest-join', {
 			username: $username.value,
 		});
 	};
