@@ -1,5 +1,6 @@
 import type { DocumentData } from 'firebase/firestore';
 
-export interface UserData extends DocumentData {
+export interface GuestUserData extends DocumentData {
 	meetingId: string;
+	passcode: string;
 }

@@ -2,6 +2,8 @@ import {
 	updateProfile,
 	createUserWithEmailAndPassword,
 	deleteUser,
+	reauthenticateWithCredential,
+	EmailAuthProvider,
 } from 'firebase/auth';
 import type { Auth, UserCredential, User } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
@@ -9,6 +11,7 @@ import { addGuestUserData } from '$lib/firebase/mutations/addGuestUserData';
 import { deleteGuestUserData } from '$lib/firebase/mutations/deleteGuestUserData';
 import { generateSignInCode } from './generateSignInCode';
 import { getGuestEmail } from './getGuestEmail';
+import { getGuestUserWithId } from '$lib/firebase/queries/getGuestUserWithId';
 
 export interface GuestJoinProps {
 	username: string;
@@ -37,6 +40,7 @@ export const guestJoin = async (
 	});
 	await addGuestUserData(repo, {
 		userId: userCredential.user.uid,
+		passcode,
 		meetingId,
 	});
 	return {
@@ -54,6 +58,18 @@ export const guestLeave = async (
 	repo: Firestore,
 	{ user }: GuestLeaveProps,
 ): Promise<void> => {
+	if (user.email === null) {
+		throw new Error('Failed to delete user due to missing email');
+	}
+	const userData = await getGuestUserWithId(repo, user.uid);
+	if (userData === undefined) {
+		throw new Error('Failed to delete user due to missing user data');
+	}
+	const userCredential = EmailAuthProvider.credential(
+		user.email,
+		userData.passcode,
+	);
+	await reauthenticateWithCredential(user, userCredential);
 	await deleteUser(user);
 	await deleteGuestUserData(repo, {
 		userId: user.uid,
