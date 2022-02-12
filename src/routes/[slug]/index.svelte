@@ -47,6 +47,7 @@
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
 	import Head from '$lib/core/components/Head.svelte';
 	import { GuestJoinDialog, guestJoin, guestLeave } from '$lib/auth';
+	import type { Maybe } from '$lib/core/types/Maybe';
 
 	const auth = useAuth();
 	const repo = useRepo();
@@ -145,6 +146,7 @@
 	};
 
 	let showGuestJoinDialog = false;
+	let showPasscodeDialog: Maybe<string> = undefined;
 	const handleGuestJoin = () => {
 		showGuestJoinDialog = true;
 	};
@@ -153,12 +155,13 @@
 		if ($currentUser != null) {
 			return;
 		}
-		await guestJoin(auth, repo, {
+		const { passcode } = await guestJoin(auth, repo, {
 			username,
 			meetingId: meeting.id,
 		});
 		showGuestJoinDialog = false;
-		addScheduleToMeeting();
+		showPasscodeDialog = passcode;
+		await addScheduleToMeeting();
 	};
 
 	const handleLeave = () => {

@@ -15,18 +15,22 @@ export interface GuestJoinProps {
 	meetingId: string;
 }
 
+export interface GuestJoinResult {
+	credential: UserCredential;
+	passcode: string;
+}
+
 export const guestJoin = async (
 	auth: Auth,
 	repo: Firestore,
 	{ username, meetingId }: GuestJoinProps,
-): Promise<UserCredential> => {
+): Promise<GuestJoinResult> => {
 	const email = getGuestEmail(username, meetingId);
-	const password = generateSignInCode();
-	console.log({ email, password });
+	const passcode = generateSignInCode();
 	const userCredential = await createUserWithEmailAndPassword(
 		auth,
 		email,
-		password,
+		passcode,
 	);
 	await updateProfile(userCredential.user, {
 		displayName: username,
@@ -35,7 +39,10 @@ export const guestJoin = async (
 		userId: userCredential.user.uid,
 		meetingId,
 	});
-	return userCredential;
+	return {
+		passcode,
+		credential: userCredential,
+	};
 };
 
 export interface GuestLeaveProps {
