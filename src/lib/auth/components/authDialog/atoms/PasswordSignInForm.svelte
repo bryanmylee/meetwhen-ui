@@ -44,6 +44,6 @@
 		>
 			Cancel
 		</Button>
-		<Button type="submit" size="md" class="flex-1">Sign In</Button>
+		<Button type="submit" size="md" class="flex-1">Sign in</Button>
 	</div>
 </form>

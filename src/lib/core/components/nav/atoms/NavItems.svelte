@@ -16,10 +16,10 @@
 
 <li class="contents">
 	{#if user === undefined}
-		<button disabled class="menu-item cursor-wait opacity-50"> Sign In </button>
+		<button disabled class="menu-item cursor-wait opacity-50"> Sign in </button>
 	{:else if user === null}
 		<button class="menu-item" on:click={() => dispatch('open-auth')}>
-			Sign In
+			Sign in
 		</button>
 	{:else}
 		<a href="/profile" class="menu-item">Profile</a>

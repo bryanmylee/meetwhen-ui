@@ -51,6 +51,6 @@
 		>
 			Cancel
 		</Button>
-		<Button type="submit" size="md" class="flex-1">Create Account</Button>
+		<Button type="submit" size="md" class="flex-1">Create account</Button>
 	</div>
 </form>
