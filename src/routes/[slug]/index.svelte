@@ -57,6 +57,7 @@
 	const auth = useAuth();
 	const repo = useRepo();
 	const currentUser = useUser();
+	$: isGuest = $currentUser?.email?.endsWith('.guest');
 
 	export let meeting: Id<Meeting>;
 
@@ -302,6 +303,11 @@
 		{:else if pageState === 'leave'}
 			<div class="leave">
 				<p class="text-center text-label">Are you sure you want to leave?</p>
+				{#if isGuest}
+					<p class="text-center text-label text-red-400">
+						Your guest account will be deleted
+					</p>
+				{/if}
 			</div>
 			<div class="flex w-full gap-4">
 				<Button
