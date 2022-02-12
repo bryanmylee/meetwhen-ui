@@ -1,4 +1,11 @@
+<script lang="ts" context="module">
+	export interface PasscodeDialogEvent {
+		dismiss: never;
+	}
+</script>
+
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import {
@@ -8,6 +15,8 @@
 		DialogTitle,
 	} from '@rgossiaux/svelte-headlessui';
 	import { primaryVars } from '$lib/core/state';
+
+	const dispatch = createEventDispatcher<PasscodeDialogEvent>();
 
 	export let open = true;
 	export let passcode: string;
@@ -27,7 +36,7 @@
 
 	const handleDismiss = async () => {
 		await handleClick();
-		open = false;
+		dispatch('dismiss');
 	};
 </script>
 

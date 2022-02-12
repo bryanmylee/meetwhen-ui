@@ -46,7 +46,12 @@
 	import type { UserRecord } from '$lib/models/UserRecord';
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
 	import Head from '$lib/core/components/Head.svelte';
-	import { GuestJoinDialog, guestJoin, guestLeave } from '$lib/auth';
+	import {
+		GuestJoinDialog,
+		PasscodeDialog,
+		guestJoin,
+		guestLeave,
+	} from '$lib/auth';
 	import type { Maybe } from '$lib/core/types/Maybe';
 
 	const auth = useAuth();
@@ -319,6 +324,11 @@
 	on:cancel={() => (showGuestJoinDialog = false)}
 	on:guest-join={({ detail }) => confirmGuestJoin(detail.username)}
 	meetingSlug={meeting.slug}
+/>
+<PasscodeDialog
+	passcode={showPasscodeDialog ?? ''}
+	open={showPasscodeDialog !== undefined}
+	on:dismiss={() => (showPasscodeDialog = undefined)}
 />
 
 <style lang="postcss">
