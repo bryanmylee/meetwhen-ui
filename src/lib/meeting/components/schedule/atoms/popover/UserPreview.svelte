@@ -16,6 +16,8 @@
 	export let unavailable = false;
 	export let displayName: Maybe<string>;
 	export let email: Maybe<string>;
+	$: name = displayName ?? email ?? 'anonymous';
+	$: isGuest = email?.endsWith('.guest');
 	export let photoURL: Maybe<string>;
 
 	const isHovering = writable(false);
@@ -51,7 +53,7 @@
 			class="text-label-sm whitespace-nowrap"
 			class:opacity-50={unavailable}
 		>
-			{displayName ?? email ?? 'Anonymous'}
+			{name}
 		</span>
 	</div>
 </div>
@@ -73,7 +75,13 @@
 			{/if}
 			<div>
 				<p class="text-label-sm">{displayName}</p>
-				<p class="text-xs text-neutral-400">{email}</p>
+				<p class="text-xs text-neutral-400">
+					{#if isGuest}
+						guest account
+					{:else}
+						{email}
+					{/if}
+				</p>
 			</div>
 		</div>
 	</div>
