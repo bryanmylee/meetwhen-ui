@@ -13,6 +13,7 @@
 	import { onMount } from 'svelte';
 	import type { Load } from '@sveltejs/kit';
 	import { goto } from '$app/navigation';
+	import { FirebaseError } from 'firebase/app';
 	import {
 		AuthCard,
 		handlePasswordError,
@@ -47,12 +48,14 @@
 			});
 		} catch (error: any) {
 			console.error(error);
-			handlePasswordError({
-				code: error.code,
-				name,
-				email,
-				password,
-			});
+			if (error instanceof FirebaseError) {
+				handlePasswordError({
+					code: error.code,
+					name,
+					email,
+					password,
+				});
+			}
 		}
 	};
 

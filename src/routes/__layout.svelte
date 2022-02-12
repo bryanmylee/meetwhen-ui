@@ -20,6 +20,7 @@
 	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { FirebaseError } from 'firebase/app';
 	import { getClientEnv, getServerEnv } from '$lib/env';
 	import { session } from '$lib/stores';
 	import {
@@ -84,14 +85,16 @@
 				password: detail.password,
 			});
 			onSignIn();
-		} catch (error: any) {
+		} catch (error) {
 			console.error(error);
-			handlePasswordError({
-				code: error.code,
-				name,
-				email,
-				password,
-			});
+			if (error instanceof FirebaseError) {
+				handlePasswordError({
+					code: error.code,
+					name,
+					email,
+					password,
+				});
+			}
 		}
 	};
 
