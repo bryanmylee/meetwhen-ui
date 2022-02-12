@@ -1,13 +1,13 @@
 import { doc, deleteDoc } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
 
-export interface DeleteGuestUser {
+export interface DeleteGuestUserData {
 	userId: string;
 }
 
-export const deleteGuestUser = async (
+export const deleteGuestUserData = async (
 	repo: Firestore,
-	{ userId }: DeleteGuestUser,
+	{ userId }: DeleteGuestUserData,
 ): Promise<void> => {
 	await deleteDoc(doc(repo, 'guest-users', userId));
 };

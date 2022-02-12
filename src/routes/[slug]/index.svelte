@@ -7,7 +7,7 @@
 				status: 404,
 			};
 		}
-		const users = await fetchMeetingUserData(meeting.id);
+		const users = await fetchMeetingUserRecords(meeting.id);
 		return {
 			props: {
 				meeting,
@@ -42,8 +42,8 @@
 	import { findAllSchedulesWithMeetingIdQuery } from '$lib/firebase/queries/schedules/findAllSchedulesWithMeetingId';
 	import { deleteSchedule } from '$lib/firebase/mutations/deleteSchedule';
 	import { editSchedule } from '$lib/firebase/mutations/editSchedule';
-	import { fetchMeetingUserData } from '$lib/api/fetchMeetingUserData';
-	import type { UserData } from '$lib/models/UserData';
+	import { fetchMeetingUserRecords } from '$lib/api/fetchMeetingUserRecords';
+	import type { UserRecord } from '$lib/models/UserRecord';
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
 	import Head from '$lib/core/components/Head.svelte';
 	import { GuestJoinDialog, guestJoin, guestLeave } from '$lib/auth';
@@ -67,8 +67,8 @@
 		}
 	}
 
-	export let users: Id<UserData>[];
-	const usersCache = writable<Record<string, UserData>>({});
+	export let users: Id<UserRecord>[];
+	const usersCache = writable<Record<string, UserRecord>>({});
 	setUsersCache(usersCache);
 	$: $usersCache = users.reduce((cache, { id, ...user }) => {
 		return {
@@ -94,7 +94,7 @@
 	}
 
 	const updateUserData = async () => {
-		users = await fetchMeetingUserData(meeting.id);
+		users = await fetchMeetingUserRecords(meeting.id);
 	};
 
 	let pageState: MeetingPageState = 'none';

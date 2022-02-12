@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import type { Id } from '$lib/core/types/Id';
 import type { ScheduleData } from '$lib/models/Schedule';
-import type { UserData } from '$lib/models/UserData';
+import type { UserRecord } from '$lib/models/UserRecord';
 import { initFirebaseAdmin } from '$lib/firebase/server';
 import { getServerEnv } from '$lib/env';
 
@@ -29,14 +29,14 @@ export const get: RequestHandler = async ({ url }) => {
 		const userIds = scheduleData.map((d) => d.userId);
 		const identifiers = userIds.map((uid) => ({ uid }));
 		const usersResult = await firebaseAdmin.auth().getUsers(identifiers);
-		const userData: Id<UserData>[] = usersResult.users.map((u) => ({
+		const userRecords: Id<UserRecord>[] = usersResult.users.map((u) => ({
 			id: u.uid,
 			displayName: u.displayName,
 			email: u.email,
 			photoURL: u.photoURL,
 		}));
 		return {
-			body: JSON.stringify(userData),
+			body: JSON.stringify(userRecords),
 		};
 	} catch (error) {
 		console.error(error);

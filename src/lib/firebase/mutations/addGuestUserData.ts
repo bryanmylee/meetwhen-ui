@@ -2,14 +2,14 @@ import type { CustomUserData } from '$lib/models/CustomUserData';
 import { setDoc, doc } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
 
-export interface AddGuestUser {
+export interface AddGuestUserData {
 	userId: string;
 	meetingId: string;
 }
 
-export const addGuestUser = async (
+export const addGuestUserData = async (
 	repo: Firestore,
-	{ userId, meetingId }: AddGuestUser,
+	{ userId, meetingId }: AddGuestUserData,
 ): Promise<CustomUserData> => {
 	await setDoc(doc(repo, 'guest-users', userId), {
 		meetingId,

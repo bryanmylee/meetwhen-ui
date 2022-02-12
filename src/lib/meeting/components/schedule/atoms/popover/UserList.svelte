@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { UserData } from '$lib/models/UserData';
+	import type { UserRecord } from '$lib/models/UserRecord';
 	import UserPreview from './UserPreview.svelte';
 
-	export let users: UserData[];
+	export let users: UserRecord[];
 
 	export let unavailable = false;
 	$: tag = unavailable ? 'unavailable' : 'available';

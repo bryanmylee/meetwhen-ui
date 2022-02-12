@@ -1,4 +1,3 @@
-import { addGuestUser } from '$lib/firebase/mutations/addGuestUser';
 import {
 	updateProfile,
 	createUserWithEmailAndPassword,
@@ -6,9 +5,10 @@ import {
 } from 'firebase/auth';
 import type { Auth, UserCredential, User } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
+import { addGuestUserData } from '$lib/firebase/mutations/addGuestUserData';
+import { deleteGuestUserData } from '$lib/firebase/mutations/deleteGuestUserData';
 import { generateSignInCode } from './generateSignInCode';
 import { getGuestEmail } from './getGuestEmail';
-import { deleteGuestUser } from '$lib/firebase/mutations/deleteGuestUser';
 
 export interface GuestJoinProps {
 	username: string;
@@ -31,7 +31,7 @@ export const guestJoin = async (
 	await updateProfile(userCredential.user, {
 		displayName: username,
 	});
-	await addGuestUser(repo, {
+	await addGuestUserData(repo, {
 		userId: userCredential.user.uid,
 		meetingId,
 	});
@@ -48,7 +48,7 @@ export const guestLeave = async (
 	{ user }: GuestLeaveProps,
 ): Promise<void> => {
 	await deleteUser(user);
-	await deleteGuestUser(repo, {
+	await deleteGuestUserData(repo, {
 		userId: user.uid,
 	});
 };
