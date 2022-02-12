@@ -7,7 +7,6 @@
 
 <script lang="ts">
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons';
-	import { getColorCssVars, getColorScheme, PRIMARY_HEX } from '$lib/colors';
 	import { AccordianCard } from '$lib/core/components/accordian';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import type { Id } from '$lib/core/types/Id';
@@ -15,6 +14,7 @@
 	import type { Paginated } from '$lib/firebase/queries/paginated';
 	import type { Meeting } from '$lib/models/Meeting';
 	import { Button } from '$lib/input';
+	import MeetingPreview from './MeetingPreview.svelte';
 
 	export let title: string;
 	export let meetingsPage: Paginated<Id<MeetingFields>>;
@@ -32,7 +32,9 @@
 		{#if $meetingsPage.isLoading}
 			{#each { length: 5 } as _}
 				<p class="preview-date-label skeleton">D MMM</p>
-				<p class="preview-item-box skeleton">loading...</p>
+				<ul>
+					<li><MeetingPreview isLoading name="loading" slug="loading" /></li>
+				</ul>
 			{/each}
 		{:else}
 			{#each Object.entries(meetingsByStartDateId) as [dateId, meetings]}
@@ -40,21 +42,9 @@
 				<label class="preview-date-label" for="meetings-{dateId}">
 					{dateFmt}
 				</label>
-				<ul class="preview-list" id="meetings-{dateId}">
+				<ul class="preview-date-list" id="meetings-{dateId}">
 					{#each meetings as { name, slug, color }}
-						<li class="preview-item-box">
-							<span />
-							<a
-								href="/{slug}"
-								class="preview-item"
-								style={getColorCssVars(
-									'primary',
-									getColorScheme(color ?? PRIMARY_HEX),
-								)}
-							>
-								<p>{name}</p>
-							</a>
-						</li>
+						<li><MeetingPreview {name} {slug} {color} /></li>
 					{/each}
 				</ul>
 			{:else}
@@ -101,35 +91,9 @@
 		}
 	}
 
-	.preview-list {
+	.preview-date-list {
 		@apply flex flex-col gap-4;
 	}
-
-	.preview-item-box {
-		@apply relative overflow-hidden;
-		@apply rounded-lg bg-neutral-100 gdark:bg-neutral-700 focus-within;
-		@apply transition;
-		&:hover {
-			@apply bg-neutral-50 gdark:bg-neutral-600 shadow;
-		}
-		&:active {
-			@apply bg-neutral-200 gdark:opacity-50 shadow-sm;
-		}
-		&.skeleton {
-			@apply skeleton-bg;
-		}
-
-		& > span {
-			@apply block absolute left-0 top-0 bottom-0 w-2;
-			@apply overflow-hidden text-ellipsis;
-			@apply bg-primary-400;
-		}
-	}
-
-	.preview-item {
-		@apply block p-2 ml-2 text-sm font-medium;
-	}
-
 	.paging-button-box {
 		@apply flex items-center gap-4 mt-4;
 	}

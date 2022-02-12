@@ -31,12 +31,14 @@
 	import type { Id } from '$lib/core/types/Id';
 	import MeetingPreviews from '$lib/profile/components/MeetingPreviews.svelte';
 	import Head from '$lib/core/components/Head.svelte';
+	import GuestPreview from '$lib/profile/components/GuestPreview.svelte';
 
 	const repo = useRepo();
 	const auth = useAuth();
 
 	export let currentUser: SafeUser;
-	$: name = currentUser.displayName ?? currentUser.email;
+	$: isGuest = currentUser.email?.endsWith('.guest');
+	$: name = currentUser.displayName;
 
 	const upcomingMeetingsPage = usePaginated<Id<Meeting>>(
 		async (pageSize, previous) => {
@@ -73,12 +75,16 @@
 <section>
 	<div class="flex flex-col w-full max-w-xl gap-4 p-4 mx-auto">
 		<h1 class="text-title-1">Welcome back, {name}</h1>
-		<MeetingPreviews
-			title="Upcoming"
-			open
-			meetingsPage={upcomingMeetingsPage}
-		/>
-		<MeetingPreviews title="Previous" meetingsPage={previousMeetingsPage} />
+		{#if isGuest && !currentUser.ssr}
+			<GuestPreview guestUser={currentUser} />
+		{:else}
+			<MeetingPreviews
+				title="Upcoming"
+				open
+				meetingsPage={upcomingMeetingsPage}
+			/>
+			<MeetingPreviews title="Previous" meetingsPage={previousMeetingsPage} />
+		{/if}
 		<Button color="gray" on:click={handleSignOut}>Sign Out</Button>
 	</div>
 </section>
