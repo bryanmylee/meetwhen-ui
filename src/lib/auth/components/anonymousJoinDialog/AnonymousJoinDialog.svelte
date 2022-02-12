@@ -67,10 +67,10 @@
 					class="flex flex-col gap-4"
 				>
 					<Textfield
+						bind:value={$username.value}
+						error={$username.error}
 						label="Name"
 						required
-						value={$username.value}
-						error={$username.error}
 						use={[focusOnMount]}
 					/>
 					<div class="flex gap-4">

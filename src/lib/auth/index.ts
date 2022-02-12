@@ -4,6 +4,7 @@ export type { AuthEvent } from './components/authDialog/AuthCard.svelte';
 export { handlePasswordError } from './components/authDialog/utils/handlePasswordError';
 export { default as AnonymousJoinDialog } from './components/anonymousJoinDialog/AnonymousJoinDialog.svelte';
 export { oAuthSignIn, passwordSignIn } from './utils/handleSignIn';
+export { anonymousJoin } from './utils/handleAnonymousJoin';
 export { configureUser } from './configureUser';
 export type {
 	OAuthSignInProps,

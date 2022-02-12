@@ -28,7 +28,7 @@
 	import type { ScheduleData } from '$lib/models/Schedule';
 	import type { Id } from '$lib/core/types/Id';
 	import { firebaseClient } from '$lib/firebase/client';
-	import { useRepo, useUser } from '$lib/firebase/context';
+	import { useAuth, useRepo, useUser } from '$lib/firebase/context';
 	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';
 	import { useLiveQuery } from '$lib/firebase/utils/useLiveQuery';
 	import { findMeetingWithSlug } from '$lib/firebase/queries/meetings';
@@ -46,8 +46,9 @@
 	import type { UserData } from '$lib/models/UserData';
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
 	import Head from '$lib/core/components/Head.svelte';
-	import { AnonymousJoinDialog } from '$lib/auth';
+	import { AnonymousJoinDialog, anonymousJoin } from '$lib/auth';
 
+	const auth = useAuth();
 	const repo = useRepo();
 	const currentUser = useUser();
 
@@ -100,7 +101,7 @@
 	$: isJoined =
 		$currentUser != null &&
 		meeting.schedules !== undefined &&
-		meeting.schedules.map((s) => s.userId).includes($currentUser?.uid);
+		meeting.schedules.map((s) => s.userId).includes($currentUser.uid);
 
 	const intervals = withError<Interval[]>([], {
 		validators: [
@@ -115,7 +116,7 @@
 	};
 
 	const confirmJoin = async () => {
-		if ($currentUser == null || $currentUser?.ssr) {
+		if ($currentUser == null || $currentUser.ssr) {
 			handleAnonymousJoin();
 			return;
 		}
@@ -142,14 +143,23 @@
 		showAnonymousJoinDialog = true;
 	};
 
-	const confirmAnonymousJoin = async (username: string) => {};
+	const confirmAnonymousJoin = async (username: string) => {
+		if ($currentUser != null) {
+			return;
+		}
+		await anonymousJoin(auth, repo, {
+			username,
+			meetingId: meeting.id,
+		});
+		showAnonymousJoinDialog = false;
+	};
 
 	const handleLeave = () => {
 		pageState = 'leave';
 	};
 
 	const confirmLeave = async () => {
-		if ($currentUser == null || $currentUser?.ssr) {
+		if ($currentUser == null || $currentUser.ssr) {
 			return;
 		}
 		const userId = $currentUser.uid;
@@ -178,7 +188,7 @@
 	};
 
 	const confirmEdit = async () => {
-		if ($currentUser == null || $currentUser?.ssr) {
+		if ($currentUser == null || $currentUser.ssr) {
 			return;
 		}
 		const currentSchedule = meeting.schedules?.find(
