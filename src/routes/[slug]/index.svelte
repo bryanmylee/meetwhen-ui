@@ -169,9 +169,6 @@
 		if ($currentUser == null || $currentUser.ssr) {
 			return;
 		}
-		if ($currentUser.email?.endsWith('.guest')) {
-			await confirmGuestLeave();
-		}
 		const userId = $currentUser.uid;
 		const scheduleToDelete = meeting.schedules?.find(
 			(s) => s.userId === userId,
@@ -180,6 +177,9 @@
 			return;
 		}
 		pageState = 'none';
+		if ($currentUser.email?.endsWith('.guest')) {
+			await confirmGuestLeave();
+		}
 		await deleteSchedule(repo, scheduleToDelete.id);
 	};
 
