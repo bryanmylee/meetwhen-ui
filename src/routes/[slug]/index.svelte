@@ -47,6 +47,7 @@
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
 	import Head from '$lib/core/components/Head.svelte';
 	import { AnonymousJoinDialog, anonymousJoin } from '$lib/auth';
+	import { anonymousLeave } from '$lib/auth/utils/handleAnonymous';
 
 	const auth = useAuth();
 	const repo = useRepo();
@@ -117,8 +118,7 @@
 
 	const confirmJoin = async () => {
 		if ($currentUser == null || $currentUser.ssr) {
-			handleAnonymousJoin();
-			return;
+			return handleAnonymousJoin();
 		}
 		addScheduleToMeeting();
 	};
@@ -170,6 +170,9 @@
 		if ($currentUser == null || $currentUser.ssr) {
 			return;
 		}
+		if ($currentUser.email?.endsWith('.guest')) {
+			await confirmAnonymousLeave();
+		}
 		const userId = $currentUser.uid;
 		const scheduleToDelete = meeting.schedules?.find(
 			(s) => s.userId === userId,
@@ -179,6 +182,15 @@
 		}
 		pageState = 'none';
 		await deleteSchedule(repo, scheduleToDelete.id);
+	};
+
+	const confirmAnonymousLeave = async () => {
+		if ($currentUser == null || $currentUser.ssr) {
+			return;
+		}
+		anonymousLeave(auth, repo, {
+			user: $currentUser,
+		});
 	};
 
 	const handleEdit = () => {

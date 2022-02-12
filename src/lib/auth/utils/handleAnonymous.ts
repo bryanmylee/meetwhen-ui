@@ -1,9 +1,14 @@
 import { addAnonymousUser } from '$lib/firebase/mutations/addAnonymousUser';
-import { updateProfile, createUserWithEmailAndPassword } from 'firebase/auth';
-import type { Auth, UserCredential } from 'firebase/auth';
+import {
+	updateProfile,
+	createUserWithEmailAndPassword,
+	deleteUser,
+} from 'firebase/auth';
+import type { Auth, UserCredential, User } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 import { generateSignInCode } from './generateSignInCode';
 import { getGuestEmail } from './getGuestEmail';
+import { deleteAnonymousUser } from '$lib/firebase/mutations/deleteAnonymousUser';
 
 export interface AnonymousJoinProps {
 	username: string;
@@ -31,4 +36,19 @@ export const anonymousJoin = async (
 		meetingId,
 	});
 	return userCredential;
+};
+
+export interface AnonymousLeaveProps {
+	user: User;
+}
+
+export const anonymousLeave = async (
+	auth: Auth,
+	repo: Firestore,
+	{ user }: AnonymousLeaveProps,
+): Promise<void> => {
+	await deleteUser(user);
+	await deleteAnonymousUser(repo, {
+		userId: user.uid,
+	});
 };
