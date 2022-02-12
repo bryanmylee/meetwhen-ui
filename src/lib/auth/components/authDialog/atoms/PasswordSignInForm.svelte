@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	export interface PasswordLoginFormEvent {
+	export interface PasswordSignInFormEvent {
 		submit: never;
 		cancel: never;
 	}
@@ -11,7 +11,7 @@
 	import type { WithErrorable } from '$lib/core/utils/withError';
 	import { Button, Textfield } from '$lib/input';
 
-	const dispatch = createEventDispatcher<PasswordLoginFormEvent>();
+	const dispatch = createEventDispatcher<PasswordSignInFormEvent>();
 
 	export let email: WithErrorable<string>;
 	export let password: WithErrorable<string>;

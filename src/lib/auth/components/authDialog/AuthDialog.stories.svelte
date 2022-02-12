@@ -22,7 +22,7 @@
 />
 
 <Story name="Example dialog" let:args>
-	<Button on:click={() => (showDialog = !showDialog)}>Log In</Button>
+	<Button on:click={() => (showDialog = !showDialog)}>Sign In</Button>
 	<AuthDialog
 		bind:open={showDialog}
 		{...args}

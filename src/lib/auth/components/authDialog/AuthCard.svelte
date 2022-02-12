@@ -22,7 +22,7 @@
 	import type { WithErrorable } from '$lib/core/utils/withError';
 	import PasswordSignInForm from './atoms/PasswordSignInForm.svelte';
 	import PasswordCreateForm from './atoms/PasswordCreateForm.svelte';
-	import OAuthLoginButtons from './atoms/OAuthLoginButtons.svelte';
+	import OAuthSignInButtons from './atoms/OAuthSignInButtons.svelte';
 	import type { OAuthProviderType } from '$lib/auth';
 
 	const dispatch = createEventDispatcher<AuthEvent>();
@@ -100,7 +100,7 @@
 		</div>
 		<div class="auth-oauth">
 			<h2 class="text-center text-neutral-400">or sign in with</h2>
-			<OAuthLoginButtons
+			<OAuthSignInButtons
 				on:click={(event) =>
 					dispatch('oauth-signin', {
 						providerType: event.detail.providerType,

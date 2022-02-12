@@ -39,7 +39,7 @@
 		<Textfield label="Password" password error={args.error} />
 		<Textfield label="Date of birth" disabled error={args.error} />
 		<div class="flex gap-4">
-			<Button>Log In</Button>
+			<Button>Sign In</Button>
 			<Button color="gray">Cancel</Button>
 			<Button color="gray" disabled>Revoke</Button>
 		</div>
