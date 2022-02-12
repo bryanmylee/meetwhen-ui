@@ -120,6 +120,13 @@
 			handleAnonymousJoin();
 			return;
 		}
+		addScheduleToMeeting();
+	};
+
+	const addScheduleToMeeting = async () => {
+		if ($currentUser == null || $currentUser.ssr) {
+			return;
+		}
 		intervals.validate();
 		// Wait on `errors` reactive update.
 		await tick();
@@ -152,6 +159,7 @@
 			meetingId: meeting.id,
 		});
 		showAnonymousJoinDialog = false;
+		addScheduleToMeeting();
 	};
 
 	const handleLeave = () => {
