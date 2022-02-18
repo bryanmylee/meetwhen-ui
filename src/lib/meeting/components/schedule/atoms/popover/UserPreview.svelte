@@ -77,7 +77,7 @@
 				<p class="text-label-sm">{displayName}</p>
 				<p class="text-xs text-neutral-400">
 					{#if isGuest}
-						guest account
+						guest
 					{:else}
 						{email}
 					{/if}
