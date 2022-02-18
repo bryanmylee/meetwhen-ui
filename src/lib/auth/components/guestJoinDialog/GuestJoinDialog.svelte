@@ -4,22 +4,14 @@
 		'guest-join': {
 			username: string;
 		};
-		cancel: never;
 	}
 </script>
 
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { fade, fly } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
 	import { XIcon } from 'svelte-feather-icons';
-	import {
-		Dialog,
-		DialogDescription,
-		DialogOverlay,
-		DialogTitle,
-	} from '@rgossiaux/svelte-headlessui';
-	import { primaryVars } from '$lib/core/state';
+	import { DialogDescription, DialogTitle } from '@rgossiaux/svelte-headlessui';
+	import { Dialog } from '$lib/core/components/dialog';
 	import { Button } from '$lib/input';
 	import { withError } from '$lib/core/utils/withError';
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
@@ -42,75 +34,59 @@
 	};
 </script>
 
-<Dialog {open} on:close={() => dispatch('cancel')}>
-	<div class="dialog" style={$primaryVars}>
-		<div transition:fade={{ duration: 300, easing: cubicOut }}>
-			<DialogOverlay class="dialog-overlay" />
-			<div
-				in:fly={{ duration: 500, y: 50, easing: cubicOut }}
-				class="dialog-card"
-			>
-				<DialogDescription>
-					<p class="text-brand">meetwhen.io/{meetingSlug}</p>
-				</DialogDescription>
-				<DialogTitle as="h1" class="flex justify-between items-baseline">
-					<span class="text-title-1"> Join as a guest </span>
-					<span>
-						or
-						<button
-							on:click={() => dispatch('show-returning')}
-							class="dialog-returning"
-						>
-							returning guest?
-						</button>
-					</span>
-				</DialogTitle>
-				<form
-					on:submit|preventDefault={handleConfirmJoin}
-					class="flex flex-col gap-4"
+<Dialog bind:open>
+	<div class="guest-dialog-card">
+		<DialogDescription>
+			<p class="text-brand">meetwhen.io/{meetingSlug}</p>
+		</DialogDescription>
+		<DialogTitle as="h1" class="flex justify-between items-baseline">
+			<span class="text-title-1"> Join as a guest </span>
+			<span>
+				or
+				<button
+					on:click={() => dispatch('show-returning')}
+					class="guest-dialog-returning"
 				>
-					<Textfield
-						bind:value={$username.value}
-						error={$username.error}
-						label="Name"
-						required
-						use={[focusOnMount]}
-					/>
-					<div class="flex gap-4">
-						<Button
-							color="gray"
-							size="md"
-							class="w-full"
-							on:click={() => dispatch('cancel')}
-						>
-							Cancel
-						</Button>
-						<Button type="submit" size="md" class="w-full">Join</Button>
-					</div>
-				</form>
+					returning guest?
+				</button>
+			</span>
+		</DialogTitle>
+		<form
+			on:submit|preventDefault={handleConfirmJoin}
+			class="flex flex-col gap-4"
+		>
+			<Textfield
+				bind:value={$username.value}
+				error={$username.error}
+				label="Name"
+				required
+				use={[focusOnMount]}
+			/>
+			<div class="flex gap-4">
 				<Button
-					on:click={() => dispatch('cancel')}
-					variant="text-only"
-					icon
-					class="dialog-dismiss-button"
+					color="gray"
+					size="md"
+					class="w-full"
+					on:click={() => (open = false)}
 				>
-					<XIcon />
+					Cancel
 				</Button>
+				<Button type="submit" size="md" class="w-full">Join</Button>
 			</div>
-		</div>
+		</form>
+		<Button
+			on:click={() => (open = false)}
+			variant="text-only"
+			icon
+			class="guest-dialog-dismiss-button"
+		>
+			<XIcon />
+		</Button>
 	</div>
 </Dialog>
 
 <style lang="postcss">
-	.dialog {
-		@apply fixed inset-0 z-50 flex items-center justify-center;
-	}
-
-	.dialog :global(.dialog-overlay) {
-		@apply fixed inset-0 bg-neutral-600/50;
-	}
-
-	.dialog-card {
+	.guest-dialog-card {
 		@apply card p-6 relative z-10;
 		@apply flex flex-col gap-4;
 		width: calc(100vw - 2rem);
@@ -120,12 +96,12 @@
 		}
 	}
 
-	.dialog :global(.dialog-dismiss-button) {
+	:global(.guest-dialog-dismiss-button) {
 		@apply absolute top-4 right-4;
 		@apply wh-7;
 	}
 
-	.dialog-returning {
+	.guest-dialog-returning {
 		@apply text-neutral-400 underline underline-offset-2;
 		@apply focus p-1 rounded hover:text-primary-400;
 	}

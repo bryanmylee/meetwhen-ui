@@ -1,13 +1,6 @@
 <script lang="ts">
-	import { fade, fly } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
-	import {
-		Dialog,
-		DialogDescription,
-		DialogOverlay,
-		DialogTitle,
-	} from '@rgossiaux/svelte-headlessui';
-	import { primaryVars } from '$lib/core/state';
+	import { DialogDescription, DialogTitle } from '@rgossiaux/svelte-headlessui';
+	import { Dialog } from '$lib/core/components/dialog';
 
 	export let open = false;
 
@@ -29,38 +22,21 @@
 	};
 </script>
 
-<Dialog {open} on:close={() => (open = false)}>
-	<div class="share-dialog" style={$primaryVars}>
-		<div transition:fade={{ duration: 300, easing: cubicOut }}>
-			<DialogOverlay class="share-dialog-overlay" />
-			<button
-				class="share-dialog-card group"
-				in:fly={{ duration: 500, y: 50, easing: cubicOut }}
-				on:click={handleClick}
-			>
-				<DialogTitle as="h1" class="share-dialog-title">
-					Share this meet!
-				</DialogTitle>
-				<div class="dialog-card-content">
-					<DialogDescription class="text-brand text-center select-text">
-						{shareLink}
-					</DialogDescription>
-					<span class="text-sm italic text-center">{message}</span>
-				</div>
-			</button>
+<Dialog bind:open>
+	<button class="share-dialog-card group" on:click={handleClick}>
+		<DialogTitle as="h1" class="share-dialog-title">
+			Share this meet!
+		</DialogTitle>
+		<div class="share-dialog-content">
+			<DialogDescription class="text-brand text-center select-text">
+				{shareLink}
+			</DialogDescription>
+			<span class="text-sm italic text-center">{message}</span>
 		</div>
-	</div>
+	</button>
 </Dialog>
 
 <style lang="postcss">
-	.share-dialog {
-		@apply fixed inset-0 z-50 flex items-center justify-center;
-	}
-
-	.share-dialog :global(.share-dialog-overlay) {
-		@apply fixed inset-0 bg-neutral-600/50;
-	}
-
 	.share-dialog-card {
 		@apply relative z-10 p-6 shadow-lg rounded-xl bg-shade-0;
 		@apply flex flex-col gap-4 focus;
@@ -69,7 +45,7 @@
 		}
 	}
 
-	.share-dialog :global(.share-dialog-title) {
+	:global(.share-dialog-title) {
 		@apply text-title-2 text-center w-full;
 		@apply transition;
 	}
@@ -81,7 +57,7 @@
 		@apply opacity-30;
 	}
 
-	.dialog-card-content {
+	.share-dialog-content {
 		@apply flex flex-col gap-4;
 		@apply transition group-hover:opacity-50 group-active:opacity-30;
 	}

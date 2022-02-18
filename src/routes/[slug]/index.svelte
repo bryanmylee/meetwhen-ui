@@ -152,7 +152,12 @@
 	};
 
 	let showGuestJoinDialog = false;
-	let showPasscodeDialog: Maybe<string> = undefined;
+	let showPasscodeDialog = false;
+	let passcode: Maybe<string> = undefined;
+	$: if (!showPasscodeDialog) {
+		passcode = undefined;
+	}
+
 	const handleGuestJoin = () => {
 		showGuestJoinDialog = true;
 	};
@@ -161,12 +166,13 @@
 		if ($currentUser != null) {
 			return;
 		}
-		const { passcode } = await guestJoin(auth, repo, {
+		const joinResult = await guestJoin(auth, repo, {
 			username,
 			meetingId: meeting.id,
 		});
 		showGuestJoinDialog = false;
-		showPasscodeDialog = passcode;
+		showPasscodeDialog = true;
+		passcode = joinResult.passcode;
 		await addScheduleToMeeting();
 	};
 
@@ -326,16 +332,11 @@
 </section>
 
 <GuestJoinDialog
-	open={showGuestJoinDialog}
-	on:cancel={() => (showGuestJoinDialog = false)}
-	on:guest-join={({ detail }) => confirmGuestJoin(detail.username)}
+	bind:open={showGuestJoinDialog}
 	meetingSlug={meeting.slug}
+	on:guest-join={({ detail }) => confirmGuestJoin(detail.username)}
 />
-<PasscodeDialog
-	passcode={showPasscodeDialog ?? ''}
-	open={showPasscodeDialog !== undefined}
-	on:dismiss={() => (showPasscodeDialog = undefined)}
-/>
+<PasscodeDialog passcode={passcode ?? ''} bind:open={showPasscodeDialog} />
 
 <style lang="postcss">
 	.leave {
