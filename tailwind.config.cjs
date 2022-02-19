@@ -36,6 +36,7 @@ const config = {
 			},
 			fontFamily: {
 				sans: [...defaultTheme.fontFamily.sans],
+				mono: ['Roboto Mono', ...defaultTheme.fontFamily.mono],
 			},
 			height: {
 				screen: 'var(--vh, 100vh)',
