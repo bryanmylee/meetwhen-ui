@@ -1,10 +1,15 @@
 <script lang="ts">
+	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
+	import { useActions } from '$lib/core/utils/useActions';
+
 	import { tick } from 'svelte';
 
 	export let value = '';
+	export let error = '';
 	export let maxlength = 6;
 
 	let inputElement: HTMLInputElement;
+	export let use: HTMLActionArray = [];
 
 	const handleKeydown = async (event: KeyboardEvent) => {
 		await handleBackspace(event);
@@ -45,7 +50,11 @@
 	};
 </script>
 
-<div class="passcode-box" style:--max-length={maxlength}>
+<div
+	class="passcode-box"
+	class:error={error !== ''}
+	style:--max-length={maxlength}
+>
 	<input
 		type="text"
 		bind:this={inputElement}
@@ -56,6 +65,7 @@
 		{maxlength}
 		spellcheck="false"
 		class="passcode-input"
+		use:useActions={use}
 	/>
 	{#each { length: maxlength } as _, index}
 		<div class="passcode-letterbox" class:focused={cursorPosition === index} />
@@ -82,6 +92,9 @@
 		@apply font-mono text-3xl w-8 h-10 bg-shade-100 rounded;
 		.passcode-box:focus-within &.focused {
 			@apply ring ring-primary-400;
+		}
+		.passcode-box.error & {
+			@apply ring ring-red-400;
 		}
 	}
 </style>

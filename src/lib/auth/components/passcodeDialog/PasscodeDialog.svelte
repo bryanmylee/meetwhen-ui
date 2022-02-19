@@ -14,24 +14,39 @@
 		<DialogDescription class="text-center text-sm">
 			Use this code to sign in later
 		</DialogDescription>
-		<p class="passcode">
-			{passcode}
-		</p>
+		<div class="passcode-box">
+			<span class="passcode-label">
+				{passcode}
+			</span>
+			{#each { length: 6 } as _}
+				<div class="passcode-letterbox" />
+			{/each}
+		</div>
 	</div>
 </CopyDialog>
 
 <style lang="postcss">
 	:global(.passcode-dialog-title) {
-		@apply text-title-2 text-center w-full;
+		@apply text-title-2 text-center w-full mb-2;
 		@apply transition;
 	}
 
 	.passcode-dialog-content {
 		@apply flex flex-col gap-4;
-		@apply transition group-hover:opacity-50 group-active:opacity-30;
 	}
 
-	.passcode {
-		@apply font-semibold text-3xl tracking-wider text-brand;
+	.passcode-box {
+		@apply relative flex justify-center gap-2;
+	}
+
+	.passcode-label {
+		@apply absolute inset-0;
+		@apply font-mono font-semibold text-3xl text-brand;
+		letter-spacing: 1.375rem;
+		margin-right: -1.375rem;
+	}
+
+	.passcode-letterbox {
+		@apply font-mono text-3xl w-8 h-10 bg-shade-100 rounded;
 	}
 </style>

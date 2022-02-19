@@ -10,5 +10,5 @@
 
 <Story name="Example passcode dialog" let:args>
 	<Button on:click={() => (showDialog = !showDialog)}>Show code</Button>
-	<PasscodeDialog bind:open={showDialog} passcode="ABCD89" />
+	<PasscodeDialog bind:open={showDialog} passcode="ABI190" />
 </Story>
