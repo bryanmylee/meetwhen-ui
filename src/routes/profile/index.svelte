@@ -85,6 +85,6 @@
 			/>
 			<MeetingPreviews title="Previous" meetingsPage={previousMeetingsPage} />
 		{/if}
-		<Button color="gray" on:click={handleSignOut}>Sign Out</Button>
+		<Button color="gray" on:click={handleSignOut}>Sign out</Button>
 	</div>
 </section>
