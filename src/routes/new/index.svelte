@@ -12,13 +12,14 @@
 
 <script lang="ts">
 	import { tick } from 'svelte';
+	import { writable } from 'svelte/store';
 	import type { Dayjs } from 'dayjs';
 	import { goto } from '$app/navigation';
 	import { getCurrentTimezone } from '$lib/core/utils/dayjs/getCurrentTimezone';
 	import { timezones } from '$lib/core/utils/dayjs/timezones';
 	import type { Timezone } from '$lib/core/utils/dayjs/timezones';
 	import { withError } from '$lib/core/utils/withError';
-	import { Button, DatePicker, Select } from '$lib/input';
+	import { LoadingButton, DatePicker, Select } from '$lib/input';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
 	import type { Interval } from '$lib/core/types/Interval';
 	import type { Maybe } from '$lib/core/types/Maybe';
@@ -30,6 +31,7 @@
 		LinksTextfields,
 		Name,
 	} from '$lib/new/components';
+	import { setLoading, withLoading } from '$lib/loading';
 
 	export let selectedDates: Dayjs[] = [];
 
@@ -58,10 +60,11 @@
 		...linkErrors,
 	];
 
-	const handleSubmit = async () => {
-		if ($user == null || $user?.ssr) {
-			return;
-		}
+	const isLoading = writable(false);
+	setLoading(isLoading);
+
+	const _handleSubmit = async () => {
+		const currentUser = $user == null || $user?.ssr ? undefined : $user;
 		intervals.validate();
 		linksRef?.validate();
 		// Wait on `errors` reactive update.
@@ -78,10 +81,11 @@
 				intervals: $intervals.value,
 				links,
 			},
-			$user,
+			currentUser,
 		);
-		goto(`/${meeting.slug}`);
+		await goto(`/${meeting.slug}`);
 	};
+	const handleSubmit = withLoading(isLoading, _handleSubmit);
 </script>
 
 <Head subtitle="new" />
@@ -120,7 +124,7 @@
 					bind:errors={linkErrors}
 				/>
 			</div>
-			<Button type="submit" color="gradient">Create meet</Button>
+			<LoadingButton type="submit" color="gradient">Create meet</LoadingButton>
 		</form>
 	</div>
 </section>
