@@ -1,4 +1,5 @@
 export { default as Button } from './button/Button.svelte';
+export { default as LoadingButton } from './button/LoadingButton.svelte';
 export { default as DatePicker } from './datePicker/DatePicker.svelte';
 export { default as KeyboardHelp } from './keyboard/KeyboardHelp.svelte';
 export type { KeyboardReducer } from './keyboard/types/KeyboardReducer';

@@ -37,3 +37,15 @@ button,
 [type='submit'] {
 	-webkit-appearance: none;
 }
+
+@keyframes ring-breathe {
+	0% {
+		box-shadow: 0 0 0 0px var(--tw-ring-color);
+	}
+	50% {
+		box-shadow: 0 0 0 3px var(--tw-ring-color);
+	}
+	100% {
+		box-shadow: 0 0 0 0px var(--tw-ring-color);
+	}
+}

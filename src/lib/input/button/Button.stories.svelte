@@ -50,6 +50,7 @@
 		<div class="flex flex-col items-start gap-4">
 			<Button>Primary Filled</Button>
 			<Button disabled>Primary Filled Disabled</Button>
+			<Button color="gradient">Primary Gradient</Button>
 			<Button variant="outlined">Primary Outline</Button>
 			<Button variant="outlined" disabled>Primary Disabled Outline</Button>
 		</div>
