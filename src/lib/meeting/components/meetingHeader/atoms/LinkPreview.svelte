@@ -3,7 +3,6 @@
 	import { fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { createPopperActions } from 'svelte-popperjs';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import { focus } from '$lib/core/utils/useFocus';
 	import { hover } from '$lib/core/utils/useHover';
 	import { Button } from '$lib/input';

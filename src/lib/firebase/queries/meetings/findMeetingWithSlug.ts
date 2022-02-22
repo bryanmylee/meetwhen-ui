@@ -1,5 +1,4 @@
 import type { Id } from '$lib/core/types/Id';
-import type { Maybe } from '$lib/core/types/Maybe';
 import { MeetingConverter } from '$lib/models/Meeting';
 import type { Meeting, MeetingData } from '$lib/models/Meeting';
 import {

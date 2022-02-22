@@ -3,7 +3,6 @@ import { useColor, PRIMARY_HEX } from '$lib/colors';
 import { writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
 import type { ThemeType } from '$lib/core/types/ThemeType';
-import type { Maybe } from '$lib/core/types/Maybe';
 import { pairedContext } from '$lib/core/utils/pairedContext';
 import type { Id } from './types/Id';
 import type { Meeting } from '$lib/models/Meeting';

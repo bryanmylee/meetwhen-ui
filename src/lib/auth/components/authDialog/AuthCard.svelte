@@ -25,7 +25,6 @@
 	import PasswordCreateForm from './atoms/PasswordCreateForm.svelte';
 	import OAuthSignInButtons from './atoms/OAuthSignInButtons.svelte';
 	import type { OAuthProviderType } from '$lib/auth';
-	import type { Maybe } from '$lib/core/types/Maybe';
 
 	const dispatch = createEventDispatcher<AuthEvent>();
 

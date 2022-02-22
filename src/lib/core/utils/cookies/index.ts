@@ -2,7 +2,6 @@ import * as cookie from 'cookie';
 import type { CookieParseOptions, CookieSerializeOptions } from 'cookie';
 import * as setCookieParser from 'set-cookie-parser';
 import { browser } from '$app/env';
-import type { Maybe } from '$lib/core/types/Maybe';
 import { areCookiesEqual, createCookie } from './helpers';
 
 /**

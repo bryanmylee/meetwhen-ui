@@ -22,7 +22,6 @@
 	import { LoadingButton, DatePicker, Select } from '$lib/input';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
 	import type { Interval } from '$lib/core/types/Interval';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
 	import { useRepo, useUser } from '$lib/firebase/context';
 	import Head from '$lib/core/components/Head.svelte';

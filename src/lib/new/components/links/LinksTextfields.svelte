@@ -12,7 +12,6 @@
 	import { cubicOut } from 'svelte/easing';
 	import { PlusIcon } from 'svelte-feather-icons';
 	import { Button } from '$lib/input';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import LinkTextfield, {
 		LinkTextfieldEvent,
 	} from './atoms/LinkTextfield.svelte';

@@ -5,7 +5,6 @@ import type { Auth, User } from 'firebase/auth';
 import { browser } from '$app/env';
 import { session } from '$app/stores';
 import { destroyCookie, setCookie } from '$lib/core/utils/cookies';
-import type { Maybe } from '$lib/core/types/Maybe';
 import type { Nullable } from '$lib/core/types/Nullable';
 import type { SafeUser } from '$lib/models/SafeUser';
 

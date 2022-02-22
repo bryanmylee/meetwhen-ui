@@ -45,7 +45,6 @@
 		LongTouchProvider,
 		KeyboardReducer,
 	} from '$lib/input';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from './SelectMode';
 	import type { SelectionInterpolateFn } from './SelectionInterpolateFn';
 	import { scrollLock, scrollUnlock } from '$lib/core/utils/scrollLock';

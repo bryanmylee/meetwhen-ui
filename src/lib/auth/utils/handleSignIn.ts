@@ -1,4 +1,3 @@
-import type { Maybe } from '$lib/core/types/Maybe';
 import {
 	linkWithRedirect,
 	signInWithRedirect,

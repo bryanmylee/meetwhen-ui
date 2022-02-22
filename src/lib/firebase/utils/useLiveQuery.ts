@@ -7,7 +7,6 @@ import type {
 	Query,
 	QueryDocumentSnapshot,
 } from 'firebase/firestore';
-import type { Maybe } from '$lib/core/types/Maybe';
 
 /**
  * Listens to a query on Firestore. This must be called during component initialization.

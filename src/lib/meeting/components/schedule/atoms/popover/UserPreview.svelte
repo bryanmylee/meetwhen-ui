@@ -5,7 +5,6 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import { focus } from '$lib/core/utils/useFocus';
 	import { hover } from '$lib/core/utils/useHover';
-	import type { Maybe } from '$lib/core/types/Maybe';
 
 	const [ref, content] = createPopperActions({
 		strategy: 'absolute',

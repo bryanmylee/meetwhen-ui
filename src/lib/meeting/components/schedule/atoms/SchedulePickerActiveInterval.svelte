@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Interval } from '$lib/core/types/Interval';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from '$lib/input';
 	import {
 		getTimePickerControls,

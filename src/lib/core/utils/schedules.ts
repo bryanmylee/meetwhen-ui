@@ -1,7 +1,6 @@
 import type { Schedule } from '$lib/models/Schedule';
 import type { Dayjs } from 'dayjs';
 import { Set } from 'immutable';
-import type { Maybe } from '../types/Maybe';
 import type { Moment } from '../types/Moment';
 import type { UserIdsInterval } from '../types/UserIdsInterval';
 

@@ -13,7 +13,6 @@
 	import { fade, fly } from 'svelte/transition';
 	import { cubicInOut } from 'svelte/easing';
 	import { Button } from '$lib/input';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { Nullable } from '$lib/core/types/Nullable';
 	import type { SafeUser } from '$lib/models/SafeUser';
 	import type { ThemeType } from '$lib/core/types/ThemeType';

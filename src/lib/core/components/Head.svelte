@@ -1,6 +1,4 @@
 <script lang="ts">
-	import type { Maybe } from '../types/Maybe';
-
 	export let emoji: Maybe<string> = undefined;
 	export let subtitle: Maybe<string> = undefined;
 	export let description: Maybe<string> = undefined;

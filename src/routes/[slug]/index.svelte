@@ -52,7 +52,6 @@
 		guestJoin,
 		guestLeave,
 	} from '$lib/auth';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import { activeMeeting } from '$lib/core/state';
 	import { setLoading, withLoading } from '$lib/loading';
 	import { FirebaseError } from 'firebase/app';

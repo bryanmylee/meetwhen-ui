@@ -6,7 +6,6 @@ import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 import { IntervalConverter } from '$lib/core/types/Interval';
 import type { Interval } from '$lib/core/types/Interval';
 import type { Moment } from '$lib/core/types/Moment';
-import type { Maybe } from '$lib/core/types/Maybe';
 import { groupBy } from './groupBy';
 
 export const serialize = IntervalConverter.serialize;

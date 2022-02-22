@@ -6,7 +6,6 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
 	import type { Writable } from 'svelte/store';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { UserIdsInterval } from '$lib/core/types/UserIdsInterval';
 	import { intervalGridArea } from '$lib/input/timePicker/utils/intervalGridArea';
 	import { clickOutside } from '$lib/core/utils/useClickOutside';

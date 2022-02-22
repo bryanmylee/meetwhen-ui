@@ -1,5 +1,3 @@
-import type { Maybe } from '../types/Maybe';
-
 export const definedOnly = <T extends Record<string, unknown>>(source: {
 	[K in keyof T]: Maybe<T[K]>;
 }): T => {

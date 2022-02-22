@@ -19,4 +19,5 @@ declare global {
 
 		interface Stuff {}
 	}
+	type Maybe<T> = undefined | T;
 }

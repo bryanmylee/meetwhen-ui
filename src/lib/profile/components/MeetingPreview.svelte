@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { getColorCssVars, getColorScheme, PRIMARY_HEX } from '$lib/colors';
 
-	import type { Maybe } from '$lib/core/types/Maybe';
-
 	export let name: string;
 	export let slug: string;
 	export let color: Maybe<string> = undefined;

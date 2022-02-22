@@ -3,7 +3,6 @@ import type { FirebaseApp } from 'firebase/app';
 import type { Auth } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 import { pairedContext } from '$lib/core/utils/pairedContext';
-import type { Maybe } from '$lib/core/types/Maybe';
 import type { Nullable } from '$lib/core/types/Nullable';
 import type { SafeUser } from '$lib/models/SafeUser';
 

@@ -2,7 +2,6 @@
 	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
 	import { useActions } from '$lib/core/utils/useActions';
 	import { getIdFromLabel } from '$lib/input/utils/getIdFromLabel';
-	import type { Maybe } from '$lib/core/types/Maybe';
 
 	export let label: string;
 	export let id: Maybe<string> = undefined;

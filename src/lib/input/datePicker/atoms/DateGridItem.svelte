@@ -2,7 +2,6 @@
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
 	import type { HasNeighbors } from '$lib/core/types/HasNeighbors';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import type { SelectMode } from '$lib/input';
 	import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { getCurrentDateElement } from '../utils/datePickerContext';

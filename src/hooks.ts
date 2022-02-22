@@ -2,7 +2,6 @@ import type { GetSession } from '@sveltejs/kit';
 import * as firebaseAdmin from 'firebase-admin';
 import { initFirebaseAdmin } from '$lib/firebase/server';
 import { parseCookies } from '$lib/core/utils/cookies';
-import type { Maybe } from '$lib/core/types/Maybe';
 import type { SafeUser } from '$lib/models/SafeUser';
 import type { ThemeType } from '$lib/core/types/ThemeType';
 import { getServerEnv } from '$lib/env';

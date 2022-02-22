@@ -7,7 +7,6 @@
 	import { nanoid } from 'nanoid';
 	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
 	import { useActions } from '$lib/core/utils/useActions';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import { bound } from '$lib/core/utils/bound';
 	import { SelectionProvider, KeyboardHelp } from '$lib/input';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';

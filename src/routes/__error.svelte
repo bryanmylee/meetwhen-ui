@@ -12,7 +12,6 @@
 <script lang="ts">
 	import type { ErrorLoad } from '@sveltejs/kit';
 	import { dev } from '$app/env';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import Head from '$lib/core/components/Head.svelte';
 	import ErrorPage from '$lib/core/components/error/ErrorPage.svelte';
 

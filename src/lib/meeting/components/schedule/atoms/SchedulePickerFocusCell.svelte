@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { gridArea } from '$lib/core/components/grid';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 	import type { SelectMode } from '$lib/input';

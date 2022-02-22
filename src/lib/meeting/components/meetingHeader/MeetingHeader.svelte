@@ -2,7 +2,6 @@
 	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { ChevronDownIcon, ShareIcon } from 'svelte-feather-icons';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import { Button } from '$lib/input';
 	import { ShareDialog } from '$lib/meeting/components';
 	import type { LinkPreviewData } from '$lib/core/types/LinkPreviewData';

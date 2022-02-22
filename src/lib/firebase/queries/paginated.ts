@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import type { Maybe } from '$lib/core/types/Maybe';
 import { derived, writable } from 'svelte/store';
 import type { Readable } from 'svelte/store';
 

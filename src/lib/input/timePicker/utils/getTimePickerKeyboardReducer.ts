@@ -8,7 +8,6 @@ import {
 import type { Dayjs } from 'dayjs';
 import { onDay } from '$lib/core/utils/dayjs/onDay';
 import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
-import type { Maybe } from '$lib/core/types/Maybe';
 
 export type GetTimePickerKeyboardReducer = (
 	dates: Dayjs[],

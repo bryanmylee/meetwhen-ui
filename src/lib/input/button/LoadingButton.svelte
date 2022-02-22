@@ -2,7 +2,6 @@
 	import Button from './Button.svelte';
 	import { getLoading } from '$lib/loading';
 	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import { classes } from '$lib/core/utils/classes';
 	import Spinner from '$lib/core/components/Spinner.svelte';
 

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
 	import { useActions } from '$lib/core/utils/useActions';
-	import type { Maybe } from '$lib/core/types/Maybe';
 
 	export let type: 'button' | 'menu' | 'reset' | 'submit' = 'button';
 	export let disabled = false;

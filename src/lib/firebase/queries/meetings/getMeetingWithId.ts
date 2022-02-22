@@ -1,6 +1,5 @@
 import { doc, getDoc } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
-import type { Maybe } from '$lib/core/types/Maybe';
 import { MeetingConverter } from '$lib/models/Meeting';
 import type { Meeting, MeetingData } from '$lib/models/Meeting';
 import { findAllSchedulesWithMeetingId } from '../schedules/findAllSchedulesWithMeetingId';

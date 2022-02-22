@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Maybe } from '$lib/core/types/Maybe';
 	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 	import { gridArea } from '$lib/core/components/grid';
 	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
