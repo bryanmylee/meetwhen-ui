@@ -59,7 +59,6 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, vitae, expedit
 		name: { control: 'text' },
 		slug: { control: 'text' },
 		description: { control: 'text' },
-		showMoreDetails: { control: 'boolean' },
 	}}
 />
 

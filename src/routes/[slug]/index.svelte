@@ -288,7 +288,12 @@
 
 <section class="flex flex-col h-screen-nav">
 	<div class="flex flex-col flex-1 w-full h-full max-w-xl gap-4 p-4 mx-auto">
-		<MeetingHeader {...meeting} />
+		<MeetingHeader
+			name={meeting.name}
+			slug={meeting.slug}
+			description={meeting.description}
+			links={meeting.links}
+		/>
 		<ScheduleTimePicker
 			bind:value={$intervals.value}
 			error={$intervals.error}

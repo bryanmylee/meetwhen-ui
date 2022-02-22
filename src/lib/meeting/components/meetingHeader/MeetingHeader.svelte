@@ -14,7 +14,7 @@
 	export let links: Maybe<LinkPreviewData[]> = undefined;
 
 	$: hasMoreDetails = description !== undefined || links !== undefined;
-	export let showMoreDetails = true;
+	let showMoreDetails = true;
 	let showShareDialog = false;
 </script>
 
