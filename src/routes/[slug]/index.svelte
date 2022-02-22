@@ -26,7 +26,6 @@
 	import type { Meeting, MeetingData } from '$lib/models/Meeting';
 	import { ScheduleConverter } from '$lib/models/Schedule';
 	import type { ScheduleData } from '$lib/models/Schedule';
-	import type { Id } from '$lib/core/types/Id';
 	import { firebaseClient } from '$lib/firebase/client';
 	import { useAuth, useRepo, useUser } from '$lib/firebase/context';
 	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';

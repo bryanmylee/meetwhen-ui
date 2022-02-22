@@ -1,5 +1,4 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import type { Id } from '$lib/core/types/Id';
 import type { ScheduleData } from '$lib/models/Schedule';
 import type { UserRecord } from '$lib/models/UserRecord';
 import { initFirebaseAdmin } from '$lib/firebase/server';

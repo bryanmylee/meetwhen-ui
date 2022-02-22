@@ -28,7 +28,6 @@
 	} from '$lib/firebase/queries/meetings';
 	import { usePaginated } from '$lib/firebase/queries/paginated';
 	import type { Meeting } from '$lib/models/Meeting';
-	import type { Id } from '$lib/core/types/Id';
 	import MeetingPreviews from '$lib/profile/components/MeetingPreviews.svelte';
 	import Head from '$lib/core/components/Head.svelte';
 	import GuestPreview from '$lib/profile/components/GuestPreview.svelte';

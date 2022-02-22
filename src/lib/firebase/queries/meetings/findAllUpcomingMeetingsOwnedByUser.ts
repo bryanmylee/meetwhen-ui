@@ -6,7 +6,6 @@ import {
 	where,
 } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
-import type { Id } from '$lib/core/types/Id';
 import type { Meeting } from '$lib/models/Meeting';
 import type { FindAllMeetingsOwnedByUserProps } from './findAllMeetingsOwnedByUser';
 import { findAllMeetingsOwnedByUser } from '.';

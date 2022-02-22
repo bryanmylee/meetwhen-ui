@@ -22,4 +22,5 @@ declare global {
 
 	type Maybe<T> = undefined | T;
 	type Nullable<T> = null | T;
+	type Id<T> = T & { id: string };
 }

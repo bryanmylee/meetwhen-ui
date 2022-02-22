@@ -1,6 +1,5 @@
 import type { Firestore, QueryConstraint } from 'firebase/firestore';
 import type { Dayjs } from 'dayjs';
-import type { Id } from '$lib/core/types/Id';
 import { MeetingConverter } from '$lib/models/Meeting';
 import type { Meeting, MeetingData } from '$lib/models/Meeting';
 import {

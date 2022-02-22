@@ -1,4 +1,3 @@
-import type { Id } from '$lib/core/types/Id';
 import { MeetingConverter } from '$lib/models/Meeting';
 import type { Meeting, MeetingData } from '$lib/models/Meeting';
 import {

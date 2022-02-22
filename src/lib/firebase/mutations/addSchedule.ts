@@ -1,7 +1,6 @@
 import { addDoc, collection } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
-import type { Id } from '$lib/core/types/Id';
 import { getTotalInterval } from '$lib/core/utils/intervals';
 import type { Interval } from '$lib/core/types/Interval';
 import { ScheduleConverter } from '$lib/models/Schedule';

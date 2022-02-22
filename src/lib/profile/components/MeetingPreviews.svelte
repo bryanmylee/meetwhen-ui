@@ -9,7 +9,6 @@
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons';
 	import { AccordianCard } from '$lib/core/components/accordian';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
-	import type { Id } from '$lib/core/types/Id';
 	import { groupBy } from '$lib/core/utils/groupBy';
 	import type { Paginated } from '$lib/firebase/queries/paginated';
 	import type { Meeting } from '$lib/models/Meeting';

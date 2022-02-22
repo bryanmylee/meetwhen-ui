@@ -4,7 +4,6 @@ import type { DocumentData } from 'firebase/firestore';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { definedOnly } from '$lib/core/utils/definedOnly';
-import type { Id } from '$lib/core/types/Id';
 import type { LinkPreviewData } from '$lib/core/types/LinkPreviewData';
 import type { Schedule } from './Schedule';
 

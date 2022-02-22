@@ -1,5 +1,4 @@
 import { browser } from '$app/env';
-import type { Id } from '$lib/core/types/Id';
 import { getClientEnv, getServerEnv } from '$lib/env';
 import type { UserRecord } from '$lib/models/UserRecord';
 

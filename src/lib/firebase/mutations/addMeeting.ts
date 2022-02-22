@@ -3,7 +3,6 @@ import type { Firestore } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
 import { customAlphabet } from 'nanoid';
 import dayjs from 'dayjs';
-import type { Id } from '$lib/core/types/Id';
 import { MeetingConverter } from '$lib/models/Meeting';
 import type { Meeting } from '$lib/models/Meeting';
 import { getTotalInterval } from '$lib/core/utils/intervals';
