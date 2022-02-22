@@ -3,7 +3,7 @@
 	import type { Dayjs } from 'dayjs';
 	import type { HasNeighbors } from '$lib/core/types';
 	import type { SelectMode } from '$lib/input';
-	import { dateToId } from '$lib/core/utils/dayjs/dateIds';
+	import { dateToId } from '$lib/core/utils/dayjs';
 	import { getCurrentDateElement } from '../utils/datePickerContext';
 
 	export let date: Dayjs;

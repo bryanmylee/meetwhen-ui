@@ -47,8 +47,8 @@
 	} from '$lib/input';
 	import type { SelectMode } from './SelectMode';
 	import type { SelectionInterpolateFn } from './SelectionInterpolateFn';
-	import { scrollLock, scrollUnlock } from '$lib/core/utils/scrollLock';
-	import type { LockedElement } from '$lib/core/utils/scrollLock';
+	import { scrollLock, scrollUnlock } from '$lib/core/utils';
+	import type { ScrollLockedElement } from '$lib/core/utils';
 
 	const dispatch = createEventDispatcher<SelectionProviderEvent>();
 
@@ -191,7 +191,7 @@
 
 	// -- touch
 	let trackedTouches: Record<number, Touch> = {};
-	let lockedElements: LockedElement[] = [];
+	let lockedElements: ScrollLockedElement[] = [];
 
 	const longtouchstart = ({ detail }: CustomEvent) => {
 		const touchEvent = detail.event as TouchEvent;

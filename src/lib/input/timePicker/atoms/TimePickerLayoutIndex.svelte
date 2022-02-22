@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { gridArea, gridTemplate } from '$lib/core/components/grid';
-	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
+	import { timeToId } from '$lib/core/utils/dayjs';
 	import {
 		getTimePickerControls,
 		getTimePickerState,

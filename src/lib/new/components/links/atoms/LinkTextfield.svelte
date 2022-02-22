@@ -11,9 +11,9 @@
 	import { createEventDispatcher } from 'svelte';
 	import { XIcon } from 'svelte-feather-icons';
 	import { Button, NoLabelTextfield } from '$lib/input';
-	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
-	import { withError } from '$lib/core/utils/withError';
 	import { isHttpUrl } from '$lib/input/utils/validation/isUrl';
+	import { focusOnMount } from '$lib/core/actions';
+	import { withError } from '$lib/core/utils';
 
 	export let index: number;
 	const link = withError<string>('', {

@@ -9,7 +9,7 @@ import {
 	QuerySnapshot,
 	where,
 } from 'firebase/firestore';
-import { getTotalInterval } from '$lib/core/utils/intervals';
+import { getTotalInterval } from '$lib/core/utils';
 
 export const findAllMeetingsOwnedByUser = async (
 	repo: Firestore,

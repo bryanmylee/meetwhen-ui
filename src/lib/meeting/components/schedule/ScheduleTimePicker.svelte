@@ -7,7 +7,7 @@
 		getLocalAdjacencySet,
 		getLocalIntervals,
 	} from '$lib/core/utils/intervals';
-	import { getOverlappedSchedules } from '$lib/core/utils/schedules';
+	import { getOverlappedSchedules } from '$lib/core/utils';
 	import { TimePicker } from '$lib/input';
 	import type { Schedule } from '$lib/models/Schedule';
 	import { setScheduleAdjacencySet } from './utils/schedulePickerContext';

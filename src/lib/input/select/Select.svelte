@@ -6,8 +6,8 @@
 		ListboxOptions,
 	} from '@rgossiaux/svelte-headlessui';
 	import { ChevronDownIcon } from 'svelte-feather-icons';
-	import { classes } from '$lib/core/utils/classes';
-	import { scrollToSelected } from '$lib/core/utils/useScrollToSelected';
+	import { classes } from '$lib/core/utils';
+	import { scrollToSelected } from '$lib/core/actions';
 
 	type T = $$Generic;
 

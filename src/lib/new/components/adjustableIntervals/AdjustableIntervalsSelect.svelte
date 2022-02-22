@@ -13,11 +13,10 @@
 		TabPanel,
 		TabPanels,
 	} from '@rgossiaux/svelte-headlessui';
-	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
+	import { dateFromId, dateToId } from '$lib/core/utils/dayjs';
+	import { arrayEquals, localIntervalOnDay } from '$lib/core/utils';
 	import type { Interval } from '$lib/core/types';
 	import { Button, LocalIntervalSelect } from '$lib/input';
-	import { localIntervalOnDay } from '$lib/core/utils/intervals';
-	import { arrayEquals } from '$lib/core/utils/arrayEquals';
 	import { primaryVars } from '$lib/core/state';
 	import dayjs from 'dayjs';
 

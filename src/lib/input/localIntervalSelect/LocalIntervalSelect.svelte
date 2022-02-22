@@ -14,7 +14,7 @@
 <script lang="ts">
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
-	import { range } from '$lib/core/utils/range';
+	import { range } from '$lib/core/utils';
 	import { Select } from '$lib/input';
 	import type { Interval } from '$lib/core/types';
 

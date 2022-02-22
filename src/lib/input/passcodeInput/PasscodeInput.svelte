@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
-	import { useActions } from '$lib/core/utils/useActions';
+	import { useActions } from '$lib/core/actions';
 
 	import { tick } from 'svelte';
 

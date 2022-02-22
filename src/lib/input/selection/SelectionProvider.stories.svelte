@@ -1,7 +1,7 @@
 <script>
 	import { Set } from 'immutable';
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
-	import { range } from '$lib/core/utils/range';
+	import { range } from '$lib/core/utils';
 	import SelectionProvider from './SelectionProvider.svelte';
 
 	/**

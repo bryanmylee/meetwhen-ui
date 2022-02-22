@@ -1,11 +1,9 @@
 import type { Dayjs } from 'dayjs';
 import { Set } from 'immutable';
-import { endOf } from '$lib/core/utils/dayjs/endOf';
-import { onDay } from '$lib/core/utils/dayjs/onDay';
-import { dateToId } from '$lib/core/utils/dayjs/dateIds';
-import { IntervalConverter } from '$lib/core/types/Interval';
+import { endOf, onDay, dateToId } from '$lib/core/utils/dayjs';
+import { groupBy } from '$lib/core/utils';
+import { IntervalConverter } from '$lib/core/types';
 import type { Interval, Moment } from '$lib/core/types';
-import { groupBy } from './groupBy';
 
 export const serialize = IntervalConverter.serialize;
 

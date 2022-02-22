@@ -1,4 +1,4 @@
-import { pairedContext } from '$lib/core/utils/pairedContext';
+import { pairedContext } from '$lib/core/utils';
 import { readable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
 

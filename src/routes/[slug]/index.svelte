@@ -32,7 +32,7 @@
 	import { useLiveQuery } from '$lib/firebase/utils/useLiveQuery';
 	import { findMeetingWithSlug } from '$lib/firebase/queries/meetings';
 	import { MeetingHeader, ScheduleTimePicker } from '$lib/meeting/components';
-	import { withError } from '$lib/core/utils/withError';
+	import { withError } from '$lib/core/utils';
 	import type { Interval } from '$lib/core/types';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
 	import { Button, LoadingButton } from '$lib/input';

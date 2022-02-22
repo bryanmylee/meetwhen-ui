@@ -1,7 +1,7 @@
 import type { Interval } from '$lib/core/types';
 import { getFlattenedTimeBlocks } from './getFlattenedTimeBlocks';
-import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
-import { serialize } from '$lib/core/utils/intervals';
+import { timeFromId } from '$lib/core/utils/dayjs';
+import { serialize } from '$lib/core/utils';
 
 it('gets blocks in a day', () => {
 	const intervals: Interval[] = [

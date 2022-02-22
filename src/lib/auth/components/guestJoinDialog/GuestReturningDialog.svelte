@@ -8,14 +8,12 @@
 
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { writable } from 'svelte/store';
 	import { XIcon } from 'svelte-feather-icons';
 	import { DialogDescription, DialogTitle } from '@rgossiaux/svelte-headlessui';
 	import { Dialog } from '$lib/core/components/dialog';
 	import { Button, LoadingPasscodeInput } from '$lib/input';
-	import type { WithErrorable } from '$lib/core/utils/withError';
-	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
-	import { focusOnEnable } from '$lib/core/utils/useFocusOnEnable';
+	import type { WithErrorable } from '$lib/core/utils';
+	import { focusOnEnable, focusOnMount } from '$lib/core/actions';
 
 	const dispatch = createEventDispatcher<GuestReturningEvent>();
 

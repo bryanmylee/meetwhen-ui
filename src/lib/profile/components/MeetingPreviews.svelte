@@ -8,8 +8,8 @@
 <script lang="ts">
 	import { ChevronLeftIcon, ChevronRightIcon } from 'svelte-feather-icons';
 	import { AccordianCard } from '$lib/core/components/accordian';
-	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
-	import { groupBy } from '$lib/core/utils/groupBy';
+	import { dateFromId, dateToId } from '$lib/core/utils/dayjs';
+	import { groupBy } from '$lib/core/utils';
 	import type { Paginated } from '$lib/firebase/queries/paginated';
 	import type { Meeting } from '$lib/models/Meeting';
 	import { Button } from '$lib/input';

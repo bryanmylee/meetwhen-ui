@@ -4,7 +4,7 @@ import type { Readable, Writable } from 'svelte/store';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { withPrevious } from 'svelte-previous';
-import { timeToId } from '$lib/core/utils/dayjs/timeIds';
+import { timeToId, dateFromId } from '$lib/core/utils/dayjs';
 import type { Interval } from '$lib/core/types';
 import {
 	getLocalIntervals,
@@ -14,7 +14,6 @@ import {
 import type { TimeCell } from '../types/TimeCell';
 import { getFlattenedTimeCells } from './getFlattenedTimeCells';
 import { getFlattenedTimeBlocks } from './getFlattenedTimeBlocks';
-import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 
 export interface TimePickerProps {
 	initValidIntervals: Interval[];

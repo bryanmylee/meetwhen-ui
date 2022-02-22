@@ -1,5 +1,5 @@
 import type { KeyboardReducer } from '$lib/input';
-import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
+import { dateFromId, dateToId } from '$lib/core/utils/dayjs';
 
 export const datePickerKeyboardReducer: KeyboardReducer<string> = (
 	event,

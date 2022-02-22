@@ -41,7 +41,8 @@
 	import { initFirebaseAdmin } from '$lib/firebase/server';
 	import { firebaseClient } from '$lib/firebase/client';
 	import type { ThemeType } from '$lib/core/types';
-	import { useCookie } from '$lib/core/utils/cookies/useCookie';
+	import { useCookie } from '$lib/core/utils/cookies';
+	import { useScreenHeight, withError } from '$lib/core/utils';
 	import { Nav } from '$lib/core/components/nav';
 	import {
 		AuthDialog,
@@ -53,8 +54,6 @@
 	} from '$lib/auth';
 	import type { AuthEvent, GuestReturningEvent } from '$lib/auth';
 	import { useDarkMode } from '$lib/colors/utils/useDarkMode';
-	import { useScreenHeight } from '$lib/core/utils/useScreenHeight';
-	import { withError } from '$lib/core/utils/withError';
 	import { guestSignIn } from '$lib/auth/utils/handleGuest';
 	import { setLoading, withLoading } from '$lib/loading';
 

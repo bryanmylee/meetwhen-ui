@@ -6,7 +6,7 @@
 	import { ShareDialog } from '$lib/meeting/components';
 	import type { LinkPreviewData } from '$lib/core/types';
 	import LinkPreview from './atoms/LinkPreview.svelte';
-	import { classes } from '$lib/core/utils/classes';
+	import { classes } from '$lib/core/utils';
 
 	export let name: string;
 	export let slug: string;

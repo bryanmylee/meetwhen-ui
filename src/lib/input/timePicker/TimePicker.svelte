@@ -4,12 +4,12 @@
 	import { Set } from 'immutable';
 	import { nanoid } from 'nanoid';
 	import { gridArea, gridTemplate } from '$lib/core/components/grid';
-	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 	import {
+		dateFromId,
 		dateTimeFromId,
 		dateTimeToId,
-	} from '$lib/core/utils/dayjs/dateTimeIds';
-	import { bound } from '$lib/core/utils/bound';
+	} from '$lib/core/utils/dayjs';
+	import { bound } from '$lib/core/utils';
 	import {
 		getIntervalDiscretes,
 		getLocalIntervals,

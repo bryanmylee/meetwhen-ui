@@ -6,10 +6,10 @@
 	import { Set } from 'immutable';
 	import { nanoid } from 'nanoid';
 	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
-	import { useActions } from '$lib/core/utils/useActions';
-	import { bound } from '$lib/core/utils/bound';
+	import { useActions } from '$lib/core/actions';
+	import { dateFromId, dateToId } from '$lib/core/utils/dayjs';
+	import { bound } from '$lib/core/utils';
 	import { SelectionProvider, KeyboardHelp } from '$lib/input';
-	import { dateFromId, dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { createDatePickerState } from './utils/createDatePickerState';
 	import { datePickerHasNeighbors } from './utils/datePickerHasNeighbors';
 	import { datePickerKeyboardReducer } from './utils/datePickerKeyboardReducer';

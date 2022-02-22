@@ -2,7 +2,7 @@
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import { Button } from '$lib/input';
 	import GuestJoinDialog from './GuestJoinDialog.svelte';
-	import { withError } from '$lib/core/utils/withError';
+	import { withError } from '$lib/core/utils';
 
 	const username = withError('');
 

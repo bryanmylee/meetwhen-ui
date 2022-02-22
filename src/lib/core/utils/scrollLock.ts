@@ -1,14 +1,14 @@
-export interface LockedElement {
+export interface ScrollLockedElement {
 	element: HTMLElement;
 	initialOverflow: string;
 	initialUserSelect: string;
 }
 
-export const scrollLock = (fromElement: HTMLElement): LockedElement[] => {
+export const scrollLock = (fromElement: HTMLElement): ScrollLockedElement[] => {
 	if (typeof document === 'undefined' || typeof window === 'undefined') {
 		return [];
 	}
-	const lockedElements: LockedElement[] = [];
+	const lockedElements: ScrollLockedElement[] = [];
 	let currElement: Nullable<HTMLElement> = fromElement;
 	while (currElement !== null && currElement !== document.documentElement) {
 		const computedOverflow = getComputedStyle(currElement).overflow;
@@ -27,7 +27,7 @@ export const scrollLock = (fromElement: HTMLElement): LockedElement[] => {
 	return lockedElements;
 };
 
-export const scrollUnlock = (lockedElements: LockedElement[]): void => {
+export const scrollUnlock = (lockedElements: ScrollLockedElement[]): void => {
 	if (typeof document === 'undefined' || typeof window === 'undefined') {
 		return;
 	}

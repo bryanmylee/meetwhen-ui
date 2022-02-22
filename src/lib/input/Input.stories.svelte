@@ -1,8 +1,7 @@
 <script>
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import dayjs from 'dayjs';
-	import { onDay } from '$lib/core/utils/dayjs/onDay';
-	import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
+	import { onDay, timeFromId } from '$lib/core/utils/dayjs';
 	import { Button, DatePicker, Select, Textfield, TimePicker } from '.';
 
 	/** @type import('dayjs').Dayjs[] */

@@ -1,4 +1,4 @@
-import { pairedContext } from '$lib/core/utils/pairedContext';
+import { pairedContext } from '$lib/core/utils';
 import type { UserRecord } from '$lib/models/UserRecord';
 import type { Writable } from 'svelte/store';
 

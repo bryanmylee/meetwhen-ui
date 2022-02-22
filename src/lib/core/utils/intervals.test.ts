@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
-import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
+import { timeFromId } from '$lib/core/utils/dayjs';
 import {
 	getIntervalDiscretes,
 	getLocalIntervals,
@@ -17,7 +17,7 @@ import {
 	getLocalAdjacencySet,
 } from './intervals';
 import { dateToId } from './dayjs/dateIds';
-import type { Interval } from '../types/Interval';
+import type { Interval } from '../types';
 import { Set } from 'immutable';
 
 const today = dayjs().startOf('day');

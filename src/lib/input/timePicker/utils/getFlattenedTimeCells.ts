@@ -1,10 +1,9 @@
 import { Set } from 'immutable';
 import type { Interval } from '$lib/core/types';
-import { onDay } from '$lib/core/utils/dayjs/onDay';
-import { getIntervalDiscretes } from '$lib/core/utils/intervals';
+import { onDay, timeToId } from '$lib/core/utils/dayjs';
+import { getIntervalDiscretes } from '$lib/core/utils';
 import dayjs from 'dayjs';
 import type { TimeCell } from '../types/TimeCell';
-import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 import { getFlattenedTimeBlocks } from './getFlattenedTimeBlocks';
 
 export const getFlattenedTimeCells = (

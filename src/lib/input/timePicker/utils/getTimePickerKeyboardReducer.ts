@@ -1,13 +1,11 @@
 import type { Set } from 'immutable';
 import type { KeyboardReducer } from '$lib/input';
-import { dateToId } from '$lib/core/utils/dayjs/dateIds';
+import { dateToId, onDay, timeFromId } from '$lib/core/utils/dayjs';
 import {
 	dateTimeDecomposeId,
 	dateTimeFromId,
 } from '$lib/core/utils/dayjs/dateTimeIds';
 import type { Dayjs } from 'dayjs';
-import { onDay } from '$lib/core/utils/dayjs/onDay';
-import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
 
 export type GetTimePickerKeyboardReducer = (
 	dates: Dayjs[],

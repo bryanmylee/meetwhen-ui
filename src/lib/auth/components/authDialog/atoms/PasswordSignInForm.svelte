@@ -7,8 +7,8 @@
 
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
-	import type { WithErrorable } from '$lib/core/utils/withError';
+	import { focusOnMount } from '$lib/core/actions';
+	import type { WithErrorable } from '$lib/core/utils';
 	import { Button, LoadingButton, Textfield } from '$lib/input';
 
 	const dispatch = createEventDispatcher<PasswordSignInFormEvent>();

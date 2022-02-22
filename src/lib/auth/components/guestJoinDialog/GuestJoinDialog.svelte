@@ -11,7 +11,7 @@
 	import { Dialog } from '$lib/core/components/dialog';
 	import { Button, LoadingButton } from '$lib/input';
 	import type { WithErrorable } from '$lib/core/utils/withError';
-	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
+	import { focusOnMount } from '$lib/core/actions';
 	import Textfield from '$lib/input/textfield/Textfield.svelte';
 
 	const dispatch = createEventDispatcher<GuestJoinDialogEvent>();

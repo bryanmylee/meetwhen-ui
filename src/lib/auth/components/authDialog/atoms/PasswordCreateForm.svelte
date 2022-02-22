@@ -7,7 +7,7 @@
 
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
+	import { focusOnMount } from '$lib/core/actions';
 	import type { WithErrorable } from '$lib/core/utils/withError';
 	import { Button, LoadingButton, Textfield } from '$lib/input';
 

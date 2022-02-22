@@ -23,7 +23,7 @@
 	import type { AuthEvent } from '$lib/auth';
 	import Head from '$lib/core/components/Head.svelte';
 	import { useAuth, useUser } from '$lib/firebase/context';
-	import { withError } from '$lib/core/utils/withError';
+	import { withError } from '$lib/core/utils';
 
 	const auth = useAuth();
 	const user = useUser();

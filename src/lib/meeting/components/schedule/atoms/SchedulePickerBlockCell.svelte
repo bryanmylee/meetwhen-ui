@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
+	import {
+		dateFromId,
+		timeToId,
+		dateTimeComposeId,
+	} from '$lib/core/utils/dayjs';
 	import { gridArea } from '$lib/core/components/grid';
-	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
-	import { dateTimeComposeId } from '$lib/core/utils/dayjs/dateTimeIds';
 	import {
 		getTimePickerState,
 		getTimePickerControls,

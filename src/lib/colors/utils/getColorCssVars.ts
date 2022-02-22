@@ -1,4 +1,4 @@
-import { cssVars } from '$lib/core/utils/cssVars';
+import { cssVars } from '$lib/core/utils';
 import type { ColorScheme } from '../types/ColorScheme';
 
 export const getColorCssVars = (name: string, scheme: ColorScheme): string =>

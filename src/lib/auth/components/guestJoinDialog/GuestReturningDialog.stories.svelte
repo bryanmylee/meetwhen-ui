@@ -2,7 +2,7 @@
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import { Button } from '$lib/input';
 	import GuestReturningDialog from './GuestReturningDialog.svelte';
-	import { withError } from '$lib/core/utils/withError';
+	import { withError } from '$lib/core/utils';
 
 	const passcode = withError('');
 
@@ -21,6 +21,7 @@
 <Story name="Example guest sign in dialog" let:args>
 	<Button on:click={() => (showDialog = !showDialog)}>Join Guest</Button>
 	<GuestReturningDialog
+		{passcode}
 		bind:open={showDialog}
 		on:show-join={args.onShowJoin}
 		on:guest-sign-in={args.onGuestSignIn}

@@ -3,8 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { createPopperActions } from 'svelte-popperjs';
-	import { focus } from '$lib/core/utils/useFocus';
-	import { hover } from '$lib/core/utils/useHover';
+	import { focus, hover } from '$lib/core/actions';
 
 	const [ref, content] = createPopperActions({
 		strategy: 'absolute',

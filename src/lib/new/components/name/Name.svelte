@@ -2,10 +2,10 @@
 	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { ChevronDownIcon } from 'svelte-feather-icons';
-	import type { WithErrorable } from '$lib/core/utils/withError';
 	import { Button, Textarea, Textfield } from '$lib/input';
-	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
-	import { classes } from '$lib/core/utils/classes';
+	import { focusOnMount } from '$lib/core/actions';
+	import { classes } from '$lib/core/utils';
+	import type { WithErrorable } from '$lib/core/utils';
 
 	export let name: WithErrorable<string>;
 	export let description: WithErrorable<string>;

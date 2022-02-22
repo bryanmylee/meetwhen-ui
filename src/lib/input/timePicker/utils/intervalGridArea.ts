@@ -1,7 +1,6 @@
 import { gridArea } from '$lib/core/components/grid';
 import type { Interval } from '$lib/core/types';
-import { dateToId } from '$lib/core/utils/dayjs/dateIds';
-import { timeToId } from '$lib/core/utils/dayjs/timeIds';
+import { dateToId, timeToId } from '$lib/core/utils/dayjs';
 
 export interface IntervalGridAreaProps {
 	dateIdToColumnNumber: Record<string, number>;

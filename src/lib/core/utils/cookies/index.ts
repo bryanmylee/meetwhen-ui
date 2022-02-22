@@ -4,6 +4,8 @@ import * as setCookieParser from 'set-cookie-parser';
 import { browser } from '$app/env';
 import { areCookiesEqual, createCookie } from './helpers';
 
+export { useCookie } from './useCookie';
+
 /**
  * Parses cookies.
  *

@@ -10,7 +10,7 @@
 	import { cubicOut } from 'svelte/easing';
 	import { MenuIcon } from 'svelte-feather-icons';
 	import { Button } from '$lib/input';
-	import { clickOutside } from '$lib/core/utils/useClickOutside';
+	import { clickOutside } from '$lib/core/actions';
 
 	const dispatch = createEventDispatcher<NavDropdownEvent>();
 

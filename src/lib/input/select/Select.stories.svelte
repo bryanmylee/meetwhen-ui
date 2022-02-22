@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import Select from './Select.svelte';
-	import { range } from '$lib/core/utils/range';
+	import { range } from '$lib/core/utils';
 
 	const names = [
 		'Durward Reynolds',

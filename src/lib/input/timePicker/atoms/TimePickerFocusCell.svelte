@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { gridArea } from '$lib/core/components/grid';
-	import { dateToId } from '$lib/core/utils/dayjs/dateIds';
-	import { timeToId } from '$lib/core/utils/dayjs/timeIds';
+	import { dateToId, timeToId } from '$lib/core/utils/dayjs';
 	import type { SelectMode } from '$lib/input';
 	import {
 		getTimePickerControls,

@@ -2,7 +2,7 @@
 	import Button from './Button.svelte';
 	import { getLoading } from '$lib/loading';
 	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
-	import { classes } from '$lib/core/utils/classes';
+	import { classes } from '$lib/core/utils';
 	import Spinner from '$lib/core/components/Spinner.svelte';
 
 	export let type: 'button' | 'menu' | 'reset' | 'submit' = 'button';

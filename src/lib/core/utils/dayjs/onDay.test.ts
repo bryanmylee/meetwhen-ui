@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
+import { timeFromId } from '$lib/core/utils/dayjs';
 import { onDay } from './onDay';
 
 it('adjusts the date of a dayjs object', () => {

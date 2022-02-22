@@ -33,7 +33,7 @@
 	} from '@rgossiaux/svelte-headlessui';
 	import { SunIcon, MoonIcon, DropletIcon } from 'svelte-feather-icons';
 	import type { ThemeType } from '$lib/core/types';
-	import { clickOutside } from '$lib/core/utils/useClickOutside';
+	import { clickOutside } from '$lib/core/actions';
 	import type { NavEvent } from '../Nav.svelte';
 
 	const dispatch = createEventDispatcher<NavEvent>();

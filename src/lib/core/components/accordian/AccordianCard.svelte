@@ -2,7 +2,7 @@
 	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { ChevronDownIcon } from 'svelte-feather-icons';
-	import { classes } from '$lib/core/utils/classes';
+	import { classes } from '$lib/core/utils';
 
 	let className = '';
 	export { className as class };

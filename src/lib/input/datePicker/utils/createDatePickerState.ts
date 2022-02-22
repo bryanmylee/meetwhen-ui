@@ -2,7 +2,7 @@ import { derived, writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
-import { range } from '$lib/core/utils/range';
+import { range } from '$lib/core/utils';
 
 export interface DatePickerProps {
 	initDate: Dayjs;
