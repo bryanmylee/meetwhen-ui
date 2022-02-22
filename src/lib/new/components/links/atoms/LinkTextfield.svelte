@@ -11,7 +11,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { XIcon } from 'svelte-feather-icons';
 	import { Button, NoLabelTextfield } from '$lib/input';
-	import { isHttpUrl } from '$lib/input/utils/validation/isUrl';
+	import { isHttpUrl } from '$lib/input/validation';
 	import { focusOnMount } from '$lib/core/actions';
 	import { withError } from '$lib/core/utils';
 

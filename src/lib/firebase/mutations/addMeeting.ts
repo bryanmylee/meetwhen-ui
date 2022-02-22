@@ -5,8 +5,8 @@ import { customAlphabet } from 'nanoid';
 import dayjs from 'dayjs';
 import { MeetingConverter } from '$lib/models';
 import type { Meeting } from '$lib/models';
+import { fetchLinkPreviews } from '$lib/api';
 import { getTotalInterval } from '$lib/core/utils';
-import { fetchLinkPreviews } from '$lib/api/fetchLinkPreviews';
 
 const generateSlug = customAlphabet(
 	'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',

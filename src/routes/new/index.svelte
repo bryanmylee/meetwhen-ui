@@ -19,7 +19,7 @@
 	import type { Timezone } from '$lib/core/utils/dayjs';
 	import { withError } from '$lib/core/utils';
 	import { LoadingButton, DatePicker, Select } from '$lib/input';
-	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
+	import { arrayNotEmpty } from '$lib/input/validation';
 	import type { Interval } from '$lib/core/types';
 	import { addMeeting, useRepo, useUser } from '$lib/firebase';
 	import Head from '$lib/core/components/Head.svelte';

@@ -14,9 +14,9 @@ import {
 	getGuestUserWithId,
 	findGuestWithMeetingIdAndPasscode,
 } from '$lib/firebase';
+import { fetchUserEmail } from '$lib/api';
 import { generateSignInCode } from './generateSignInCode';
 import { getGuestEmail } from './getGuestEmail';
-import { fetchUserEmail } from '$lib/api/fetchUserEmail';
 
 export interface GuestJoinProps {
 	username: string;

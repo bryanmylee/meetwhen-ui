@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import type { Updater, Writable } from 'svelte/store';
-import type { Validator } from '$lib/input/utils/validation/Validator';
+import type { Validator } from '$lib/input/validation';
 import type { Action } from '../types/Action';
 
 export interface WithError<T> {

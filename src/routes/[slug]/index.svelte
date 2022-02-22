@@ -42,14 +42,14 @@
 		deleteSchedule,
 		editSchedule,
 	} from '$lib/firebase';
-	import { MeetingHeader, ScheduleTimePicker } from '$lib/meeting/components';
 	import { withError } from '$lib/core/utils';
 	import type { Interval } from '$lib/core/types';
-	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
+	import { arrayNotEmpty } from '$lib/input/validation';
 	import { Button, LoadingButton } from '$lib/input';
+	import { MeetingHeader, ScheduleTimePicker } from '$lib/meeting/components';
 	import type { MeetingPageState } from '$lib/meeting/types/MeetingPageState';
-	import { fetchMeetingUserRecords } from '$lib/api/fetchMeetingUserRecords';
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
+	import { fetchMeetingUserRecords } from '$lib/api';
 	import Head from '$lib/core/components/Head.svelte';
 	import {
 		GuestJoinDialog,
