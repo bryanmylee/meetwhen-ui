@@ -1,22 +1,23 @@
 import { MeetingConverter } from '$lib/models';
 import type { Meeting, MeetingData } from '$lib/models';
-import {
-	collection,
-	getDocs,
-	query,
-	QuerySnapshot,
-	where,
-} from 'firebase/firestore';
-import type { Firestore } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import type { Firestore, Query } from 'firebase/firestore';
 import { findAllSchedulesWithMeetingId } from '../schedules/findAllSchedulesWithMeetingId';
+
+export const findMeetingWithSlugQuery = (
+	repo: Firestore,
+	slug: string,
+): Query<MeetingData> =>
+	query(
+		collection(repo, 'meetings'),
+		where('slug', '==', slug),
+	) as Query<MeetingData>;
 
 export const findMeetingWithSlug = async (
 	repo: Firestore,
 	slug: string,
 ): Promise<Maybe<Id<Meeting>>> => {
-	const meetingSnapshot = (await getDocs(
-		query(collection(repo, 'meetings'), where('slug', '==', slug)),
-	)) as QuerySnapshot<MeetingData>;
+	const meetingSnapshot = await getDocs(findMeetingWithSlugQuery(repo, slug));
 	if (meetingSnapshot.docs.length !== 1) {
 		return undefined;
 	}
