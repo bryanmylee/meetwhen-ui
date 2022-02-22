@@ -1,17 +1,11 @@
 import { addDoc, collection } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
-import { customAlphabet } from 'nanoid';
 import dayjs from 'dayjs';
 import { MeetingConverter } from '$lib/models';
 import type { Meeting } from '$lib/models';
-import { fetchLinkPreviews } from '$lib/api';
+import { fetchLinkPreviews, fetchSlug } from '$lib/api';
 import { getTotalInterval } from '$lib/core/utils';
-
-const generateSlug = customAlphabet(
-	'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
-	12,
-);
 
 export interface AddMeeting
 	extends Pick<
@@ -26,7 +20,7 @@ export const addMeeting = async (
 	addMeeting: AddMeeting,
 	currentUser?: User,
 ): Promise<Id<Meeting>> => {
-	const slug = generateSlug();
+	const slug = await fetchSlug();
 	const created = dayjs();
 	const ownerId = currentUser?.uid;
 	const total = getTotalInterval(addMeeting.intervals);
