@@ -7,6 +7,7 @@
 	export let value = '';
 	export let error = '';
 	export let maxlength = 6;
+	export let disabled = false;
 
 	let inputElement: HTMLInputElement;
 	export let use: HTMLActionArray = [];
@@ -48,6 +49,11 @@
 			inputElement.selectionEnd = cursorPosition;
 		}
 	};
+
+	let className = '';
+	export { className as class };
+
+	export let classLetterbox = '';
 </script>
 
 <div
@@ -59,16 +65,20 @@
 		type="text"
 		bind:this={inputElement}
 		bind:value
+		{disabled}
 		on:click={handleCursor}
 		on:keyup={handleCursor}
 		on:keydown={handleKeydown}
 		{maxlength}
 		spellcheck="false"
-		class="passcode-input"
+		class="passcode-input {className}"
 		use:useActions={use}
 	/>
 	{#each { length: maxlength } as _, index}
-		<div class="passcode-letterbox" class:focused={cursorPosition === index} />
+		<div
+			class="passcode-letterbox {classLetterbox}"
+			class:focused={cursorPosition === index}
+		/>
 	{/each}
 </div>
 
