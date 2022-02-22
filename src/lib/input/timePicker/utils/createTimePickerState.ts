@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { withPrevious } from 'svelte-previous';
 import { timeToId } from '$lib/core/utils/dayjs/timeIds';
-import type { Interval } from '$lib/core/types/Interval';
+import type { Interval } from '$lib/core/types';
 import {
 	getLocalIntervals,
 	groupIntervalsByDateId,

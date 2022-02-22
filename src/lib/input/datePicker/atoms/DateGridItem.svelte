@@ -1,7 +1,7 @@
 <script lang="ts">
 	import dayjs from 'dayjs';
 	import type { Dayjs } from 'dayjs';
-	import type { HasNeighbors } from '$lib/core/types/HasNeighbors';
+	import type { HasNeighbors } from '$lib/core/types';
 	import type { SelectMode } from '$lib/input';
 	import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 	import { getCurrentDateElement } from '../utils/datePickerContext';

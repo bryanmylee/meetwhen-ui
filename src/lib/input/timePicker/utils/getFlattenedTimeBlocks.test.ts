@@ -1,4 +1,4 @@
-import type { Interval } from '$lib/core/types/Interval';
+import type { Interval } from '$lib/core/types';
 import { getFlattenedTimeBlocks } from './getFlattenedTimeBlocks';
 import { timeFromId } from '$lib/core/utils/dayjs/timeIds';
 import { serialize } from '$lib/core/utils/intervals';

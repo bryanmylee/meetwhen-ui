@@ -40,7 +40,7 @@
 	} from '$lib/firebase/context';
 	import { initFirebaseAdmin } from '$lib/firebase/server';
 	import { firebaseClient } from '$lib/firebase/client';
-	import type { ThemeType } from '$lib/core/types/ThemeType';
+	import type { ThemeType } from '$lib/core/types';
 	import { useCookie } from '$lib/core/utils/cookies/useCookie';
 	import { Nav } from '$lib/core/components/nav';
 	import {

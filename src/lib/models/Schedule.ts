@@ -1,5 +1,5 @@
-import { IntervalConverter } from '$lib/core/types/Interval';
-import type { Interval, IntervalData } from '$lib/core/types/Interval';
+import { IntervalConverter } from '$lib/core/types';
+import type { Interval, IntervalData } from '$lib/core/types';
 import type { DocumentData } from 'firebase/firestore';
 import { definedOnly } from '$lib/core/utils/definedOnly';
 

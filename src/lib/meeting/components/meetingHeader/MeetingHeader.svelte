@@ -4,7 +4,7 @@
 	import { ChevronDownIcon, ShareIcon } from 'svelte-feather-icons';
 	import { Button } from '$lib/input';
 	import { ShareDialog } from '$lib/meeting/components';
-	import type { LinkPreviewData } from '$lib/core/types/LinkPreviewData';
+	import type { LinkPreviewData } from '$lib/core/types';
 	import LinkPreview from './atoms/LinkPreview.svelte';
 	import { classes } from '$lib/core/utils/classes';
 

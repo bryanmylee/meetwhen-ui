@@ -4,8 +4,7 @@ import { endOf } from '$lib/core/utils/dayjs/endOf';
 import { onDay } from '$lib/core/utils/dayjs/onDay';
 import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 import { IntervalConverter } from '$lib/core/types/Interval';
-import type { Interval } from '$lib/core/types/Interval';
-import type { Moment } from '$lib/core/types/Moment';
+import type { Interval, Moment } from '$lib/core/types';
 import { groupBy } from './groupBy';
 
 export const serialize = IntervalConverter.serialize;

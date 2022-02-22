@@ -1,4 +1,4 @@
-import type { Interval } from '$lib/core/types/Interval';
+import type { Interval } from '$lib/core/types';
 import { dateFromId } from '$lib/core/utils/dayjs/dateIds';
 import { dateTimeDecomposeId } from '$lib/core/utils/dayjs/dateTimeIds';
 import { onDay } from '$lib/core/utils/dayjs/onDay';

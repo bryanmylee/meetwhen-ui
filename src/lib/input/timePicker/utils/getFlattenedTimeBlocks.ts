@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { Interval } from '$lib/core/types/Interval';
+import type { Interval } from '$lib/core/types';
 import { localIntervalOnDay, unionIntervals } from '$lib/core/utils/intervals';
 
 /**

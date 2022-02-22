@@ -3,7 +3,7 @@ import * as firebaseAdmin from 'firebase-admin';
 import { initFirebaseAdmin } from '$lib/firebase/server';
 import { parseCookies } from '$lib/core/utils/cookies';
 import type { SafeUser } from '$lib/models/SafeUser';
-import type { ThemeType } from '$lib/core/types/ThemeType';
+import type { ThemeType } from '$lib/core/types';
 import { getServerEnv } from '$lib/env';
 
 export const getSession: GetSession = async ({ request }) => {

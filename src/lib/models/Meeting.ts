@@ -1,10 +1,10 @@
-import { IntervalConverter } from '$lib/core/types/Interval';
-import type { Interval, IntervalData } from '$lib/core/types/Interval';
+import { IntervalConverter } from '$lib/core/types';
+import type { Interval, IntervalData } from '$lib/core/types';
 import type { DocumentData } from 'firebase/firestore';
 import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 import { definedOnly } from '$lib/core/utils/definedOnly';
-import type { LinkPreviewData } from '$lib/core/types/LinkPreviewData';
+import type { LinkPreviewData } from '$lib/core/types';
 import type { Schedule } from './Schedule';
 
 export interface Meeting {

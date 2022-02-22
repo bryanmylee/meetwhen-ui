@@ -2,7 +2,7 @@ import watchMedia from 'svelte-media';
 import { useColor, PRIMARY_HEX } from '$lib/colors';
 import { writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
-import type { ThemeType } from '$lib/core/types/ThemeType';
+import type { ThemeType } from '$lib/core/types';
 import { pairedContext } from '$lib/core/utils/pairedContext';
 import type { Meeting } from '$lib/models/Meeting';
 

@@ -33,7 +33,7 @@
 	import { findMeetingWithSlug } from '$lib/firebase/queries/meetings';
 	import { MeetingHeader, ScheduleTimePicker } from '$lib/meeting/components';
 	import { withError } from '$lib/core/utils/withError';
-	import type { Interval } from '$lib/core/types/Interval';
+	import type { Interval } from '$lib/core/types';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
 	import { Button, LoadingButton } from '$lib/input';
 	import type { MeetingPageState } from '$lib/meeting/types/MeetingPageState';

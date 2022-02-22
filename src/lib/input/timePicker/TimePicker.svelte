@@ -17,7 +17,7 @@
 		subtractIntervals,
 		unionIntervals,
 	} from '$lib/core/utils/intervals';
-	import type { Interval } from '$lib/core/types/Interval';
+	import type { Interval } from '$lib/core/types';
 	import { KeyboardHelp, SelectionProvider } from '$lib/input';
 	import type { SelectionProviderEvent } from '$lib/input';
 	import {

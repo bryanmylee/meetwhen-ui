@@ -16,7 +16,7 @@
 	import type { Dayjs } from 'dayjs';
 	import { range } from '$lib/core/utils/range';
 	import { Select } from '$lib/input';
-	import type { Interval } from '$lib/core/types/Interval';
+	import type { Interval } from '$lib/core/types';
 
 	export let top = false;
 	export let sm = false;

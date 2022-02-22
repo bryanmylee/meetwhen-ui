@@ -4,7 +4,7 @@
 // See https://kit.svelte.dev/docs#typescript
 // for information about these interfaces
 import type { SafeUser } from '$lib/models/SafeUser';
-import type { ThemeType } from '$lib/core/types/ThemeType';
+import type { ThemeType } from '$lib/core/types';
 
 declare global {
 	declare namespace App {

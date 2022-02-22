@@ -1,4 +1,4 @@
-import type { ThemeType } from '$lib/core/types/ThemeType';
+import type { ThemeType } from '$lib/core/types';
 import { writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
 

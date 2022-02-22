@@ -1,5 +1,5 @@
 import { gridArea } from '$lib/core/components/grid';
-import type { Interval } from '$lib/core/types/Interval';
+import type { Interval } from '$lib/core/types';
 import { dateToId } from '$lib/core/utils/dayjs/dateIds';
 import { timeToId } from '$lib/core/utils/dayjs/timeIds';
 

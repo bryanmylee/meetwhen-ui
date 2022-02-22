@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Interval } from '$lib/core/types/Interval';
+	import type { Interval } from '$lib/core/types';
 	import { intervalGridArea } from '../utils/intervalGridArea';
 	import {
 		getTimePickerControls,

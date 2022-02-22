@@ -2,7 +2,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
 import { getTotalInterval } from '$lib/core/utils/intervals';
-import type { Interval } from '$lib/core/types/Interval';
+import type { Interval } from '$lib/core/types';
 import { ScheduleConverter } from '$lib/models/Schedule';
 import type { Schedule } from '$lib/models/Schedule';
 

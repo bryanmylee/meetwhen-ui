@@ -21,7 +21,7 @@
 	import { withError } from '$lib/core/utils/withError';
 	import { LoadingButton, DatePicker, Select } from '$lib/input';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
-	import type { Interval } from '$lib/core/types/Interval';
+	import type { Interval } from '$lib/core/types';
 	import { addMeeting } from '$lib/firebase/mutations/addMeeting';
 	import { useRepo, useUser } from '$lib/firebase/context';
 	import Head from '$lib/core/components/Head.svelte';

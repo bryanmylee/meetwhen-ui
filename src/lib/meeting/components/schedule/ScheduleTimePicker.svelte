@@ -2,7 +2,7 @@
 	import type { Dayjs } from 'dayjs';
 	import { Set } from 'immutable';
 	import { writable } from 'svelte/store';
-	import type { Interval } from '$lib/core/types/Interval';
+	import type { Interval } from '$lib/core/types';
 	import {
 		getLocalAdjacencySet,
 		getLocalIntervals,

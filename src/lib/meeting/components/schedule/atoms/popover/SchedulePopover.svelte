@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createPopperActions } from 'svelte-popperjs';
-	import type { UserIdsInterval } from '$lib/core/types/UserIdsInterval';
+	import type { UserIdsInterval } from '$lib/core/types';
 	import { getUsersCache } from '$lib/meeting/utils/usersCacheContext';
 	import { getScrollElement } from '$lib/input/timePicker/utils/timePickerContext';
 	import UserList from './UserList.svelte';

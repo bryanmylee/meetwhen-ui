@@ -14,7 +14,7 @@
 	import { cubicInOut } from 'svelte/easing';
 	import { Button } from '$lib/input';
 	import type { SafeUser } from '$lib/models/SafeUser';
-	import type { ThemeType } from '$lib/core/types/ThemeType';
+	import type { ThemeType } from '$lib/core/types';
 	import { media } from '$lib/core/state';
 	import NavDropdown from './atoms/NavDropdown.svelte';
 	import NavList from './atoms/NavList.svelte';

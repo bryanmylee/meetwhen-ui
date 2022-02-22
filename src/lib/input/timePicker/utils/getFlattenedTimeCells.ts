@@ -1,5 +1,5 @@
 import { Set } from 'immutable';
-import type { Interval } from '$lib/core/types/Interval';
+import type { Interval } from '$lib/core/types';
 import { onDay } from '$lib/core/utils/dayjs/onDay';
 import { getIntervalDiscretes } from '$lib/core/utils/intervals';
 import dayjs from 'dayjs';

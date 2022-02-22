@@ -1,4 +1,4 @@
-import type { Action } from '$lib/core/types/Action';
+import type { Action } from '$lib/core/types';
 
 export interface FocusOnMountProps {
 	delay?: number;
