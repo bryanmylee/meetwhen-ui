@@ -5,6 +5,8 @@ import type { Readable, Writable } from 'svelte/store';
 import type { ThemeType } from '$lib/core/types/ThemeType';
 import type { Maybe } from '$lib/core/types/Maybe';
 import { pairedContext } from '$lib/core/utils/pairedContext';
+import type { Id } from './types/Id';
+import type { Meeting } from '$lib/models/Meeting';
 
 export const {
 	hex: primaryHex,
@@ -14,8 +16,7 @@ export const {
 } = useColor('primary', PRIMARY_HEX);
 
 export const isAuthOpen = writable(false);
-export const activeMeetingId = writable<Maybe<string>>(undefined);
-activeMeetingId.subscribe((a) => console.log(a));
+export const activeMeeting = writable<Maybe<Id<Meeting>>>(undefined);
 
 export const { get: useTheme, set: setTheme } =
 	pairedContext<Writable<ThemeType>>();

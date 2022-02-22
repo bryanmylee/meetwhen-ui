@@ -18,6 +18,7 @@
 		onPasswordSignIn: { action: 'onPasswordSignIn' },
 		onPasswordCreate: { action: 'onPasswordCreate' },
 		onOAuthSignIn: { action: 'onOAuthSignIn' },
+		onShowGuestSignIn: { action: 'onShowGuestSignIn' },
 	}}
 />
 
@@ -32,5 +33,6 @@
 		on:password-signin={args.onPasswordSignIn}
 		on:password-create={args.onPasswordCreate}
 		on:oauth-signin={args.onOAuthSignIn}
+		on:show-guest-signin={args.onShowGuestSignIn}
 	/>
 </Story>

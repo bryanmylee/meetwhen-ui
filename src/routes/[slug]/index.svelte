@@ -53,7 +53,7 @@
 		guestLeave,
 	} from '$lib/auth';
 	import type { Maybe } from '$lib/core/types/Maybe';
-	import { activeMeetingId } from '$lib/core/state';
+	import { activeMeeting } from '$lib/core/state';
 
 	const auth = useAuth();
 	const repo = useRepo();
@@ -62,9 +62,9 @@
 
 	export let meeting: Id<Meeting>;
 
-	$: $activeMeetingId = meeting.id;
+	$: $activeMeeting = meeting;
 	onDestroy(() => {
-		$activeMeetingId = undefined;
+		$activeMeeting = undefined;
 	});
 
 	const liveMeetingDoc = useLiveDocument<MeetingData>(

@@ -12,6 +12,7 @@
 		'oauth-signin': {
 			providerType: OAuthProviderType;
 		};
+		'show-guest-signin': never;
 		cancel: never;
 	}
 </script>
@@ -24,10 +25,12 @@
 	import PasswordCreateForm from './atoms/PasswordCreateForm.svelte';
 	import OAuthSignInButtons from './atoms/OAuthSignInButtons.svelte';
 	import type { OAuthProviderType } from '$lib/auth';
+	import type { Maybe } from '$lib/core/types/Maybe';
 
 	const dispatch = createEventDispatcher<AuthEvent>();
 
 	export let isCreating = false;
+	export let hasMeeting = false;
 
 	export let name: WithErrorable<string>;
 	export let email: WithErrorable<string>;
@@ -97,6 +100,14 @@
 					on:cancel
 				/>
 			{/if}
+			{#if hasMeeting}
+				<button
+					on:click={() => dispatch('show-guest-signin')}
+					class="guest-toggle"
+				>
+					or sign in as guest
+				</button>
+			{/if}
 		</div>
 		<div class="auth-oauth">
 			<h2 class="text-center text-neutral-400">or sign in with</h2>
@@ -140,5 +151,10 @@
 	.auth-card :global(.auth-creating-toggle) {
 		@apply text-neutral-400 underline underline-offset-2;
 		@apply focus p-1 rounded hover:text-primary-400;
+	}
+
+	.guest-toggle {
+		@apply text-neutral-400 underline underline-offset-2;
+		@apply focus mx-auto p-1 rounded w-fit hover:text-primary-400;
 	}
 </style>

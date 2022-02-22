@@ -12,6 +12,7 @@
 
 	export let open = true;
 	export let isCreating = false;
+	export let hasMeeting = false;
 </script>
 
 <Dialog bind:open on:dismiss>
@@ -19,10 +20,12 @@
 		{name}
 		{email}
 		{password}
+		{hasMeeting}
 		bind:isCreating
 		on:password-signin
 		on:password-create
 		on:oauth-signin
+		on:show-guest-signin
 		on:cancel={() => (open = false)}
 		class="auth-dialog-card"
 	>
