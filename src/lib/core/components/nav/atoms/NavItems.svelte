@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import type { Nullable } from '$lib/core/types/Nullable';
 	import type { SafeUser } from '$lib/models/SafeUser';
 	import type { ThemeType } from '$lib/core/types/ThemeType';
 	import type { NavEvent } from '../Nav.svelte';

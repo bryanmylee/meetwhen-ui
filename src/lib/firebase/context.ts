@@ -3,7 +3,6 @@ import type { FirebaseApp } from 'firebase/app';
 import type { Auth } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 import { pairedContext } from '$lib/core/utils/pairedContext';
-import type { Nullable } from '$lib/core/types/Nullable';
 import type { SafeUser } from '$lib/models/SafeUser';
 
 export const { get: useFirebaseApp, set: setFirebaseApp } =

@@ -1,5 +1,3 @@
-import type { Nullable } from '../types/Nullable';
-
 export interface LockedElement {
 	element: HTMLElement;
 	initialOverflow: string;

@@ -8,7 +8,6 @@ import {
 import type { Auth, User, UserCredential } from 'firebase/auth';
 import { providers } from '../providers';
 import type { OAuthProviderType } from '../providers';
-import type { Nullable } from '$lib/core/types/Nullable';
 
 export interface PasswordSignInProps {
 	email: string;
