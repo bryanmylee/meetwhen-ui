@@ -10,7 +10,7 @@
 	import { AccordianCard } from '$lib/core/components/accordian';
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs';
 	import { groupBy } from '$lib/core/utils';
-	import type { Paginated } from '$lib/firebase/queries/paginated';
+	import type { Paginated } from '$lib/firebase';
 	import type { Meeting } from '$lib/models';
 	import { Button } from '$lib/input';
 	import MeetingPreview from './MeetingPreview.svelte';

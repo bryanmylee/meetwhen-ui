@@ -31,15 +31,17 @@
 		setIsDark,
 		setTheme,
 	} from '$lib/core/state';
-	import { initFirebaseClient } from '$lib/firebase/client';
+	import {
+		initFirebaseClient,
+		initFirebaseAdmin,
+		firebaseClient,
+	} from '$lib/firebase';
 	import {
 		setFirebaseApp,
 		setFirebaseAuth,
 		setRepo,
 		setUser,
 	} from '$lib/firebase/context';
-	import { initFirebaseAdmin } from '$lib/firebase/server';
-	import { firebaseClient } from '$lib/firebase/client';
 	import type { ThemeType } from '$lib/core/types';
 	import { useCookie } from '$lib/core/utils/cookies';
 	import { useScreenHeight, withError } from '$lib/core/utils';

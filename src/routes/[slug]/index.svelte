@@ -29,21 +29,25 @@
 		ScheduleData,
 		UserRecord,
 	} from '$lib/models';
-	import { firebaseClient } from '$lib/firebase/client';
-	import { useAuth, useRepo, useUser } from '$lib/firebase/context';
-	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';
-	import { useLiveQuery } from '$lib/firebase/utils/useLiveQuery';
-	import { findMeetingWithSlug } from '$lib/firebase/queries/meetings';
+	import {
+		firebaseClient,
+		useAuth,
+		useRepo,
+		useUser,
+		useLiveDocument,
+		useLiveQuery,
+		findMeetingWithSlug,
+		addSchedule,
+		findAllSchedulesWithMeetingIdQuery,
+		deleteSchedule,
+		editSchedule,
+	} from '$lib/firebase';
 	import { MeetingHeader, ScheduleTimePicker } from '$lib/meeting/components';
 	import { withError } from '$lib/core/utils';
 	import type { Interval } from '$lib/core/types';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
 	import { Button, LoadingButton } from '$lib/input';
 	import type { MeetingPageState } from '$lib/meeting/types/MeetingPageState';
-	import { addSchedule } from '$lib/firebase/mutations/addSchedule';
-	import { findAllSchedulesWithMeetingIdQuery } from '$lib/firebase/queries/schedules/findAllSchedulesWithMeetingId';
-	import { deleteSchedule } from '$lib/firebase/mutations/deleteSchedule';
-	import { editSchedule } from '$lib/firebase/mutations/editSchedule';
 	import { fetchMeetingUserRecords } from '$lib/api/fetchMeetingUserRecords';
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
 	import Head from '$lib/core/components/Head.svelte';

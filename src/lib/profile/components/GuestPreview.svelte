@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { User } from 'firebase/auth';
-	import { getGuestUserWithId } from '$lib/firebase/queries/getGuestUserWithId';
-	import { useRepo } from '$lib/firebase/context';
-	import { getMeetingWithId } from '$lib/firebase/queries/meetings/getMeetingWithId';
+	import { getGuestUserWithId, useRepo, getMeetingWithId } from '$lib/firebase';
 	import MeetingPreview from './MeetingPreview.svelte';
 
 	const repo = useRepo();

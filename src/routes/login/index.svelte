@@ -14,6 +14,8 @@
 	import type { Load } from '@sveltejs/kit';
 	import { goto } from '$app/navigation';
 	import { FirebaseError } from 'firebase/app';
+	import { useAuth, useUser } from '$lib/firebase';
+	import { withError } from '$lib/core/utils';
 	import {
 		AuthCard,
 		handlePasswordError,
@@ -22,8 +24,6 @@
 	} from '$lib/auth';
 	import type { AuthEvent } from '$lib/auth';
 	import Head from '$lib/core/components/Head.svelte';
-	import { useAuth, useUser } from '$lib/firebase/context';
-	import { withError } from '$lib/core/utils';
 
 	const auth = useAuth();
 	const user = useUser();

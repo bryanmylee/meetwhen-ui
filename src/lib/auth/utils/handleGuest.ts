@@ -8,12 +8,14 @@ import {
 } from 'firebase/auth';
 import type { Auth, UserCredential, User } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
-import { addGuestUserData } from '$lib/firebase/mutations/addGuestUserData';
-import { deleteGuestUserData } from '$lib/firebase/mutations/deleteGuestUserData';
+import {
+	addGuestUserData,
+	deleteGuestUserData,
+	getGuestUserWithId,
+	findGuestWithMeetingIdAndPasscode,
+} from '$lib/firebase';
 import { generateSignInCode } from './generateSignInCode';
 import { getGuestEmail } from './getGuestEmail';
-import { getGuestUserWithId } from '$lib/firebase/queries/getGuestUserWithId';
-import { findGuestWithMeetingIdAndPasscode } from '$lib/firebase/queries/findGuestWithMeetingIdAndPasscode';
 import { fetchUserEmail } from '$lib/api/fetchUserEmail';
 
 export interface GuestJoinProps {

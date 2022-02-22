@@ -6,3 +6,4 @@ export type { FindAllMeetingsOwnedByUserProps } from './findAllMeetingsOwnedByUs
 export { findAllPreviousMeetingsOwnedByUser } from './findAllPreviousMeetingsOwnedByUser';
 export { findAllUpcomingMeetingsOwnedByUser } from './findAllUpcomingMeetingsOwnedByUser';
 export { findMeetingWithSlug } from './findMeetingWithSlug';
+export { getMeetingWithId } from './getMeetingWithId';

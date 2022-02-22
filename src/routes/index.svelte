@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { gridArea, gridTemplate } from '$lib/core/components/grid';
 	import Head from '$lib/core/components/Head.svelte';
-	import { useUser } from '$lib/firebase/context';
+	import { useUser } from '$lib/firebase';
 	import { Button } from '$lib/input';
 
 	const user = useUser();

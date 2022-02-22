@@ -17,7 +17,7 @@
 <script lang="ts">
 	import type { Load } from '@sveltejs/kit';
 	import type { SafeUser, Meeting } from '$lib/models';
-	import { useAuth, useRepo } from '$lib/firebase/context';
+	import { useAuth, useRepo, usePaginated } from '$lib/firebase';
 	import { signOut } from 'firebase/auth';
 	import { Button } from '$lib/input';
 	import { goto } from '$app/navigation';
@@ -26,7 +26,6 @@
 		findAllUpcomingMeetingsOwnedByUser,
 		getEndFromMeetings,
 	} from '$lib/firebase/queries/meetings';
-	import { usePaginated } from '$lib/firebase/queries/paginated';
 	import MeetingPreviews from '$lib/profile/components/MeetingPreviews.svelte';
 	import Head from '$lib/core/components/Head.svelte';
 	import GuestPreview from '$lib/profile/components/GuestPreview.svelte';

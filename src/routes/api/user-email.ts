@@ -1,5 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { initFirebaseAdmin } from '$lib/firebase/server';
+import { initFirebaseAdmin } from '$lib/firebase';
 import { getServerEnv } from '$lib/env';
 
 export const get: RequestHandler = async ({ url }) => {
