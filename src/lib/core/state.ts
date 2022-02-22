@@ -2,8 +2,9 @@ import watchMedia from 'svelte-media';
 import { useColor, PRIMARY_HEX } from '$lib/colors';
 import { writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
-import { pairedContext } from './utils/pairedContext';
-import type { ThemeType } from './types/ThemeType';
+import type { ThemeType } from '$lib/core/types/ThemeType';
+import type { Maybe } from '$lib/core/types/Maybe';
+import { pairedContext } from '$lib/core/utils/pairedContext';
 
 export const {
 	hex: primaryHex,
@@ -13,6 +14,8 @@ export const {
 } = useColor('primary', PRIMARY_HEX);
 
 export const isAuthOpen = writable(false);
+export const activeMeetingId = writable<Maybe<string>>(undefined);
+activeMeetingId.subscribe((a) => console.log(a));
 
 export const { get: useTheme, set: setTheme } =
 	pairedContext<Writable<ThemeType>>();

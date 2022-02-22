@@ -18,7 +18,7 @@
 </script>
 
 <script lang="ts">
-	import { tick } from 'svelte';
+	import { onDestroy, tick } from 'svelte';
 	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import { doc } from 'firebase/firestore';
@@ -53,6 +53,7 @@
 		guestLeave,
 	} from '$lib/auth';
 	import type { Maybe } from '$lib/core/types/Maybe';
+	import { activeMeetingId } from '$lib/core/state';
 
 	const auth = useAuth();
 	const repo = useRepo();
@@ -60,6 +61,11 @@
 	$: isGuest = $currentUser?.email?.endsWith('.guest');
 
 	export let meeting: Id<Meeting>;
+
+	$: $activeMeetingId = meeting.id;
+	onDestroy(() => {
+		$activeMeetingId = undefined;
+	});
 
 	const liveMeetingDoc = useLiveDocument<MeetingData>(
 		doc(repo, 'meetings', meeting.id),

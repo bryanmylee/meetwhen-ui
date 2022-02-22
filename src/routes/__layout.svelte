@@ -24,6 +24,7 @@
 	import { getClientEnv, getServerEnv } from '$lib/env';
 	import { session } from '$lib/stores';
 	import {
+		activeMeetingId,
 		isAuthOpen,
 		primaryVars,
 		setIsDark,
