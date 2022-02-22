@@ -30,7 +30,9 @@
 		class="auth-dialog-card"
 	>
 		<svelte:fragment slot="header">
-			<DialogTitle as="h2" class="text-brand w-fit">meetwhen.io</DialogTitle>
+			<DialogTitle as="h2" class="text-brand w-fit -mb-2">
+				meetwhen.io
+			</DialogTitle>
 		</svelte:fragment>
 		<svelte:fragment slot="footer">
 			<Button
@@ -55,7 +57,7 @@
 	}
 
 	:global(.auth-dialog-dismiss-button) {
-		@apply absolute top-4 right-4;
+		@apply absolute top-5 right-5;
 		@apply wh-7;
 	}
 </style>

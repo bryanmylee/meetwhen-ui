@@ -37,6 +37,7 @@
 
 	.passcode-box {
 		@apply relative flex justify-center gap-2;
+		@apply mx-6 scale-125;
 	}
 
 	.passcode-label {

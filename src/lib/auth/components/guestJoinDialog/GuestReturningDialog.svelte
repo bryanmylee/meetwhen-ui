@@ -40,18 +40,19 @@
 <Dialog bind:open>
 	<div class="guest-dialog-card">
 		<DialogDescription>
-			<p class="text-brand">meetwhen.io/{meetingSlug}</p>
+			<p class="text-brand w-fit -mb-2">meetwhen.io/{meetingSlug}</p>
 		</DialogDescription>
-		<DialogTitle as="h1" class="flex justify-between items-baseline">
-			<span class="text-title-1"> Sign in as guest </span>
-		</DialogTitle>
-		<div class="flex justify-center scale-150 mt-3">
+		<DialogTitle as="h1" class="text-title-2">Sign in as guest</DialogTitle>
+		<div class="flex justify-center scale-125 mx-7">
 			<PasscodeInput
 				bind:value={$passcode.value}
 				error={$passcode.error}
 				use={[focusOnMount]}
 			/>
 		</div>
+		<p class="text-sm text-center italic">
+			Enter the passcode you saved before
+		</p>
 		<Button
 			on:click={() => (open = false)}
 			variant="text-only"
@@ -67,12 +68,10 @@
 	.guest-dialog-card {
 		@apply card p-6 relative z-10;
 		@apply flex flex-col gap-4;
-		width: calc(100vw - 2rem);
-		max-width: 24rem;
 	}
 
 	:global(.guest-dialog-dismiss-button) {
-		@apply absolute top-4 right-4;
+		@apply absolute top-5 right-5;
 		@apply wh-7;
 	}
 </style>

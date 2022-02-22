@@ -36,7 +36,7 @@
 <Dialog bind:open>
 	<div class="guest-dialog-card">
 		<DialogDescription>
-			<p class="text-brand">meetwhen.io/{meetingSlug}</p>
+			<p class="text-brand w-fit -mb-2">meetwhen.io/{meetingSlug}</p>
 		</DialogDescription>
 		<DialogTitle as="h1" class="flex justify-between items-baseline">
 			<span class="text-title-1"> Join as a guest </span>
@@ -86,7 +86,7 @@
 	}
 
 	:global(.guest-dialog-dismiss-button) {
-		@apply absolute top-4 right-4;
+		@apply absolute top-5 right-5;
 		@apply wh-7;
 	}
 </style>
