@@ -16,6 +16,7 @@ export const {
 } = useColor('primary', PRIMARY_HEX);
 
 export const isAuthOpen = writable(false);
+export const isGuestAuthOpen = writable(false);
 export const activeMeeting = writable<Maybe<Id<Meeting>>>(undefined);
 
 export const { get: useTheme, set: setTheme } =

@@ -4,6 +4,7 @@ import {
 	deleteUser,
 	reauthenticateWithCredential,
 	EmailAuthProvider,
+	signInWithEmailAndPassword,
 } from 'firebase/auth';
 import type { Auth, UserCredential, User } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
@@ -12,6 +13,8 @@ import { deleteGuestUserData } from '$lib/firebase/mutations/deleteGuestUserData
 import { generateSignInCode } from './generateSignInCode';
 import { getGuestEmail } from './getGuestEmail';
 import { getGuestUserWithId } from '$lib/firebase/queries/getGuestUserWithId';
+import { findGuestWithMeetingIdAndPasscode } from '$lib/firebase/queries/findGuestWithMeetingIdAndPasscode';
+import { fetchUserEmail } from '$lib/api/fetchUserEmail';
 
 export interface GuestJoinProps {
 	username: string;
@@ -47,6 +50,28 @@ export const guestJoin = async (
 		passcode,
 		credential: userCredential,
 	};
+};
+
+export interface GuestSignInProps {
+	meetingId: string;
+	passcode: string;
+}
+
+export const guestSignIn = async (
+	auth: Auth,
+	repo: Firestore,
+	{ meetingId, passcode }: GuestSignInProps,
+): Promise<UserCredential> => {
+	const guestData = await findGuestWithMeetingIdAndPasscode(
+		repo,
+		meetingId,
+		passcode,
+	);
+	if (guestData === undefined) {
+		throw new Error('Invalid passcode');
+	}
+	const email = await fetchUserEmail(guestData.id);
+	return await signInWithEmailAndPassword(auth, email, passcode);
 };
 
 export interface GuestLeaveProps {

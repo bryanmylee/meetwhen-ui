@@ -24,8 +24,9 @@
 	import { getClientEnv, getServerEnv } from '$lib/env';
 	import { session } from '$lib/stores';
 	import {
-		activeMeetingId,
+		activeMeeting,
 		isAuthOpen,
+		isGuestAuthOpen,
 		primaryVars,
 		setIsDark,
 		setTheme,
@@ -48,11 +49,13 @@
 		oAuthSignIn,
 		passwordSignIn,
 		handlePasswordError,
+		GuestReturningDialog,
 	} from '$lib/auth';
-	import type { AuthEvent } from '$lib/auth';
+	import type { AuthEvent, GuestReturningEvent } from '$lib/auth';
 	import { useDarkMode } from '$lib/colors/utils/useDarkMode';
 	import { useScreenHeight } from '$lib/core/utils/useScreenHeight';
 	import { withError } from '$lib/core/utils/withError';
+	import { guestSignIn } from '$lib/auth/utils/handleGuest';
 
 	export let initTheme: ThemeType;
 	const theme = useCookie('theme', initTheme);
@@ -112,8 +115,22 @@
 		onSignIn();
 	};
 
+	const handleGuestSignIn = async ({
+		detail,
+	}: CustomEvent<GuestReturningEvent['guest-sign-in']>) => {
+		if ($user?.ssr || $activeMeeting === undefined) {
+			return;
+		}
+		await guestSignIn(firebaseClient.auth, firebaseClient.repo, {
+			meetingId: $activeMeeting.id,
+			passcode: detail.passcode,
+		});
+		onSignIn();
+	};
+
 	const onSignIn = () => {
 		$isAuthOpen = false;
+		$isGuestAuthOpen = false;
 		if ($page.url.pathname === '/') {
 			goto('/profile');
 		}
@@ -138,9 +155,19 @@
 		{name}
 		{email}
 		{password}
+		hasMeeting={$activeMeeting !== undefined}
 		bind:open={$isAuthOpen}
 		on:password-signin={handlePasswordSignIn}
 		on:oauth-signin={handleOAuthSignIn}
+		on:show-guest-signin={() => {
+			$isAuthOpen = false;
+			$isGuestAuthOpen = true;
+		}}
+	/>
+	<GuestReturningDialog
+		bind:open={$isGuestAuthOpen}
+		meetingSlug={$activeMeeting?.slug ?? ''}
+		on:guest-sign-in={handleGuestSignIn}
 	/>
 	<!-- Themed background during SSR -->
 	<div class="background" />

@@ -1,6 +1,5 @@
 <script lang="ts" context="module">
 	export interface GuestReturningEvent {
-		'show-join': never;
 		'guest-sign-in': {
 			passcode: string;
 		};
@@ -33,7 +32,7 @@
 
 	const handleConfirmSignIn = () => {
 		dispatch('guest-sign-in', {
-			passcode: $passcode.value,
+			passcode: $passcode.value.toUpperCase(),
 		});
 	};
 </script>
@@ -45,16 +44,6 @@
 		</DialogDescription>
 		<DialogTitle as="h1" class="flex justify-between items-baseline">
 			<span class="text-title-1"> Sign in as guest </span>
-
-			<span>
-				or
-				<button
-					on:click={() => dispatch('show-join')}
-					class="guest-dialog-returning"
-				>
-					new guest?
-				</button>
-			</span>
 		</DialogTitle>
 		<div class="flex justify-center scale-150 mt-3">
 			<PasscodeInput
@@ -85,10 +74,5 @@
 	:global(.guest-dialog-dismiss-button) {
 		@apply absolute top-4 right-4;
 		@apply wh-7;
-	}
-
-	.guest-dialog-returning {
-		@apply text-neutral-400 underline underline-offset-2;
-		@apply focus p-1 rounded hover:text-primary-400;
 	}
 </style>
