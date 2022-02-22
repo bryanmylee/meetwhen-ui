@@ -2,15 +2,12 @@ import type { GetSession } from '@sveltejs/kit';
 import * as firebaseAdmin from 'firebase-admin';
 import { initFirebaseAdmin } from '$lib/firebase/server';
 import { parseCookies } from '$lib/core/utils/cookies';
-import type { Session } from '$lib/core/types/Session';
 import type { Maybe } from '$lib/core/types/Maybe';
 import type { SafeUser } from '$lib/models/SafeUser';
 import type { ThemeType } from '$lib/core/types/ThemeType';
 import { getServerEnv } from '$lib/env';
 
-export const getSession: GetSession<Record<string, unknown>, Session> = async ({
-	request,
-}) => {
+export const getSession: GetSession = async ({ request }) => {
 	const { serviceKey } = getServerEnv();
 	initFirebaseAdmin(serviceKey);
 	const cookies = parseCookies(request);

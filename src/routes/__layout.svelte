@@ -20,10 +20,9 @@
 	import type { Load } from '@sveltejs/kit';
 	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { page, session } from '$app/stores';
 	import { FirebaseError } from 'firebase/app';
 	import { getClientEnv, getServerEnv } from '$lib/env';
-	import { session } from '$lib/stores';
 	import {
 		activeMeeting,
 		isAuthOpen,

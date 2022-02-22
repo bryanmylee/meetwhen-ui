@@ -3,11 +3,10 @@ import type { Readable } from 'svelte/store';
 import { onIdTokenChanged, onAuthStateChanged } from 'firebase/auth';
 import type { Auth, User } from 'firebase/auth';
 import { browser } from '$app/env';
-import { session } from '$lib/stores';
+import { session } from '$app/stores';
 import { destroyCookie, setCookie } from '$lib/core/utils/cookies';
 import type { Maybe } from '$lib/core/types/Maybe';
 import type { Nullable } from '$lib/core/types/Nullable';
-import type { Session } from '$lib/core/types/Session';
 import type { SafeUser } from '$lib/models/SafeUser';
 
 const TEN_MINUTE_MS = 10 * 60 * 1000;
@@ -21,7 +20,7 @@ const TEN_MINUTE_MS = 10 * 60 * 1000;
  */
 export const configureUser = (
 	auth: Auth,
-	initSession: Session,
+	initSession: App.Session,
 ): Readable<Maybe<Nullable<SafeUser>>> => {
 	return readable<Maybe<Nullable<SafeUser>>>(initSession.user, (set) => {
 		const handleUser = async ($user: User | null) => {
