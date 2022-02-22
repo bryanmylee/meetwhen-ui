@@ -12,10 +12,18 @@
 	let inputElement: HTMLInputElement;
 	export let use: HTMLActionArray = [];
 
-	const handleKeydown = async (event: KeyboardEvent) => {
-		await handleBackspace(event);
-		handleCursor(event);
-		await checkCursorPosition();
+	const handleKeypress = async () => {
+		// simulate insert mode.
+		const initStart = inputElement.selectionStart ?? 0;
+		value = value.substring(0, initStart) + value.substring(initStart + 1);
+		await tick();
+		inputElement.selectionEnd = initStart;
+	};
+
+	let cursorPosition = 0;
+	const handleKeydown = (event: KeyboardEvent) => {
+		handleBackspace(event);
+		handleCursor();
 	};
 
 	const handleBackspace = async (event: KeyboardEvent) => {
@@ -25,29 +33,24 @@
 		if (inputElement.selectionStart !== inputElement.selectionEnd) {
 			return;
 		}
+		// ignore backspace if no char under cursor.
+		if (cursorPosition >= value.length) {
+			return;
+		}
 		event.preventDefault();
+		const initStart = inputElement.selectionStart ?? 0;
 		value = value.slice(0, cursorPosition) + value.slice(cursorPosition + 1);
 		await tick();
-		if (cursorPosition >= value.length) {
-			cursorPosition--;
-		}
-		inputElement.selectionStart = cursorPosition;
-		inputElement.selectionEnd = cursorPosition;
+		inputElement.selectionEnd = initStart;
 	};
 
-	let cursorPosition = 0;
-	const handleCursor = (event: Event) => {
-		const inputTarget = event.target as HTMLInputElement;
-		cursorPosition = Math.min(maxlength - 1, inputTarget.selectionStart ?? 0);
-	};
-
-	const checkCursorPosition = async () => {
-		await tick();
-		if (cursorPosition >= maxlength) {
-			cursorPosition = maxlength - 1;
-			inputElement.selectionStart = cursorPosition;
-			inputElement.selectionEnd = cursorPosition;
-		}
+	const handleCursor = () => {
+		setTimeout(() => {
+			cursorPosition = Math.min(
+				maxlength - 1,
+				inputElement.selectionStart ?? 0,
+			);
+		}, 17);
 	};
 
 	let className = '';
@@ -66,9 +69,9 @@
 		bind:this={inputElement}
 		bind:value
 		{disabled}
-		on:click={handleCursor}
-		on:keyup={handleCursor}
+		on:keypress={handleKeypress}
 		on:keydown={handleKeydown}
+		on:mousedown={handleCursor}
 		{maxlength}
 		spellcheck="false"
 		class="passcode-input {className}"
