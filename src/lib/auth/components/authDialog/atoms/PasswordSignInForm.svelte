@@ -9,7 +9,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
 	import type { WithErrorable } from '$lib/core/utils/withError';
-	import { Button, Textfield } from '$lib/input';
+	import { Button, LoadingButton, Textfield } from '$lib/input';
 
 	const dispatch = createEventDispatcher<PasswordSignInFormEvent>();
 
@@ -44,6 +44,8 @@
 		>
 			Cancel
 		</Button>
-		<Button type="submit" size="md" class="flex-1">Sign in</Button>
+		<LoadingButton type="submit" size="md" color="gradient" class="flex-1">
+			Sign in
+		</LoadingButton>
 	</div>
 </form>
