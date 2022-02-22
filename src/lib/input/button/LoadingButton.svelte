@@ -22,27 +22,34 @@
 	const isLoading = getLoading();
 </script>
 
-<Button
-	{type}
-	disabled={disabled || $isLoading}
-	{variant}
-	{color}
-	{size}
-	{icon}
-	{href}
-	{use}
-	class={classes(className, $isLoading && 'loading')}
->
-	<slot />
-	{#if isLoading}
-		<div class="spinner">
-			<Spinner />
-		</div>
-	{/if}
-</Button>
+<div class="contents" class:loading={$isLoading}>
+	<Button
+		{type}
+		disabled={disabled || $isLoading}
+		{variant}
+		{color}
+		{size}
+		{icon}
+		{href}
+		{use}
+		class={classes(className, 'loading')}
+		on:blur
+		on:click
+		on:contextmenu
+		on:dblclick
+		on:focus
+	>
+		<slot />
+		{#if $isLoading}
+			<div class="spinner">
+				<Spinner />
+			</div>
+		{/if}
+	</Button>
+</div>
 
 <style lang="postcss">
-	:global(.loading) {
+	.loading > :global(button) {
 		animation: ring-breathe 2s ease-in-out infinite both;
 		@apply relative;
 	}

@@ -13,11 +13,11 @@ export const getLoading = (): Readable<boolean> => {
 	return isLoading;
 };
 
-export const withLoading = <T extends unknown, U>(
+export const withLoading = <Args extends unknown[], Return>(
 	isLoading: Writable<boolean>,
-	fn: (...args: T[]) => Promise<U>,
-): ((...args: T[]) => Promise<U>) => {
-	return async (...args: T[]) => {
+	fn: (...args: Args) => Promise<Return>,
+): ((...args: Args) => Promise<Return>) => {
+	return async (...args: Args) => {
 		isLoading.set(true);
 		const result = await fn(...args);
 		isLoading.set(false);

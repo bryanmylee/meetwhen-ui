@@ -36,7 +36,7 @@
 	import { withError } from '$lib/core/utils/withError';
 	import type { Interval } from '$lib/core/types/Interval';
 	import { arrayNotEmpty } from '$lib/input/utils/validation/arrayNotEmpty';
-	import { Button } from '$lib/input';
+	import { Button, LoadingButton } from '$lib/input';
 	import type { MeetingPageState } from '$lib/meeting/types/MeetingPageState';
 	import { addSchedule } from '$lib/firebase/mutations/addSchedule';
 	import { findAllSchedulesWithMeetingIdQuery } from '$lib/firebase/queries/schedules/findAllSchedulesWithMeetingId';
@@ -54,6 +54,7 @@
 	} from '$lib/auth';
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { activeMeeting } from '$lib/core/state';
+	import { setLoading, withLoading } from '$lib/loading';
 
 	const auth = useAuth();
 	const repo = useRepo();
@@ -124,16 +125,20 @@
 
 	$: errors = [...$intervals.errors];
 
+	const isLoading = writable(false);
+	setLoading(isLoading);
+
 	const handleJoin = () => {
 		pageState = 'join';
 	};
 
-	const confirmJoin = async () => {
+	const _confirmJoin = async () => {
 		if ($currentUser == null || $currentUser.ssr) {
 			return handleGuestJoin();
 		}
-		addScheduleToMeeting();
+		await addScheduleToMeeting();
 	};
+	const confirmJoin = withLoading(isLoading, _confirmJoin);
 
 	const addScheduleToMeeting = async () => {
 		if ($currentUser == null || $currentUser.ssr) {
@@ -168,7 +173,7 @@
 		showGuestJoinDialog = true;
 	};
 
-	const confirmGuestJoin = async (username: string) => {
+	const _confirmGuestJoin = async (username: string) => {
 		if ($currentUser != null) {
 			return;
 		}
@@ -181,12 +186,13 @@
 		passcode = joinResult.passcode;
 		await addScheduleToMeeting();
 	};
+	const confirmGuestJoin = withLoading(isLoading, _confirmGuestJoin);
 
 	const handleLeave = () => {
 		pageState = 'leave';
 	};
 
-	const confirmLeave = async () => {
+	const _confirmLeave = async () => {
 		if ($currentUser == null || $currentUser.ssr) {
 			return;
 		}
@@ -197,14 +203,15 @@
 		if (scheduleToDelete === undefined) {
 			return;
 		}
-		pageState = 'none';
 		if ($currentUser.email?.endsWith('.guest')) {
 			await confirmGuestLeave();
 		}
 		await deleteSchedule(repo, scheduleToDelete.id);
+		pageState = 'none';
 	};
+	const confirmLeave = withLoading(isLoading, _confirmLeave);
 
-	const confirmGuestLeave = async () => {
+	const _confirmGuestLeave = async () => {
 		if ($currentUser == null || $currentUser.ssr) {
 			return;
 		}
@@ -212,6 +219,7 @@
 			user: $currentUser,
 		});
 	};
+	const confirmGuestLeave = withLoading(isLoading, _confirmGuestLeave);
 
 	const handleEdit = () => {
 		if (!isJoined) {
@@ -227,7 +235,7 @@
 		$intervals.value = currentSchedule.intervals;
 	};
 
-	const confirmEdit = async () => {
+	const _confirmEdit = async () => {
 		if ($currentUser == null || $currentUser.ssr) {
 			return;
 		}
@@ -255,6 +263,7 @@
 			$currentUser,
 		);
 	};
+	const confirmEdit = withLoading(isLoading, _confirmEdit);
 </script>
 
 <Head
@@ -295,9 +304,9 @@
 				>
 					Cancel
 				</Button>
-				<Button color="gradient" class="w-full" on:click={confirmJoin}>
+				<LoadingButton color="gradient" class="w-full" on:click={confirmJoin}>
 					Confirm
-				</Button>
+				</LoadingButton>
 			</div>
 		{:else if pageState === 'edit'}
 			<div class="flex w-full gap-4">
@@ -308,9 +317,9 @@
 				>
 					Cancel
 				</Button>
-				<Button color="gradient" class="w-full" on:click={confirmEdit}>
+				<LoadingButton color="gradient" class="w-full" on:click={confirmEdit}>
 					Confirm
-				</Button>
+				</LoadingButton>
 			</div>
 		{:else if pageState === 'leave'}
 			<div class="leave">
@@ -329,9 +338,9 @@
 				>
 					Cancel
 				</Button>
-				<Button color="gradient" class="w-full" on:click={confirmLeave}>
+				<LoadingButton color="gradient" class="w-full" on:click={confirmLeave}>
 					Confirm
-				</Button>
+				</LoadingButton>
 			</div>
 		{/if}
 	</div>
