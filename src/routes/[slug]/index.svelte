@@ -55,6 +55,7 @@
 	import type { Maybe } from '$lib/core/types/Maybe';
 	import { activeMeeting } from '$lib/core/state';
 	import { setLoading, withLoading } from '$lib/loading';
+	import { FirebaseError } from 'firebase/app';
 
 	const auth = useAuth();
 	const repo = useRepo();
@@ -133,6 +134,13 @@
 	};
 
 	const _confirmJoin = async () => {
+		intervals.validate();
+		// Wait on `errors` reactive update.
+		await tick();
+		if (errors.length !== 0) {
+			console.error(errors);
+			return;
+		}
 		if ($currentUser == null || $currentUser.ssr) {
 			return handleGuestJoin();
 		}
@@ -142,13 +150,6 @@
 
 	const addScheduleToMeeting = async () => {
 		if ($currentUser == null || $currentUser.ssr) {
-			return;
-		}
-		intervals.validate();
-		// Wait on `errors` reactive update.
-		await tick();
-		if (errors.length !== 0) {
-			console.error(errors);
 			return;
 		}
 		pageState = 'none';
@@ -173,18 +174,26 @@
 		showGuestJoinDialog = true;
 	};
 
-	const _confirmGuestJoin = async (username: string) => {
+	const username = withError('');
+	const _confirmGuestJoin = async () => {
 		if ($currentUser != null) {
 			return;
 		}
-		const joinResult = await guestJoin(auth, repo, {
-			username,
-			meetingId: meeting.id,
-		});
-		showGuestJoinDialog = false;
-		showPasscodeDialog = true;
-		passcode = joinResult.passcode;
-		await addScheduleToMeeting();
+		try {
+			const joinResult = await guestJoin(auth, repo, {
+				username: $username.value,
+				meetingId: meeting.id,
+			});
+			showGuestJoinDialog = false;
+			showPasscodeDialog = true;
+			passcode = joinResult.passcode;
+			await addScheduleToMeeting();
+		} catch (error) {
+			console.error(error);
+			if (error instanceof FirebaseError) {
+				$username.error = 'Name already taken';
+			}
+		}
 	};
 	const confirmGuestJoin = withLoading(isLoading, _confirmGuestJoin);
 
@@ -347,9 +356,10 @@
 </section>
 
 <GuestJoinDialog
+	{username}
 	bind:open={showGuestJoinDialog}
 	meetingSlug={meeting.slug}
-	on:guest-join={({ detail }) => confirmGuestJoin(detail.username)}
+	on:guest-join={confirmGuestJoin}
 />
 <PasscodeDialog passcode={passcode ?? ''} bind:open={showPasscodeDialog} />
 

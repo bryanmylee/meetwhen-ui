@@ -15,6 +15,7 @@
 	export let password = false;
 	export let required = false;
 	export let disabled = false;
+	export let spellcheck = true;
 
 	export let use: HTMLActionArray = [];
 
@@ -40,6 +41,7 @@
 		{...attrs}
 		{required}
 		{disabled}
+		{spellcheck}
 		class:required
 		class:filled={value !== ''}
 		class:error={error !== ''}

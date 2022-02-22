@@ -1,8 +1,6 @@
 <script lang="ts" context="module">
 	export interface GuestJoinDialogEvent {
-		'guest-join': {
-			username: string;
-		};
+		'guest-join': never;
 	}
 </script>
 
@@ -12,7 +10,7 @@
 	import { DialogDescription, DialogTitle } from '@rgossiaux/svelte-headlessui';
 	import { Dialog } from '$lib/core/components/dialog';
 	import { Button, LoadingButton } from '$lib/input';
-	import { withError } from '$lib/core/utils/withError';
+	import type { WithErrorable } from '$lib/core/utils/withError';
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
 	import Textfield from '$lib/input/textfield/Textfield.svelte';
 
@@ -24,12 +22,10 @@
 	}
 	export let meetingSlug: string;
 
-	const username = withError('');
+	export let username: WithErrorable<string>;
 
 	const handleConfirmJoin = () => {
-		dispatch('guest-join', {
-			username: $username.value,
-		});
+		dispatch('guest-join');
 	};
 </script>
 
@@ -50,6 +46,7 @@
 				error={$username.error}
 				label="Name"
 				required
+				spellcheck={false}
 				use={[focusOnMount]}
 			/>
 			<div class="flex gap-4">
