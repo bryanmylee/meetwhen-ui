@@ -57,9 +57,13 @@
 				use={[focusOnMount, focusOnEnable]}
 			/>
 		</div>
-		<p class="text-sm text-center italic">
-			Enter the passcode you saved before
-		</p>
+		{#if $passcode.error !== ''}
+			<p class="text-sm text-center italic text-red-400">Incorrect passcode</p>
+		{:else}
+			<p class="text-sm text-center italic">
+				Enter the passcode you saved before
+			</p>
+		{/if}
 		<Button
 			on:click={() => (open = false)}
 			variant="text-only"
