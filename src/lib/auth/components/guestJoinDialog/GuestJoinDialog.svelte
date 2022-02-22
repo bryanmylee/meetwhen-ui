@@ -58,7 +58,7 @@
 				>
 					Cancel
 				</Button>
-				<LoadingButton type="submit" size="md" class="w-full">
+				<LoadingButton type="submit" size="md" color="gradient" class="w-full">
 					Join
 				</LoadingButton>
 			</div>
