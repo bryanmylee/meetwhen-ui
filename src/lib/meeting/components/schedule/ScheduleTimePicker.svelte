@@ -9,7 +9,7 @@
 	} from '$lib/core/utils/intervals';
 	import { getOverlappedSchedules } from '$lib/core/utils';
 	import { TimePicker } from '$lib/input';
-	import type { Schedule } from '$lib/models/Schedule';
+	import type { Schedule } from '$lib/models';
 	import { setScheduleAdjacencySet } from './utils/schedulePickerContext';
 	import ScheduleInterval from './atoms/ScheduleInterval.svelte';
 	import SchedulePickerActiveInterval from './atoms/SchedulePickerActiveInterval.svelte';

@@ -3,8 +3,8 @@ import type { Firestore } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
 import { customAlphabet } from 'nanoid';
 import dayjs from 'dayjs';
-import { MeetingConverter } from '$lib/models/Meeting';
-import type { Meeting } from '$lib/models/Meeting';
+import { MeetingConverter } from '$lib/models';
+import type { Meeting } from '$lib/models';
 import { getTotalInterval } from '$lib/core/utils';
 import { fetchLinkPreviews } from '$lib/api/fetchLinkPreviews';
 

@@ -1,7 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
-import { MeetingConverter } from '$lib/models/Meeting';
-import type { Meeting, MeetingData } from '$lib/models/Meeting';
+import { MeetingConverter } from '$lib/models';
+import type { Meeting, MeetingData } from '$lib/models';
 import { findAllSchedulesWithMeetingId } from '../schedules/findAllSchedulesWithMeetingId';
 
 export const getMeetingWithId = async (

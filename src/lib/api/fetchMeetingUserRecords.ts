@@ -1,6 +1,6 @@
 import { browser } from '$app/env';
 import { getClientEnv, getServerEnv } from '$lib/env';
-import type { UserRecord } from '$lib/models/UserRecord';
+import type { UserRecord } from '$lib/models';
 
 export const fetchMeetingUserRecords = async (
 	meetingId: string,

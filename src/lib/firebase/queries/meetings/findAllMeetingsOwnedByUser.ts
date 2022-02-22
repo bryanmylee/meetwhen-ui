@@ -1,7 +1,7 @@
 import type { Firestore, QueryConstraint } from 'firebase/firestore';
 import type { Dayjs } from 'dayjs';
-import { MeetingConverter } from '$lib/models/Meeting';
-import type { Meeting, MeetingData } from '$lib/models/Meeting';
+import { MeetingConverter } from '$lib/models';
+import type { Meeting, MeetingData } from '$lib/models';
 import {
 	collection,
 	getDocs,

@@ -1,5 +1,5 @@
-import { MeetingConverter } from '$lib/models/Meeting';
-import type { Meeting, MeetingData } from '$lib/models/Meeting';
+import { MeetingConverter } from '$lib/models';
+import type { Meeting, MeetingData } from '$lib/models';
 import {
 	collection,
 	getDocs,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { UserRecord } from '$lib/models/UserRecord';
+	import type { UserRecord } from '$lib/models';
 	import UserPreview from './UserPreview.svelte';
 
 	export let users: UserRecord[];

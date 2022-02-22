@@ -1,7 +1,7 @@
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import type { Firestore, Query } from 'firebase/firestore';
-import { ScheduleConverter } from '$lib/models/Schedule';
-import type { Schedule, ScheduleData } from '$lib/models/Schedule';
+import { ScheduleConverter } from '$lib/models';
+import type { Schedule, ScheduleData } from '$lib/models';
 
 export const findAllSchedulesWithMeetingIdQuery = (
 	repo: Firestore,

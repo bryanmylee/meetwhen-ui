@@ -3,7 +3,7 @@ import type { FirebaseApp } from 'firebase/app';
 import type { Auth } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 import { pairedContext } from '$lib/core/utils';
-import type { SafeUser } from '$lib/models/SafeUser';
+import type { SafeUser } from '$lib/models';
 
 export const { get: useFirebaseApp, set: setFirebaseApp } =
 	pairedContext<FirebaseApp>();

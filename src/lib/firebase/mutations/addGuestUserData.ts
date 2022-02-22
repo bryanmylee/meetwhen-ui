@@ -1,4 +1,4 @@
-import type { GuestUserData } from '$lib/models/GuestUserData';
+import type { GuestUserData } from '$lib/models';
 import { setDoc, doc } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
 

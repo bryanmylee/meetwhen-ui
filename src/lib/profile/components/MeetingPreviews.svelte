@@ -11,7 +11,7 @@
 	import { dateFromId, dateToId } from '$lib/core/utils/dayjs';
 	import { groupBy } from '$lib/core/utils';
 	import type { Paginated } from '$lib/firebase/queries/paginated';
-	import type { Meeting } from '$lib/models/Meeting';
+	import type { Meeting } from '$lib/models';
 	import { Button } from '$lib/input';
 	import MeetingPreview from './MeetingPreview.svelte';
 

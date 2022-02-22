@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import type { SafeUser } from '$lib/models/SafeUser';
+import type { SafeUser } from '$lib/models';
 
 export const mockHydratedUser: SafeUser = {
 	ssr: false,

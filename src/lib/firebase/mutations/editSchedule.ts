@@ -3,8 +3,8 @@ import type { Firestore } from 'firebase/firestore';
 import type { User } from 'firebase/auth';
 import { getTotalInterval } from '$lib/core/utils';
 import type { Interval } from '$lib/core/types';
-import { ScheduleConverter } from '$lib/models/Schedule';
-import type { Schedule } from '$lib/models/Schedule';
+import { ScheduleConverter } from '$lib/models';
+import type { Schedule } from '$lib/models';
 
 export interface EditSchedule {
 	id: string;

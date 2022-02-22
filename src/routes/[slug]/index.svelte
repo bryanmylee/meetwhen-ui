@@ -22,10 +22,13 @@
 	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import { doc } from 'firebase/firestore';
-	import { MeetingConverter } from '$lib/models/Meeting';
-	import type { Meeting, MeetingData } from '$lib/models/Meeting';
-	import { ScheduleConverter } from '$lib/models/Schedule';
-	import type { ScheduleData } from '$lib/models/Schedule';
+	import { MeetingConverter, ScheduleConverter } from '$lib/models';
+	import type {
+		Meeting,
+		MeetingData,
+		ScheduleData,
+		UserRecord,
+	} from '$lib/models';
 	import { firebaseClient } from '$lib/firebase/client';
 	import { useAuth, useRepo, useUser } from '$lib/firebase/context';
 	import { useLiveDocument } from '$lib/firebase/utils/useLiveDocument';
@@ -42,7 +45,6 @@
 	import { deleteSchedule } from '$lib/firebase/mutations/deleteSchedule';
 	import { editSchedule } from '$lib/firebase/mutations/editSchedule';
 	import { fetchMeetingUserRecords } from '$lib/api/fetchMeetingUserRecords';
-	import type { UserRecord } from '$lib/models/UserRecord';
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
 	import Head from '$lib/core/components/Head.svelte';
 	import {

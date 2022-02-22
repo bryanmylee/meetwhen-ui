@@ -3,7 +3,7 @@
 
 // See https://kit.svelte.dev/docs#typescript
 // for information about these interfaces
-import type { SafeUser } from '$lib/models/SafeUser';
+import type { SafeUser } from '$lib/models';
 import type { ThemeType } from '$lib/core/types';
 
 declare global {

@@ -5,7 +5,7 @@ import type { Auth, User } from 'firebase/auth';
 import { browser } from '$app/env';
 import { session } from '$app/stores';
 import { destroyCookie, setCookie } from '$lib/core/utils/cookies';
-import type { SafeUser } from '$lib/models/SafeUser';
+import type { SafeUser } from '$lib/models';
 
 const TEN_MINUTE_MS = 10 * 60 * 1000;
 

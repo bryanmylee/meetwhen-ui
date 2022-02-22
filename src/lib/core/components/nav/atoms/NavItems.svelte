@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import type { SafeUser } from '$lib/models/SafeUser';
+	import type { SafeUser } from '$lib/models';
 	import type { ThemeType } from '$lib/core/types';
 	import type { NavEvent } from '../Nav.svelte';
 	import ThemeSelect from './ThemeSelect.svelte';

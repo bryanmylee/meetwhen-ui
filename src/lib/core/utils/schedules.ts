@@ -1,4 +1,4 @@
-import type { Schedule } from '$lib/models/Schedule';
+import type { Schedule } from '$lib/models';
 import type { Dayjs } from 'dayjs';
 import { Set } from 'immutable';
 import type { Moment } from '../types/Moment';

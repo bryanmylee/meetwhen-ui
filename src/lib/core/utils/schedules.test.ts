@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { Schedule } from '$lib/models/Schedule';
+import type { Schedule } from '$lib/models';
 import type { UserIdsInterval } from '../types/UserIdsInterval';
 import { getOverlappedSchedules } from './schedules';
 import { Set } from 'immutable';
