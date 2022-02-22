@@ -77,6 +77,7 @@
 	const name = withError('');
 	const email = withError('');
 	const password = withError('');
+	const passcode = withError('');
 
 	const isLoading = writable(false);
 	setLoading(isLoading);
@@ -128,11 +129,18 @@
 		if ($user?.ssr || $activeMeeting === undefined) {
 			return;
 		}
-		await guestSignIn(firebaseClient.auth, firebaseClient.repo, {
-			meetingId: $activeMeeting.id,
-			passcode: detail.passcode,
-		});
-		onSignIn();
+		try {
+			await guestSignIn(firebaseClient.auth, firebaseClient.repo, {
+				meetingId: $activeMeeting.id,
+				passcode: detail.passcode,
+			});
+			onSignIn();
+		} catch (error) {
+			if (error instanceof Error) {
+				console.error(error);
+				$passcode.error = error.message;
+			}
+		}
 	};
 
 	const handleGuestSignIn = withLoading(isLoading, _handleGuestSignIn);
@@ -174,6 +182,7 @@
 		}}
 	/>
 	<GuestReturningDialog
+		{passcode}
 		bind:open={$isGuestAuthOpen}
 		meetingSlug={$activeMeeting?.slug ?? ''}
 		on:guest-sign-in={handleGuestSignIn}

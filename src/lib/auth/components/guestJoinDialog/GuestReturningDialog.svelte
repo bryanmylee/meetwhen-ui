@@ -8,14 +8,18 @@
 
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import { writable } from 'svelte/store';
 	import { XIcon } from 'svelte-feather-icons';
 	import { DialogDescription, DialogTitle } from '@rgossiaux/svelte-headlessui';
 	import { Dialog } from '$lib/core/components/dialog';
 	import { Button, LoadingPasscodeInput } from '$lib/input';
-	import { withError } from '$lib/core/utils/withError';
+	import type { WithErrorable } from '$lib/core/utils/withError';
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
+	import { focusOnEnable } from '$lib/core/utils/useFocusOnEnable';
 
 	const dispatch = createEventDispatcher<GuestReturningEvent>();
+
+	export let passcode: WithErrorable<string>;
 
 	export let open = true;
 	$: if (!open) {
@@ -23,11 +27,14 @@
 	}
 	export let meetingSlug: string;
 
-	export let error = '';
-	$: $passcode.error = error;
-	const passcode = withError('');
+	let signedIn = false;
 	$: if ($passcode.value.length === 6) {
-		handleConfirmSignIn();
+		if (!signedIn) {
+			handleConfirmSignIn();
+		}
+		signedIn = true;
+	} else {
+		signedIn = false;
 	}
 
 	const handleConfirmSignIn = () => {
@@ -47,7 +54,7 @@
 			<LoadingPasscodeInput
 				bind:value={$passcode.value}
 				error={$passcode.error}
-				use={[focusOnMount]}
+				use={[focusOnMount, focusOnEnable]}
 			/>
 		</div>
 		<p class="text-sm text-center italic">
