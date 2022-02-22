@@ -13,7 +13,6 @@
 	title="Auth/GuestJoinDialog"
 	component={GuestJoinDialog}
 	argTypes={{
-		onShowReturning: { action: 'onShowReturning' },
 		onGuestJoin: { action: 'onGuestJoin' },
 	}}
 />
@@ -24,7 +23,6 @@
 		bind:open={showDialog}
 		{...args}
 		{username}
-		on:show-returning={args.onShowReturning}
 		on:guest-join={args.onGuestJoin}
 		meetingSlug="test_slug"
 	/>

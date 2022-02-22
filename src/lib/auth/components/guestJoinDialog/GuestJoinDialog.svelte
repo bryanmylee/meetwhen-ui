@@ -1,6 +1,5 @@
 <script lang="ts" context="module">
 	export interface GuestJoinDialogEvent {
-		'show-returning': never;
 		'guest-join': {
 			username: string;
 		};
@@ -12,7 +11,7 @@
 	import { XIcon } from 'svelte-feather-icons';
 	import { DialogDescription, DialogTitle } from '@rgossiaux/svelte-headlessui';
 	import { Dialog } from '$lib/core/components/dialog';
-	import { Button } from '$lib/input';
+	import { Button, LoadingButton } from '$lib/input';
 	import { withError } from '$lib/core/utils/withError';
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
 	import Textfield from '$lib/input/textfield/Textfield.svelte';
@@ -41,15 +40,6 @@
 		</DialogDescription>
 		<DialogTitle as="h1" class="flex justify-between items-baseline">
 			<span class="text-title-1"> Join as a guest </span>
-			<span>
-				or
-				<button
-					on:click={() => dispatch('show-returning')}
-					class="guest-dialog-returning"
-				>
-					returning guest?
-				</button>
-			</span>
 		</DialogTitle>
 		<form
 			on:submit|preventDefault={handleConfirmJoin}
@@ -71,7 +61,9 @@
 				>
 					Cancel
 				</Button>
-				<Button type="submit" size="md" class="w-full">Join</Button>
+				<LoadingButton type="submit" size="md" class="w-full">
+					Join
+				</LoadingButton>
 			</div>
 		</form>
 		<Button
@@ -91,18 +83,10 @@
 		@apply flex flex-col gap-4;
 		width: calc(100vw - 2rem);
 		max-width: 30rem;
-		@media (min-width: 768px) {
-			max-width: 48rem;
-		}
 	}
 
 	:global(.guest-dialog-dismiss-button) {
 		@apply absolute top-4 right-4;
 		@apply wh-7;
-	}
-
-	.guest-dialog-returning {
-		@apply text-neutral-400 underline underline-offset-2;
-		@apply focus p-1 rounded hover:text-primary-400;
 	}
 </style>
