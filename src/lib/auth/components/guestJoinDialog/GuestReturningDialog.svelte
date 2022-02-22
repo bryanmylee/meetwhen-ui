@@ -11,7 +11,7 @@
 	import { XIcon } from 'svelte-feather-icons';
 	import { DialogDescription, DialogTitle } from '@rgossiaux/svelte-headlessui';
 	import { Dialog } from '$lib/core/components/dialog';
-	import { Button, PasscodeInput } from '$lib/input';
+	import { Button, LoadingPasscodeInput } from '$lib/input';
 	import { withError } from '$lib/core/utils/withError';
 	import { focusOnMount } from '$lib/core/utils/useFocusOnMount';
 
@@ -44,7 +44,7 @@
 		</DialogDescription>
 		<DialogTitle as="h1" class="text-title-2">Sign in as guest</DialogTitle>
 		<div class="flex justify-center scale-125 mx-7">
-			<PasscodeInput
+			<LoadingPasscodeInput
 				bind:value={$passcode.value}
 				error={$passcode.error}
 				use={[focusOnMount]}

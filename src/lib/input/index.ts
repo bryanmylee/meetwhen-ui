@@ -5,6 +5,7 @@ export { default as KeyboardHelp } from './keyboard/KeyboardHelp.svelte';
 export type { KeyboardReducer } from './keyboard/types/KeyboardReducer';
 export { default as LocalIntervalSelect } from './localIntervalSelect/LocalIntervalSelect.svelte';
 export { default as PasscodeInput } from './passcodeInput/PasscodeInput.svelte';
+export { default as LoadingPasscodeInput } from './passcodeInput/LoadingPasscodeInput.svelte';
 export { default as Select } from './select/Select.svelte';
 export { default as SelectionProvider } from './selection/SelectionProvider.svelte';
 export type { SelectionProviderEvent } from './selection/SelectionProvider.svelte';

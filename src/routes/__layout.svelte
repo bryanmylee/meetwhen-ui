@@ -16,6 +16,7 @@
 
 <script lang="ts">
 	import '../app.css';
+	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
@@ -56,6 +57,7 @@
 	import { useScreenHeight } from '$lib/core/utils/useScreenHeight';
 	import { withError } from '$lib/core/utils/withError';
 	import { guestSignIn } from '$lib/auth/utils/handleGuest';
+	import { setLoading, withLoading } from '$lib/loading';
 
 	export let initTheme: ThemeType;
 	const theme = useCookie('theme', initTheme);
@@ -76,7 +78,10 @@
 	const email = withError('');
 	const password = withError('');
 
-	const handlePasswordSignIn = async ({
+	const isLoading = writable(false);
+	setLoading(isLoading);
+
+	const _handlePasswordSignIn = async ({
 		detail,
 	}: CustomEvent<AuthEvent['password-signin']>) => {
 		if ($user?.ssr) {
@@ -101,8 +106,9 @@
 			}
 		}
 	};
+	const handlePasswordSignIn = withLoading(isLoading, _handlePasswordSignIn);
 
-	const handleOAuthSignIn = async ({
+	const _handleOAuthSignIn = async ({
 		detail,
 	}: CustomEvent<AuthEvent['oauth-signin']>) => {
 		if ($user?.ssr) {
@@ -114,8 +120,9 @@
 		});
 		onSignIn();
 	};
+	const handleOAuthSignIn = withLoading(isLoading, _handleOAuthSignIn);
 
-	const handleGuestSignIn = async ({
+	const _handleGuestSignIn = async ({
 		detail,
 	}: CustomEvent<GuestReturningEvent['guest-sign-in']>) => {
 		if ($user?.ssr || $activeMeeting === undefined) {
@@ -127,6 +134,8 @@
 		});
 		onSignIn();
 	};
+
+	const handleGuestSignIn = withLoading(isLoading, _handleGuestSignIn);
 
 	const onSignIn = () => {
 		$isAuthOpen = false;
