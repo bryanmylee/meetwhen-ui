@@ -31,7 +31,10 @@ export const addMeeting = async (
 	const created = dayjs();
 	const ownerId = currentUser?.uid;
 	const total = getTotalInterval(addMeeting.intervals);
-	const links = await fetchLinkPreviews(addMeeting.links);
+	const links =
+		addMeeting.links.length === 0
+			? undefined
+			: await fetchLinkPreviews(addMeeting.links);
 	const newMeetingData = MeetingConverter.serialize({
 		...addMeeting,
 		slug,
@@ -39,7 +42,6 @@ export const addMeeting = async (
 		ownerId,
 		total,
 		links,
-		schedules: [],
 	});
 	const doc = await addDoc(collection(repo, 'meetings'), newMeetingData);
 	return {
