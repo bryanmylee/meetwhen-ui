@@ -148,6 +148,6 @@
 
 	.schedule-tag {
 		color: var(--color);
-		@apply text-label-sm absolute right-2 bottom-1;
+		@apply text-label-sm absolute right-2 bottom-1 pointer-events-none;
 	}
 </style>
