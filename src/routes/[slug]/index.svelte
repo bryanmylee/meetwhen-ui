@@ -10,6 +10,7 @@
 		const users = await fetchMeetingUserRecords(meeting.id);
 		return {
 			props: {
+				meetingId: meeting.id,
 				meeting,
 				users,
 			},
@@ -22,6 +23,7 @@
 	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import { doc } from 'firebase/firestore';
+	import { FirebaseError } from 'firebase/app';
 	import { MeetingConverter, ScheduleConverter } from '$lib/models';
 	import type {
 		Meeting,
@@ -59,13 +61,13 @@
 	} from '$lib/auth';
 	import { activeMeeting } from '$lib/core/state';
 	import { setLoading, withLoading } from '$lib/loading';
-	import { FirebaseError } from 'firebase/app';
 
 	const auth = useAuth();
 	const repo = useRepo();
 	const currentUser = useUser();
 	$: isGuest = $currentUser?.email?.endsWith('.guest');
 
+	export let meetingId: string;
 	export let meeting: Id<Meeting>;
 
 	$: $activeMeeting = meeting;
@@ -73,7 +75,8 @@
 		$activeMeeting = undefined;
 	});
 
-	const meetingDocRef = writable(doc(repo, 'meetings', meeting.id));
+	const meetingDocRef = writable(doc(repo, 'meetings', meetingId));
+	$: $meetingDocRef = doc(repo, 'meetings', meetingId);
 	const liveMeetingDoc = useDynamicLiveDocument<MeetingData>(meetingDocRef);
 	$: {
 		const data = $liveMeetingDoc?.data();
@@ -96,8 +99,9 @@
 	}, {});
 
 	const schedulesQuery = writable(
-		findAllSchedulesWithMeetingIdQuery(repo, meeting.id),
+		findAllSchedulesWithMeetingIdQuery(repo, meetingId),
 	);
+	$: $schedulesQuery = findAllSchedulesWithMeetingIdQuery(repo, meetingId);
 	const liveSchedulesDocs = useDynamicLiveQuery<ScheduleData>(schedulesQuery);
 	$: {
 		const schedules = $liveSchedulesDocs
@@ -113,7 +117,7 @@
 	}
 
 	const updateUserData = async () => {
-		users = await fetchMeetingUserRecords(meeting.id);
+		users = await fetchMeetingUserRecords(meetingId);
 	};
 
 	let pageState: MeetingPageState = 'none';
@@ -161,7 +165,7 @@
 			repo,
 			{
 				intervals: $intervals.value,
-				meetingId: meeting.id,
+				meetingId,
 			},
 			$currentUser,
 		);
@@ -186,7 +190,7 @@
 		try {
 			const joinResult = await guestJoin(auth, repo, {
 				username: $username.value,
-				meetingId: meeting.id,
+				meetingId,
 			});
 			showGuestJoinDialog = false;
 			showPasscodeDialog = true;
@@ -271,7 +275,7 @@
 			{
 				id: currentSchedule.id,
 				intervals: $intervals.value,
-				meetingId: meeting.id,
+				meetingId,
 			},
 			$currentUser,
 		);
