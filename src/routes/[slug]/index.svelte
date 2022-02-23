@@ -23,6 +23,10 @@
 	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import { doc } from 'firebase/firestore';
+	import type {
+		DocumentSnapshot,
+		QueryDocumentSnapshot,
+	} from 'firebase/firestore';
 	import { FirebaseError } from 'firebase/app';
 	import { MeetingConverter, ScheduleConverter } from '$lib/models';
 	import type {
@@ -69,6 +73,7 @@
 
 	export let meetingId: string;
 	export let meeting: Id<Meeting>;
+	$: console.log(meeting);
 
 	$: $activeMeeting = meeting;
 	onDestroy(() => {
@@ -78,15 +83,16 @@
 	const meetingDocRef = writable(doc(repo, 'meetings', meetingId));
 	$: $meetingDocRef = doc(repo, 'meetings', meetingId);
 	const liveMeetingDoc = useDynamicLiveDocument<MeetingData>(meetingDocRef);
-	$: {
-		const data = $liveMeetingDoc?.data();
+	$: updateMeeting($liveMeetingDoc);
+	const updateMeeting = (doc: Maybe<DocumentSnapshot<MeetingData>>) => {
+		const data = doc?.data();
 		if (data !== undefined) {
 			meeting = {
 				...meeting,
 				...MeetingConverter.parse(data),
 			};
 		}
-	}
+	};
 
 	export let users: Id<UserRecord>[];
 	const usersCache = writable<Record<string, UserRecord>>({});
@@ -103,8 +109,11 @@
 	);
 	$: $schedulesQuery = findAllSchedulesWithMeetingIdQuery(repo, meetingId);
 	const liveSchedulesDocs = useDynamicLiveQuery<ScheduleData>(schedulesQuery);
-	$: {
-		const schedules = $liveSchedulesDocs
+	$: updateSchedules($liveSchedulesDocs);
+	const updateSchedules = (
+		docs: Maybe<QueryDocumentSnapshot<ScheduleData>[]>,
+	) => {
+		const schedules = docs
 			?.map((d) => [d.id, d.data()] as const)
 			.map(([id, data]) => ({ ...ScheduleConverter.parse(data), id }));
 		if (schedules !== undefined) {
@@ -114,7 +123,7 @@
 			};
 		}
 		updateUserData();
-	}
+	};
 
 	const updateUserData = async () => {
 		users = await fetchMeetingUserRecords(meetingId);
