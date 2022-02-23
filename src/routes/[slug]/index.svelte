@@ -20,6 +20,7 @@
 
 <script lang="ts">
 	import { onDestroy, tick } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
 	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import { doc } from 'firebase/firestore';
@@ -28,6 +29,7 @@
 		QueryDocumentSnapshot,
 	} from 'firebase/firestore';
 	import { FirebaseError } from 'firebase/app';
+	import { signOut } from 'firebase/auth';
 	import { MeetingConverter, ScheduleConverter } from '$lib/models';
 	import type {
 		Meeting,
@@ -65,11 +67,12 @@
 	} from '$lib/auth';
 	import { activeMeeting } from '$lib/core/state';
 	import { setLoading, withLoading } from '$lib/loading';
+	import { guestEmailInMeeting } from '$lib/meeting/utils/guestEmailInMeeting';
 
 	const auth = useAuth();
 	const repo = useRepo();
 	const currentUser = useUser();
-	$: isGuest = $currentUser?.email?.endsWith('.guest');
+	$: isGuest = $currentUser?.email?.endsWith('.guest') ?? false;
 
 	export let meetingId: string;
 	export let meeting: Id<Meeting>;
@@ -77,6 +80,16 @@
 	$: $activeMeeting = meeting;
 	onDestroy(() => {
 		$activeMeeting = undefined;
+	});
+	// sign out guest users when viewing this meeting as a guest from another meeting.
+	afterNavigate(() => {
+		if (
+			$currentUser?.email != null &&
+			isGuest &&
+			!guestEmailInMeeting($currentUser.email, meetingId)
+		) {
+			signOut(auth);
+		}
 	});
 
 	const meetingDocRef = writable(doc(repo, 'meetings', meetingId));
