@@ -73,7 +73,6 @@
 
 	export let meetingId: string;
 	export let meeting: Id<Meeting>;
-	$: console.log(meeting);
 
 	$: $activeMeeting = meeting;
 	onDestroy(() => {
