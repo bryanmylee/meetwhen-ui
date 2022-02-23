@@ -26,6 +26,8 @@ export type { GetPopulatedDocsProps } from './utils/getPopulatedDocuments';
 export { populateIds } from './utils/populateIds';
 export { useLiveDocument } from './utils/useLiveDocument';
 export { useLiveQuery } from './utils/useLiveQuery';
+export { useDynamicLiveDocument } from './utils/useDynamicLiveDocument';
+export { useDynamicLiveQuery } from './utils/useDynamicLiveQuery';
 export { firebaseClient, initFirebaseClient } from './client';
 export type { FirebaseClient } from './client';
 export {

@@ -34,8 +34,8 @@
 		useAuth,
 		useRepo,
 		useUser,
-		useLiveDocument,
-		useLiveQuery,
+		useDynamicLiveDocument,
+		useDynamicLiveQuery,
 		findMeetingWithSlug,
 		addSchedule,
 		findAllSchedulesWithMeetingIdQuery,
@@ -73,9 +73,8 @@
 		$activeMeeting = undefined;
 	});
 
-	const liveMeetingDoc = useLiveDocument<MeetingData>(
-		doc(repo, 'meetings', meeting.id),
-	);
+	const meetingDocRef = writable(doc(repo, 'meetings', meeting.id));
+	const liveMeetingDoc = useDynamicLiveDocument<MeetingData>(meetingDocRef);
 	$: {
 		const data = $liveMeetingDoc?.data();
 		if (data !== undefined) {
@@ -96,9 +95,10 @@
 		};
 	}, {});
 
-	const liveSchedulesDocs = useLiveQuery<ScheduleData>(
+	const schedulesQuery = writable(
 		findAllSchedulesWithMeetingIdQuery(repo, meeting.id),
 	);
+	const liveSchedulesDocs = useDynamicLiveQuery<ScheduleData>(schedulesQuery);
 	$: {
 		const schedules = $liveSchedulesDocs
 			?.map((d) => [d.id, d.data()] as const)
