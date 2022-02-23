@@ -88,6 +88,7 @@
 			isGuest &&
 			!guestEmailInMeeting($currentUser.email, meetingId)
 		) {
+			// TODO alert user of sign out due to different meeting.
 			signOut(auth);
 		}
 	});
