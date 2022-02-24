@@ -1,9 +1,5 @@
 <script lang="ts" context="module">
 	export const load: Load = async ({ session }) => {
-		if (!browser) {
-			const { serviceKey } = getServerEnv();
-			initFirebaseAdmin(serviceKey);
-		}
 		const { firebaseConfig } = getClientEnv();
 		initFirebaseClient(firebaseConfig);
 		return {
@@ -18,11 +14,10 @@
 	import '../app.css';
 	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
-	import { browser } from '$app/env';
 	import { goto } from '$app/navigation';
 	import { page, session } from '$app/stores';
 	import { FirebaseError } from 'firebase/app';
-	import { getClientEnv, getServerEnv } from '$lib/env';
+	import { getClientEnv } from '$lib/env';
 	import {
 		activeMeeting,
 		isAuthOpen,
@@ -31,11 +26,7 @@
 		setIsDark,
 		setTheme,
 	} from '$lib/core/state';
-	import {
-		initFirebaseClient,
-		initFirebaseAdmin,
-		firebaseClient,
-	} from '$lib/firebase';
+	import { initFirebaseClient, firebaseClient } from '$lib/firebase';
 	import {
 		setFirebaseApp,
 		setFirebaseAuth,
