@@ -19,8 +19,8 @@
 </script>
 
 <script lang="ts">
-	import { onDestroy, tick } from 'svelte';
-	import { afterNavigate, goto } from '$app/navigation';
+	import { onDestroy, onMount, tick } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
 	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import { doc } from 'firebase/firestore';
@@ -297,7 +297,7 @@
 	const confirmEdit = withLoading(isLoading, _confirmEdit);
 
 	// sign out guest users when viewing this meeting as a guest from another meeting.
-	afterNavigate(() => {
+	const catchGuestUser = () => {
 		if (
 			$currentUser?.email != null &&
 			isGuest &&
@@ -305,7 +305,9 @@
 		) {
 			showGuestSignOutDialog = true;
 		}
-	});
+	};
+	onMount(catchGuestUser);
+	afterNavigate(catchGuestUser);
 
 	const _handleGuestSignOut = async () => {
 		await signOut(auth);
