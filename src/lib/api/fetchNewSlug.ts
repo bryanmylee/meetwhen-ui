@@ -1,7 +1,7 @@
 import { browser } from '$app/env';
 import { getClientEnv, getServerEnv } from '$lib/env';
 
-export const fetchSlug = async (): Promise<string> => {
+export const fetchNewSlug = async (): Promise<string> => {
 	try {
 		const { host } = browser ? getClientEnv() : getServerEnv();
 		const response = await fetch(`${host}/api/slug`);

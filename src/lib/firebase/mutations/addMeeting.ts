@@ -4,7 +4,7 @@ import type { User } from 'firebase/auth';
 import dayjs from 'dayjs';
 import { MeetingConverter } from '$lib/models';
 import type { Meeting } from '$lib/models';
-import { fetchLinkPreviews, fetchSlug } from '$lib/api';
+import { fetchLinkPreviews, fetchNewSlug } from '$lib/api';
 import { getTotalInterval } from '$lib/core/utils';
 
 export interface AddMeeting
@@ -20,7 +20,7 @@ export const addMeeting = async (
 	addMeeting: AddMeeting,
 	currentUser?: User,
 ): Promise<Id<Meeting>> => {
-	const slug = await fetchSlug();
+	const slug = await fetchNewSlug();
 	const created = dayjs();
 	const ownerId = currentUser?.uid;
 	const total = getTotalInterval(addMeeting.intervals);
