@@ -1,14 +1,14 @@
 <script>
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import { Button } from '$lib/input';
-	import GuestSignOutDialog from './GuestSignOutDialog.svelte';
+	import GuestSignOutDialogPure from './GuestSignOutDialogPure.svelte';
 
 	let showDialog = true;
 </script>
 
 <Meta
 	title="Auth/GuestSignOutDialog"
-	component={GuestSignOutDialog}
+	component={GuestSignOutDialogPure}
 	argTypes={{}}
 />
 
@@ -16,10 +16,10 @@
 	<Button on:click={() => (showDialog = !showDialog)}>
 		Show guest sign out dialog
 	</Button>
-	<GuestSignOutDialog
+	<GuestSignOutDialogPure
 		bind:open={showDialog}
 		currentSlug="new_slug"
-		previousMeeting={{
+		guestMeeting={{
 			name: 'old meet',
 			slug: 'old_slug',
 		}}

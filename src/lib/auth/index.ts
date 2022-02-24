@@ -6,6 +6,7 @@ export { handlePasswordError } from './components/authDialog/utils/handlePasswor
 export { default as GuestJoinDialog } from './components/guestJoinDialog/GuestJoinDialog.svelte';
 export { default as GuestReturningDialog } from './components/guestJoinDialog/GuestReturningDialog.svelte';
 export type { GuestReturningEvent } from './components/guestJoinDialog/GuestReturningDialog.svelte';
+export { default as GuestSignOutDialog } from './components/guestSignOutDialog/GuestSignOutDialog.svelte';
 export { oAuthSignIn, passwordSignIn } from './utils/handleSignIn';
 export { guestJoin, guestLeave } from './utils/handleGuest';
 export { configureUser } from './configureUser';

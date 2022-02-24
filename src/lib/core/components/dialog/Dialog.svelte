@@ -5,9 +5,18 @@
 	import { primaryVars } from '$lib/core/state';
 
 	export let open = true;
+	let isStatic = false;
+	export { isStatic as static };
 </script>
 
-<Dialog {open} on:close={() => (open = false)}>
+<Dialog
+	{open}
+	on:close={() => {
+		if (!isStatic) {
+			open = false;
+		}
+	}}
+>
 	<div class="dialog" style={$primaryVars}>
 		<div transition:fade={{ duration: 300, easing: cubicOut }}>
 			<DialogOverlay class="dialog-overlay" />

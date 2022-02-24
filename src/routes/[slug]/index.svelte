@@ -20,7 +20,7 @@
 
 <script lang="ts">
 	import { onDestroy, tick } from 'svelte';
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import { doc } from 'firebase/firestore';
@@ -62,6 +62,7 @@
 	import {
 		GuestJoinDialog,
 		PasscodeDialog,
+		GuestSignOutDialog,
 		guestJoin,
 		guestLeave,
 	} from '$lib/auth';
@@ -81,17 +82,6 @@
 	$: $activeMeeting = meeting;
 	onDestroy(() => {
 		$activeMeeting = undefined;
-	});
-	// sign out guest users when viewing this meeting as a guest from another meeting.
-	afterNavigate(() => {
-		if (
-			$currentUser?.email != null &&
-			isGuest &&
-			!guestEmailInMeeting($currentUser.email, meetingId)
-		) {
-			// TODO alert user of sign out due to different meeting.
-			signOut(auth);
-		}
 	});
 
 	const meetingDocRef = writable(doc(repo, 'meetings', meetingId));
@@ -195,6 +185,7 @@
 	};
 
 	let showGuestJoinDialog = false;
+	let showGuestSignOutDialog = false;
 	let showPasscodeDialog = false;
 	let passcode: Maybe<string> = undefined;
 	$: if (!showPasscodeDialog) {
@@ -304,6 +295,33 @@
 		);
 	};
 	const confirmEdit = withLoading(isLoading, _confirmEdit);
+
+	// sign out guest users when viewing this meeting as a guest from another meeting.
+	afterNavigate(() => {
+		if (
+			$currentUser?.email != null &&
+			isGuest &&
+			!guestEmailInMeeting($currentUser.email, meetingId)
+		) {
+			showGuestSignOutDialog = true;
+		}
+	});
+
+	const _handleGuestSignOut = async () => {
+		await signOut(auth);
+		showGuestSignOutDialog = false;
+	};
+	const handleGuestSignOut = withLoading(isLoading, _handleGuestSignOut);
+
+	const _handleCancelGuestSignOut = async () => {
+		const { referrer } = document;
+		await goto(referrer.length > 0 ? referrer : '/');
+		showGuestSignOutDialog = false;
+	};
+	const handleCancelGuestSignOut = withLoading(
+		isLoading,
+		_handleCancelGuestSignOut,
+	);
 </script>
 
 <Head
@@ -398,6 +416,14 @@
 	on:guest-join={confirmGuestJoin}
 />
 <PasscodeDialog passcode={passcode ?? ''} bind:open={showPasscodeDialog} />
+{#if $currentUser != null && !$currentUser.ssr}
+	<GuestSignOutDialog
+		guestUser={$currentUser}
+		open={showGuestSignOutDialog}
+		on:sign-out={handleGuestSignOut}
+		on:cancel={handleCancelGuestSignOut}
+	/>
+{/if}
 
 <style lang="postcss">
 	.leave {
