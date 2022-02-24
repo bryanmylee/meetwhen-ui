@@ -18,11 +18,11 @@
 	}}
 >
 	<div class="dialog" style={$primaryVars}>
-		<div transition:fade={{ duration: 300, easing: cubicOut }}>
+		<div transition:fade|local={{ duration: 300, easing: cubicOut }}>
 			<DialogOverlay class="dialog-overlay" />
 			<div
 				class="relative z-10"
-				in:fly={{ duration: 500, y: 50, easing: cubicOut }}
+				in:fly|local={{ duration: 500, y: 50, easing: cubicOut }}
 			>
 				<slot />
 			</div>
