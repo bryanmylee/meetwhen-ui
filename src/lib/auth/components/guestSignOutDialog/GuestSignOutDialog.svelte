@@ -21,7 +21,7 @@
 
 <Dialog {open} static>
 	<div class="guest-sign-out-card">
-		<DialogDescription class="font-semibold">
+		<DialogDescription class="text-title-2">
 			You're a guest of
 		</DialogDescription>
 		<MeetingPreview
@@ -33,7 +33,7 @@
 		<p class="text-sm italic">Guest accounts are unique to each meet</p>
 		<DialogTitle
 			as="h1"
-			class="text-title-1 border-t border-neutral-200 dark:border-neutral-600 mt-2 pt-4"
+			class="text-title-2 border-t border-neutral-200 dark:border-neutral-600 mt-2 pt-4"
 		>
 			To view this meet
 		</DialogTitle>
