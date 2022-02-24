@@ -3,5 +3,5 @@ import type { Dayjs } from 'dayjs';
 import type { Set } from 'immutable';
 import { pairedContext } from '$lib/core/utils';
 
-export const { get: getScheduleAdjacencySet, set: setScheduleAdjacencySet } =
+export const [getScheduleAdjacencySet, setScheduleAdjacencySet] =
 	pairedContext<Writable<Set<Dayjs>>>();

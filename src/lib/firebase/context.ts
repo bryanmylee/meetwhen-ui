@@ -5,12 +5,11 @@ import type { Firestore } from 'firebase/firestore';
 import { pairedContext } from '$lib/core/utils';
 import type { SafeUser } from '$lib/models';
 
-export const { get: useFirebaseApp, set: setFirebaseApp } =
-	pairedContext<FirebaseApp>();
+export const [useFirebaseApp, setFirebaseApp] = pairedContext<FirebaseApp>();
 
-export const { get: useAuth, set: setFirebaseAuth } = pairedContext<Auth>();
+export const [useAuth, setFirebaseAuth] = pairedContext<Auth>();
 
-export const { get: useRepo, set: setRepo } = pairedContext<Firestore>();
+export const [useRepo, setRepo] = pairedContext<Firestore>();
 
-export const { get: useUser, set: setUser } =
+export const [useUser, setUser] =
 	pairedContext<Readable<Maybe<Nullable<SafeUser>>>>();

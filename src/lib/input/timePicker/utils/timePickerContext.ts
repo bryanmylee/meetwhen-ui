@@ -5,16 +5,14 @@ import type {
 	TimePickerState,
 } from './createTimePickerState';
 
-export const { get: getTimePickerState, set: setTimePickerState } =
+export const [getTimePickerState, setTimePickerState] =
 	pairedContext<TimePickerState>();
 
-export const { get: getTimePickerControls, set: setTimePickerControls } =
+export const [getTimePickerControls, setTimePickerControls] =
 	pairedContext<TimePickerControls>();
 
-export const {
-	get: getCurrentDateTimeElement,
-	set: setCurrentDateTimeElement,
-} = pairedContext<Writable<Maybe<HTMLElement>>>();
+export const [getCurrentDateTimeElement, setCurrentDateTimeElement] =
+	pairedContext<Writable<Maybe<HTMLElement>>>();
 
-export const { get: getScrollElement, set: setScrollElement } =
+export const [getScrollElement, setScrollElement] =
 	pairedContext<Writable<Maybe<HTMLElement>>>();

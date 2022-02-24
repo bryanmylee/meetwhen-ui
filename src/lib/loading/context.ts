@@ -2,8 +2,7 @@ import { pairedContext } from '$lib/core/utils';
 import { readable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
 
-export const { set: setLoading, get: _getLoading } =
-	pairedContext<Writable<boolean>>();
+export const [_getLoading, setLoading] = pairedContext<Writable<boolean>>();
 
 export const getLoading = (): Readable<boolean> => {
 	const isLoading = _getLoading();

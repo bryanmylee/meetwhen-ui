@@ -17,11 +17,9 @@ export const isAuthOpen = writable(false);
 export const isGuestAuthOpen = writable(false);
 export const activeMeeting = writable<Maybe<Id<Meeting>>>(undefined);
 
-export const { get: useTheme, set: setTheme } =
-	pairedContext<Writable<ThemeType>>();
+export const [useTheme, setTheme] = pairedContext<Writable<ThemeType>>();
 
-export const { get: useIsDark, set: setIsDark } =
-	pairedContext<Readable<boolean>>();
+export const [useIsDark, setIsDark] = pairedContext<Readable<boolean>>();
 
 export const media = watchMedia({
 	sm: '(min-width: 640px)',

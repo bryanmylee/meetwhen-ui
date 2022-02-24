@@ -1,14 +1,8 @@
 import { getContext, setContext } from 'svelte';
 
-export interface PairedContext<T> {
-	get: () => T;
-	set: (context: T) => void;
-}
+export type PairedContext<T> = [() => T, (context: T) => void];
 
 export const pairedContext = <T>(): PairedContext<T> => {
 	const KEY = {};
-	return {
-		get: () => getContext<T>(KEY),
-		set: (context: T) => setContext(KEY, context),
-	};
+	return [() => getContext<T>(KEY), (context: T) => setContext(KEY, context)];
 };
