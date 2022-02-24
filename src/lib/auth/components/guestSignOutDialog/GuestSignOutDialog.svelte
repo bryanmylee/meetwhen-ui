@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { User } from 'firebase/auth';
-	import { fetchGuestMeetingPreview } from '$lib/api/fetchGuestMeetingPreview';
+	import { fetchGuestMeetingPreview } from '$lib/api';
 	import GuestSignOutDialogPure from './GuestSignOutDialogPure.svelte';
 
 	export let open = false;

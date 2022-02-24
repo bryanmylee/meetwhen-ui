@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { fetchGuestMeetingPreview } from '$lib/api/fetchGuestMeetingPreview';
-
 	import type { User } from 'firebase/auth';
+	import { fetchGuestMeetingPreview } from '$lib/api';
 	import MeetingPreview from './MeetingPreview.svelte';
 
 	export let guestUser: User;
