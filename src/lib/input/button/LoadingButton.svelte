@@ -40,7 +40,14 @@
 	>
 		<slot />
 		{#if $isLoading}
-			<div class="spinner">
+			<div
+				class={classes(
+					'spinner',
+					color === 'gray' || variant === 'text-only'
+						? 'text-gray-400'
+						: 'text-white',
+				)}
+			>
 				<Spinner />
 			</div>
 		{/if}
