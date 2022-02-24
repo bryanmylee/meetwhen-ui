@@ -22,7 +22,9 @@ export const addMeeting = async (
 ): Promise<Id<Meeting>> => {
 	const slug = await fetchNewSlug();
 	const created = dayjs();
-	const ownerId = currentUser?.uid;
+	const ownerId = currentUser?.email?.endsWith('.guest')
+		? undefined
+		: currentUser?.uid;
 	const total = getTotalInterval(addMeeting.intervals);
 	const links =
 		addMeeting.links.length === 0
