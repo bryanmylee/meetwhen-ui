@@ -22,13 +22,13 @@
 		<GoogleIcon class="wh-6" />
 		<span>Sign in with Google</span>
 	</button>
-	<button
+	<!-- <button
 		on:click={() => dispatch('click', { providerType: 'apple' })}
 		class="apple"
 	>
 		<AppleIcon class="wh-6" />
 		<span>Sign in with Apple</span>
-	</button>
+	</button> -->
 	<button
 		on:click={() => dispatch('click', { providerType: 'twitter' })}
 		aria-label="Sign in with Twitter"
@@ -72,12 +72,12 @@
 		&.google {
 			@apply bg-neutral-100 gdark:bg-neutral-700;
 		}
-		&.apple {
+		/* &.apple {
 			@apply bg-black text-white;
 			& > span {
 				@apply text-white;
 			}
-		}
+		} */
 		&.twitter {
 			@apply bg-[#1DA1F2] text-white;
 			& > span {
