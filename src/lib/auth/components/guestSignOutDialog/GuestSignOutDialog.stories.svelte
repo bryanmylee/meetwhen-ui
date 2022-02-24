@@ -17,7 +17,8 @@
 		Show guest sign out dialog
 	</Button>
 	<GuestSignOutDialogPure
-		bind:open={showDialog}
+		on:cancel={() => (showDialog = false)}
+		open={showDialog}
 		currentSlug="new_slug"
 		guestMeeting={{
 			name: 'old meet',
