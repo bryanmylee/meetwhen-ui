@@ -17,7 +17,6 @@
 				name: 'loading',
 				slug: 'loading',
 			}}
-			on:cancel
 			on:sign-out
 		/>
 	{:then meetingPreview}
@@ -25,7 +24,6 @@
 			<GuestSignOutDialogPure
 				{open}
 				guestMeeting={meetingPreview}
-				on:cancel
 				on:sign-out
 			/>
 		{/if}

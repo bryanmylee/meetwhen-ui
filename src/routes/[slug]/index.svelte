@@ -312,16 +312,6 @@
 		showGuestSignOutDialog = false;
 	};
 	const handleGuestSignOut = withLoading(isLoading, _handleGuestSignOut);
-
-	const _handleCancelGuestSignOut = async () => {
-		const { referrer } = document;
-		await goto(referrer.length > 0 ? referrer : '/');
-		showGuestSignOutDialog = false;
-	};
-	const handleCancelGuestSignOut = withLoading(
-		isLoading,
-		_handleCancelGuestSignOut,
-	);
 </script>
 
 <Head
@@ -421,7 +411,6 @@
 		guestUser={$currentUser}
 		open={showGuestSignOutDialog}
 		on:sign-out={handleGuestSignOut}
-		on:cancel={handleCancelGuestSignOut}
 	/>
 {/if}
 

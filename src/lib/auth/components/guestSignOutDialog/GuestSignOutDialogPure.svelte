@@ -1,7 +1,6 @@
 <script lang="ts" context="module">
 	export interface GuestSignOutDialogEvent {
 		'sign-out': never;
-		cancel: never;
 	}
 </script>
 
@@ -23,27 +22,23 @@
 
 <Dialog {open} static>
 	<div class="guest-sign-out-card">
-		<DialogTitle as="h1" class="text-title-2">
-			Signed in as a guest of
-		</DialogTitle>
+		<DialogDescription class="font-semibold"
+			>You're a guest of</DialogDescription
+		>
 		<MeetingPreview
 			{isLoading}
 			name={guestMeeting.name}
 			color={guestMeeting.color}
 			slug={guestMeeting.slug}
 		/>
-		<DialogDescription class="text-sm italic">
-			Guest accounts are unique to each meet
-		</DialogDescription>
+		<p class="text-sm italic">Guest accounts are unique to each meet</p>
+		<DialogTitle
+			as="h1"
+			class="text-title-1 border-t border-neutral-200 dark:border-neutral-600 mt-2 pt-4"
+		>
+			To view this meet
+		</DialogTitle>
 		<div class="flex gap-4">
-			<Button
-				size="md"
-				color="gray"
-				class="w-full"
-				on:click={() => dispatch('cancel')}
-			>
-				Cancel
-			</Button>
 			<LoadingButton
 				size="md"
 				color="gradient"
