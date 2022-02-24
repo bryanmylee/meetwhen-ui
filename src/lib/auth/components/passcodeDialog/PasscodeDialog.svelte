@@ -27,7 +27,7 @@
 
 <style lang="postcss">
 	:global(.passcode-dialog-title) {
-		@apply text-title-2 text-center w-full mb-2;
+		@apply text-title-1 text-center w-full mb-2;
 		@apply transition;
 	}
 

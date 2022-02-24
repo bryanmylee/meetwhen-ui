@@ -47,7 +47,7 @@
 		<DialogDescription>
 			<p class="text-brand w-fit -mb-2">meetwhen.io/{meetingSlug}</p>
 		</DialogDescription>
-		<DialogTitle as="h1" class="text-title-2">Sign in as guest</DialogTitle>
+		<DialogTitle as="h1" class="text-title-1">Sign in as guest</DialogTitle>
 		<div class="flex justify-center scale-125 mx-7">
 			<LoadingPasscodeInput
 				bind:value={$passcode.value}
