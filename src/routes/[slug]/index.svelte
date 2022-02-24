@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	export const load: Load = async ({ params }) => {
+	export const load: Load = async ({ params, session }) => {
 		const { slug } = params;
 		const meeting = await findMeetingWithSlug(firebaseClient.repo, slug);
 		if (meeting === undefined) {
@@ -8,19 +8,27 @@
 			};
 		}
 		const users = await fetchMeetingUserRecords(meeting.id);
+
+		// check guest user meeting.
+		let guestMeetingPreview: Maybe<Id<MeetingPreviewData>>;
+		const { user } = session;
+		if (user?.email?.endsWith('.guest')) {
+			guestMeetingPreview = await fetchGuestMeetingPreview(user.uid);
+		}
+
 		return {
 			props: {
 				meetingId: meeting.id,
 				initMeeting: meeting,
 				users,
+				guestMeetingPreview,
 			},
 		};
 	};
 </script>
 
 <script lang="ts">
-	import { onDestroy, onMount, tick } from 'svelte';
-	import { afterNavigate } from '$app/navigation';
+	import { onDestroy, tick } from 'svelte';
 	import { writable } from 'svelte/store';
 	import type { Load } from '@sveltejs/kit';
 	import { doc } from 'firebase/firestore';
@@ -33,6 +41,7 @@
 	import { MeetingConverter, ScheduleConverter } from '$lib/models';
 	import type {
 		Meeting,
+		MeetingPreviewData,
 		MeetingData,
 		ScheduleData,
 		UserRecord,
@@ -57,7 +66,7 @@
 	import { MeetingHeader, ScheduleTimePicker } from '$lib/meeting/components';
 	import type { MeetingPageState } from '$lib/meeting/types/MeetingPageState';
 	import { setUsersCache } from '$lib/meeting/utils/usersCacheContext';
-	import { fetchMeetingUserRecords } from '$lib/api';
+	import { fetchGuestMeetingPreview, fetchMeetingUserRecords } from '$lib/api';
 	import Head from '$lib/core/components/Head.svelte';
 	import {
 		GuestJoinDialog,
@@ -68,12 +77,10 @@
 	} from '$lib/auth';
 	import { activeMeeting } from '$lib/core/state';
 	import { setLoading, withLoading } from '$lib/loading';
-	import { guestEmailInMeeting } from '$lib/meeting/utils/guestEmailInMeeting';
 
 	const auth = useAuth();
 	const repo = useRepo();
 	const currentUser = useUser();
-	$: isGuest = $currentUser?.email?.endsWith('.guest') ?? false;
 
 	export let meetingId: string;
 	export let initMeeting: Id<Meeting>;
@@ -185,7 +192,6 @@
 	};
 
 	let showGuestJoinDialog = false;
-	let showGuestSignOutDialog = false;
 	let showPasscodeDialog = false;
 	let passcode: Maybe<string> = undefined;
 	$: if (!showPasscodeDialog) {
@@ -296,18 +302,14 @@
 	};
 	const confirmEdit = withLoading(isLoading, _confirmEdit);
 
-	// sign out guest users when viewing this meeting as a guest from another meeting.
-	const catchGuestUser = () => {
-		if (
-			$currentUser?.email != null &&
-			isGuest &&
-			!guestEmailInMeeting($currentUser.email, meetingId)
-		) {
-			showGuestSignOutDialog = true;
-		}
+	export let guestMeetingPreview: Maybe<Id<MeetingPreviewData>>;
+	let showGuestSignOutDialog = false;
+	const checkGuest = () => {
+		showGuestSignOutDialog =
+			guestMeetingPreview !== undefined && guestMeetingPreview.id !== meetingId;
 	};
-	onMount(catchGuestUser);
-	afterNavigate(catchGuestUser);
+	checkGuest();
+	$: meetingId, checkGuest();
 
 	const _handleGuestSignOut = async () => {
 		await signOut(auth);
@@ -379,7 +381,7 @@
 		{:else if pageState === 'leave'}
 			<div class="leave">
 				<p class="text-center text-label">Are you sure you want to leave?</p>
-				{#if isGuest}
+				{#if guestMeetingPreview !== undefined}
 					<p class="text-center text-label text-red-400">
 						Your guest account will be deleted
 					</p>
@@ -408,13 +410,11 @@
 	on:guest-join={confirmGuestJoin}
 />
 <PasscodeDialog passcode={passcode ?? ''} bind:open={showPasscodeDialog} />
-{#if $currentUser != null && !$currentUser.ssr}
-	<GuestSignOutDialog
-		guestUser={$currentUser}
-		open={showGuestSignOutDialog}
-		on:sign-out={handleGuestSignOut}
-	/>
-{/if}
+<GuestSignOutDialog
+	open={showGuestSignOutDialog}
+	guestMeeting={guestMeetingPreview}
+	on:sign-out={handleGuestSignOut}
+/>
 
 <style lang="postcss">
 	.leave {
