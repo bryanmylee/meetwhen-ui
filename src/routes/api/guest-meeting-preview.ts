@@ -30,7 +30,7 @@ export const get: RequestHandler = async ({ url }) => {
 			.get();
 		const { name, slug, color } = meetingSnapshot.data() as MeetingData;
 		return {
-			body: JSON.stringify({ name, slug, color }),
+			body: JSON.stringify({ id: meetingId, name, slug, color }),
 		};
 	} catch (error) {
 		console.error(error);
