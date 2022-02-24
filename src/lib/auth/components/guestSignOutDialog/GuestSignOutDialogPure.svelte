@@ -10,7 +10,7 @@
 	import { Dialog } from '$lib/core/components/dialog';
 	import MeetingPreview from '$lib/profile/components/MeetingPreview.svelte';
 	import type { Meeting } from '$lib/models';
-	import { Button, LoadingButton } from '$lib/input';
+	import { LoadingButton } from '$lib/input';
 
 	const dispatch = createEventDispatcher<GuestSignOutDialogEvent>();
 
