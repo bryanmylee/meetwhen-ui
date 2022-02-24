@@ -11,7 +11,7 @@
 		return {
 			props: {
 				meetingId: meeting.id,
-				meeting,
+				initMeeting: meeting,
 				users,
 			},
 		};
@@ -75,7 +75,8 @@
 	$: isGuest = $currentUser?.email?.endsWith('.guest') ?? false;
 
 	export let meetingId: string;
-	export let meeting: Id<Meeting>;
+	export let initMeeting: Id<Meeting>;
+	let meeting = initMeeting;
 
 	$: $activeMeeting = meeting;
 	onDestroy(() => {
