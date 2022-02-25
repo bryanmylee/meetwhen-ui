@@ -65,9 +65,11 @@
 			@apply bg-shade-100 rounded-lg;
 			@apply px-1 -translate-y-1/2;
 			@apply text-xs text-neutral-400 text-center whitespace-nowrap;
-			&.start,
-			&.end {
+			&.start {
 				@apply translate-y-1/3;
+			}
+			&.end {
+				@apply absolute inset-0 top-auto;
 			}
 		}
 	}
