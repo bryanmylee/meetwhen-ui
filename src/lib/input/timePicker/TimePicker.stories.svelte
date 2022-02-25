@@ -1,9 +1,12 @@
 <script>
 	import { Meta, Story } from '@storybook/addon-svelte-csf';
 	import dayjs from 'dayjs';
+	import { Button } from '..';
 	import TimePicker from './TimePicker.svelte';
 
 	const today = dayjs().startOf('day');
+
+	let enabled = false;
 </script>
 
 <Meta title="Input/TimePicker" component={TimePicker} />
@@ -87,4 +90,16 @@
 			},
 		]}
 	/>
+</Story>
+
+<Story name="On edit show hint" let:args>
+	<Button on:click={() => (enabled = !enabled)}>Toggle edit</Button>
+	<div class="h-60 mt-4">
+		<TimePicker
+			disabled={!enabled}
+			validIntervals={[
+				{ start: today.hour(14), end: today.add(1, 'day').hour(8) },
+			]}
+		/>
+	</div>
 </Story>

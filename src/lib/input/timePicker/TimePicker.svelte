@@ -38,6 +38,8 @@
 	import TimePickerBlockOverlay from './atoms/TimePickerBlockOverlay.svelte';
 	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
 	import TimePickerActiveInterval from './atoms/TimePickerActiveInterval.svelte';
+	import { FirstVisibleChild } from '$lib/core/components/visibleChild';
+	import { focusOnEnable } from '$lib/core/actions';
 
 	export let id: string = nanoid(8);
 	$: errorId = `${id}-error`;
@@ -79,6 +81,14 @@
 	);
 
 	export let disabled = false;
+	$: if (!disabled) {
+		triggerHint();
+	}
+
+	let firstVisibleChild: Maybe<FirstVisibleChild>;
+	const triggerHint = () => {
+		firstVisibleChild?.update();
+	};
 
 	setTimePickerState(state);
 	const { flattenedTimeCells, dateIds, timeCellsByDateId, intervalsByDateId } =
@@ -231,6 +241,11 @@
 							<TimePickerFocusCell {selectMode} />
 						</slot>
 					{/if}
+					<FirstVisibleChild
+						selector="[data-select-id]"
+						bind:this={firstVisibleChild}
+						use={[(node) => console.log(node)]}
+					/>
 				</div>
 			</SelectionProvider>
 		</div>

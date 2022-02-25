@@ -6,7 +6,7 @@
 	let referenceElement: Maybe<HTMLElement>;
 	let visibleElement: Maybe<HTMLElement>;
 
-	export let requiredAttribute: Maybe<string> = undefined;
+	export let selector: string;
 
 	export let use: HTMLActionArray = [];
 	let useUpdate: Maybe<(actions?: HTMLActionArray) => void>;
@@ -32,23 +32,17 @@
 		if (parentElement == null) {
 			return;
 		}
-		const numChildren = parentElement.children.length;
 		const parentRect = parentElement.getBoundingClientRect();
+		const children = parentElement.querySelectorAll(selector);
+		const numChildren = children.length;
 		for (let i = 0; i < numChildren; i++) {
-			const childElement = parentElement.children.item(i);
+			const childElement = children.item(i);
 			if (childElement == null || !(childElement instanceof HTMLElement)) {
 				continue;
 			}
-			if (childElement.dataset['visibleReference'] !== undefined) {
-				continue;
-			}
-			if (
-				requiredAttribute !== undefined &&
-				childElement.attributes.getNamedItem(requiredAttribute) === null
-			) {
-				continue;
-			}
 			const childRect = childElement.getBoundingClientRect();
+			console.log({ parentElement, parentRect });
+			console.log({ childElement, childRect });
 			if (
 				childRect.left >= parentRect.left &&
 				childRect.right <= parentRect.right &&
@@ -59,7 +53,6 @@
 				break;
 			}
 		}
-		console.log(visibleElement);
 	};
 </script>
 
