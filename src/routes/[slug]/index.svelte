@@ -81,6 +81,7 @@
 	const auth = useAuth();
 	const repo = useRepo();
 	const currentUser = useUser();
+	$: $currentUser, (pageState = 'none');
 
 	export let meetingId: string;
 	export let initMeeting: Id<Meeting>;
