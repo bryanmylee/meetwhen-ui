@@ -13,6 +13,3 @@ export const [getTimePickerControls, setTimePickerControls] =
 
 export const [getCurrentDateTimeElement, setCurrentDateTimeElement] =
 	pairedContext<Writable<Maybe<HTMLElement>>>();
-
-export const [getScrollElement, setScrollElement] =
-	pairedContext<Writable<Maybe<HTMLElement>>>();

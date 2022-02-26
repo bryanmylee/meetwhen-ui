@@ -2,7 +2,6 @@
 	import { createPopperActions } from 'svelte-popperjs';
 	import type { UserIdsInterval } from '$lib/core/types';
 	import { getUsersCache } from '$lib/meeting/utils/usersCacheContext';
-	import { getScrollElement } from '$lib/input/timePicker/utils/timePickerContext';
 	import UserList from './UserList.svelte';
 
 	export let interval: UserIdsInterval;
@@ -16,10 +15,8 @@
 		.filter(([id]) => !interval.userIds.includes(id))
 		.map(([, user]) => user);
 
-	const scrollElement = getScrollElement();
-
-	const [ref, content, getInstance] = createPopperActions({
-		strategy: 'absolute',
+	const [popoverRef, popoverContent, getInstance] = createPopperActions({
+		strategy: 'fixed',
 		placement: 'right',
 		modifiers: [
 			{ name: 'arrow', options: { padding: 10 } },
@@ -29,13 +26,6 @@
 				name: 'preventOverflow',
 				options: {
 					altAxis: true,
-					boundary: $scrollElement,
-					padding: {
-						top: 52,
-						left: 48,
-						bottom: 2,
-						right: 1,
-					},
 				},
 			},
 		],
@@ -46,7 +36,7 @@
 
 	export let referenceElement: HTMLElement;
 	$: if (referenceElement !== undefined) {
-		ref(referenceElement);
+		popoverRef(referenceElement);
 	}
 
 	export const updateRefPosition = (event: MouseEvent): void => {
@@ -68,7 +58,7 @@
 </script>
 
 {#if show}
-	<div use:content class="popover" class:active={isActive}>
+	<div use:popoverContent class="popover" class:active={isActive}>
 		<div data-popper-arrow>
 			<div class="popover-arrow" class:active={isActive} />
 		</div>
@@ -90,7 +80,7 @@
 
 <style lang="postcss">
 	.popover {
-		@apply card border-3 w-max max-w-60;
+		@apply fixed card border-3 w-max max-w-60;
 		@apply pointer-events-none;
 		&.active {
 			@apply pointer-events-auto;
