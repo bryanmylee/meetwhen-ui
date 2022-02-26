@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { useActions } from '$lib/core/actions';
 	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	let referenceElement: Maybe<HTMLElement>;
+	let parentElement: Maybe<HTMLElement>;
 	let visibleElement: Maybe<HTMLElement>;
 
 	export let selector: string;
@@ -27,12 +28,25 @@
 		useDestroy?.();
 	});
 
-	export const update = () => {
-		const parentElement = referenceElement?.parentElement;
+	onMount(() => {
+		parentElement = referenceElement?.parentElement ?? undefined;
 		if (parentElement == null) {
 			return;
 		}
-		const parentRect = parentElement.getBoundingClientRect();
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (let i = 0; i < entries.length; i++) {
+					const entry = entries[i];
+					if (entry.isIntersecting && entry.target instanceof HTMLElement) {
+						visibleElement = entry.target;
+						break;
+					}
+				}
+			},
+			{
+				threshold: 1,
+			},
+		);
 		const children = parentElement.querySelectorAll(selector);
 		const numChildren = children.length;
 		for (let i = 0; i < numChildren; i++) {
@@ -40,20 +54,16 @@
 			if (childElement == null || !(childElement instanceof HTMLElement)) {
 				continue;
 			}
-			const childRect = childElement.getBoundingClientRect();
-			console.log({ parentElement, parentRect });
-			console.log({ childElement, childRect });
-			if (
-				childRect.left >= parentRect.left &&
-				childRect.right <= parentRect.right &&
-				childRect.top >= parentRect.top &&
-				childRect.bottom <= parentRect.bottom
-			) {
-				visibleElement = childElement;
+			if (visibleElement !== undefined) {
 				break;
 			}
+			observer.observe(childElement);
 		}
-	};
+		console.log(parentElement);
+		return () => {
+			observer.disconnect();
+		};
+	});
 </script>
 
 <div bind:this={referenceElement} data-visible-reference />
