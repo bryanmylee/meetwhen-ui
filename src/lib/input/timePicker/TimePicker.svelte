@@ -24,7 +24,6 @@
 		setCurrentDateTimeElement,
 		setTimePickerControls,
 		setTimePickerState,
-		setScrollElement,
 	} from './utils/timePickerContext';
 	import { createTimePickerState } from './utils/createTimePickerState';
 	import { getTimePickerInterpolate } from './utils/getTimePickerInterpolate';
@@ -38,8 +37,7 @@
 	import TimePickerBlockOverlay from './atoms/TimePickerBlockOverlay.svelte';
 	import TimePickerSelectedInterval from './atoms/TimePickerSelectedInterval.svelte';
 	import TimePickerActiveInterval from './atoms/TimePickerActiveInterval.svelte';
-	import { FirstVisibleChild } from '$lib/core/components/visibleChild';
-	import { focusOnEnable } from '$lib/core/actions';
+	import TimePickerHint from './atoms/TimePickerHint.svelte';
 
 	export let id: string = nanoid(8);
 	$: errorId = `${id}-error`;
@@ -74,6 +72,7 @@
 
 	let selectedIntervals: Interval[] = [];
 	export { selectedIntervals as value };
+	let touched = false;
 	$: selectedIds = Set(
 		selectedIntervals
 			.flatMap((interval) => getIntervalDiscretes(interval, $resolution))
@@ -81,14 +80,6 @@
 	);
 
 	export let disabled = false;
-	$: if (!disabled) {
-		triggerHint();
-	}
-
-	let firstVisibleChild: Maybe<FirstVisibleChild>;
-	const triggerHint = () => {
-		firstVisibleChild?.update();
-	};
 
 	setTimePickerState(state);
 	const { flattenedTimeCells, dateIds, timeCellsByDateId, intervalsByDateId } =
@@ -108,6 +99,7 @@
 	const handleSelectStart = (
 		event: CustomEvent<SelectionProviderEvent['selectstart']>,
 	) => {
+		touched = true;
 		const { id } = event.detail;
 		const start = dateTimeFromId(id);
 		activeIntervals = [{ start, end: start.add($resolution, 'minutes') }];
@@ -155,13 +147,12 @@
 
 	$: timePickerKeyboardReducer = getTimePickerKeyboardReducer(dates, validIds);
 
-	const scrollElement = writable<Maybe<HTMLElement>>();
-	setScrollElement(scrollElement);
+	let scrollElement: Maybe<HTMLDivElement>;
 </script>
 
 <div {id} tabindex={0} aria-label="time picker" class="timepicker">
 	<div class="timepicker-clip-content">
-		<div bind:this={$scrollElement} class="timepicker-scroll-grid">
+		<div bind:this={scrollElement} class="timepicker-scroll-grid">
 			<KeyboardHelp {disabled} />
 			<TimePickerLayoutHeader />
 			<TimePickerLayoutIndex />
@@ -241,11 +232,7 @@
 							<TimePickerFocusCell {selectMode} />
 						</slot>
 					{/if}
-					<FirstVisibleChild
-						selector="[data-select-id]"
-						bind:this={firstVisibleChild}
-						use={[(node) => console.log(node)]}
-					/>
+					<TimePickerHint {disabled} {touched} {scrollElement} />
 				</div>
 			</SelectionProvider>
 		</div>

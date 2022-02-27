@@ -6,7 +6,7 @@
 
 	const today = dayjs().startOf('day');
 
-	let enabled = false;
+	let enabled = true;
 </script>
 
 <Meta title="Input/TimePicker" component={TimePicker} />
@@ -93,12 +93,26 @@
 </Story>
 
 <Story name="On edit show hint" let:args>
-	<Button on:click={() => (enabled = !enabled)}>Toggle edit</Button>
+	<Button on:click={() => (enabled = !enabled)}>
+		{enabled ? 'Disable' : 'Enable'}
+	</Button>
 	<div class="h-60 mt-4">
 		<TimePicker
 			disabled={!enabled}
 			validIntervals={[
 				{ start: today.hour(14), end: today.add(1, 'day').hour(8) },
+				{
+					start: today.add(1, 'day').hour(14),
+					end: today.add(2, 'day').hour(8),
+				},
+				{
+					start: today.add(2, 'day').hour(14),
+					end: today.add(3, 'day').hour(8),
+				},
+				{
+					start: today.add(3, 'day').hour(14),
+					end: today.add(4, 'day').hour(8),
+				},
 			]}
 		/>
 	</div>
