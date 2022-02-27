@@ -14,7 +14,7 @@ specifiers:
   '@storybook/manager-webpack5': ^6.4.13
   '@storybook/svelte': ^6.5.0-alpha.6
   '@sveltejs/adapter-vercel': ^1.0.0-next.39
-  '@sveltejs/kit': next
+  '@sveltejs/kit': 1.0.0-next.279
   '@types/chroma-js': ^2.1.3
   '@types/cookie': ^0.4.1
   '@types/jest': ^27.4.0
@@ -74,7 +74,7 @@ devDependencies:
   '@storybook/manager-webpack5': 6.4.13_eslint@7.32.0+typescript@4.5.4
   '@storybook/svelte': 6.5.0-alpha.19_f57575cdb9f1301c00acf889c15d1318
   '@sveltejs/adapter-vercel': 1.0.0-next.39
-  '@sveltejs/kit': 1.0.0-next.287_svelte@3.46.2
+  '@sveltejs/kit': 1.0.0-next.279_svelte@3.46.2
   '@types/chroma-js': 2.1.3
   '@types/cookie': 0.4.1
   '@types/jest': 27.4.0
@@ -5181,8 +5181,8 @@ packages:
       esbuild: 0.13.15
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.287_svelte@3.46.2:
-    resolution: {integrity: sha512-aiCCuSpE9U8tX+29fnPfh9qHzWm8dBP7hkWvzcb1SZqbij8WXHyntUg/LXmhqlb8zKflEMLWa8iS+coqYDPmPQ==}
+  /@sveltejs/kit/1.0.0-next.279_svelte@3.46.2:
+    resolution: {integrity: sha512-ByNXhbYzcD5vfFulhubiOnbV+iozu2umXFS2Ldp8/KtLHylKx6C5rckvS4tCXrKr/Ecg44X2XXxPgCpnBOz8aA==}
     engines: {node: '>=14.13'}
     hasBin: true
     peerDependencies:
