@@ -11,8 +11,10 @@ export const useScreenHeight = (): Readable<Maybe<number>> => {
 
 	onMount(() => {
 		setHeight();
+		const updateInterval = window.setInterval(setHeight, 5000);
 		window.addEventListener('resize', setHeight);
 		return () => {
+			window.clearInterval(updateInterval);
 			window.removeEventListener('resize', setHeight);
 		};
 	});
