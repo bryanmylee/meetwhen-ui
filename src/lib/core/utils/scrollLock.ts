@@ -24,6 +24,7 @@ export const scrollLock = (fromElement: HTMLElement): ScrollLockedElement[] => {
 		currElement = currElement.parentElement;
 	}
 	document.documentElement.style.overflow = 'hidden';
+	document.body.style.overscrollBehavior = 'contain';
 	return lockedElements;
 };
 
@@ -36,4 +37,5 @@ export const scrollUnlock = (lockedElements: ScrollLockedElement[]): void => {
 		element.style.userSelect = initialUserSelect;
 	});
 	document.documentElement.style.overflow = 'auto';
+	document.body.style.overscrollBehavior = 'auto';
 };
