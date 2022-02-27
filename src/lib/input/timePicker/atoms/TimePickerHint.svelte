@@ -24,9 +24,6 @@
 	});
 	let showHint = false;
 	let showHintTimeout: Maybe<number>;
-	$: if (!disabled) {
-		touched = false;
-	}
 	$: if (touched) {
 		showHint = false;
 		window.clearTimeout(showHintTimeout);

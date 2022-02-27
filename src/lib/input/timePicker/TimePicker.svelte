@@ -72,12 +72,16 @@
 
 	let selectedIntervals: Interval[] = [];
 	export { selectedIntervals as value };
-	let touched = false;
 	$: selectedIds = Set(
 		selectedIntervals
 			.flatMap((interval) => getIntervalDiscretes(interval, $resolution))
 			.map(dateTimeToId),
 	);
+
+	let touched = false;
+	$: if (!disabled) {
+		touched = false;
+	}
 
 	export let disabled = false;
 
