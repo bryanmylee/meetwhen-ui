@@ -3,7 +3,7 @@ import { useColor, PRIMARY_HEX } from '$lib/colors';
 import { writable } from 'svelte/store';
 import type { Readable, Writable } from 'svelte/store';
 import type { ThemeType } from '$lib/core/types';
-import { pairedContext } from '$lib/core/utils';
+import { pairedContext, useTouchEnabled } from '$lib/core/utils';
 import type { Meeting } from '$lib/models';
 
 export const {
@@ -25,3 +25,5 @@ export const media = watchMedia({
 	sm: '(min-width: 640px)',
 	md: '(min-width: 768px)',
 });
+
+export const touchEnabled = useTouchEnabled();

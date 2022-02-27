@@ -12,5 +12,6 @@ export type { UserIdMoment } from './schedules';
 export { scrollLock, scrollUnlock } from './scrollLock';
 export type { ScrollLockedElement } from './scrollLock';
 export { useScreenHeight } from './useScreenHeight';
+export { useTouchEnabled } from './useTouchEnabled';
 export { withError } from './withError';
 export type { WithError, WithErrorOptions, WithErrorable } from './withError';
