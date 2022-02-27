@@ -10,6 +10,7 @@
 	export let selector: string;
 	export let root: Maybe<HTMLElement> = undefined;
 	export let rootMargin: Maybe<string> = undefined;
+	export let threshold: Maybe<number | number[]> = undefined;
 
 	export let use: HTMLActionArray = [];
 	let useUpdate: Maybe<(actions?: HTMLActionArray) => void>;
@@ -54,7 +55,7 @@
 				}
 			},
 			{
-				threshold: 1,
+				threshold,
 				root,
 				rootMargin,
 			},

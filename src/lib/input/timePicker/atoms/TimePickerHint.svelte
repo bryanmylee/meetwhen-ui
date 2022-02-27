@@ -54,7 +54,7 @@
 
 <style lang="postcss">
 	.hint {
-		@apply fixed p-2 rounded-lg;
+		@apply fixed p-2 rounded-lg z-50;
 		@apply text-white text-label bg-primary-400/50;
 		@apply backdrop-blur-sm;
 	}
