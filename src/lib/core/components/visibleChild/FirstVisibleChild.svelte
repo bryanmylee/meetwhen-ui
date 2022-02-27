@@ -8,6 +8,8 @@
 	let visibleElement: Maybe<HTMLElement>;
 
 	export let selector: string;
+	export let root: Maybe<HTMLElement> = undefined;
+	export let rootMargin: Maybe<string> = undefined;
 
 	export let use: HTMLActionArray = [];
 	let useUpdate: Maybe<(actions?: HTMLActionArray) => void>;
@@ -28,7 +30,8 @@
 		useDestroy?.();
 	});
 
-	onMount(() => {
+	let visibleElements: Set<HTMLElement> = new Set();
+	const observe = () => {
 		parentElement = referenceElement?.parentElement ?? undefined;
 		if (parentElement == null) {
 			return;
@@ -37,14 +40,23 @@
 			(entries) => {
 				for (let i = 0; i < entries.length; i++) {
 					const entry = entries[i];
-					if (entry.isIntersecting && entry.target instanceof HTMLElement) {
-						visibleElement = entry.target;
-						break;
+					if (!(entry.target instanceof HTMLElement)) {
+						continue;
 					}
+					if (entry.isIntersecting) {
+						visibleElements.add(entry.target);
+					} else {
+						visibleElements.delete(entry.target);
+					}
+				}
+				if (visibleElements.size > 0) {
+					visibleElement = visibleElements.values().next().value;
 				}
 			},
 			{
 				threshold: 1,
+				root,
+				rootMargin,
 			},
 		);
 		const children = parentElement.querySelectorAll(selector);
@@ -59,11 +71,20 @@
 			}
 			observer.observe(childElement);
 		}
-		console.log(parentElement);
 		return () => {
 			observer.disconnect();
 		};
+	};
+
+	let unobserve: Maybe<() => void>;
+	onMount(() => {
+		unobserve = observe();
+		return unobserve;
 	});
+	$: if (root !== undefined) {
+		unobserve?.();
+		unobserve = observe();
+	}
 </script>
 
 <div bind:this={referenceElement} data-visible-reference />
