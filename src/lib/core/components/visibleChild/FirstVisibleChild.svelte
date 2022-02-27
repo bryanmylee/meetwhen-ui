@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { onDestroy, onMount } from 'svelte';
 	import { useActions } from '$lib/core/actions';
 	import type { HTMLActionArray } from '@rgossiaux/svelte-headlessui/hooks/use-actions';
-	import { onDestroy, onMount } from 'svelte';
 
 	let referenceElement: Maybe<HTMLElement>;
 	let parentElement: Maybe<HTMLElement>;
