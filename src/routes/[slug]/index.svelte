@@ -243,7 +243,7 @@
 			return;
 		}
 		if ($currentUser.email?.endsWith('.guest')) {
-			await confirmGuestLeave();
+			return await confirmGuestLeave();
 		}
 		await deleteSchedule(repo, scheduleToDelete.id);
 		pageState = 'none';
@@ -257,6 +257,7 @@
 		await guestLeave(auth, repo, {
 			user: $currentUser,
 		});
+		pageState = 'none';
 	};
 	const confirmGuestLeave = withLoading(isLoading, _confirmGuestLeave);
 
