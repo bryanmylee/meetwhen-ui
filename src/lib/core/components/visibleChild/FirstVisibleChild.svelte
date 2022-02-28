@@ -88,4 +88,4 @@
 	}
 </script>
 
-<div bind:this={referenceElement} data-visible-reference />
+<div bind:this={referenceElement} data-visible-reference class="hidden" />
