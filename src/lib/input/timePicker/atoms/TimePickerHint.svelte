@@ -37,6 +37,7 @@
 		}, 2000);
 	} else {
 		showHint = false;
+		window.clearTimeout(showHintTimeout);
 	}
 </script>
 
