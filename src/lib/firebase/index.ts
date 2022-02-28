@@ -1,5 +1,3 @@
-export { addGuestUserData } from './mutations/addGuestUserData';
-export type { AddGuestUserData } from './mutations/addGuestUserData';
 export { addMeeting } from './mutations/addMeeting';
 export type { AddMeeting } from './mutations/addMeeting';
 export { addSchedule } from './mutations/addSchedule';

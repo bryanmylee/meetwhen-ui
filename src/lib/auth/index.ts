@@ -8,7 +8,15 @@ export { default as GuestReturningDialog } from './components/guestJoinDialog/Gu
 export type { GuestReturningEvent } from './components/guestJoinDialog/GuestReturningDialog.svelte';
 export { default as GuestSignOutDialog } from './components/guestSignOutDialog/GuestSignOutDialog.svelte';
 export { oAuthSignIn, passwordSignIn } from './utils/handleSignIn';
-export { guestJoin, guestLeave } from './utils/handleGuest';
+export { guestJoin, guestSignIn, guestLeave } from './utils/handleGuest';
+export type {
+	GuestJoinProps,
+	GuestJoinResult,
+	GuestSignInProps,
+	GuestLeaveProps,
+} from './utils/handleGuest';
+export { getGuestEmail } from './utils/getGuestEmail';
+export { generateSignInCode } from './utils/generateSignInCode';
 export { configureUser } from './configureUser';
 export type {
 	OAuthSignInProps,

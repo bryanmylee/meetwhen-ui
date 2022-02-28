@@ -1,6 +1,4 @@
 import {
-	updateProfile,
-	createUserWithEmailAndPassword,
 	deleteUser,
 	reauthenticateWithCredential,
 	EmailAuthProvider,
@@ -9,18 +7,18 @@ import {
 import type { Auth, UserCredential, User } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 import {
-	addGuestUserData,
 	deleteGuestUserData,
 	getGuestUserWithId,
 	findGuestWithMeetingIdAndPasscode,
 } from '$lib/firebase';
-import { fetchUserEmail } from '$lib/api';
-import { generateSignInCode } from './generateSignInCode';
+import { addNewGuest, fetchUserEmail } from '$lib/api';
 import { getGuestEmail } from './getGuestEmail';
+import type { Interval } from '$lib/core/types';
 
 export interface GuestJoinProps {
 	username: string;
 	meetingId: string;
+	intervals: Interval[];
 }
 
 export interface GuestJoinResult {
@@ -31,23 +29,19 @@ export interface GuestJoinResult {
 export const guestJoin = async (
 	auth: Auth,
 	repo: Firestore,
-	{ username, meetingId }: GuestJoinProps,
+	{ username, meetingId, intervals }: GuestJoinProps,
 ): Promise<GuestJoinResult> => {
+	const { passcode } = await addNewGuest({
+		username,
+		meetingId,
+		intervals,
+	});
 	const email = getGuestEmail(username, meetingId);
-	const passcode = generateSignInCode();
-	const userCredential = await createUserWithEmailAndPassword(
+	const userCredential = await signInWithEmailAndPassword(
 		auth,
 		email,
 		passcode,
 	);
-	await updateProfile(userCredential.user, {
-		displayName: username,
-	});
-	await addGuestUserData(repo, {
-		userId: userCredential.user.uid,
-		passcode,
-		meetingId,
-	});
 	return {
 		passcode,
 		credential: userCredential,

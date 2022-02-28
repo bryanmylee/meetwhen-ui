@@ -36,7 +36,6 @@
 		DocumentSnapshot,
 		QueryDocumentSnapshot,
 	} from 'firebase/firestore';
-	import { FirebaseError } from 'firebase/app';
 	import { signOut } from 'firebase/auth';
 	import { MeetingConverter, ScheduleConverter } from '$lib/models';
 	import type {
@@ -163,6 +162,9 @@
 	};
 
 	const _confirmJoin = async () => {
+		if ($currentUser?.ssr) {
+			return;
+		}
 		intervals.validate();
 		// Wait on `errors` reactive update.
 		await tick();
@@ -170,7 +172,7 @@
 			console.error(errors);
 			return;
 		}
-		if ($currentUser == null || $currentUser.ssr) {
+		if ($currentUser == null) {
 			return handleGuestJoin();
 		}
 		await addScheduleToMeeting();
@@ -212,16 +214,15 @@
 			const joinResult = await guestJoin(auth, repo, {
 				username: $username.value,
 				meetingId,
+				intervals: $intervals.value,
 			});
 			showGuestJoinDialog = false;
 			showPasscodeDialog = true;
 			passcode = joinResult.passcode;
-			await addScheduleToMeeting();
+			pageState = 'none';
 		} catch (error) {
 			console.error(error);
-			if (error instanceof FirebaseError) {
-				$username.error = 'Name already taken';
-			}
+			$username.error = 'Name already taken';
 		}
 	};
 	const confirmGuestJoin = withLoading(isLoading, _confirmGuestJoin);
