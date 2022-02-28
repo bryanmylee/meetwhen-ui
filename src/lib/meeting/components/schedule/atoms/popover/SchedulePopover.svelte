@@ -26,6 +26,7 @@
 				name: 'preventOverflow',
 				options: {
 					altAxis: true,
+					padding: 8,
 				},
 			},
 		],
