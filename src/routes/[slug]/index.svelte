@@ -91,8 +91,8 @@
 		$activeMeeting = undefined;
 	});
 
-	const meetingDocRef = writable(doc(repo, 'meetings', meetingId));
-	$: $meetingDocRef = doc(repo, 'meetings', meetingId);
+	const meetingDocRef = writable(doc(repo, 'meeting', meetingId));
+	$: $meetingDocRef = doc(repo, 'meeting', meetingId);
 	const liveMeetingDoc = useDynamicLiveDocument<MeetingData>(meetingDocRef);
 	$: updateMeeting($liveMeetingDoc);
 	const updateMeeting = (doc: Maybe<DocumentSnapshot<MeetingData>>) => {

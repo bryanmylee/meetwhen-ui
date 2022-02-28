@@ -21,7 +21,7 @@ export const findAllMeetingsOwnedByUser = async (
 		...(constraints ?? []),
 	];
 	const meetingSnapshot = (await getDocs(
-		query(collection(repo, 'meetings'), ...allConstraints),
+		query(collection(repo, 'meeting'), ...allConstraints),
 	)) as QuerySnapshot<MeetingData>;
 	return meetingSnapshot.docs
 		.map((doc) => [doc.id, doc.data()] as const)

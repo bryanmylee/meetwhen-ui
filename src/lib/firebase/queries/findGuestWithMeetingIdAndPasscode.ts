@@ -15,7 +15,7 @@ export const findGuestWithMeetingIdAndPasscode = async (
 ): Promise<Maybe<Id<GuestUserData>>> => {
 	const userSnapshot = (await getDocs(
 		query(
-			collection(repo, 'guest-users'),
+			collection(repo, 'guest-user'),
 			where('meetingId', '==', meetingId),
 			where('passcode', '==', passcode),
 		),

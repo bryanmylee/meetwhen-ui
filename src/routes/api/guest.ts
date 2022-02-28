@@ -48,7 +48,7 @@ export const post: RequestHandler = async ({ request }) => {
 		});
 		await firebaseAdmin
 			.firestore()
-			.collection('guest-users')
+			.collection('guest-user')
 			.doc(userRecord.uid)
 			.set({
 				meetingId,
@@ -58,7 +58,7 @@ export const post: RequestHandler = async ({ request }) => {
 			console.log('rolling back guest user data');
 			await firebaseAdmin
 				.firestore()
-				.collection('guest-users')
+				.collection('guest-user')
 				.doc(userRecord.uid)
 				.delete();
 		});
@@ -72,7 +72,7 @@ export const post: RequestHandler = async ({ request }) => {
 		};
 		const scheduleDataRef = (await firebaseAdmin
 			.firestore()
-			.collection('schedules')
+			.collection('schedule')
 			.add(newScheduleData)) as DocumentReference<ScheduleData>;
 		return {
 			status: 201,
@@ -123,13 +123,13 @@ export const del: RequestHandler = async ({ request }) => {
 	}
 	const userSnapshot = await firebaseAdmin
 		.firestore()
-		.collection('guest-users')
+		.collection('guest-user')
 		.doc(userId)
 		.get();
 	const userData = userSnapshot.data() as GuestUserData;
 	const scheduleQuery = await firebaseAdmin
 		.firestore()
-		.collection('schedules')
+		.collection('schedule')
 		.where('userId', '==', userId)
 		.where('meetingId', '==', userData.meetingId)
 		.get();
@@ -146,27 +146,27 @@ export const del: RequestHandler = async ({ request }) => {
 	try {
 		await firebaseAdmin
 			.firestore()
-			.collection('schedules')
+			.collection('schedule')
 			.doc(scheduleSnapshot.id)
 			.delete();
 		rollbacks.push(async () => {
 			console.log('rolling back schedule delete');
 			await firebaseAdmin
 				.firestore()
-				.collection('schedules')
+				.collection('schedule')
 				.doc(scheduleSnapshot.id)
 				.set(scheduleData);
 		});
 		await firebaseAdmin
 			.firestore()
-			.collection('guest-users')
+			.collection('guest-user')
 			.doc(userId)
 			.delete();
 		rollbacks.push(async () => {
 			console.log('rolling back guest user data delete');
 			await firebaseAdmin
 				.firestore()
-				.collection('guest-users')
+				.collection('guest-user')
 				.doc(userId)
 				.set(userData);
 		});

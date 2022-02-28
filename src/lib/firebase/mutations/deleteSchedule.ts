@@ -5,5 +5,5 @@ export const deleteSchedule = async (
 	repo: Firestore,
 	scheduleId: string,
 ): Promise<void> => {
-	await deleteDoc(doc(repo, 'schedules', scheduleId));
+	await deleteDoc(doc(repo, 'schedule', scheduleId));
 };

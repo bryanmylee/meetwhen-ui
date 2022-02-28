@@ -16,7 +16,7 @@ export const get: RequestHandler = async ({ url }) => {
 		const firebaseAdmin = await initFirebaseAdmin(serviceKey);
 		const schedulesSnapshot = await firebaseAdmin
 			.firestore()
-			.collection('schedules')
+			.collection('schedule')
 			.select('userId')
 			.where('meetingId', '==', meetingId)
 			.get();

@@ -17,7 +17,7 @@ const getUniqueSlug = async (
 		const slug = generateSlug();
 		const slugsSnapshot = await admin
 			.firestore()
-			.collection('meetings')
+			.collection('meeting')
 			.select('slug')
 			.where('slug', '==', slug)
 			.get();

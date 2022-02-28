@@ -9,5 +9,5 @@ export const deleteGuestUserData = async (
 	repo: Firestore,
 	{ userId }: DeleteGuestUserData,
 ): Promise<void> => {
-	await deleteDoc(doc(repo, 'guest-users', userId));
+	await deleteDoc(doc(repo, 'guest-user', userId));
 };

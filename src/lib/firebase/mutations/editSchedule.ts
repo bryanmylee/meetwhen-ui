@@ -24,7 +24,7 @@ export const editSchedule = async (
 		total,
 		userId,
 	});
-	await updateDoc(doc(repo, 'schedules', id), editScheduleData);
+	await updateDoc(doc(repo, 'schedule', id), editScheduleData);
 	return {
 		...editSchedule,
 		id,

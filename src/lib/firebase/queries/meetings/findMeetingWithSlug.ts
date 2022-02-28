@@ -9,7 +9,7 @@ export const findMeetingWithSlugQuery = (
 	slug: string,
 ): Query<MeetingData> =>
 	query(
-		collection(repo, 'meetings'),
+		collection(repo, 'meeting'),
 		where('slug', '==', slug),
 	) as Query<MeetingData>;
 

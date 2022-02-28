@@ -13,7 +13,7 @@ export const get: RequestHandler = async ({ url }) => {
 		const firebaseAdmin = await initFirebaseAdmin(serviceKey);
 		const guestSnapshot = await firebaseAdmin
 			.firestore()
-			.collection('guest-users')
+			.collection('guest-user')
 			.doc(guestId)
 			.get();
 		if (!guestSnapshot.exists) {
@@ -25,7 +25,7 @@ export const get: RequestHandler = async ({ url }) => {
 		const { meetingId } = guestSnapshot.data() as GuestUserData;
 		const meetingSnapshot = await firebaseAdmin
 			.firestore()
-			.collection('meetings')
+			.collection('meeting')
 			.doc(meetingId)
 			.get();
 		const { name, slug, color } = meetingSnapshot.data() as MeetingData;

@@ -18,7 +18,7 @@ export interface Meeting {
 	links?: LinkPreviewData[];
 	intervals: Interval[];
 	total: Interval;
-	// 'schedules' collection reference.
+	// 'schedule' collection reference.
 	schedules?: Id<Schedule>[];
 }
 

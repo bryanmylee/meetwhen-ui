@@ -8,7 +8,7 @@ export const getMeetingWithId = async (
 	repo: Firestore,
 	meetingId: string,
 ): Promise<Maybe<Meeting>> => {
-	const meetingSnapshot = await getDoc(doc(repo, 'meetings', meetingId));
+	const meetingSnapshot = await getDoc(doc(repo, 'meeting', meetingId));
 	if (!meetingSnapshot.exists()) {
 		return undefined;
 	}

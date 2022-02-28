@@ -6,7 +6,7 @@ export const getGuestUserWithId = async (
 	repo: Firestore,
 	userId: string,
 ): Promise<Maybe<GuestUserData>> => {
-	const userSnapshot = await getDoc(doc(repo, 'guest-users', userId));
+	const userSnapshot = await getDoc(doc(repo, 'guest-user', userId));
 	if (!userSnapshot.exists()) {
 		return undefined;
 	}

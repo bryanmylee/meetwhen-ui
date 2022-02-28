@@ -38,7 +38,7 @@ export const addMeeting = async (
 		total,
 		links,
 	});
-	const doc = await addDoc(collection(repo, 'meetings'), newMeetingData);
+	const doc = await addDoc(collection(repo, 'meeting'), newMeetingData);
 	return {
 		...addMeeting,
 		id: doc.id,

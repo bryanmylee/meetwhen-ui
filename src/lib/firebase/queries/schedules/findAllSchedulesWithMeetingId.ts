@@ -8,7 +8,7 @@ export const findAllSchedulesWithMeetingIdQuery = (
 	meetingId: string,
 ): Query<ScheduleData> =>
 	query(
-		collection(repo, 'schedules'),
+		collection(repo, 'schedule'),
 		where('meetingId', '==', meetingId),
 	) as Query<ScheduleData>;
 

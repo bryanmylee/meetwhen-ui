@@ -23,7 +23,7 @@ export const addSchedule = async (
 		total,
 		userId,
 	});
-	const doc = await addDoc(collection(repo, 'schedules'), newScheduleData);
+	const doc = await addDoc(collection(repo, 'schedule'), newScheduleData);
 	return {
 		...addSchedule,
 		id: doc.id,
