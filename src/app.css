@@ -49,3 +49,12 @@ button,
 		box-shadow: 0 0 0 0px var(--tw-ring-color);
 	}
 }
+
+@keyframes fade {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 100%;
+	}
+}

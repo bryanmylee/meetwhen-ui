@@ -56,6 +56,7 @@
 	.menu-items-container {
 		@apply hidden;
 		.menu-checkbox:checked ~ & {
+			animation: fade 300ms var(--cubicOut) 1 both;
 			@apply block;
 			@apply absolute top-full -right-2 mt-2 pt-2;
 			@apply rounded-xl shadow-lg z-10;
