@@ -33,7 +33,7 @@
 
 <style lang="postcss">
 	.timepicker-grid-header {
-		@apply sticky top-0 z-50 rounded-lg;
+		@apply sticky top-0 z-40 rounded-lg;
 		@apply px-1 py-2 gap-x-3;
 	}
 
@@ -43,7 +43,7 @@
 	}
 
 	.timepicker-grid-header-bg {
-		@apply sticky top-0 z-[49];
+		@apply sticky top-0 z-[39];
 		@apply bg-white gdark:bg-neutral-800;
 		@apply transition-shadow;
 		&.has-shadow {
