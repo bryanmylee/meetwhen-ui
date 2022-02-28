@@ -35,7 +35,7 @@
 
 	export let currentUser: SafeUser;
 	$: isGuest = currentUser.email?.endsWith('.guest');
-	$: name = currentUser.displayName;
+	$: name = currentUser.displayName ?? '...';
 
 	const upcomingMeetingsPage = usePaginated<Id<Meeting>>(
 		async (pageSize, previous) => {
