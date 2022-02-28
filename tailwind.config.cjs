@@ -1,23 +1,46 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
+/** @type {import('tailwindcss/tailwind-config').TailwindConfig} */
 const config = {
-	mode: 'jit',
-	purge: ['./src/**/*.{html,js,svelte,ts}'],
+	content: ['./src/**/*.{html,js,svelte,ts}'],
 	darkMode: 'class',
 	theme: {
 		extend: {
 			borderWidth: {
 				3: '3px',
 			},
+			boxShadow: {
+				wide: '0 1px 9px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+				'md-wide':
+					'0 4px 18px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+			},
 			colors: {
 				primary: {
-					DEFAULT: 'var(--primary)',
-					lighter: 'var(--primary-lighter)',
-					darker: 'var(--primary-darker)',
-					warmer: 'var(--primary-warmer)',
-					cooler: 'var(--primary-cooler)',
-					fifty: 'var(--primary-fifty)',
-					thirty: 'var(--primary-thirty)',
-					text: 'var(--primary-text)',
+					50: 'var(--primary-50)',
+					100: 'var(--primary-100)',
+					200: 'var(--primary-200)',
+					300: 'var(--primary-300)',
+					400: 'var(--primary-400)',
+					'400+1': 'var(--primary-400\\+1)',
+					'400-1': 'var(--primary-400-1)',
+					'400+2': 'var(--primary-400\\+2)',
+					'400-2': 'var(--primary-400-2)',
+					'400/30': 'var(--primary-400\\/30)',
+					'400/50': 'var(--primary-400\\/50)',
+					500: 'var(--primary-500)',
+					600: 'var(--primary-600)',
+					700: 'var(--primary-700)',
+					800: 'var(--primary-800)',
+					900: 'var(--primary-900)',
 				},
+			},
+			fontFamily: {
+				sans: [...defaultTheme.fontFamily.sans],
+				mono: ['Roboto Mono', ...defaultTheme.fontFamily.mono],
+			},
+			height: {
+				screen: 'var(--vh, 100vh)',
+				'screen-nav': 'calc(var(--vh, 100vh) - 3.5rem)',
 			},
 			minHeight: (theme) => theme('height'),
 			minWidth: (theme) => theme('width'),
@@ -25,7 +48,19 @@ const config = {
 			maxWidth: (theme) => theme('width'),
 		},
 	},
-	plugins: [require('./src/plugins/tailwind-color-shadows.cjs')],
+	plugins: [
+		require('./tailwindcss/bgShade.cjs'),
+		require('./tailwindcss/brand.cjs'),
+		require('./tailwindcss/card.cjs'),
+		require('./tailwindcss/focus.cjs'),
+		require('./tailwindcss/focusOnly.cjs'),
+		require('./tailwindcss/noScrollbar.cjs'),
+		require('./tailwindcss/requiredDot.cjs'),
+		require('./tailwindcss/size.cjs'),
+		require('./tailwindcss/skeleton.cjs'),
+		require('./tailwindcss/textStyles.cjs'),
+		require('tailwindcss-global-dark'),
+	],
 };
 
 module.exports = config;

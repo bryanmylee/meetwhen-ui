@@ -4,9 +4,9 @@
 	"display": "minimal-ui",
 	"scope": "/",
 	"start_url": "/",
-	"name": "meetwhen",
-	"short_name": "meetwhen",
-	"description": "A quick group scheduling application",
+	"name": "meetwhen.io",
+	"short_name": "meetwhen.io",
+	"description": "A beautiful group scheduling application",
 	"icons": [
 		{
 			"src": "/icon-192x192.png",

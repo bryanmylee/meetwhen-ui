@@ -1,10 +1,12 @@
-# Compiled files
-.svelte-kit/**
-static/**
-build/**
-
-# Node.js dependency directory
+# Dependencies
 node_modules/
 
-# lock-file
+# Build artifacts
+.svelte-kit/
+package/
 pnpm-lock.yaml
+
+# Environment files
+.env
+.env.*
+!.env.example

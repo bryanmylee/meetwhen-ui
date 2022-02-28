@@ -1,92 +1,87 @@
 <script lang="ts" context="module">
-	const UPCOMING_TO_SHOW = 5;
-	const PREVIOUS_TO_SHOW = 3;
-
 	export const load: Load = async ({ session }) => {
-		if (session.user === null) {
+		if (session.user === undefined) {
 			return {
 				status: 302,
-				redirect: '/',
+				redirect: '/login?back=/profile',
 			};
 		}
-		try {
-			const { upcomingMeetings, previousMeetings } = await getProfilePage({
-				upcomingLimit: UPCOMING_TO_SHOW,
-				previousLimit: PREVIOUS_TO_SHOW,
-			});
-			return {
-				props: {
-					upcomingMeetings,
-					previousMeetings,
-				},
-			};
-		} catch (error) {
-			console.error(error);
-			return {
-				error: JSON.stringify(error),
-			};
-		}
+		return {
+			props: {
+				currentUser: session.user,
+			},
+		};
 	};
 </script>
 
 <script lang="ts">
-	import {
-		ProfilePageComingSoon,
-		ProfilePagePrevious,
-		ProfilePageUpcoming,
-	} from '$lib/components/page/profile';
-	import { Head } from '$lib/components/atoms';
 	import type { Load } from '@sveltejs/kit';
-	import type { ShallowMeeting } from '$lib/gql/types';
-	import { getProfilePage } from '$lib/gql/getProfilePage';
-	import { logout } from '$lib/gql/logout';
-	import { session } from '$app/stores';
-	import { LoadingButton, setLoadingContext, withLoading } from '$lib/components/loading';
+	import type { SafeUser, Meeting } from '$lib/models';
+	import { useAuth, useRepo, usePaginated } from '$lib/firebase';
+	import { signOut } from 'firebase/auth';
+	import { Button } from '$lib/input';
+	import { goto } from '$app/navigation';
+	import {
+		findAllPreviousMeetingsOwnedByUser,
+		findAllUpcomingMeetingsOwnedByUser,
+		getEndFromMeetings,
+	} from '$lib/firebase/queries/meetings';
+	import MeetingPreviews from '$lib/profile/components/MeetingPreviews.svelte';
+	import Head from '$lib/core/components/Head.svelte';
+	import GuestPreview from '$lib/profile/components/GuestPreview.svelte';
 
-	export let upcomingMeetings: ShallowMeeting[];
-	export let previousMeetings: ShallowMeeting[];
+	const repo = useRepo();
+	const auth = useAuth();
 
-	const isLoading = setLoadingContext(false);
+	export let currentUser: SafeUser;
+	$: isGuest = currentUser.email?.endsWith('.guest');
+	$: name = currentUser.displayName ?? '...';
 
-	$: isGuest = $session.user?.guestOf !== null ?? true;
+	const upcomingMeetingsPage = usePaginated<Id<Meeting>>(
+		async (pageSize, previous) => {
+			return await findAllUpcomingMeetingsOwnedByUser(repo, currentUser.uid, {
+				limit: pageSize,
+				afterEnd:
+					previous === undefined ? undefined : getEndFromMeetings(previous),
+			});
+		},
+		{ pageSize: 8 },
+	);
 
-	const handleLogout = withLoading(isLoading, async () => {
-		await logout();
-		window.history.back();
-		$session.user = null;
-	});
+	const previousMeetingsPage = usePaginated<Id<Meeting>>(
+		async (pageSize, previous) => {
+			return await findAllPreviousMeetingsOwnedByUser(repo, currentUser.uid, {
+				limit: pageSize,
+				afterEnd:
+					previous === undefined ? undefined : getEndFromMeetings(previous),
+			});
+		},
+		{ pageSize: 8 },
+	);
+
+	const handleSignOut = async () => {
+		await signOut(auth);
+		goto('/', {
+			replaceState: true,
+		});
+	};
 </script>
 
-<Head subtitle="profile" emoji="🤖" />
+<Head noRobots subtitle="profile" />
 
-<div class="max-w-lg p-6 mx-auto space-y-4">
-	<section class="p-4 space-y-2 card">
-		<h1 class="text-2xl font-bold">Profile</h1>
-		{#if isGuest}
-			<p>You are using a guest account.</p>
+<section>
+	<div class="flex flex-col w-full max-w-xl gap-4 p-4 mx-auto">
+		<h1 class="text-title-1">Welcome back, {name}</h1>
+		{#if isGuest && !currentUser.ssr}
+			<GuestPreview guestUser={currentUser} />
 		{:else}
-			<p>Track all your previous and upcoming meetings.</p>
+			<MeetingPreviews
+				title="Upcoming"
+				open
+				meetingsPage={upcomingMeetingsPage}
+			/>
+			<MeetingPreviews title="Previous" meetingsPage={previousMeetingsPage} />
 		{/if}
-	</section>
-	{#if !isGuest}
-		<ProfilePageUpcoming {upcomingMeetings} />
-		{#if previousMeetings.length > 0}
-			<ProfilePagePrevious {previousMeetings} />
-		{/if}
-		<ProfilePageComingSoon />
-	{/if}
-
-	<div class="flex items-center justify-between p-4 card">
-		<div>
-			Logged in as <span class="font-bold">{$session.user?.name ?? ''}</span>
-		</div>
-		<LoadingButton
-			type="button"
-			isPrimary
-			on:click={handleLogout}
-			class="px-4 py-3 rounded-full button shade"
-		>
-			Logout
-		</LoadingButton>
+		<Button color="gray" on:click={handleSignOut}>Sign out</Button>
 	</div>
-</div>
+</section>

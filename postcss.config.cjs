@@ -8,10 +8,7 @@ const config = {
 		require('tailwindcss'),
 		//But others, like autoprefixer, need to run after,
 		require('autoprefixer'),
-		!dev &&
-			require('cssnano')({
-				preset: 'default',
-			}),
+		!dev && require('cssnano'),
 	],
 };
 

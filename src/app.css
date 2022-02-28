@@ -1,0 +1,60 @@
+/* Roboto Mono 600 */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@600&display=swap');
+
+/* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+	font-size: 14px;
+	/* sm */
+	@media (min-width: 640px) {
+		font-size: 16px;
+	}
+	/* xl */
+	@media (min-width: 1280px) {
+		font-size: 18px;
+	}
+}
+
+* {
+	@apply text-black;
+	--cubicOut: cubic-bezier(0.33, 1, 0.68, 1);
+	:where(.dark) & {
+		@apply text-white;
+	}
+}
+
+svg,
+svg * {
+	@apply text-current dark:text-current;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+	-webkit-appearance: none;
+}
+
+@keyframes ring-breathe {
+	0% {
+		box-shadow: 0 0 0 0px var(--tw-ring-color);
+	}
+	50% {
+		box-shadow: 0 0 0 3px var(--tw-ring-color);
+	}
+	100% {
+		box-shadow: 0 0 0 0px var(--tw-ring-color);
+	}
+}
+
+@keyframes fade {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 100%;
+	}
+}

@@ -1,27 +1,31 @@
-import { dev } from '$app/env';
-import { queryClient } from '$lib/gql';
-import { getMe } from '$lib/gql/getMe';
-import type { ShallowUser } from '$lib/gql/types';
 import type { GetSession } from '@sveltejs/kit';
-import { parse } from 'cookie';
+import { initFirebaseAdmin } from '$lib/firebase';
+import { parseCookies } from '$lib/core/utils/cookies';
+import type { SafeUser } from '$lib/models';
+import type { ThemeType } from '$lib/core/types';
+import { getServerEnv } from '$lib/env';
 
-export const getSession: GetSession = async (request) => {
-	queryClient.endpoint = `${dev ? 'http' : 'https'}://${request.host}/api/graphql`;
-	queryClient.fetch = fetch;
-
-	const cookies = parse(request.headers.cookie ?? '');
-	const user = await getUser(cookies['access-token']);
-	const theme = cookies['theme'] ?? 'auto';
-	return { user, theme };
+export const getSession: GetSession = async ({ request }) => {
+	const cookies = parseCookies(request);
+	const user = await getSSRUser(cookies.token);
+	const theme = cookies.theme as Maybe<ThemeType>;
+	return {
+		user,
+		theme,
+	};
 };
 
-const getUser = async (accessToken: string | undefined): Promise<ShallowUser | null> => {
-	if (accessToken === undefined) {
-		return null;
-	}
+const getSSRUser = async (token: Maybe<string>): Promise<Maybe<SafeUser>> => {
 	try {
-		return await getMe(accessToken);
+		const { serviceKey } = getServerEnv();
+		const firebaseAdmin = await initFirebaseAdmin(serviceKey);
+		const idToken = await firebaseAdmin.auth().verifyIdToken(token ?? '');
+		return {
+			...idToken,
+			ssr: true,
+		};
 	} catch (error) {
-		return null;
+		console.error(error);
+		return undefined;
 	}
 };
