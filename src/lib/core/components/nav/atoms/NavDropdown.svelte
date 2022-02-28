@@ -9,7 +9,6 @@
 	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { MenuIcon } from 'svelte-feather-icons';
-	import { Button } from '$lib/input';
 	import { clickOutside } from '$lib/core/actions';
 
 	const dispatch = createEventDispatcher<NavDropdownEvent>();
@@ -21,33 +20,48 @@
 	let open = false;
 </script>
 
-<div class="menu" use:clickOutside={() => (open = false)}>
-	<Button color="gray" size="sm" on:click={() => (open = !open)}>
+<label class="menu" use:clickOutside={() => (open = false)}>
+	<input type="checkbox" class="menu-checkbox" bind:checked={open} />
+	<div class="menu-button">
 		<MenuIcon class="wh-5" />
-	</Button>
-	<div class="menu-items-container">
-		{#if open}
-			<div
-				transition:slide|local={{ duration: 300, easing: cubicOut }}
-				class="menu-items-reveal"
-				on:click={() => (open = false)}
-			>
-				<div>
-					<slot />
-				</div>
-			</div>
-		{/if}
 	</div>
-</div>
+	<div class="menu-items-container">
+		<div class="menu-items-reveal" on:click={() => (open = false)}>
+			<slot />
+		</div>
+	</div>
+</label>
 
 <style lang="postcss">
 	.menu {
-		@apply relative;
+		@apply block relative cursor-pointer w-12 h-9 rounded-full;
+	}
+
+	.menu-checkbox {
+		@apply absolute opacity-0 wh-0;
+	}
+
+	.menu-button {
+		@apply absolute inset-0 rounded-full bg-shade-100 transition;
+		&:hover {
+			@apply bg-shade-50 shadow;
+		}
+		&:active {
+			@apply bg-shade-200;
+		}
+		.menu-checkbox:focus ~ & {
+			@apply ring ring-primary-400 ring-offset-2 gdark:ring-offset-neutral-800;
+		}
+		@apply flex justify-center items-center;
 	}
 
 	.menu-items-container {
-		@apply absolute top-full -right-2 mt-2 pt-2;
-		@apply rounded-xl shadow-lg z-10;
+		@apply hidden;
+		.menu-checkbox:checked ~ & {
+			@apply block;
+			@apply absolute top-full -right-2 mt-2 pt-2;
+			@apply rounded-xl shadow-lg z-10;
+		}
 	}
 
 	.menu-items-reveal {
