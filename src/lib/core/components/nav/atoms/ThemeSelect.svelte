@@ -24,13 +24,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import {
-		Popover,
-		PopoverButton,
-		PopoverPanel,
-		RadioGroup,
-		RadioGroupOption,
-	} from '@rgossiaux/svelte-headlessui';
+	import { RadioGroup, RadioGroupOption } from '@rgossiaux/svelte-headlessui';
 	import { SunIcon, MoonIcon, DropletIcon } from 'svelte-feather-icons';
 	import type { ThemeType } from '$lib/core/types';
 	import { clickOutside } from '$lib/core/actions';
@@ -43,43 +37,36 @@
 	$: selectedOption = options.find((o) => o.value === selected);
 </script>
 
-<Popover
-	class="themeselect"
-	use={[[clickOutside, () => dispatch('dismiss-theme')]]}
->
-	<PopoverButton tabindex="-1" class="themeselect-anchor">
-		<svelte:component this={selectedOption?.icon} class="wh-5" />
-	</PopoverButton>
+<div class="themeselect" use:clickOutside={() => dispatch('dismiss-theme')}>
+	<svelte:component this={selectedOption?.icon} class="wh-5" />
 	<div class="themeselect-items-container">
 		{#if open}
 			<div
 				transition:fade|local={{ duration: 300, easing: cubicOut }}
 				class="themeselect-items-reveal"
 			>
-				<PopoverPanel static>
-					<RadioGroup value={selected} class="themeselect-items">
-						{#each options as { value, icon }}
-							<RadioGroupOption
-								as="button"
-								{value}
-								id="select-{value}"
-								class="themeselect-item"
-								on:click={() => dispatch('select-theme', { theme: value })}
-							>
-								<svelte:component this={icon} class="wh-5" />
-								<label for="select-{value}">{value}</label>
-							</RadioGroupOption>
-						{/each}
-					</RadioGroup>
-				</PopoverPanel>
+				<RadioGroup value={selected} class="themeselect-items">
+					{#each options as { value, icon }}
+						<RadioGroupOption
+							as="button"
+							{value}
+							id="select-{value}"
+							class="themeselect-item"
+							on:click={() => dispatch('select-theme', { theme: value })}
+						>
+							<svelte:component this={icon} class="wh-5" />
+							<label for="select-{value}">{value}</label>
+						</RadioGroupOption>
+					{/each}
+				</RadioGroup>
 			</div>
 		{/if}
 	</div>
-</Popover>
+</div>
 
 <style lang="postcss" global>
 	.themeselect {
-		@apply relative w-full;
+		@apply relative;
 	}
 
 	.themeselect-anchor {
