@@ -6,8 +6,6 @@
 
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { slide } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
 	import { MenuIcon } from 'svelte-feather-icons';
 	import { clickOutside } from '$lib/core/actions';
 
@@ -26,9 +24,9 @@
 		<MenuIcon class="wh-5" />
 	</div>
 	<div class="menu-items-container">
-		<div class="menu-items-reveal" on:click={() => (open = false)}>
+		<ul class="menu-items-reveal" on:click={() => (open = false)}>
 			<slot />
-		</div>
+		</ul>
 	</div>
 </label>
 
