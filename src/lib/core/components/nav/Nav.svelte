@@ -43,32 +43,31 @@
 		<li>
 			<Button href="/new" size="sm">New</Button>
 		</li>
-		<li>
-			{#if $media.sm}
-				<NavList>
-					<NavItems
-						{user}
-						{showTheme}
-						selectedTheme={theme}
-						on:dismiss-theme={() => (showTheme = false)}
-						on:toggle-show-theme={() => (showTheme = !showTheme)}
-						on:select-theme
-						on:open-auth
-					/>
-				</NavList>
-			{:else}
-				<NavDropdown on:dismiss={() => (showTheme = false)}>
-					<NavItems
-						{user}
-						{showTheme}
-						selectedTheme={theme}
-						on:dismiss-theme={() => (showTheme = false)}
-						on:toggle-show-theme={() => (showTheme = !showTheme)}
-						on:select-theme
-						on:open-auth
-					/>
-				</NavDropdown>
-			{/if}
+		<li class="hidden md:block">
+			<NavList>
+				<NavItems
+					{user}
+					{showTheme}
+					selectedTheme={theme}
+					on:dismiss-theme={() => (showTheme = false)}
+					on:toggle-show-theme={() => (showTheme = !showTheme)}
+					on:select-theme
+					on:open-auth
+				/>
+			</NavList>
+		</li>
+		<li class="md:hidden">
+			<NavDropdown on:dismiss={() => (showTheme = false)}>
+				<NavItems
+					{user}
+					{showTheme}
+					selectedTheme={theme}
+					on:dismiss-theme={() => (showTheme = false)}
+					on:toggle-show-theme={() => (showTheme = !showTheme)}
+					on:select-theme
+					on:open-auth
+				/>
+			</NavDropdown>
 		</li>
 	</ul>
 	{#if !onHomePage}
