@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
+	import { cubicOut } from 'svelte/easing';
 	import { FirstVisibleChild } from '$lib/core/components/visibleChild';
 	import { createPopperActions } from 'svelte-popperjs';
 	import { touchEnabled } from '$lib/core/state';
@@ -45,7 +47,11 @@
 	use={[hintRef]}
 />
 {#if showHint}
-	<div class="hint" use:hintContent>
+	<div
+		class="hint"
+		use:hintContent
+		transition:fade={{ easing: cubicOut, duration: 300 }}
+	>
 		<div data-popper-arrow>
 			<div class="hint-arrow" />
 		</div>
