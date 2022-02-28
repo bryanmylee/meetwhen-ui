@@ -8,7 +8,7 @@
 <svelte:head>
 	<title>
 		{subtitle ?? ''}
-		{emoji ?? subtitle === undefined ? '' : '•'}
+		{emoji ?? (subtitle === undefined ? '' : '•')}
 		meetwhen.io
 	</title>
 	<meta
