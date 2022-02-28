@@ -17,7 +17,7 @@ export const findAllPreviousMeetingsOwnedByUser = async (
 ): Promise<Id<Meeting>[]> => {
 	const timeConstraits = [
 		where('total.end', '<', now.unix()),
-		orderBy('total.end', 'asc'),
+		orderBy('total.end', 'desc'),
 		limitAs(limit),
 	];
 	if (afterEnd !== undefined) {
