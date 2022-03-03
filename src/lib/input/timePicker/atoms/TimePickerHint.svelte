@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
+	import { browser } from '$app/env';
 	import { FirstVisibleChild } from '$lib/core/components/visibleChild';
 	import { createPopperActions } from 'svelte-popperjs';
 	import { touchEnabled } from '$lib/core/state';
@@ -29,15 +30,21 @@
 	let showHintTimeout: Maybe<number>;
 	$: if (touched) {
 		showHint = false;
-		window.clearTimeout(showHintTimeout);
+		if (browser) {
+			window.clearTimeout(showHintTimeout);
+		}
 	}
 	$: if (!disabled) {
-		showHintTimeout = window.setTimeout(() => {
-			showHint = true;
-		}, 2000);
+		if (browser) {
+			showHintTimeout = window.setTimeout(() => {
+				showHint = true;
+			}, 2000);
+		}
 	} else {
 		showHint = false;
-		window.clearTimeout(showHintTimeout);
+		if (browser) {
+			window.clearTimeout(showHintTimeout);
+		}
 	}
 </script>
 
