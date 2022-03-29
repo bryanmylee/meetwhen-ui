@@ -2,6 +2,7 @@
 	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 	import { ChevronDownIcon, ShareIcon } from 'svelte-feather-icons';
+	import { media } from '$lib/core/state';
 	import { Button } from '$lib/input';
 	import { ShareDialog } from '$lib/meeting/components';
 	import type { LinkPreviewData } from '$lib/core/types';
@@ -16,6 +17,17 @@
 	$: hasMoreDetails = description !== undefined || links !== undefined;
 	let showMoreDetails = true;
 	let showShareDialog = false;
+
+	$: if ($media.lg) {
+		showMoreDetails = true;
+	}
+
+	const toggleShowMoreDetails = () => {
+		if ($media.lg) {
+			return;
+		}
+		showMoreDetails = !showMoreDetails;
+	};
 </script>
 
 <header class="meeting-header-box">
@@ -23,12 +35,12 @@
 	<div class="meeting-header">
 		<div class="flex justify-between items-start gap-2 w-full">
 			<div class="flex items-start gap-2">
-				{#if hasMoreDetails}
+				{#if hasMoreDetails && !$media.lg}
 					<Button
 						icon
 						variant="text-only"
 						aria-expanded={showMoreDetails}
-						on:click={() => (showMoreDetails = !showMoreDetails)}
+						on:click={toggleShowMoreDetails}
 						class="-ml-1"
 					>
 						<ChevronDownIcon

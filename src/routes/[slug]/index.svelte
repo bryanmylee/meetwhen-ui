@@ -328,8 +328,8 @@
 	description={meeting.description}
 />
 
-<section class="flex flex-col h-screen-nav">
-	<div class="flex flex-col flex-1 w-full h-full max-w-xl gap-4 p-4 mx-auto">
+<section class="h-screen-nav">
+	<div class="layout">
 		<MeetingHeader
 			name={meeting.name}
 			slug={meeting.slug}
@@ -342,7 +342,7 @@
 			validIntervals={meeting.intervals}
 			schedules={meeting.schedules}
 			editing={pageState === 'join' || pageState === 'edit'}
-			class="min-h-0 h-full"
+			class="time-picker"
 		/>
 		{#if pageState === 'none'}
 			{#if isJoined}
@@ -420,6 +420,19 @@
 />
 
 <style lang="postcss">
+	.layout {
+		@apply flex flex-col flex-1 w-full h-full max-w-xl gap-4 p-4 mx-auto;
+		@media screen and (min-width: 1024px) {
+			@apply grid items-start max-w-none;
+			grid-template-columns: 384px auto;
+			grid-template-rows: auto 1fr;
+		}
+
+		& :global(.time-picker) {
+			@apply min-h-0 h-full;
+			@apply lg:row-span-2;
+		}
+	}
 	.leave {
 		@apply p-4 card;
 	}

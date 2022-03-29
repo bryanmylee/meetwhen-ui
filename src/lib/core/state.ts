@@ -24,6 +24,7 @@ export const [useIsDark, setIsDark] = pairedContext<Readable<boolean>>();
 export const media = watchMedia({
 	sm: '(min-width: 640px)',
 	md: '(min-width: 768px)',
+	lg: '(min-width: 1024px)',
 });
 
 export const touchEnabled = useTouchEnabled();
