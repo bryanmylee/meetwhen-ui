@@ -1,10 +1,13 @@
 <script lang="ts">
-	export let emoji: Maybe<string> = '•';
-	export let subtitle: Maybe<string> = '';
+	export let emoji: Maybe<string> = undefined;
+	export let subtitle: Maybe<string> = undefined;
 	export let description: Maybe<string> = 'Find the perfect time together';
 	export let noRobots = false;
 
-	$: title = `meetwhen.io ${emoji} ${subtitle}`;
+	$: title =
+		emoji !== undefined || subtitle !== undefined
+			? `meetwhen.io ${emoji ?? '•'} ${subtitle}`
+			: 'meetwhen.io';
 </script>
 
 <svelte:head>
