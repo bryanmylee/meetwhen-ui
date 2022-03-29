@@ -80,8 +80,6 @@
 				}
 			}
 
-			transition: width 300ms var(--cubicOut), margin-left 300ms var(--cubicOut),
-				border-radius 300ms var(--cubicOut);
 			&.editing {
 				width: calc(100% - var(--scheduleWidth));
 				margin-left: var(--scheduleWidth);

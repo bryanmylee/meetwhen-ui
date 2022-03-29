@@ -25,7 +25,6 @@
 	export let isIdSelected: (id: string) => boolean;
 	export let isIdCurrent: (id: string) => boolean;
 	export let isIdDisabled: (id: string) => boolean;
-	export let selectMode: Maybe<SelectMode> = undefined;
 
 	$: cellSelected = isIdSelected(dateTimeId);
 	$: cellCurrent = isIdCurrent(dateTimeId);
@@ -50,8 +49,6 @@
 	disabled={disabled || cellDisabled}
 	tabindex={cellCurrent ? 0 : -1}
 	class="timepicker-cell"
-	class:add={selectMode === 'add'}
-	class:remove={selectMode === 'remove'}
 	class:border-b-2={timeCell.time.add($resolution, 'minutes').minute() === 0 &&
 		!timeCell.isEndOfInterval}
 	class:rounded-t-xl={timeCell.isStartOfInterval}
@@ -66,7 +63,6 @@
 	.timepicker-cell {
 		@apply wh-full min-w-24 select-none focus:outline-none min-h-6;
 		@apply bg-shade-100 border-gray-200 gdark:border-neutral-500;
-		@apply transition;
 
 		&:hover:not(:disabled) {
 			@apply bg-shade-200;

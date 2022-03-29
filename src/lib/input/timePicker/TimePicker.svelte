@@ -204,7 +204,6 @@
 									{isIdSelected}
 									{isIdCurrent}
 									{isIdDisabled}
-									{selectMode}
 								/>
 							</slot>
 							{#if timeCell.isEndOfBlock && !timeCell.isEndOfDate}
