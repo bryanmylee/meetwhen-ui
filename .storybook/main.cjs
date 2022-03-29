@@ -85,6 +85,7 @@ const sveltekitAlias = (config) => {
 		...config.resolve.alias,
 		svelte: `${__dirname}/../node_modules/svelte`,
 		$lib: `${__dirname}/../src/lib`,
+		$app: `${__dirname}/../node_modules/@sveltejs/kit/assets/app`,
 	};
 	return config;
 };
