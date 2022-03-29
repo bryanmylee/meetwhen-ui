@@ -4,6 +4,7 @@ specifiers:
   '@babel/core': ^7.16.7
   '@babel/plugin-proposal-nullish-coalescing-operator': ^7.16.7
   '@babel/plugin-proposal-optional-chaining': ^7.16.7
+  '@popperjs/core': ^2.11.4
   '@rgossiaux/svelte-headlessui': ^1.0.0-beta.8
   '@storybook/addon-actions': ^6.5.0-alpha.6
   '@storybook/addon-essentials': ^6.5.0-alpha.6
@@ -64,6 +65,7 @@ devDependencies:
   '@babel/core': 7.16.7
   '@babel/plugin-proposal-nullish-coalescing-operator': 7.16.7_@babel+core@7.16.7
   '@babel/plugin-proposal-optional-chaining': 7.16.7_@babel+core@7.16.7
+  '@popperjs/core': 2.11.4
   '@rgossiaux/svelte-headlessui': 1.0.0-beta.8_svelte@3.46.2
   '@storybook/addon-actions': 6.5.0-alpha.19
   '@storybook/addon-essentials': 6.5.0-alpha.19_4b2966ba071b8db567db5b1a9fffe5d8
@@ -110,7 +112,7 @@ devDependencies:
   svelte-feather-icons: 3.5.0
   svelte-loader: 3.1.2_svelte@3.46.2
   svelte-media: 0.1.5_svelte@3.46.2
-  svelte-popperjs: 1.2.8
+  svelte-popperjs: 1.2.8_@popperjs+core@2.11.4
   svelte-preprocess: 4.10.2_f62228b6fc6c9bc0befefeaede5eb066
   svelte-previous: 2.0.1
   tailwindcss: 3.0.15_ef48b3b8837f8a23677bffe8f9cd866d
@@ -2696,6 +2698,10 @@ packages:
 
   /@popperjs/core/2.11.2:
     resolution: {integrity: sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==}
+    dev: true
+
+  /@popperjs/core/2.11.4:
+    resolution: {integrity: sha512-q/ytXxO5NKvyT37pmisQAItCFqA7FD/vNb8dgaJy3/630Fsc+Mz9/9f2SziBoIZ30TJooXyTwZmhi1zjXmObYg==}
     dev: true
 
   /@protobufjs/aspromise/1.1.2:
@@ -15443,10 +15449,12 @@ packages:
       tiny-glob: 0.2.9
     dev: true
 
-  /svelte-popperjs/1.2.8:
+  /svelte-popperjs/1.2.8_@popperjs+core@2.11.4:
     resolution: {integrity: sha512-tbZmJWpNxAuv+kLNopcF9f0MXQeCHLmafl4IyVnPI1IJWjgkHUFTTL2HhVMDrRm6jsy7O/RR6AAVTeYe4p7lTQ==}
     peerDependencies:
       '@popperjs/core': 2.x
+    dependencies:
+      '@popperjs/core': 2.11.4
     dev: true
 
   /svelte-preprocess/4.10.2_f62228b6fc6c9bc0befefeaede5eb066:
