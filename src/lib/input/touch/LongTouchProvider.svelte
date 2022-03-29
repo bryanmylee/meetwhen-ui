@@ -141,7 +141,7 @@
 			target: appRootElement,
 			props: { x: touch.clientX, y: touch.clientY, triggerDelay: startDelay },
 		});
-		setTimeout(() => {
+		window.setTimeout(() => {
 			removeIndicator();
 		}, startDelay + indicator.triggerDuration + indicator.outroDuration);
 	};
