@@ -279,6 +279,9 @@
 		if (selectMode === undefined) {
 			return;
 		}
+		if (target == null) {
+			return;
+		}
 		updateSelectionOn(target as HTMLElement);
 	};
 
@@ -295,6 +298,9 @@
 			return;
 		}
 		const target = document.elementFromPoint(touch.clientX, touch.clientY);
+		if (target == null) {
+			return;
+		}
 		updateSelectionOn(target as HTMLElement);
 	};
 
@@ -399,6 +405,12 @@
 	};
 </script>
 
+<svelte:window
+	on:mousemove={mousemoveinto}
+	on:mouseup={mouseup}
+	on:mouseleave={() => endSelectionOn()}
+/>
+
 <LongTouchProvider
 	{disabled}
 	on:longtouchstart={longtouchstart}
@@ -408,9 +420,6 @@
 >
 	<div
 		on:mousedown={mousestart}
-		on:mousemove={mousemoveinto}
-		on:mouseup={mouseup}
-		on:mouseleave={() => endSelectionOn()}
 		on:keydown={keydown}
 		on:keyup={keyup}
 		class="contents"

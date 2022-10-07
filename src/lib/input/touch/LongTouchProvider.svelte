@@ -151,13 +151,12 @@
 	};
 </script>
 
-<div
-	on:touchstart={touchstart}
+<svelte:window
 	on:touchmove={touchmove}
 	on:touchcancel={touchend}
 	on:touchend={touchend}
-	on:contextmenu
-	class="contents"
->
+/>
+
+<div on:touchstart={touchstart} on:contextmenu class="contents">
 	<slot />
 </div>
