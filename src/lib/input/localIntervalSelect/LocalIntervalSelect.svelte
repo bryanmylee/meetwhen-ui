@@ -45,6 +45,7 @@
 		if (updatedHours) return;
 		startHour = interval.start.hour();
 		endHour = interval.end.hour();
+		if (endHour === startHour) endHour = 24;
 		updatedHours = true;
 	};
 
