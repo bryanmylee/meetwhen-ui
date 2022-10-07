@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { MeetingConverter } from '$lib/models';
 import type { Meeting } from '$lib/models';
 import { fetchLinkPreviews, fetchNewSlug } from '$lib/api';
-import { getTotalInterval } from '$lib/core/utils';
+import { getTotalInterval, unionIntervals } from '$lib/core/utils';
 
 export interface AddMeeting
 	extends Pick<
@@ -41,6 +41,7 @@ export const addMeeting = async (
 	const doc = await addDoc(collection(repo, 'meeting'), newMeetingData);
 	return {
 		...addMeeting,
+		intervals: unionIntervals(addMeeting.intervals),
 		id: doc.id,
 		slug,
 		created,
