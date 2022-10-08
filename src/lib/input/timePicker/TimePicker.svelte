@@ -29,6 +29,7 @@
 	import { getTimePickerInterpolate } from './utils/getTimePickerInterpolate';
 	import { getIntervalsBetween } from './utils/getIntervalsBetween';
 	import { getTimePickerKeyboardReducer } from './utils/getTimePickerKeyboardReducer';
+	import { autoScroll } from './utils/autoScroll';
 	import TimePickerFocusCell from './atoms/TimePickerFocusCell.svelte';
 	import TimePickerLayoutHeader from './atoms/TimePickerLayoutHeader.svelte';
 	import TimePickerLayoutIndex from './atoms/TimePickerLayoutIndex.svelte';
@@ -158,26 +159,34 @@
 
 <div {id} tabindex={0} aria-label="time picker" class="timepicker">
 	<div class="timepicker-clip-content">
-		<div bind:this={scrollElement} class="timepicker-scroll-grid">
-			<KeyboardHelp {disabled} />
-			<TimePickerLayoutHeader />
-			<TimePickerLayoutIndex />
-			<SelectionProvider
-				{selectedIds}
-				{disabled}
-				lazy
-				bind:currentId={$currentId}
-				interpolate={timePickerInterpolate}
-				keyboardReducer={timePickerKeyboardReducer}
-				on:focusupdate={handleFocusUpdate}
-				on:selectstart={handleSelectStart}
-				on:selectthrough={handleSelectThrough}
-				on:selectend={handleSelectEnd}
-				let:isIdSelected
-				let:isIdCurrent
-				let:isIdDisabled
-				let:selectMode
+		<SelectionProvider
+			{selectedIds}
+			{disabled}
+			lazy
+			bind:currentId={$currentId}
+			interpolate={timePickerInterpolate}
+			keyboardReducer={timePickerKeyboardReducer}
+			on:focusupdate={handleFocusUpdate}
+			on:selectstart={handleSelectStart}
+			on:selectthrough={handleSelectThrough}
+			on:selectend={handleSelectEnd}
+			let:isIdSelected
+			let:isIdCurrent
+			let:isIdDisabled
+			let:selectMode
+		>
+			<div
+				bind:this={scrollElement}
+				class="timepicker-scroll-grid"
+				use:autoScroll={{
+					active: selectMode !== undefined,
+					zoneSize: 0,
+					inset: { left: 45, top: 40 },
+				}}
 			>
+				<KeyboardHelp {disabled} />
+				<TimePickerLayoutHeader />
+				<TimePickerLayoutIndex />
 				<div
 					role="grid"
 					aria-describedby={errorId}
@@ -239,8 +248,8 @@
 					{/if}
 					<TimePickerHint {disabled} {touched} {scrollElement} />
 				</div>
-			</SelectionProvider>
-		</div>
+			</div>
+		</SelectionProvider>
 	</div>
 	{#if error !== ''}
 		<div class="error-message-box">
