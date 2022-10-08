@@ -138,7 +138,9 @@
 				unionIntervals([...selectedIntervals, ...activeIntervals]),
 			);
 		} else {
-			selectedIntervals = subtractIntervals(selectedIntervals, activeIntervals);
+			selectedIntervals = getLocalIntervals(
+				subtractIntervals(selectedIntervals, activeIntervals),
+			);
 		}
 		activeIntervals = [];
 	};
