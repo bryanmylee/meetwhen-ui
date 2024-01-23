@@ -26,6 +26,12 @@
 
 	const isHovering = writable(false);
 	const isFocusing = writable(false);
+
+	function onImgError(img: HTMLImageElement) {
+		if (img.naturalWidth === 0 && img.naturalHeight === 0) {
+			favicon = undefined;
+		}
+	}
 </script>
 
 <Button
@@ -37,7 +43,12 @@
 >
 	{#if favicon !== undefined}
 		<div class="wh-4 -ml-1.5">
-			<img src={favicon} alt="favicon" />
+			<img
+				src={favicon}
+				alt="favicon"
+				class="text-xs font-normal"
+				use:onImgError
+			/>
 		</div>
 	{/if}
 	<span class="text-label-sm">
@@ -75,5 +86,9 @@
 	.link-preview-popover {
 		@apply text-label-sm z-10;
 		@apply p-2 bg-shade-50 rounded-xl shadow-wide;
+
+		& p {
+			@apply break-words;
+		}
 	}
 </style>
